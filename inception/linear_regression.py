@@ -38,7 +38,7 @@ prediction = tf.matmul(dropout, weights) + bias
 mse = tf.reduce_mean(tf.square(prediction - tf_labels))    
 
 global_step = tf.Variable(0)
-loss = mse + FLAGS.alpha * tf.nn.l2_loss(weights)
+loss = mse + FLAGS.alpha * (tf.nn.l2_loss(weights) + tf.nn.l2_loss(bias))
 optimizer = tf.train.GradientDescentOptimizer(FLAGS.learning_rate).minimize(loss, global_step = global_step)
 
 squared_errors = []
@@ -63,7 +63,3 @@ for test_index in all_indices:
 overall_mse = sum(squared_errors) / len(squared_errors)
 rmse = sqrt(overall_mse)
 print("Overall RMSE: {0}".format(rmse))
-
-
-            
-        
