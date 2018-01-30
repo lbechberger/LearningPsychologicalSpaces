@@ -17,10 +17,10 @@ flags = tf.flags
 flags.DEFINE_string('features_dir', 'features', 'Directory where the feature vectors reside.')
 flags.DEFINE_integer('features_size', 2048, 'Size of the feature vector.')
 flags.DEFINE_integer('space_size', 4, 'Size of the psychological space.')
-flags.DEFINE_integer('num_steps', 100, 'Number of optimization steps.')
-flags.DEFINE_integer('num_repetitions', 1, 'Number of repetitions for each fold.')
-flags.DEFINE_float('keep_prob', 1, 'Keep probability for dropout.')
-flags.DEFINE_float('alpha', 0.2, 'Influence of L2 loss.')
+flags.DEFINE_integer('num_steps', 200, 'Number of optimization steps.')
+flags.DEFINE_integer('num_repetitions', 5, 'Number of repetitions for each fold.')
+flags.DEFINE_float('keep_prob', 0.8, 'Keep probability for dropout.')
+flags.DEFINE_float('alpha', 5.0, 'Influence of L2 loss.')
 flags.DEFINE_float('learning_rate', 0.01, 'Learning rate.')
 
 FLAGS = flags.FLAGS
@@ -28,12 +28,13 @@ FLAGS = flags.FLAGS
 features = np.array(pickle.load(open(os.path.join(FLAGS.features_dir, 'features'))))
 labels = np.array(pickle.load(open(os.path.join(FLAGS.features_dir, 'labels'))))
 
-weights = tf.Variable(tf.truncated_normal([FLAGS.features_size,FLAGS.space_size], ))
+weights = tf.Variable(tf.truncated_normal([FLAGS.features_size,FLAGS.space_size]))
+bias = tf.Variable(tf.truncated_normal([FLAGS.space_size]))
 tf_data = tf.placeholder(tf.float32, shape=[None, FLAGS.features_size])
 tf_labels = tf.placeholder(tf.float32, shape=[None, FLAGS.space_size])
 
 dropout = tf.nn.dropout(tf_data, FLAGS.keep_prob)
-prediction = tf.matmul(dropout, weights)
+prediction = tf.matmul(dropout, weights) + bias
 mse = tf.reduce_mean(tf.square(prediction - tf_labels))    
 
 global_step = tf.Variable(0)
