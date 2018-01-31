@@ -12,52 +12,82 @@ Created on Tue Jan 30 10:49:25 2018
 
 import os
 import re
+import sys
+import tarfile
 import tensorflow as tf
 from tensorflow.python.platform import gfile
 import numpy as np
 import pickle
+from six.moves import urllib
 
 flags = tf.flags
 flags.DEFINE_string('model_dir', '/tmp/imagenet/', 'Directory where the pretrained network resides.')
 flags.DEFINE_string('images_dir', '../images/', 'Location of data.')
 flags.DEFINE_string('output_dir', 'features', 'Where to store the feature vectors.')
+flags.DEFINE_string('mapping_file', 'mapping.csv', 'CSV file mapping image names to target vectors.')
+flags.DEFINE_integer('n_dim', 4, 'Number of target dimensions.')
 
 FLAGS = flags.FLAGS
 
+DATA_URL = 'http://download.tensorflow.org/models/image/imagenet/inception-2015-12-05.tgz'
+
+def maybe_download_and_extract():
+  """Download and extract model tar file."""
+  dest_directory = FLAGS.model_dir
+  if not os.path.exists(dest_directory):
+    os.makedirs(dest_directory)
+  filename = DATA_URL.split('/')[-1]
+  filepath = os.path.join(dest_directory, filename)
+  if not os.path.exists(filepath):
+    def _progress(count, block_size, total_size):
+      sys.stdout.write('\r>> Downloading %s %.1f%%' % (
+          filename, float(count * block_size) / float(total_size) * 100.0))
+      sys.stdout.flush()
+    filepath, _ = urllib.request.urlretrieve(DATA_URL, filepath, _progress)
+    print()
+    statinfo = os.stat(filepath)
+    print('Successfully downloaded', filename, statinfo.st_size, 'bytes.')
+  tarfile.open(filepath, 'r:gz').extractall(dest_directory)
+
+
 def create_graph():
+    """Load the computation graph of the inception network."""
     with gfile.FastGFile(os.path.join(FLAGS.model_dir, 'classify_image_graph_def.pb'), 'rb') as f:
         graph_def = tf.GraphDef()
         graph_def.ParseFromString(f.read())
         _ = tf.import_graph_def(graph_def, name='')
 
-def extract_features(list_images):
-    nb_features = 2048
-    features = np.empty((len(list_images),nb_features))
-    labels = []
-    
-    create_graph()
+
+def extract_inception_features(images):
+    """Extracts the inception features for the given images (assumed to be represented as one big tensor)."""
+    features = []
     
     with tf.Session() as sess:
     
         next_to_last_tensor = sess.graph.get_tensor_by_name('pool_3:0')
         
-        for ind, image in enumerate(list_images):
-            if (ind%10 == 0):
-                print('Processing %s...' % (image))
-            if not gfile.Exists(image):
-                tf.logging.fatal('File does not exist %s', image)
-            
-            image_data = gfile.FastGFile(image, 'rb').read()
-            predictions = sess.run(next_to_last_tensor, {'DecodeJpeg/contents:0': image_data})
-            features[ind,:] = np.squeeze(predictions)
-            # TODO: use real mapping here instead of random
-            #image_name = image.split('/')[-1].split('.')[0]
-            labels.append(np.random.rand(4))
-            
-    return features, labels
+        for idx, image in enumerate(images):
+            predictions = sess.run(next_to_last_tensor, {'DecodeJpeg/contents:0': image})
+            features.append(np.squeeze(predictions))
+                    
+    return features
 
-list_images = [FLAGS.images_dir+f for f in os.listdir(FLAGS.images_dir) if re.search('jpg|JPG', f)]
-features,labels = extract_features(list_images)
 
-pickle.dump(features, open(os.path.join(FLAGS.output_dir, 'features'), 'wb'))
-pickle.dump(labels, open(os.path.join(FLAGS.output_dir, 'labels'), 'wb'))
+maybe_download_and_extract()
+create_graph()
+
+try:
+    input_data = pickle.load(open(os.path.join(FLAGS.output_dir, 'augmented'), 'rb'))
+except Exception:
+    print("Cannot read augmented images. Aborting.")
+    sys.exit(0)
+
+result = {}
+    
+for image_name, (augmented_images, target_vector, original_image) in input_data.iteritems():
+    print("processing {0}".format(image_name))
+    augmented_features = extract_inception_features(augmented_images)
+    original_features = extract_inception_features([original_image])
+    result[image_name] = (augmented_features, target_vector, original_features)
+
+pickle.dump(result, open(os.path.join(FLAGS.output_dir, 'features'), 'wb')) 
