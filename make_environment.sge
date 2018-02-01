@@ -13,7 +13,7 @@ conda create -y --name LearningDimensions python=3 pip
 conda install -y -c conda-forge -n LearningDimensions opencv
 
 source activate LearningDimensions
-pip install --ignore-installed --upgrade tensorflow-gpu==1.4
+conda install -y -q -c anaconda tensorflow-gpu=1.4
 pip install imgaug
 source deactivate LearningDimensions
 
