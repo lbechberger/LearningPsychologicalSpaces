@@ -84,7 +84,7 @@ except Exception:
 
 result = {}
     
-for image_name, (augmented_images, target_vector, original_image) in input_data.iteritems():
+for image_name, (augmented_images, target_vector, original_image) in input_data.items():
     print("processing {0}".format(image_name))
     augmented_features = extract_inception_features(augmented_images)
     original_features = extract_inception_features([original_image])

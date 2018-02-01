@@ -1,0 +1,6 @@
+#!/bin/bash
+#$ -N ceate_env
+#$ -l mem=3G
+#$ -pe default 2
+
+conda env create -y -q -f environment.yml
