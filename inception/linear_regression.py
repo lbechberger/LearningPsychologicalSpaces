@@ -12,6 +12,7 @@ import tensorflow as tf
 import numpy as np
 import pickle
 from math import sqrt
+from random import shuffle
 
 flags = tf.flags
 flags.DEFINE_string('features_dir', 'features', 'Directory where the feature vectors reside.')
@@ -45,18 +46,24 @@ global_step = tf.Variable(0)
 loss = mse + FLAGS.alpha * (tf.nn.l2_loss(weights) + tf.nn.l2_loss(bias))
 optimizer = tf.train.GradientDescentOptimizer(FLAGS.learning_rate).minimize(loss, global_step = global_step)
 
-squared_errors = []
+squared_test_errors = []
+squared_train_errors = []
 
 for test_image in all_data.keys():
     
-    train_images = [img_name for img_name in all_data.keys() if img_name != test_image]
+    train_image_names = [img_name for img_name in all_data.keys() if img_name != test_image]
     
     features_train = []
     labels_train = []
-    for img_name in train_images:
+    for img_name in train_image_names:
         augmented, target, original = all_data[img_name]
         features_train += augmented
         labels_train += [target]*len(augmented)
+    
+    zipped = list(zip(features_train, labels_train))
+    shuffle(zipped)
+    features_train = list(map(lambda x: x[0], zipped))
+    labels_train = list(map(lambda x: x[1], zipped))
     
     augmented, target, original = all_data[test_image]
     features_test = augmented
@@ -75,9 +82,14 @@ for test_image in all_data.keys():
             if step%100 == 0:
                 print("Minibatch loss at step {0}: {1}".format(step, l))
         
-        local_mse = session.run(mse, feed_dict = {tf_data : features_test, tf_labels : labels_test})
-        squared_errors.append(local_mse)
+        local_test_mse = session.run(mse, feed_dict = {tf_data : features_test, tf_labels : labels_test})
+        squared_test_errors.append(local_test_mse)
+        local_train_mse = session.run(mse, feed_dict = {tf_data : features_train, tf_labels : labels_train})
+        squared_train_errors.append(local_train_mse)
 
-overall_mse = sum(squared_errors) / len(squared_errors)
-rmse = sqrt(overall_mse)
-print("Overall RMSE: {0}".format(rmse))
+overall_test_mse = sum(squared_test_errors) / len(squared_test_errors)
+test_rmse = sqrt(overall_test_mse)
+print("Overall RMSE on test set: {0}".format(test_rmse))
+overall_train_mse = sum(squared_train_errors) / len(squared_train_errors)
+train_rmse = sqrt(overall_train_mse)
+print("Overall RMSE on training set: {0}".format(train_rmse))
