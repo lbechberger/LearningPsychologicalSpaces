@@ -1,6 +1,9 @@
 #!/bin/bash
-#$ -N ceate_env
+#$ -N create_env
 #$ -l mem=3G
+#$ -cwd
 #$ -pe default 2
+#$ -o $HOME/store/sge-logs
+#$ -e $HOME/store/sge-logs
 
 conda env create -y -q -f environment.yml
