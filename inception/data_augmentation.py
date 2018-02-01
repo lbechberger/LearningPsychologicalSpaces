@@ -28,7 +28,7 @@ flags.DEFINE_integer('n_dim', 4, 'Number of target dimensions.')
 
 FLAGS = flags.FLAGS
 
-def augment_image(base_image, num_samples=10):
+def augment_image(base_image, num_samples=1000):
 
     seq = iaa.Sequential([
         iaa.Fliplr(0.5), # horizontal flips
@@ -57,12 +57,14 @@ def augment_image(base_image, num_samples=10):
             translate_percent={"x": (-0.2, 0.2), "y": (-0.2, 0.2)},
             rotate=(-25, 25),
             shear=(-8, 8),
-            mode="constant", #fill with constant pixels
+            mode="constant", #fill with constant white pixels
             cval=255
-        )
+        ),
+        # add some salt and pepper noise (setting 3% of all pixels to 0 or 255)
+        iaa.SaltAndPepper(0.03)
     ], random_order=True) # apply augmenters in random order
     
-    augmented_images = [base_image]
+    augmented_images = [base_image] # always include our original image
     for i in range(num_samples):
         image_aug = seq.augment_image(base_image)
         augmented_images.append(image_aug)
