@@ -15,6 +15,9 @@ import tensorflow as tf
 from tensorflow.python.platform import gfile
 import numpy as np
 import pickle
+import imgaug as ia
+from imgaug import augmenters as iaa
+ia.seed(42) # make sure that we create the same set of augmentations every time
 
 flags = tf.flags
 flags.DEFINE_string('model_dir', '/tmp/imagenet/', 'Directory where the pretrained network resides.')
@@ -25,15 +28,55 @@ flags.DEFINE_integer('n_dim', 4, 'Number of target dimensions.')
 
 FLAGS = flags.FLAGS
 
-def augment_image(base_image, num_samples=1000):
+def augment_image(base_image, num_samples=10):
 
-    #TODO do some real augmenting    
+    seq = iaa.Sequential([
+        iaa.Fliplr(0.5), # horizontal flips
+        iaa.Crop(percent=(0, 0.1)), # random crops
+        # Small gaussian blur with random sigma between 0 and 0.5.
+        # But we only blur about 50% of all images.
+        iaa.Sometimes(0.5,
+            iaa.GaussianBlur(sigma=(0, 0.5))
+        ),
+        # Strengthen or weaken the contrast in each image.
+        iaa.ContrastNormalization((0.75, 1.5)),
+        # Add gaussian noise.
+        # For 50% of all images, we sample the noise once per pixel.
+        # For the other 50% of all images, we sample the noise per pixel AND
+        # channel. This can change the color (not only brightness) of the
+        # pixels.
+        iaa.AdditiveGaussianNoise(loc=0, scale=(0.0, 0.05*255), per_channel=0.5),
+        # Make some images brighter and some darker.
+        # In 20% of all cases, we sample the multiplier once per channel,
+        # which can end up changing the color of the images.
+        iaa.Multiply((0.8, 1.2), per_channel=0.2),
+        # Apply affine transformations to each image.
+        # Scale/zoom them, translate/move them, rotate them and shear them.
+        iaa.Affine(
+            scale={"x": (0.8, 1.2), "y": (0.8, 1.2)},
+            translate_percent={"x": (-0.2, 0.2), "y": (-0.2, 0.2)},
+            rotate=(-25, 25),
+            shear=(-8, 8),
+            mode="constant", #fill with constant pixels
+            cval=255
+        )
+    ], random_order=True) # apply augmenters in random order
     
-    encoder = tf.image.encode_jpeg(base_image)
+    augmented_images = [base_image]
+    for i in range(num_samples):
+        image_aug = seq.augment_image(base_image)
+        augmented_images.append(image_aug)
+
+    result = []    
+    
+    tf_image = tf.placeholder(tf.uint8, shape=base_image.shape)
+    encoder = tf.image.encode_jpeg(tf_image)
     with tf.Session() as session:
         session.run(tf.global_variables_initializer())
-        encoded_image = session.run(encoder)
-    return np.array([encoded_image])
+        for img in augmented_images:
+            encoded_image = session.run(encoder, feed_dict = {tf_image : img})
+            result.append(encoded_image)
+    return result
 
 image_file_names = [FLAGS.images_dir+f for f in os.listdir(FLAGS.images_dir) if re.search('jpg|JPG', f)]
 target_vectors = {}

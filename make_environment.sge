@@ -10,9 +10,10 @@
 export PATH="$HOME/miniconda/bin:$PATH"
 
 conda create -y --name LearningDimensions python=3 pip
+conda install -y -c conda-forge -n LearningDimensions opencv
 
 source activate LearningDimensions
-pip install --ignore-installed --upgrade tensorflow-gpu==1.5
+pip install --ignore-installed --upgrade tensorflow-gpu==1.4
 pip install imgaug
 source deactivate LearningDimensions
 
