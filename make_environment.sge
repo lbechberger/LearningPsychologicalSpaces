@@ -6,4 +6,5 @@
 #$ -o $HOME/store/sge-logs
 #$ -e $HOME/store/sge-logs
 
+export PATH="$HOME/miniconda/bin:$PATH"
 conda env create -y -q -f environment.yml
