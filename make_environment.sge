@@ -6,5 +6,16 @@
 #$ -o $HOME/store/sge-logs
 #$ -e $HOME/store/sge-logs
 
+
 export PATH="$HOME/miniconda/bin:$PATH"
-conda env create -f environment.yml
+
+conda create -y --name LearningDimensions python=3 pip
+
+source activate LearningDimensions
+pip install --ignore-installed --upgrade tensorflow-gpu==1.5
+pip install imgaug
+source deactivate LearningDimensions
+
+cd $HOME/miniconda/pkgs
+rm *.tar.bz2 -f 2> /dev/null
+
