@@ -70,7 +70,7 @@ encoder = tf.image.encode_jpeg(tf_image)
 tf_image_string = tf.placeholder(tf.string)
 decoder = tf.image.decode_jpeg(tf_image_string)
     
-def augment_image(base_image, num_samples=10):
+def augment_image(base_image, num_samples=1000):
 
     augmented_images = [] 
     for i in range(num_samples):
