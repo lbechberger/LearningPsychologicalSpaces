@@ -1,7 +1,7 @@
 #!/bin/bash
 #$ -N noun
-#$ -l mem=4G
-#$ -l h_rt=1:00:00
+#$ -l mem=8G
+#$ -l h_rt=2:00:00
 #$ -cwd
 #$ -pe default 2
 #$ -l cuda=1
@@ -13,12 +13,15 @@ export PATH="$HOME/miniconda/bin:$PATH"
 rm /tmp/* -R -f 2> /dev/null
 
 source activate LearningDimensions
-
+echo "starting"
 python data_augmentation.py
+echo "done augmenting"
 python create_feature_vectors.py
+echo "extracted features"
 python autoencoder.py
+echo "trained autoencoder"
 python linear_regression.py
-
+echo "done with regression"
 source deactivate LearningDimensions
 
 rm /tmp/* -R -f 2> /dev/null
