@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from sklearn import manifold
 
 # load csv file with distances between images
-with open("D:/User/Downloads/Data-Sets/NOUN_Sorting_Tables-2.csv", 'r') as dest_f:
+with open("/NOUN_Sorting_Tables-2.csv", 'r') as dest_f:
 	data_iter = csv.reader(dest_f, delimiter=',', quoting=csv.QUOTE_NONE)
 	data = [data for data in data_iter]
 	T1 = np.asarray(data)
