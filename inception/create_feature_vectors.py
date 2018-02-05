@@ -71,7 +71,9 @@ def extract_inception_features(images):
 
 
 maybe_download_and_extract()
+print("Downloaded network")
 create_graph()
+print("imported graph")
 
 input_data = {}
 image_file_names = [f for f in os.listdir(FLAGS.input_dir)]
@@ -82,6 +84,7 @@ try:
 except Exception:
     print("Cannot read augmented images. Aborting.")
     sys.exit(0)
+print("fetched input data")
 
 result = {}
     

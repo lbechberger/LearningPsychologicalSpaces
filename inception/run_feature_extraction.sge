@@ -1,7 +1,7 @@
 #!/bin/bash
 #$ -N features
 #$ -l mem=6G
-#$ -l h_rt=1:00:00
+#$ -l h_rt=2:00:00
 #$ -cwd
 #$ -pe default 2
 #$ -l cuda=1
