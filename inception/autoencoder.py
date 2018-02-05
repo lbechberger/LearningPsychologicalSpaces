@@ -12,7 +12,8 @@ import pickle
 from math import sqrt
 
 flags = tf.flags
-flags.DEFINE_string('features_dir', 'features', 'Directory where the feature vectors reside.')
+flags.DEFINE_string('input_dir', 'features/features', 'Directory where the input feature vectors reside.')
+flags.DEFINE_string('output_dir', 'features/compressed', 'Directory where the resulting feature vectors should be stored')
 flags.DEFINE_integer('features_size', 2048, 'Size of the feature vector.')
 flags.DEFINE_integer('target_size', 1024, 'Size of the hidden layer.')
 flags.DEFINE_integer('num_steps', 2000, 'Number of optimization steps.')
@@ -23,10 +24,14 @@ flags.DEFINE_float('learning_rate', 0.01, 'Learning rate.')
 
 FLAGS = flags.FLAGS
 
+all_data = {}
+image_file_names = [f for f in os.listdir(FLAGS.input_dir)]
 try:
-    all_data = pickle.load(open(os.path.join(FLAGS.features_dir, 'features'), 'rb'))
+    for image_name in image_file_names:
+        image_data = pickle.load(open(os.path.join(FLAGS.input_dir, image_name), 'rb'))
+        all_data[image_name] = image_data
 except Exception:
-    print("Cannot read input data. Aborting.")
+    print("Cannot read augmented images. Aborting.")
     sys.exit(0)
 
 features = []

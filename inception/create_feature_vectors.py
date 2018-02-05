@@ -11,7 +11,6 @@ Created on Tue Jan 30 10:49:25 2018
 """
 
 import os
-import re
 import sys
 import tarfile
 import tensorflow as tf
@@ -22,10 +21,8 @@ from six.moves import urllib
 
 flags = tf.flags
 flags.DEFINE_string('model_dir', '/tmp/imagenet/', 'Directory where the pretrained network resides.')
-flags.DEFINE_string('images_dir', '../images/', 'Location of data.')
-flags.DEFINE_string('output_dir', 'features', 'Where to store the feature vectors.')
-flags.DEFINE_string('mapping_file', 'mapping.csv', 'CSV file mapping image names to target vectors.')
-flags.DEFINE_integer('n_dim', 4, 'Number of target dimensions.')
+flags.DEFINE_string('input_dir', 'features/augmented', 'Location of data.')
+flags.DEFINE_string('output_dir', 'features/features', 'Where to store the feature vectors.')
 
 FLAGS = flags.FLAGS
 
@@ -76,8 +73,12 @@ def extract_inception_features(images):
 maybe_download_and_extract()
 create_graph()
 
+input_data = {}
+image_file_names = [f for f in os.listdir(FLAGS.input_dir)]
 try:
-    input_data = pickle.load(open(os.path.join(FLAGS.output_dir, 'augmented'), 'rb'))
+    for image_name in image_file_names:
+        image_data = pickle.load(open(os.path.join(FLAGS.input_dir, image_name), 'rb'))
+        input_data[image_name] = image_data
 except Exception:
     print("Cannot read augmented images. Aborting.")
     sys.exit(0)

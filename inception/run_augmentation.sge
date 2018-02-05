@@ -1,11 +1,11 @@
 #!/bin/bash
 #$ -N augment
-#$ -l mem=8G
-#$ -l h_rt=2:00:00
+#$ -l mem=2G
+#$ -l h_rt=1:00:00
 #$ -cwd
 #$ -pe default 2
 #$ -l cuda=1
-#$ -l cuda_cores=1
+#$ -l cuda_cores=300
 #$ -o $HOME/store/sge-logs
 #$ -e $HOME/store/sge-logs
 
@@ -14,7 +14,7 @@ rm /tmp/* -R -f 2> /dev/null
 
 source activate LearningDimensions
 echo "starting"
-python data_augmentation.py
+python data_augmentation.py --mapping_file ../MDS-NOUN-4D-vectors.csv
 echo "done augmenting"
 source deactivate LearningDimensions
 
