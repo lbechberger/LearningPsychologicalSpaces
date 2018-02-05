@@ -86,6 +86,7 @@ def augment_image(base_image, num_samples):
             result.append(encoded_image)
     return result
 
+
 image_file_names = [FLAGS.images_dir+f for f in os.listdir(FLAGS.images_dir) if re.search('jpg|JPG', f)]
 target_vectors = {}
 try:

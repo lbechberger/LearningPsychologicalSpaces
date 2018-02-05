@@ -1,6 +1,6 @@
 #!/bin/bash
-#$ -N augment
-#$ -l mem=2G
+#$ -N features
+#$ -l mem=4G
 #$ -l h_rt=1:00:00
 #$ -cwd
 #$ -pe default 2
@@ -14,8 +14,8 @@ rm /tmp/* -R -f 2> /dev/null
 
 source activate LearningDimensions
 echo "starting"
-python data_augmentation.py --mapping_file ../MDS-NOUN-4D-vectors.csv
-echo "done augmenting"
+python create_feature_vectors.py
+echo "done creating feature vectors"
 source deactivate LearningDimensions
 
 rm /tmp/* -R -f 2> /dev/null

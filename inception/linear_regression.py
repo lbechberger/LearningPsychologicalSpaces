@@ -9,13 +9,12 @@ Created on Tue Jan 30 11:07:57 2018
 
 import os, sys
 import tensorflow as tf
-import numpy as np
 import pickle
 from math import sqrt
 from random import shuffle
 
 flags = tf.flags
-flags.DEFINE_string('features_dir', 'features', 'Directory where the feature vectors reside.')
+flags.DEFINE_string('features_dir', 'features/features', 'Directory where the feature vectors reside.')
 flags.DEFINE_integer('features_size', 2048, 'Size of the feature vector.')
 flags.DEFINE_integer('space_size', 4, 'Size of the psychological space.')
 flags.DEFINE_integer('num_steps', 200, 'Number of optimization steps.')
