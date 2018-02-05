@@ -92,6 +92,7 @@ for image_name, (augmented_images, target_vector, original_image) in input_data.
     print("processing {0}".format(image_name))
     augmented_features = extract_inception_features(augmented_images)
     original_features = extract_inception_features([original_image])
-    result[image_name] = (augmented_features, target_vector, original_features)
-
-pickle.dump(result, open(os.path.join(FLAGS.output_dir, 'features'), 'wb')) 
+    pickle.dump((augmented_features, target_vector, original_features), open(os.path.join(FLAGS.output_dir, image_name), 'wb'))
+#    result[image_name] = (augmented_features, target_vector, original_features)
+#
+#pickle.dump(result, open(os.path.join(FLAGS.output_dir, 'features'), 'wb')) 
