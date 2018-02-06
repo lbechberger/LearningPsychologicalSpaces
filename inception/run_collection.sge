@@ -1,0 +1,19 @@
+#!/bin/bash
+#$ -N collect
+#$ -l mem=2G
+#$ -l h_rt=1:00:00
+#$ -cwd
+#$ -pe default 2
+#$ -o $HOME/store/sge-logs
+#$ -e $HOME/store/sge-logs
+
+export PATH="$HOME/miniconda/bin:$PATH"
+rm /tmp/* -R -f 2> /dev/null
+
+source activate LearningDimensions
+echo "starting"
+python collect_features.py features/features
+echo "done collecting"
+source deactivate LearningDimensions
+
+rm /tmp/* -R -f 2> /dev/null
