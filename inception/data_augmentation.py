@@ -90,7 +90,7 @@ def augment_image(base_image, num_samples):
 image_file_names = [FLAGS.images_dir+f for f in os.listdir(FLAGS.images_dir) if re.search('jpg|JPG', f)]
 target_vectors = {}
 try:
-    with open(flags.mapping_file, "r") as f:
+    with open(FLAGS.mapping_file, "r") as f:
         for line in f:
             # first column contains image name, remainder contains vector
             columns = line.split(',')
