@@ -12,38 +12,51 @@ import tensorflow as tf
 import pickle
 from math import sqrt
 from random import shuffle
+from configparser import RawConfigParser
 
-flags = tf.flags
-flags.DEFINE_string('features_dir', 'features/features', 'Directory where the feature vectors reside.')
-flags.DEFINE_integer('features_size', 2048, 'Size of the feature vector.')
-flags.DEFINE_integer('space_size', 4, 'Size of the psychological space.')
-flags.DEFINE_integer('num_steps', 200, 'Number of optimization steps.')
-flags.DEFINE_integer('batch_size', 64, 'Batch size used during training.')
-flags.DEFINE_float('keep_prob', 0.8, 'Keep probability for dropout.')
-flags.DEFINE_float('alpha', 5.0, 'Influence of L2 loss.')
-flags.DEFINE_float('learning_rate', 0.01, 'Learning rate.')
+options = {}
+options['features_dir'] = 'features/features'
+options['features_size'] = 2048
+options['space_size'] = 4
+options['num_steps'] = 200
+options['batch_size'] = 64
+options['keep_prob'] = 0.8
+options['alpha'] = 5.0             # influence of L2 loss
+options['learning_rate'] = 0.01
 
-FLAGS = flags.FLAGS
+config_name = sys.argv[1]
+config = RawConfigParser(options)
+config.read("regression.cfg")
+
+if config.has_section(config_name):
+    options['features_dir'] = config.get(config_name, 'features_dir')
+    options['features_size'] = config.getint(config_name, 'features_size')
+    options['space_size'] = config.getint(config_name, 'space_size')
+    options['num_steps'] = config.getint(config_name, 'num_steps')
+    options['batch_size'] = config.getint(config_name, 'batch_size')
+    options['keep_prob'] = config.getfloat(config_name, 'keep_prob')
+    options['alpha'] = config.getfloat(config_name, 'alpha')
+    options['learning_rate'] = config.getfloat(config_name, 'learning_rate')
 
 try:
-    all_data = pickle.load(open(os.path.join(FLAGS.features_dir, 'features'), 'rb'))
+    all_data = pickle.load(open(os.path.join(options['features_dir'], 'all'), 'rb'))
 except Exception:
     print("Cannot read input data. Aborting.")
     sys.exit(0)
 
 # defining the linear regression network
-weights = tf.Variable(tf.truncated_normal([FLAGS.features_size,FLAGS.space_size]))
-bias = tf.Variable(tf.truncated_normal([FLAGS.space_size]))
-tf_data = tf.placeholder(tf.float32, shape=[None, FLAGS.features_size])
-tf_labels = tf.placeholder(tf.float32, shape=[None, FLAGS.space_size])
+weights = tf.Variable(tf.truncated_normal([options['features_size'],options['space_size']]))
+bias = tf.Variable(tf.truncated_normal([options['space_size']]))
+tf_data = tf.placeholder(tf.float32, shape=[None, options['features_size']])
+tf_labels = tf.placeholder(tf.float32, shape=[None, options['space_size']])
 
-dropout = tf.nn.dropout(tf_data, FLAGS.keep_prob)
+dropout = tf.nn.dropout(tf_data, options['keep_prob'])
 prediction = tf.matmul(dropout, weights) + bias
 mse = tf.reduce_mean(tf.square(prediction - tf_labels))    
 
 global_step = tf.Variable(0)
-loss = mse + FLAGS.alpha * (tf.nn.l2_loss(weights) + tf.nn.l2_loss(bias))
-optimizer = tf.train.GradientDescentOptimizer(FLAGS.learning_rate).minimize(loss, global_step = global_step)
+loss = mse + options['alpha'] * (tf.nn.l2_loss(weights) + tf.nn.l2_loss(bias))
+optimizer = tf.train.GradientDescentOptimizer(options['learning_rate']).minimize(loss, global_step = global_step)
 
 squared_test_errors = []
 squared_train_errors = []
@@ -70,10 +83,10 @@ for test_image in all_data.keys():
     
     with tf.Session() as session:
         tf.global_variables_initializer().run()
-        for step in range(FLAGS.num_steps):
-            offset = (step * FLAGS.batch_size) % (len(labels_train) - FLAGS.batch_size)
-            batch_data = features_train[offset:(offset + FLAGS.batch_size)]
-            batch_labels = labels_train[offset:(offset + FLAGS.batch_size)]
+        for step in range(options['num_steps']):
+            offset = (step * options['batch_size']) % (len(labels_train) - options['batch_size'])
+            batch_data = features_train[offset:(offset + options['batch_size'])]
+            batch_labels = labels_train[offset:(offset + options['batch_size'])]
     
             feed_dict = {tf_data : batch_data, tf_labels : batch_labels}
             _, l = session.run([optimizer, loss], feed_dict = feed_dict)
