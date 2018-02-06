@@ -89,11 +89,8 @@ for test_image in all_data.keys():
             batch_labels = labels_train[offset:(offset + options['batch_size'])]
     
             feed_dict = {tf_data : batch_data, tf_labels : batch_labels}
-            _, l = session.run([optimizer, loss], feed_dict = feed_dict)
+            _, l = session.run([optimizer, loss], feed_dict = feed_dict)    
             
-            if step%100 == 0:
-                print("Minibatch loss at step {0}: {1}".format(step, l))
-        
         local_test_mse = session.run(mse, feed_dict = {tf_data : features_test, tf_labels : labels_test})
         squared_test_errors.append(local_test_mse)
         local_train_mse = session.run(mse, feed_dict = {tf_data : features_train, tf_labels : labels_train})
