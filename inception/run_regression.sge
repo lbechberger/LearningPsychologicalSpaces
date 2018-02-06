@@ -1,6 +1,6 @@
 #!/bin/bash
-#$ -N features
-#$ -l mem=6G
+#$ -N regression
+#$ -l mem=2G
 #$ -l h_rt=1:00:00
 #$ -cwd
 #$ -pe default 2
