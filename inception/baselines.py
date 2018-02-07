@@ -37,13 +37,13 @@ except Exception:
 tf_labels = tf.placeholder(tf.float32, shape=[None, options['space_size']])
 
 # defining the zero baseline network
-zero_output = tf.zeros(shape=tf_labels.shape)
+zero_output = tf.zeros(shape=(1, options['space_size']))
 zero_mse = tf.reduce_mean(tf.square(zero_output - tf_labels))
 
 # defining the random baseline network
-normal_dist = tf.contrib.distribtutions.MultivariateNormalDiag(tf.zeros(shape=(1,options['space_size']), tf.constant(0.4, shape=(options['space_size']))))
-random_output = normal_dist.sample(tf_labels.shape[0])
-random_mse = tf.reduce_mean(tf.square(random_mse - tf_labels))    
+normal_dist = tf.contrib.distributions.MultivariateNormalDiag(tf.zeros(shape=(1,options['space_size'])), [0.4]*options['space_size'])
+random_output = normal_dist.sample()
+random_mse = tf.reduce_mean(tf.square(random_output - tf_labels))    
 
 squared_train_errors_zero = []
 squared_test_errors_zero = []
