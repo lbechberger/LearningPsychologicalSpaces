@@ -25,6 +25,7 @@ candidates_alpha = [0.0, 0.5, 1.0, 2.5, 5.0, 7.5, 10.0]
 candidates_learning_rate = [0.0005, 0.001, 0.002, 0.005, 0.010, 0.015, 0.020]
 
 counter = 0
+config_names = []
 for num_steps in candidates_num_steps:
     for batch_size in candidates_batch_size:
         for keep_prob in candidates_keep_prob:
@@ -36,9 +37,14 @@ for num_steps in candidates_num_steps:
                                   'alpha':alpha, 'learning_rate':learning_rate}   
                     config_dict.update(local_dict)
                     output_config[config_string] = config_dict
+                    config_names.append(config_string)
                     counter += 1
 
 print("Created {0} configurations".format(counter))
 
 with open('regression.cfg', 'w') as f:
     output_config.write(f)
+    
+with open('params.txt', 'w') as f:
+    for config_name in config_names:
+        f.write(config_name + '\n')
