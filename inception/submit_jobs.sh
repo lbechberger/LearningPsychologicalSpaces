@@ -6,7 +6,6 @@ do
 	echo "Starting job $1 $P1..."
 	for ((i = 1; i <= $3; i++));
 	do
-		echo "Welcome $i times"
 		qsub $1 $P1
 	done
 done < $2
