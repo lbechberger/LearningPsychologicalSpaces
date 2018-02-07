@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from sklearn import manifold
 
 # load csv file with distances between images
-with open("/NOUN_distance_matrix.csv", 'r') as dest_f:
+with open("NOUN_distance_matrix.csv", 'r') as dest_f:
 	data_iter = csv.reader(dest_f, delimiter=',', quoting=csv.QUOTE_NONE)
 	data = [data for data in data_iter]
 	T1 = np.asarray(data)
@@ -27,6 +27,11 @@ mds = manifold.MDS(n_components=2, dissimilarity="precomputed", random_state=Non
 results = mds.fit(data_array)
 coords = results.embedding_
 print(coords)
+
+# write the coordinates in structured format into a csv file
+with open("output/2D-vectors.csv", 'w') as f:
+    for i in range(64):
+        f.write("{0},{1}\n".format(image_array[i], ','.join(map(lambda x: str(x), coords[i]))))
 
 # plot first two dimensions (o)
 plt.subplots_adjust(bottom=0.1)

@@ -15,6 +15,7 @@ conda install -y -c conda-forge -n LearningDimensions opencv
 source activate LearningDimensions
 conda install -y -q -c anaconda tensorflow-gpu=1.4
 pip install imgaug
+conda install -y scikit-learn
 source deactivate LearningDimensions
 
 cd $HOME/miniconda/pkgs

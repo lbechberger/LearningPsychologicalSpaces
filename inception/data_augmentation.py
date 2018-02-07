@@ -22,7 +22,6 @@ ia.seed(42) # make sure that we create the same set of augmentations every time
 flags = tf.flags
 flags.DEFINE_string('images_dir', '../images/', 'Location of data.')
 flags.DEFINE_string('output_dir', 'features/augmented/', 'Where to store the feature vectors.')
-flags.DEFINE_string('mapping_file', 'mapping.csv', 'CSV file mapping image names to target vectors.')
 flags.DEFINE_integer('n_dim', 4, 'Number of target dimensions.')
 flags.DEFINE_integer('n_samples', 1000, 'Number of augmented samples per original image.')
 
@@ -86,21 +85,7 @@ def augment_image(base_image, num_samples):
             result.append(encoded_image)
     return result
 
-
 image_file_names = [FLAGS.images_dir+f for f in os.listdir(FLAGS.images_dir) if re.search('jpg|JPG', f)]
-target_vectors = {}
-try:
-    with open(FLAGS.mapping_file, "r") as f:
-        for line in f:
-            # first column contains image name, remainder contains vector
-            columns = line.split(',')
-            vector = columns[1:1+FLAGS.n_dim]
-            target_vectors[columns[0]] = np.array(vector)
-except Exception:
-    print("Could not find mapping file, using random labels instead.")
-    for file_name in image_file_names:
-        image_name = file_name.split('/')[-1].split('.')[0]
-        target_vectors[image_name] = np.random.rand(FLAGS.n_dim)
 
 for file_name in image_file_names:
     image_name = file_name.split('/')[-1].split('.')[0]
@@ -111,5 +96,4 @@ for file_name in image_file_names:
         session.run(tf.global_variables_initializer())
         decoded_image = session.run(decoder, feed_dict = {tf_image_string : image_data})
     augmented_images = augment_image(decoded_image, FLAGS.n_samples)
-    result = (augmented_images, target_vectors[image_name], image_data)
-    pickle.dump(result, open(os.path.join(FLAGS.output_dir, image_name), 'wb'))
+    pickle.dump(augmented_images, open(os.path.join(FLAGS.output_dir, image_name), 'wb'))

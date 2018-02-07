@@ -7,15 +7,17 @@ Created on Tue Jan 30 11:07:57 2018
 @author: lbechberger
 """
 
-import os, sys
+import sys
 import tensorflow as tf
 import pickle
 from math import sqrt, isnan
 from random import shuffle
 from configparser import RawConfigParser
+import fcntl
 
 options = {}
-options['features_dir'] = 'features/features'
+options['features_file'] = 'features/images'
+options['targets_file'] = 'features/targets-4d'
 options['features_size'] = 2048
 options['space_size'] = 4
 options['num_steps'] = 200
@@ -24,12 +26,14 @@ options['keep_prob'] = 0.8
 options['alpha'] = 5.0             # influence of L2 loss
 options['learning_rate'] = 0.01
 
+
 config_name = sys.argv[1]
 config = RawConfigParser(options)
 config.read("regression.cfg")
 
 if config.has_section(config_name):
-    options['features_dir'] = config.get(config_name, 'features_dir')
+    options['features_file'] = config.get(config_name, 'features_file')
+    options['targets_file'] = config.get(config_name, 'targets_file')
     options['features_size'] = config.getint(config_name, 'features_size')
     options['space_size'] = config.getint(config_name, 'space_size')
     options['num_steps'] = config.getint(config_name, 'num_steps')
@@ -39,10 +43,14 @@ if config.has_section(config_name):
     options['learning_rate'] = config.getfloat(config_name, 'learning_rate')
 
 try:
-    all_data = pickle.load(open(os.path.join(options['features_dir'], 'all'), 'rb'))
+    input_data = pickle.load(open(options['features_file'], 'rb'))
+    targets_data = pickle.load(open(options['targets_file'], 'rb'))
 except Exception:
     print("Cannot read input data. Aborting.")
     sys.exit(0)
+
+real_targets = targets_data['targets']
+shuffled_targets = targets_data['shuffled']
 
 # defining the linear regression network
 weights = tf.Variable(tf.truncated_normal([options['features_size'],options['space_size']]))
@@ -58,35 +66,40 @@ global_step = tf.Variable(0)
 loss = mse + options['alpha'] * (tf.nn.l2_loss(weights) + tf.nn.l2_loss(bias))
 optimizer = tf.train.GradientDescentOptimizer(options['learning_rate']).minimize(loss, global_step = global_step)
 
-squared_train_errors = []
-squared_test_errors = []
+real_squared_train_errors = []
+real_squared_test_errors = []
+shuffled_squared_train_errors = []
+shuffled_squared_test_errors = []
 
-for test_image in all_data.keys():
+for test_image in input_data.keys():
     
-    train_image_names = [img_name for img_name in all_data.keys() if img_name != test_image]
+    train_image_names = [img_name for img_name in input_data.keys() if img_name != test_image]
     
     features_train = []
-    labels_train = []
+    real_labels_train = []
+    shuffled_labels_train = []
     for img_name in train_image_names:
-        augmented, target, original = all_data[img_name]
-        features_train += augmented
-        labels_train += [target]*len(augmented)
+        features_train += input_data[img_name]
+        real_labels_train += [real_targets[img_name]]*len(input_data[img_name])
+        shuffled_labels_train += [shuffled_targets[img_name]]*len(input_data[img_name])
     
-    zipped = list(zip(features_train, labels_train))
+    zipped = list(zip(features_train, real_labels_train, shuffled_labels_train))
     shuffle(zipped)
     features_train = list(map(lambda x: x[0], zipped))
-    labels_train = list(map(lambda x: x[1], zipped))
+    real_labels_train = list(map(lambda x: x[1], zipped))
+    shuffled_labels_train = list(map(lambda x: x[2], zipped))
     
-    augmented, target, original = all_data[test_image]
-    features_test = augmented
-    labels_test = [target]*len(augmented)
+    features_test = input_data[test_image]
+    real_labels_test = [real_targets[img_name]]*len(input_data[test_image])
+    shuffled_labels_test = [shuffled_targets[img_name]]*len(input_data[test_image])
     
+    # first train real
     with tf.Session() as session:
         tf.global_variables_initializer().run()
         for step in range(options['num_steps']):
-            offset = (step * options['batch_size']) % (len(labels_train) - options['batch_size'])
+            offset = (step * options['batch_size']) % (len(features_train) - options['batch_size'])
             batch_data = features_train[offset:(offset + options['batch_size'])]
-            batch_labels = labels_train[offset:(offset + options['batch_size'])]
+            batch_labels = real_labels_train[offset:(offset + options['batch_size'])]
             
             feed_dict = {tf_data : batch_data, tf_labels : batch_labels}
             _, l = session.run([optimizer, loss], feed_dict = feed_dict)    
@@ -94,18 +107,52 @@ for test_image in all_data.keys():
                 print("Loss NaN in step {0}!".format(step))
                 break
             
-        local_test_mse = session.run(mse, feed_dict = {tf_data : features_test, tf_labels : labels_test})
-        squared_test_errors.append(local_test_mse)
-        local_train_mse = session.run(mse, feed_dict = {tf_data : features_train, tf_labels : labels_train})
-        squared_train_errors.append(local_train_mse)
+        local_train_mse = session.run(mse, feed_dict = {tf_data : features_train, tf_labels : real_labels_train})
+        real_squared_train_errors.append(local_train_mse)
+        local_test_mse = session.run(mse, feed_dict = {tf_data : features_test, tf_labels : real_labels_test})
+        real_squared_test_errors.append(local_test_mse)
+        
+    # now train shuffled
+    with tf.Session() as session:
+        tf.global_variables_initializer().run()
+        for step in range(options['num_steps']):
+            offset = (step * options['batch_size']) % (len(features_train) - options['batch_size'])
+            batch_data = features_train[offset:(offset + options['batch_size'])]
+            batch_labels = shuffled_labels_train[offset:(offset + options['batch_size'])]
+            
+            feed_dict = {tf_data : batch_data, tf_labels : batch_labels}
+            _, l = session.run([optimizer, loss], feed_dict = feed_dict)    
+            if isnan(l):
+                print("Loss NaN in step {0}!".format(step))
+                break
+            
+        local_train_mse = session.run(mse, feed_dict = {tf_data : features_train, tf_labels : shuffled_labels_train})
+        shuffled_squared_train_errors.append(local_train_mse)
+        local_test_mse = session.run(mse, feed_dict = {tf_data : features_test, tf_labels : shuffled_labels_test})
+        shuffled_squared_test_errors.append(local_test_mse)
+        
+real_train_mse = sum(real_squared_train_errors) / len(real_squared_train_errors)
+real_train_rmse = sqrt(real_train_mse)
+print("Overall RMSE on training set with real targets: {0}".format(real_train_rmse))
 
-overall_train_mse = sum(squared_train_errors) / len(squared_train_errors)
-train_rmse = sqrt(overall_train_mse)
-print("Overall RMSE on training set: {0}".format(train_rmse))
+real_test_mse = sum(real_squared_test_errors) / len(real_squared_test_errors)
+real_test_rmse = sqrt(real_test_mse)
+print("Overall RMSE on test set with real targets: {0}".format(real_test_rmse))
 
-overall_test_mse = sum(squared_test_errors) / len(squared_test_errors)
-test_rmse = sqrt(overall_test_mse)
-print("Overall RMSE on test set: {0}".format(test_rmse))
+shuffled_train_mse = sum(shuffled_squared_train_errors) / len(shuffled_squared_train_errors)
+shuffled_train_rmse = sqrt(shuffled_train_mse)
+print("Overall RMSE on training set with shuffled targets: {0}".format(shuffled_train_rmse))
 
-with open("regression/{0}".format(config_name), 'a') as f:
-    f.write("{0},{1}\n".format(train_rmse, test_rmse))
+shuffled_test_mse = sum(shuffled_squared_test_errors) / len(shuffled_squared_test_errors)
+shuffled_test_rmse = sqrt(shuffled_test_mse)
+print("Overall RMSE on test set with shuffled targets: {0}".format(shuffled_test_rmse))
+
+with open("regression/{0}-real".format(config_name), 'a') as f:
+    fcntl.flock(f, fcntl.LOCK_EX)
+    f.write("{0},{1}\n".format(real_train_rmse, real_test_rmse))
+    fcntl.flock(f, fcntl.LOCK_UN)
+    
+with open("regression/{0}-shuffled".format(config_name), 'a') as f:
+    fcntl.flock(f, fcntl.LOCK_EX)
+    f.write("{0},{1}\n".format(shuffled_train_rmse, shuffled_test_rmse))
+    fcntl.flock(f, fcntl.LOCK_UN)
