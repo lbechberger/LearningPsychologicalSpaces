@@ -14,7 +14,7 @@ rm /tmp/* -R -f 2> /dev/null
 
 source activate LearningDimensions
 echo "starting"
-python baselines.py default
+python baselines.py $1
 echo "done with baselines"
 source deactivate LearningDimensions
 
