@@ -93,3 +93,9 @@ print("Overall RMSE on training set for 'random' baseline: {0}".format(train_rms
 overall_test_mse_random = sum(squared_test_errors_random) / len(squared_test_errors_random)
 test_rmse_random = sqrt(overall_test_mse_random)
 print("Overall RMSE on test set for 'random' baseline: {0}".format(test_rmse_random))
+
+with open("regression/baseline_zero_{0}".format(config_name), 'a') as f:
+    f.write("{0},{1}\n".format(train_rmse_zero, test_rmse_zero))
+
+with open("regression/baseline_random_{0}".format(config_name), 'a') as f:
+    f.write("{0},{1}\n".format(train_rmse_random, test_rmse_random))

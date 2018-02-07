@@ -1,15 +1,2 @@
-lr-0.005-steps-1000
-lr-0.005-rand-steps-1000
-lr-0.002-rand-steps-500
-lr-0.002-steps-1000
-lr-0.002-rand-steps-1000
-lr-0.002-steps-2000
-lr-0.002-rand-steps-2000
-lr-0.001-steps-200
-lr-0.001-rand-steps-200
-lr-0.001-steps-500
-lr-0.001-rand-steps-500
-lr-0.001-steps-1000
-lr-0.001-rand-steps-1000
-lr-0.001-steps-2000
-lr-0.001-rand-steps-2000
+lr-0.001-steps-4000
+lr-0.001-rand-steps-4000
