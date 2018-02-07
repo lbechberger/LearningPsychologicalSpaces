@@ -10,7 +10,7 @@ Created on Tue Jan 30 11:07:57 2018
 import os, sys
 import tensorflow as tf
 import pickle
-from math import sqrt
+from math import sqrt, isnan
 from random import shuffle
 from configparser import RawConfigParser
 
@@ -60,9 +60,6 @@ optimizer = tf.train.GradientDescentOptimizer(options['learning_rate']).minimize
 
 squared_train_errors = []
 squared_test_errors = []
-predictions = []
-all_weights = []
-all_biases = []
 
 for test_image in all_data.keys():
     
@@ -90,31 +87,24 @@ for test_image in all_data.keys():
             offset = (step * options['batch_size']) % (len(labels_train) - options['batch_size'])
             batch_data = features_train[offset:(offset + options['batch_size'])]
             batch_labels = labels_train[offset:(offset + options['batch_size'])]
-            print(len(batch_data))
-    
+            
             feed_dict = {tf_data : batch_data, tf_labels : batch_labels}
             _, l = session.run([optimizer, loss], feed_dict = feed_dict)    
+            if isnan(l):
+                print("Loss NaN in step {0}!".format(step))
+                break
             
         local_test_mse = session.run(mse, feed_dict = {tf_data : features_test, tf_labels : labels_test})
-        preds = session.run(prediction, feed_dict = {tf_data : features_test, tf_labels : labels_test})
-        predictions.append(preds)
-        all_weights.append(session.run(weights))
-        all_biases.append(session.run(bias))
         squared_test_errors.append(local_test_mse)
         local_train_mse = session.run(mse, feed_dict = {tf_data : features_train, tf_labels : labels_train})
         squared_train_errors.append(local_train_mse)
 
-print("Individual predictions: {0}".format(predictions))
-print("Weight matrices: {0}".format(all_weights))
-print("Bias terms: {0}".format(all_biases))
 overall_train_mse = sum(squared_train_errors) / len(squared_train_errors)
 train_rmse = sqrt(overall_train_mse)
-print("batch-wise training results: {0}".format(squared_train_errors))
 print("Overall RMSE on training set: {0}".format(train_rmse))
 
 overall_test_mse = sum(squared_test_errors) / len(squared_test_errors)
 test_rmse = sqrt(overall_test_mse)
-print("batch-wise test results: {0}".format(squared_test_errors))
 print("Overall RMSE on test set: {0}".format(test_rmse))
 
 with open("regression/{0}".format(config_name), 'a') as f:
