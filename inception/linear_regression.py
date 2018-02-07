@@ -58,8 +58,8 @@ global_step = tf.Variable(0)
 loss = mse + options['alpha'] * (tf.nn.l2_loss(weights) + tf.nn.l2_loss(bias))
 optimizer = tf.train.GradientDescentOptimizer(options['learning_rate']).minimize(loss, global_step = global_step)
 
-squared_test_errors = []
 squared_train_errors = []
+squared_test_errors = []
 
 for test_image in all_data.keys():
     
@@ -96,12 +96,15 @@ for test_image in all_data.keys():
         local_train_mse = session.run(mse, feed_dict = {tf_data : features_train, tf_labels : labels_train})
         squared_train_errors.append(local_train_mse)
 
-overall_test_mse = sum(squared_test_errors) / len(squared_test_errors)
-test_rmse = sqrt(overall_test_mse)
-print("Overall RMSE on test set: {0}".format(test_rmse))
 overall_train_mse = sum(squared_train_errors) / len(squared_train_errors)
 train_rmse = sqrt(overall_train_mse)
+print("batch-wise training results: {0}".format(squared_train_errors))
 print("Overall RMSE on training set: {0}".format(train_rmse))
+
+overall_test_mse = sum(squared_test_errors) / len(squared_test_errors)
+test_rmse = sqrt(overall_test_mse)
+print("batch-wise test results: {0}".format(squared_test_errors))
+print("Overall RMSE on test set: {0}".format(test_rmse))
 
 with open("regression/{0}".format(config_name), 'a') as f:
     f.write("{0},{1}\n".format(train_rmse, test_rmse))
