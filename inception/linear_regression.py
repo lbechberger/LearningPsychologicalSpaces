@@ -102,3 +102,6 @@ print("Overall RMSE on test set: {0}".format(test_rmse))
 overall_train_mse = sum(squared_train_errors) / len(squared_train_errors)
 train_rmse = sqrt(overall_train_mse)
 print("Overall RMSE on training set: {0}".format(train_rmse))
+
+with open("regression/{0}".format(config_name), 'a') as f:
+    f.write("{0},{1}\n".format(train_rmse, test_rmse))
