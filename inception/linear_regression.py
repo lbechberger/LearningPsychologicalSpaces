@@ -60,6 +60,7 @@ optimizer = tf.train.GradientDescentOptimizer(options['learning_rate']).minimize
 
 squared_train_errors = []
 squared_test_errors = []
+predictions = []
 
 for test_image in all_data.keys():
     
@@ -92,9 +93,13 @@ for test_image in all_data.keys():
             _, l = session.run([optimizer, loss], feed_dict = feed_dict)    
             
         local_test_mse = session.run(mse, feed_dict = {tf_data : features_test, tf_labels : labels_test})
+        preds = session.run(prediction, feed_dict = {tf_data : features_test, tf_labels : labels_test})
+        predictions.append(preds)
         squared_test_errors.append(local_test_mse)
         local_train_mse = session.run(mse, feed_dict = {tf_data : features_train, tf_labels : labels_train})
         squared_train_errors.append(local_train_mse)
+
+print("Individual predictions: {0}".format(predictions))
 
 overall_train_mse = sum(squared_train_errors) / len(squared_train_errors)
 train_rmse = sqrt(overall_train_mse)
