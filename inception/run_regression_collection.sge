@@ -10,10 +10,10 @@
 export PATH="$HOME/miniconda/bin:$PATH"
 rm /tmp/* -R -f 2> /dev/null
 
-source activate LearningDimensions
+source activate tensorflow-CS
 echo "starting"
 python collect_regression_results.py
 echo "done collecting"
-source deactivate LearningDimensions
+source deactivate tensorflow-CS
 
 rm /tmp/* -R -f 2> /dev/null

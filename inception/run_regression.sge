@@ -12,10 +12,10 @@
 export PATH="$HOME/miniconda/bin:$PATH"
 rm /tmp/* -R -f 2> /dev/null
 
-source activate LearningDimensions
+source activate tensorflow-CS
 echo "starting"
 python linear_regression.py $1
 echo "done with linear regression"
-source deactivate LearningDimensions
+source deactivate tensorflow-CS
 
 rm /tmp/* -R -f 2> /dev/null
