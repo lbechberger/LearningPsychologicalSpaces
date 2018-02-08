@@ -17,11 +17,9 @@ source activate tensorflow-CS
 t=$(( $SGE_TASK_LAST-$SGE_TASK_ID+1))
 params=$( tail -n $t $1 | head -n $SGE_TASK_STEPSIZE )
 
-echo "TASK $SGE_TASK_ID"
 for config in $params
 do
-	echo $config
-#	python linear_regression.py $config
+	python linear_regression.py $config
 done
 
 source deactivate tensorflow-CS
