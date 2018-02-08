@@ -15,18 +15,13 @@ rm /tmp/* -R -f 2> /dev/null
 source activate tensorflow-CS
 
 t=$(( $SGE_TASK_LAST-$SGE_TASK_ID+1))
-tmp=$( tail -n $t $1 | head -n $SGE_TASK_STEPSIZE )
-params=${tmp[0]}
-echo "TMP"
-echo $tmp
-echo "PARAMS"
-echo $params
+params=$( tail -n $t $1 | head -n $SGE_TASK_STEPSIZE )
 
-while read config 
+for config in $params
 do
 	echo $config
 #	python linear_regression.py $config
-done < $params
+done
 
 source deactivate tensorflow-CS
 
