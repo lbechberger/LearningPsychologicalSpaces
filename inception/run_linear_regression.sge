@@ -17,7 +17,9 @@ source activate tensorflow-CS
 t=$(( $SGE_TASK_LAST-$SGE_TASK_ID+1))
 tmp=$( tail -n $t $1 | head -n $SGE_TASK_STEPSIZE )
 params=${tmp[0]}
+echo "TMP"
 echo $tmp
+echo "PARAMS"
 echo $params
 
 while read config 
