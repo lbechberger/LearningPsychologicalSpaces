@@ -6,7 +6,8 @@
 #$ -pe default 2
 #$ -l cuda=1
 #$ -l cuda_cores=384
-#$ -l nv_mem_free=2G
+#$ -l nv_mem_free=1G
+#$ -l nv_mem_total=1500M
 #$ -o /dev/null
 #$ -e /dev/null
 
