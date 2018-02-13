@@ -8,11 +8,10 @@ Created on Wed Feb  7 10:56:46 2018
 """
 
 
-import os, sys
+import sys
 import tensorflow as tf
 import pickle
 from math import sqrt
-from random import shuffle
 from configparser import RawConfigParser
 import fcntl
 
@@ -44,12 +43,12 @@ tf_labels = tf.placeholder(tf.float32, shape=[None, options['space_size']])
 
 # defining the zero baseline network
 zero_output = tf.zeros(shape=(1, options['space_size']))
-zero_mse = tf.reduce_mean(tf.square(zero_output - tf_labels))
+zero_mse = tf.reduce_mean(tf.reduce_sum(tf.square(zero_output - tf_labels), axis=1))
 
 # defining the random baseline network
 normal_dist = tf.contrib.distributions.MultivariateNormalDiag(tf.zeros(shape=(1,options['space_size'])), [0.4]*options['space_size'])
 random_output = normal_dist.sample()
-random_mse = tf.reduce_mean(tf.square(random_output - tf_labels))    
+random_mse = tf.reduce_mean(tf.reduce_sum(tf.square(random_output - tf_labels), axis=1))    
 
 real_squared_train_errors_zero = []
 real_squared_test_errors_zero = []

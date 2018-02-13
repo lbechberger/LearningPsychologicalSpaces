@@ -20,11 +20,11 @@ options['features_file'] = 'features/images'
 options['targets_file'] = 'features/targets-4d'
 options['features_size'] = 2048
 options['space_size'] = 4
-options['num_steps'] = 200
+options['num_steps'] = 2000
 options['batch_size'] = 64
 options['keep_prob'] = 0.8
 options['alpha'] = 5.0             # influence of L2 loss
-options['learning_rate'] = 0.01
+options['learning_rate'] = 0.003
 
 
 config_name = sys.argv[1]
@@ -60,7 +60,7 @@ tf_labels = tf.placeholder(tf.float32, shape=[None, options['space_size']])
 
 dropout = tf.nn.dropout(tf_data, options['keep_prob'])
 prediction = tf.matmul(dropout, weights) + bias
-mse = tf.reduce_mean(tf.square(prediction - tf_labels))    
+mse = tf.reduce_mean(tf.reduce_sum(tf.square(prediction - tf_labels), axis=1))  
 
 global_step = tf.Variable(0)
 loss = mse + options['alpha'] * (tf.nn.l2_loss(weights) + tf.nn.l2_loss(bias))
@@ -102,7 +102,8 @@ for test_image in input_data.keys():
             batch_labels = real_labels_train[offset:(offset + options['batch_size'])]
             
             feed_dict = {tf_data : batch_data, tf_labels : batch_labels}
-            _, l = session.run([optimizer, loss], feed_dict = feed_dict)    
+            _, l = session.run([optimizer, loss], feed_dict = feed_dict)  
+            #print("Loss in step {0}: {1}".format(step, l))
             if isnan(l):
                 print("Loss NaN in step {0}!".format(step))
                 break

@@ -20,7 +20,7 @@ flags.DEFINE_integer('num_steps', 2000, 'Number of optimization steps.')
 flags.DEFINE_integer('batch_size', 64, 'Batch size used during training.')
 flags.DEFINE_float('keep_prob', 0.8, 'Keep probability for dropout.')
 flags.DEFINE_float('alpha', 0.5, 'Influence of L2 loss.')
-flags.DEFINE_float('learning_rate', 0.01, 'Learning rate.')
+flags.DEFINE_float('learning_rate', 0.001, 'Learning rate.')
 
 FLAGS = flags.FLAGS
 
@@ -48,7 +48,7 @@ tf_data = tf.placeholder(tf.float32, shape=[None, FLAGS.features_size])
 hidden = tf.nn.relu(tf.matmul(tf_data, weights_encoder) + bias_encoder)
 dropout = tf.nn.dropout(hidden, FLAGS.keep_prob)
 prediction = tf.matmul(dropout, weights_decoder) + bias_decoder
-mse = tf.reduce_mean(tf.square(prediction - tf_data))    
+mse = tf.reduce_mean(tf.reduce_sum(tf.square(prediction - tf_data), axis=1))    
 
 global_step = tf.Variable(0)
 loss = mse + FLAGS.alpha * (tf.nn.l2_loss(weights_encoder) + tf.nn.l2_loss(bias_encoder) + tf.nn.l2_loss(weights_decoder) + tf.nn.l2_loss(bias_decoder))
