@@ -1,6 +1,6 @@
 #!/bin/bash
 #$ -N l_regression
-#$ -l mem=2G
+#$ -l mem=4G
 #$ -l h_rt=1:00:00
 #$ -cwd
 #$ -pe default 2
