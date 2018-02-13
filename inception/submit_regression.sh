@@ -8,6 +8,6 @@ echo $length
 
 for ((i = 1; i <= $2; i++));
 do
-	qsub -t 1-$length:10 run_linear_regression.sge $1
+	qsub -t 1-$length:1 run_linear_regression.sge $1
 done
 
