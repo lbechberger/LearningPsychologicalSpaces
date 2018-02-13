@@ -17,7 +17,7 @@ conda create -y -q --name tensorflow-CS python=3.5 pip
 
 source activate tensorflow-CS
 conda install -y -c conda-forge opencv
-conda install -y -q -c anaconda tensorflow=1.4.1
+conda install -y -q -c anaconda tensorflow-gpu=1.4.1
 conda install -y -q -c anaconda matplotlib
 conda install -y -q -c anaconda scikit-learn
 pip install imgaug
