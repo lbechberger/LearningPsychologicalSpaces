@@ -1,11 +1,12 @@
 #!/bin/bash
 #$ -N l_regression
-#$ -l mem=4G
+#$ -l mem=2G
 #$ -l h_rt=1:00:00
 #$ -cwd
 #$ -pe default 2
 #$ -l cuda=1
 #$ -l cuda_cores=384
+#$ -l nv_mem_free=2G
 #$ -o /dev/null
 #$ -e /dev/null
 
