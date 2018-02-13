@@ -6,8 +6,8 @@
 #$ -pe default 2
 #$ -l cuda=1
 #$ -l cuda_cores=384
-#$ -o /dev/null
-#$ -e /dev/null
+#$ -o $HOME/store/sge-logs/
+#$ -e $HOME/store/sge-logs/
 
 export PATH="$HOME/miniconda/bin:$PATH"
 rm /tmp/* -R -f 2> /dev/null
