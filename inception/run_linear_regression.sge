@@ -8,7 +8,7 @@
 #$ -l cuda_cores=384
 #$ -l nv_mem_free=1G
 #$ -l nv_mem_total=1500M
-#$ -o /dev/null
+#$ -o $HOME/store/sge-logs
 #$ -e /dev/null
 
 export PATH="$HOME/miniconda/bin:$PATH"
@@ -21,7 +21,8 @@ params=$( tail -n $t $1 | head -n $SGE_TASK_STEPSIZE )
 
 for config in $params
 do
-	python linear_regression.py $config
+	echo $config	
+#	python linear_regression.py $config
 done
 
 source deactivate tensorflow-CS
