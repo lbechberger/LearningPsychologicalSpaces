@@ -48,3 +48,4 @@ with open('regression.cfg', 'w') as f:
 with open('params.txt', 'w') as f:
     for config_name in config_names:
         f.write(config_name + '\n')
+    f.write('\n')
