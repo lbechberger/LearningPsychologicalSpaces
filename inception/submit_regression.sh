@@ -4,6 +4,7 @@
 tmp=$( wc -l $1 )
 tmp=($tmp)
 length=${tmp[0]}
+length=$(( $length-1 ))
 echo $length
 
 for ((i = 1; i <= $2; i++));

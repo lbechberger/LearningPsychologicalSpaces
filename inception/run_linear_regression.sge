@@ -16,7 +16,7 @@ rm /tmp/* -R -f 2> /dev/null
 
 source activate tensorflow-CS
 
-t=$(( $SGE_TASK_LAST-$SGE_TASK_ID+1))
+t=$(( $SGE_TASK_LAST - $SGE_TASK_ID + 2))
 params=$( tail -n $t $1 | head -n $SGE_TASK_STEPSIZE )
 
 for config in $params
