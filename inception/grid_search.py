@@ -18,11 +18,11 @@ template_dict = dict(input_config['default'])
 
 output_config = ConfigParser()
 
-candidates_num_steps = [200, 500, 1000, 2000, 5000]
-candidates_batch_size = [32, 64, 128, 256]
-candidates_keep_prob = [0.01, 0.2, 0.4, 0.6, 0.8, 1.0]
-candidates_alpha = [0.0, 0.5, 1.0, 2.5, 5.0, 7.5, 10.0]
-candidates_learning_rate = [0.0005, 0.001, 0.002, 0.005, 0.010, 0.015, 0.020]
+candidates_num_steps = [2000, 5000, 10000, 20000]
+candidates_batch_size = [64, 128, 256]
+candidates_keep_prob = [0.25, 0.5, 0.75, 1.0]
+candidates_alpha = [0.0, 0.5, 1.0, 2.5, 5.0]
+candidates_learning_rate = [0.0005, 0.001, 0.003]
 
 counter = 0
 config_names = []
