@@ -74,7 +74,7 @@ config = tf.ConfigProto(log_device_placement=True)
 config.gpu_options.allow_growth = True
 with tf.Session(config=config) as session:
     for test_image in input_data.keys():
-        
+        print(test_image)
         train_image_names = [img_name for img_name in input_data.keys() if img_name != test_image]
         
         features_train = []
