@@ -74,26 +74,27 @@ config = tf.ConfigProto()
 config.gpu_options.allow_growth = True
 with tf.Session(config=config) as session:
     for test_image in input_data.keys():
-        print("processing test image {0}".format(test_image))
-        train_image_names = [img_name for img_name in input_data.keys() if img_name != test_image]
-        
-        features_train = []
-        real_labels_train = []
-        shuffled_labels_train = []
-        for img_name in train_image_names:
-            features_train += input_data[img_name]
-            real_labels_train += [real_targets[img_name]]*len(input_data[img_name])
-            shuffled_labels_train += [shuffled_targets[img_name]]*len(input_data[img_name])
-        
-        zipped = list(zip(features_train, real_labels_train, shuffled_labels_train))
-        shuffle(zipped)
-        features_train = list(map(lambda x: x[0], zipped))
-        real_labels_train = list(map(lambda x: x[1], zipped))
-        shuffled_labels_train = list(map(lambda x: x[2], zipped))
-        
-        features_test = input_data[test_image]
-        real_labels_test = [real_targets[img_name]]*len(input_data[test_image])
-        shuffled_labels_test = [shuffled_targets[img_name]]*len(input_data[test_image])
+        with tf.device('/cpu:0'):
+            print("processing test image {0}".format(test_image))
+            train_image_names = [img_name for img_name in input_data.keys() if img_name != test_image]
+            
+            features_train = []
+            real_labels_train = []
+            shuffled_labels_train = []
+            for img_name in train_image_names:
+                features_train += input_data[img_name]
+                real_labels_train += [real_targets[img_name]]*len(input_data[img_name])
+                shuffled_labels_train += [shuffled_targets[img_name]]*len(input_data[img_name])
+            
+            zipped = list(zip(features_train, real_labels_train, shuffled_labels_train))
+            shuffle(zipped)
+            features_train = list(map(lambda x: x[0], zipped))
+            real_labels_train = list(map(lambda x: x[1], zipped))
+            shuffled_labels_train = list(map(lambda x: x[2], zipped))
+            
+            features_test = input_data[test_image]
+            real_labels_test = [real_targets[img_name]]*len(input_data[test_image])
+            shuffled_labels_test = [shuffled_targets[img_name]]*len(input_data[test_image])
         
         # first train real
         tf.global_variables_initializer().run()
