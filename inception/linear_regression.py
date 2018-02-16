@@ -136,29 +136,30 @@ with tf.Session(config=config) as session:
         shuffled_squared_train_errors.append(local_train_mse)
         local_test_mse = session.run(mse, feed_dict = {tf_data : features_test, tf_labels : shuffled_labels_test})
         shuffled_squared_test_errors.append(local_test_mse)
-        
-real_train_mse = sum(real_squared_train_errors) / len(real_squared_train_errors)
-real_train_rmse = sqrt(real_train_mse)
-print("Overall RMSE on training set with real targets: {0}".format(real_train_rmse))
 
-real_test_mse = sum(real_squared_test_errors) / len(real_squared_test_errors)
-real_test_rmse = sqrt(real_test_mse)
-print("Overall RMSE on test set with real targets: {0}".format(real_test_rmse))
-
-shuffled_train_mse = sum(shuffled_squared_train_errors) / len(shuffled_squared_train_errors)
-shuffled_train_rmse = sqrt(shuffled_train_mse)
-print("Overall RMSE on training set with shuffled targets: {0}".format(shuffled_train_rmse))
-
-shuffled_test_mse = sum(shuffled_squared_test_errors) / len(shuffled_squared_test_errors)
-shuffled_test_rmse = sqrt(shuffled_test_mse)
-print("Overall RMSE on test set with shuffled targets: {0}".format(shuffled_test_rmse))
-
-with open("regression/{0}-real".format(config_name), 'a') as f:
-    fcntl.flock(f, fcntl.LOCK_EX)
-    f.write("{0},{1}\n".format(real_train_rmse, real_test_rmse))
-    fcntl.flock(f, fcntl.LOCK_UN)
+with tf.device('/cpu:0'):        
+    real_train_mse = sum(real_squared_train_errors) / len(real_squared_train_errors)
+    real_train_rmse = sqrt(real_train_mse)
+    print("Overall RMSE on training set with real targets: {0}".format(real_train_rmse))
     
-with open("regression/{0}-shuffled".format(config_name), 'a') as f:
-    fcntl.flock(f, fcntl.LOCK_EX)
-    f.write("{0},{1}\n".format(shuffled_train_rmse, shuffled_test_rmse))
-    fcntl.flock(f, fcntl.LOCK_UN)
+    real_test_mse = sum(real_squared_test_errors) / len(real_squared_test_errors)
+    real_test_rmse = sqrt(real_test_mse)
+    print("Overall RMSE on test set with real targets: {0}".format(real_test_rmse))
+    
+    shuffled_train_mse = sum(shuffled_squared_train_errors) / len(shuffled_squared_train_errors)
+    shuffled_train_rmse = sqrt(shuffled_train_mse)
+    print("Overall RMSE on training set with shuffled targets: {0}".format(shuffled_train_rmse))
+    
+    shuffled_test_mse = sum(shuffled_squared_test_errors) / len(shuffled_squared_test_errors)
+    shuffled_test_rmse = sqrt(shuffled_test_mse)
+    print("Overall RMSE on test set with shuffled targets: {0}".format(shuffled_test_rmse))
+    
+    with open("regression/{0}-real".format(config_name), 'a') as f:
+        fcntl.flock(f, fcntl.LOCK_EX)
+        f.write("{0},{1}\n".format(real_train_rmse, real_test_rmse))
+        fcntl.flock(f, fcntl.LOCK_UN)
+        
+    with open("regression/{0}-shuffled".format(config_name), 'a') as f:
+        fcntl.flock(f, fcntl.LOCK_EX)
+        f.write("{0},{1}\n".format(shuffled_train_rmse, shuffled_test_rmse))
+        fcntl.flock(f, fcntl.LOCK_UN)
