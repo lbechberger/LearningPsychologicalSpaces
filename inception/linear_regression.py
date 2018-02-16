@@ -26,10 +26,9 @@ options['keep_prob'] = 0.8
 options['alpha'] = 5.0             # influence of L2 loss
 options['learning_rate'] = 0.003
 
-
 config_name = sys.argv[1]
 config = RawConfigParser(options)
-config.read("regression.cfg")
+config.read("grid_search.cfg")
 
 if config.has_section(config_name):
     options['features_file'] = config.get(config_name, 'features_file')
@@ -71,30 +70,32 @@ real_squared_test_errors = []
 shuffled_squared_train_errors = []
 shuffled_squared_test_errors = []
 
-for test_image in input_data.keys():
-    
-    train_image_names = [img_name for img_name in input_data.keys() if img_name != test_image]
-    
-    features_train = []
-    real_labels_train = []
-    shuffled_labels_train = []
-    for img_name in train_image_names:
-        features_train += input_data[img_name]
-        real_labels_train += [real_targets[img_name]]*len(input_data[img_name])
-        shuffled_labels_train += [shuffled_targets[img_name]]*len(input_data[img_name])
-    
-    zipped = list(zip(features_train, real_labels_train, shuffled_labels_train))
-    shuffle(zipped)
-    features_train = list(map(lambda x: x[0], zipped))
-    real_labels_train = list(map(lambda x: x[1], zipped))
-    shuffled_labels_train = list(map(lambda x: x[2], zipped))
-    
-    features_test = input_data[test_image]
-    real_labels_test = [real_targets[img_name]]*len(input_data[test_image])
-    shuffled_labels_test = [shuffled_targets[img_name]]*len(input_data[test_image])
-    
-    # first train real
-    with tf.Session() as session:
+config = tf.ConfigProto()
+config.gpu_options.allow_growth = True
+with tf.Session(config=config) as session:
+    for test_image in input_data.keys():
+        
+        train_image_names = [img_name for img_name in input_data.keys() if img_name != test_image]
+        
+        features_train = []
+        real_labels_train = []
+        shuffled_labels_train = []
+        for img_name in train_image_names:
+            features_train += input_data[img_name]
+            real_labels_train += [real_targets[img_name]]*len(input_data[img_name])
+            shuffled_labels_train += [shuffled_targets[img_name]]*len(input_data[img_name])
+        
+        zipped = list(zip(features_train, real_labels_train, shuffled_labels_train))
+        shuffle(zipped)
+        features_train = list(map(lambda x: x[0], zipped))
+        real_labels_train = list(map(lambda x: x[1], zipped))
+        shuffled_labels_train = list(map(lambda x: x[2], zipped))
+        
+        features_test = input_data[test_image]
+        real_labels_test = [real_targets[img_name]]*len(input_data[test_image])
+        shuffled_labels_test = [shuffled_targets[img_name]]*len(input_data[test_image])
+        
+        # first train real
         tf.global_variables_initializer().run()
         for step in range(options['num_steps']):
             offset = (step * options['batch_size']) % (len(features_train) - options['batch_size'])
@@ -113,8 +114,7 @@ for test_image in input_data.keys():
         local_test_mse = session.run(mse, feed_dict = {tf_data : features_test, tf_labels : real_labels_test})
         real_squared_test_errors.append(local_test_mse)
         
-    # now train shuffled
-    with tf.Session() as session:
+        # now train shuffled
         tf.global_variables_initializer().run()
         for step in range(options['num_steps']):
             offset = (step * options['batch_size']) % (len(features_train) - options['batch_size'])
