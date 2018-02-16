@@ -21,7 +21,7 @@ params=$( tail -n $t $1 | head -n $SGE_TASK_STEPSIZE )
 
 for config in $params
 do
-	python linear_regression.py $config
+	python -u linear_regression.py $config
 done
 
 source deactivate tensorflow-CS

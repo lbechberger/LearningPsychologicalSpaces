@@ -14,7 +14,7 @@ rm /tmp/* -R -f 2> /dev/null
 
 source activate tensorflow-CS
 echo "starting"
-python linear_regression.py $1
+python -u linear_regression.py $1
 echo "done with linear regression"
 source deactivate tensorflow-CS
 
