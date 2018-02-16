@@ -104,3 +104,4 @@ ENV/
 /images/
 /inception/features/
 /inception/regression/
+/inception/mlp/
