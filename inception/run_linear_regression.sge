@@ -14,6 +14,7 @@
 export PATH="$HOME/miniconda/bin:$PATH"
 rm /tmp/* -R -f 2> /dev/null
 
+date
 source activate tensorflow-CS
 
 t=$(( $SGE_TASK_LAST - $SGE_TASK_ID + 2))
@@ -25,5 +26,6 @@ do
 done
 
 source deactivate tensorflow-CS
+date
 
 rm /tmp/* -R -f 2> /dev/null
