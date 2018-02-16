@@ -70,7 +70,7 @@ real_squared_test_errors = []
 shuffled_squared_train_errors = []
 shuffled_squared_test_errors = []
 
-config = tf.ConfigProto()
+config = tf.ConfigProto(log_device_placement=True)
 config.gpu_options.allow_growth = True
 with tf.Session(config=config) as session:
     for test_image in input_data.keys():
