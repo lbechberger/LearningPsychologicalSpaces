@@ -1,5 +1,5 @@
 #!/bin/bash
-#$ -N l_regression
+#$ -N mlp
 #$ -l mem=2G
 #$ -l h_rt=1:30:00
 #$ -cwd
