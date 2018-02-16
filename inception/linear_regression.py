@@ -48,8 +48,8 @@ except Exception:
     print("Cannot read input data. Aborting.")
     sys.exit(0)
 
-    real_targets = targets_data['targets']
-    shuffled_targets = targets_data['shuffled']
+real_targets = targets_data['targets']
+shuffled_targets = targets_data['shuffled']
 
 # defining the linear regression network
 weights = tf.Variable(tf.truncated_normal([options['features_size'],options['space_size']]))
