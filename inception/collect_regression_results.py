@@ -11,7 +11,7 @@ import os, sys
 folder_name = sys.argv[1]
 
 with open(os.path.join(folder_name, "summary.csv"), 'w') as out_file:
-    out_file.write("config,train_rmse,test_rmse\n")
+    out_file.write("config,train_rmse,test_rmse,counter\n")
     file_names = [fn for fn in os.listdir(folder_name) if not fn.endswith("csv")]
     for file_name in file_names:
         mean_train = 0
@@ -26,5 +26,5 @@ with open(os.path.join(folder_name, "summary.csv"), 'w') as out_file:
                     mean_test += float(test)
         mean_train = (1.0 * mean_train) / counter
         mean_test = (1.0 * mean_test) / counter
-        out_file.write("{0},{1},{2}\n".format(file_name, mean_train, mean_test))
+        out_file.write("{0},{1},{2},{3}\n".format(file_name, mean_train, mean_test, counter))
             
