@@ -7,16 +7,17 @@ Created on Wed Feb  7 08:24:49 2018
 @author: lbechberger
 """
 
-import os
+import os, sys
+folder_name = sys.argv[1]
 
-with open("regression/summary.csv", 'w') as out_file:
+with open(os.path.join(folder_name, "summary.csv"), 'w') as out_file:
     out_file.write("config,train_rmse,test_rmse\n")
-    file_names = [fn for fn in os.listdir("regression/") if not fn.endswith("csv")]
+    file_names = [fn for fn in os.listdir(folder_name) if not fn.endswith("csv")]
     for file_name in file_names:
         mean_train = 0
         mean_test = 0
         counter = 0
-        with open("regression/{0}".format(file_name), 'r') as in_file:
+        with open(os.path.join(folder_name, file_name), 'r') as in_file:
             for line in in_file:
                 if len(line) > 0:
                     [train, test] = line.split(',')

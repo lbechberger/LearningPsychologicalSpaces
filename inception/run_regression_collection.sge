@@ -12,7 +12,7 @@ rm /tmp/* -R -f 2> /dev/null
 
 source activate tensorflow-CS
 echo "starting"
-python collect_regression_results.py
+python collect_regression_results.py $1
 echo "done collecting"
 source deactivate tensorflow-CS
 
