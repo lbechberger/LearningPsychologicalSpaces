@@ -22,7 +22,7 @@ options['space_size'] = 4
 
 config_name = sys.argv[1]
 config = RawConfigParser(options)
-config.read("regression.cfg")
+config.read("grid_search.cfg")
 
 if config.has_section(config_name):
     options['features_file'] = config.get(config_name, 'features_file')
@@ -40,25 +40,41 @@ real_targets = targets_data['targets']
 shuffled_targets = targets_data['shuffled']
 
 tf_labels = tf.placeholder(tf.float32, shape=[None, options['space_size']])
+tf_labels_in = tf.placeholder(tf.float32, shape=[None, options['space_size']])
 
 # defining the zero baseline network
 zero_output = tf.zeros(shape=(1, options['space_size']))
 zero_mse = tf.reduce_mean(tf.reduce_sum(tf.square(zero_output - tf_labels), axis=1))
 
-# defining the random baseline network
-normal_dist = tf.contrib.distributions.MultivariateNormalDiag(tf.zeros(shape=(1,options['space_size'])), [0.4]*options['space_size'])
-random_output = normal_dist.sample()
-random_mse = tf.reduce_mean(tf.reduce_sum(tf.square(random_output - tf_labels), axis=1))    
+# defining the mean baseline network
+mean_output = tf.reduce_mean(tf_labels_in, axis=0)
+mean_mse = tf.reduce_mean(tf.reduce_sum(tf.square(mean_output - tf_labels), axis=1))
 
-real_squared_train_errors_zero = []
-real_squared_test_errors_zero = []
-real_squared_train_errors_random = []
-real_squared_test_errors_random = []
+# defining the distribution baseline network
+mu = mean_output
+difference = tf.expand_dims(tf_labels - mu, axis = 1)
+multiplication = tf.matmul(difference, difference, transpose_a=True)
+var = tf.reduce_mean(multiplication, axis=0)
+var = var + 1e-7 * tf.eye(4) # ensure positive definiteness
+dist = tf.contrib.distributions.MultivariateNormalFullCovariance(mu, var)
+dist_output = dist.sample()
+dist_mse = tf.reduce_mean(tf.reduce_sum(tf.square(dist_output - tf_labels), axis=1))
 
-shuffled_squared_train_errors_zero = []
-shuffled_squared_test_errors_zero = []
-shuffled_squared_train_errors_random = []
-shuffled_squared_test_errors_random = []
+# defining the random draw baseline network
+indices = tf.random_uniform([tf.shape(tf_labels)[0]], minval=0, maxval=tf.shape(tf_labels_in)[0], dtype=tf.int32)
+draw_output = tf.gather(tf_labels_in, indices)
+draw_mse = tf.reduce_mean(tf.reduce_sum(tf.square(draw_output - tf_labels), axis=1))
+
+
+squared_train_errors = {'real': {}, 'shuffled': {}}
+squared_test_errors = {'real': {}, 'shuffled': {}}
+
+baseline_methods = ['zero', 'mean', 'dist', 'draw']
+for method in baseline_methods:
+    for labels in ['real', 'shuffled']:
+        for data_set in [squared_train_errors, squared_test_errors]:
+            data_set[labels][method] = []
+
 
 for test_image in input_data.keys():
     
@@ -72,87 +88,50 @@ for test_image in input_data.keys():
     
     real_labels_test = [real_targets[test_image]]*len(input_data[test_image])
     shuffled_labels_test = [shuffled_targets[test_image]]*len(input_data[test_image])
+
+    labels_train = {}
+    labels_train['real'] = real_labels_train
+    labels_train['shuffled'] = shuffled_labels_train
     
-    # first evaluate the real targets
-    with tf.Session() as session:
-        tf.global_variables_initializer().run()
-             
-        local_train_mse = session.run(zero_mse, feed_dict = {tf_labels : real_labels_train})
-        real_squared_train_errors_zero.append(local_train_mse) 
-        local_test_mse = session.run(zero_mse, feed_dict = {tf_labels : real_labels_test})
-        real_squared_test_errors_zero.append(local_test_mse)
-        
-        local_train_mse = session.run(random_mse, feed_dict = {tf_labels : real_labels_train})
-        real_squared_train_errors_random.append(local_train_mse) 
-        local_test_mse = session.run(random_mse, feed_dict = {tf_labels : real_labels_test})
-        real_squared_test_errors_random.append(local_test_mse)
+    labels_test = {}
+    labels_test['real'] = real_labels_test
+    labels_test['shuffled'] = shuffled_labels_test
+
     
-    # and now the shuffled targets
     with tf.Session() as session:
-        tf.global_variables_initializer().run()
-             
-        local_train_mse = session.run(zero_mse, feed_dict = {tf_labels : shuffled_labels_train})
-        shuffled_squared_train_errors_zero.append(local_train_mse) 
-        local_test_mse = session.run(zero_mse, feed_dict = {tf_labels : shuffled_labels_test})
-        shuffled_squared_test_errors_zero.append(local_test_mse)
         
-        local_train_mse = session.run(random_mse, feed_dict = {tf_labels : shuffled_labels_train})
-        shuffled_squared_train_errors_random.append(local_train_mse) 
-        local_test_mse = session.run(random_mse, feed_dict = {tf_labels : shuffled_labels_test})
-        shuffled_squared_test_errors_random.append(local_test_mse)
+        def evaluate_baselines(session, target_type):
+            tf.global_variables_initializer().run()
+            feed_dict_train = {tf_labels: labels_train[target_type], tf_labels_in: labels_train[target_type]}
+            feed_dict_test = {tf_labels: labels_test[target_type], tf_labels_in: labels_train[target_type]}
+            train_zero, train_mean, train_dist, train_draw = session.run([zero_mse, mean_mse, dist_mse, draw_mse], feed_dict = feed_dict_train)
+            test_zero, test_mean, test_dist, test_draw = session.run([zero_mse, mean_mse, dist_mse, draw_mse], feed_dict = feed_dict_test)
+            squared_train_errors[target_type]['zero'].append(train_zero)
+            squared_train_errors[target_type]['mean'].append(train_mean)
+            squared_train_errors[target_type]['dist'].append(train_dist)
+            squared_train_errors[target_type]['draw'].append(train_draw)
+            squared_test_errors[target_type]['zero'].append(test_zero)
+            squared_test_errors[target_type]['mean'].append(test_mean)
+            squared_test_errors[target_type]['dist'].append(test_dist)
+            squared_test_errors[target_type]['draw'].append(test_draw)
+            
+        evaluate_baselines(session, 'real')
+        evaluate_baselines(session, 'shuffled')
 
 
-# real
-real_train_mse_zero = sum(real_squared_train_errors_zero) / len(real_squared_train_errors_zero)
-real_train_rmse_zero = sqrt(real_train_mse_zero)
-print("Overall RMSE on training set for 'zero' baseline on real targets: {0}".format(real_train_rmse_zero))
+def rmse(mse_list):
+    average_mse = (1.0 * sum(mse_list)) / len(mse_list)
+    return sqrt(average_mse)
 
-real_test_mse_zero = sum(real_squared_test_errors_zero) / len(real_squared_test_errors_zero)
-real_test_rmse_zero = sqrt(real_test_mse_zero)
-print("Overall RMSE on test set for 'zero' baseline on real targets: {0}".format(real_test_rmse_zero))
-
-real_train_mse_random = sum(real_squared_train_errors_random) / len(real_squared_train_errors_random)
-real_train_rmse_random = sqrt(real_train_mse_random)
-print("Overall RMSE on training set for 'random' baseline on real targets: {0}".format(real_train_rmse_random))
-
-real_test_mse_random = sum(real_squared_test_errors_random) / len(real_squared_test_errors_random)
-real_test_rmse_random = sqrt(real_test_mse_random)
-print("Overall RMSE on test set for 'random' baseline on real targets: {0}".format(real_test_rmse_random))
-
-# shuffled
-shuffled_train_mse_zero = sum(shuffled_squared_train_errors_zero) / len(shuffled_squared_train_errors_zero)
-shuffled_train_rmse_zero = sqrt(shuffled_train_mse_zero)
-print("Overall RMSE on training set for 'zero' baseline on shuffled targets: {0}".format(shuffled_train_rmse_zero))
-
-shuffled_test_mse_zero = sum(shuffled_squared_test_errors_zero) / len(shuffled_squared_test_errors_zero)
-shuffled_test_rmse_zero = sqrt(shuffled_test_mse_zero)
-print("Overall RMSE on test set for 'zero' baseline on shuffled targets: {0}".format(shuffled_test_rmse_zero))
-
-shuffled_train_mse_random = sum(shuffled_squared_train_errors_random) / len(shuffled_squared_train_errors_random)
-shuffled_train_rmse_random = sqrt(shuffled_train_mse_random)
-print("Overall RMSE on training set for 'random' baseline on shuffled targets: {0}".format(shuffled_train_rmse_random))
-
-shuffled_test_mse_random = sum(shuffled_squared_test_errors_random) / len(shuffled_squared_test_errors_random)
-shuffled_test_rmse_random = sqrt(shuffled_test_mse_random)
-print("Overall RMSE on test set for 'random' baseline on shuffled targets: {0}".format(shuffled_test_rmse_random))
-
-
-with open("regression/baseline_zero_{0}-real".format(config_name), 'a') as f:
-    fcntl.flock(f, fcntl.LOCK_EX)
-    f.write("{0},{1}\n".format(real_train_rmse_zero, real_test_rmse_zero))
-    fcntl.flock(f, fcntl.LOCK_UN)
-
-with open("regression/baseline_random_{0}-real".format(config_name), 'a') as f:
-    fcntl.flock(f, fcntl.LOCK_EX)
-    f.write("{0},{1}\n".format(real_train_rmse_random, real_test_rmse_random))
-    fcntl.flock(f, fcntl.LOCK_UN)
-
-with open("regression/baseline_zero_{0}-shuffled".format(config_name), 'a') as f:
-    fcntl.flock(f, fcntl.LOCK_EX)
-    f.write("{0},{1}\n".format(shuffled_train_rmse_zero, shuffled_test_rmse_zero))
-    fcntl.flock(f, fcntl.LOCK_UN)
-
-with open("regression/baseline_random_{0}-shuffled".format(config_name), 'a') as f:
-    fcntl.flock(f, fcntl.LOCK_EX)
-    f.write("{0},{1}\n".format(shuffled_train_rmse_random, shuffled_test_rmse_random))
-    fcntl.flock(f, fcntl.LOCK_UN)
+for labels in ['real', 'shuffled']:
+    for method in baseline_methods:
+        combination_label = "baseline-{0}-{1}".format(method,labels)
+        train_rmse = rmse(squared_train_errors[labels][method])
+        test_rmse = rmse(squared_test_errors[labels][method])
+        print("Train RMSE for {0}: {1}".format(combination_label, train_rmse))
+        print("Test RMSE for {0}: {1}".format(combination_label, test_rmse))
+        
+        with open("regression/{0}".format(combination_label), 'a') as f:
+            fcntl.flock(f, fcntl.LOCK_EX)
+            f.write("{0},{1}\n".format(train_rmse, test_rmse))
+            fcntl.flock(f, fcntl.LOCK_UN)
