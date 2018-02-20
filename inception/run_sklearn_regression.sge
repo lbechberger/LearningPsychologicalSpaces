@@ -1,11 +1,9 @@
 #!/bin/bash
-#$ -N baselines
+#$ -N skl_reg
 #$ -l mem=2G
-#$ -l h_rt=1:30:00
+#$ -l h_rt=1:00:00
 #$ -cwd
 #$ -pe default 2
-#$ -l cuda=1
-#$ -l cuda_cores=384
 #$ -o $HOME/store/sge-logs
 #$ -e $HOME/store/sge-logs
 
@@ -16,9 +14,9 @@ source activate tensorflow-CS
 echo "starting"
 for ((i = 1; i <= $2; i++));
 do
-	python baselines.py $1
+	python sklearn_regression.py $1
 done
-echo "done with baselines"
+echo "done with sklearn regression"
 source deactivate tensorflow-CS
 
 rm /tmp/* -R -f 2> /dev/null
