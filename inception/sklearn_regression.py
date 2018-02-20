@@ -35,8 +35,9 @@ if config.has_section(config_name):
 try:
     input_data = pickle.load(open(options['features_file'], 'rb'))
     targets_data = pickle.load(open(options['targets_file'], 'rb'))
-except Exception:
+except Exception as e:
     print("Cannot read input data. Aborting.")
+    print(e)
     sys.exit(0)
 
 real_targets = targets_data['targets']
