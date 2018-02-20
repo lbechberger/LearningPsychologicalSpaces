@@ -14,7 +14,7 @@ source activate tensorflow-CS
 echo "starting"
 for ((i = 1; i <= $2; i++));
 do
-	python sklearn_regression.py $1
+	python -u sklearn_regression.py $1
 done
 echo "done with sklearn regression"
 source deactivate tensorflow-CS
