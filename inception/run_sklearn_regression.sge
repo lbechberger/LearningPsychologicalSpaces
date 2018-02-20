@@ -1,9 +1,9 @@
 #!/bin/bash
 #$ -N skl_reg
 #$ -l mem=6G
-#$ -l h_rt=1:00:00
+#$ -l h_rt=1:30:00
 #$ -cwd
-#$ -pe default 2
+#$ -pe default 4
 #$ -o $HOME/store/sge-logs
 #$ -e $HOME/store/sge-logs
 

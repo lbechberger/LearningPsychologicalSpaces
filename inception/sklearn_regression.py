@@ -47,6 +47,7 @@ squared_test_errors = {'real': [], 'shuffled': []}
 
 for test_image in input_data.keys():
     
+    print("Test image {0}".format(test_image))
     train_image_names = [img_name for img_name in input_data.keys() if img_name != test_image]
     
     features_train = []
@@ -70,7 +71,7 @@ for test_image in input_data.keys():
     labels_test['shuffled'] = [shuffled_targets[img_name]]*len(input_data[test_image])
     
     def train_regression(label_type):
-        regr = linear_model.LinearRegression()
+        regr = linear_model.LinearRegression(n_jobs=-1)
         regr.fit(features_train, labels_train[label_type])
         train_predictions = regr.predict(features_train)
         test_predictions = regr.predict(features_test)
