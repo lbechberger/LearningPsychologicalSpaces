@@ -55,7 +55,7 @@ mu = mean_output
 difference = tf.expand_dims(tf_labels - mu, axis = 1)
 multiplication = tf.matmul(difference, difference, transpose_a=True)
 var = tf.reduce_mean(multiplication, axis=0)
-var = var + 1e-7 * tf.eye(4) # ensure positive definiteness
+var = var + 1e-7 * tf.eye(options['space_size']) # ensure positive definiteness
 dist = tf.contrib.distributions.MultivariateNormalFullCovariance(mu, var)
 dist_output = dist.sample()
 dist_mse = tf.reduce_mean(tf.reduce_sum(tf.square(dist_output - tf_labels), axis=1))
