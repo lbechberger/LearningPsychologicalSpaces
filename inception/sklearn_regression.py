@@ -15,6 +15,7 @@ from configparser import RawConfigParser
 import fcntl
 from sklearn import linear_model
 from sklearn.metrics import mean_squared_error
+import numpy as np
 
 options = {}
 options['features_file'] = 'features/images'
@@ -61,15 +62,19 @@ for test_image in input_data.keys():
     
     zipped = list(zip(features_train, real_labels_train, shuffled_labels_train))
     shuffle(zipped)
-    features_train = list(map(lambda x: x[0], zipped))
+    features_train = np.array(list(map(lambda x: x[0], zipped)))
     labels_train = {}
     labels_train['real'] = list(map(lambda x: x[1], zipped))
     labels_train['shuffled'] = list(map(lambda x: x[2], zipped))
     
-    features_test = input_data[test_image]
+    features_test = np.array(input_data[test_image])
     labels_test = {}
     labels_test['real'] = [real_targets[img_name]]*len(input_data[test_image])
     labels_test['shuffled'] = [shuffled_targets[img_name]]*len(input_data[test_image])
+    
+    # reduce number of features
+    features_train = features_train[:,:options['features_size']]    
+    features_test = features_test[:,:options['features_size']]    
     
     def train_regression(label_type):
         regr = linear_model.LinearRegression(n_jobs=-1)
