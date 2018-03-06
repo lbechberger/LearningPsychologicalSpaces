@@ -69,8 +69,8 @@ for test_image in input_data.keys():
     
     features_test = np.array(input_data[test_image])
     labels_test = {}
-    labels_test['real'] = [real_targets[img_name]]*len(input_data[test_image])
-    labels_test['shuffled'] = [shuffled_targets[img_name]]*len(input_data[test_image])
+    labels_test['real'] = [real_targets[test_image]]*len(input_data[test_image])
+    labels_test['shuffled'] = [shuffled_targets[test_image]]*len(input_data[test_image])
     
     # reduce number of features
     features_train = features_train[:,:options['features_size']]    

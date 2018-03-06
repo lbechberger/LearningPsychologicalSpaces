@@ -108,8 +108,8 @@ with tf.Session(config=config) as session:
         
         features_test = input_data[test_image]
         labels_test = {}
-        labels_test['real'] = [real_targets[img_name]]*len(input_data[test_image])
-        labels_test['shuffled'] = [shuffled_targets[img_name]]*len(input_data[test_image])
+        labels_test['real'] = [real_targets[test_image]]*len(input_data[test_image])
+        labels_test['shuffled'] = [shuffled_targets[test_image]]*len(input_data[test_image])
         
         for batch_size in options['batch_size']:
             squared_train_errors['real'][batch_size] = {}
