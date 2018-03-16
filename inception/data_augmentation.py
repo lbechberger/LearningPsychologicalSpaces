@@ -13,7 +13,6 @@ import os
 import re
 import tensorflow as tf
 from tensorflow.python.platform import gfile
-import numpy as np
 import pickle
 import imgaug as ia
 from imgaug import augmenters as iaa
@@ -22,7 +21,6 @@ ia.seed(42) # make sure that we create the same set of augmentations every time
 flags = tf.flags
 flags.DEFINE_string('images_dir', '../images/', 'Location of data.')
 flags.DEFINE_string('output_dir', 'features/augmented/', 'Where to store the feature vectors.')
-flags.DEFINE_integer('n_dim', 4, 'Number of target dimensions.')
 flags.DEFINE_integer('n_samples', 1000, 'Number of augmented samples per original image.')
 
 FLAGS = flags.FLAGS
