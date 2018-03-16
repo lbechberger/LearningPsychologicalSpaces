@@ -33,6 +33,7 @@ We have programmed four simple baselines that can be run by executing the script
 - *Mean baseline*: Always predict the mean of the target vectors seen during training.
 - *Distribution baseline*: Estimate a Gaussian distribution based on the target vectors seen during training. For making a prediction, draw a random sample from this distribution.
 - *Random draw baseline*: Use a randomly selected target vectors from the training set as prediction.
+
 The SGE script `run_baselines.sge` can be used to submit this script to a Sun grid engine. It takes two parameters: The configuration name to pass to the python script and the number of repetitions.
 
 ## Regression
