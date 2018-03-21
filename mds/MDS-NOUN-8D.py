@@ -30,8 +30,7 @@ print(coords)
 
 # write the coordinates in structured format into a csv file
 with open("output/8D-vectors.csv", 'w') as f:
-    for i in range(64):
-        f.write("{0},{1}\n".format(image_array[i], ','.join(map(lambda x: str(x), coords[i]))))
-
+	for i in range(64):
+		f.write("{0},{1}\n".format(image_array[i], ','.join(map(lambda x: str(x), coords[i]))))
 
 # no plot is created, due to the high-dimensional space
