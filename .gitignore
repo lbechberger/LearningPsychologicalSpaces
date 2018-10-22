@@ -101,7 +101,7 @@ ENV/
 .mypy_cache/
 
 
-/images/
-/inception/features/
-/inception/regression/
-/inception/mlp/
+NOUN/images/
+NOUN/inception/features/
+NOUN/inception/regression/
+NOUN/inception/mlp/
