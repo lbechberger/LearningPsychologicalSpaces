@@ -84,7 +84,7 @@ with open(within_between_file, 'r') as f:
         
         if item_tuple_id in similarity_info:
             # if we already have similarity information from the previous study: append
-            similarity_info[item_tuple_id]['values'].append(similarity_values)
+            similarity_info[item_tuple_id]['values'] += similarity_values
         else:
             # otherwise: add new line
             similarity_info[item_tuple_id] = {'relation': tokens[0], 'values': similarity_values, 'border':0}
