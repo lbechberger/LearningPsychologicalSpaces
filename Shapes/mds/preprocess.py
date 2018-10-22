@@ -56,7 +56,7 @@ with open(within_file, 'r') as f:
         
         # get a list of all the similarity values (remove empty entries, then convert to int) and store them
         similarity_values = list(map(lambda x: int(x), filter(None, tokens[7:])))
-        similarity_info[str(set([tokens[3], tokens[5]]))] = {'relation': 'within', 'values': similarity_values, 'border':-1}
+        similarity_info[str(set([tokens[3], tokens[5]]))] = {'relation': 'within', 'values': similarity_values, 'border':len(similarity_values)}
 
 # now read within_between category information
 print("Reading {0}...".format(within_between_file))
@@ -83,13 +83,11 @@ with open(within_between_file, 'r') as f:
         similarity_values = list(map(lambda x: int(x), filter(None, tokens[12:])))
         
         if item_tuple_id in similarity_info:
-            # if we already have similarity information from the previous study: append and note border line
-            old_length = len(similarity_info[item_tuple_id]['values'])
+            # if we already have similarity information from the previous study: append
             similarity_info[item_tuple_id]['values'].append(similarity_values)
-            similarity_info[item_tuple_id]['border'] = old_length
         else:
             # otherwise: add new line
-            similarity_info[item_tuple_id] = {'relation': tokens[0], 'values': similarity_values, 'border':-1}
+            similarity_info[item_tuple_id] = {'relation': tokens[0], 'values': similarity_values, 'border':0}
 
 # now write everything into a pickle file
 print("Writing output...")
