@@ -29,19 +29,17 @@ dissimilarity_matrix = np.zeros((len(item_ids), len(item_ids)))
 entries_filled = 0
 entries_open = 0
 
-for index1, item1 in enumerate(item_ids):
-    for index2, item2 in enumerate(item_ids):
+for index1 in range(len(item_ids)):
+    for index2 in range(index1 + 1, len(item_ids)):
         
-        if item1 == item2:
-            # distance to self should be 0 in any case --> ignore
-            continue
+        item1 = item_ids[index1]
+        item2 = item_ids[index2]
 
         # compute dissimilarity
-        tuple_id = str(set([item1, item2]))
+        tuple_id = str(sorted([item1, item2]))
         if tuple_id not in data_set['similarities'].keys():
-            # TODO: unknown similarities: need to handle this better
-            print(tuple_id)
-            entries_open += 2
+            # unknown similarities: simply leave zeroes in there
+            entries_open += 1
             continue
         
         similarity_ratings = data_set['similarities'][tuple_id]['values']
@@ -51,12 +49,12 @@ for index1, item1 in enumerate(item_ids):
         # add to matrix
         dissimilarity_matrix[index1][index2] = dissimilarity
         dissimilarity_matrix[index2][index1] = dissimilarity
-        entries_filled += 2
+        entries_filled += 1
 
 print(entries_filled, entries_open)
 
 # Multi-dimensional Scaling (2 dimensions)
-mds = manifold.MDS(n_components=2, dissimilarity="precomputed", random_state=None)
+mds = manifold.MDS(n_components=2, dissimilarity="precomputed", random_state=None, metric=False)
 results = mds.fit(dissimilarity_matrix)
 coords = results.embedding_
 print(results.stress_)

@@ -56,7 +56,7 @@ with open(within_file, 'r') as f:
         
         # get a list of all the similarity values (remove empty entries, then convert to int) and store them
         similarity_values = list(map(lambda x: int(x), filter(None, tokens[7:])))
-        similarity_info[str(set([tokens[3], tokens[5]]))] = {'relation': 'within', 'values': similarity_values, 'border':len(similarity_values)}
+        similarity_info[str(sorted([tokens[3], tokens[5]]))] = {'relation': 'within', 'values': similarity_values, 'border':len(similarity_values)}
 
 # now read within_between category information
 print("Reading {0}...".format(within_between_file))
@@ -72,7 +72,7 @@ with open(within_between_file, 'r') as f:
         item1 = (tokens[4], tokens[5])
         item2 = (tokens[8], tokens[9])
 
-        item_tuple_id = str(set([tokens[4], tokens[8]]))
+        item_tuple_id = str(sorted([tokens[4], tokens[8]]))
         
         for item in [item1, item2]:
             # check whether the items are already known (they should be by now!)
