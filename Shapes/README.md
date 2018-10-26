@@ -10,9 +10,9 @@ Please find more detailed instructions on how to use the scripts below in the re
 
 ### Preprocessing
 
-In order to make the original data processible by our scripts, please run the script `preprocess.py` as follows:
+In order to make the original data processible by our scripts, please run the script `preprocess.py` as follows from the project's root directory:
 ```
-python preprocess.py path/to/within.csv path/to/within_between.csv path/to/output.pickle
+python mds/preprocess.py path/to/within.csv path/to/within_between.csv path/to/output.pickle
 ```
 
 The file `within.csv` contains within category similarity judments, the file `within_between.csv` contains similarity ratings both within and between categories. All of these similarity ratings are based on shape similarity only (participants were explicitly asked to not consider *conceptual* similarity).
@@ -29,3 +29,12 @@ The resulting `output.pickle` file contains a dictionary with the follwing eleme
   - `'relation'`: Is this a 'within' category or a 'between' category rating?
   - `'values'`: A list of similarity values (integers from 1 to 5, where 1 means 'no visual similarity' and 5 means 'high visual similarity')
   - `'border'`: An integer indicating the border between similarity ratings from the two studies. You can use `values[:border]` to access only the similarity ratings of the first study (only within category) and `values[border:]` to acces only the similarity ratings of the second study (mostly between cateory, but also some within category).
+
+## MDS
+
+The script `mds.py` runs the MDS algorithm provided by the `sklearn` library (see documentation [here](http://scikit-learn.org/stable/modules/generated/sklearn.manifold.MDS.html)) which is based on the SMACOF algorithm. After converting the data from the pickle file provided by `preprocess.py` into a dissimilarity matrix, the MDS is computed for different numbers of dimensions. A plot displaying stress against the number of dimensions is generated and displayed to the user.
+
+You can execute the script as follows from the project's root directory:
+```
+python mds/mds.py path/to/data.pickle
+```
