@@ -32,9 +32,16 @@ The resulting `output.pickle` file contains a dictionary with the follwing eleme
 
 ## MDS
 
-The script `mds.py` runs the MDS algorithm provided by the `sklearn` library (see documentation [here](http://scikit-learn.org/stable/modules/generated/sklearn.manifold.MDS.html)) which is based on the SMACOF algorithm. After converting the data from the pickle file provided by `preprocess.py` into a dissimilarity matrix, the MDS is computed for different numbers of dimensions. A plot displaying stress against the number of dimensions is generated and displayed to the user.
+The script `mds.py` runs the MDS algorithm provided by the `sklearn` library (see documentation [here](http://scikit-learn.org/stable/modules/generated/sklearn.manifold.MDS.html)) which is based on the SMACOF algorithm. After converting the data from the pickle file provided by `preprocess.py` into a dissimilarity matrix, some information about this matrix is printed out. Aftwerwards, the MDS is computed for different numbers of dimensions. A plot displaying stress against the number of dimensions is generated and displayed to the user.
 
 You can execute the script as follows from the project's root directory:
 ```
 python mds/mds.py path/to/data.pickle
 ```
+
+The script takes the following optional arguments:
+- `-s` or `--subset`: Specifies which subset of the similarity ratings to use. Default is `all` (which means that all similarity ratings from both studies are used). Another supported option is `between` where only the ratings from the second study (found in `within_between.csv`) are used. Here, all items that did not appear in the second study are removed from the dissimilarity matrix.
+- `-n` or `--n_init`: Specifies how often the SMACOF algorithm is restarted with a new random initialization. Of all of these runs, only the best result (i.e., the one with the lowest resulting stress) is kept. Default value here is 4.
+- `-d` or `--dims`: Specifies the maximal number of dimensions to investigate. Default value is 20, which means that the script will run the MDS algorithm 20 times, obtaining spaces of dimensionality 1 to 20.
+- `-i` or `--max_iter`: Specifies the maximum number of iterations computed within the SMACOF algorithm. Default values is 300.
+
