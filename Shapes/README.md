@@ -57,3 +57,13 @@ The script reads in the vectors from the `vectors.csv` file, creates two-dimensi
 The script takes the following optional arguments:
 - `-i` or `--image_folder`: Path to a folder where the images of the items are stored. If this is given, then the images from this folder are used in the visualization. If no image folder is given, then data points are labeled with their item ID.
 - `-z` or `--zoom`: Determines how much the images are scaled. Default is 0.15.
+
+## Checking for Convexity
+
+The script `analyze_space.py` can be used to check whether the categories within the space are convex. The script iterates over all categories, builds a convex hull of the items belonging to this category and counts how many points from other categories lie within this convex hull. Each point that lies in the convex hull of a different concept is counted as one violation. The script outputs the number of violations for each category, together with an estimate of how many violations would be expected if points are randomly sampled from a uniform distribution, a normal distribution, or the overall set of given points.
+
+The script can be exectued as follows (where `n_dims` is the number of dimension of this specific MDS space):
+```
+python mds/analyze_space.py path/to/vectors.csv path/to/data.pickle n_dims
+```
+
