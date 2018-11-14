@@ -31,7 +31,6 @@ if args.subset == "all":
     # use all the similarity ratings that we have    
     
     items_of_interest = list(item_ids)
-    item_names = list(map(lambda x: data_set['items'][x]['name'], item_ids))
 
 elif args.subset == "between":
     # only use the similarity ratings from the 'between' file
@@ -53,7 +52,20 @@ elif args.subset == "between":
                     items_of_interest.append(item2)
     
     items_of_interest = list(set(items_of_interest)) # remove duplicates
-    item_names = list(map(lambda x: data_set['items'][x]['name'], items_of_interest))
+    
+elif args.subset == "cats":
+    # consider only the categories from the second study, but use all items within them
+    second_study_categories = ["C03_Elektrogeräte", "C04_Gebäude", "C05_Gemüse", "C06_Geschirr", "C07_Insekten", 
+                                   "C10_Landtiere", "C12_Oberkörperbekleidung", "C13_Obst", "C14_Pflanzen", 
+                                   "C19_Straßenfahrzeuge", "C21_Vögel", "C25_Werkzeug"]
+    items_of_interest = []
+    for item in item_ids:
+        if data_set['items'][item]['category'] in second_study_categories:
+            items_of_interest.append(item)
+
+# no matter which subset was used: create list of item names
+item_names = list(map(lambda x: data_set['items'][x]['name'], items_of_interest))
+
 
 # compute dissimilarity matrix
 dissimilarity_matrix = np.zeros((len(items_of_interest), len(items_of_interest)))
