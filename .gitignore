@@ -105,7 +105,5 @@ NOUN/images/
 NOUN/inception/features/
 NOUN/inception/regression/
 NOUN/inception/mlp/
-/Shapes/raw_data/within.csv
-/Shapes/raw_data/within_between.csv
-/Shapes/raw_data/data.pickle
-/Shapes/2D-vectors.csv
+/Shapes/raw_data/
+/Shapes/mds_vectors/
