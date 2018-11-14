@@ -46,3 +46,13 @@ The script takes the following optional arguments:
 - `-i` or `--max_iter`: Specifies the maximum number of iterations computed within the SMACOF algorithm. Default values is 300.
 - `-e` or `--export`: If this flag is set and an export directory is given, then the created MDS vectors will be exported in csv files into the given export directory.
 
+## Visualizing the Resuling Space
+
+The script `visualize.py` can be used to create two-dimensional plots of the resulting space. You can execute it as follows from the project's root directory:
+```
+python mds/visualize.py path/to/vectors.csv
+```
+
+The script takes the following optional arguments:
+- `-i` or `--image_folder`: Path to a folder where the images of the items are stored. If this is given, then the images from this folder are used in the visualization. If no image folder is given, then data points are labeled with their item ID.
+- `-z` or `--zoom`: Determines how much the images are scaled. Default is 0.15.
