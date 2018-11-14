@@ -50,8 +50,9 @@ The script takes the following optional arguments:
 
 The script `visualize.py` can be used to create two-dimensional plots of the resulting space. You can execute it as follows from the project's root directory:
 ```
-python mds/visualize.py path/to/vectors.csv
+python mds/visualize.py path/to/vectors.csv path/to/output/folder n_dims
 ```
+The script reads in the vectors from the `vectors.csv` file, creates two-dimensional plots for all pairs of dimensions, and stores them in the given output folder. `n_dims` tells the script how many dimensions there are in the space.
 
 The script takes the following optional arguments:
 - `-i` or `--image_folder`: Path to a folder where the images of the items are stored. If this is given, then the images from this folder are used in the visualization. If no image folder is given, then data points are labeled with their item ID.

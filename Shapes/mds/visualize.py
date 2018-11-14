@@ -12,8 +12,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 
+
 parser = argparse.ArgumentParser(description='MDS for shapes')
 parser.add_argument('vector_file', help = 'the input file containing the vectors')
+parser.add_argument('output_folder', help = 'path to the folder where the visualizations should be stored')
+parser.add_argument('n', type = int, help = 'number of dimensions of the MDS space')
 parser.add_argument('-i', '--image_folder', help = 'the folder containing images of the items', default = None)
 parser.add_argument('-z', '--zoom', type = int, help = 'the factor to which the images are scaled', default = 0.15)
 args = parser.parse_args()
@@ -31,44 +34,54 @@ with open(args.vector_file, 'r') as f:
         vectors.append(vector)
 
 items = list(map(lambda x: x[0], vectors))
-x = list(map(lambda x: x[1], vectors))
-y = list(map(lambda x: x[2], vectors))
 
-fix, ax = plt.subplots()
-if args.image_folder != None:
-    
-    # load all images
-    images = []
-    for vector in vectors:
-        item = vector[0]
-        for file_name in os.listdir(args.image_folder):
-            if os.path.isfile(os.path.join(args.image_folder, file_name)) and item in file_name:
-                # found the corresponding image
-                images.append(plt.imread(os.path.join(args.image_folder, file_name)))
-                break
-    
-    # plot scatter plot with images        
-    # based on https://stackoverflow.com/questions/22566284/matplotlib-how-to-plot-images-instead-of-points
-    if ax is None:
-        ax = plt.gca()
-    x, y = np.atleast_1d(x, y)
-    artists = []
-    for x0, y0, im0 in zip(x, y, images):
-        im = OffsetImage(im0, zoom=args.zoom)
-        ab = AnnotationBbox(im, (x0, y0), xycoords='data', frameon=False)
-        artists.append(ax.add_artist(ab))
-    ax.update_datalim(np.column_stack([x, y]))
-    ax.autoscale()
-    ax.scatter(x,y)
-else:
-    # plot scatter plot without images, but with item IDs instead
-    ax.scatter(x,y)
-    for label, x0, y0 in zip(items, x, y):
-        plt.annotate(
-		label,
-		xy=(x0, y0), xytext=(-20, 20),
-		textcoords='offset points', ha='right', va='bottom',
-		bbox=dict(boxstyle='round,pad=0.5', fc='yellow', alpha=0.5),
-		arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=0'))
+# create a 2D plot for all pairs of dimensions
+for first_dim in range(1, args.n + 1):
+    for second_dim in range(first_dim + 1, args.n + 1):
+        
+        x = list(map(lambda x: x[first_dim], vectors))
+        y = list(map(lambda x: x[second_dim], vectors))
+        
+        fig, ax = plt.subplots(figsize=(12,12))
+        if args.image_folder != None:
+            
+            # load all images
+            images = []
+            for vector in vectors:
+                item = vector[0]
+                for file_name in os.listdir(args.image_folder):
+                    if os.path.isfile(os.path.join(args.image_folder, file_name)) and item in file_name:
+                        # found the corresponding image
+                        images.append(plt.imread(os.path.join(args.image_folder, file_name)))
+                        break
+            
+            # plot scatter plot with images        
+            # based on https://stackoverflow.com/questions/22566284/matplotlib-how-to-plot-images-instead-of-points
+            if ax is None:
+                ax = plt.gca()
+            x, y = np.atleast_1d(x, y)
+            artists = []
+            for x0, y0, im0 in zip(x, y, images):
+                im = OffsetImage(im0, zoom=args.zoom)
+                ab = AnnotationBbox(im, (x0, y0), xycoords='data', frameon=False)
+                artists.append(ax.add_artist(ab))
+            ax.update_datalim(np.column_stack([x, y]))
+            ax.autoscale()
+            ax.scatter(x,y)
+        else:
+            # plot scatter plot without images, but with item IDs instead
+            ax.scatter(x,y)
+            for label, x0, y0 in zip(items, x, y):
+                plt.annotate(
+        		label,
+        		xy=(x0, y0), xytext=(-20, 20),
+        		textcoords='offset points', ha='right', va='bottom',
+        		bbox=dict(boxstyle='round,pad=0.5', fc='yellow', alpha=0.5),
+        		arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=0'))
+        
+        plt.xlabel('MDS dimension #{0}'.format(first_dim))
+        plt.ylabel('MDS dimension #{0}'.format(second_dim))
 
-plt.show()
+        output_file_name = os.path.join(args.output_folder, '{0}D-{1}-{2}.png'.format(args.n, first_dim, second_dim))        
+        
+        fig.savefig(output_file_name, bbox_inches='tight', dpi=200)
