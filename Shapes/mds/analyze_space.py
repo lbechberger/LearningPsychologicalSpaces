@@ -59,13 +59,12 @@ for item in items:
     if category not in categories:
         categories.append(category)
 
-sim_violations = {'Sim':0, 'Dis':0, 'x':0}
-artificial_violations = {'art':0, 'nat':0}
-sum_violations = 0
-
-uniform_sum_violations = 0
-normal_sum_violations = 0
-shuffled_sum_violations = 0
+sim_violations = {'Sim' : {'MDS':0, 'uniform':0, 'normal':0, 'shuffled':0}, 
+                  'Dis' : {'MDS':0, 'uniform':0, 'normal':0, 'shuffled':0}, 
+                  'x' : {'MDS':0, 'uniform':0, 'normal':0, 'shuffled':0}}
+artificial_violations = {'art': {'MDS':0, 'uniform':0, 'normal':0, 'shuffled':0}, 
+                         'nat': {'MDS':0, 'uniform':0, 'normal':0, 'shuffled':0}}
+sum_violations = {'MDS':0, 'uniform':0, 'normal':0, 'shuffled':0}
 
 for category in categories:
     items_in_category = [item for item in items if item in data_set['categories'][category]['items']]
@@ -80,9 +79,9 @@ for category in categories:
     vis_sim = data_set['categories'][category]['visSim']
     artificial = data_set['categories'][category]['artificial']
     
-    sim_violations[vis_sim] += num_violations
-    artificial_violations[artificial] += num_violations
-    sum_violations += num_violations
+    sim_violations[vis_sim]['MDS'] += num_violations
+    artificial_violations[artificial]['MDS'] += num_violations
+    sum_violations['MDS'] += num_violations
     
     # for comparison, also compute expected number of violations for randomly chosen points  
     avg_uniform_violations = 0
@@ -107,18 +106,34 @@ for category in categories:
         avg_shuffled_violations += count_violations(shuffled_hull_points, shuffled_query_points)  
     
     avg_uniform_violations /= num_repetitions
-    uniform_sum_violations += avg_uniform_violations
+    sim_violations[vis_sim]['uniform'] += avg_uniform_violations
+    artificial_violations[artificial]['uniform'] += avg_uniform_violations
+    sum_violations['uniform'] += avg_uniform_violations
     
     avg_normal_violations /= num_repetitions
-    normal_sum_violations += avg_normal_violations
+    sim_violations[vis_sim]['normal'] += avg_normal_violations
+    artificial_violations[artificial]['normal'] += avg_normal_violations
+    sum_violations['normal'] += avg_normal_violations
     
     avg_shuffled_violations /= num_repetitions
-    shuffled_sum_violations += avg_shuffled_violations
+    sim_violations[vis_sim]['shuffled'] += avg_shuffled_violations
+    artificial_violations[artificial]['shuffled'] += avg_shuffled_violations
+    sum_violations['shuffled'] += avg_shuffled_violations
         
     print("{0} ({1}, {2}): {3} violations (uniform: {4}, normal: {5}, shuffled: {6})".format(category, vis_sim, artificial, 
               num_violations, avg_uniform_violations, avg_normal_violations, avg_shuffled_violations))
 
-print("Total violations: {0} (uniform: {1}, normal: {2}, shuffled: {3})".format(sum_violations, uniform_sum_violations, 
-                                                                                  normal_sum_violations, shuffled_sum_violations))
-print("Classification with respect to Sim/Dis: {0}".format(sim_violations))
-print("Classification with respect to Art/Nat: {0}".format(artificial_violations))
+print("\nTotal violations: {0} (uniform: {1}, normal: {2}, shuffled: {3})\n".format(sum_violations['MDS'], sum_violations['uniform'], 
+                                                                                  sum_violations['normal'], sum_violations['shuffled']))
+
+print("Within 'Sim': {0} (uniform: {1}, normal: {2}, shuffled: {3})".format(sim_violations['Sim']['MDS'], sim_violations['Sim']['uniform'],
+                                                                              sim_violations['Sim']['normal'], sim_violations['Sim']['shuffled']))
+print("Within 'Dis': {0} (uniform: {1}, normal: {2}, shuffled: {3})".format(sim_violations['Dis']['MDS'], sim_violations['Dis']['uniform'],
+                                                                              sim_violations['Dis']['normal'], sim_violations['Dis']['shuffled']))
+print("Within 'x': {0} (uniform: {1}, normal: {2}, shuffled: {3})\n".format(sim_violations['x']['MDS'], sim_violations['x']['uniform'],
+                                                                              sim_violations['x']['normal'], sim_violations['x']['shuffled']))
+
+print("Within 'art': {0} (uniform: {1}, normal: {2}, shuffled: {3})".format(artificial_violations['art']['MDS'], artificial_violations['art']['uniform'],
+                                                                              artificial_violations['art']['normal'], artificial_violations['art']['shuffled']))
+print("Within 'nat': {0} (uniform: {1}, normal: {2}, shuffled: {3})".format(artificial_violations['nat']['MDS'], artificial_violations['nat']['uniform'],
+                                                                              artificial_violations['nat']['normal'], artificial_violations['nat']['shuffled']))
