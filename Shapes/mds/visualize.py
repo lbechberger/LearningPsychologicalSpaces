@@ -11,6 +11,7 @@ import argparse, os
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
+import cv2
 
 
 parser = argparse.ArgumentParser(description='MDS for shapes')
@@ -52,7 +53,8 @@ for first_dim in range(1, args.n + 1):
                 for file_name in os.listdir(args.image_folder):
                     if os.path.isfile(os.path.join(args.image_folder, file_name)) and item in file_name:
                         # found the corresponding image
-                        images.append(plt.imread(os.path.join(args.image_folder, file_name)))
+                        img = cv2.imread(os.path.join(args.image_folder, file_name))
+                        images.append(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
                         break
             
             # plot scatter plot with images        
