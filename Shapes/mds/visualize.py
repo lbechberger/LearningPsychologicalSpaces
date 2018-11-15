@@ -11,8 +11,7 @@ import argparse, os
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
-import cv2
-
+from PIL import Image
 
 parser = argparse.ArgumentParser(description='MDS for shapes')
 parser.add_argument('vector_file', help = 'the input file containing the vectors')
@@ -21,6 +20,8 @@ parser.add_argument('n', type = int, help = 'number of dimensions of the MDS spa
 parser.add_argument('-i', '--image_folder', help = 'the folder containing images of the items', default = None)
 parser.add_argument('-z', '--zoom', type = int, help = 'the factor to which the images are scaled', default = 0.15)
 args = parser.parse_args()
+
+
 
 # read the vectors
 vectors = []
@@ -53,8 +54,19 @@ for first_dim in range(1, args.n + 1):
                 for file_name in os.listdir(args.image_folder):
                     if os.path.isfile(os.path.join(args.image_folder, file_name)) and item in file_name:
                         # found the corresponding image
-                        img = cv2.imread(os.path.join(args.image_folder, file_name))
-                        images.append(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+                        img = Image.open(os.path.join(args.image_folder, file_name), 'r')
+                        img = img.convert("RGBA")
+                        
+                        # conversion of white to alpha based on https://stackoverflow.com/a/765774
+                        img_data = img.getdata()
+                        new_data = []
+                        for item in img_data:
+                            if item[0] == 255 and item[1] == 255 and item[2] == 255:
+                                new_data.append((255, 255, 255, 0))
+                            else:
+                                new_data.append(item)
+                        img.putdata(new_data)
+                        images.append(img)
                         break
             
             # plot scatter plot with images        
@@ -69,7 +81,7 @@ for first_dim in range(1, args.n + 1):
                 artists.append(ax.add_artist(ab))
             ax.update_datalim(np.column_stack([x, y]))
             ax.autoscale()
-            ax.scatter(x,y)
+            ax.scatter(x,y, s=0)
         else:
             # plot scatter plot without images, but with item IDs instead
             ax.scatter(x,y)
