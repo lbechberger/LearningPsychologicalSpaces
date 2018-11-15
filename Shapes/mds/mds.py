@@ -20,14 +20,20 @@ parser.add_argument('-n', '--n_init', type = int, help = 'number random starts',
 parser.add_argument('-d', '--dims', type = int, help = 'highest number of dimensions to check', default = 20)
 parser.add_argument('-i', '--max_iter', type = int, help = 'maximum number of iterations', default = 300)
 parser.add_argument('-e', '--export', help = 'path for export', default = None)
+parser.add_argument('-m', '--median', action="store_true", help = 'use median instead of mean')
+parser.add_argument('-l', '--limit', action="store_true", help = 'limit the number of similarity ratings to take into account')
 args = parser.parse_args()
 
+np.random.seed(42)
 
 # load the data set from the pickle file
 with open(args.input_file, "rb") as f:
     data_set = pickle.load(f)
 
 item_ids = list(data_set['items'].keys())
+
+if args.limit:
+    limit = 1000
     
 if args.subset == "all":
     # use all the similarity ratings that we have    
@@ -68,6 +74,21 @@ elif args.subset == "cats":
 # no matter which subset was used: create list of item names
 item_names = list(map(lambda x: data_set['items'][x]['name'], items_of_interest))
 
+if args.limit:
+    for idx1, item1 in enumerate(items_of_interest):
+        for idx2, item2 in enumerate(items_of_interest):
+            if idx2 <= idx1:
+                continue
+            
+            tuple_id = str(sorted([item1, item2]))   
+            if tuple_id in data_set['similarities']:
+                similarity_ratings = data_set['similarities'][tuple_id]['values']
+                if args.subset == "between":
+                    # remove everything from first study
+                    border = data_set['similarities'][tuple_id]['border']
+                    similarity_ratings = similarity_ratings[border:]
+                limit = min(limit, len(similarity_ratings))
+    print("Using a limit of {0}".format(limit))                
 
 # compute dissimilarity matrix
 dissimilarity_matrix = np.zeros((len(items_of_interest), len(items_of_interest)))
@@ -98,9 +119,16 @@ for index1, item1 in enumerate(items_of_interest):
             border = data_set['similarities'][tuple_id]['border']
             similarity_ratings = similarity_ratings[border:]
         
-        if len(similarity_ratings) == 0:
-            print(item1, item2)
-        overall_similarity = np.mean(similarity_ratings)
+        # only take a random subset of the ratings (up to the limit)
+        if args.limit:
+            np.random.shuffle(similarity_ratings)
+            similarity_ratings = similarity_ratings[:limit]
+        
+        # aggregate by mean (default) or median (if requested on command line)
+        if args.median:
+            overall_similarity = np.median(similarity_ratings)
+        else:
+            overall_similarity = np.mean(similarity_ratings)
         dissimilarity = 5 - overall_similarity
         
         # add to matrix
