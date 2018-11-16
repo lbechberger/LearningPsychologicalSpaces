@@ -70,10 +70,10 @@ python mds/analyze_space.py path/to/vectors.csv path/to/data.pickle n_dims
 ```
 
 ## Searching for Interpretable Directions
-The script `check_interpretablilites.py` tries to find interpretable directions in a given MDS space based on prior binary classifications of the items. It can be invoked as follows:
+The script `check_interpretablilites.py` tries to find interpretable directions in a given MDS space based on prior binary classifications of the items. It can be invoked as follows (where `n` is the number of dimensions of the underlying space):
 ```
-python mds/check_interpretabilities.py path/to/vectors.csv path/to/classification/folder/
+python mds/check_interpretabilities.py path/to/vectors.csv path/to/classification/folder/ n
 ```
-The script iterates over all files in the classification folder and constructs a classification problem for each of these files. Each file is expected to contain a list of positive examples, represented by one item ID per line. A linear SVM is trained using the vectors provided in the csv file and the classification as extracted from the classification file. All data points are used for both training and evaluating. Evaulation is done by using Cohen's kappa. The script outputs for each classification task the value of Cohen's kappa as well as the normal vector of the separating hyperplane. The latter can be thought of as an interpretable direction if the value of kappa is sufficiently high.
+The script iterates over all files in the classification folder and constructs a classification problem for each of these files. Each file is expected to contain a list of positive examples, represented by one item ID per line. A linear SVM is trained using the vectors provided in the csv file and the classification as extracted from the classification file. All data points are used for both training and evaluating. Evaulation is done by using Cohen's kappa. The script outputs for each classification task the value of Cohen's kappa as well as the normal vector of the separating hyperplane. The latter can be thought of as an interpretable direction if the value of kappa is sufficiently high. Just like `analyze_space.py`, also the `check_interpretabilities.py` script compares the result to the average over 100 iterations for randomly sampled points (uniformly distributed vectors, normally distributed vectors, shuffled assignment of real vectors).
 
 
