@@ -52,7 +52,7 @@ The script takes the following optional arguments:
 
 The script `visualize.py` can be used to create two-dimensional plots of the resulting space. You can execute it as follows from the project's root directory:
 ```
-python mds/visualize.py path/to/vectors.csv path/to/output/folder n_dims
+python mds/visualize.py path/to/vectors.csv path/to/output/folder/ n_dims
 ```
 The script reads in the vectors from the `vectors.csv` file, creates two-dimensional plots for all pairs of dimensions, and stores them in the given output folder. `n_dims` tells the script how many dimensions there are in the space.
 
@@ -68,4 +68,12 @@ The script can be exectued as follows (where `n_dims` is the number of dimension
 ```
 python mds/analyze_space.py path/to/vectors.csv path/to/data.pickle n_dims
 ```
+
+## Searching for Interpretable Directions
+The script `check_interpretablilites.py` tries to find interpretable directions in a given MDS space based on prior binary classifications of the items. It can be invoked as follows:
+```
+python mds/check_interpretabilities.py path/to/vectors.csv path/to/classification/folder/
+```
+The script iterates over all files in the classification folder and constructs a classification problem for each of these files. Each file is expected to contain a list of positive examples, represented by one item ID per line. A linear SVM is trained using the vectors provided in the csv file and the classification as extracted from the classification file. All data points are used for both training and evaluating. Evaulation is done by using Cohen's kappa. The script outputs for each classification task the value of Cohen's kappa as well as the normal vector of the separating hyperplane. The latter can be thought of as an interpretable direction if the value of kappa is sufficiently high.
+
 
