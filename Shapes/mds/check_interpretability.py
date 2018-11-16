@@ -30,6 +30,10 @@ with open(args.vector_file, 'r') as f:
         vector += list(map(lambda x: float(x), tokens[1:]))
         vectors[item] = vector
 
+kappas = {'MDS':[], 'uniform':[], 'normal':[], 'shuffled':[]}
+
+print("INDIVIDUAL")
+
 for file_name in os.listdir(args.classification_folder):
     positive_items = []
     with open(os.path.join(args.classification_folder, file_name), 'r') as f:
@@ -71,6 +75,21 @@ for file_name in os.listdir(args.classification_folder):
     kappa_normal /= num_repetitions
     kappa_shuffled /= num_repetitions
     
-    print("{0}: kappa {1}, direction {2} (uniform: {3}, normal: {4}, shuffled: {5})".format(file_name, 
-              kappa, direction, kappa_uniform, kappa_normal, kappa_shuffled))
+    kappas['MDS'].append(kappa)
+    kappas['uniform'].append(kappa_uniform)
+    kappas['normal'].append(kappa_normal)
+    kappas['shuffled'].append(kappa_shuffled)    
     
+    print("\t{0}: kappa {1}, direction {2} (uniform: {3}, normal: {4}, shuffled: {5})".format(file_name, 
+              kappa, direction, kappa_uniform, kappa_normal, kappa_shuffled))
+
+def avg(x):
+    return sum(x)/len(x)
+print("\nOVERALL")
+print("\tmin: {0} (uniform: {1}, normal: {2}, shuffled: {3})".format(min(kappas['MDS']), min(kappas['uniform']),
+                                                                      min(kappas['normal']), min(kappas['shuffled'])))
+print("\tavg: {0} (uniform: {1}, normal: {2}, shuffled: {3})".format(avg(kappas['MDS']), avg(kappas['uniform']),
+                                                                      avg(kappas['normal']), avg(kappas['shuffled'])))
+print("\tmax: {0} (uniform: {1}, normal: {2}, shuffled: {3})".format(max(kappas['MDS']), max(kappas['uniform']),
+                                                                      max(kappas['normal']), max(kappas['shuffled'])))
+                                                                      
