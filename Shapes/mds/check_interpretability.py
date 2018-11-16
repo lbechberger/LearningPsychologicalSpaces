@@ -44,6 +44,7 @@ for file_name in os.listdir(args.classification_folder):
     negative_examples = [vectors[item] for item in vectors.keys() if item not in positive_items]
     all_examples = positive_examples + negative_examples
     binary_labels = [1]*len(positive_examples) + [0]*len(negative_examples)
+
     svm = LinearSVC()
     svm.fit(all_examples, binary_labels)
     direction = svm.coef_
