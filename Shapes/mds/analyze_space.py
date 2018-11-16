@@ -11,7 +11,7 @@ import pickle, argparse
 import numpy as np
 from scipy.optimize import linprog
 
-parser = argparse.ArgumentParser(description='MDS for shapes')
+parser = argparse.ArgumentParser(description='Convexity analysis')
 parser.add_argument('vector_file', help = 'the input file containing the vectors')
 parser.add_argument('data_set_file', help = 'the pickle file containing the data set')
 parser.add_argument('n', type = int, help = 'number of dimensions of the MDS space')

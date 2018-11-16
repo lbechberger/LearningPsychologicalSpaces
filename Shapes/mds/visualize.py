@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 from PIL import Image
 
-parser = argparse.ArgumentParser(description='MDS for shapes')
+parser = argparse.ArgumentParser(description=' Visualizing MDS spaces')
 parser.add_argument('vector_file', help = 'the input file containing the vectors')
 parser.add_argument('output_folder', help = 'path to the folder where the visualizations should be stored')
 parser.add_argument('n', type = int, help = 'number of dimensions of the MDS space')
