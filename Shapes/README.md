@@ -8,6 +8,8 @@ Please find more detailed instructions on how to use the scripts below in the re
 
 ## Multidimensional Scaling
 
+The folder `mds` contains various scripts for transforming the given data set from pairwise similarity ratings into a conceptual space.
+
 ### Preprocessing
 
 In order to make the original data processible by our scripts, please run the script `preprocess.py` as follows from the project's root directory:
@@ -30,7 +32,7 @@ The resulting `output.pickle` file contains a dictionary with the follwing eleme
   - `'values'`: A list of similarity values (integers from 1 to 5, where 1 means 'no visual similarity' and 5 means 'high visual similarity')
   - `'border'`: An integer indicating the border between similarity ratings from the two studies. You can use `values[:border]` to access only the similarity ratings of the first study (only within category) and `values[border:]` to acces only the similarity ratings of the second study (mostly between cateory, but also some within category).
 
-## MDS
+### MDS
 
 The script `mds.py` runs the MDS algorithm provided by the `sklearn` library (see documentation [here](http://scikit-learn.org/stable/modules/generated/sklearn.manifold.MDS.html)) which is based on the SMACOF algorithm. After converting the data from the pickle file provided by `preprocess.py` into a dissimilarity matrix, some information about this matrix is printed out. Aftwerwards, the MDS is computed for different numbers of dimensions. A plot displaying stress against the number of dimensions is generated and displayed to the user.
 
@@ -48,7 +50,7 @@ The script takes the following optional arguments:
 - `-m` or `--median`: Use the median instead of the mean for aggregating the similarity ratings across participants
 - `-l` or `--limit`: Limit the number of similarity ratings to use to ensure that an equal amount of ratings is aggregated for all item pairs. Use the minimal number of ratings observed for any item pair as limit.
 
-## Visualizing the Resuling Space
+### Visualizing the Resuling Space
 
 The script `visualize.py` can be used to create two-dimensional plots of the resulting space. You can execute it as follows from the project's root directory:
 ```
@@ -60,7 +62,7 @@ The script takes the following optional arguments:
 - `-i` or `--image_folder`: Path to a folder where the images of the items are stored. If this is given, then the images from this folder are used in the visualization. If no image folder is given, then data points are labeled with their item ID.
 - `-z` or `--zoom`: Determines how much the images are scaled. Default is 0.15.
 
-## Checking for Convexity
+### Checking for Convexity
 
 The script `analyze_space.py` can be used to check whether the categories within the space are convex. The script iterates over all categories, builds a convex hull of the items belonging to this category and counts how many points from other categories lie within this convex hull. Each point that lies in the convex hull of a different concept is counted as one violation. The script outputs the number of violations for each category, together with an estimate of how many violations would be expected if points are randomly sampled from a uniform distribution, a normal distribution, or the overall set of given points.
 
@@ -69,7 +71,7 @@ The script can be exectued as follows (where `n_dims` is the number of dimension
 python mds/analyze_space.py path/to/vectors.csv path/to/data.pickle n_dims
 ```
 
-## Searching for Interpretable Directions
+### Searching for Interpretable Directions
 The script `check_interpretablilites.py` tries to find interpretable directions in a given MDS space based on prior binary classifications of the items. It can be invoked as follows (where `n` is the number of dimensions of the underlying space):
 ```
 python mds/check_interpretabilities.py path/to/vectors.csv path/to/classification/folder/ n
