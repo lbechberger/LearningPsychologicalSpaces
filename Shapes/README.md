@@ -95,4 +95,14 @@ python mds/check_interpretabilities.py path/to/vectors.csv path/to/classificatio
 ```
 The script iterates over all files in the classification folder and constructs a classification problem for each of these files. Each file is expected to contain a list of positive examples, represented by one item ID per line. A linear SVM is trained using the vectors provided in the csv file and the classification as extracted from the classification file. All data points are used for both training and evaluating. Evaulation is done by using Cohen's kappa. The script outputs for each classification task the value of Cohen's kappa as well as the normal vector of the separating hyperplane. The latter can be thought of as an interpretable direction if the value of kappa is sufficiently high. Just like `analyze_space.py`, also the `check_interpretabilities.py` script compares the result to the average over 100 iterations for randomly sampled points (uniformly distributed vectors, normally distributed vectors, shuffled assignment of real vectors).
 
+## Baselines
+
+The folder `baseline` contains scripts for evaluating the performance of simple pixel-based baselines.
+
+### Cosine Similarities of Pixels
+
+The script `cosine_similarity.py` loads the images and interprets them as one-dimensional vectors of pixel values. It then computes for each pair of items the cosine similarity of their pixel-based representation. The resulting similarity matrix is compared to the one obtained from human similarity judgements by computing Pearson's r. The script can be executed as follows, where `similarity_file.pickle` is the output file produced by `compute_similarities.py` and where `image_folder` is the directory containing all images:
+```
+python baseline/cosine_similarity.py path/to/similarity_file.pickle path/to/image_folder
+```
 
