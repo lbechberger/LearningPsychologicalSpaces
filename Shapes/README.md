@@ -105,4 +105,7 @@ The script `cosine_similarity.py` loads the images and interprets them as one-di
 ```
 python baseline/cosine_similarity.py path/to/similarity_file.pickle path/to/image_folder
 ```
+The script takes the following optional parameters:
+- `-b` or `--block_size`: Gives the size of a block when shrinking the image (i.e., width and height of the block that is collapsed onto a single pixel). Default is 1 (i.e., no compression).
+- `-a` or `--aggregator_function`: The aggregator function to use when compressing all pixels in one block onto a single pixel. Possible options: `max`, `mean`, `min`.
 
