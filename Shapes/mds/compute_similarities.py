@@ -105,11 +105,15 @@ if args.limit:
                     # remove everything from second study
                     border = data_set['similarities'][tuple_id]['border']
                     similarity_ratings = similarity_ratings[:border]
-                limit = min(limit, len(similarity_ratings))
+                
+                if len(similarity_ratings) > 0:
+                    # only adapt the limit if there are any ratings left
+                    limit = min(limit, len(similarity_ratings))
     print("Using a limit of {0}".format(limit))                
 
 # compute dissimilarity matrix
 dissimilarity_matrix = np.zeros((len(items_of_interest), len(items_of_interest)))
+similarity_matrix = np.full((len(items_of_interest), len(items_of_interest)), np.nan)
 number_of_filled_entries = 0
 constraints_per_item = {}
 for item in items_of_interest:
@@ -140,11 +144,15 @@ for index1, item1 in enumerate(items_of_interest):
             # remove everything from second study
             border = data_set['similarities'][tuple_id]['border']
             similarity_ratings = similarity_ratings[:border]
-            
+
         # only take a random subset of the ratings (up to the limit)
         if args.limit:
             np.random.shuffle(similarity_ratings)
             similarity_ratings = similarity_ratings[:limit]
+
+        # if we don't have any data: skip this table entry
+        if len(similarity_ratings) == 0:
+            continue
         
         # aggregate by mean (default) or median (if requested on command line)
         if args.median:
@@ -153,9 +161,15 @@ for index1, item1 in enumerate(items_of_interest):
             overall_similarity = np.mean(similarity_ratings)
         dissimilarity = 5 - overall_similarity
         
-        # add to matrix
+        # add to similarity matrix
+        similarity_matrix[index1][index2] = overall_similarity
+        similarity_matrix[index2][index1] = overall_similarity        
+        
+        # add to dissimilarity matrix
         dissimilarity_matrix[index1][index2] = dissimilarity
         dissimilarity_matrix[index2][index1] = dissimilarity
+        
+        # keep track of statistics
         number_of_filled_entries += 2
         constraints_per_item[item1] += 1
         constraints_per_item[item2] += 1
@@ -171,7 +185,7 @@ for item, num_constraints in constraints_per_item.items():
     average_num_constraints += num_constraints
 print("average number of constraints per item: {0}".format(average_num_constraints / len(items_of_interest)))
 
-result = {'items': items_of_interest, 'matrix': dissimilarity_matrix, 'item_names': item_names}
+result = {'items': items_of_interest, 'item_names': item_names, 'similarities': similarity_matrix, 'dissimilarities': dissimilarity_matrix}
 
 with open(args.output_file, 'wb') as f:
     pickle.dump(result, f)
