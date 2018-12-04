@@ -9,24 +9,23 @@ Created on Mon Oct 22 13:39:05 2018
 @author: lbechberger
 """
 
-import sys, pickle
+import pickle, argparse
 
-if len(sys.argv) < 4:
-    raise(Exception("Error: need at least three arguments!"))
-    
+parser = argparse.ArgumentParser(description='Preprocessing similarity data')
+parser.add_argument('within_file', help = 'CSV file containing data from the within-study (study 1)')
+parser.add_argument('within_between_file', help = 'CSV file containing data from the within-between-study (study 2)')
+parser.add_argument('output_file', help = 'path to the output pickle file')
+args = parser.parse_args()
 
-within_file = sys.argv[1]
-within_between_file = sys.argv[2]
-output_file = sys.argv[3]
 
 category_info = {}
 item_info = {}
 similarity_info = {}
 
 # first only read within category information
-print("Reading {0}...".format(within_file))
+print("Reading {0}...".format(args.within_file))
 
-with open(within_file, 'r') as f:
+with open(args.within_file, 'r') as f:
     for line in f:
         # ignore header
         if line.startswith("Combi_category"):
@@ -59,8 +58,8 @@ with open(within_file, 'r') as f:
         similarity_info[str(sorted([tokens[3], tokens[5]]))] = {'relation': 'within', 'values': similarity_values, 'border':len(similarity_values)}
 
 # now read within_between category information
-print("Reading {0}...".format(within_between_file))
-with open(within_between_file, 'r') as f:
+print("Reading {0}...".format(args.within_between_file))
+with open(args.within_between_file, 'r') as f:
     for line in f:
         # ignore header
         if line.startswith("Relation"):
@@ -94,5 +93,5 @@ print("Writing output...")
 output = {'categories': category_info, 'items': item_info, 'similarities': similarity_info}
 
 # dump everything into a pickle file
-with open(output_file, "wb") as f:
+with open(args.output_file, "wb") as f:
     pickle.dump(output, f)
