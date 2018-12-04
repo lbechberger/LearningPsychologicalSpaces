@@ -21,7 +21,7 @@ parser.add_argument('-b', '--block_size', type = int, help = 'the block size to 
 parser.add_argument('-a', '--aggregator', help = 'the function used for aggregating within a block', default = 'max')
 args = parser.parse_args()
 
-aggregator_function = {'max': np.max, 'mean': np.mean, 'min': np.min}
+aggregator_function = {'max': np.max, 'mean': np.mean, 'min': np.min, 'std': np.std, 'var': np.var, 'median': np.median, 'prod': np.prod}
 
 with open(args.similarity_file, 'rb') as f:
     input_data = pickle.load(f)
@@ -62,4 +62,4 @@ target_vector = np.reshape(target_similarities, (-1))
 cosine_vector = np.reshape(cosine_similarities, (-1)) 
 
 correlation = pearsonr(cosine_vector, target_vector)
-print(correlation[0])
+print("{0},{1},{2}".format(args.aggregator, args.block_size, correlation[0]))
