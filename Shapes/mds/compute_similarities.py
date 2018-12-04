@@ -126,6 +126,7 @@ for index1, item1 in enumerate(items_of_interest):
             if index2 == index1:
                 number_of_filled_entries += 1
                 constraints_per_item[item1] += 1
+                similarity_matrix[index1][index2] = 5 # manually set self-similarity to max
             continue
         
         tuple_id = str(sorted([item1, item2]))
