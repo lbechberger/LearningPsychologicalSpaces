@@ -53,7 +53,7 @@ for item_id in item_ids:
 
 with open(output_file_name, 'w', buffering=1) as f:
 
-    f.write("aggregator,block_size,scoring,correlation\n")
+    f.write("aggregator,block_size,image_size,scoring,correlation\n")
     for block_size in range(1, args.size + 1):
         for aggregator_name, aggregator_function in aggregator_functions.items():
     
@@ -69,6 +69,7 @@ with open(output_file_name, 'w', buffering=1) as f:
                 array = np.reshape(array, img.size)
                 img = block_reduce(array, (block_size, block_size), aggregator_function)
                 
+                image_size = img.shape[0]
                 # make a column vector out of this and store it
                 img = np.reshape(img, (1,-1))
                 transformed_images.append(img)
@@ -98,4 +99,4 @@ with open(output_file_name, 'w', buffering=1) as f:
                 cosine_vector = np.reshape(similarity_scores, (-1)) 
                 
                 correlation = np.abs(spearmanr(cosine_vector, target_vector))
-                f.write("{0},{1},{2},{3}\n".format(aggregator_name, block_size, scoring_name, correlation[0]))
+                f.write("{0},{1},{2},{3},{4}\n".format(aggregator_name, block_size, image_size, scoring_name, correlation[0]))
