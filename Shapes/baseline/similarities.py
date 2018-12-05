@@ -12,7 +12,7 @@ from PIL import Image
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity, euclidean_distances, manhattan_distances
 from sklearn.metrics import mutual_info_score
-from scipy.stats import pearsonr
+from scipy.stats import spearmanr
 from skimage.measure import block_reduce
 
 parser = argparse.ArgumentParser(description='Pixel-based cosine similarity baseline')
@@ -22,7 +22,7 @@ parser.add_argument('-o', '--output_folder', help = 'the folder to which the out
 parser.add_argument('-s', '--size', type = int, default = 283, help = 'the size of the image, used to determine the maximal block size')
 args = parser.parse_args()
 
-aggregator_functions = {'max': np.max, 'mean': np.mean, 'min': np.min, 'std': np.std, 'var': np.var, 'median': np.median, 'prod': np.prod}
+aggregator_functions = {'max': np.max, 'mean': np.mean, 'min': np.min, 'std': np.std, 'var': np.var, 'median': np.median, 'product': np.prod}
 scoring_functions = {'Cosine': cosine_similarity, 'Euclidean': euclidean_distances, 'Manhattan': manhattan_distances, 'MutualInformation': mutual_info_score}
 
 # set up file name for output file
@@ -57,6 +57,11 @@ with open(output_file_name, 'w', buffering=1) as f:
     for block_size in range(1, args.size + 1):
         for aggregator_name, aggregator_function in aggregator_functions.items():
     
+            if block_size == 1 and aggregator_name in ['std', 'var', 'mean', 'min', 'median', 'product']:
+                # can't compute std or var on a single element
+                # value for all others is identical to max, so only compute once
+                continue
+            
             transformed_images = []
             for img in images:
                 # transform image via block_reduce
@@ -92,5 +97,5 @@ with open(output_file_name, 'w', buffering=1) as f:
                 target_vector = np.reshape(target_similarities, (-1)) 
                 cosine_vector = np.reshape(similarity_scores, (-1)) 
                 
-                correlation = np.abs(pearsonr(cosine_vector, target_vector))
+                correlation = np.abs(spearmanr(cosine_vector, target_vector))
                 f.write("{0},{1},{2},{3}\n".format(aggregator_name, block_size, scoring_name, correlation[0]))
