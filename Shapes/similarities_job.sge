@@ -1,0 +1,19 @@
+#!/bin/bash
+#$ -N baselines
+#$ -l mem=2G
+#$ -l h_rt=72:00:00
+#$ -cwd
+#$ -pe default 4
+#$ -o $HOME/store/sge-logs/
+#$ -e $HOME/store/sge-logs/
+
+export PATH="$HOME/miniconda/bin:$PATH"
+rm /tmp/* -R -f 2> /dev/null
+
+source activate tensorflow-CS
+
+python baseline/similarities.py $1 images/
+
+source deactivate tensorflow-CS
+
+rm /tmp/* -R -f 2> /dev/null

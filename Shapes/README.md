@@ -99,13 +99,14 @@ The script iterates over all files in the classification folder and constructs a
 
 The folder `baseline` contains scripts for evaluating the performance of simple pixel-based baselines.
 
-### Cosine Similarities of Pixels
+### Pixel-Based Similarities
 
-The script `cosine_similarity.py` loads the images and interprets them as one-dimensional vectors of pixel values. It then computes for each pair of items the cosine similarity of their pixel-based representation. The resulting similarity matrix is compared to the one obtained from human similarity judgements by computing Pearson's r. The script can be executed as follows, where `similarity_file.pickle` is the output file produced by `compute_similarities.py` and where `image_folder` is the directory containing all images:
+The script `similarities.py` loads the images and interprets them as one-dimensional vectors of pixel values. It then computes for each pair of items the different similarity measures (i.e., cosine similarity, Euclidean distance, Manhattan distance, Mutual information) of their pixel-based representation. The resulting similarity matrix is compared to the one obtained from human similarity judgements by computing Pearson's r. The script can be executed as follows, where `similarity_file.pickle` is the output file produced by `compute_similarities.py` and where `image_folder` is the directory containing all images:
 ```
 python baseline/cosine_similarity.py path/to/similarity_file.pickle path/to/image_folder
 ```
-The script takes the following optional parameters:
-- `-b` or `--block_size`: Gives the size of a block when shrinking the image (i.e., width and height of the block that is collapsed onto a single pixel). Default is 1 (i.e., no compression).
-- `-a` or `--aggregator_function`: The aggregator function to use when compressing all pixels in one block onto a single pixel. Possible options: `max`, `mean`, `min`.
+In addition to doing these computations on the full pixel-wise information, the script also shrinks the image by aggregating all pixels within a block of size k times k into a single number. The script iterates over all possible sizes of k (from 1 to 283 in our case) and uses different aggregation strategies (namely: max, min, std, var, median, product).
+The script takes the following optional parameter:
+- `-o` or `--output`: The output folder where the resulting correlation values are stored (default: `analysis`).
+- `-s` or `--size`: The size of the image, i.e., the maximal number of k to use (default: 283).
 
