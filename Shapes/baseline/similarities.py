@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Computes the cosine similarity between the images on a pixel basis.
+Computes the different similarity measures  between the images on a pixel basis.
+Compares these similarities to the human similarity ratings.
 
 Created on Tue Dec  4 09:27:06 2018
 
@@ -10,12 +11,12 @@ Created on Tue Dec  4 09:27:06 2018
 import pickle, argparse, os
 from PIL import Image
 import numpy as np
-from sklearn.metrics.pairwise import cosine_similarity, euclidean_distances, manhattan_distances
-from sklearn.metrics import mutual_info_score
-from scipy.stats import spearmanr
+from sklearn.metrics.pairwise import cosine_distances, euclidean_distances, manhattan_distances
+from sklearn.metrics import mutual_info_score, r2_score
+from scipy.stats import pearsonr, spearmanr, kendalltau
 from skimage.measure import block_reduce
 
-parser = argparse.ArgumentParser(description='Pixel-based cosine similarity baseline')
+parser = argparse.ArgumentParser(description='Pixel-based similarity baselinse')
 parser.add_argument('similarity_file', help = 'the input file containing the target similarity ratings')
 parser.add_argument('image_folder', help = 'the folder containing the original images')
 parser.add_argument('-o', '--output_folder', help = 'the folder to which the output should be saved', default='analysis')
@@ -23,7 +24,7 @@ parser.add_argument('-s', '--size', type = int, default = 283, help = 'the size 
 args = parser.parse_args()
 
 aggregator_functions = {'max': np.max, 'mean': np.mean, 'min': np.min, 'std': np.std, 'var': np.var, 'median': np.median, 'product': np.prod}
-scoring_functions = {'Cosine': cosine_similarity, 'Euclidean': euclidean_distances, 'Manhattan': manhattan_distances, 'MutualInformation': mutual_info_score}
+scoring_functions = {'Cosine': cosine_distances, 'Euclidean': euclidean_distances, 'Manhattan': manhattan_distances, 'MutualInformation': mutual_info_score}
 
 # set up file name for output file
 _, path_and_file = os.path.splitdrive(args.similarity_file)
@@ -36,7 +37,7 @@ with open(args.similarity_file, 'rb') as f:
     input_data = pickle.load(f)
 
 item_ids = input_data['items']
-target_similarities = input_data['similarities']
+target_dissimilarities = input_data['dissimilarities']
 
 # load all images
 images = []
@@ -53,7 +54,7 @@ for item_id in item_ids:
 
 with open(output_file_name, 'w', buffering=1) as f:
 
-    f.write("aggregator,block_size,image_size,scoring,correlation\n")
+    f.write("aggregator,block_size,image_size,scoring,pearson,spearman,kendall,r2\n")
     for block_size in range(1, args.size + 1):
         for aggregator_name, aggregator_function in aggregator_functions.items():
     
@@ -75,7 +76,7 @@ with open(output_file_name, 'w', buffering=1) as f:
                 transformed_images.append(img)
     
             for scoring_name, scoring_function in scoring_functions.items():
-                similarity_scores = np.ones(target_similarities.shape)
+                dissimilarity_scores = np.ones(target_dissimilarities.shape)
                 
                 for i in range(len(item_ids)):
                     for j in range(len(item_ids)):
@@ -92,11 +93,22 @@ with open(output_file_name, 'w', buffering=1) as f:
                         if scoring_name != 'MutualInformation':
                             # all other scoring methods return a single-element 2D array
                             sim = sim[0][0]
-                        similarity_scores[i][j] = sim
+                        dissimilarity_scores[i][j] = sim
                 
-                # transform similarity matrices into vectors for correlation computation
-                target_vector = np.reshape(target_similarities, (-1)) 
-                cosine_vector = np.reshape(similarity_scores, (-1)) 
+                # transform dissimilarity matrices into vectors for correlation computation
+                target_vector = np.reshape(target_dissimilarities, (-1,1)) 
+                sim_vector = np.reshape(dissimilarity_scores, (-1,1)) 
+                pearson, _ = pearsonr(sim_vector, target_vector)
+                spearman, _ = spearmanr(sim_vector, target_vector)
+                kendall, _ = kendalltau(sim_vector, target_vector)
+            
+                # compute least squares regression for R^2 metric
+                y = np.reshape(target_dissimilarities, (-1))
+                x = np.reshape(dissimilarity_scores, (-1))
+                A = np.vstack([x, np.ones(len(sim_vector))]).T
+                m, c = np.linalg.lstsq(A, y, rcond=None)[0]         
+                predictions = m*x + c
+                r2 = r2_score(y,predictions)
                 
-                correlation = np.abs(spearmanr(cosine_vector, target_vector))
-                f.write("{0},{1},{2},{3},{4}\n".format(aggregator_name, block_size, image_size, scoring_name, correlation[0]))
+                f.write("{0},{1},{2},{3},{4},{5},{6},{7}\n".format(aggregator_name, block_size, image_size, scoring_name, 
+                                                                    abs(pearson[0]), abs(spearman), abs(kendall), r2))
