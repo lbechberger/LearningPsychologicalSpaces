@@ -16,7 +16,7 @@ from sklearn.metrics import mutual_info_score, r2_score
 from scipy.stats import pearsonr, spearmanr, kendalltau
 from skimage.measure import block_reduce
 
-parser = argparse.ArgumentParser(description='Pixel-based similarity baselinse')
+parser = argparse.ArgumentParser(description='Pixel-based similarity baseline')
 parser.add_argument('similarity_file', help = 'the input file containing the target similarity ratings')
 parser.add_argument('image_folder', help = 'the folder containing the original images')
 parser.add_argument('-o', '--output_folder', help = 'the folder to which the output should be saved', default='analysis')
