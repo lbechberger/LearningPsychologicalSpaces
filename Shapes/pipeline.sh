@@ -34,4 +34,66 @@ python mds/mds.py similarities/within_m.pickle -e vectors/within_m/ -n 512 -i 10
 echo '    within median limit'
 python mds/mds.py similarities/within_ml.pickle -e vectors/within_ml/ -n 512 -i 1000 > vectors/within_ml.csv
 
+# TODO visualize MDS results
+# TODO analyze convexity
+# TODO analyze interpretable directions
 
+# run image correlation
+echo 'image correlation'
+echo '    between'
+python baseline/image_correlations.py similarities/between.pickle images/
+echo '    between limit'
+python baseline/image_correlations.py similarities/between_l.pickle images/
+echo '    between median'
+python baseline/image_correlations.py similarities/between_m.pickle images/
+echo '    between median limit'
+python baseline/image_correlations.py similarities/between_ml.pickle images/
+
+echo '    within'
+python baseline/image_correlations.py similarities/within.pickle images/
+echo '    within limit'
+python baseline/image_correlations.py similarities/within_l.pickle images/
+echo '    within median'
+python baseline/image_correlations.py similarities/within_m.pickle images/
+echo '    within median limit'
+python baseline/image_correlations.py similarities/within_ml.pickle images/
+
+# run MDS correlations
+echo 'MDS correlation'
+echo '    between'
+python baseline/mds_correlation.py similarities/between.pickle vectors/between/
+echo '    between limit'
+python baseline/mds_correlation.py similarities/between_l.pickle vectors/between_l/
+echo '    between median'
+python baseline/mds_correlation.py similarities/between_m.pickle vectors/between_m/
+echo '    between median limit'
+python baseline/mds_correlation.py similarities/between_ml.pickle vectors/between_ml/
+
+echo '    within'
+python baseline/mds_correlation.py similarities/within.pickle vectors/within/
+echo '    within limit'
+python baseline/mds_correlation.py similarities/within_l.pickle vectors/within_l/
+echo '    within median'
+python baseline/mds_correlation.py similarities/within_m.pickle vectors/within_m/
+echo '    within median limit'
+python baseline/mds_correlation.py similarities/within_ml.pickle vectors/within_ml/
+
+# visualize correlation results
+echo 'visualizing correlation'
+echo '    between'
+python baseline/visualize_correlations.py -o analysis/between/ analysis/between.csv analysis/between-MDS.csv > analysis/between/best.txt
+echo '    between limit'
+python baseline/visualize_correlations.py -o analysis/between_l/ analysis/between_l.csv analysis/between_l-MDS.csv > analysis/between_l/best.txt
+echo '    between median'
+python baseline/visualize_correlations.py -o analysis/between_m/ analysis/between_m.csv analysis/between_m-MDS.csv > analysis/between_m/best.txt
+echo '    between median limit'
+python baseline/visualize_correlations.py -o analysis/between_ml/ analysis/between_ml.csv analysis/between_ml-MDS.csv > analysis/between_ml/best.txt
+
+echo '    within'
+python baseline/visualize_correlations.py -o analysis/within/ analysis/within.csv analysis/within-MDS.csv > analysis/within/best.txt
+echo '    within limit'
+python baseline/visualize_correlations.py -o analysis/within_l/ analysis/within_l.csv analysis/within_l-MDS.csv > analysis/within_l/best.txt
+echo '    within median'
+python baseline/visualize_correlations.py -o analysis/within_m/ analysis/within_m.csv analysis/within_m-MDS.csv > analysis/within_m/best.txt
+echo '    within median limit'
+python baseline/visualize_correlations.py -o analysis/within_ml/ analysis/within_ml.csv analysis/within_ml-MDS.csv > analysis/within_ml/best.txt
