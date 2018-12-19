@@ -55,9 +55,18 @@ for item_id in item_ids:
 with open(output_file_name, 'w', buffering=1) as f:
 
     f.write("aggregator,block_size,image_size,scoring,pearson,spearman,kendall,r2\n")
+    last_image_size = 9999
     for block_size in range(1, args.size + 1):
+        
+        # if the resulting image size is the same: skip this block size (will just introduce more noise due to zero padding)
+        current_image_size = int(np.ceil(args.size / block_size))
+        if current_image_size == last_image_size:
+            continue
+        else:
+            last_image_size = current_image_size
+
         for aggregator_name, aggregator_function in aggregator_functions.items():
-    
+        
             if block_size == 1 and aggregator_name in ['std', 'var', 'mean', 'min', 'median', 'product']:
                 # can't compute std or var on a single element
                 # value for all others is identical to max, so only compute once
