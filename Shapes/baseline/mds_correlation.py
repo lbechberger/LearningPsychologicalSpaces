@@ -59,11 +59,13 @@ with open(output_file_name, 'w', buffering=1) as f_out:
                 tokens = line.replace('\n','').split(',')
                 item = tokens[0]
                 vector = list(map(lambda x: float(x), tokens[1:]))
+                print(number_of_dimensions, len(vector))
                 n_dim_vecs[item] = np.array(vector)
         
         # ... then in correct ordering into a list      
         for item_id in item_ids:
             vectors.append(np.reshape(n_dim_vecs[item_id], (1,-1)))
+        vectors = sorted(vectors, key=lambda x : x[0])
     
         for scoring_name, scoring_function in scoring_functions.items():
             

@@ -85,7 +85,8 @@ elif args.subset == "cats":
         if data_set['items'][item]['category'] in second_study_categories:
             items_of_interest.append(item)
 
-# no matter which subset was used: create list of item names
+# no matter which subset was used: sort the idem IDs and create a corresponding list of item names
+items_of_interest = sorted(items_of_interest)
 item_names = list(map(lambda x: data_set['items'][x]['name'], items_of_interest))
 
 if args.limit:
