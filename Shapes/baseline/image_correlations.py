@@ -12,7 +12,7 @@ import pickle, argparse, os
 from PIL import Image
 import numpy as np
 from sklearn.metrics.pairwise import cosine_distances, euclidean_distances, manhattan_distances
-from sklearn.metrics import mutual_info_score, r2_score
+from sklearn.metrics import r2_score
 from scipy.stats import pearsonr, spearmanr, kendalltau
 from skimage.measure import block_reduce
 
@@ -24,7 +24,7 @@ parser.add_argument('-s', '--size', type = int, default = 283, help = 'the size 
 args = parser.parse_args()
 
 aggregator_functions = {'max': np.max, 'mean': np.mean, 'min': np.min, 'std': np.std, 'var': np.var, 'median': np.median, 'product': np.prod}
-scoring_functions = {'Cosine': cosine_distances, 'Euclidean': euclidean_distances, 'Manhattan': manhattan_distances, 'MutualInformation': mutual_info_score}
+scoring_functions = {'Cosine': cosine_distances, 'Euclidean': euclidean_distances, 'Manhattan': manhattan_distances}
 
 # set up file name for output file
 _, path_and_file = os.path.splitdrive(args.similarity_file)
@@ -64,6 +64,7 @@ with open(output_file_name, 'w', buffering=1) as f:
             continue
         else:
             last_image_size = current_image_size
+            print(current_image_size)
 
         for aggregator_name, aggregator_function in aggregator_functions.items():
         
@@ -91,18 +92,9 @@ with open(output_file_name, 'w', buffering=1) as f:
                     for j in range(len(item_ids)):
     
                         img_i = transformed_images[i]
-                        img_j = transformed_images[j]
-                        if scoring_name == 'MutualInformation':
-                            # mutual information wants a flat array instead of a column vector
-                            img_i = np.reshape(img_i, (-1))
-                            img_j = np.reshape(img_j, (-1))
-     
-                        sim = scoring_function(img_i, img_j)
-                        
-                        if scoring_name != 'MutualInformation':
-                            # all other scoring methods return a single-element 2D array
-                            sim = sim[0][0]
-                        dissimilarity_scores[i][j] = sim
+                        img_j = transformed_images[j]    
+                        score = scoring_function(img_i, img_j)[0][0]
+                        dissimilarity_scores[i][j] = score
                 
                 # transform dissimilarity matrices into vectors for correlation computation
                 target_vector = np.reshape(target_dissimilarities, (-1,1)) 
