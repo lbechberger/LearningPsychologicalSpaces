@@ -9,6 +9,7 @@ Created on Wed Dec 12 09:01:26 2018
 
 import argparse, os, csv
 from matplotlib import pyplot as plt
+import numpy as np
 
 parser = argparse.ArgumentParser(description='Visualizing correlations')
 parser.add_argument('pixel_file', help = 'the input file containing the results of the pixel-wise similarities')
@@ -64,19 +65,19 @@ for metric in pixel_data.keys():
         if scoring in mds_dict.keys():
             mds_scores = mds_dict[scoring]
             x_mds = []
-        
-        # first the plot for the pixel data...        
+
+        # first the plot for the pixel data...
         label_list = []
+        fig, ax = plt.subplots(figsize=(24,12))
         for aggregator, values in pixel_scores.items():
             # sort and plot
             sorted_values = sorted(values, key = lambda x: x[0])
-            plt.plot(list(map(lambda x: x[0], sorted_values)), list(map(lambda x: x[1], sorted_values)))
+            bar_indices = np.arange(len(sorted_values))
+            y_values = list(map(lambda x: x[1], sorted_values))
+            legend = list(map(lambda x: x[0], sorted_values))
             label_list.append(aggregator)
+            ax.plot(bar_indices, y_values)
             
-            # x values for plotting optimal mds result
-            if scoring in mds_dict.keys() and len(sorted_values) > len(x_mds):
-                x_mds = list(map(lambda x: x[0], sorted_values))
-                
             # checking whether this result was better
             max_val = max(map(lambda x: x[1], sorted_values))
             if max_val > best_pixel_result_scoring[1]:
@@ -87,19 +88,23 @@ for metric in pixel_data.keys():
                         max_i = i
                         break
                 best_pixel_result_scoring = ['{0}-{1}'.format(aggregator, max_i), max_val]
+
                 
-        
+        # add best MDS
         if scoring in mds_dict.keys():
-            y_mds = [max(map(lambda x: x[1], mds_scores))]*len(x_mds)
+            y_mds = [max(map(lambda x: x[1], mds_scores))]*len(bar_indices)
             label_list.append('best MDS')
-            plt.plot(x_mds, y_mds)
+            ax.plot(bar_indices, y_mds)
+            
         
         # create the final plot and store it
-        plt.xlabel('block size')
-        plt.ylabel(metric)
+        ax.set_xlabel('block size')
+        ax.set_xticks(bar_indices)
+        ax.set_xticklabels(legend)
+        ax.set_ylabel(metric)
         if metric == 'r2':
-            plt.ylim(-1,0.5)
-        plt.title(scoring)
+            ax.set_ylim(-1,1)
+        ax.set_title(scoring)
         plt.legend(label_list)
         output_file_name = os.path.join(args.output_folder, '{0}-{1}-pixel.jpg'.format(metric, scoring))
         plt.savefig(output_file_name, bbox_inches='tight', dpi=200)
@@ -111,13 +116,19 @@ for metric in pixel_data.keys():
             best_pixel_result_metric = ['{0}-{1}'.format(scoring, best_pixel_result_scoring[0]), best_pixel_result_scoring[1]]
     
         # ... now the plot for the MDS data
+        fig, ax = plt.subplots(figsize=(24,12))
         if scoring in mds_dict.keys():
             # sort, plot, and store
             sorted_values = sorted(mds_scores, key = lambda x: x[0])
-            plt.plot(list(map(lambda x: x[0], sorted_values)), list(map(lambda x: x[1], sorted_values)))
-            plt.xlabel('number of dimensions')
-            plt.ylabel(metric)
-            plt.title(scoring)
+            bar_indices = np.arange(len(sorted_values))
+            legend = list(map(lambda x: x[0], sorted_values))
+            y_values = list(map(lambda x: x[1], sorted_values))
+            ax.plot(bar_indices, y_values)
+            ax.set_xlabel('number of dimensions')
+            ax.set_ylabel(metric)
+            ax.set_title(scoring)
+            ax.set_xticks(bar_indices)
+            ax.set_xticklabels(legend)
             output_file_name = os.path.join(args.output_folder, '{0}-{1}-MDS.jpg'.format(metric, scoring))
             plt.savefig(output_file_name, bbox_inches='tight', dpi=200)
             plt.close()
