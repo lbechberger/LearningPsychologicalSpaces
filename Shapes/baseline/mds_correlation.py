@@ -12,6 +12,7 @@ import numpy as np
 from sklearn.metrics.pairwise import cosine_distances, euclidean_distances, manhattan_distances
 from sklearn.metrics import r2_score
 from scipy.stats import spearmanr, pearsonr, kendalltau
+from matplotlib import pyplot as plt
 
 parser = argparse.ArgumentParser(description='correlation of MDS distances to human similarity ratings')
 parser.add_argument('similarity_file', help = 'the input file containing the target similarity ratings')
@@ -92,3 +93,15 @@ with open(output_file_name, 'w', buffering=1) as f_out:
             
             # compute and store correlation
             f_out.write("{0},{1},{2},{3},{4},{5}\n".format(number_of_dimensions, scoring_name, pearson[0], spearman, kendall, r2))
+            
+            # temporary: display scatter plot
+            fig, ax = plt.subplots(figsize=(12,12))
+            ax.scatter(sim_vector,target_vector)
+            plt.xlabel('MDS distance')
+            plt.ylabel('real distance')
+            plt.title('scatter plot {0}D {1} distance'.format(number_of_dimensions, scoring_name))
+    
+            output_file_name = os.path.join(args.output_folder, '{0}D-{1}.png'.format(number_of_dimensions, scoring_name))        
+            
+            fig.savefig(output_file_name, bbox_inches='tight', dpi=200)
+            plt.close()

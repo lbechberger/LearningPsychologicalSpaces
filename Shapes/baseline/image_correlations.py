@@ -15,6 +15,7 @@ from sklearn.metrics.pairwise import cosine_distances, euclidean_distances, manh
 from sklearn.metrics import r2_score
 from scipy.stats import pearsonr, spearmanr, kendalltau
 from skimage.measure import block_reduce
+from matplotlib import pyplot as plt
 
 parser = argparse.ArgumentParser(description='Pixel-based similarity baseline')
 parser.add_argument('similarity_file', help = 'the input file containing the target similarity ratings')
@@ -113,3 +114,16 @@ with open(output_file_name, 'w', buffering=1) as f:
                 
                 f.write("{0},{1},{2},{3},{4},{5},{6},{7}\n".format(aggregator_name, block_size, image_size, scoring_name, 
                                                                     abs(pearson[0]), abs(spearman), abs(kendall), r2))
+                
+                
+                # temporary: display scatter plot
+                fig, ax = plt.subplots(figsize=(12,12))
+                ax.scatter(sim_vector,target_vector)
+                plt.xlabel('image distance')
+                plt.ylabel('real distance')
+                plt.title('scatter plot {0} {1} {2} distance'.format(block_size, aggregator_name, scoring_name))
+        
+                output_file_name = os.path.join(args.output_folder, '{0}-{1}-{2}.png'.format(block_size, aggregator_name, scoring_name))        
+                
+                fig.savefig(output_file_name, bbox_inches='tight', dpi=200)
+                plt.close()
