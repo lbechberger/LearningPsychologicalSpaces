@@ -45,7 +45,9 @@ The script takes the following optional arguments:
 - `-s` or `--subset`: Specifies which subset of the similarity ratings to use. Default is `all` (which means that all similarity ratings from both studies are used). Another supported option is `between` where only the ratings from the second study (found in `within_between.csv`) are used. Here, all items that did not appear in the second study are removed from the dissimilarity matrix. A third option is `cats` which only considers the categories used in the second study, but which keeps all items from these categories (also items that were only used in the first, but not in the second study).
 - `-m` or `--median`: Use the median instead of the mean for aggregating the similarity ratings across participants
 - `-l` or `--limit`: Limit the number of similarity ratings to use to ensure that an equal amount of ratings is aggregated for all item pairs. Use the minimal number of ratings observed for any item pair as limit.
-- `-p` or `--plot`: Plot a histogram of the resulting similarity values and display it to the user.
+- `-p` or `--plot`: Plot some histogram of the similarity values and store it in the same folder where also the output pickle file is stored.
+- `-a` or `--analyze`: Analyze the range and standard deviation of the item pairs. If `-p` is also set, then this will generate two additional histogram plots.
+
 
 The resulting `output_file.pickle` contains a dictionary with the following elements:
 - `'items'`: The list of item-IDs of all the items for which the similarity values have been computed

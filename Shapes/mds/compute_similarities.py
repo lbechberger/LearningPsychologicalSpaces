@@ -17,6 +17,7 @@ parser.add_argument('-s', '--subset', help = 'the subset of data to use', defaul
 parser.add_argument('-m', '--median', action="store_true", help = 'use median instead of mean')
 parser.add_argument('-l', '--limit', action="store_true", help = 'limit the number of similarity ratings to take into account')
 parser.add_argument('-p', '--plot', action="store_true", help = 'plot a histogram of distance values')
+parser.add_argument('-a', '--analyze', action="store_true", help = 'analyze the distribution of similarity ratings')
 args = parser.parse_args()
 
 np.random.seed(42) # fixed random seed to ensure reproducibility
@@ -121,6 +122,12 @@ constraints_per_item = {}
 for item in items_of_interest:
     constraints_per_item[item] = 0
 
+if args.analyze:
+    similarity_ranges = []
+    similarity_stds = []
+
+all_similarities = []
+
 for index1, item1 in enumerate(items_of_interest):
     for index2, item2 in enumerate(items_of_interest):
         
@@ -177,6 +184,16 @@ for index1, item1 in enumerate(items_of_interest):
         constraints_per_item[item1] += 1
         constraints_per_item[item2] += 1
 
+        # analyze range and standard deviation of the ratings        
+        if args.analyze:
+            similarity_range = max(similarity_ratings) - min(similarity_ratings)
+            similarity_std = np.std(similarity_ratings)
+            print('{0} range: {1} std: {2}'.format(tuple_id, similarity_range, similarity_std))
+            similarity_ranges.append(similarity_range)
+            similarity_stds.append(similarity_std)
+        
+        all_similarities += similarity_ratings
+
 # analyze matrix
 matrix_size = len(items_of_interest) * len(items_of_interest)
 print("dissimilarity matrix: {0} x {0}, {1} entries, {2} are filled (equals {3}%)".format(len(items_of_interest), 
@@ -196,7 +213,31 @@ with open(args.output_file, 'wb') as f:
 # plot the distribution of distances in the distance matrix
 if args.plot:
     from matplotlib import pyplot as plt
+
+    output_path = args.output_file.split('.')[0]    
+    
+    plt.hist(all_similarities, bins=21)
+    plt.title('distribution of all similarity values')
+    plt.savefig(output_path + '-distr.png', bbox_inches='tight', dpi=200)
+    plt.close()
+
     dissimilarity_values = dissimilarity_matrix.reshape((-1,1))
     plt.hist(dissimilarity_values, bins=21)
-    plt.show()
+    plt.title('distribution of averaged dissimilarity values in matrix')
+    plt.savefig(output_path + '-matrix.png', bbox_inches='tight', dpi=200)
+    plt.close()
+
+    # also plot histogram of ranges and standard deviations
+    if args.analyze:
+        plt.hist(similarity_ranges, bins=21)
+        plt.title('distribution of similarity ranges')
+        plt.savefig(output_path + '-range.png', bbox_inches='tight', dpi=200)
+        plt.close()
+
+        plt.hist(similarity_stds, bins=21)
+        plt.title('distribution of similarity std')
+        plt.savefig(output_path + '-std.png', bbox_inches='tight', dpi=200)
+        plt.close()
+        
+
     
