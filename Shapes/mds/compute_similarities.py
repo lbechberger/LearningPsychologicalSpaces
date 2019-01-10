@@ -16,6 +16,7 @@ parser.add_argument('output_file', help = 'path to the output pickle file')
 parser.add_argument('-s', '--subset', help = 'the subset of data to use', default="all")
 parser.add_argument('-m', '--median', action="store_true", help = 'use median instead of mean')
 parser.add_argument('-l', '--limit', action="store_true", help = 'limit the number of similarity ratings to take into account')
+parser.add_argument('-p', '--plot', action="store_true", help = 'plot a histogram of distance values')
 args = parser.parse_args()
 
 np.random.seed(42) # fixed random seed to ensure reproducibility
@@ -191,3 +192,11 @@ result = {'items': items_of_interest, 'item_names': item_names, 'similarities': 
 
 with open(args.output_file, 'wb') as f:
     pickle.dump(result, f)
+
+# plot the distribution of distances in the distance matrix
+if args.plot:
+    from matplotlib import pyplot as plt
+    dissimilarity_values = dissimilarity_matrix.reshape((-1,1))
+    plt.hist(dissimilarity_values, bins=21)
+    plt.show()
+    
