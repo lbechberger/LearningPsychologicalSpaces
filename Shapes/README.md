@@ -46,14 +46,24 @@ The script takes the following optional arguments:
 - `-m` or `--median`: Use the median instead of the mean for aggregating the similarity ratings across participants
 - `-l` or `--limit`: Limit the number of similarity ratings to use to ensure that an equal amount of ratings is aggregated for all item pairs. Use the minimal number of ratings observed for any item pair as limit.
 - `-p` or `--plot`: Plot some histogram of the similarity values and store it in the same folder where also the output pickle file is stored.
-- `-a` or `--analyze`: Analyze the range and standard deviation of the item pairs. If `-p` is also set, then this will generate two additional histogram plots.
-
 
 The resulting `output_file.pickle` contains a dictionary with the following elements:
 - `'items'`: The list of item-IDs of all the items for which the similarity values have been computed
 - `'item_names'`: The list of item names for all the items (sorted in same way as `'items'`).
 - `'similarities'`: A quadratic matrix of similarity values. Both rows and columns are ordered like in `'items'`. Values of `nan` are used to indicate that there is no similarity rating available for a pair of stimuli.
 - `'dissimilarities'`: A quadratic matrix of dissimilarity values (computed as `5 - similarity`) analogous to `'similarities'`. Here, values of 0 indicate missing similarity ratings.
+
+### Analyzing Similarity Ratings
+
+The script `analyze_similarities.py` can be used to collect some statistics on the distribution of similarity ratings for a given subset of the data (prints out some statistics and creates some plots). It can be exectuted as follows:
+```
+python mds/analyze_similarities.py path/to/input_file.pickle
+```
+The input file is here the `output.pickle` created by the `preprocess.py` script. The script takes two optional parameters:
+
+- `-s` or `--subset`: Specifies which subset of the similarity ratings to use. Default is `all` (which means that all similarity ratings from both studies are used). Another supported option is `between` where only the ratings from the second study (found in `within_between.csv`) are used. Here, all items that did not appear in the second study are removed from the dissimilarity matrix. A third option is `cats` which only considers the categories used in the second study, but which keeps all items from these categories (also items that were only used in the first, but not in the second study).
+- `-o` or `--output_path`: The path to the folder where the plots shall be stored. Defaults to `.`, i.e., the current working directory.
+
 
 ### MDS
 
