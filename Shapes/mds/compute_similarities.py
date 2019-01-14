@@ -10,14 +10,13 @@ Created on Tue Dec  4 09:02:18 2018
 import pickle, argparse
 import numpy as np
 
-parser = argparse.ArgumentParser(description='Preprocessing similarity data')
+parser = argparse.ArgumentParser(description='Computing aggregated similarity values')
 parser.add_argument('input_file', help = 'pickle file containing the preprocessed data')
 parser.add_argument('output_file', help = 'path to the output pickle file')
 parser.add_argument('-s', '--subset', help = 'the subset of data to use', default="all")
 parser.add_argument('-m', '--median', action="store_true", help = 'use median instead of mean')
 parser.add_argument('-l', '--limit', action="store_true", help = 'limit the number of similarity ratings to take into account')
 parser.add_argument('-p', '--plot', action="store_true", help = 'plot a histogram of distance values')
-parser.add_argument('-a', '--analyze', action="store_true", help = 'analyze the distribution of similarity ratings')
 args = parser.parse_args()
 
 np.random.seed(42) # fixed random seed to ensure reproducibility
@@ -122,10 +121,6 @@ constraints_per_item = {}
 for item in items_of_interest:
     constraints_per_item[item] = 0
 
-if args.analyze:
-    similarity_ranges = []
-    similarity_stds = []
-
 all_similarities = []
 
 for index1, item1 in enumerate(items_of_interest):
@@ -184,14 +179,6 @@ for index1, item1 in enumerate(items_of_interest):
         constraints_per_item[item1] += 1
         constraints_per_item[item2] += 1
 
-        # analyze range and standard deviation of the ratings        
-        if args.analyze:
-            similarity_range = max(similarity_ratings) - min(similarity_ratings)
-            similarity_std = np.std(similarity_ratings)
-            print('{0} range: {1} std: {2}'.format(tuple_id, similarity_range, similarity_std))
-            similarity_ranges.append(similarity_range)
-            similarity_stds.append(similarity_std)
-        
         all_similarities += similarity_ratings
 
 # analyze matrix
@@ -225,19 +212,4 @@ if args.plot:
     plt.hist(dissimilarity_values, bins=21)
     plt.title('distribution of averaged dissimilarity values in matrix')
     plt.savefig(output_path + '-matrix.png', bbox_inches='tight', dpi=200)
-    plt.close()
-
-    # also plot histogram of ranges and standard deviations
-    if args.analyze:
-        plt.hist(similarity_ranges, bins=21)
-        plt.title('distribution of similarity ranges')
-        plt.savefig(output_path + '-range.png', bbox_inches='tight', dpi=200)
-        plt.close()
-
-        plt.hist(similarity_stds, bins=21)
-        plt.title('distribution of similarity std')
-        plt.savefig(output_path + '-std.png', bbox_inches='tight', dpi=200)
-        plt.close()
-        
-
-    
+    plt.close()          
