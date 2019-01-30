@@ -101,14 +101,15 @@ ENV/
 .mypy_cache/
 
 
-NOUN/images/
-NOUN/inception/features/
-NOUN/inception/regression/
-NOUN/inception/mlp/
-/Shapes/raw_data/
-/Shapes/vectors/
-/Shapes/images/
-/Shapes/visualizations/
-/Shapes/similarities/
-/Shapes/analysis/
-/Shapes/test/
+data/NOUN/images/
+data/NOUN/results/features/
+data/NOUN/results/regression/
+data/NOUN/results/mlp/
+
+data/Shapes/raw_data/
+data/Shapes/vectors/
+data/Shapes/images/
+data/Shapes/visualizations/
+data/Shapes/similarities/
+data/Shapes/analysis/
+data/Shapes/classifications
