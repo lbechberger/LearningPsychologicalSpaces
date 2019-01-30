@@ -14,7 +14,7 @@ import numpy as np
 parser = argparse.ArgumentParser(description='Visualizing correlations')
 parser.add_argument('pixel_file', help = 'the input file containing the results of the pixel-wise similarities')
 parser.add_argument('mds_file', help = 'the input file containing the results of the MDS-based similarities')
-parser.add_argument('-o', '--output_folder', help = 'the folder to which the output should be saved', default='analysis')
+parser.add_argument('-o', '--output_folder', help = 'the folder to which the output should be saved', default='.')
 args = parser.parse_args()
 
 pixel_data = {'pearson':{}, 'spearman':{}, 'kendall':{}, 'r2':{}}

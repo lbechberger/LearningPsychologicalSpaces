@@ -19,6 +19,7 @@ parser.add_argument('-d', '--dims', type = int, help = 'highest number of dimens
 parser.add_argument('-i', '--max_iter', type = int, help = 'maximum number of iterations', default = 300)
 parser.add_argument('-e', '--export', help = 'path for export', default = None)
 parser.add_argument('-p', '--plot', action = 'store_true', help = 'Plot the stress curve')
+parser.add_argument('-m', '--metric', action = 'store_true', help = 'Compute metric version of MDS')
 args = parser.parse_args()
 
 with open(args.input_file, 'rb') as f:
@@ -30,7 +31,7 @@ dissimilarity_matrix = input_data['dissimilarities']
 # run MDS
 plot_coordinates = []
 for number_of_dimensions in range(1, args.dims + 1):
-    mds = manifold.MDS(n_components=number_of_dimensions, dissimilarity="precomputed", metric=False, n_init = args.n_init, max_iter = args.max_iter, n_jobs = -1)
+    mds = manifold.MDS(n_components=number_of_dimensions, dissimilarity="precomputed", metric=args.metric, n_init = args.n_init, max_iter = args.max_iter, n_jobs = -1)
     results = mds.fit(dissimilarity_matrix)
     
     if args.export != None:

@@ -20,7 +20,7 @@ from matplotlib import pyplot as plt
 parser = argparse.ArgumentParser(description='Pixel-based similarity baseline')
 parser.add_argument('similarity_file', help = 'the input file containing the target similarity ratings')
 parser.add_argument('image_folder', help = 'the folder containing the original images')
-parser.add_argument('-o', '--output_folder', help = 'the folder to which the output should be saved', default='analysis')
+parser.add_argument('-o', '--output_folder', help = 'the folder to which the output should be saved', default='.')
 parser.add_argument('-s', '--size', type = int, default = 283, help = 'the size of the image, used to determine the maximal block size')
 args = parser.parse_args()
 

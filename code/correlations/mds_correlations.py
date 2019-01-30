@@ -17,7 +17,7 @@ from matplotlib import pyplot as plt
 parser = argparse.ArgumentParser(description='correlation of MDS distances to human similarity ratings')
 parser.add_argument('similarity_file', help = 'the input file containing the target similarity ratings')
 parser.add_argument('mds_folder', help = 'the folder containing the MDS vectors')
-parser.add_argument('-o', '--output_folder', help = 'the folder to which the output should be saved', default='analysis')
+parser.add_argument('-o', '--output_folder', help = 'the folder to which the output should be saved', default='.')
 parser.add_argument('--n_min', type = int, default = 1, help = 'the smallest space to investigate')
 parser.add_argument('--n_max', type = int, default = 20, help = 'the largest space to investigate')
 args = parser.parse_args()
