@@ -101,11 +101,6 @@ ENV/
 .mypy_cache/
 
 
-data/NOUN/images/
-data/NOUN/results/features/
-data/NOUN/results/regression/
-data/NOUN/results/mlp/
-
 data/Shapes/raw_data/
 data/Shapes/vectors/
 data/Shapes/images/
