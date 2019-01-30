@@ -11,7 +11,7 @@ Created on Mon Oct 22 13:39:05 2018
 
 import pickle, argparse
 
-parser = argparse.ArgumentParser(description='Preprocessing similarity data')
+parser = argparse.ArgumentParser(description='Preprocessing similarity data of the Shapes study')
 parser.add_argument('within_file', help = 'CSV file containing data from the within-study (study 1)')
 parser.add_argument('within_between_file', help = 'CSV file containing data from the within-between-study (study 2)')
 parser.add_argument('output_file', help = 'path to the output pickle file')
