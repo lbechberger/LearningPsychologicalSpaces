@@ -65,7 +65,7 @@ with open(output_file_name, 'w', buffering=1) as f:
             continue
         else:
             last_image_size = current_image_size
-            print(current_image_size)
+            print('    {0}'.format(current_image_size))
 
         for aggregator_name, aggregator_function in aggregator_functions.items():
         

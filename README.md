@@ -4,6 +4,7 @@ v0.1: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1220053.svg)](https://
 The code in this repository explores learning a mapping from images to psychological similarity spaces with neural networks. 
 
 Research based on the code in this repository has been submitted to [AIC 2018](http://aic2018.pa.icar.cnr.it/): 
+
 Lucas Bechberger and Elektra Kypridemou. "Mapping Images to Psychological Similarity Spaces Using Neural Networks" [Preprint](https://arxiv.org/abs/1804.07758)
 
 ## About
@@ -15,6 +16,8 @@ The folder `data` contains the data used for the NOUN study inside the `NOUN` su
 
 Our training data are the images and similarity ratings of the NOUN database (http://www.sussex.ac.uk/wordlab/noun): 
 Horst, Jessica S., and Michael C. Hout. "The Novel Object and Unusual Name (NOUN) Database: A collection of novel images for use in experimental research." Behavior research methods 48.4 (2016): 1393-1409.
+
+The script `code/pipeline_NOUN.sh` automatically executes all steps of our analysis pipeline and can be used both to reproduce our results and to see how the scripts are actually executed in practice.
 
 ## Preprocessing
 
@@ -116,14 +119,15 @@ The script takes the following optional arguments:
 - `-e` or `--export`: If this flag is set and an export directory is given, then the created MDS vectors will be exported in csv files into the given export directory.
 - `-p` or `--plot`: If this flag is set, a plot of stress over the number of dimensions is displayed to the user.
 - `-m` or `--metric`: If this flag is set, *metric* MDS is used instead of *nonmetric* MDS (which is the default).
+- `-s` or `--seed`: Specify a seed for the random number generator in order to make the results deterministic. If no seed is given, then the random number generator is not seeded.
 
-### Visualizing the Resuling Space
+### Visualizing the Resuling Spaces
 
-The script `visualize.py` can be used to create two-dimensional plots of the resulting space. You can execute it as follows from the project's root directory:
+The script `visualize.py` can be used to create two-dimensional plots of the resulting MDS spaces. You can execute it as follows from the project's root directory:
 ```
-python code/mds/visualize.py path/to/vectors.csv path/to/output/folder/ n_dims
+python code/mds/visualize.py path/to/vector_folder path/to/output_folder/
 ```
-The script reads in the vectors from the `vectors.csv` file, creates two-dimensional plots for all pairs of dimensions, and stores them in the given output folder. `n_dims` tells the script how many dimensions there are in the space.
+The script reads in the vectors from all csv files in the `vector_folder`, creates two-dimensional plots for all pairs of dimensions, and stores them in the given output folder. 
 
 The script takes the following optional arguments:
 - `-i` or `--image_folder`: Path to a folder where the images of the items are stored. If this is given, then the images from this folder are used in the visualization. If no image folder is given, then data points are labeled with their item ID.

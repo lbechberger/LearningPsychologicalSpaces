@@ -20,6 +20,7 @@ parser.add_argument('-i', '--max_iter', type = int, help = 'maximum number of it
 parser.add_argument('-e', '--export', help = 'path for export', default = None)
 parser.add_argument('-p', '--plot', action = 'store_true', help = 'Plot the stress curve')
 parser.add_argument('-m', '--metric', action = 'store_true', help = 'Compute metric version of MDS')
+parser.add_argument('-s', '--seed', type = int, help = 'seed for the random number generator', default = None)
 args = parser.parse_args()
 
 with open(args.input_file, 'rb') as f:
@@ -31,7 +32,8 @@ dissimilarity_matrix = input_data['dissimilarities']
 # run MDS
 plot_coordinates = []
 for number_of_dimensions in range(1, args.dims + 1):
-    mds = manifold.MDS(n_components=number_of_dimensions, dissimilarity="precomputed", metric=args.metric, n_init = args.n_init, max_iter = args.max_iter, n_jobs = -1)
+    mds = manifold.MDS(n_components=number_of_dimensions, dissimilarity="precomputed", metric=args.metric, 
+                       n_init = args.n_init, max_iter = args.max_iter, random_state = args.seed, n_jobs = -1)
     results = mds.fit(dissimilarity_matrix)
     
     if args.export != None:
@@ -47,5 +49,5 @@ if args.plot:
     plt.plot(list(map(lambda x: x[0], plot_coordinates)), list(map(lambda x: x[1], plot_coordinates)), marker='o', linestyle='dashed')
     plt.xlabel('number of dimensions')
     plt.ylabel('stress')
-    plt.show()
+    plt.savefig(os.path.join(args.export, "Scree.png"), bbox_inches='tight', dpi=200)
     
