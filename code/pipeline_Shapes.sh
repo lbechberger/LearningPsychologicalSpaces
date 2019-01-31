@@ -3,7 +3,7 @@
 # TODO not up to date; will be updated soon!
 
 # preprocessing
-python mds/preprocess.py raw_data/within.csv raw_data/within_between.csv raw_data/data.pickle
+python code/preprocessing/preprocess_Shapes.py data/Shapes/raw_data/within.csv data/Shapes/raw_data/within_between.csv data/Shapes/raw_data/data.pickle
 
 # compute similarities
 echo 'computing similarities'
