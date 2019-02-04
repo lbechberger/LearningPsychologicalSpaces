@@ -49,5 +49,6 @@ if args.plot:
     plt.plot(list(map(lambda x: x[0], plot_coordinates)), list(map(lambda x: x[1], plot_coordinates)), marker='o', linestyle='dashed')
     plt.xlabel('number of dimensions')
     plt.ylabel('stress')
+    plt.title('Stress of {0} MDS (SMACOF)'.format('metric' if args.metric else 'nonmetric'))
     plt.savefig(os.path.join(args.export, "Scree.png"), bbox_inches='tight', dpi=200)
     

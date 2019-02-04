@@ -104,7 +104,7 @@ Here, `image_file.pickle` corresponds to the output file of `preprocess_Shapes.p
 
 The folder `code/mds` contains various scripts for transforming the given data set from pairwise similarity ratings into a conceptual space and for analyzing the resulting space.
 
-### MDS
+### SMACOF MDS with Python
 
 The script `mds.py` runs the MDS algorithm provided by the `sklearn` library (see documentation [here](http://scikit-learn.org/stable/modules/generated/sklearn.manifold.MDS.html)) which is based on the SMACOF algorithm. You can execute the script as follows from the project's root directory:
 ```
@@ -117,9 +117,25 @@ The script takes the following optional arguments:
 - `-d` or `--dims`: Specifies the maximal number of dimensions to investigate. Default value is 20, which means that the script will run the MDS algorithm 20 times, obtaining spaces of dimensionality 1 to 20.
 - `-i` or `--max_iter`: Specifies the maximum number of iterations computed within the SMACOF algorithm. Default values is 300.
 - `-e` or `--export`: If this flag is set and an export directory is given, then the created MDS vectors will be exported in csv files into the given export directory.
-- `-p` or `--plot`: If this flag is set, a plot of stress over the number of dimensions is displayed to the user.
+- `-p` or `--plot`: If this flag is set, a plot of stress over the number of dimensions is created and saved in the same directory as the MDS vectors.
 - `-m` or `--metric`: If this flag is set, *metric* MDS is used instead of *nonmetric* MDS (which is the default).
 - `-s` or `--seed`: Specify a seed for the random number generator in order to make the results deterministic. If no seed is given, then the random number generator is not seeded.
+
+### Eigenvalue and Kruskal MDS with R
+
+The script `mds.r` runs two versions of multidimensional scaling based on the implementations in R. More specifically, it uses the Eigenvalue-based classical MDS [cmdscale](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/cmdscale.html) and Kruskal's nonmetric MDS [isoMDS](https://stat.ethz.ch/R-manual/R-devel/library/MASS/html/isoMDS.html). For Kruskal's algorithm, multiple random starts are used and the best result is kept. You can execute the script as follows from the project's root directory:
+```
+Rscript code/mds/mds.r -d path/to/distance_matrix.csv -i path/to/item_names.csv -o path/to/output/directory
+```
+Here, `distance_matrix.csv` is a CSV file which contains the matrix of pairwise dissimilarities and `item_names.csv` contains the item names (one name per row, same order as in the distance matrix). The resulting vectors are stored in the given output directory. All three of these arguments are mandatory.
+
+The script takes the following optional arguments:
+- `-k` or `--dims`: Specifies the maximal number of dimensions to investigate. Default value is 20, which means that the script will run the MDS algorithm 20 times, obtaining spaces of dimensionality 1 to 20.
+- `-n` or `--n_init`: Specifies how often Kruskal's algorithm is restarted with a new random initialization. Of all of these runs, only the best result (i.e., the one with the lowest resulting stress) is kept. Default value here is 64.
+- `m` or `--max_iter`: Specifies the maximum number of iterations computed within the SMACOF algorithm. Default values is 1000.
+- `-s` or `--seed`: Specify a seed for the random number generator in order to make the results deterministic. If no seed is given, then the random number generator is not seeded.
+- `-p` or `--plot`: If this flag is set, a plot of stress over the number of dimensions is created and saved in the same directory as the MDS vectors.
+- `--metric`: If this flag is set, *metric* MDS is used instead of *nonmetric* MDS (which is the default).
 
 ### Visualizing the Resuling Spaces
 
