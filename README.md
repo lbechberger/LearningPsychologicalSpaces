@@ -99,6 +99,11 @@ Here, `image_file.pickle` corresponds to the output file of `preprocess_Shapes.p
 - `-r` or `--resolution`: The desired size (width and height) of the output images, defaults to 283 (size of the original images).
 - `-s` or `--subset`: The subset of data to use, defaults to `all`. Possible other options are `between`, `within`, and `cats`.
 
+#### Writing CSV Files
+The R script for MDS needs the dissimilarity data in form of a CSV file. The script `pickle_to_csv.py` stores the similaritiy ratings from `input_file.pickle` into a CSV file called `distance_matrix.csv` as well as the list of item names in a file called `item_names.csv`. Both output files are stored in the given `output_folder`. The `input_file.pickle` should be the file created by `compute_similarities.py`. The script can be invoked as follows:
+```
+python code/preprocessing/pickle_to_csv.py path/to/input_file.pickle path/to/output_folder/
+```
 
 ## Multidimensional Scaling
 
