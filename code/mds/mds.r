@@ -46,7 +46,7 @@ if (opt$metric) {
     # write vectors to file
     metric_output = cbind(item_names, metric_mds_result)
     metric_output_file_name = paste0(opt$output_folder, num_dims, "D-vectors.csv")
-    write.table(metric_output, metric_output_file_name, sep = ',', row.names = FALSE, col.names = FALSE)
+    write.table(metric_output, metric_output_file_name, sep = ',', row.names = FALSE, col.names = FALSE, quote = FALSE)
     
     # compute stress manually
     distances = as.matrix(dist(metric_mds_result))
@@ -55,7 +55,7 @@ if (opt$metric) {
     stress = sum(squared_difference)
     
     # print stress, store it for later plotting
-    print(paste(num_dims, stress, sep=','))
+    print(paste(num_dims, stress, sep=','), quote = FALSE)
     stress_by_dimension = c(stress_by_dimension, stress)
   }
   plot_title = "Stress of metric MDS (Eigenvalue)"
@@ -81,10 +81,10 @@ if (opt$metric) {
     # save vectors in file
     nonmetric_output = cbind(item_names, points)
     nonmetric_output_file_name = paste0(opt$output_folder, num_dims, "D-vectors.csv")
-    write.table(nonmetric_output, nonmetric_output_file_name, sep = ',', row.names = FALSE, col.names = FALSE)
+    write.table(nonmetric_output, nonmetric_output_file_name, sep = ',', row.names = FALSE, col.names = FALSE, quote = FALSE)
     
     # print stress and store it for plotting
-    print(paste(num_dims, best_stress, sep=','))
+    print(paste(num_dims, best_stress, sep=','), quote = FALSE)
     stress_by_dimension = c(stress_by_dimension, best_stress)
   }
   
