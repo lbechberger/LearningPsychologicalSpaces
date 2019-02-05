@@ -1,101 +1,96 @@
 #!/bin/bash
 
-# TODO not up to date; will be updated soon!
+# use 10 dims as maximum
+dims=10
+
+# set up the directory structure
+echo 'setting up directory structure'
+mkdir -p data/Shapes/similarities 
+mkdir -p data/Shapes/vectors/python/nonmetric data/Shapes/vectors/python/metric
+mkdir -p data/Shapes/vectors/R/nonmetric data/Shapes/vectors/R/metric
+mkdir -p data/Shapes/visualizations/spaces/python/nonmetric data/Shapes/visualizations/spaces/python/metric
+mkdir -p data/Shapes/visualizations/spaces/R/nonmetric data/Shapes/visualizations/spaces/R/metric
+mkdir -p data/Shapes/visualizations/correlations/pixels 
+mkdir -p data/Shapes/visualizations/correlations/python/nonmetric data/Shapes/visualizations/correlations/python/metric
+mkdir -p data/Shapes/visualizations/correlations/R/nonmetric data/Shapes/visualizations/correlations/R/metric
+mkdir -p data/Shapes/visualizations/average_images/283 data/Shapes/visualizations/average_images/100 data/Shapes/visualizations/average_images/50 
+mkdir -p data/Shapes/visualizations/average_images/20 data/Shapes/visualizations/average_images/10 data/Shapes/visualizations/average_images/5
+
 
 # preprocessing
+echo 'preprocessing data'
+echo '    read CSV files'
 python code/preprocessing/preprocess_Shapes.py data/Shapes/raw_data/within.csv data/Shapes/raw_data/within_between.csv data/Shapes/raw_data/data.pickle
+echo '    computing similarities'
+python code/preprocessing/compute_similarities.py data/Shapes/raw_data/data.pickle data/Shapes/similarities/sim.pickle -s between -l -p > data/Shapes/similarities/log.txt
+echo '    analyzing similarities'
+python code/preprocessing/analyze_similarities.py data/Shapes/raw_data/data.pickle -s between -o data/Shapes/similarities/ > data/Shapes/similarities/analysis.txt
+echo '    creating average images'
+echo '        283'
+python code/preprocessing/average_images.py data/Shapes/raw_data/data.pickle data/Shapes/images/ -s between -o data/Shapes/visualizations/average_images/283/ -r 283
+echo '        100'
+python code/preprocessing/average_images.py data/Shapes/raw_data/data.pickle data/Shapes/images/ -s between -o data/Shapes/visualizations/average_images/100/ -r 100
+echo '        50'
+python code/preprocessing/average_images.py data/Shapes/raw_data/data.pickle data/Shapes/images/ -s between -o data/Shapes/visualizations/average_images/50/ -r 50
+echo '        20'
+python code/preprocessing/average_images.py data/Shapes/raw_data/data.pickle data/Shapes/images/ -s between -o data/Shapes/visualizations/average_images/20/ -r 20
+echo '        10'
+python code/preprocessing/average_images.py data/Shapes/raw_data/data.pickle data/Shapes/images/ -s between -o data/Shapes/visualizations/average_images/10/ -r 10
+echo '        5'
+python code/preprocessing/average_images.py data/Shapes/raw_data/data.pickle data/Shapes/images/ -s between -o data/Shapes/visualizations/average_images/5/ -r 5
+echo '    creating CSV files'
+python code/preprocessing/pickle_to_csv.py data/Shapes/similarities/sim.pickle data/Shapes/similarities/
 
-# compute similarities
-echo 'computing similarities'
-python mds/compute_similarities.py raw_data/data.pickle similarities/between.pickle -s between > similarities/between.txt
-python mds/compute_similarities.py raw_data/data.pickle similarities/between_l.pickle -s between -l > similarities/between_l.txt
-python mds/compute_similarities.py raw_data/data.pickle similarities/between_m.pickle -s between -m > similarities/between_m.txt
-python mds/compute_similarities.py raw_data/data.pickle similarities/between_ml.pickle -s between -m -l > similarities/between_ml.txt
-python mds/compute_similarities.py raw_data/data.pickle similarities/within.pickle -s within > similarities/within.txt
-python mds/compute_similarities.py raw_data/data.pickle similarities/within_l.pickle -s within -l > similarities/within_l.txt
-python mds/compute_similarities.py raw_data/data.pickle similarities/within_m.pickle -s within -m > similarities/within_m.txt
-python mds/compute_similarities.py raw_data/data.pickle similarities/within_ml.pickle -s within -m -l > similarities/within_ml.txt
 
 # run MDS
 echo 'running MDS'
-echo '    between'
-python mds/mds.py similarities/between.pickle -e vectors/between/ -n 512 -i 1000 > vectors/between.csv
-echo '    between limit'
-python mds/mds.py similarities/between_l.pickle -e vectors/between_l/ -n 512 -i 1000 > vectors/between_l.csv
-echo '    between median'
-python mds/mds.py similarities/between_m.pickle -e vectors/between_m/ -n 512 -i 1000 > vectors/between_m.csv
-echo '    between median limit'
-python mds/mds.py similarities/between_ml.pickle -e vectors/between_ml/ -n 512 -i 1000 > vectors/between_ml.csv
+echo '    nonmetric SMACOF'
+python code/mds/mds.py data/Shapes/similarities/sim.pickle -e data/Shapes/vectors/python/nonmetric/ -n 64 -i 1000 -p -d $dims -s 42 > data/Shapes/vectors/python/nonmetric.csv
+echo '    metric SMACOF'
+python code/mds/mds.py data/Shapes/similarities/sim.pickle -e data/Shapes/vectors/python/metric/ -n 64 -i 1000 -p -m -d $dims -s 42 > data/Shapes/vectors/python/metric.csv
+echo '    metric Eigenvalue'
+Rscript code/mds/mds.r -d data/Shapes/similarities/distance_matrix.csv -i data/Shapes/similarities/item_names.csv -o data/Shapes/vectors/R/metric/ -p -k $dims --metric > data/Shapes/vectors/R/metric.csv
+echo '    nonmetric Kruskal'
+Rscript code/mds/mds.r -d data/Shapes/similarities/distance_matrix.csv -i data/Shapes/similarities/item_names.csv -o data/Shapes/vectors/R/nonmetric/ -n 64 -m 1000 -p -k $dims -s 42 > data/Shapes/vectors/R/nonmetric.csv
 
-echo '    within'
-python mds/mds.py similarities/within.pickle -e vectors/within/ -n 512 -i 1000 > vectors/within.csv
-echo '    within limit'
-python mds/mds.py similarities/within_l.pickle -e vectors/within_l/ -n 512 -i 1000 > vectors/within_l.csv
-echo '    within median'
-python mds/mds.py similarities/within_m.pickle -e vectors/within_m/ -n 512 -i 1000 > vectors/within_m.csv
-echo '    within median limit'
-python mds/mds.py similarities/within_ml.pickle -e vectors/within_ml/ -n 512 -i 1000 > vectors/within_ml.csv
+# visualize MDS spaces
+echo 'visualizing MDS spaces'
+echo '    nonmetric SMACOF'
+python code/mds/visualize.py data/Shapes/vectors/python/nonmetric/ data/Shapes/visualizations/spaces/python/nonmetric -i data/Shapes/images/
+echo '    metric SMACOF'
+python code/mds/visualize.py data/Shapes/vectors/python/metric/ data/Shapes/visualizations/spaces/python/metric -i data/Shapes/images/
+echo '    metric Eigenvalue'
+python code/mds/visualize.py data/Shapes/vectors/R/metric/ data/Shapes/visualizations/spaces/R/metric -i data/Shapes/images/
+echo '    nonmetric Kruskal'
+python code/mds/visualize.py data/Shapes/vectors/R/nonmetric/ data/Shapes/visualizations/spaces/R/nonmetric -i data/Shapes/images/
 
-# TODO visualize MDS results
+
 # TODO analyze convexity
 # TODO analyze interpretable directions
 
+
 # run image correlation
 echo 'image correlation'
-echo '    between'
-python baseline/image_correlations.py similarities/between.pickle images/
-echo '    between limit'
-python baseline/image_correlations.py similarities/between_l.pickle images/
-echo '    between median'
-python baseline/image_correlations.py similarities/between_m.pickle images/
-echo '    between median limit'
-python baseline/image_correlations.py similarities/between_ml.pickle images/
-
-echo '    within'
-python baseline/image_correlations.py similarities/within.pickle images/
-echo '    within limit'
-python baseline/image_correlations.py similarities/within_l.pickle images/
-echo '    within median'
-python baseline/image_correlations.py similarities/within_m.pickle images/
-echo '    within median limit'
-python baseline/image_correlations.py similarities/within_ml.pickle images/
+python code/correlations/image_correlations.py data/Shapes/similarities/sim.pickle data/Shapes/images/ -o data/Shapes/visualizations/correlations/pixels/ -s 283 
 
 # run MDS correlations
 echo 'MDS correlation'
-echo '    between'
-python baseline/mds_correlation.py similarities/between.pickle vectors/between/
-echo '    between limit'
-python baseline/mds_correlation.py similarities/between_l.pickle vectors/between_l/
-echo '    between median'
-python baseline/mds_correlation.py similarities/between_m.pickle vectors/between_m/
-echo '    between median limit'
-python baseline/mds_correlation.py similarities/between_ml.pickle vectors/between_ml/
-
-echo '    within'
-python baseline/mds_correlation.py similarities/within.pickle vectors/within/
-echo '    within limit'
-python baseline/mds_correlation.py similarities/within_l.pickle vectors/within_l/
-echo '    within median'
-python baseline/mds_correlation.py similarities/within_m.pickle vectors/within_m/
-echo '    within median limit'
-python baseline/mds_correlation.py similarities/within_ml.pickle vectors/within_ml/
+echo '    nonmetric SMACOF'
+python code/correlations/mds_correlations.py data/Shapes/similarities/sim.pickle data/Shapes/vectors/python/nonmetric/ -o data/Shapes/visualizations/correlations/python/nonmetric/ --n_max $dims
+echo '    metric SMACOF'
+python code/correlations/mds_correlations.py data/Shapes/similarities/sim.pickle data/Shapes/vectors/python/metric/ -o data/Shapes/visualizations/correlations/python/metric/ --n_max $dims
+echo '    metric Eigenvalue'
+python code/correlations/mds_correlations.py data/Shapes/similarities/sim.pickle data/Shapes/vectors/R/metric/ -o data/Shapes/visualizations/correlations/R/metric/ --n_max $dims
+echo '    nonmetric Kruskal'
+python code/correlations/mds_correlations.py data/Shapes/similarities/sim.pickle data/Shapes/vectors/R/nonmetric/ -o data/Shapes/visualizations/correlations/R/nonmetric/ --n_max $dims
 
 # visualize correlation results
 echo 'visualizing correlation'
-echo '    between'
-python baseline/visualize_correlations.py -o analysis/between/ analysis/between.csv analysis/between-MDS.csv > analysis/between/best.txt
-echo '    between limit'
-python baseline/visualize_correlations.py -o analysis/between_l/ analysis/between_l.csv analysis/between_l-MDS.csv > analysis/between_l/best.txt
-echo '    between median'
-python baseline/visualize_correlations.py -o analysis/between_m/ analysis/between_m.csv analysis/between_m-MDS.csv > analysis/between_m/best.txt
-echo '    between median limit'
-python baseline/visualize_correlations.py -o analysis/between_ml/ analysis/between_ml.csv analysis/between_ml-MDS.csv > analysis/between_ml/best.txt
-
-echo '    within'
-python baseline/visualize_correlations.py -o analysis/within/ analysis/within.csv analysis/within-MDS.csv > analysis/within/best.txt
-echo '    within limit'
-python baseline/visualize_correlations.py -o analysis/within_l/ analysis/within_l.csv analysis/within_l-MDS.csv > analysis/within_l/best.txt
-echo '    within median'
-python baseline/visualize_correlations.py -o analysis/within_m/ analysis/within_m.csv analysis/within_m-MDS.csv > analysis/within_m/best.txt
-echo '    within median limit'
-python baseline/visualize_correlations.py -o analysis/within_ml/ analysis/within_ml.csv analysis/within_ml-MDS.csv > analysis/within_ml/best.txt
+echo '    nonmetric SMACOF'
+python code/correlations/visualize_correlations.py -o data/Shapes/visualizations/correlations/python/nonmetric/ data/Shapes/visualizations/correlations/pixels/sim.csv data/Shapes/visualizations/correlations/python/nonmetric/sim-MDS.csv > data/Shapes/visualizations/correlations/python/nonmetric/best.txt
+echo '    metric SMACOF'
+python code/correlations/visualize_correlations.py -o data/Shapes/visualizations/correlations/python/metric/ data/Shapes/visualizations/correlations/pixels/sim.csv data/Shapes/visualizations/correlations/python/metric/sim-MDS.csv > data/NOUN/visualizations/correlations/python/metric/best.txt
+echo '    metric Eigenvalue'
+python code/correlations/visualize_correlations.py -o data/Shapes/visualizations/correlations/R/metric/ data/Shapes/visualizations/correlations/pixels/sim.csv data/Shapes/visualizations/correlations/R/metric/sim-MDS.csv > data/Shapes/visualizations/correlations/R/metric/best.txt
+echo '    nonmetric Kruskal'
+python code/correlations/visualize_correlations.py -o data/Shapes/visualizations/correlations/R/nonmetric/ data/Shapes/visualizations/correlations/pixels/sim.csv data/Shapes/visualizations/correlations/R/nonmetric/sim-MDS.csv > data/Shapes/visualizations/correlations/R/nonmetric/best.txt

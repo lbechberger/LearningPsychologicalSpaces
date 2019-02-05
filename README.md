@@ -17,7 +17,7 @@ The folder `data` contains the data used for the NOUN study inside the `NOUN` su
 Our training data are the images and similarity ratings of the NOUN database (http://www.sussex.ac.uk/wordlab/noun): 
 Horst, Jessica S., and Michael C. Hout. "The Novel Object and Unusual Name (NOUN) Database: A collection of novel images for use in experimental research." Behavior research methods 48.4 (2016): 1393-1409.
 
-The script `code/pipeline_NOUN.sh` automatically executes all steps of our analysis pipeline and can be used both to reproduce our results and to see how the scripts are actually executed in practice.
+The scripts `code/pipeline_NOUN.sh` and `code/pipeline_Shapes.sh` automatically execute all steps of our analysis pipeline and can be used both to reproduce our results and to see how the individual python scripts are actually executed in practice.
 
 ## Preprocessing
 
@@ -83,7 +83,7 @@ The script `analyze_similarities.py` can be used to collect some statistics on t
 ```
 python code/preprocessing/analyze_similarities.py path/to/input_file.pickle
 ```
-The input file is here the `output.pickle` created by the `preprocess.py` script. The script takes two optional parameters:
+The input file is here the `output.pickle` created by the `preprocess_Shapes.py` script. The script takes two optional parameters:
 
 - `-s` or `--subset`: Specifies which subset of the similarity ratings to use. Default is `all` (which means that all similarity ratings from both studies are used). Another supported option is `between` where only the ratings from the second study (found in `within_between.csv`) are used. Here, all items that did not appear in the second study are removed from the dissimilarity matrix. A third option is `cats` which only considers the categories used in the second study, but which keeps all items from these categories (also items that were only used in the first, but not in the second study).
 - `-o` or `--output_path`: The path to the folder where the plots shall be stored. Defaults to `.`, i.e., the current working directory.

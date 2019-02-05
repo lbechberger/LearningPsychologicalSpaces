@@ -66,3 +66,5 @@ echo '    metric Eigenvalue'
 python code/correlations/visualize_correlations.py -o data/NOUN/visualizations/correlations/R/metric/ data/NOUN/visualizations/correlations/pixels/sim.csv data/NOUN/visualizations/correlations/R/metric/sim-MDS.csv > data/NOUN/visualizations/correlations/R/metric/best.txt
 echo '    nonmetric Kruskal'
 python code/correlations/visualize_correlations.py -o data/NOUN/visualizations/correlations/R/nonmetric/ data/NOUN/visualizations/correlations/pixels/sim.csv data/NOUN/visualizations/correlations/R/nonmetric/sim-MDS.csv > data/NOUN/visualizations/correlations/R/nonmetric/best.txt
+
+# TODO do machine learning
