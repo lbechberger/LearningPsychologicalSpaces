@@ -124,6 +124,12 @@ for metric in pixel_data.keys():
             legend = list(map(lambda x: x[0], sorted_values))
             y_values = list(map(lambda x: x[1], sorted_values))
             ax.plot(bar_indices, y_values)
+            
+            # add best pixel
+            y_pixel = [best_pixel_result_metric[1]]*len(bar_indices)
+            legend.append('best pixel: {0}'.format(best_pixel_result_metric[0]))
+            ax.plot(bar_indices, y_pixel)
+
             ax.set_xlabel('number of dimensions')
             ax.set_ylabel(metric)
             ax.set_title(scoring)
