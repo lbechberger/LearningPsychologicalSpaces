@@ -197,6 +197,8 @@ In addition to doing these computations on the full pixel-wise information, the 
 The script takes the following optional parameter:
 - `-o` or `--output`: The output folder where the resulting correlation values are stored (default: `.`, i.e., the current working directory).
 - `-s` or `--size`: The size of the image, i.e., the maximal number of `k` to use (default: 283).
+- `-g` or `--greyscale`: If this flag is set, the three color channels are collapsed into a single greyscale channel when loading the images. If not, full RGB information is used.
+- `-p` or `--plot`: If this flag is set, scatter plots are created and stored for each of the similarity measures.
 
 ### MDS-Based Similarities
 
@@ -208,6 +210,7 @@ Here, `similarity_file.pickle` is again the output file of the overall preproces
 - `-o` or `--output`: The output folder where the resulting correlation values are stored (default: `.`, i.e., the current working directory).
 - `--n_min`: The size of the smallest space to investigate (defaults to 1).
 - `--n_max`: The size of the largest space to investigate (defaults to 20).
+- `-p` or `--plot`: If this flag is set, scatter plots are created and stored for each of the similarity measures.
 
 ### Visualizing The Correlations
 

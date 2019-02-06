@@ -20,6 +20,7 @@ parser.add_argument('mds_folder', help = 'the folder containing the MDS vectors'
 parser.add_argument('-o', '--output_folder', help = 'the folder to which the output should be saved', default='.')
 parser.add_argument('--n_min', type = int, default = 1, help = 'the smallest space to investigate')
 parser.add_argument('--n_max', type = int, default = 20, help = 'the largest space to investigate')
+parser.add_argument('-p', '--plot', action = 'store_true', help = 'create scatter plots of distances vs. dissimilarities')
 args = parser.parse_args()
 
 def cosine(x,y):
@@ -94,14 +95,15 @@ with open(output_file_name, 'w', buffering=1) as f_out:
             # compute and store correlation
             f_out.write("{0},{1},{2},{3},{4},{5}\n".format(number_of_dimensions, scoring_name, pearson[0], spearman, kendall, r2))
             
-            # temporary: display scatter plot
-            fig, ax = plt.subplots(figsize=(12,12))
-            ax.scatter(sim_vector,target_vector)
-            plt.xlabel('MDS distance')
-            plt.ylabel('real distance')
-            plt.title('scatter plot {0}D {1} distance'.format(number_of_dimensions, scoring_name))
-    
-            output_file_name = os.path.join(args.output_folder, '{0}D-{1}.png'.format(number_of_dimensions, scoring_name))        
-            
-            fig.savefig(output_file_name, bbox_inches='tight', dpi=200)
-            plt.close()
+            if args.plot:
+                # create scatter plot if user want us to
+                fig, ax = plt.subplots(figsize=(12,12))
+                ax.scatter(sim_vector,target_vector)
+                plt.xlabel('MDS distance')
+                plt.ylabel('real distance')
+                plt.title('scatter plot {0}D {1} distance'.format(number_of_dimensions, scoring_name))
+        
+                output_file_name = os.path.join(args.output_folder, '{0}D-{1}.png'.format(number_of_dimensions, scoring_name))        
+                
+                fig.savefig(output_file_name, bbox_inches='tight', dpi=200)
+                plt.close()

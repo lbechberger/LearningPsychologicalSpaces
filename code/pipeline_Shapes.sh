@@ -60,7 +60,7 @@ python code/mds/visualize.py data/Shapes/vectors/R/ data/Shapes/visualizations/s
 
 # run image correlation
 echo 'image correlation'
-python code/correlations/image_correlations.py data/Shapes/similarities/sim.pickle data/Shapes/images/ -o data/Shapes/visualizations/correlations/pixels/ -s 283 
+python code/correlations/image_correlations.py data/Shapes/similarities/sim.pickle data/Shapes/images/ -o data/Shapes/visualizations/correlations/pixels/ -s 283 -g
 
 # run MDS correlations
 echo 'MDS correlation'
