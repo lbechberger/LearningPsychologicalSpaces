@@ -16,7 +16,13 @@ mkdir -p data/NOUN/visualizations/correlations/R/nonmetric data/NOUN/visualizati
 
 # preprocessing
 echo 'preprocessing data'
-python code/preprocessing/preprocess_NOUN.py data/NOUN/raw_data/NOUN_distance_matrix.csv data/NOUN/similarities/sim.pickle -p > data/NOUN/similarities/log.txt
+echo '    reading CSV file'
+python code/preprocessing/preprocess_NOUN.py data/NOUN/raw_data/raw_distances.csv data/NOUN/raw_data/data.pickle
+echo '    computing similarities'
+python code/preprocessing/compute_similarities.py data/NOUN/raw_data/data.pickle data/NOUN/similarities/sim.pickle -s within -l -p > data/NOUN/similarities/log.txt
+echo '    creating CSV files'
+python code/preprocessing/pickle_to_csv.py data/NOUN/similarities/sim.pickle data/NOUN/similarities/
+
 
 # run MDS
 echo 'running MDS'
@@ -25,9 +31,9 @@ python code/mds/mds.py data/NOUN/similarities/sim.pickle -e data/NOUN/vectors/py
 echo '    metric SMACOF'
 python code/mds/mds.py data/NOUN/similarities/sim.pickle -e data/NOUN/vectors/python/metric/ -n 64 -i 1000 -p -m -d $dims -s 42 > data/NOUN/vectors/python/metric.csv
 echo '    metric Eigenvalue'
-Rscript code/mds/mds.r -d data/NOUN/raw_data/NOUN_distance_matrix.csv -i data/NOUN/raw_data/item_names.csv -o data/NOUN/vectors/R/metric/ -p -k $dims --metric > data/NOUN/vectors/R/metric.csv
+Rscript code/mds/mds.r -d data/NOUN/similarities/distance_matrix.csv -i data/NOUN/similarities/item_names.csv -o data/NOUN/vectors/R/metric/ -p -k $dims --metric > data/NOUN/vectors/R/metric.csv
 echo '    nonmetric Kruskal'
-Rscript code/mds/mds.r -d data/NOUN/raw_data/NOUN_distance_matrix.csv -i data/NOUN/raw_data/item_names.csv -o data/NOUN/vectors/R/nonmetric/ -n 64 -m 1000 -p -k $dims -s 42 > data/NOUN/vectors/R/nonmetric.csv
+Rscript code/mds/mds.r -d data/NOUN/similarities/distance_matrix.csv -i data/NOUN/similarities/item_names.csv -o data/NOUN/vectors/R/nonmetric/ -n 64 -m 1000 -p -k $dims -s 42 > data/NOUN/vectors/R/nonmetric.csv
 
 # visualize MDS spaces
 echo 'visualizing MDS spaces'
