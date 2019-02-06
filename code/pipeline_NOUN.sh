@@ -13,6 +13,7 @@ mkdir -p data/NOUN/visualizations/spaces/R/nonmetric data/NOUN/visualizations/sp
 mkdir -p data/NOUN/visualizations/correlations/pixels/rgb data/NOUN/visualizations/correlations/pixels/grey
 mkdir -p data/NOUN/visualizations/correlations/python/nonmetric data/NOUN/visualizations/correlations/python/metric
 mkdir -p data/NOUN/visualizations/correlations/R/nonmetric data/NOUN/visualizations/correlations/R/metric
+mkdir -p data/NOUN/visualizations/correlations/python/grey data/NOUN/visualizations/correlations/HorstHout
 
 # preprocessing
 echo 'preprocessing data'
@@ -64,6 +65,8 @@ echo '    metric Eigenvalue'
 python code/correlations/mds_correlations.py data/NOUN/similarities/sim.pickle data/NOUN/vectors/R/metric/ -o data/NOUN/visualizations/correlations/R/metric/ --n_max $dims
 echo '    nonmetric Kruskal'
 python code/correlations/mds_correlations.py data/NOUN/similarities/sim.pickle data/NOUN/vectors/R/nonmetric/ -o data/NOUN/visualizations/correlations/R/nonmetric/ --n_max $dims
+echo '    Horst and Hout 4D'
+python code/correlations/mds_correlations.py data/NOUN/similarities/sim.pickle data/NOUN/vectors/HorstHout/ -o data/NOUN/visualizations/correlations/HorstHout/ --n_min 4 --n_max 4
 
 # visualize correlation results
 echo 'visualizing correlation'
@@ -75,5 +78,8 @@ echo '    metric Eigenvalue'
 python code/correlations/visualize_correlations.py -o data/NOUN/visualizations/correlations/R/metric/ data/NOUN/visualizations/correlations/pixels/rgb/sim.csv data/NOUN/visualizations/correlations/R/metric/sim-MDS.csv > data/NOUN/visualizations/correlations/R/metric/best.txt
 echo '    nonmetric Kruskal'
 python code/correlations/visualize_correlations.py -o data/NOUN/visualizations/correlations/R/nonmetric/ data/NOUN/visualizations/correlations/pixels/rgb/sim.csv data/NOUN/visualizations/correlations/R/nonmetric/sim-MDS.csv > data/NOUN/visualizations/correlations/R/nonmetric/best.txt
+echo '    metric SMACOF (grey)'
+python code/correlations/visualize_correlations.py -o data/NOUN/visualizations/correlations/python/grey/ data/NOUN/visualizations/correlations/pixels/grey/sim-g.csv data/NOUN/visualizations/correlations/python/metric/sim-MDS.csv > data/NOUN/visualizations/correlations/python/grey/best.txt
+
 
 # TODO do machine learning
