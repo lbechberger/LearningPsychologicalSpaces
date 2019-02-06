@@ -42,9 +42,9 @@ python code/preprocessing/pickle_to_csv.py data/Shapes/similarities/sim.pickle d
 # run MDS
 echo 'running MDS'
 echo '    nonmetric SMACOF'
-python code/mds/mds.py data/Shapes/similarities/sim.pickle -e data/Shapes/vectors/python/ -n 64 -i 1000 -p -d $dims -s 42 > data/Shapes/vectors/python/nonmetric.csv
+python code/mds/mds.py data/Shapes/similarities/sim.pickle -e data/Shapes/vectors/python/ -n 256 -i 1000 -p -d $dims -s 42 > data/Shapes/vectors/python/nonmetric.csv
 echo '    nonmetric Kruskal'
-Rscript code/mds/mds.r -d data/Shapes/similarities/distance_matrix.csv -i data/Shapes/similarities/item_names.csv -o data/Shapes/vectors/R/ -n 64 -m 1000 -p -k $dims -s 42 > data/Shapes/vectors/R/nonmetric.csv
+Rscript code/mds/mds.r -d data/Shapes/similarities/distance_matrix.csv -i data/Shapes/similarities/item_names.csv -o data/Shapes/vectors/R/ -n 256 -m 1000 -p -k $dims -s 42 > data/Shapes/vectors/R/nonmetric.csv
 
 # visualize MDS spaces
 echo 'visualizing MDS spaces'
