@@ -88,7 +88,7 @@ if (opt$metric) {
     stress_by_dimension = c(stress_by_dimension, best_stress)
   }
   
-  plot_title = "Stress of non MDS (Kruskal)"
+  plot_title = "Stress of nonmetric MDS (Kruskal)"
 }
 
 if (opt$plot) {
