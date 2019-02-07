@@ -152,6 +152,18 @@ The script takes the following optional arguments:
 - `-p` or `--plot`: If this flag is set, a plot of stress over the number of dimensions is created and saved in the same directory as the MDS vectors.
 - `--metric`: If this flag is set, *metric* MDS is used instead of *nonmetric* MDS (which is the default).
 
+### Normalizing the Resulting Spaces
+
+In order to make the individual MDS solutions more comparable, we normalize them by moving their centroid to the origin and by making sure that their root mean squared distance to the origin equals one. This is done by the script `normalize_spaces.py`, which can be invoked by simply giving it the path to the directory containing all the vector files:
+```
+python code/mds/normalize_spaces.py path/to/input_folder
+```
+The script **overrides** the original files. It can take the following optional arguments:
+- `-b` or `--backup`: Create a backup of the original files. Will be stored in the same folder as the original files, file name is identical, but 'backup' is appended before the file extension.
+- `-v` or `--verbose`: Prints some debug information during processing (old centroid, old root mean squared distance to origin, new centroid, new root mean squared distance to origin).
+
+**It is important to run this script before using the MDS spaces for the regression task -- only by normalizing the spaces, we can make sure that the (R)MSE values are comparable across spaces!**
+
 ### Visualizing the Resuling Spaces
 
 The script `visualize.py` can be used to create two-dimensional plots of the resulting MDS spaces. You can execute it as follows from the project's root directory:

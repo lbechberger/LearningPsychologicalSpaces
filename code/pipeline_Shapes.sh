@@ -46,6 +46,14 @@ python code/mds/mds.py data/Shapes/similarities/sim.pickle -e data/Shapes/vector
 echo '    nonmetric Kruskal'
 Rscript code/mds/mds.r -d data/Shapes/similarities/distance_matrix.csv -i data/Shapes/similarities/item_names.csv -o data/Shapes/vectors/R/ -n 256 -m 1000 -p -k $dims -s 42 > data/Shapes/vectors/R/nonmetric.csv
 
+# normalize MDS spaces
+echo 'normalizing MDS spaces'
+echo '    nonmetric SMACOF'
+python code/mds/normalize_spaces.py data/NOUN/vectors/python/
+echo '    nonmetric Kruskal'
+python code/mds/normalize_spaces.py data/NOUN/vectors/R/
+
+
 # visualize MDS spaces
 echo 'visualizing MDS spaces'
 echo '    nonmetric SMACOF'

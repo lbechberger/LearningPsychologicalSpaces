@@ -36,6 +36,17 @@ Rscript code/mds/mds.r -d data/NOUN/similarities/distance_matrix.csv -i data/NOU
 echo '    nonmetric Kruskal'
 Rscript code/mds/mds.r -d data/NOUN/similarities/distance_matrix.csv -i data/NOUN/similarities/item_names.csv -o data/NOUN/vectors/R/nonmetric/ -n 256 -m 1000 -p -k $dims -s 42 > data/NOUN/vectors/R/nonmetric.csv
 
+# normalize MDS spaces
+echo 'normalizing MDS spaces'
+echo '    nonmetric SMACOF'
+python code/mds/normalize_spaces.py data/NOUN/vectors/python/nonmetric/
+echo '    metric SMACOF'
+python code/mds/normalize_spaces.py data/NOUN/vectors/python/metric/
+echo '    metric Eigenvalue'
+python code/mds/normalize_spaces.py data/NOUN/vectors/R/metric/
+echo '    nonmetric Kruskal'
+python code/mds/normalize_spaces.py data/NOUN/vectors/R/nonmetric/
+
 # visualize MDS spaces
 echo 'visualizing MDS spaces'
 echo '    nonmetric SMACOF'
