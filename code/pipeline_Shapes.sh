@@ -49,9 +49,9 @@ Rscript code/mds/mds.r -d data/Shapes/similarities/distance_matrix.csv -i data/S
 # normalize MDS spaces
 echo 'normalizing MDS spaces'
 echo '    nonmetric SMACOF'
-python code/mds/normalize_spaces.py data/NOUN/vectors/python/
+python code/mds/normalize_spaces.py data/Shapes/vectors/python/
 echo '    nonmetric Kruskal'
-python code/mds/normalize_spaces.py data/NOUN/vectors/R/
+python code/mds/normalize_spaces.py data/Shapes/vectors/R/
 
 
 # visualize MDS spaces
@@ -80,6 +80,6 @@ python code/correlations/mds_correlations.py data/Shapes/similarities/sim.pickle
 # visualize correlation results
 echo 'visualizing correlation'
 echo '    nonmetric SMACOF'
-python code/correlations/visualize_correlations.py -o data/Shapes/visualizations/correlations/python/ data/Shapes/visualizations/correlations/pixels/sim.csv data/Shapes/visualizations/correlations/python/sim-MDS.csv > data/Shapes/visualizations/correlations/python/best.txt
+python code/correlations/visualize_correlations.py -o data/Shapes/visualizations/correlations/python/ data/Shapes/visualizations/correlations/pixels/sim-g.csv data/Shapes/visualizations/correlations/python/sim-MDS.csv > data/Shapes/visualizations/correlations/python/best.txt
 echo '    nonmetric Kruskal'
-python code/correlations/visualize_correlations.py -o data/Shapes/visualizations/correlations/R/ data/Shapes/visualizations/correlations/pixels/sim.csv data/Shapes/visualizations/correlations/R/sim-MDS.csv > data/Shapes/visualizations/correlations/R/best.txt
+python code/correlations/visualize_correlations.py -o data/Shapes/visualizations/correlations/R/ data/Shapes/visualizations/correlations/pixels/sim-g.csv data/Shapes/visualizations/correlations/R/sim-MDS.csv > data/Shapes/visualizations/correlations/R/best.txt

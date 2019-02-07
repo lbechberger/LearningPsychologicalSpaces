@@ -8,12 +8,15 @@ echo 'setting up directory structure'
 mkdir -p data/NOUN/similarities 
 mkdir -p data/NOUN/vectors/python/nonmetric data/NOUN/vectors/python/metric
 mkdir -p data/NOUN/vectors/R/nonmetric data/NOUN/vectors/R/metric
+mkdir -p data/NOUN/vectors/HorstHout/
 mkdir -p data/NOUN/visualizations/spaces/python/nonmetric data/NOUN/visualizations/spaces/python/metric
 mkdir -p data/NOUN/visualizations/spaces/R/nonmetric data/NOUN/visualizations/spaces/R/metric
+mkdir -p data/NOUN/visualizations/spaces/HorstHout
 mkdir -p data/NOUN/visualizations/correlations/pixels/rgb data/NOUN/visualizations/correlations/pixels/grey
 mkdir -p data/NOUN/visualizations/correlations/python/nonmetric data/NOUN/visualizations/correlations/python/metric
 mkdir -p data/NOUN/visualizations/correlations/R/nonmetric data/NOUN/visualizations/correlations/R/metric
 mkdir -p data/NOUN/visualizations/correlations/python/grey data/NOUN/visualizations/correlations/HorstHout
+cp data/NOUN/raw_data/4D-vectors.csv data/NOUN/vectors/HorstHout/4D-vectors.csv
 
 # preprocessing
 echo 'preprocessing data'
@@ -57,6 +60,8 @@ echo '    metric Eigenvalue'
 python code/mds/visualize.py data/NOUN/vectors/R/metric/ data/NOUN/visualizations/spaces/R/metric -i data/NOUN/images/
 echo '    nonmetric Kruskal'
 python code/mds/visualize.py data/NOUN/vectors/R/nonmetric/ data/NOUN/visualizations/spaces/R/nonmetric -i data/NOUN/images/
+echo '    metric Horst and Hout 4D'
+python code/mds/visualize.py data/NOUN/vectors/HorstHout/ data/NOUN/visualizations/spaces/HorstHout -i data/NOUN/images/
 
 
 # run image correlation

@@ -32,8 +32,11 @@ for file_name in os.listdir(args.input_folder):
     
     path_to_file = os.path.join(args.input_folder, file_name)
     
-    if os.path.isfile(path_to_file) and file_name.endswith('.csv'):
+    if os.path.isfile(path_to_file) and file_name.endswith('D-vectors.csv'):
         
+        if args.verbose:
+            print(file_name)
+            
         # read all the vectors and the item names
         item_ids = []        
         vectors = []
@@ -52,7 +55,6 @@ for file_name in os.listdir(args.input_folder):
         
         # output some debug information if necessary
         if args.verbose:
-            print(file_name)
             print('before: centroid [{0}], RMSD {1}'.format(','.join(map(lambda x: str(x), centroid(vectors))), 
                                                               root_mean_squared_distance(centered_vectors)))
             print('after: centroid [{0}], RMSD {1}'.format(','.join(map(lambda x: str(x), centroid(normalized_vectors))), 
