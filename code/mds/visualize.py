@@ -18,6 +18,7 @@ parser.add_argument('vector_folder', help = 'path to the folder containing the v
 parser.add_argument('output_folder', help = 'path to the folder where the visualizations should be stored')
 parser.add_argument('-i', '--image_folder', help = 'the folder containing images of the items', default = None)
 parser.add_argument('-z', '--zoom', type = int, help = 'the factor to which the images are scaled', default = 0.15)
+parser.add_argument('-m', '--max', type = int, help = 'size of the largest space to be visualized', default = 100)
 args = parser.parse_args()
 
 # first read in all the vectors
@@ -27,6 +28,10 @@ for file_name in os.listdir(args.vector_folder):
     if len(tokens) > 1:
         # valid file name
         dim = int(tokens[0])
+        
+        # skip space if it is too large
+        if dim > args.max:
+            continue
 
         vectors = []
         with open(os.path.join(args.vector_folder, file_name), 'r') as f:

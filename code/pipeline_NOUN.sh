@@ -1,7 +1,8 @@
 #!/bin/bash
 
-# use 10 dims as maximum
+# look at spaces with up to 10 dimensions, only visualize spaces with up to 5 dimensions
 dims=10
+max=5
 
 # set up the directory structure
 echo 'setting up directory structure'
@@ -53,15 +54,15 @@ python code/mds/normalize_spaces.py data/NOUN/vectors/R/nonmetric/
 # visualize MDS spaces
 echo 'visualizing MDS spaces'
 echo '    nonmetric SMACOF'
-python code/mds/visualize.py data/NOUN/vectors/python/nonmetric/ data/NOUN/visualizations/spaces/python/nonmetric -i data/NOUN/images/
+python code/mds/visualize.py data/NOUN/vectors/python/nonmetric/ data/NOUN/visualizations/spaces/python/nonmetric -i data/NOUN/images/ -m $max
 echo '    metric SMACOF'
-python code/mds/visualize.py data/NOUN/vectors/python/metric/ data/NOUN/visualizations/spaces/python/metric -i data/NOUN/images/
+python code/mds/visualize.py data/NOUN/vectors/python/metric/ data/NOUN/visualizations/spaces/python/metric -i data/NOUN/images/ -m $max
 echo '    metric Eigenvalue'
-python code/mds/visualize.py data/NOUN/vectors/R/metric/ data/NOUN/visualizations/spaces/R/metric -i data/NOUN/images/
+python code/mds/visualize.py data/NOUN/vectors/R/metric/ data/NOUN/visualizations/spaces/R/metric -i data/NOUN/images/ -m $max
 echo '    nonmetric Kruskal'
-python code/mds/visualize.py data/NOUN/vectors/R/nonmetric/ data/NOUN/visualizations/spaces/R/nonmetric -i data/NOUN/images/
+python code/mds/visualize.py data/NOUN/vectors/R/nonmetric/ data/NOUN/visualizations/spaces/R/nonmetric -i data/NOUN/images/ -m $max
 echo '    metric Horst and Hout 4D'
-python code/mds/visualize.py data/NOUN/vectors/HorstHout/ data/NOUN/visualizations/spaces/HorstHout -i data/NOUN/images/
+python code/mds/visualize.py data/NOUN/vectors/HorstHout/ data/NOUN/visualizations/spaces/HorstHout -i data/NOUN/images/ -m $max
 
 
 # run image correlation

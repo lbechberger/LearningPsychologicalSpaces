@@ -1,7 +1,8 @@
 #!/bin/bash
 
-# use 10 dims as maximum
+# look at spaces with up to 10 dimensions, only visualize spaces with up to 5 dimensions
 dims=10
+max=5
 
 # set up the directory structure
 echo 'setting up directory structure'
@@ -57,9 +58,9 @@ python code/mds/normalize_spaces.py data/Shapes/vectors/R/
 # visualize MDS spaces
 echo 'visualizing MDS spaces'
 echo '    nonmetric SMACOF'
-python code/mds/visualize.py data/Shapes/vectors/python/ data/Shapes/visualizations/spaces/python/ -i data/Shapes/images/
+python code/mds/visualize.py data/Shapes/vectors/python/ data/Shapes/visualizations/spaces/python/ -i data/Shapes/images/ -m 5
 echo '    nonmetric Kruskal'
-python code/mds/visualize.py data/Shapes/vectors/R/ data/Shapes/visualizations/spaces/R/ -i data/Shapes/images/
+python code/mds/visualize.py data/Shapes/vectors/R/ data/Shapes/visualizations/spaces/R/ -i data/Shapes/images/ -m 5
 
 
 # TODO analyze convexity
