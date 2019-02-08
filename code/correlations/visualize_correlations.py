@@ -17,8 +17,8 @@ parser.add_argument('mds_file', help = 'the input file containing the results of
 parser.add_argument('-o', '--output_folder', help = 'the folder to which the output should be saved', default='.')
 args = parser.parse_args()
 
-pixel_data = {'pearson':{}, 'spearman':{}, 'kendall':{}, 'r2':{}}
-mds_data = {'pearson':{}, 'spearman':{}, 'kendall':{}, 'r2':{}}
+pixel_data = {'pearson':{}, 'spearman':{}, 'kendall':{}, 'r2_linear':{}, 'r2_isotonic':{}}
+mds_data = {'pearson':{}, 'spearman':{}, 'kendall':{}, 'r2_linear':{}, 'r2_isotonic':{}}
 
 # read in pixel-based information
 with open(args.pixel_file, 'r') as f:
