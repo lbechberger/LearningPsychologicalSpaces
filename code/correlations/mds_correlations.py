@@ -9,6 +9,8 @@ Created on Thu Dec  6 11:43:04 2018
 
 import pickle, argparse, os
 import numpy as np
+from sklearn.isotonic import IsotonicRegression
+from sklearn.linear_model import LinearRegression
 from sklearn.metrics.pairwise import cosine_distances, euclidean_distances, manhattan_distances
 from sklearn.metrics import r2_score
 from scipy.stats import spearmanr, pearsonr, kendalltau
@@ -49,7 +51,7 @@ target_dissimilarities = input_data['dissimilarities']
 
 with open(output_file_name, 'w', buffering=1) as f_out:
 
-    f_out.write("n_dims,scoring,pearson,spearman,kendall,r2\n")
+    f_out.write("n_dims,scoring,pearson,spearman,kendall,r2_linear,r2_isotonic\n")
 
     for number_of_dimensions in range(args.n_min, args.n_max + 1):
         
@@ -77,23 +79,31 @@ with open(output_file_name, 'w', buffering=1) as f_out:
                     sim = scoring_function(vectors[i], vectors[j])
                     dissimilarity_scores[i][j] = sim
             
-            # transform dissimilarity matrices into column vectors for correlation computation
+            # transform dissimilarity matrices into vectors for correlation computation
             target_vector = np.reshape(target_dissimilarities, (-1,1)) 
-            sim_vector = np.reshape(dissimilarity_scores, (-1,1))
+            sim_vector = np.reshape(dissimilarity_scores, (-1,1)) 
+            
+            # compute correlations
             pearson, _ = pearsonr(sim_vector, target_vector)
             spearman, _ = spearmanr(sim_vector, target_vector)
             kendall, _ = kendalltau(sim_vector, target_vector)
+        
+            # compute least squares regression for R² metric
+            linear_regression = LinearRegression()
+            linear_regression.fit(sim_vector, target_vector)
+            predictions = linear_regression.predict(sim_vector)
+            r2_linear = r2_score(target_vector, predictions)
             
-            # compute least squares regression for R^2 metric
-            y = np.reshape(target_dissimilarities, (-1))
+            # compute isotonic regression for R² metric
             x = np.reshape(dissimilarity_scores, (-1))
-            A = np.vstack([x, np.ones(len(sim_vector))]).T
-            m, c = np.linalg.lstsq(A, y, rcond=None)[0]         
-            predictions = m*x + c
-            r2 = r2_score(y,predictions)
+            y = np.reshape(target_dissimilarities, (-1))
+            isotonic_regression = IsotonicRegression()
+            predictions = isotonic_regression.fit_transform(x, y)
+            r2_isotonic = r2_score(y, predictions)
             
             # compute and store correlation
-            f_out.write("{0},{1},{2},{3},{4},{5}\n".format(number_of_dimensions, scoring_name, pearson[0], spearman, kendall, r2))
+            f_out.write("{0},{1},{2},{3},{4},{5},{6}\n".format(number_of_dimensions, scoring_name, pearson[0], spearman, 
+                                                                kendall, r2_linear, r2_isotonic))
             
             if args.plot:
                 # create scatter plot if user want us to

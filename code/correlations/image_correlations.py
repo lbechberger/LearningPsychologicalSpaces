@@ -11,6 +11,8 @@ Created on Tue Dec  4 09:27:06 2018
 import pickle, argparse, os
 from PIL import Image
 import numpy as np
+from sklearn.isotonic import IsotonicRegression
+from sklearn.linear_model import LinearRegression
 from sklearn.metrics.pairwise import cosine_distances, euclidean_distances, manhattan_distances
 from sklearn.metrics import r2_score
 from scipy.stats import pearsonr, spearmanr, kendalltau
@@ -59,7 +61,7 @@ for item_id in item_ids:
 
 with open(output_file_name, 'w', buffering=1) as f:
 
-    f.write("aggregator,block_size,image_size,scoring,pearson,spearman,kendall,r2\n")
+    f.write("aggregator,block_size,image_size,scoring,pearson,spearman,kendall,r2_linear,r2_isotonic\n")
     last_image_size = 9999
     for block_size in range(1, args.size + 1):
         
@@ -108,20 +110,27 @@ with open(output_file_name, 'w', buffering=1) as f:
                 # transform dissimilarity matrices into vectors for correlation computation
                 target_vector = np.reshape(target_dissimilarities, (-1,1)) 
                 sim_vector = np.reshape(dissimilarity_scores, (-1,1)) 
+                
+                # compute correlations
                 pearson, _ = pearsonr(sim_vector, target_vector)
                 spearman, _ = spearmanr(sim_vector, target_vector)
                 kendall, _ = kendalltau(sim_vector, target_vector)
             
-                # compute least squares regression for R^2 metric
-                y = np.reshape(target_dissimilarities, (-1))
-                x = np.reshape(dissimilarity_scores, (-1))
-                A = np.vstack([x, np.ones(len(sim_vector))]).T
-                m, c = np.linalg.lstsq(A, y, rcond=None)[0]         
-                predictions = m*x + c
-                r2 = r2_score(y,predictions)
+                # compute least squares regression for R² metric
+                linear_regression = LinearRegression()
+                linear_regression.fit(sim_vector, target_vector)
+                predictions = linear_regression.predict(sim_vector)
+                r2_linear = r2_score(target_vector, predictions)
                 
-                f.write("{0},{1},{2},{3},{4},{5},{6},{7}\n".format(aggregator_name, block_size, image_size, scoring_name, 
-                                                                    abs(pearson[0]), abs(spearman), abs(kendall), r2))
+                # compute isotonic regression for R² metric
+                x = np.reshape(dissimilarity_scores, (-1))
+                y = np.reshape(target_dissimilarities, (-1))
+                isotonic_regression = IsotonicRegression()
+                predictions = isotonic_regression.fit_transform(x, y)
+                r2_isotonic = r2_score(y, predictions)
+                
+                f.write("{0},{1},{2},{3},{4},{5},{6},{7},{8}\n".format(aggregator_name, block_size, image_size, scoring_name, 
+                                                                    pearson[0], spearman, kendall, r2_linear, r2_isotonic))
                 
                 
                 if args.plot:
