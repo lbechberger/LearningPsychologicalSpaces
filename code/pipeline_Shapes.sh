@@ -59,21 +59,21 @@ python code/mds/normalize_spaces.py data/Shapes/vectors/R/
 # visualize MDS spaces
 echo 'visualizing MDS spaces'
 echo '    nonmetric SMACOF'
-python code/mds/visualize.py data/Shapes/vectors/python/ data/Shapes/visualizations/spaces/python/ -i data/Shapes/images/ -m 5
+python code/mds/visualize.py data/Shapes/vectors/python/ data/Shapes/visualizations/spaces/python/ -i data/Shapes/images/ -m $max
 echo '    nonmetric Kruskal'
-python code/mds/visualize.py data/Shapes/vectors/R/ data/Shapes/visualizations/spaces/R/ -i data/Shapes/images/ -m 5
+python code/mds/visualize.py data/Shapes/vectors/R/ data/Shapes/visualizations/spaces/R/ -i data/Shapes/images/ -m $max
 
 
 # analyze convexity
 echo 'analyzing convexity'
 echo '    nonmetric SMACOF'
-for i in `seq 1 $dims`
+for i in `seq 1 $max`
 do
 	echo "        $i"
 	python -u code/mds/analyze_convexity.py 'data/Shapes/vectors/python/'"$i"'D-vectors.csv' data/Shapes/raw_data/data.pickle $i -o data/Shapes/analysis/python/convexities.csv -r 100 > 'data/Shapes/analysis/python/'"$i"'D-convexity.txt'
 done
 echo '    nonmetric Kruskal'
-for i in `seq 1 $dims`
+for i in `seq 1 $max`
 do
 	echo "        $i"
 	python -u code/mds/analyze_convexity.py 'data/Shapes/vectors/R/'"$i"'D-vectors.csv' data/Shapes/raw_data/data.pickle $i -o data/Shapes/analysis/R/convexities.csv -r 100 > 'data/Shapes/analysis/R/'"$i"'D-convexity.txt'
