@@ -7,7 +7,7 @@ Created on Wed Nov 14 10:57:29 2018
 @author: lbechberger
 """
 
-import pickle, argparse
+import pickle, argparse, os
 import numpy as np
 from scipy.optimize import linprog
 
@@ -15,6 +15,8 @@ parser = argparse.ArgumentParser(description='Convexity analysis')
 parser.add_argument('vector_file', help = 'the input file containing the vectors')
 parser.add_argument('data_set_file', help = 'the pickle file containing the data set')
 parser.add_argument('n', type = int, help = 'number of dimensions of the MDS space')
+parser.add_argument('-o', '--output_file', help = 'output csv file for collecting the results', default = None)
+parser.add_argument('-r', '--repetitions', type = int, help = 'number of repetitions in sampling the baselines', default = 20)
 args = parser.parse_args()
 
 # function that checks whether this point is a convex combination of the hull points
@@ -88,9 +90,7 @@ for category in categories:
     avg_normal_violations = 0
     avg_shuffled_violations = 0
 
-    num_repetitions = 100    
-    
-    for i in range(num_repetitions):
+    for i in range(args.repetitions):
         uniform_hull_points = np.random.rand(len(hull_points), args.n)
         uniform_query_points = np.random.rand(len(query_points), args.n)
         avg_uniform_violations += count_violations(uniform_hull_points, uniform_query_points)       
@@ -105,17 +105,17 @@ for category in categories:
         shuffled_query_points = shuffled_data_points[len(hull_points):]
         avg_shuffled_violations += count_violations(shuffled_hull_points, shuffled_query_points)  
     
-    avg_uniform_violations /= num_repetitions
+    avg_uniform_violations /= args.repetitions
     sim_violations[vis_sim]['uniform'] += avg_uniform_violations
     artificial_violations[artificial]['uniform'] += avg_uniform_violations
     sum_violations['uniform'] += avg_uniform_violations
     
-    avg_normal_violations /= num_repetitions
+    avg_normal_violations /= args.repetitions
     sim_violations[vis_sim]['normal'] += avg_normal_violations
     artificial_violations[artificial]['normal'] += avg_normal_violations
     sum_violations['normal'] += avg_normal_violations
     
-    avg_shuffled_violations /= num_repetitions
+    avg_shuffled_violations /= args.repetitions
     sim_violations[vis_sim]['shuffled'] += avg_shuffled_violations
     artificial_violations[artificial]['shuffled'] += avg_shuffled_violations
     sum_violations['shuffled'] += avg_shuffled_violations
@@ -137,3 +137,23 @@ print("Within 'art': {0} (uniform: {1}, normal: {2}, shuffled: {3})".format(arti
                                                                               artificial_violations['art']['normal'], artificial_violations['art']['shuffled']))
 print("Within 'nat': {0} (uniform: {1}, normal: {2}, shuffled: {3})".format(artificial_violations['nat']['MDS'], artificial_violations['nat']['uniform'],
                                                                               artificial_violations['nat']['normal'], artificial_violations['nat']['shuffled']))
+
+if args.output_file != None:
+    
+    # write headline if necessary
+    if not os.path.exists(args.output_file):
+        with open(args.output_file, 'w') as f:
+            f.write("dims,total,total_u,total_n,total_s,sim,sim_u,sim_n,sim_s,dis,dis_u,dis_n,dis_s,x,x_u,x_n,x_s,art,art_u,art_n,art_s,nat,nat_u,nat_n,nat_s\n")
+    
+    # write content
+    with open(args.output_file, 'a') as f:
+        total = [sum_violations['MDS'], sum_violations['uniform'], sum_violations['normal'], sum_violations['shuffled']]
+        sim = [sim_violations['Sim']['MDS'], sim_violations['Sim']['uniform'], sim_violations['Sim']['normal'], sim_violations['Sim']['shuffled']]
+        dis = [sim_violations['Dis']['MDS'], sim_violations['Dis']['uniform'], sim_violations['Dis']['normal'], sim_violations['Dis']['shuffled']]
+        x = [sim_violations['x']['MDS'], sim_violations['x']['uniform'], sim_violations['x']['normal'], sim_violations['x']['shuffled']]
+        art = [artificial_violations['art']['MDS'], artificial_violations['art']['uniform'], artificial_violations['art']['normal'], artificial_violations['art']['shuffled']]
+        nat = [artificial_violations['nat']['MDS'], artificial_violations['nat']['uniform'], artificial_violations['nat']['normal'], artificial_violations['nat']['shuffled']]
+        
+        list_of_all_results = [args.n] + total + sim + dis + x + art + nat   
+        f.write(','.join(map(lambda x: str(x), list_of_all_results)))
+        f.write('\n')

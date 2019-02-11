@@ -13,6 +13,7 @@ mkdir -p data/Shapes/visualizations/correlations/pixels
 mkdir -p data/Shapes/visualizations/correlations/python/ data/Shapes/visualizations/correlations/R/
 mkdir -p data/Shapes/visualizations/average_images/283 data/Shapes/visualizations/average_images/100 data/Shapes/visualizations/average_images/50 
 mkdir -p data/Shapes/visualizations/average_images/20 data/Shapes/visualizations/average_images/10 data/Shapes/visualizations/average_images/5
+mkdir -p data/Shapes/analysis/python data/Shapes/analysis/R
 
 
 # preprocessing
@@ -63,7 +64,21 @@ echo '    nonmetric Kruskal'
 python code/mds/visualize.py data/Shapes/vectors/R/ data/Shapes/visualizations/spaces/R/ -i data/Shapes/images/ -m 5
 
 
-# TODO analyze convexity
+# analyze convexity
+echo 'analyzing convexity'
+echo '    nonmetric SMACOF'
+for i in `seq 1 $dims`
+do
+	echo "        $i"
+	python -u code/mds/analyze_convexity.py 'data/Shapes/vectors/python/'"$i"'D-vectors.csv' data/Shapes/raw_data/data.pickle $i -o data/Shapes/analysis/python/convexities.csv -r 100 > 'data/Shapes/analysis/python/'"$i"'D-convexity.txt'
+done
+echo '    nonmetric Kruskal'
+for i in `seq 1 $dims`
+do
+	echo "        $i"
+	python -u code/mds/analyze_convexity.py 'data/Shapes/vectors/R/'"$i"'D-vectors.csv' data/Shapes/raw_data/data.pickle $i -o data/Shapes/analysis/R/convexities.csv -r 100 > 'data/Shapes/analysis/R/'"$i"'D-convexity.txt'
+done
+
 # TODO analyze interpretable directions
 
 

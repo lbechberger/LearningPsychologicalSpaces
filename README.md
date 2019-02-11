@@ -178,12 +178,16 @@ The script takes the following optional arguments:
 
 ### Checking for Convexity
 
-The script `analyze_space.py` can be used to check whether the categories within the space are convex. This is only applicable to the Shapes data set, as there are no categories in NOUN. The script iterates over all categories, builds a convex hull of the items belonging to this category and counts how many points from other categories lie within this convex hull. Each point that lies in the convex hull of a different concept is counted as one violation. The script outputs the number of violations for each category, together with an estimate of how many violations would be expected if points are randomly sampled from a uniform distribution, a normal distribution, or the overall set of given points.
+The script `analyze_convexity.py` can be used to check whether the categories within the space are convex. This is only applicable to the Shapes data set, as there are no categories in NOUN. The script iterates over all categories, builds a convex hull of the items belonging to this category and counts how many points from other categories lie within this convex hull. Each point that lies in the convex hull of a different concept is counted as one violation. The script outputs the number of violations for each category, together with an estimate of how many violations would be expected if points are randomly sampled from a uniform distribution, a normal distribution, or the overall set of given points.
 
 The script can be exectued as follows (where `n_dims` is the number of dimension of this specific MDS space):
 ```
-python code/mds/analyze_space.py path/to/vectors.csv path/to/data.pickle n_dims
+python code/mds/analyze_convexity.py path/to/vectors.csv path/to/data.pickle n_dims
 ```
+It takes the following optional arguments:
+- `-o` or `--output_file`: If an output file is given, the results are appended to this file in CSV style.
+- `-r` or `--repetitions`: Determines the number of repetitions used when sampling from the baselines. Defaults to 20. More samples means more accurate estimation, but longer runtime.
+
 
 ### Searching for Interpretable Directions
 The script `check_interpretablilites.py` tries to find interpretable directions in a given MDS space based on prior binary classifications of the items. It can be invoked as follows (where `n` is the number of dimensions of the underlying space):
