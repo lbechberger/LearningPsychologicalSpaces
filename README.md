@@ -190,14 +190,16 @@ It takes the following optional arguments:
 
 
 ### Searching for Interpretable Directions
-The script `check_interpretablilites.py` tries to find interpretable directions in a given MDS space based on prior binary classifications of the items. It can be invoked as follows (where `n` is the number of dimensions of the underlying space):
-```
-python code/mds/check_interpretabilities.py path/to/vectors.csv path/to/classification/folder/ n
-```
-The script iterates over all files in the classification folder and constructs a classification problem for each of these files. Each file is expected to contain a list of positive examples, represented by one item ID per line. A linear SVM is trained using the vectors provided in the csv file and the classification as extracted from the classification file. All data points are used for both training and evaluating. Evaulation is done by using Cohen's kappa. The script outputs for each classification task the value of Cohen's kappa as well as the normal vector of the separating hyperplane. The latter can be thought of as an interpretable direction if the value of kappa is sufficiently high. Just like `analyze_space.py`, also the `check_interpretabilities.py` script compares the result to the average over 100 iterations for randomly sampled points (uniformly distributed vectors, normally distributed vectors, shuffled assignment of real vectors).
+The script `check_interpretability.py` tries to find interpretable directions in a given MDS space based on prior binary classifications of the items. The script iterates over all files in the classification folder and constructs a classification problem for each of these files. Each file is expected to contain a list of positive examples, represented by one item ID per line. A linear SVM is trained using the vectors provided in the csv file and the classification as extracted from the classification file. All data points are used for both training and evaluating. Evaulation is done by using Cohen's kappa. The script outputs for each classification task the value of Cohen's kappa as well as the normal vector of the separating hyperplane. The latter can be thought of as an interpretable direction if the value of kappa is sufficiently high. Just like `analyze_convexity.py`, also the `check_interpretability.py` script compares the result to the average over multiple repetitions for randomly sampled points (uniformly distributed vectors, normally distributed vectors, shuffled assignment of real vectors).
 
+The script can be invoked as follows (where `n_dims` is the number of dimensions of the underlying space):
+```
+python code/mds/check_interpretability.py path/to/vectors.csv path/to/classification/folder/ n_dims
+```
+It takes the following optional arguments:
+- `-o` or `--output_file`: If an output file is given, the results are appended to this file in CSV style.
+- `-r` or `--repetitions`: Determines the number of repetitions used when sampling from the baselines. Defaults to 20. More samples means more accurate estimation, but longer runtime.
 
-The code necessary to run the multi-dimensional scaling can be found in the `mds` directory. It uses the similarity ratings available with the NOUN database and applies the MDS algorithm from scikit-learn in order to derive a spatial representation. You can invoke it by simply calling `python MDS-NOUN-4d.py` from within the `mds` directory. The script generates an illustration of the resulting space as well as a csv file where the first column identifies the image by its ID and the remaining columns provide the coordinates of this image in the MDS space.
 
 ## Correlations to Similarity Ratings
 

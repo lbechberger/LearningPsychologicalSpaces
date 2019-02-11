@@ -79,7 +79,20 @@ do
 	python -u code/mds/analyze_convexity.py 'data/Shapes/vectors/R/'"$i"'D-vectors.csv' data/Shapes/raw_data/data.pickle $i -o data/Shapes/analysis/R/convexities.csv -r 100 > 'data/Shapes/analysis/R/'"$i"'D-convexity.txt'
 done
 
-# TODO analyze interpretable directions
+# analyze interpretable directions
+echo 'analyzing interpretable directions'
+echo '    nonmetric SMACOF'
+for i in `seq 1 $dims`
+do
+	echo "        $i"
+	python -u code/mds/check_interpretability.py 'data/Shapes/vectors/python/'"$i"'D-vectors.csv' data/Shapes/classifications/ $i -o data/Shapes/analysis/python/interpretabilities.csv -r 100 > 'data/Shapes/analysis/python/'"$i"'D-interpretability.txt'
+done
+echo '    nonmetric Kruskal'
+for i in `seq 1 $dims`
+do
+	echo "        $i"
+	python -u code/mds/check_interpretability.py 'data/Shapes/vectors/R/'"$i"'D-vectors.csv' data/Shapes/classifications/ $i -o data/Shapes/analysis/R/interpretabilities.csv -r 100 > 'data/Shapes/analysis/R/'"$i"'D-interpretability.txt'
+done
 
 
 # run image correlation

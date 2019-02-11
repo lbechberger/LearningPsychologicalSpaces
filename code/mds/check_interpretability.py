@@ -16,6 +16,8 @@ parser = argparse.ArgumentParser(description='Finding interpretable directions')
 parser.add_argument('vector_file', help = 'the input file containing the vectors')
 parser.add_argument('classification_folder', help = 'the folder containing the classification distributions')
 parser.add_argument('n', type = int, help = 'the number of dimensions in the underlying space')
+parser.add_argument('-o', '--output_file', help = 'output csv file for collecting the results', default = None)
+parser.add_argument('-r', '--repetitions', type = int, help = 'number of repetitions in sampling the baselines', default = 20)
 args = parser.parse_args()
 
 # read the vectors
@@ -31,6 +33,7 @@ with open(args.vector_file, 'r') as f:
         vectors[item] = vector
 
 kappas = {'MDS':[], 'uniform':[], 'normal':[], 'shuffled':[]}
+category_names = []
 
 print("INDIVIDUAL")
 
@@ -50,12 +53,11 @@ for file_name in os.listdir(args.classification_folder):
     direction = svm.coef_
     kappa = cohen_kappa_score(svm.predict(all_examples), binary_labels)
     
-    num_repetitions = 100    
     kappa_uniform = 0
     kappa_normal = 0
     kappa_shuffled = 0    
     
-    for i in range(num_repetitions):
+    for i in range(args.repetitions):
         uniform_points = np.random.rand(len(all_examples), args.n)
         uniform_svm = LinearSVC()
         uniform_svm.fit(uniform_points, binary_labels)
@@ -72,14 +74,16 @@ for file_name in os.listdir(args.classification_folder):
         shuffled_svm.fit(shuffled_points, binary_labels)
         kappa_shuffled += cohen_kappa_score(shuffled_svm.predict(shuffled_points), binary_labels)       
     
-    kappa_uniform /= num_repetitions
-    kappa_normal /= num_repetitions
-    kappa_shuffled /= num_repetitions
+    kappa_uniform /= args.repetitions
+    kappa_normal /= args.repetitions
+    kappa_shuffled /= args.repetitions
     
     kappas['MDS'].append(kappa)
     kappas['uniform'].append(kappa_uniform)
     kappas['normal'].append(kappa_normal)
-    kappas['shuffled'].append(kappa_shuffled)    
+    kappas['shuffled'].append(kappa_shuffled)   
+    
+    category_names.append(file_name)
     
     print("\t{0}: kappa {1}, direction {2} (uniform: {3}, normal: {4}, shuffled: {5})".format(file_name, 
               kappa, direction, kappa_uniform, kappa_normal, kappa_shuffled))
@@ -93,4 +97,25 @@ print("\tavg: {0} (uniform: {1}, normal: {2}, shuffled: {3})".format(avg(kappas[
                                                                       avg(kappas['normal']), avg(kappas['shuffled'])))
 print("\tmax: {0} (uniform: {1}, normal: {2}, shuffled: {3})".format(max(kappas['MDS']), max(kappas['uniform']),
                                                                       max(kappas['normal']), max(kappas['shuffled'])))
-                                                                      
+          
+if args.output_file != None:
+    
+    # write headline if necessary
+    if not os.path.exists(args.output_file):
+
+        # construct headline
+        headline = 'dims'
+        for category in category_names:
+            headline += ',{0},{0}_u,{0}_n,{0}_s'.format(category)
+        
+        with open(args.output_file, 'w') as f:
+            f.write(headline)
+            f.write("\n")
+    
+    # write content
+    with open(args.output_file, 'a') as f:
+        line_items = [args.n]
+        for mds, uniform, normal, shuffled in zip(kappas['MDS'], kappas['uniform'], kappas['normal'], kappas['shuffled']):
+            line_items += [mds, uniform, normal, shuffled]
+        f.write(",".join(map(lambda x: str(x), line_items)))
+        f.write("\n")
