@@ -11,7 +11,7 @@ mkdir -p data/NOUN/vectors/classical/ data/NOUN/vectors/Kruskal/ data/NOUN/vecto
 mkdir -p data/NOUN/vectors/HorstHout/
 mkdir -p data/NOUN/visualizations/spaces/classical/ data/NOUN/visualizations/spaces/Kruskal/ data/NOUN/visualizations/spaces/metric_SMACOF/ data/NOUN/visualizations/spaces/nonmetric_SMACOF/
 mkdir -p data/NOUN/visualizations/spaces/HorstHout
-mkdir -p data/NOUN/visualizations/correlations/pixels/rgb data/NOUN/visualizations/correlations/pixels/grey data/NOUN/visualizations/correlations/grey
+mkdir -p data/NOUN/visualizations/correlations/pixels/rgb data/NOUN/visualizations/correlations/pixels/grey data/NOUN/visualizations/correlations/grey data/NOUN/visualizations/correlations/HorstHout/
 mkdir -p data/NOUN/visualizations/correlations/classical/ data/NOUN/visualizations/correlations/Kruskal/ data/NOUN/visualizations/correlations/metric_SMACOF/ data/NOUN/visualizations/correlations/nonmetric_SMACOF/
 cp data/NOUN/raw_data/4D-vectors.csv data/NOUN/vectors/HorstHout/4D-vectors.csv
 
