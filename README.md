@@ -171,6 +171,7 @@ python code/mds/analyze_convexity.py path/to/vectors.csv path/to/data.pickle n_d
 ```
 It takes the following optional arguments:
 - `-o` or `--output_file`: If an output file is given, the results are appended to this file in CSV style.
+- `-b` or `--baseline`: Ony if this flag is set, the script will also estimate the expected values of randomly drawn points.
 - `-r` or `--repetitions`: Determines the number of repetitions used when sampling from the baselines. Defaults to 20. More samples means more accurate estimation, but longer runtime.
 
 
@@ -183,6 +184,7 @@ python code/mds/check_interpretability.py path/to/vectors.csv path/to/classifica
 ```
 It takes the following optional arguments:
 - `-o` or `--output_file`: If an output file is given, the results are appended to this file in CSV style.
+- `-b` or `--baseline`: Ony if this flag is set, the script will also estimate the expected values of randomly drawn points.
 - `-r` or `--repetitions`: Determines the number of repetitions used when sampling from the baselines. Defaults to 20. More samples means more accurate estimation, but longer runtime.
 
 

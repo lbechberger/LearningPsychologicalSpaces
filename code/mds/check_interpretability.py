@@ -18,6 +18,7 @@ parser.add_argument('classification_folder', help = 'the folder containing the c
 parser.add_argument('n', type = int, help = 'the number of dimensions in the underlying space')
 parser.add_argument('-o', '--output_file', help = 'output csv file for collecting the results', default = None)
 parser.add_argument('-r', '--repetitions', type = int, help = 'number of repetitions in sampling the baselines', default = 20)
+parser.add_argument('-b', '--baseline', action = "store_true", help = 'whether or not to compute the random baselines')
 args = parser.parse_args()
 
 # read the vectors
@@ -57,26 +58,28 @@ for file_name in os.listdir(args.classification_folder):
     kappa_normal = 0
     kappa_shuffled = 0    
     
-    for i in range(args.repetitions):
-        uniform_points = np.random.rand(len(all_examples), args.n)
-        uniform_svm = LinearSVC()
-        uniform_svm.fit(uniform_points, binary_labels)
-        kappa_uniform += cohen_kappa_score(uniform_svm.predict(uniform_points), binary_labels)       
+    if args.baseline:
         
-        normal_points = np.random.normal(size=(len(all_examples), args.n))
-        normal_svm = LinearSVC()
-        normal_svm.fit(normal_points, binary_labels)
-        kappa_normal += cohen_kappa_score(normal_svm.predict(normal_points), binary_labels)       
+        for i in range(args.repetitions):
+            uniform_points = np.random.rand(len(all_examples), args.n)
+            uniform_svm = LinearSVC()
+            uniform_svm.fit(uniform_points, binary_labels)
+            kappa_uniform += cohen_kappa_score(uniform_svm.predict(uniform_points), binary_labels)       
+            
+            normal_points = np.random.normal(size=(len(all_examples), args.n))
+            normal_svm = LinearSVC()
+            normal_svm.fit(normal_points, binary_labels)
+            kappa_normal += cohen_kappa_score(normal_svm.predict(normal_points), binary_labels)       
+            
+            shuffled_points = np.array(list(all_examples))
+            np.random.shuffle(shuffled_points)
+            shuffled_svm = LinearSVC()
+            shuffled_svm.fit(shuffled_points, binary_labels)
+            kappa_shuffled += cohen_kappa_score(shuffled_svm.predict(shuffled_points), binary_labels)       
         
-        shuffled_points = np.array(list(all_examples))
-        np.random.shuffle(shuffled_points)
-        shuffled_svm = LinearSVC()
-        shuffled_svm.fit(shuffled_points, binary_labels)
-        kappa_shuffled += cohen_kappa_score(shuffled_svm.predict(shuffled_points), binary_labels)       
-    
-    kappa_uniform /= args.repetitions
-    kappa_normal /= args.repetitions
-    kappa_shuffled /= args.repetitions
+        kappa_uniform /= args.repetitions
+        kappa_normal /= args.repetitions
+        kappa_shuffled /= args.repetitions
     
     kappas['MDS'].append(kappa)
     kappas['uniform'].append(kappa_uniform)

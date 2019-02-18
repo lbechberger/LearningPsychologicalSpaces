@@ -17,6 +17,7 @@ parser.add_argument('data_set_file', help = 'the pickle file containing the data
 parser.add_argument('n', type = int, help = 'number of dimensions of the MDS space')
 parser.add_argument('-o', '--output_file', help = 'output csv file for collecting the results', default = None)
 parser.add_argument('-r', '--repetitions', type = int, help = 'number of repetitions in sampling the baselines', default = 20)
+parser.add_argument('-b', '--baseline', action = "store_true", help = 'whether or not to compute the random baselines')
 args = parser.parse_args()
 
 # function that checks whether this point is a convex combination of the hull points
@@ -85,43 +86,47 @@ for category in categories:
     artificial_violations[artificial]['MDS'] += num_violations
     sum_violations['MDS'] += num_violations
     
-    # for comparison, also compute expected number of violations for randomly chosen points  
-    avg_uniform_violations = 0
-    avg_normal_violations = 0
-    avg_shuffled_violations = 0
+    if args.baseline:
+        # for comparison, also compute expected number of violations for randomly chosen points  
+        avg_uniform_violations = 0
+        avg_normal_violations = 0
+        avg_shuffled_violations = 0
+    
+        for i in range(args.repetitions):
+            uniform_hull_points = np.random.rand(len(hull_points), args.n)
+            uniform_query_points = np.random.rand(len(query_points), args.n)
+            avg_uniform_violations += count_violations(uniform_hull_points, uniform_query_points)       
+            
+            normal_hull_points = np.random.normal(size=(len(hull_points), args.n))
+            normal_query_points = np.random.normal(size=(len(query_points), args.n))
+            avg_normal_violations += count_violations(normal_hull_points, normal_query_points)       
+            
+            shuffled_data_points = np.array(list(vectors.values()))
+            np.random.shuffle(shuffled_data_points)
+            shuffled_hull_points = shuffled_data_points[:len(hull_points)]
+            shuffled_query_points = shuffled_data_points[len(hull_points):]
+            avg_shuffled_violations += count_violations(shuffled_hull_points, shuffled_query_points)  
+        
+        avg_uniform_violations /= args.repetitions
+        sim_violations[vis_sim]['uniform'] += avg_uniform_violations
+        artificial_violations[artificial]['uniform'] += avg_uniform_violations
+        sum_violations['uniform'] += avg_uniform_violations
+        
+        avg_normal_violations /= args.repetitions
+        sim_violations[vis_sim]['normal'] += avg_normal_violations
+        artificial_violations[artificial]['normal'] += avg_normal_violations
+        sum_violations['normal'] += avg_normal_violations
+        
+        avg_shuffled_violations /= args.repetitions
+        sim_violations[vis_sim]['shuffled'] += avg_shuffled_violations
+        artificial_violations[artificial]['shuffled'] += avg_shuffled_violations
+        sum_violations['shuffled'] += avg_shuffled_violations
+            
+        print("{0} ({1}, {2}): {3} violations (uniform: {4}, normal: {5}, shuffled: {6})".format(category, vis_sim, artificial, 
+                  num_violations, avg_uniform_violations, avg_normal_violations, avg_shuffled_violations))
+    else:
+        print("{0} ({1}, {2}): {3} violations ".format(category, vis_sim, artificial, num_violations))
 
-    for i in range(args.repetitions):
-        uniform_hull_points = np.random.rand(len(hull_points), args.n)
-        uniform_query_points = np.random.rand(len(query_points), args.n)
-        avg_uniform_violations += count_violations(uniform_hull_points, uniform_query_points)       
-        
-        normal_hull_points = np.random.normal(size=(len(hull_points), args.n))
-        normal_query_points = np.random.normal(size=(len(query_points), args.n))
-        avg_normal_violations += count_violations(normal_hull_points, normal_query_points)       
-        
-        shuffled_data_points = np.array(list(vectors.values()))
-        np.random.shuffle(shuffled_data_points)
-        shuffled_hull_points = shuffled_data_points[:len(hull_points)]
-        shuffled_query_points = shuffled_data_points[len(hull_points):]
-        avg_shuffled_violations += count_violations(shuffled_hull_points, shuffled_query_points)  
-    
-    avg_uniform_violations /= args.repetitions
-    sim_violations[vis_sim]['uniform'] += avg_uniform_violations
-    artificial_violations[artificial]['uniform'] += avg_uniform_violations
-    sum_violations['uniform'] += avg_uniform_violations
-    
-    avg_normal_violations /= args.repetitions
-    sim_violations[vis_sim]['normal'] += avg_normal_violations
-    artificial_violations[artificial]['normal'] += avg_normal_violations
-    sum_violations['normal'] += avg_normal_violations
-    
-    avg_shuffled_violations /= args.repetitions
-    sim_violations[vis_sim]['shuffled'] += avg_shuffled_violations
-    artificial_violations[artificial]['shuffled'] += avg_shuffled_violations
-    sum_violations['shuffled'] += avg_shuffled_violations
-        
-    print("{0} ({1}, {2}): {3} violations (uniform: {4}, normal: {5}, shuffled: {6})".format(category, vis_sim, artificial, 
-              num_violations, avg_uniform_violations, avg_normal_violations, avg_shuffled_violations))
 
 print("\nTotal violations: {0} (uniform: {1}, normal: {2}, shuffled: {3})\n".format(sum_violations['MDS'], sum_violations['uniform'], 
                                                                                   sum_violations['normal'], sum_violations['shuffled']))
