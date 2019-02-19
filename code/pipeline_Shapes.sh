@@ -9,11 +9,13 @@ echo 'setting up directory structure'
 mkdir -p data/Shapes/similarities/mean data/Shapes/similarities/median 
 mkdir -p data/Shapes/vectors/Kruskal_mean/ data/Shapes/vectors/SMACOF_median/ data/Shapes/vectors/SMACOF_mean/
 mkdir -p data/Shapes/visualizations/spaces/Kruskal_mean data/Shapes/visualizations/spaces/SMACOF_mean data/Shapes/visualizations/spaces/SMACOF_median
-mkdir -p data/Shapes/visualizations/correlations/pixels/mean data/Shapes/visualizations/correlations/pixels/median
-mkdir -p data/Shapes/visualizations/correlations/Kruskal_mean data/Shapes/visualizations/correlations/SMACOF_mean data/Shapes/visualizations/correlations/SMACOF_median
 mkdir -p data/Shapes/visualizations/average_images/283 data/Shapes/visualizations/average_images/100 data/Shapes/visualizations/average_images/50 
 mkdir -p data/Shapes/visualizations/average_images/20 data/Shapes/visualizations/average_images/10 data/Shapes/visualizations/average_images/5
-mkdir -p data/Shapes/analysis/Kruskal_mean data/Shapes/analysis/SMACOF_mean data/Shapes/analysis/SMACOF_median
+mkdir -p data/Shapes/analysis/Kruskal_mean/convexity data/Shapes/analysis/Kruskal_mean/interpretability data/Shapes/analysis/Kruskal_mean/correlation_mean data/Shapes/analysis/Kruskal_mean/correlation_median
+mkdir -p data/Shapes/analysis/SMACOF_mean/convexity data/Shapes/analysis/SMACOF_mean/interpretability data/Shapes/analysis/SMACOF_mean/correlation_mean data/Shapes/analysis/SMACOF_mean/correlation_median
+mkdir -p data/Shapes/analysis/SMACOF_median/convexity data/Shapes/analysis/SMACOF_median/interpretability data/Shapes/analysis/SMACOF_median/correlation_mean data/Shapes/analysis/SMACOF_median/correlation_median
+mkdir -p data/Shapes/analysis/pixel_correlations/mean data/Shapes/analysis/pixel_correlations/median
+mkdir -p data/Shapes/visualizations/correlations/Kruskal_mean data/Shapes/visualizations/correlations/SMACOF_mean data/Shapes/visualizations/correlations/SMACOF_median
 
 
 # preprocessing
@@ -129,26 +131,31 @@ wait
 # run image correlation
 echo 'image correlation'
 echo '    mean'
-python code/correlations/image_correlations.py data/Shapes/similarities/mean/sim.pickle data/Shapes/images/ -o data/Shapes/visualizations/correlations/pixels/mean/ -s 283 -g &
+python code/correlations/image_correlations.py data/Shapes/similarities/mean/sim.pickle data/Shapes/images/ -o data/Shapes/analysis/pixel_correlations/mean/ -s 283 -g &
 echo '    median'
-python code/correlations/image_correlations.py data/Shapes/similarities/median/sim.pickle data/Shapes/images/ -o data/Shapes/visualizations/correlations/pixels/median/ -s 283 -g &
+python code/correlations/image_correlations.py data/Shapes/similarities/median/sim.pickle data/Shapes/images/ -o data/Shapes/analysis/pixel_correlations/median/ -s 283 -g &
 wait
 
 # run MDS correlations
 echo 'MDS correlation'
 echo '    Kruskal mean'
-python code/correlations/mds_correlations.py data/Shapes/similarities/mean/sim.pickle data/Shapes/vectors/Kruskal_mean/ -o data/Shapes/visualizations/correlations/Kruskal_mean/ --n_max $dims
+python code/correlations/mds_correlations.py data/Shapes/similarities/mean/sim.pickle data/Shapes/vectors/Kruskal_mean/ -o data/Shapes/analysis/Kruskal_mean/correlation_mean/ --n_max $dims &
+python code/correlations/mds_correlations.py data/Shapes/similarities/median/sim.pickle data/Shapes/vectors/Kruskal_mean/ -o data/Shapes/analysis/Kruskal_mean/correlation_median/ --n_max $dims &
 echo '    SMACOF mean'
-python code/correlations/mds_correlations.py data/Shapes/similarities/mean/sim.pickle data/Shapes/vectors/SMACOF_mean/ -o data/Shapes/visualizations/correlations/SMACOF_mean/ --n_max $dims
+python code/correlations/mds_correlations.py data/Shapes/similarities/mean/sim.pickle data/Shapes/vectors/SMACOF_mean/ -o data/Shapes/analysis/SMACOF_mean/correlation_mean/ --n_max $dims &
+python code/correlations/mds_correlations.py data/Shapes/similarities/median/sim.pickle data/Shapes/vectors/SMACOF_mean/ -o data/Shapes/analysis/SMACOF_mean/correlation_median/ --n_max $dims &
 echo '    SMACOF median'
-python code/correlations/mds_correlations.py data/Shapes/similarities/median/sim.pickle data/Shapes/vectors/SMACOF_median/ -o data/Shapes/visualizations/correlations/SMACOF_median/ --n_max $dims
+python code/correlations/mds_correlations.py data/Shapes/similarities/mean/sim.pickle data/Shapes/vectors/SMACOF_median/ -o data/Shapes/visualizations/SMACOF_median/correlation_mean/ --n_max $dims &
+python code/correlations/mds_correlations.py data/Shapes/similarities/median/sim.pickle data/Shapes/vectors/SMACOF_median/ -o data/Shapes/visualizations/SMACOF_median/correlation_median/ --n_max $dims &
+wait
 
 # visualize correlation results
 echo 'visualizing correlation'
 echo '    Kruskal mean'
-python code/correlations/visualize_correlations.py -o data/Shapes/visualizations/correlations/Kruskal_mean/ data/Shapes/visualizations/correlations/pixels/mean/sim-g.csv data/Shapes/visualizations/correlations/Kruskal_mean/sim-MDS.csv > data/Shapes/visualizations/correlations/Kruskal_mean/best.txt
+python code/correlations/visualize_correlations.py -o data/Shapes/visualizations/correlations/Kruskal_mean/ data/Shapes/analysis/pixel_correlations/mean/sim-g.csv data/Shapes/analysis/Kruskal_mean/correlation_mean/sim-MDS.csv > data/Shapes/visualizations/correlations/Kruskal_mean/best.txt &
 echo '    SMACOF mean'
-python code/correlations/visualize_correlations.py -o data/Shapes/visualizations/correlations/SMACOF_mean/ data/Shapes/visualizations/correlations/pixels/mean/sim-g.csv data/Shapes/visualizations/correlations/SMACOF_mean/sim-MDS.csv > data/Shapes/visualizations/correlations/SMACOF_mean/best.txt
+python code/correlations/visualize_correlations.py -o data/Shapes/visualizations/correlations/SMACOF_mean/ data/Shapes/analysis/pixel_correlations/mean/sim-g.csv data/Shapes/analysis/SMACOF_mean/correlation_mean/sim-MDS.csv > data/Shapes/visualizations/correlations/SMACOF_mean/best.txt &
 echo '    SMACOF median'
-python code/correlations/visualize_correlations.py -o data/Shapes/visualizations/correlations/SMACOF_median/ data/Shapes/visualizations/correlations/pixels/median/sim-g.csv data/Shapes/visualizations/correlations/SMACOF_median/sim-MDS.csv > data/Shapes/visualizations/correlations/SMACOF_median/best.txt
+python code/correlations/visualize_correlations.py -o data/Shapes/visualizations/correlations/SMACOF_median/ data/Shapes/analysis/pixel_correlations/median/sim-g.csv data/Shapes/analysis/SMACOF_median/correlation_median/sim-MDS.csv > data/Shapes/visualizations/correlations/SMACOF_median/best.txt &
+wait
 

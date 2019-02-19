@@ -11,8 +11,10 @@ mkdir -p data/NOUN/vectors/classical/ data/NOUN/vectors/Kruskal/ data/NOUN/vecto
 mkdir -p data/NOUN/vectors/HorstHout/
 mkdir -p data/NOUN/visualizations/spaces/classical/ data/NOUN/visualizations/spaces/Kruskal/ data/NOUN/visualizations/spaces/metric_SMACOF/ data/NOUN/visualizations/spaces/nonmetric_SMACOF/
 mkdir -p data/NOUN/visualizations/spaces/HorstHout
-mkdir -p data/NOUN/visualizations/correlations/pixels/rgb data/NOUN/visualizations/correlations/pixels/grey data/NOUN/visualizations/correlations/grey data/NOUN/visualizations/correlations/HorstHout/
-mkdir -p data/NOUN/visualizations/correlations/classical/ data/NOUN/visualizations/correlations/Kruskal/ data/NOUN/visualizations/correlations/metric_SMACOF/ data/NOUN/visualizations/correlations/nonmetric_SMACOF/
+mkdir -p data/NOUN/analysis/pixel_correlations/rgb data/NOUN/analysis/pixel_correlations/grey
+mkdir -p data/NOUN/analysis/classical/ data/NOUN/analysis/Kruskal/ data/NOUN/analysis/metric_SMACOF/ data/NOUN/analysis/nonmetric_SMACOF/ data/NOUN/analysis/HorstHout/
+mkdir -p data/NOUN/visualizations/correlations/rgb data/NOUN/visualizations/correlations/grey 
+
 cp data/NOUN/raw_data/4D-vectors.csv data/NOUN/vectors/HorstHout/4D-vectors.csv
 
 # preprocessing
@@ -40,13 +42,14 @@ wait
 # normalize MDS spaces
 echo 'normalizing MDS spaces'
 echo '    classical'
-python code/mds/normalize_spaces.py data/NOUN/vectors/classical/
+python code/mds/normalize_spaces.py data/NOUN/vectors/classical/ &
 echo '    Kruskal'
-python code/mds/normalize_spaces.py data/NOUN/vectors/Kruskal/
+python code/mds/normalize_spaces.py data/NOUN/vectors/Kruskal/ &
 echo '    nonmetric SMACOF'
-python code/mds/normalize_spaces.py data/NOUN/vectors/nonmetric_SMACOF/
+python code/mds/normalize_spaces.py data/NOUN/vectors/nonmetric_SMACOF/ &
 echo '    metric SMACOF'
-python code/mds/normalize_spaces.py data/NOUN/vectors/metric_SMACOF/
+python code/mds/normalize_spaces.py data/NOUN/vectors/metric_SMACOF/ &
+wait
 
 # visualize MDS spaces
 echo 'visualizing MDS spaces'
@@ -65,36 +68,31 @@ wait
 # run image correlation
 echo 'image correlation'
 echo '    full RGB'
-python code/correlations/image_correlations.py data/NOUN/similarities/sim.pickle data/NOUN/images/ -o data/NOUN/visualizations/correlations/pixels/rgb/ -s 300 &
+python code/correlations/image_correlations.py data/NOUN/similarities/sim.pickle data/NOUN/images/ -o data/NOUN/analysis/pixel_correlations/rgb/ -s 300 &
 echo '    greyscale'
-python code/correlations/image_correlations.py data/NOUN/similarities/sim.pickle data/NOUN/images/ -o data/NOUN/visualizations/correlations/pixels/grey/ -s 300 -g &
+python code/correlations/image_correlations.py data/NOUN/similarities/sim.pickle data/NOUN/images/ -o data/NOUN/analysis/pixel_correlations/grey/ -s 300 -g &
 wait
 
 # run MDS correlations
 echo 'MDS correlation'
 echo '    classical'
-python code/correlations/mds_correlations.py data/NOUN/similarities/sim.pickle data/NOUN/vectors/classical/ -o data/NOUN/visualizations/correlations/classical/ --n_max $dims
+python code/correlations/mds_correlations.py data/NOUN/similarities/sim.pickle data/NOUN/vectors/classical/ -o data/NOUN/analysis/classical/ --n_max $dims &
 echo '    Kruskal'
-python code/correlations/mds_correlations.py data/NOUN/similarities/sim.pickle data/NOUN/vectors/Kruskal/ -o data/NOUN/visualizations/correlations/Kruskal/ --n_max $dims
+python code/correlations/mds_correlations.py data/NOUN/similarities/sim.pickle data/NOUN/vectors/Kruskal/ -o data/NOUN/analysis/Kruskal/ --n_max $dims &
 echo '    nonmetric SMACOF'
-python code/correlations/mds_correlations.py data/NOUN/similarities/sim.pickle data/NOUN/vectors/nonmetric_SMACOF/ -o data/NOUN/visualizations/correlations/nonmetric_SMACOF/ --n_max $dims
-echo '    metric SMACOF'
-python code/correlations/mds_correlations.py data/NOUN/similarities/sim.pickle data/NOUN/vectors/metric_SMACOF/ -o data/NOUN/visualizations/correlations/metric_SMACOF/ --n_max $dims
+python code/correlations/mds_correlations.py data/NOUN/similarities/sim.pickle data/NOUN/vectors/nonmetric_SMACOF/ -o data/NOUN/analysis/nonmetric_SMACOF/ --n_max $dims &
+echo '    metric SMACOF' 
+python code/correlations/mds_correlations.py data/NOUN/similarities/sim.pickle data/NOUN/vectors/metric_SMACOF/ -o data/NOUN/analysis/metric_SMACOF/ --n_max $dims &
 echo '    Horst and Hout 4D'
-python code/correlations/mds_correlations.py data/NOUN/similarities/sim.pickle data/NOUN/vectors/HorstHout/ -o data/NOUN/visualizations/correlations/HorstHout/ --n_min 4 --n_max 4
+python code/correlations/mds_correlations.py data/NOUN/similarities/sim.pickle data/NOUN/vectors/HorstHout/ -o data/NOUN/analysis/HorstHout/ --n_min 4 --n_max 4 &
+wait
 
 # visualize correlation results
 echo 'visualizing correlation'
-echo '    classical'
-python code/correlations/visualize_correlations.py -o data/NOUN/visualizations/correlations/classical/ data/NOUN/visualizations/correlations/pixels/rgb/sim.csv data/NOUN/visualizations/correlations/classical/sim-MDS.csv &> data/NOUN/visualizations/correlations/classical/best.txt
-echo '    Kruskal'
-python code/correlations/visualize_correlations.py -o data/NOUN/visualizations/correlations/Kruskal/ data/NOUN/visualizations/correlations/pixels/rgb/sim.csv data/NOUN/visualizations/correlations/Kruskal/sim-MDS.csv &> data/NOUN/visualizations/correlations/Kruskal/best.txt
-echo '    metric SMACOF'
-python code/correlations/visualize_correlations.py -o data/NOUN/visualizations/correlations/nonmetric_SMACOF/ data/NOUN/visualizations/correlations/pixels/rgb/sim.csv data/NOUN/visualizations/correlations/nonmetric_SMACOF/sim-MDS.csv > data/NOUN/visualizations/correlations/nonmetric_SMACOF/best.txt
-echo '    nonmetric SMACOF'
-python code/correlations/visualize_correlations.py -o data/NOUN/visualizations/correlations/metric_SMACOF/ data/NOUN/visualizations/correlations/pixels/rgb/sim.csv data/NOUN/visualizations/correlations/metric_SMACOF/sim-MDS.csv &> data/NOUN/visualizations/correlations/metric_SMACOF/best.txt
-echo '    (grey)'
-python code/correlations/visualize_correlations.py -o data/NOUN/visualizations/correlations/grey/ data/NOUN/visualizations/correlations/pixels/grey/sim-g.csv data/NOUN/visualizations/correlations/classical/sim-MDS.csv &> data/NOUN/visualizations/correlations/grey/best.txt
-
+echo '    RGB'
+python code/correlations/visualize_correlations.py -o data/NOUN/visualizations/correlations/rgb/ data/NOUN/analysis/pixel_correlations/rgb/sim.csv data/NOUN/analysis/classical/sim-MDS.csv &> data/NOUN/visualizations/correlations/rgb/best.txt &
+echo '    Greyscale'
+python code/correlations/visualize_correlations.py -o data/NOUN/visualizations/correlations/grey/ data/NOUN/analysis/pixel_correlations/grey/sim.csv data/NOUN/analysis/classical/sim-MDS.csv &> data/NOUN/visualizations/correlations/grey/best.txt &
+wait
 
 # TODO do machine learning
