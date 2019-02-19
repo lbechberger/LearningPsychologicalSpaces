@@ -145,8 +145,8 @@ echo '    SMACOF mean'
 python code/correlations/mds_correlations.py data/Shapes/similarities/mean/sim.pickle data/Shapes/vectors/SMACOF_mean/ -o data/Shapes/analysis/SMACOF_mean/correlation_mean/ --n_max $dims &
 python code/correlations/mds_correlations.py data/Shapes/similarities/median/sim.pickle data/Shapes/vectors/SMACOF_mean/ -o data/Shapes/analysis/SMACOF_mean/correlation_median/ --n_max $dims &
 echo '    SMACOF median'
-python code/correlations/mds_correlations.py data/Shapes/similarities/mean/sim.pickle data/Shapes/vectors/SMACOF_median/ -o data/Shapes/visualizations/SMACOF_median/correlation_mean/ --n_max $dims &
-python code/correlations/mds_correlations.py data/Shapes/similarities/median/sim.pickle data/Shapes/vectors/SMACOF_median/ -o data/Shapes/visualizations/SMACOF_median/correlation_median/ --n_max $dims &
+python code/correlations/mds_correlations.py data/Shapes/similarities/mean/sim.pickle data/Shapes/vectors/SMACOF_median/ -o data/Shapes/analysis/SMACOF_median/correlation_mean/ --n_max $dims &
+python code/correlations/mds_correlations.py data/Shapes/similarities/median/sim.pickle data/Shapes/vectors/SMACOF_median/ -o data/Shapes/analysis/SMACOF_median/correlation_median/ --n_max $dims &
 wait
 
 # visualize correlation results
