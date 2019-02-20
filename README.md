@@ -14,10 +14,10 @@ Our scripts use TensorFlow 1.10 with Python 3.5 along with scikit-learn. You can
 The folder `code` contains all python scripts used in our experiments. The usage of these scripts is detailed below.
 The folder `data` contains the data used for the NOUN study inside the `NOUN` subfolder. This includes the dissimilarity ratings, the images, as well as all intermediate products created by our scripts. In the subfolder `Shapes` we will at some point add the respective results for the Shape study.
 
-Our training data are the images and similarity ratings of the NOUN database (http://www.sussex.ac.uk/wordlab/noun): 
+Our training data are the images and similarity ratings of the NOUN database (http://www.sussex.ac.uk/wordlab/noun), which were kindly provided by Jessica Horst and Michael Hout: 
 Horst, Jessica S., and Michael C. Hout. "The Novel Object and Unusual Name (NOUN) Database: A collection of novel images for use in experimental research." Behavior research methods 48.4 (2016): 1393-1409.
 
-The scripts `code/pipeline_NOUN.sh` and `code/pipeline_Shapes.sh` automatically execute all steps of our analysis pipeline and can be used both to reproduce our results and to see how the individual python scripts are actually executed in practice.
+The scripts `code/pipeline_NOUN.sh` and `code/pipeline_Shapes.sh` automatically execute all steps of our analysis pipeline and can be used both to reproduce our results and to see how the individual python scripts are actually executed in practice. The scripts `code/clean_NOUN.sh` and `code/clean_Shapes.sh` can be used to remove all temporary files and to start from a clean slate.
 
 ## Preprocessing
 
