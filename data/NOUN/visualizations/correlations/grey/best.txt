@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "code/correlations/visualize_correlations.py", line 24, in <module>
+    with open(args.pixel_file, 'r') as f:
+FileNotFoundError: [Errno 2] No such file or directory: 'data/NOUN/analysis/pixel_correlations/grey/sim.csv'

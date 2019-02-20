@@ -1,0 +1,12 @@
+Loading required package: optparse
+Loading required package: smacof
+Loading required package: plotrix
+
+Attaching package: ‘smacof’
+
+The following object is masked from ‘package:base’:
+
+    transform
+
+Loading required package: MASS
+There were 33 warnings (use warnings() to see them)
