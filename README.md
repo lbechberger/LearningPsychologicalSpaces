@@ -165,6 +165,8 @@ The script takes the following optional arguments:
 
 The script `analyze_convexity.py` can be used to check whether the categories within the space are convex. This is only applicable to the Shapes data set, as there are no categories in NOUN. The script iterates over all categories, builds a convex hull of the items belonging to this category and counts how many points from other categories lie within this convex hull. Each point that lies in the convex hull of a different concept is counted as one violation. The script outputs the number of violations for each category, together with an estimate of how many violations would be expected if points are randomly sampled from a uniform distribution, a normal distribution, or the overall set of given points.
 
+The script finally outputs the total number of violations as well as the group-wise number of violations for visual similarity and for natrualness. For the latter two, all four possible combination of classes are analyzed. An output for the pair `Sim`-`Dis` gives the number of violations observed where items from a category which is visually dissimilar was found to lie within the convex hull of another category which is visually similar, i.e., the first element gives the type of category used for building the convex hull, whereas the second element gives the type of category of the "intruder" items.
+
 The script can be exectued as follows (where `n_dims` is the number of dimension of this specific MDS space):
 ```
 python code/mds/analyze_convexity.py path/to/vectors.csv path/to/data.pickle n_dims
