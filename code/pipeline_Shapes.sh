@@ -84,21 +84,21 @@ echo 'analyzing convexity'
 echo '    Kruskal mean'
 for i in `seq 1 $max`
 do
-	python -u code/mds/analyze_convexity.py 'data/Shapes/vectors/Kruskal_mean/'"$i"'D-vectors.csv' data/Shapes/raw_data/data.pickle $i -o data/Shapes/analysis/Kruskal_mean/convexities.csv -b -r 100 > 'data/Shapes/analysis/Kruskal_mean/'"$i"'D-convexity.txt' &
+	python -u code/mds/analyze_convexity.py 'data/Shapes/vectors/Kruskal_mean/'"$i"'D-vectors.csv' data/Shapes/raw_data/data.pickle $i -o data/Shapes/analysis/Kruskal_mean/convexity/convexities.csv -b -r 100 > 'data/Shapes/analysis/Kruskal_mean/convexity/'"$i"'D-convexity.txt' &
 done
 wait
 
 echo '    SMACOF mean'
 for i in `seq 1 $max`
 do
-	python -u code/mds/analyze_convexity.py 'data/Shapes/vectors/SMACOF_mean/'"$i"'D-vectors.csv' data/Shapes/raw_data/data.pickle $i -o data/Shapes/analysis/SMACOF_mean/convexities.csv > 'data/Shapes/analysis/SMACOF_mean/'"$i"'D-convexity.txt' &
+	python -u code/mds/analyze_convexity.py 'data/Shapes/vectors/SMACOF_mean/'"$i"'D-vectors.csv' data/Shapes/raw_data/data.pickle $i -o data/Shapes/analysis/SMACOF_mean/convexity/convexities.csv > 'data/Shapes/analysis/SMACOF_mean/convexity/'"$i"'D-convexity.txt' &
 done
 wait
 
 echo '    SMACOF median'
 for i in `seq 1 $max`
 do
-	python -u code/mds/analyze_convexity.py 'data/Shapes/vectors/SMACOF_median/'"$i"'D-vectors.csv' data/Shapes/raw_data/data.pickle $i -o data/Shapes/analysis/SMACOF_median/convexities.csv > 'data/Shapes/analysis/SMACOF_median/'"$i"'D-convexity.txt' &
+	python -u code/mds/analyze_convexity.py 'data/Shapes/vectors/SMACOF_median/'"$i"'D-vectors.csv' data/Shapes/raw_data/data.pickle $i -o data/Shapes/analysis/SMACOF_median/convexity/convexities.csv > 'data/Shapes/analysis/SMACOF_median/convexity/'"$i"'D-convexity.txt' &
 done
 wait
 
@@ -109,21 +109,21 @@ echo 'analyzing interpretable directions'
 echo '    Kruskal mean'
 for i in `seq 1 $dims`
 do
-	python -u code/mds/check_interpretability.py 'data/Shapes/vectors/Kruskal_mean/'"$i"'D-vectors.csv' data/Shapes/classifications/ $i -o data/Shapes/analysis/Kruskal_mean/interpretabilities.csv -b -r 100 > 'data/Shapes/analysis/Kruskal_mean/'"$i"'D-interpretability.txt' &
+	python -u code/mds/check_interpretability.py 'data/Shapes/vectors/Kruskal_mean/'"$i"'D-vectors.csv' data/Shapes/classifications/ $i -o data/Shapes/analysis/Kruskal_mean/interpretability/interpretabilities.csv -b -r 100 > 'data/Shapes/analysis/Kruskal_mean/interpretability/'"$i"'D-interpretability.txt' &
 done
 wait
 
 echo '    SMACOF mean'
 for i in `seq 1 $dims`
 do
-	python -u code/mds/check_interpretability.py 'data/Shapes/vectors/SMACOF_mean/'"$i"'D-vectors.csv' data/Shapes/classifications/ $i -o data/Shapes/analysis/SMACOF_mean/interpretabilities.csv > 'data/Shapes/analysis/SMACOF_mean/'"$i"'D-interpretability.txt' &
+	python -u code/mds/check_interpretability.py 'data/Shapes/vectors/SMACOF_mean/'"$i"'D-vectors.csv' data/Shapes/classifications/ $i -o data/Shapes/analysis/SMACOF_mean/interpretability/interpretabilities.csv > 'data/Shapes/analysis/SMACOF_mean/interpretability/'"$i"'D-interpretability.txt' &
 done
 wait
 
 echo '    SMACOF median'
 for i in `seq 1 $dims`
 do
-	python -u code/mds/check_interpretability.py 'data/Shapes/vectors/SMACOF_median/'"$i"'D-vectors.csv' data/Shapes/classifications/ $i -o data/Shapes/analysis/SMACOF_median/interpretabilities.csv > 'data/Shapes/analysis/SMACOF_median/'"$i"'D-interpretability.txt' &
+	python -u code/mds/check_interpretability.py 'data/Shapes/vectors/SMACOF_median/'"$i"'D-vectors.csv' data/Shapes/classifications/ $i -o data/Shapes/analysis/SMACOF_median/interpretability/interpretabilities.csv > 'data/Shapes/analysis/SMACOF_median/interpretability/'"$i"'D-interpretability.txt' &
 done
 wait
 
