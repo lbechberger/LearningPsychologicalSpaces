@@ -134,6 +134,7 @@ The script takes the following optional arguments:
 - `-s` or `--seed`: Specify a seed for the random number generator in order to make the results deterministic. If no seed is given, then the random number generator is not seeded.
 - `--metric`: If this flag is set, *metric* MDS is used instead of *nonmetric* MDS (which is the default).
 - `--smacof`: If this flag is set, the SMACOF algorithm is used. If not set, then classical MDS or Kruskal's algorithm are used.
+- `-t` or `--tiebreaker`: Specifies the type of tie breaking used in the SMACOF algorithm (possible values: `primary`, `secondary`, `tertiary`, default: `primary`).
 
 We implemented the MDS step in R and not in Python because R offers a greater variety of MDS algorithms. Moreover, nonmetric SMACOF with Python's `sklearn` library produced poor results which might be due to a programming bug.
 

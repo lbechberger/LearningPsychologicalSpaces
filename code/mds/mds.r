@@ -16,9 +16,10 @@ option_list = list(make_option(c("-d", "--distance_file"), type = "character", d
                    make_option(c("-i", "--items_file"), type = "character", default = NULL, help = "path to item file"),
                    make_option(c("-o", "--output_folder"), type = "character", default = NULL, help = "path to output folder"),
                    make_option(c("-k", "--dims"), type = "integer", default = 20, help = "largest number of dimensions to look at"),
-                   make_option(c("-n", "--n_init"), type = "integer", default = 64, help = "number of random initializations for Kruskal algorithm"),
-                   make_option(c("-m", "--max_iter"), type = "integer", default = 1000, help = "maximum number of iterations for Kruskal algorithm"),
+                   make_option(c("-n", "--n_init"), type = "integer", default = 64, help = "number of random initializations for iterative algorithms"),
+                   make_option(c("-m", "--max_iter"), type = "integer", default = 1000, help = "maximum number of iterations for iterative algorithms"),
                    make_option(c("-s", "--seed"), type = "integer", default = NULL, help = "seed for the random number generator"),
+                   make_option(c("-t", "--tiebreaker"), type = "character", default = "primary", help = "type of tie breaking used in SMACOF algorithm"),
                    make_option(c("--metric"), action = "store_true", default = FALSE, help = "use metric instead of nonmetric MDS"),
                    make_option(c("--smacof"), action = "store_true", default = FALSE, help = "use SMACOF algorithm"))
 
@@ -69,13 +70,13 @@ for (num_dims in 1:opt$dims) {
       # run MDS algorithm and keep current_points and current_stress
       if (opt$metric) {
         # metric SMACOF
-        mds_result = smacofSym(dissimilarities, ndim = num_dims, init = initial_config, verbose=FALSE, itmax = opt$max_iter, type = "ratio")
+        mds_result = smacofSym(dissimilarities, ndim = num_dims, init = initial_config, verbose=FALSE, itmax = opt$max_iter, type = "ratio", ties = opt$tiebreaker)
         current_points = mds_result$conf
         current_stress = mds_result$stress
       } else {
         if (opt$smacof) {
           # nonmetric SMACOF
-          mds_result = smacofSym(dissimilarities, ndim = num_dims, init = initial_config, verbose=FALSE, itmax = opt$max_iter, type = "ordinal")
+          mds_result = smacofSym(dissimilarities, ndim = num_dims, init = initial_config, verbose=FALSE, itmax = opt$max_iter, type = "ordinal", ties = opt$tiebreaker)
           current_points = mds_result$conf
           current_stress = mds_result$stress
         } else {
@@ -97,8 +98,10 @@ for (num_dims in 1:opt$dims) {
   }
   
   # compute metric and nonmetric stress
-  metric_stress = stress0(dissimilarities, points, type = "ratio")
-  nonmetric_stress = stress0(dissimilarities, points, type = "ordinal")
+  metric_stress = stress0(dissimilarities, points, type = "ratio", ties = opt$tiebreaker)
+  nonmetric_stress_primary = stress0(dissimilarities, points, type = "ordinal", ties = "primary")
+  nonmetric_stress_secondary = stress0(dissimilarities, points, type = "ordinal", ties = "secondary")
+  nonmetric_stress_tertiary = stress0(dissimilarities, points, type = "ordinal", ties = "tertiary")
   
   # save vectors in file
   output = cbind(item_names, points)
@@ -107,10 +110,10 @@ for (num_dims in 1:opt$dims) {
   
   # store stress for later output
   if (is.null(stress_output)) {
-    stress_output = data.frame(num_dims, metric_stress, nonmetric_stress)
-    names(stress_output) = c('dim', 'metric_stress', 'nonmetric_stress')
+    stress_output = data.frame(num_dims, metric_stress, nonmetric_stress_primary, nonmetric_stress_secondary, nonmetric_stress_tertiary)
+    names(stress_output) = c('dim', 'metric_stress', 'nonmetric_stress_primary', 'nonmetric_stress_secondary', 'nonmetric_stress_tertiary')
   } else {
-    stress_output = rbind(stress_output, c(num_dims, metric_stress, nonmetric_stress))
+    stress_output = rbind(stress_output, c(num_dims, metric_stress, nonmetric_stress_primary, nonmetric_stress_secondary, nonmetric_stress_tertiary))
   }
 }
 
