@@ -19,7 +19,7 @@ parser.add_argument('n', type = int, help = 'the number of dimensions in the und
 parser.add_argument('-o', '--output_file', help = 'output csv file for collecting the results', default = None)
 parser.add_argument('-r', '--repetitions', type = int, help = 'number of repetitions in sampling the baselines', default = 20)
 parser.add_argument('-b', '--baseline', action = "store_true", help = 'whether or not to compute the random baselines')
-parser.add_argument('-s', '--seed', type = int, help = 'seed for random number generation when computing baselines', default = None)
+parser.add_argument('-s', '--seed', type = int, help = 'seed for random number generation when computing baselines and for SVM', default = None)
 args = parser.parse_args()
 
 # read the vectors
@@ -53,7 +53,7 @@ for file_name in os.listdir(args.classification_folder):
     all_examples = positive_examples + negative_examples
     binary_labels = [1]*len(positive_examples) + [0]*len(negative_examples)
 
-    svm = LinearSVC()
+    svm = LinearSVC(random_state = args.seed)
     svm.fit(all_examples, binary_labels)
     direction = svm.coef_
     kappa = cohen_kappa_score(svm.predict(all_examples), binary_labels)
