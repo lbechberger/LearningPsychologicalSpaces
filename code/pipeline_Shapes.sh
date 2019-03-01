@@ -102,7 +102,7 @@ echo 'analyzing convexity'
 echo '    Kruskal mean'
 for i in `seq 1 $max`
 do
-	python -u code/mds/analyze_convexity.py 'data/Shapes/vectors/mean/Kruskal/'"$i"'D-vectors.csv' data/Shapes/raw_data/data.pickle $i -o data/Shapes/analysis/mean/Kruskal/convexity/convexities.csv -b -r 100 > 'data/Shapes/analysis/mean/Kruskal/convexity/'"$i"'D-convexity.txt' &
+	python -u code/mds/analyze_convexity.py 'data/Shapes/vectors/mean/Kruskal/'"$i"'D-vectors.csv' data/Shapes/raw_data/data.pickle $i -o data/Shapes/analysis/mean/Kruskal/convexity/convexities.csv -b -r 100 -s 42 > 'data/Shapes/analysis/mean/Kruskal/convexity/'"$i"'D-convexity.txt' &
 done
 wait
 
@@ -141,7 +141,7 @@ echo 'analyzing interpretable directions'
 echo '    Kruskal mean'
 for i in `seq 1 $dims`
 do
-	python -u code/mds/check_interpretability.py 'data/Shapes/vectors/mean/Kruskal/'"$i"'D-vectors.csv' data/Shapes/classifications/ $i -o data/Shapes/analysis/mean/Kruskal/interpretability/interpretabilities.csv -b -r 100 > 'data/Shapes/analysis/mean/Kruskal/interpretability/'"$i"'D-interpretability.txt' &
+	python -u code/mds/check_interpretability.py 'data/Shapes/vectors/mean/Kruskal/'"$i"'D-vectors.csv' data/Shapes/classifications/ $i -o data/Shapes/analysis/mean/Kruskal/interpretability/interpretabilities.csv -b -r 100 -s 42 > 'data/Shapes/analysis/mean/Kruskal/interpretability/'"$i"'D-interpretability.txt' &
 done
 wait
 

@@ -19,6 +19,7 @@ parser.add_argument('n', type = int, help = 'the number of dimensions in the und
 parser.add_argument('-o', '--output_file', help = 'output csv file for collecting the results', default = None)
 parser.add_argument('-r', '--repetitions', type = int, help = 'number of repetitions in sampling the baselines', default = 20)
 parser.add_argument('-b', '--baseline', action = "store_true", help = 'whether or not to compute the random baselines')
+parser.add_argument('-s', '--seed', type = int, help = 'seed for random number generation when computing baselines', default = None)
 args = parser.parse_args()
 
 # read the vectors
@@ -35,6 +36,9 @@ with open(args.vector_file, 'r') as f:
 
 kappas = {'MDS':[], 'uniform':[], 'normal':[], 'shuffled':[]}
 category_names = []
+
+if args.seed is not None:
+    np.random.seed(args.seed)
 
 print("INDIVIDUAL")
 
