@@ -22,13 +22,6 @@ parser.add_argument('-o', '--output_folder', help = 'the folder to which the out
 parser.add_argument('-p', '--plot', action = 'store_true', help = 'create scatter plots')
 args = parser.parse_args()
 
-
-# set up file name for output file
-_, path_and_file = os.path.splitdrive(args.visual_similarity_file)
-_, file = os.path.split(path_and_file)
-file_without_extension = file.split('.')[0]
-output_file_name = os.path.join(args.output_folder, "{0}-MDS.csv".format(file_without_extension))
-
 # load the similarity data
 with open(args.visual_similarity_file, 'rb') as f_in:
     visual_input_data = pickle.load(f_in)
@@ -84,7 +77,9 @@ print("R² isotonic conceptual to visual:", r2_isotonic)
 if args.plot:
     # create scatter plot if user want us to
     fig, ax = plt.subplots(figsize=(12,12))
-    ax.scatter(visual_vector, conceptual_vector)
+    u, c = np.unique(np.c_[visual_vector,conceptual_vector], return_counts=True, axis=0)
+    s = lambda x : (((x-x.min())/float(x.max()-x.min())+1)*8)**2
+    ax.scatter(u[:,0],u[:,1],s = s(c))
     plt.xlabel('visual dissimilarity')
     plt.ylabel('conceptual dissimilarity')
     plt.title('scatter plot of visual and conceptual dissimilarity')

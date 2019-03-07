@@ -15,6 +15,7 @@ parser = argparse.ArgumentParser(description='Analyzing similarity data')
 parser.add_argument('input_file', help = 'pickle file containing the preprocessed data')
 parser.add_argument('-s', '--subset', help = 'the subset of data to use', default = "all")
 parser.add_argument('-o', '--output_path', help = 'path where to store the figures', default = './')
+parser.add_argument('-m', '--median', action = 'store_true', help = 'use median instead of mean for matrix aggregation')
 args = parser.parse_args()
 
 np.random.seed(42) # fixed random seed to ensure reproducibility
@@ -222,7 +223,10 @@ print(',' + ','.join(map(lambda x: '{0}({1})'.format(x, data_set['categories'][x
 for i in range(len(categories_of_interest)):
     mean_list = []
     for j in range(len(categories_of_interest)):
-        mean_list.append(np.mean(similarity_matrix[i][j]))
+        if args.median:
+            mean_list.append(np.median(similarity_matrix[i][j]))
+        else:
+            mean_list.append(np.mean(similarity_matrix[i][j]))
     print("{0}({1})".format(categories_of_interest[i], data_set['categories'][categories_of_interest[i]]['visSim']) + ',' + ','.join(map(lambda x: str(x), mean_list)))
 
 all_within = []
