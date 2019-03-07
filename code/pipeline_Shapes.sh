@@ -6,7 +6,8 @@ max=5
 
 # set up the directory structure
 echo 'setting up directory structure'
-mkdir -p data/Shapes/similarities/mean data/Shapes/similarities/median 
+mkdir -p data/Shapes/similarities/mean data/Shapes/similarities/median data/Shapes/similarities/conceptual_mean data/Shapes/similarities/conceptual_median
+mkdir -p data/Shapes/analysis/conceptual/mean data/Shapes/analysis/conceptual/median data/Shapes/analysis/visual
 mkdir -p data/Shapes/vectors/mean/Kruskal/ data/Shapes/vectors/mean/SMACOF
 mkdir -p data/Shapes/vectors/median/primary/ data/Shapes/vectors/median/secondary/ data/Shapes/vectors/median/tertiary/
 mkdir -p data/Shapes/visualizations/spaces/mean/Kruskal data/Shapes/visualizations/spaces/mean/SMACOF
@@ -25,15 +26,33 @@ mkdir -p data/Shapes/visualizations/correlations/median/primary/ data/Shapes/vis
 
 # preprocessing
 echo 'preprocessing data'
-echo '    reading CSV files'
+echo '    reading CSV files of visual similarity'
 python code/preprocessing/preprocess_Shapes.py data/Shapes/raw_data/within.csv data/Shapes/raw_data/within_between.csv data/Shapes/raw_data/data.pickle &> data/Shapes/raw_data/preprocess_log.txt
+echo '    reading CSV files of conceptual similarity'
+python code/preprocessing/preprocess_Shapes.py data/Shapes/raw_data/within.csv data/Shapes/raw_data/conceptual.csv data/Shapes/raw_data/data_conceptual.pickle -r &> data/Shapes/raw_data/preprocess_log_conceptual.txt
+
 echo '    computing similarities'
 echo '        mean'
 python code/preprocessing/compute_similarities.py data/Shapes/raw_data/data.pickle data/Shapes/similarities/mean/sim.pickle -s between -l -p &> data/Shapes/similarities/log_mean.txt
 echo '        median'
 python code/preprocessing/compute_similarities.py data/Shapes/raw_data/data.pickle data/Shapes/similarities/median/sim.pickle -s between -l -p -m &> data/Shapes/similarities/log_median.txt
+echo '        mean conceptual'
+python code/preprocessing/compute_similarities.py data/Shapes/raw_data/data_conceptual.pickle data/Shapes/similarities/conceptual_mean/sim.pickle -s between -l -p &> data/Shapes/similarities/log_mean_conceptual.txt
+echo '        median conceptual'
+python code/preprocessing/compute_similarities.py data/Shapes/raw_data/data_conceptual.pickle data/Shapes/similarities/conceptual_median/sim.pickle -s between -l -p -m &> data/Shapes/similarities/log_median_conceptual.txt
+
 echo '    analyzing similarities'
-python code/preprocessing/analyze_similarities.py data/Shapes/raw_data/data.pickle -s between -o data/Shapes/similarities/ &> data/Shapes/similarities/analysis.txt
+echo '        visual'
+python code/preprocessing/analyze_similarities.py data/Shapes/raw_data/data.pickle -s between -o data/Shapes/analysis/visual/ &> data/Shapes/analysis/visual/analysis.txt
+echo '        conceptual'
+python code/preprocessing/analyze_similarities.py data/Shapes/raw_data/data_conceptual.pickle -s between -o data/Shapes/analysis/conceptual/ &> data/Shapes/analysis/conceptual/analysis.txt
+
+echo '    comparing similarities'
+echo '        mean'
+python code/correlations/similarity_correlations.py data/Shapes/similarities/mean/sim.pickle data/Shapes/similarities/conceptual_mean/sim.pickle -o data/Shapes/analysis/conceptual/mean -p &> data/Shapes/analysis/conceptual/mean/correlations.txt
+echo '        median'
+python code/correlations/similarity_correlations.py data/Shapes/similarities/median/sim.pickle data/Shapes/similarities/conceptual_median/sim.pickle -o data/Shapes/analysis/conceptual/median -p &> data/Shapes/analysis/conceptual/median/correlations.txt
+
 echo '    creating average images'
 echo '        283'
 python code/preprocessing/average_images.py data/Shapes/raw_data/data.pickle data/Shapes/images/ -s between -o data/Shapes/visualizations/average_images/283/ -r 283 &> data/Shapes/visualizations/average_images/283.txt
@@ -47,6 +66,7 @@ echo '        10'
 python code/preprocessing/average_images.py data/Shapes/raw_data/data.pickle data/Shapes/images/ -s between -o data/Shapes/visualizations/average_images/10/ -r 10 &> data/Shapes/visualizations/average_images/10.txt
 echo '        5'
 python code/preprocessing/average_images.py data/Shapes/raw_data/data.pickle data/Shapes/images/ -s between -o data/Shapes/visualizations/average_images/5/ -r 5 &> data/Shapes/visualizations/average_images/5.txt
+
 echo '    creating CSV files'
 echo '        mean'
 python code/preprocessing/pickle_to_csv.py data/Shapes/similarities/mean/sim.pickle data/Shapes/similarities/mean/

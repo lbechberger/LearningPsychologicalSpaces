@@ -15,6 +15,7 @@ parser = argparse.ArgumentParser(description='Preprocessing similarity data of t
 parser.add_argument('within_file', help = 'CSV file containing data from the within-study (study 1)')
 parser.add_argument('within_between_file', help = 'CSV file containing data from the within-between-study (study 2)')
 parser.add_argument('output_file', help = 'path to the output pickle file')
+parser.add_argument('-r', '--reverse', action = 'store_true', help = 'use distances instead of similarities')
 args = parser.parse_args()
 
 
@@ -55,6 +56,8 @@ with open(args.within_file, 'r') as f:
         
         # get a list of all the similarity values (remove empty entries, then convert to int) and store them
         similarity_values = list(map(lambda x: int(x), filter(None, tokens[7:])))
+        if args.reverse:
+            similarity_values = list(map(lambda x: 6 - x, similarity_values))
         similarity_info[str(sorted([tokens[3], tokens[5]]))] = {'relation': 'within', 'values': similarity_values, 'border':len(similarity_values)}
 
 # now read within_between category information
@@ -80,6 +83,8 @@ with open(args.within_between_file, 'r') as f:
         
         # get a list of all the similarity values (remove empty entries, then convert to int) and store them
         similarity_values = list(map(lambda x: int(x), filter(None, tokens[12:])))
+        if args.reverse:
+            similarity_values = list(map(lambda x: 6 - x, similarity_values))
         
         if item_tuple_id in similarity_info:
             # if we already have similarity information from the previous study: append
