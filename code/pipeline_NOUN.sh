@@ -97,6 +97,33 @@ echo '    Greyscale'
 python code/correlations/visualize_correlations.py -o data/NOUN/visualizations/correlations/grey/ data/NOUN/analysis/pixel_correlations/grey/sim.csv data/NOUN/analysis/classical/sim-MDS.csv &> data/NOUN/visualizations/correlations/grey/best.txt &
 wait
 
-# TODO do machine learning
+# machine learning
 echo 'preparing machine learning'
+echo '    augmentation'
 python code/inception/data_augmentation.py data/NOUN/images/ data/NOUN/dataset/augmented 1000 -s 42 --flip_prob 0.0 --crop_size 0.05 --scale_min 0.9 --scale_max 1.1 --translation 0.1 --sp_noise_prob 0.01 --rotation_angle 15
+echo '    feature extraction'
+echo '        inception network'
+python code/inception/create_feature_vectors.py /tmp/inception data/NOUN/dataset/augmented data/NOUN/dataset/features.pickle
+echo '        reduced images'
+# TODO
+echo '    cluster analysis'
+echo '        inception network'
+# TODO
+echo '        reduced images'
+# TODO
+echo '    regression targets'
+# TODO
+echo 'running simple regressions'
+echo '    baselines'
+# TODO
+echo '    inception'
+# TODO
+echo '    reduced images'
+# TODO
+echo 'running lasso regressions'
+echo '    baselines'
+# TODO
+echo '    inception'
+# TODO
+echo '    reduced images'
+# TODO
