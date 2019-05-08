@@ -99,4 +99,4 @@ wait
 
 # TODO do machine learning
 echo 'preparing machine learning'
-python code/inception/data_augmentation.py data/NOUN/images/ data/NOUN/dataset/augmented 1000 --flip_prob 0.0 -s 42
+python code/inception/data_augmentation.py data/NOUN/images/ data/NOUN/dataset/augmented 1000 -s 42 --flip_prob 0.0 --crop_size 0.05 --scale_min 0.9 --scale_max 1.1 --translation 0.1 --sp_noise_prob 0.01 --rotation_angle 15
