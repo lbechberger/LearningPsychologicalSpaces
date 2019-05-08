@@ -230,25 +230,48 @@ Here, `pixel_file.csv` and `mds_file.csv` are the output files of `image_correla
 - `-o` or `--output`: The output folder where the resulting visualizations are stored (default: `.`, i.e., the current working directory).
 
 
-## Machine Learning
+## Regression with inception-v3
 
-**Currently outdated, will be updated soon**
+In order to run a linear regression based on the features extracted by the inception-v3 network, multiple processing steps are necessary. Firstly, we need to augment our data set by creating a large amount of slightly distorted image variants. This is done in order to achieve a data set of reasonable size for a machine learning task. Afterwards, each of these images need to be mapped to a feature vector and to a corresponding ground truth MDS vector. In a final step, the linear regression as well as different baselines are executed. All scripts are contained in the `code/inception` folder.
 
 ### Data Augmentation
 
-We used [ImgAug](https://github.com/aleju/imgaug) for augmenting our image data set. This is done with the script `inception/data_augmentation.py`. By default it will search for jpg images in a folder called `images` in the project's main directory, create 1000 samples per original image and store the results in the folder `inception/features/aumgented/`. This behavior can be adjusted by the flags `--images_dir`, `--output_dir`, and `--n_samples`, respectively. After running this script, you will have one pickle file per original image in the specified output folder, containing all the augmented samples for this image. The SGE script `run_augmentation.sge` can be used to submit this script to a Sun grid engine.
+We used [ImgAug](https://github.com/aleju/imgaug) for augmenting our image data set. This is done with the script `data_augmentation.py`. It can be invoked as follows:
+```
+python code/inception/data_augmentation.py path/to/image_folder/ path/to/output_folder/ n
+```
+The script searches for all jpg images in the given `image_folder`, creates `n` augmented samples of each image and stores the results in the given `output_folder` (one pickle file per original image). The script takes the following optional command line arguments:
+- `-s` or `--seed`: Specify a seed for the random number generator in order to make the results deterministic. If no seed is given, then the random number generator is not seeded.
+- `-i` or `--image_size`: The expected image size in pixels. Defaults to 300.
+
+Augmentation is done by appling the folloing operations in random order:
+- *Horizontal flips*. The probability of a horizontal flip can be controlled with the optional parameter `--flip_prob` (defaults to 0.5).
+- *Cropping*. The maximal relative amount of cropping for each side of the image can be controlled with `--crop_size` (default: 0.1).
+- *Gaussian Blur*. The probability of using a Gaussian blur can be set via `--blur_prob` (default: 0.5) and it's sigma value via `--blur_sigma` (default: 0.5)
+- *Varying the contrast*. The borders of possible contrast values (relative to the image's original contrast) can be set via `--contrast_min` (default: 0.75) and `--contrast_max` (default: 1.5).
+- *Additive Gaussian noise*. The value of sigma is set via `--g_noise_sigma` (default: 0.05) and the probability of drawing a different value for each color channel independently by seeting `--g_noise_channel_prob` (default: 0.5)
+- *Varying the brightness*. The borders of possible brightness values (relative to the image's original brightness) can be set via `--light_min` (default: 0.8) and `--light_max` (default: 1.2). Moreover, the probability of drawing a different value for each color channel independently is controlled by `--light_channel_prob` (default: 0.2)
+- *Zooming*: The borders of possible zoom values (relative to the image's original size) can be set via `--scale_min` (default: 0.8) and `--scale_max` (default: 1.2).
+- *Translation*: The relative amount of translation is set with `--translation` (default: 0.2)
+- *Rotation*: The maximal rotation angle in degrees is controlled by `--rotation_angle` (default: 25).
+- *Shearing*: The maximal shear angle in degrees is controlled by `--shear_angle` (default: 8).
+- *Salt and pepper noise*: The amount of pixels to modify is set via `--sp_noise_prob` (default: 0.03)
 
 ### Creating the feature vectors from the Inception-v3 network
 
+**Currently outdated, will be updated soon**
 The script `inception/create_feature_vectors.py` downloads the [Inception-v3 network](https://arxiv.org/abs/1512.00567) into the folder specified by `--model_dir` (defaults to `/tmp/imagenet/`), reads all augmented images from the folder specified by `--input_dir` (defaults to `inception/features/augmented`), uses them as input to the inception network, grabs the activations of the second-to-last layer of the network (2048 neurons) and stores them as feature vectors in the folder specified by `--output_dir` (defaults to `inception/features/features`). Again, there will be one file per original image, containing the feature vectors for all augmented images that were based on the same original image. The SGE script `run_feature_extraction.sge` can be used to submit this script to a Sun grid engine.
 
 Afterwards, all individual files are collected and aggregated in a single feature file (for convenience reasons) by the `inception/collect_feature_vectors.py` which takes two arguments: Its first argument is the path to the folger containing all individual feature files, its second argument is the path to the folder where to store the aggregated file in pickle format (which will be named `images`). The SGE script `run_feature_collection.sge` can be used to submit this script to a Sun grid engine.
 
 ### Shuffling the target vectors
 
+**Currently outdated, will be updated soon**
 In order to see whether the organization of points within the MDS space is meaningful and learnable by machine learning, we also shuffle the assignments of images to points with the script `inception/shuffle_targets.py`. It takes as parameters the filename of the original mapping and the filename for the shuffled mapping: `python shuffle_targets.py in_file_name out_file_name`. The SGE script `run_shuffler.sge` can be used to submit this script to a Sun grid engine.
 
 ### Baselines
+
+**Currently outdated, will be updated soon**
 We have programmed four simple baselines that can be run by executing the script `inception/baselines.py`. The script expects a single parameter, which is the name of the configuration inside the `grid_search.cfg` to use. This configuration should contain information on the feature vectors file, on the file containing the mapping from images to points in the MDS space, and on the dimensionality of the MDS space. The script computes the RMSE for each of the baselines in an image-ID based leave-one-out procedure (i.e., all augmented images based on one original image are used as test set each time) and stores the results in separate files in the folder `inception/regression` (which has to be existent before the script is run). The baselines are as follows:
 - *Zero baseline*: Always predict the origin (i.e., a vector where all entries are zero)
 - *Mean baseline*: Always predict the mean of the target vectors seen during training.
@@ -258,11 +281,13 @@ We have programmed four simple baselines that can be run by executing the script
 The SGE script `run_baselines.sge` can be used to submit this script to a Sun grid engine. It takes two parameters: The configuration name to pass to the python script and the number of repetitions.
 
 ### Regression
+**Currently outdated, will be updated soon**
 The script `inception/run_sklearn_regression.sge` uses the linear regression of scikit-learn on the features extracted by the inception network. Like the baseline script, it takes a single parameter, which is the name of the configuration inside the `grid_search.cfg` to use. Again, an image-ID based leave-one-out procedure is used to compute the RMSE. The result is stored in a file in the directory `inception/regression` (which has to be existent before the script is run). 
 
 The SGE script `run_sklearn_regression.sge` can be used to submit this script to a Sun grid engine. It takes two parameters: The configuration name to pass to the python script and the number of repetitions.
 
 ### Collecting the results
 
+**Currently outdated, will be updated soon**
 One can run both the baselines and the regression multiple times in order to average over their respective performance. Both the baseline and the regression script will append their results if the output file already exists. In order to aggregate over these values, one can use the script `inception/collect_regression_results.py`. It takes the directory to run on as its single parameter. For each file in this directory, it averages over all rows and puts the resulting average RMSE into a file `summary.csv` in this directory. The SGE script `run_regression_collection.sge` can be used to submit this script to a Sun grid engine.
 

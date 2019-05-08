@@ -15,6 +15,8 @@ mkdir -p data/NOUN/analysis/pixel_correlations/rgb data/NOUN/analysis/pixel_corr
 mkdir -p data/NOUN/analysis/classical/ data/NOUN/analysis/Kruskal/ data/NOUN/analysis/metric_SMACOF/ data/NOUN/analysis/nonmetric_SMACOF/ data/NOUN/analysis/HorstHout/
 mkdir -p data/NOUN/visualizations/correlations/rgb data/NOUN/visualizations/correlations/grey 
 
+mkdir -p data/NOUN/dataset/augmented
+
 cp data/NOUN/raw_data/4D-vectors.csv data/NOUN/vectors/HorstHout/4D-vectors.csv
 
 # preprocessing
@@ -96,3 +98,5 @@ python code/correlations/visualize_correlations.py -o data/NOUN/visualizations/c
 wait
 
 # TODO do machine learning
+echo 'preparing machine learning'
+python code/inception/data_augmentation.py data/NOUN/images/ data/NOUN/dataset/augmented 1000 --flip_prob 0.0 -s 42
