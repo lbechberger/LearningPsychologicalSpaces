@@ -230,7 +230,7 @@ Here, `pixel_file.csv` and `mds_file.csv` are the output files of `image_correla
 - `-o` or `--output`: The output folder where the resulting visualizations are stored (default: `.`, i.e., the current working directory).
 
 
-## Regression with inception-v3
+## Regression with Inception-v3
 
 In order to run a linear regression based on the features extracted by the inception-v3 network, multiple processing steps are necessary. Firstly, we need to augment our data set by creating a large amount of slightly distorted image variants. This is done in order to achieve a data set of reasonable size for a machine learning task. Afterwards, each of these images need to be mapped to a feature vector and to a corresponding ground truth MDS vector. In a final step, the linear regression as well as different baselines are executed. All scripts are contained in the `code/inception` folder.
 
@@ -256,6 +256,14 @@ Augmentation is done by appling the folloing operations in random order:
 - *Rotation*: The maximal rotation angle in degrees is controlled by `--rotation_angle` (default: 25).
 - *Shearing*: The maximal shear angle in degrees is controlled by `--shear_angle` (default: 8).
 - *Salt and pepper noise*: The amount of pixels to modify is set via `--sp_noise_prob` (default: 0.03)
+
+### Visualizing Augmented Images
+
+In order to visually check that the augmentation step worked, you can use the script `show_augmented_images.py` to display them. It can be executed as follows:
+```
+python code/inception/show_augmented_images.py path/to/augmented.pickle
+```
+Here, `augmented.pickle` is one of the pickle files created by `data_augmentation.py`. By default, the script displays three rows (adjustable via `-r` or `--rows`) and four columns (adjustable via `-c` or `--columns`).
 
 ### Creating the feature vectors from the Inception-v3 network
 

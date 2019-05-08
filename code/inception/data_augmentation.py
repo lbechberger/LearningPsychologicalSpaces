@@ -112,4 +112,4 @@ for file_name in image_file_names:
         session.run(tf.global_variables_initializer())
         decoded_image = session.run(decoder, feed_dict = {tf_image_string : image_data})
     augmented_images = augment_image(decoded_image, args.n)
-    pickle.dump(augmented_images, open(os.path.join(args.output_dir, image_name), 'wb'))
+    pickle.dump(augmented_images, open(os.path.join(args.output_dir, image_name) + '.pickle', 'wb'))
