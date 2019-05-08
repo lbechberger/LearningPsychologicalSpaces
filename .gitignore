@@ -100,7 +100,10 @@ ENV/
 # mypy
 .mypy_cache/
 
+# NOUN data
+data/NOUN/dataset/augmented
 
+# Shapes data
 data/Shapes/raw_data/
 data/Shapes/vectors/
 data/Shapes/images/
