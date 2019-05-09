@@ -278,11 +278,11 @@ As a first pass of the regression task, we evaluate some simple baselines (which
 
 ### 5.1 Feature Extraction with Inception-v3
 
-In order to create feature vectors based on the inception-v3 network, one can use the script `inception/create_feature_vectors.py`. It is invoked as follows:
+In order to create feature vectors based on the inception-v3 network, one can use the script `regression/create_feature_vectors.py`. It is invoked as follows:
 ```
 python code/regression/create_feature_vectors.py path/to/model_folder path/to/input_folder path/to/output.pickle
 ```
-The script downloads the [Inception-v3 network](https://arxiv.org/abs/1512.00567) into the folder specified by `model_folder`, reads all augmented images from the folder specified by `input_folder`, uses them as input to the inception network, grabs the activations of the second-to-last layer of the network (2048 neurons) and stores a dictionary mapping from image name to a list of feature vectors in the pickle file specified by `output.pickle` (defaults to `inception/features/features`).
+The script downloads the [Inception-v3 network](https://arxiv.org/abs/1512.00567) into the folder specified by `model_folder`, reads all augmented images from the folder specified by `input_folder`, uses them as input to the inception network, grabs the activations of the second-to-last layer of the network (2048 neurons) and stores a dictionary mapping from image name to a list of feature vectors in the pickle file specified by `output.pickle`.
 
 ### 5.2 Feature Extraction by Downscaling Images
 **TODO**
