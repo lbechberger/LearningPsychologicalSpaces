@@ -56,4 +56,3 @@ with open(args.input_file, 'r') as f:
         result[target_name] = {'targets': real_dict, 'shuffled': shuffled_dict}
 
 pickle.dump(result, open(args.output_file, 'wb'))
-print(result.keys())
