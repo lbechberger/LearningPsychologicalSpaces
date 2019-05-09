@@ -278,14 +278,21 @@ As a first pass of the regression task, we evaluate some simple baselines (which
 
 ### 5.1 Feature Extraction with Inception-v3
 
-In order to create feature vectors based on the inception-v3 network, one can use the script `regression/create_feature_vectors.py`. It is invoked as follows:
+In order to create feature vectors based on the inception-v3 network, one can use the script `regression/inception_features.py`. It is invoked as follows:
 ```
-python code/regression/create_feature_vectors.py path/to/model_folder path/to/input_folder path/to/output.pickle
+python code/regression/inception_features.py path/to/model_folder path/to/input_folder path/to/output.pickle
 ```
 The script downloads the [Inception-v3 network](https://arxiv.org/abs/1512.00567) into the folder specified by `model_folder`, reads all augmented images from the folder specified by `input_folder`, uses them as input to the inception network, grabs the activations of the second-to-last layer of the network (2048 neurons) and stores a dictionary mapping from image name to a list of feature vectors in the pickle file specified by `output.pickle`.
 
 ### 5.2 Feature Extraction by Downscaling Images
-**TODO**
+In order to create feature vectors by downscaling the original images, one can use the script `regression/reduced_image_features.py`. It is invoked as follows:
+```
+python code/regression/reduced_image_features.py path/to/input_folder path/to/output.pickle
+```
+The script reads all augmented images from the folder specified by `input_folder`, reduces them according to the way described already in Section 3.1, and stores a dictionary mapping from image name to a list of feature vectors in the pickle file specified by `output.pickle`. It takes the following optional arguments:
+- `-a` or `--aggregator`: Type of aggregator function to use. One of `max`, `min`, `std`, `var`, `median`, `product` (default: `mean`).
+- `-g` or `--greyscale`: If this flag is set, the image is converted to greyscale before downscaling (reduces the number of output features by factor 3).
+- `-b` or `--block_size`: Size of one block that will be reduced to a single number. Defaults to 1.
 
 ### 5.3 Cluster Analysis of Feature Vectors
 **TODO**

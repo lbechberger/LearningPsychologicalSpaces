@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 import tensorflow as tf
 
 parser = argparse.ArgumentParser(description='Visualizing augmented images')
-parser.add_argument('input_file', help = 'picke file containing the augmented images to display')
+parser.add_argument('input_file', help = 'pickle file containing the augmented images to display')
 parser.add_argument('-r', '--rows', type = int, help = 'number of rows', default = 3)
 parser.add_argument('-c', '--columns', type = int, help = 'number of columns', default = 4)
 args = parser.parse_args()
