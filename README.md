@@ -230,15 +230,15 @@ Here, `pixel_file.csv` and `mds_file.csv` are the output files of `image_correla
 - `-o` or `--output`: The output folder where the resulting visualizations are stored (default: `.`, i.e., the current working directory).
 
 
-## 4 Regression with Inception-v3
+## 4 Preparing the Data Set for Machine Learning
 
-In order to run a linear regression based on the features extracted by the inception-v3 network, multiple processing steps are necessary. Firstly, we need to augment our data set by creating a large amount of slightly distorted image variants. This is done in order to achieve a data set of reasonable size for a machine learning task. Afterwards, each of these images need to be mapped to a feature vector and to a corresponding ground truth MDS vector. In a final step, the linear regression as well as different baselines are executed. All scripts are contained in the `code/inception` folder.
+In order to run a regression from images to MDS coordinates, multiple preprocessing steps are necessary. Firstly, we need to augment our data set by creating a large amount of slightly distorted image variants. This is done in order to achieve a data set of reasonable size for a machine learning task. Moreover, for each of the images, the target MDS coordinates need to be prepared. All scripts for these steps can be found in the `code/dataset` folder.
 
 ### 4.1 Data Augmentation
 
 We used [ImgAug](https://github.com/aleju/imgaug) for augmenting our image data set. This is done with the script `data_augmentation.py`. It can be invoked as follows:
 ```
-python code/inception/data_augmentation.py path/to/image_folder/ path/to/output_folder/ n
+python code/dataset/data_augmentation.py path/to/image_folder/ path/to/output_folder/ n
 ```
 The script searches for all jpg images in the given `image_folder`, creates `n` augmented samples of each image and stores the results in the given `output_folder` (one pickle file per original image). The script takes the following optional command line arguments:
 - `-s` or `--seed`: Specify a seed for the random number generator in order to make the results deterministic. If no seed is given, then the random number generator is not seeded.
@@ -261,30 +261,36 @@ Augmentation is done by appling the folloing operations in random order:
 
 In order to visually check that the augmentation step worked, you can use the script `show_augmented_images.py` to display them. It can be executed as follows:
 ```
-python code/inception/show_augmented_images.py path/to/augmented.pickle
+python code/dataset/show_augmented_images.py path/to/augmented.pickle
 ```
 Here, `augmented.pickle` is one of the pickle files created by `data_augmentation.py`. By default, the script displays three rows (adjustable via `-r` or `--rows`) and four columns (adjustable via `-c` or `--columns`).
 
-### 4.3 Feature Extraction with Inception-v3
-
-In order to create feature vectors based on the inception-v3 network, one can use the script `inception/create_feature_vectors.py`. It is invoked as follows:
-```
-python code/inception/create_feature_vectors.py path/to/model_folder path/to/input_folder path/to/output.pickle
-```
-The script downloads the [Inception-v3 network](https://arxiv.org/abs/1512.00567) into the folder specified by `model_folder`, reads all augmented images from the folder specified by `input_folder`, uses them as input to the inception network, grabs the activations of the second-to-last layer of the network (2048 neurons) and stores a dictionary mapping from image name to a list of feature vectors in the pickle file specified by `output.pickle` (defaults to `inception/features/features`).
-
-### 4.4 Feature Extraction by Downscaling Images
-**TODO**
-
-### 4.5 Cluster Analysis
-**TODO**
-
-### 4.6 Defining Regression Targets
+### 4.3 Defining Regression Targets
 
 **Currently outdated, will be updated soon**
 In order to see whether the organization of points within the MDS space is meaningful and learnable by machine learning, we also shuffle the assignments of images to points with the script `inception/shuffle_targets.py`. It takes as parameters the filename of the original mapping and the filename for the shuffled mapping: `python shuffle_targets.py in_file_name out_file_name`. The SGE script `run_shuffler.sge` can be used to submit this script to a Sun grid engine.
 
-### 4.7 Baselines
+
+## 5 Linear Regression
+
+As a first pass of the regression task, we evaluate some simple baselines (which disregard the images altogether) as well as some linear regressions based on either downscaled images or the features extracted by a pretrained neural network. All scripts are contained in the `code/regression` folder.
+
+
+### 5.1 Feature Extraction with Inception-v3
+
+In order to create feature vectors based on the inception-v3 network, one can use the script `inception/create_feature_vectors.py`. It is invoked as follows:
+```
+python code/regression/create_feature_vectors.py path/to/model_folder path/to/input_folder path/to/output.pickle
+```
+The script downloads the [Inception-v3 network](https://arxiv.org/abs/1512.00567) into the folder specified by `model_folder`, reads all augmented images from the folder specified by `input_folder`, uses them as input to the inception network, grabs the activations of the second-to-last layer of the network (2048 neurons) and stores a dictionary mapping from image name to a list of feature vectors in the pickle file specified by `output.pickle` (defaults to `inception/features/features`).
+
+### 5.2 Feature Extraction by Downscaling Images
+**TODO**
+
+### 5.3 Cluster Analysis of Feature Vectors
+**TODO**
+
+### 5.4 Baselines
 
 **Currently outdated, will be updated soon**
 We have programmed four simple baselines that can be run by executing the script `inception/baselines.py`. The script expects a single parameter, which is the name of the configuration inside the `grid_search.cfg` to use. This configuration should contain information on the feature vectors file, on the file containing the mapping from images to points in the MDS space, and on the dimensionality of the MDS space. The script computes the RMSE for each of the baselines in an image-ID based leave-one-out procedure (i.e., all augmented images based on one original image are used as test set each time) and stores the results in separate files in the folder `inception/regression` (which has to be existent before the script is run). The baselines are as follows:
@@ -295,7 +301,7 @@ We have programmed four simple baselines that can be run by executing the script
 
 The SGE script `run_baselines.sge` can be used to submit this script to a Sun grid engine. It takes two parameters: The configuration name to pass to the python script and the number of repetitions.
 
-### 4.8 Regression
+### 5.5 Linear Regression
 **Currently outdated, will be updated soon**
 The script `inception/run_sklearn_regression.sge` uses the linear regression of scikit-learn on the features extracted by the inception network. Like the baseline script, it takes a single parameter, which is the name of the configuration inside the `grid_search.cfg` to use. Again, an image-ID based leave-one-out procedure is used to compute the RMSE. The result is stored in a file in the directory `inception/regression` (which has to be existent before the script is run). 
 
