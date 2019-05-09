@@ -107,9 +107,10 @@ echo '    feature extraction'
 echo '        inception network'
 python code/regression/inception_features.py /tmp/inception data/NOUN/dataset/augmented data/NOUN/dataset/features_inception.pickle
 echo '        reduced images'
-python code/regression/reduced_image_features.py data/NOUN/dataset/augmented/ data/NOUN/dataset/reduced_image_features_var.pickle -b 3 -a var -g
-python code/regression/reduced_image_features.py data/NOUN/dataset/augmented/ data/NOUN/dataset/reduced_image_features_prod.pickle -b 2 -a product -g
-python code/regression/reduced_image_features.py data/NOUN/dataset/augmented/ data/NOUN/dataset/reduced_image_features_mean.pickle -b 6 -a mean -g
+python code/regression/reduced_image_features.py data/NOUN/dataset/augmented/ data/NOUN/dataset/features_image_product_g.pickle -b 7 -a product -g
+python code/regression/reduced_image_features.py data/NOUN/dataset/augmented/ data/NOUN/dataset/features_image_min_g.pickle -b 7 -a min -g
+python code/regression/reduced_image_features.py data/NOUN/dataset/augmented/ data/NOUN/dataset/features_image_var_rgb.pickle -b 12 -a var
+python code/regression/reduced_image_features.py data/NOUN/dataset/augmented/ data/NOUN/dataset/features_image_mean_rgb.pickle -b 12 -a mean
 echo '    cluster analysis'
 echo '        inception network'
 # TODO
