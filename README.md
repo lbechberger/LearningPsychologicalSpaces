@@ -267,9 +267,13 @@ Here, `augmented.pickle` is one of the pickle files created by `data_augmentatio
 
 ### 4.3 Defining Regression Targets
 
-**Currently outdated, will be updated soon**
-In order to see whether the organization of points within the MDS space is meaningful and learnable by machine learning, we also shuffle the assignments of images to points with the script `inception/shuffle_targets.py`. It takes as parameters the filename of the original mapping and the filename for the shuffled mapping: `python shuffle_targets.py in_file_name out_file_name`. The SGE script `run_shuffler.sge` can be used to submit this script to a Sun grid engine.
+As our experiments are run against a wide variety of target spaces, we created a script called `prepare_targets.py` which for convenience collects all possible target vectors in a single pickle file. It moreover creates a shuffled version of the targets for later usage as a control case. The script can be invoked as follows:
+```
+python code/dataset/prepare_targets.py path/to/input.csv path/to/output.pickle
+```
+Here, `input.csv` is a csv file with two columns: In each row, the first column contains a short descriptive name of the target space and the second column contains the path to the corresponding file with the MDS vectors (as created in Section 2.1). The script iterates through all these target spaces and collects the MDS vectors. When shuffling them, the same seed is used for all spaces to ensure that the results are comparable. By setting `-s` or `--seed`, the user can specify a fixed seed, otherwise a random seed is drawn in the beginning of the script. 
 
+The result is stored in `output.pickle` as a dictionary having the names of the target spaces as keys and further dictionaries (with the keys `target` and `shuffled` leading to dictionaries with the corresponding image-vector mappings) as values.
 
 ## 5 Linear Regression
 

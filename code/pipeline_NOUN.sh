@@ -99,10 +99,12 @@ wait
 
 # machine learning
 echo 'preparing data set for machine learning'
+
 echo '    augmentation'
 python code/dataset/data_augmentation.py data/NOUN/images/ data/NOUN/dataset/augmented 1000 -s 42 --flip_prob 0.0 --crop_size 0.05 --scale_min 0.9 --scale_max 1.1 --translation 0.1 --sp_noise_prob 0.01 --rotation_angle 15
 echo '    regression targets'
-# TODO
+python code/dataset/prepare_targets.py data/NOUN/dataset/targets.csv data/NOUN/dataset/targets.pickle -s 42
+
 echo '    feature extraction'
 echo '        inception network'
 python code/regression/inception_features.py /tmp/inception data/NOUN/dataset/augmented data/NOUN/dataset/features_inception.pickle
@@ -111,6 +113,7 @@ python code/regression/reduced_image_features.py data/NOUN/dataset/augmented/ da
 python code/regression/reduced_image_features.py data/NOUN/dataset/augmented/ data/NOUN/dataset/features_image_min_g.pickle -b 7 -a min -g
 python code/regression/reduced_image_features.py data/NOUN/dataset/augmented/ data/NOUN/dataset/features_image_var_rgb.pickle -b 12 -a var
 python code/regression/reduced_image_features.py data/NOUN/dataset/augmented/ data/NOUN/dataset/features_image_mean_rgb.pickle -b 12 -a mean
+
 echo '    cluster analysis'
 echo '        inception network'
 # TODO
