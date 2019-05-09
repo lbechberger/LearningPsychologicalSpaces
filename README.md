@@ -7,7 +7,7 @@ Research based on the code in this repository has been submitted to [AIC 2018](h
 
 Lucas Bechberger and Elektra Kypridemou. "Mapping Images to Psychological Similarity Spaces Using Neural Networks" [Preprint](https://arxiv.org/abs/1804.07758)
 
-## About
+## 0 About
 
 Our scripts use TensorFlow 1.10 with Python 3.5 along with scikit-learn. You can find scripts for setting up a virtual environment with anaconda in the [Utilities](https://github.com/lbechberger/Utilities) project.
 
@@ -19,11 +19,11 @@ Horst, Jessica S., and Michael C. Hout. "The Novel Object and Unusual Name (NOUN
 
 The scripts `code/pipeline_NOUN.sh` and `code/pipeline_Shapes.sh` automatically execute all steps of our analysis pipeline and can be used both to reproduce our results and to see how the individual python scripts are actually executed in practice. The scripts `code/clean_NOUN.sh` and `code/clean_Shapes.sh` can be used to remove all temporary files and to start from a clean slate.
 
-## Preprocessing
+## 1 Preprocessing
 
 The folder `code/preprocessing` contains various scripts for preprocessing the data set in order to prepare it for multidimensional scaling.
 
-### Parsing NOUN CSV file
+### 1.1 Parsing NOUN CSV file
 
 The script `preprocess_NOUN.py` reads in the distances obtained via SpAM and stores them in a pickle file for further processing. It can be executed as follows from the project's root directory:
 ```
@@ -44,7 +44,7 @@ The resulting `output.pickle` file contains a dictionary with the follwing eleme
   - `'values'`: A list of similarity values (integers from 1 to 5, where 1 means 'no visual similarity' and 5 means 'high visual similarity')
   - `'border'`: An integer indicating the border between similarity ratings from the two studies. You can use `values[:border]` to access only the similarity ratings of the first study (only within category) and `values[border:]` to acces only the similarity ratings of the second study (mostly between cateory, but also some within category).
 
-### Parsing Shapes CSV Files
+### 1.2 Parsing Shapes CSV Files
 
 In order to make the Shapes data processible by our scripts, please run the script `preprocess_Shapes.py` as follows from the project's root directory:
 ```
@@ -66,7 +66,7 @@ The resulting `output.pickle` file contains a dictionary with the follwing eleme
   - `'values'`: A list of similarity values (integers from 1 to 5, where 1 means 'no visual similarity' and 5 means 'high visual similarity')
   - `'border'`: An integer indicating the border between similarity ratings from the two studies. You can use `values[:border]` to access only the similarity ratings of the first study (only within category) and `values[border:]` to acces only the similarity ratings of the second study (mostly between cateory, but also some within category).
 
-### Aggregating Similarity Ratings
+### 1.3 Aggregating Similarity Ratings
 
 The next step in the preprocessing pipeline is to extract similarity ratings from the overall data set. This can be done with the script `compute_similarities.py`. You can execute it as follows from the project's root directory:
 ```
@@ -87,7 +87,7 @@ The result is a pickle file which consists of a dictionary with the following co
 - `'similarities'`: A quadratic matrix of similarity values. Both rows and columns are ordered like in `'items'`. Values of `nan` are used to indicate that there is no similarity rating available for a pair of stimuli.
 - `'dissimilarities'`: A quadratic matrix of dissimilarity values analogous to `'similarities'`. Here, values of 0 indicate missing similarity ratings.
 
-### Analyzing Similarity Ratings
+### 1.4 Analyzing Similarity Ratings
 
 The script `analyze_similarities.py` can be used to collect some statistics on the distribution of similarity ratings for a given subset of the data (prints out some statistics and creates some plots). It can be executed as follows:
 ```
@@ -98,7 +98,7 @@ The input file is here the `output.pickle` created by the `preprocess_Shapes.py`
 - `-s` or `--subset`: Specifies which subset of the similarity ratings to use. Default is `all` (which means that all similarity ratings from both studies are used). Another supported option is `between` where only the ratings from the second study (found in `within_between.csv`) are used. Here, all items that did not appear in the second study are removed from the dissimilarity matrix. A third option is `cats` which only considers the categories used in the second study, but which keeps all items from these categories (also items that were only used in the first, but not in the second study).
 - `-o` or `--output_path`: The path to the folder where the plots shall be stored. Defaults to `.`, i.e., the current working directory.
 
-### Creating Average Images
+### 1.5 Creating Average Images
 
 The script `average_images.py` can be used in order to create an average image for each of the categories. It can be invoked as follows:
 ```
@@ -109,17 +109,17 @@ Here, `image_file.pickle` corresponds to the output file of `preprocess_Shapes.p
 - `-r` or `--resolution`: The desired size (width and height) of the output images, defaults to 283 (size of the original images).
 - `-s` or `--subset`: The subset of data to use, defaults to `all`. Possible other options are `between`, `within`, and `cats`.
 
-### Writing CSV Files of Aggregated Dissimilarities
+### 1.6 Writing CSV Files of Aggregated Dissimilarities
 The R script for MDS needs the aggregated dissimilarity data in form of a CSV file. The script `pickle_to_csv.py` stores the similaritiy ratings from `input_file.pickle` into a CSV file called `distance_matrix.csv` as well as the list of item names in a file called `item_names.csv`. Both output files are stored in the given `output_folder`. The `input_file.pickle` should be the file created by `compute_similarities.py`. The script can be invoked as follows:
 ```
 python code/preprocessing/pickle_to_csv.py path/to/input_file.pickle path/to/output_folder/
 ```
 
-## Multidimensional Scaling
+## 2 Multidimensional Scaling
 
 The folder `code/mds` contains various scripts for transforming the given data set from pairwise similarity ratings into a conceptual space and for analyzing the resulting space.
 
-### Applying MDS
+### 2.1 Applying MDS
 
 The script `mds.r` runs four different versions of multidimensional scaling based on the implementations in R. More specifically, it uses the Eigenvalue-based classical MDS [cmdscale](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/cmdscale.html), Kruskal's nonmetric MDS [isoMDS](https://stat.ethz.ch/R-manual/R-devel/library/MASS/html/isoMDS.html), and both metric and nonmetric SMACOF [smacofSym](https://cran.r-project.org/web/packages/smacof/smacof.pdf#page.55). For Kruskal's algorithm and for SMACOF, multiple random starts are used and the best result is kept. You can execute the script as follows from the project's root directory:
 ```
@@ -138,7 +138,7 @@ The script takes the following optional arguments:
 
 We implemented the MDS step in R and not in Python because R offers a greater variety of MDS algorithms. Moreover, nonmetric SMACOF with Python's `sklearn` library produced poor results which might be due to a programming bug.
 
-### Normalizing the Resulting Spaces
+### 2.2 Normalizing the Resulting Spaces
 
 In order to make the individual MDS solutions more comparable, we normalize them by moving their centroid to the origin and by making sure that their root mean squared distance to the origin equals one. This is done by the script `normalize_spaces.py`, which can be invoked by simply giving it the path to the directory containing all the vector files:
 ```
@@ -150,7 +150,7 @@ The script **overrides** the original files. It can take the following optional 
 
 **It is important to run this script before using the MDS spaces for the regression task -- only by normalizing the spaces, we can make sure that the (R)MSE values are comparable across spaces!**
 
-### Visualizing the Resuling Spaces
+### 2.3 Visualizing the Resuling Spaces
 
 The script `visualize.py` can be used to create two-dimensional plots of the resulting MDS spaces. You can execute it as follows from the project's root directory:
 ```
@@ -162,7 +162,7 @@ The script takes the following optional arguments:
 - `-i` or `--image_folder`: Path to a folder where the images of the items are stored. If this is given, then the images from this folder are used in the visualization. If no image folder is given, then data points are labeled with their item ID.
 - `-z` or `--zoom`: Determines how much the images are scaled. Default is 0.15.
 
-### Checking for Convexity
+### 2.4 Checking for Convexity
 
 The script `analyze_convexity.py` can be used to check whether the categories within the space are convex. This is only applicable to the Shapes data set, as there are no categories in NOUN. The script iterates over all categories, builds a convex hull of the items belonging to this category and counts how many points from other categories lie within this convex hull. Each point that lies in the convex hull of a different concept is counted as one violation. The script outputs the number of violations for each category, together with an estimate of how many violations would be expected if points are randomly sampled from a uniform distribution, a normal distribution, or the overall set of given points.
 
@@ -178,7 +178,7 @@ It takes the following optional arguments:
 - `-r` or `--repetitions`: Determines the number of repetitions used when sampling from the baselines. Defaults to 20. More samples means more accurate estimation, but longer runtime.
 
 
-### Searching for Interpretable Directions
+### 2.5 Searching for Interpretable Directions
 The script `check_interpretability.py` tries to find interpretable directions in a given MDS space based on prior binary classifications of the items. The script iterates over all files in the classification folder and constructs a classification problem for each of these files. Each file is expected to contain a list of positive examples, represented by one item ID per line. A linear SVM is trained using the vectors provided in the csv file and the classification as extracted from the classification file. All data points are used for both training and evaluating. Evaulation is done by using Cohen's kappa. The script outputs for each classification task the value of Cohen's kappa as well as the normal vector of the separating hyperplane. The latter can be thought of as an interpretable direction if the value of kappa is sufficiently high. Just like `analyze_convexity.py`, also the `check_interpretability.py` script compares the result to the average over multiple repetitions for randomly sampled points (uniformly distributed vectors, normally distributed vectors, shuffled assignment of real vectors).
 
 The script can be invoked as follows (where `n_dims` is the number of dimensions of the underlying space):
@@ -191,11 +191,11 @@ It takes the following optional arguments:
 - `-r` or `--repetitions`: Determines the number of repetitions used when sampling from the baselines. Defaults to 20. More samples means more accurate estimation, but longer runtime.
 
 
-## Correlations to Similarity Ratings
+## 3 Correlations to Similarity Ratings
 
 The folder `correlations` contains scripts for estimating how well the MDS spaces represent the underlying similarity ratings. As a baseline, pixel-based similarities of the corresponding images are used.
 
-### Pixel-Based Similarities
+### 3.1 Pixel-Based Similarities
 
 The script `image_correlations.py` loads the images and interprets them as one-dimensional vectors of pixel values. It then computes for each pair of items the different similarity measures (i.e., cosine distance, Euclidean distance, Manhattan distance) of their pixel-based representation. The resulting similarity matrix is compared to the one obtained from human similarity judgements by computing different correlation statistics (Pearson's R, Spearman's Rho, Kendall's Tau, and the coefficient of determination R Squared). The script can be executed as follows, where `similarity_file.pickle` is the output file of the overall preprocessing and where `image_folder` is the directory containing all images:
 ```
@@ -208,7 +208,7 @@ The script takes the following optional parameter:
 - `-g` or `--greyscale`: If this flag is set, the three color channels are collapsed into a single greyscale channel when loading the images. If not, full RGB information is used.
 - `-p` or `--plot`: If this flag is set, scatter plots are created and stored for each of the similarity measures.
 
-### MDS-Based Similarities
+### 3.2 MDS-Based Similarities
 
 The script `mds_correlations.py` loads the MDS vectors and derives distances between pairs of stimuli based on the cosine distance, the Euclidean distance, and the Manhattan distance. These distances are then correlated to the human dissimilarity ratings with Pearson's R, Spearman's Rho, Kendall's Tau, and the coefficient of determination R Squared. The script can be executed as follows:
 ```
@@ -220,7 +220,7 @@ Here, `similarity_file.pickle` is again the output file of the overall preproces
 - `--n_max`: The size of the largest space to investigate (defaults to 20).
 - `-p` or `--plot`: If this flag is set, scatter plots are created and stored for each of the similarity measures.
 
-### Visualizing The Correlations
+### 3.3 Visualizing The Correlations
 
 The script `visualize_correlations.py` can be used to visualize the results of the correlation computations. It can be invoked as follows:
 ```
@@ -230,11 +230,11 @@ Here, `pixel_file.csv` and `mds_file.csv` are the output files of `image_correla
 - `-o` or `--output`: The output folder where the resulting visualizations are stored (default: `.`, i.e., the current working directory).
 
 
-## Regression with Inception-v3
+## 4 Regression with Inception-v3
 
 In order to run a linear regression based on the features extracted by the inception-v3 network, multiple processing steps are necessary. Firstly, we need to augment our data set by creating a large amount of slightly distorted image variants. This is done in order to achieve a data set of reasonable size for a machine learning task. Afterwards, each of these images need to be mapped to a feature vector and to a corresponding ground truth MDS vector. In a final step, the linear regression as well as different baselines are executed. All scripts are contained in the `code/inception` folder.
 
-### Data Augmentation
+### 4.1 Data Augmentation
 
 We used [ImgAug](https://github.com/aleju/imgaug) for augmenting our image data set. This is done with the script `data_augmentation.py`. It can be invoked as follows:
 ```
@@ -257,7 +257,7 @@ Augmentation is done by appling the folloing operations in random order:
 - *Shearing*: The maximal shear angle in degrees is controlled by `--shear_angle` (default: 8).
 - *Salt and pepper noise*: The amount of pixels to modify is set via `--sp_noise_prob` (default: 0.03)
 
-### Visualizing Augmented Images
+### 4.2 Visualizing Augmented Images
 
 In order to visually check that the augmentation step worked, you can use the script `show_augmented_images.py` to display them. It can be executed as follows:
 ```
@@ -265,7 +265,7 @@ python code/inception/show_augmented_images.py path/to/augmented.pickle
 ```
 Here, `augmented.pickle` is one of the pickle files created by `data_augmentation.py`. By default, the script displays three rows (adjustable via `-r` or `--rows`) and four columns (adjustable via `-c` or `--columns`).
 
-### Feature Extraction with Inception-v3
+### 4.3 Feature Extraction with Inception-v3
 
 In order to create feature vectors based on the inception-v3 network, one can use the script `inception/create_feature_vectors.py`. It is invoked as follows:
 ```
@@ -273,12 +273,18 @@ python code/inception/create_feature_vectors.py path/to/model_folder path/to/inp
 ```
 The script downloads the [Inception-v3 network](https://arxiv.org/abs/1512.00567) into the folder specified by `model_folder`, reads all augmented images from the folder specified by `input_folder`, uses them as input to the inception network, grabs the activations of the second-to-last layer of the network (2048 neurons) and stores a dictionary mapping from image name to a list of feature vectors in the pickle file specified by `output.pickle` (defaults to `inception/features/features`).
 
-### Shuffling the target vectors
+### 4.4 Feature Extraction by Downscaling Images
+**TODO**
+
+### 4.5 Cluster Analysis
+**TODO**
+
+### 4.6 Defining Regression Targets
 
 **Currently outdated, will be updated soon**
 In order to see whether the organization of points within the MDS space is meaningful and learnable by machine learning, we also shuffle the assignments of images to points with the script `inception/shuffle_targets.py`. It takes as parameters the filename of the original mapping and the filename for the shuffled mapping: `python shuffle_targets.py in_file_name out_file_name`. The SGE script `run_shuffler.sge` can be used to submit this script to a Sun grid engine.
 
-### Baselines
+### 4.7 Baselines
 
 **Currently outdated, will be updated soon**
 We have programmed four simple baselines that can be run by executing the script `inception/baselines.py`. The script expects a single parameter, which is the name of the configuration inside the `grid_search.cfg` to use. This configuration should contain information on the feature vectors file, on the file containing the mapping from images to points in the MDS space, and on the dimensionality of the MDS space. The script computes the RMSE for each of the baselines in an image-ID based leave-one-out procedure (i.e., all augmented images based on one original image are used as test set each time) and stores the results in separate files in the folder `inception/regression` (which has to be existent before the script is run). The baselines are as follows:
@@ -289,14 +295,8 @@ We have programmed four simple baselines that can be run by executing the script
 
 The SGE script `run_baselines.sge` can be used to submit this script to a Sun grid engine. It takes two parameters: The configuration name to pass to the python script and the number of repetitions.
 
-### Regression
+### 4.8 Regression
 **Currently outdated, will be updated soon**
 The script `inception/run_sklearn_regression.sge` uses the linear regression of scikit-learn on the features extracted by the inception network. Like the baseline script, it takes a single parameter, which is the name of the configuration inside the `grid_search.cfg` to use. Again, an image-ID based leave-one-out procedure is used to compute the RMSE. The result is stored in a file in the directory `inception/regression` (which has to be existent before the script is run). 
 
-The SGE script `run_sklearn_regression.sge` can be used to submit this script to a Sun grid engine. It takes two parameters: The configuration name to pass to the python script and the number of repetitions.
-
-### Collecting the results
-
-**Currently outdated, will be updated soon**
-One can run both the baselines and the regression multiple times in order to average over their respective performance. Both the baseline and the regression script will append their results if the output file already exists. In order to aggregate over these values, one can use the script `inception/collect_regression_results.py`. It takes the directory to run on as its single parameter. For each file in this directory, it averages over all rows and puts the resulting average RMSE into a file `summary.csv` in this directory. The SGE script `run_regression_collection.sge` can be used to submit this script to a Sun grid engine.
 

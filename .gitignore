@@ -101,7 +101,7 @@ ENV/
 .mypy_cache/
 
 # NOUN data
-data/NOUN/dataset/augmented
+data/NOUN/dataset/
 
 # Shapes data
 data/Shapes/raw_data/
