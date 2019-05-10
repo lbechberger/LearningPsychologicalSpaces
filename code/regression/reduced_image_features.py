@@ -34,9 +34,10 @@ def downscale_image(image, aggregator, block_size, greyscale):
         array = np.asarray(image.getdata())
         width, height = image.size
         array = np.reshape(array, [width, height, 3])
-        img = block_reduce(array, (block_size, block_size, 3), aggregator_functions[aggregator])
+        img = block_reduce(array, (block_size, block_size, 1), aggregator_functions[aggregator])
     # make a column vector out of this and store it
-    return np.reshape(img, (1,-1))
+    result = np.reshape(img, (-1))
+    return result
 
 # need to convert tensorflow string representation into numbers
 tf_image_string = tf.placeholder(tf.string)

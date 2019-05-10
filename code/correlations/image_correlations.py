@@ -90,7 +90,7 @@ with open(output_file_name, 'w', buffering=1) as f:
                 else:
                     width, height = img.size
                     array = np.reshape(array, [width, height, 3])
-                    img = block_reduce(array, (block_size, block_size, 3), aggregator_function)
+                    img = block_reduce(array, (block_size, block_size, 1), aggregator_function)
                 image_size = img.shape[0]
                 # make a column vector out of this and store it
                 img = np.reshape(img, (1,-1))
