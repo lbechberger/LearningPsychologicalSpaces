@@ -15,7 +15,7 @@ mkdir -p data/NOUN/analysis/pixel_correlations/rgb data/NOUN/analysis/pixel_corr
 mkdir -p data/NOUN/analysis/classical/ data/NOUN/analysis/Kruskal/ data/NOUN/analysis/metric_SMACOF/ data/NOUN/analysis/nonmetric_SMACOF/ data/NOUN/analysis/HorstHout/
 mkdir -p data/NOUN/visualizations/correlations/rgb data/NOUN/visualizations/correlations/grey 
 
-mkdir -p data/NOUN/dataset/augmented
+mkdir -p data/NOUN/dataset/augmented data/NOUN/analysis/features
 
 cp data/NOUN/raw_data/4D-vectors.csv data/NOUN/vectors/HorstHout/4D-vectors.csv
 
@@ -116,9 +116,12 @@ python code/regression/reduced_image_features.py data/NOUN/dataset/augmented/ da
 
 echo '    cluster analysis'
 echo '        inception network'
-# TODO
+python code/regression/cluster_analysis.py data/NOUN/dataset/features_inception.pickle -n 100 -s 42 > data/NOUN/analysis/features/features_inception.txt
 echo '        reduced images'
-# TODO
+python code/regression/cluster_analysis.py data/NOUN/dataset/features_image_product_g.pickle -n 100 -s 42 > data/NOUN/analysis/features/features_image_product_g.txt
+python code/regression/cluster_analysis.py data/NOUN/dataset/features_image_min_g.pickle -n 100 -s 42 > data/NOUN/analysis/features/features_image_min_g.txt
+python code/regression/cluster_analysis.py data/NOUN/dataset/features_image_var_rgb.pickle -n 100 -s 42 > data/NOUN/analysis/features/features_image_var_rgb.txt
+python code/regression/cluster_analysis.py data/NOUN/dataset/features_image_min_rgb.pickle -n 100 -s 42 > data/NOUN/analysis/features/features_image_min_rgb.txt
 
 echo 'running linear regressions'
 echo '    baselines'

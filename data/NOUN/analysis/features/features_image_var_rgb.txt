@@ -1,0 +1,8 @@
+ACTUAL RESULTS
+Euclidean: nan
+Manhattan: nan
+Cosine: 0.0
+SHUFFLED RESULTS
+Euclidean: nan
+Manhattan: nan
+Cosine: 0.0
