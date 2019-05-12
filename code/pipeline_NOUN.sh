@@ -15,7 +15,7 @@ mkdir -p data/NOUN/analysis/pixel_correlations/rgb data/NOUN/analysis/pixel_corr
 mkdir -p data/NOUN/analysis/classical/ data/NOUN/analysis/Kruskal/ data/NOUN/analysis/metric_SMACOF/ data/NOUN/analysis/nonmetric_SMACOF/ data/NOUN/analysis/HorstHout/
 mkdir -p data/NOUN/visualizations/correlations/rgb data/NOUN/visualizations/correlations/grey 
 
-mkdir -p data/NOUN/dataset/augmented data/NOUN/analysis/features
+mkdir -p data/NOUN/dataset/augmented data/NOUN/analysis/features data/NOUN/analysis/inception
 
 cp data/NOUN/raw_data/4D-vectors.csv data/NOUN/vectors/HorstHout/4D-vectors.csv
 
@@ -88,6 +88,11 @@ python code/correlations/mds_correlations.py data/NOUN/similarities/sim.pickle d
 echo '    Horst and Hout 4D'
 python code/correlations/mds_correlations.py data/NOUN/similarities/sim.pickle data/NOUN/vectors/HorstHout/ -o data/NOUN/analysis/HorstHout/ --n_min 4 --n_max 4 &
 wait
+
+# run inception correlation
+echo 'inception correlation'
+python code/regression/inception_correlations.py /tmp/inception data/NOUN/similarities/sim.pickle data/NOUN/images/ -o data/NOUN/analysis/inception/ -s 300 
+
 
 # visualize correlation results
 echo 'visualizing correlation'
