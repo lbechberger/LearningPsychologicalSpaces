@@ -25,7 +25,6 @@ parser.add_argument('model_dir', help = 'folder for storing the pretrained netwo
 parser.add_argument('similarity_file', help = 'the input file containing the target similarity ratings')
 parser.add_argument('image_folder', help = 'the folder containing the original images')
 parser.add_argument('-o', '--output_folder', help = 'the folder to which the output should be saved', default='.')
-parser.add_argument('-s', '--size', type = int, default = 283, help = 'the size of the image, used to determine the maximal block size')
 parser.add_argument('-p', '--plot', action = 'store_true', help = 'create scatter plots of distances vs. dissimilarities')
 args = parser.parse_args()
 
@@ -94,7 +93,7 @@ def extract_inception_features(images):
         
         for image in images:
             feature_vector = sess.run(second_to_last_tensor, {'DecodeJpeg/contents:0': image})
-            features.append(feature_vector.reshape(-1, 1))
+            features.append(feature_vector.reshape(1, -1))
             
     return features
 
@@ -111,20 +110,21 @@ with open(output_file_name, 'w', buffering=1) as f:
     f.write("scoring,pearson,spearman,kendall,r2_linear,r2_isotonic\n")
            
     for scoring_name, scoring_function in scoring_functions.items():
+
         dissimilarity_scores = np.ones(target_dissimilarities.shape)
         
         for i in range(len(item_ids)):
             for j in range(len(item_ids)):
 
                 img_i = inception_features[i]
-                img_j = inception_features[j]    
+                img_j = inception_features[j] 
                 score = scoring_function(img_i, img_j)[0][0]
                 dissimilarity_scores[i][j] = score
         
         # transform dissimilarity matrices into vectors for correlation computation
         target_vector = np.reshape(target_dissimilarities, (-1,1)) 
         sim_vector = np.reshape(dissimilarity_scores, (-1,1)) 
-        
+       
         # compute correlations
         pearson, _ = pearsonr(sim_vector, target_vector)
         spearman, _ = spearmanr(sim_vector, target_vector)

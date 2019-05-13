@@ -229,6 +229,16 @@ python code/correlations/visualize_correlations.py path/to/pixel_file.csv path/t
 Here, `pixel_file.csv` and `mds_file.csv` are the output files of `image_correlations.py` and `mds_correlations.py`, respectively. The script takes the following additional optional arugments:
 - `-o` or `--output`: The output folder where the resulting visualizations are stored (default: `.`, i.e., the current working directory).
 
+### 3.4 Inception-Based Similarities
+
+As a second baseline, we use the features extracted by the inception network to predict the similarities between images from the data set. The corresponding script is called `inception_correlations.py` and is invoked as follows:
+```
+python code/correlations/inception_correlations.py path/to/model_folder path/to/similarity_file.pickle path/to/image_folder
+```
+The script downloads the inception network into the given `model_folder`, takes all images from the `image_folder`, computes their inception features, and uses the Manhattan, Euclidean, and Cosine distance to define a similarity measure on these features. It then computes the usual correlation metrics to the similarity ratings from `similarity_file.pickle`. The script takes the following optional arguments:
+- `-o` or `--output`: The output folder where the resulting correlation values are stored (default: `.`, i.e., the current working directory).
+- `-p` or `--plot`: If this flag is set, scatter plots are created and stored for each of the similarity measures.
+
 
 ## 4 Preparing the Data Set for Machine Learning
 

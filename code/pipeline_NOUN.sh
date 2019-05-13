@@ -91,7 +91,7 @@ wait
 
 # run inception correlation
 echo 'inception correlation'
-python code/regression/inception_correlations.py /tmp/inception data/NOUN/similarities/sim.pickle data/NOUN/images/ -o data/NOUN/analysis/inception/ -s 300 
+python code/correlations/inception_correlations.py /tmp/inception data/NOUN/similarities/sim.pickle data/NOUN/images/ -o data/NOUN/analysis/inception/ 
 
 
 # visualize correlation results
