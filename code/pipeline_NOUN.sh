@@ -99,7 +99,7 @@ echo 'visualizing correlation'
 echo '    RGB'
 python code/correlations/visualize_correlations.py -o data/NOUN/visualizations/correlations/rgb/ data/NOUN/analysis/pixel_correlations/rgb/sim.csv data/NOUN/analysis/classical/sim-MDS.csv &> data/NOUN/visualizations/correlations/rgb/best.txt &
 echo '    Greyscale'
-python code/correlations/visualize_correlations.py -o data/NOUN/visualizations/correlations/grey/ data/NOUN/analysis/pixel_correlations/grey/sim.csv data/NOUN/analysis/classical/sim-MDS.csv &> data/NOUN/visualizations/correlations/grey/best.txt &
+python code/correlations/visualize_correlations.py -o data/NOUN/visualizations/correlations/grey/ data/NOUN/analysis/pixel_correlations/grey/sim-g.csv data/NOUN/analysis/classical/sim-MDS.csv &> data/NOUN/visualizations/correlations/grey/best.txt &
 wait
 
 # machine learning
@@ -114,17 +114,19 @@ echo '    feature extraction'
 echo '        inception network'
 python code/regression/inception_features.py /tmp/inception data/NOUN/dataset/augmented data/NOUN/dataset/features_inception.pickle
 echo '        reduced images'
-#python code/regression/reduced_image_features.py data/NOUN/dataset/augmented/ data/NOUN/dataset/features_image_min_g.pickle -b 7 -a min -g
-#python code/regression/reduced_image_features.py data/NOUN/dataset/augmented/ data/NOUN/dataset/features_image_min_rgb.pickle -b 12 -a min
+python code/regression/reduced_image_features.py data/NOUN/dataset/augmented/ data/NOUN/dataset/features_image_min_7_g.pickle -b 7 -a min -g
+python code/regression/reduced_image_features.py data/NOUN/dataset/augmented/ data/NOUN/dataset/features_image_min_18_g.pickle -b 18 -a min -g
+python code/regression/reduced_image_features.py data/NOUN/dataset/augmented/ data/NOUN/dataset/features_image_min_12_rgb.pickle -b 12 -a min
+python code/regression/reduced_image_features.py data/NOUN/dataset/augmented/ data/NOUN/dataset/features_image_min_18_rgb.pickle -b 18 -a min
 
 echo '    cluster analysis'
 echo '        inception network'
 python code/regression/cluster_analysis.py data/NOUN/dataset/features_inception.pickle -n 100 -s 42 > data/NOUN/analysis/features/features_inception.txt
 echo '        reduced images'
-python code/regression/cluster_analysis.py data/NOUN/dataset/features_image_product_g.pickle -n 100 -s 42 > data/NOUN/analysis/features/features_image_product_g.txt
-python code/regression/cluster_analysis.py data/NOUN/dataset/features_image_min_g.pickle -n 100 -s 42 > data/NOUN/analysis/features/features_image_min_g.txt
-python code/regression/cluster_analysis.py data/NOUN/dataset/features_image_var_rgb.pickle -n 100 -s 42 > data/NOUN/analysis/features/features_image_var_rgb.txt
-python code/regression/cluster_analysis.py data/NOUN/dataset/features_image_min_rgb.pickle -n 100 -s 42 > data/NOUN/analysis/features/features_image_min_rgb.txt
+python code/regression/cluster_analysis.py data/NOUN/dataset/features_image_min_7_g.pickle -n 100 -s 42 > data/NOUN/analysis/features/features_image_min_7_g.txt
+python code/regression/cluster_analysis.py data/NOUN/dataset/features_image_min_18_g.pickle -n 100 -s 42 > data/NOUN/analysis/features/features_image_min_18_g.txt
+python code/regression/cluster_analysis.py data/NOUN/dataset/features_image_min_12_rgb.pickle -n 100 -s 42 > data/NOUN/analysis/features/features_image_min_12_rgb.txt
+python code/regression/cluster_analysis.py data/NOUN/dataset/features_image_min_18_rgb.pickle -n 100 -s 42 > data/NOUN/analysis/features/features_image_min_18_rgb.txt
 
 echo 'running linear regressions'
 echo '    baselines'
