@@ -17,7 +17,7 @@ parser.add_argument('-s', '--seed', type = int, help = 'seed for random number g
 args = parser.parse_args()
 
 if args.seed is not None:
-   random.seed(args.seed)
+    random.seed(args.seed)
 
 with open(args.input_file, 'rb') as f:
     data_set = pickle.load(f)
@@ -25,8 +25,10 @@ with open(args.input_file, 'rb') as f:
 vectors = []
 labels = []
 
-for image_name, feature_vectors in data_set.items():
-    vecs = feature_vectors
+image_names = sorted(data_set.keys())
+
+for image_name in image_names:
+    vecs = data_set[image_name]
     random.shuffle(vecs)
     vectors += vecs[:args.n_sample]
     labels += [image_name]*args.n_sample
