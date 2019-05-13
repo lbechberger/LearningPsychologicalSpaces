@@ -28,7 +28,7 @@ parser.add_argument('-g', '--greyscale', action = 'store_true', help = 'only con
 parser.add_argument('-p', '--plot', action = 'store_true', help = 'create scatter plots of distances vs. dissimilarities')
 args = parser.parse_args()
 
-aggregator_functions = {'max': np.max, 'mean': np.mean, 'min': np.min, 'std': np.std, 'var': np.var, 'median': np.median, 'product': np.prod}
+aggregator_functions = {'max': np.max, 'mean': np.mean, 'min': np.min, 'median': np.median}
 scoring_functions = {'Cosine': cosine_distances, 'Euclidean': euclidean_distances, 'Manhattan': manhattan_distances}
 
 # set up file name for output file

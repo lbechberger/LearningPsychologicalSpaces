@@ -21,7 +21,7 @@ parser.add_argument('-a', '--aggregator', default = 'mean', help = 'aggregator f
 parser.add_argument('-b', '--block_size', type = int, default = 1, help = 'block size to use when downscaling the images')
 args = parser.parse_args()
 
-aggregator_functions = {'max': np.max, 'mean': np.mean, 'min': np.min, 'std': np.std, 'var': np.var, 'median': np.median, 'product': np.prod}
+aggregator_functions = {'max': np.max, 'mean': np.mean, 'min': np.min, 'median': np.median}
 
 def downscale_image(image, aggregator, block_size, greyscale):
     

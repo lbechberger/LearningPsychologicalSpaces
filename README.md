@@ -201,7 +201,7 @@ The script `image_correlations.py` loads the images and interprets them as one-d
 ```
 python code/correlations/image_correlations.py path/to/similarity_file.pickle path/to/image_folder
 ```
-In addition to doing these computations on the full pixel-wise information, the script also shrinks the image by aggregating all pixels within a block of size `k` times `k` into a single number. The script iterates over all possible sizes of k (from 1 to 283 in our case) and uses different aggregation strategies (namely: max, min, std, var, median, product).
+In addition to doing these computations on the full pixel-wise information, the script also shrinks the image by aggregating all pixels within a block of size `k` times `k` into a single number. The script iterates over all possible sizes of k (from 1 to 283 in our case) and uses different aggregation strategies (namely: max, min, mean, median).
 The script takes the following optional parameter:
 - `-o` or `--output`: The output folder where the resulting correlation values are stored (default: `.`, i.e., the current working directory).
 - `-s` or `--size`: The size of the image, i.e., the maximal number of `k` to use (default: 283).
