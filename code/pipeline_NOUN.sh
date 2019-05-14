@@ -16,6 +16,7 @@ mkdir -p data/NOUN/analysis/classical/ data/NOUN/analysis/Kruskal/ data/NOUN/ana
 mkdir -p data/NOUN/visualizations/correlations/rgb data/NOUN/visualizations/correlations/grey 
 
 mkdir -p data/NOUN/dataset/augmented data/NOUN/analysis/features data/NOUN/analysis/inception
+mkdir -p data/NOUN/ML_results/baselines data/NOUN/ML_results/linear_regression data/NOUN/ML_results/baselines/lasso_regression
 
 cp data/NOUN/raw_data/4D-vectors.csv data/NOUN/vectors/HorstHout/4D-vectors.csv
 
@@ -130,6 +131,7 @@ python code/regression/cluster_analysis.py data/NOUN/dataset/features_image_min_
 
 echo 'running linear regressions'
 echo '    baselines'
+python code/regression/baselines.py data/NOUN/dataset/targets.pickle data/NOUN/ML_results/baselines -s 42 -n 100
 # TODO
 echo '    inception'
 # TODO
