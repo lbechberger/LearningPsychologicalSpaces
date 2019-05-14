@@ -53,6 +53,6 @@ with open(args.input_file, 'r') as f:
             shuffled_dict[keys[i]] = values[i]
         
         # store both original and shuffled ones
-        result[target_name] = {'targets': real_dict, 'shuffled': shuffled_dict}
+        result[target_name] = {'correct': real_dict, 'shuffled': shuffled_dict}
 
 pickle.dump(result, open(args.output_file, 'wb'))
