@@ -1,15 +1,12 @@
 #!/bin/bash
 
-# look at spaces with up to 10 dimensions, only visualize spaces with up to 5 dimensions
-dims=10
-max=5
+echo 'experiment 1'
 
 # set up the directory structure
-echo 'setting up directory structure'
+echo '    setting up directory structure'
 rm -r -f data/NOUN/ML_results/experiment_1
 mkdir -p data/NOUN/ML_results/experiment_1
 
-echo 'experiment 1'
 # first use the inception features; here also once compute baselines (they are independent of the feature space, so recomputing them every time does not make too much sense)
 echo '    inception features'
 echo '        zero'
