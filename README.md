@@ -333,11 +333,8 @@ In order to select the type of regression to be used, one needs to pass *exactly
 - `-l` or `--linear`: *Linear regression*, runs sklearn's `LinearRegression`.
 - `-a` or `--alpha`: *Lasso regression, runs sklearn's `Lasso` regressor, using the given value as regularization parameter.
 
-In addition to this, the script accepts the following optional parameters:
-- `-r` or `--repetitions`: Number of repetitions to perform for the regression. Defaults to 1. Reported results are averaged across all repetitions.
-- `-s` or `--seed`: The random seed to use for initializing the random number generator. If none is given, a different initialization is used in every call to the script.
-
-These optional arguments are useful when dealing with nondeterministic regressors (i.e., normal distribution baseline, random draw baseline).
+In addition to this, the script accepts the following optional parameter:
+- `-s` or `--seed`: The random seed to use for initializing the random number generator (important for nondeterministic regressors). If none is given, a different initialization is used in every call to the script.
 
 The script performs a leave-one-out evaluation on the image level (i.e., each fold consists of all augmented images that are based on the same original) and reports MSE, RMSE, and R² in the output csv file for both the training and the test set and for both the correct and the shuffled target vectors.
 

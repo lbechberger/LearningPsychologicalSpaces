@@ -22,7 +22,6 @@ parser.add_argument('-z', '--zero', action = 'store_true', help = 'compute zero 
 parser.add_argument('-m', '--mean', action = 'store_true', help = 'compute mean baseline')
 parser.add_argument('-n', '--normal', action = 'store_true', help = 'compute normal distribution baseline')
 parser.add_argument('-d', '--draw', action = 'store_true', help = 'compute random draw baseline')
-parser.add_argument('-r', '--repetitions', type = int, help = 'number of repetitions', default = 1)
 parser.add_argument('-s', '--seed', type = int, help = 'seed for random number generation', default = None)
 parser.add_argument('-l', '--linear', action = 'store_true', help = 'compute linear regression')
 parser.add_argument('-a', '--alpha', type = float, help = 'compute lasso regression using the given value of alpha', default = None)
@@ -106,7 +105,7 @@ def linear_regression(train_features, train_targets, test_features, test_targets
 
 # computing a lasso regression
 def lasso_regression(train_features, train_targets, test_features, test_targets):
-    regressor =  Lasso(alpha = args.alpha, random_state = np.random.randint(0,1000), precompute = True)
+    regressor =  Lasso(alpha = args.alpha, precompute = True)
     return sklearn_regression(train_features, train_targets, test_features, test_targets, regressor)
 
 if args.zero:
@@ -157,13 +156,12 @@ for target_type in ['correct', 'shuffled']:
             train_features += features
             train_targets += [target]*len(features)
         
-        for i in range(args.repetitions):
-            train_predictions, test_predictions = prediction_function(train_features, train_targets, test_features, test_targets)
+        train_predictions, test_predictions = prediction_function(train_features, train_targets, test_features, test_targets)
 
-            train_targets_list += train_targets
-            train_predictions_list += list(train_predictions)
-            test_targets_list += test_targets
-            test_predictions_list += list(test_predictions)
+        train_targets_list += train_targets
+        train_predictions_list += list(train_predictions)
+        test_targets_list += test_targets
+        test_predictions_list += list(test_predictions)
 
     # compute metrics in the end to make sure that R² is reasonable
     train_mse, train_rmse, train_r2 = evaluate(train_targets_list, train_predictions_list)

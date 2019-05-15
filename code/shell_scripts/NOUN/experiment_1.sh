@@ -14,9 +14,9 @@ python code/regression/regression.py data/NOUN/dataset/targets.pickle HorstHout_
 echo '        mean'
 python code/regression/regression.py data/NOUN/dataset/targets.pickle HorstHout_4 data/NOUN/dataset/features_inception.pickle data/NOUN/ML_results/experiment_1/inception.csv -s 42 --mean
 echo '        normal'
-python code/regression/regression.py data/NOUN/dataset/targets.pickle HorstHout_4 data/NOUN/dataset/features_inception.pickle data/NOUN/ML_results/experiment_1/inception.csv -s 42 --normal -r 10
+python code/regression/regression.py data/NOUN/dataset/targets.pickle HorstHout_4 data/NOUN/dataset/features_inception.pickle data/NOUN/ML_results/experiment_1/inception.csv -s 42 --normal
 echo '        draw'
-python code/regression/regression.py data/NOUN/dataset/targets.pickle HorstHout_4 data/NOUN/dataset/features_inception.pickle data/NOUN/ML_results/experiment_1/inception.csv -s 42 --draw -r 10
+python code/regression/regression.py data/NOUN/dataset/targets.pickle HorstHout_4 data/NOUN/dataset/features_inception.pickle data/NOUN/ML_results/experiment_1/inception.csv -s 42 --draw
 echo '        linear'
 python code/regression/regression.py data/NOUN/dataset/targets.pickle HorstHout_4 data/NOUN/dataset/features_inception.pickle data/NOUN/ML_results/experiment_1/inception.csv -s 42 --linear
 echo '        lasso 0.25'
