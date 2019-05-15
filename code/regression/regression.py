@@ -61,12 +61,9 @@ def evaluate(ground_truth, prediction):
 
 # run any sklearn-based regression
 def sklearn_regression(train_features, train_targets, test_features, test_targets, regressor):
-    
     regressor.fit(train_features, train_targets)
-    
     train_predictions = regressor.predict(train_features)
     test_predictions = regressor.predict(test_features)  
-    
     return train_predictions, test_predictions 
 
 # computing the zero baseline
@@ -108,7 +105,7 @@ def linear_regression(train_features, train_targets, test_features, test_targets
 
 # computing a lasso regression
 def lasso_regression(train_features, train_targets, test_features, test_targets):
-    regressor =  Lasso(alpha = args.alpha, random_state = np.random.randint(0,1000))
+    regressor =  Lasso(alpha = args.alpha, random_state = np.random.randint(0,1000), precompute = True)
     return sklearn_regression(train_features, train_targets, test_features, test_targets, regressor)
 
 if args.zero:
@@ -160,11 +157,10 @@ for target_type in ['correct', 'shuffled']:
             target = targets_dict[target_type][img_name]
             train_features += features
             train_targets += [target]*len(features)
-        
        
         for i in range(args.repetitions):
             train_predictions, test_predictions = prediction_function(train_features, train_targets, test_features, test_targets)
-            
+
             train_mse, train_rmse, train_r2 = evaluate(train_targets, train_predictions)
             test_mse, test_rmse, test_r2 = evaluate(test_targets, test_predictions)
             
@@ -175,7 +171,6 @@ for target_type in ['correct', 'shuffled']:
             test_mse_list.append(test_mse)
             test_rmse_list.append(test_rmse)
             test_r2_list.append(test_r2)
-        
     train_mse = np.mean(train_mse_list)
     train_rmse = np.mean(train_rmse_list)
     train_r2 = np.mean(train_r2_list)
