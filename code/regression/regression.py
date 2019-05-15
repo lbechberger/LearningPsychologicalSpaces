@@ -109,7 +109,7 @@ def linear_regression(train_features, train_targets, test_features, test_targets
 # computing a lasso regression
 def lasso_regression(train_features, train_targets, test_features, test_targets):
     regressor =  Lasso(alpha = args.alpha, random_state = np.random.randint(0,1000))
-    sklearn_regression(train_features, train_targets, test_features, test_targets, regressor)
+    return sklearn_regression(train_features, train_targets, test_features, test_targets, regressor)
 
 if args.zero:
     prediction_function = zero_baseline
