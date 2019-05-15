@@ -132,14 +132,12 @@ for target_type in ['correct', 'shuffled']:
     
     image_names = sorted(targets_dict[target_type].keys())
 
-    train_mse_list = []
-    train_rmse_list = []
-    train_r2_list = []
-    
-    test_mse_list = []
-    test_rmse_list = []
-    test_r2_list = []
- 
+    # collect all ground truths and predictions here
+    train_targets_list = []
+    train_predictions_list = []
+    test_targets_list = []
+    test_predictions_list = []
+     
     # do image-based leave-one-out: original images determine fold structure
     for test_image in image_names:
     
@@ -158,28 +156,19 @@ for target_type in ['correct', 'shuffled']:
             target = targets_dict[target_type][img_name]
             train_features += features
             train_targets += [target]*len(features)
-       
+        
         for i in range(args.repetitions):
             train_predictions, test_predictions = prediction_function(train_features, train_targets, test_features, test_targets)
 
-            train_mse, train_rmse, train_r2 = evaluate(train_targets, train_predictions)
-            test_mse, test_rmse, test_r2 = evaluate(test_targets, test_predictions)
-            
-            train_mse_list.append(train_mse)
-            train_rmse_list.append(train_rmse)
-            train_r2_list.append(train_r2)
-            
-            test_mse_list.append(test_mse)
-            test_rmse_list.append(test_rmse)
-            test_r2_list.append(test_r2)
-    train_mse = np.mean(train_mse_list)
-    train_rmse = np.mean(train_rmse_list)
-    train_r2 = np.mean(train_r2_list)
-    
-    test_mse = np.mean(test_mse_list)
-    test_rmse = np.mean(test_rmse_list)
-    test_r2 = np.mean(test_r2_list)
-        
+            train_targets_list += train_targets
+            train_predictions_list += list(train_predictions)
+            test_targets_list += test_targets
+            test_predictions_list += list(test_predictions)
+
+    # compute metrics in the end to make sure that R² is reasonable
+    train_mse, train_rmse, train_r2 = evaluate(train_targets_list, train_predictions_list)
+    test_mse, test_rmse, test_r2 = evaluate(test_targets_list, test_predictions_list)
+       
     with open(args.output_file, 'a') as f:
         fcntl.flock(f, fcntl.LOCK_EX)
         f.write('{0},{1},{2},{3},{4},{5}\n'.format(regressor_name, target_type, 'training', train_mse, train_rmse, train_r2))
