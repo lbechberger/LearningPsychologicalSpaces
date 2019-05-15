@@ -18,17 +18,17 @@ parser.add_argument('targets_file', help = 'pickle file containing the regressio
 parser.add_argument('space', help = 'name of the target space to use')
 parser.add_argument('features_file', help = 'pickle file containing the feature vectors')
 parser.add_argument('output_file', help = 'csv file for outputting the results')
-parser.add_argument('-z', '--zero', action = 'store_true', help = 'compute zero baseline')
-parser.add_argument('-m', '--mean', action = 'store_true', help = 'compute mean baseline')
-parser.add_argument('-n', '--normal', action = 'store_true', help = 'compute normal distribution baseline')
-parser.add_argument('-d', '--draw', action = 'store_true', help = 'compute random draw baseline')
+parser.add_argument('--zero', action = 'store_true', help = 'compute zero baseline')
+parser.add_argument('--mean', action = 'store_true', help = 'compute mean baseline')
+parser.add_argument('--normal', action = 'store_true', help = 'compute normal distribution baseline')
+parser.add_argument('--draw', action = 'store_true', help = 'compute random draw baseline')
+parser.add_argument('--linear', action = 'store_true', help = 'compute linear regression')
+parser.add_argument('--lasso', type = float, help = 'compute lasso regression using the given relative strength of regularization', default = None)
 parser.add_argument('-s', '--seed', type = int, help = 'seed for random number generation', default = None)
-parser.add_argument('-l', '--linear', action = 'store_true', help = 'compute linear regression')
-parser.add_argument('-a', '--alpha', type = float, help = 'compute lasso regression using the given value of alpha', default = None)
 args = parser.parse_args()
 
 # avoid computing multiple regressiontypes in a single run
-if sum([args.zero, args.mean, args.normal, args.draw, args.linear, args.alpha is not None]) != 1:
+if sum([args.zero, args.mean, args.normal, args.draw, args.linear, args.lasso is not None]) != 1:
     raise Exception('Must use exactly one regression or baseline type!')
 
 # set seed if needed
@@ -105,7 +105,8 @@ def linear_regression(train_features, train_targets, test_features, test_targets
 
 # computing a lasso regression
 def lasso_regression(train_features, train_targets, test_features, test_targets):
-    regressor =  Lasso(alpha = args.alpha, precompute = True)
+    alpha = args.lasso / (2 * len(train_features[0]))
+    regressor =  Lasso(alpha = alpha, precompute = True, max_iter = 10000)
     return sklearn_regression(train_features, train_targets, test_features, test_targets, regressor)
 
 if args.zero:
@@ -123,9 +124,9 @@ elif args.draw:
 elif args.linear:
     prediction_function = linear_regression
     regressor_name = 'linear regression'
-elif args.alpha:
+elif args.lasso:
     prediction_function = lasso_regression
-    regressor_name = 'lasso regression (alpha = {0})'.format(args.alpha)
+    regressor_name = 'lasso regression (beta = {0})'.format(args.lasso)
 
 for target_type in ['correct', 'shuffled']:
     
