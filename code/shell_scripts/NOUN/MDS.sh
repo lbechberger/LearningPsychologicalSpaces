@@ -46,6 +46,8 @@ echo '    nonmetric SMACOF'
 python code/mds/normalize_spaces.py data/NOUN/vectors/nonmetric_SMACOF/ &
 echo '    metric SMACOF'
 python code/mds/normalize_spaces.py data/NOUN/vectors/metric_SMACOF/ &
+echo '    Horst and Hout 4D'
+python code/mds/normalize_spaces.py data/NOUN/vectors/HorstHout/ &
 wait
 
 # visualize MDS spaces

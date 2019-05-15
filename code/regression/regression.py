@@ -7,7 +7,7 @@ Created on Tue May 14 10:12:54 2019
 @author: lbechberger
 """
 
-import argparse, pickle, os
+import argparse, pickle, os, fcntl
 import numpy as np
 from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.dummy import DummyRegressor
@@ -18,7 +18,6 @@ parser.add_argument('targets_file', help = 'pickle file containing the regressio
 parser.add_argument('space', help = 'name of the target space to use')
 parser.add_argument('features_file', help = 'pickle file containing the feature vectors')
 parser.add_argument('output_file', help = 'csv file for outputting the results')
-parser.add_argument('-o', '--overwrite', action = 'store_true', help = 'overwrite the output file if already existing')
 parser.add_argument('-z', '--zero', action = 'store_true', help = 'compute zero baseline')
 parser.add_argument('-m', '--mean', action = 'store_true', help = 'compute mean baseline')
 parser.add_argument('-n', '--normal', action = 'store_true', help = 'compute normal distribution baseline')
@@ -48,9 +47,11 @@ with open(args.features_file, 'rb') as f:
 if set(targets_dict['correct'].keys()) != set(features_dict.keys()):
     raise Exception('Targets and features do not match!')
 
-if not os.path.exists(args.output_file) or args.overwrite:
+if not os.path.exists(args.output_file):
     with open(args.output_file, 'w') as f:
+        fcntl.flock(f, fcntl.LOCK_EX)
         f.write("regressor,targets,data_set,mse,rmse,r2\n")
+        fcntl.flock(f, fcntl.LOCK_UN)
 
 # helper function for computing the three evaluation metrics
 def evaluate(ground_truth, prediction):
@@ -180,6 +181,7 @@ for target_type in ['correct', 'shuffled']:
     test_r2 = np.mean(test_r2_list)
         
     with open(args.output_file, 'a') as f:
+        fcntl.flock(f, fcntl.LOCK_EX)
         f.write('{0},{1},{2},{3},{4},{5}\n'.format(regressor_name, target_type, 'training', train_mse, train_rmse, train_r2))
         f.write('{0},{1},{2},{3},{4},{5}\n'.format(regressor_name, target_type, 'test', test_mse, test_rmse, test_r2))
-    
+        fcntl.flock(f, fcntl.LOCK_UN)
