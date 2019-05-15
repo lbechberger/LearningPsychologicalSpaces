@@ -105,7 +105,7 @@ def linear_regression(train_features, train_targets, test_features, test_targets
 
 # computing a lasso regression
 def lasso_regression(train_features, train_targets, test_features, test_targets):
-    alpha = args.lasso / (2 * len(train_features[0]))
+    alpha = args.lasso / len(train_features[0])
     regressor =  Lasso(alpha = alpha, precompute = True, max_iter = 10000)
     return sklearn_regression(train_features, train_targets, test_features, test_targets, regressor)
 
