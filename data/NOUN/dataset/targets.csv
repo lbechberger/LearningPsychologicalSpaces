@@ -2,8 +2,8 @@ HorstHout_4,data/NOUN/vectors/HorstHout/4D-vectors.csv
 
 classical_4,data/NOUN/vectors/classical/4D-vectors.csv
 Kruskal_4,data/NOUN/vectors/Kruskal/4D-vectors.csv
-mSMACOF_4,data/NOUN/vectors/metric_SMACOF/4D-vectors.csv
-nSMACOF_4,data/NOUN/vectors/nonmetric_SMACOF/4D-vectors.csv
+metric_SMACOF_4,data/NOUN/vectors/metric_SMACOF/4D-vectors.csv
+nonmetric_SMACOF_4,data/NOUN/vectors/nonmetric_SMACOF/4D-vectors.csv
 
 Kruskal_1,data/NOUN/vectors/Kruskal/1D-vectors.csv
 Kruskal_2,data/NOUN/vectors/Kruskal/2D-vectors.csv
@@ -14,4 +14,3 @@ Kruskal_7,data/NOUN/vectors/Kruskal/7D-vectors.csv
 Kruskal_8,data/NOUN/vectors/Kruskal/8D-vectors.csv
 Kruskal_9,data/NOUN/vectors/Kruskal/9D-vectors.csv
 Kruskal_10,data/NOUN/vectors/Kruskal/10D-vectors.csv
-
