@@ -1,4 +1,11 @@
 #!/bin/bash
+#$ -N ex_1
+#$ -l mem=4G
+#$ -pe default 8
+#$ -l h_rt=72:00:00
+#$ -cwd
+#$ -o $HOME/store/sge-logs
+#$ -e $HOME/store/sge-logs
 
 echo 'experiment 1'
 
@@ -19,7 +26,7 @@ echo '    baselines'
 for baseline in $baselines
 do
 	echo "        $baseline"	
-	python code/regression/regression.py data/NOUN/dataset/targets.pickle HorstHout_4 data/NOUN/dataset/features_inception.pickle data/NOUN/ML_results/experiment_1/inception.csv -s 42 $baseline
+	python code/regression/regression.py data/NOUN/dataset/targets.pickle HorstHout_4 data/NOUN/dataset/features_inception.pickle data/NOUN/ML_results/experiment_1/baselines.csv -s 42 $baseline
 done
 
 # now compute the results for a linear regression and a random forest regression on all feature sets; also compute results on shuffled targets for comparison
