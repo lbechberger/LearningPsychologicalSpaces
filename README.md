@@ -332,9 +332,11 @@ In order to select the type of regression to be used, one needs to pass *exactly
 - `--draw`: *Random draw baseline*, uses randomly selected target vectors from the training set for making predictions.
 - `--linear`: *Linear regression*, runs sklearn's `LinearRegression`.
 - `--lasso`: *Lasso regression, runs sklearn's `Lasso` regressor, using the given value as relative strength of the regularization term. Computes `alpha = args.lasso / (2 * len(train_features[0]))` to put it in same order of magnitude as MSE error term.
+- `--random_forest`: *Random Forest regression* using a random forest with default parameters as given by sklearn.
 
-In addition to this, the script accepts the following optional parameter:
+In addition to this, the script accepts the following optional parameters:
 - `-s` or `--seed`: The random seed to use for initializing the random number generator (important for nondeterministic regressors). If none is given, a different initialization is used in every call to the script.
+- `--shuffled`: If this flag is set, the regression is not only performed on the correct targets, but also on the shuffled ones.
 
-The script performs a leave-one-out evaluation on the image level (i.e., each fold consists of all augmented images that are based on the same original) and reports MSE, RMSE, and R² in the output csv file for both the training and the test set and for both the correct and the shuffled target vectors.
+The script performs a leave-one-out evaluation on the image level (i.e., each fold consists of all augmented images that are based on the same original) and reports MSE, RMSE, and R² in the output csv file for both the training and the test set.
 

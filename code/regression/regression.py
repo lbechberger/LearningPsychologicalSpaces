@@ -12,6 +12,7 @@ import numpy as np
 from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.dummy import DummyRegressor
 from sklearn.linear_model import LinearRegression, Lasso
+from sklearn.ensemble import RandomForestRegressor
 
 parser = argparse.ArgumentParser(description='Regression from feature space to MDS space')
 parser.add_argument('targets_file', help = 'pickle file containing the regression targets')
@@ -24,11 +25,13 @@ parser.add_argument('--normal', action = 'store_true', help = 'compute normal di
 parser.add_argument('--draw', action = 'store_true', help = 'compute random draw baseline')
 parser.add_argument('--linear', action = 'store_true', help = 'compute linear regression')
 parser.add_argument('--lasso', type = float, help = 'compute lasso regression using the given relative strength of regularization', default = None)
+parser.add_argument('--random_forest', action = 'store_true', help = 'compute random forest regression')
+parser.add_argument('--shuffled', action = 'store_true', help = 'also train/test on shuffled targets')
 parser.add_argument('-s', '--seed', type = int, help = 'seed for random number generation', default = None)
 args = parser.parse_args()
 
 # avoid computing multiple regressiontypes in a single run
-if sum([args.zero, args.mean, args.normal, args.draw, args.linear, args.lasso is not None]) != 1:
+if sum([args.zero, args.mean, args.normal, args.draw, args.linear, args.lasso is not None, args.random_forest]) != 1:
     raise Exception('Must use exactly one regression or baseline type!')
 
 # set seed if needed
@@ -109,6 +112,12 @@ def lasso_regression(train_features, train_targets, test_features, test_targets)
     regressor =  Lasso(alpha = alpha, precompute = True, max_iter = 10000)
     return sklearn_regression(train_features, train_targets, test_features, test_targets, regressor)
 
+# computing a random forest regression with default hyperparameters
+def random_forest_regression(train_features, train_targets, test_features, test_targets):
+    regressor =  RandomForestRegressor(n_jobs = -1, random_state = args.seed)
+    return sklearn_regression(train_features, train_targets, test_features, test_targets, regressor)
+
+
 if args.zero:
     prediction_function = zero_baseline
     regressor_name = 'zero baseline'
@@ -124,11 +133,18 @@ elif args.draw:
 elif args.linear:
     prediction_function = linear_regression
     regressor_name = 'linear regression'
-elif args.lasso:
+elif args.lasso is not None:
     prediction_function = lasso_regression
     regressor_name = 'lasso regression (beta = {0})'.format(args.lasso)
+elif args.random_forest:
+    prediction_function = random_forest_regression
+    regressor_name = 'random forest regression'.format(args.lasso)
 
-for target_type in ['correct', 'shuffled']:
+target_types = ['correct']
+if args.shuffled:
+    target_types.append('shuffled')
+
+for target_type in target_types:
     
     image_names = sorted(targets_dict[target_type].keys())
 

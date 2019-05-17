@@ -7,6 +7,16 @@ echo '    setting up directory structure'
 rm -r -f data/NOUN/ML_results/experiment_1
 mkdir -p data/NOUN/ML_results/experiment_1
 
+baselines=("--zero" "--mean" "--normal" "--draw")
+max=5
+
+for baseline in $baselines
+do
+	echo $baseline
+	#python -u code/mds/analyze_convexity.py 'data/Shapes/vectors/mean/Kruskal/'"$i"'D-vectors.csv' data/Shapes/raw_data/data.pickle $i -o data/Shapes/analysis/mean/Kruskal/convexity/convexities.csv -b -r 100 -s 42 > 'data/Shapes/analysis/mean/Kruskal/convexity/'"$i"'D-convexity.txt' &
+done
+
+
 # first use the inception features; here also once compute baselines (they are independent of the feature space, so recomputing them every time does not make too much sense)
 echo '    inception features'
 echo '        zero'
