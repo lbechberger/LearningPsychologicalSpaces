@@ -9,6 +9,7 @@
 
 echo 'experiment 1'
 
+export PATH="/net/projects/scratch/winter/valid_until_31_July_2019/lbechberger/miniconda/bin:$PATH"
 source activate tensorflow-CS
 
 # declare some lists to make code below less repetitive 
