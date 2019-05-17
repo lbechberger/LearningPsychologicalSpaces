@@ -9,6 +9,8 @@
 
 echo 'experiment 1'
 
+source activate tensorflow-CS
+
 # declare some lists to make code below less repetitive 
 feature_sets=("inception image_min_7_g image_min_18_g image_min_12_rgb image_min_18_rgb")
 lasso_sets=("inception")
@@ -53,3 +55,4 @@ do
 	done
 done
 
+source deactivate tensorflow-CS
