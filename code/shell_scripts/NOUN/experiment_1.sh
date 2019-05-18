@@ -29,7 +29,7 @@ echo '    baselines'
 for baseline in $baselines
 do
 	echo "        $baseline"	
-	python code/regression/regression.py data/NOUN/dataset/targets.pickle HorstHout_4 data/NOUN/dataset/features_inception.pickle data/NOUN/ML_results/experiment_1/baselines.csv -s 42 $baseline
+	python code/regression/regression.py data/NOUN/dataset/targets.pickle HorstHout_4 data/NOUN/dataset/features_inception.pickle data/NOUN/dataset/folds.csv data/NOUN/ML_results/experiment_1/baselines.csv -s 42 $baseline
 done
 
 # now compute the results for a linear regression and a random forest regression on all feature sets; also compute results on shuffled targets for comparison
@@ -40,7 +40,7 @@ do
 	for regressor in $regressors
 	do
 		echo "            $regressor"
-		python code/regression/regression.py data/NOUN/dataset/targets.pickle HorstHout_4 'data/NOUN/dataset/features_'"$feature_set"'.pickle' 'data/NOUN/ML_results/experiment_1/'"$feature_set"'.csv' -s 42 --shuffled $regressor
+		python code/regression/regression.py data/NOUN/dataset/targets.pickle HorstHout_4 'data/NOUN/dataset/features_'"$feature_set"'.pickle' data/NOUN/dataset/folds.csv 'data/NOUN/ML_results/experiment_1/'"$feature_set"'.csv' -s 42 --shuffled $regressor
 	done
 done
 
@@ -52,7 +52,7 @@ do
 	for lasso in $lassos
 	do
 		echo "            lasso $lasso"
-		python code/regression/regression.py data/NOUN/dataset/targets.pickle HorstHout_4 'data/NOUN/dataset/features_'"$feature_set"'.pickle' 'data/NOUN/ML_results/experiment_1/'"$feature_set"'.csv' -s 42 --lasso $lasso
+		python code/regression/regression.py data/NOUN/dataset/targets.pickle HorstHout_4 'data/NOUN/dataset/features_'"$feature_set"'.pickle' data/NOUN/dataset/folds.csv 'data/NOUN/ML_results/experiment_1/'"$feature_set"'.csv' -s 42 --lasso $lasso
 	done
 done
 

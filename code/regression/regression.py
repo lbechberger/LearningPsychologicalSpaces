@@ -18,6 +18,7 @@ parser = argparse.ArgumentParser(description='Regression from feature space to M
 parser.add_argument('targets_file', help = 'pickle file containing the regression targets')
 parser.add_argument('space', help = 'name of the target space to use')
 parser.add_argument('features_file', help = 'pickle file containing the feature vectors')
+parser.add_argument('folds_file', help = 'csv file containing the structre of the folds')
 parser.add_argument('output_file', help = 'csv file for outputting the results')
 parser.add_argument('--zero', action = 'store_true', help = 'compute zero baseline')
 parser.add_argument('--mean', action = 'store_true', help = 'compute mean baseline')
@@ -46,14 +47,30 @@ with open(args.targets_file, 'rb') as f:
 with open(args.features_file, 'rb') as f:
     features_dict = pickle.load(f)
 
+# make sure targets and features match
 if set(targets_dict['correct'].keys()) != set(features_dict.keys()):
     raise Exception('Targets and features do not match!')
 
+# prepare output file if necessary
 if not os.path.exists(args.output_file):
     with open(args.output_file, 'w') as f:
         fcntl.flock(f, fcntl.LOCK_EX)
         f.write("regressor,targets,data_set,mse,rmse,r2\n")
         fcntl.flock(f, fcntl.LOCK_UN)
+
+# load the fold structure into a dictionary (fold_id --> list of images in fold)
+folds = {}
+with open(args.folds_file, 'r') as f:
+    for line in f:
+        tokens = line.replace('\n', '').split(',')
+        if len(tokens) == 2:
+            fold = tokens[1]
+            image = tokens[0]
+            
+            if fold not in folds:
+                folds[fold] = []
+            
+            folds[fold].append(image)
 
 # helper function for computing the three evaluation metrics
 def evaluate(ground_truth, prediction):
@@ -117,6 +134,17 @@ def random_forest_regression(train_features, train_targets, test_features, test_
     regressor =  RandomForestRegressor(n_jobs = -1, random_state = args.seed)
     return sklearn_regression(train_features, train_targets, test_features, test_targets, regressor)
 
+# collect the features and the targets for the given fold
+def prepare_fold(fold_images, features, targets):
+    fold_features = []
+    fold_targets = []
+    for img_name in fold_images:
+        img_features = features_dict[img_name]
+        img_target = targets[img_name]
+        fold_features += img_features
+        fold_targets += [img_target]*len(img_features)
+    return fold_features, fold_targets
+
 
 if args.zero:
     prediction_function = zero_baseline
@@ -147,6 +175,7 @@ if args.shuffled:
 for target_type in target_types:
     
     image_names = sorted(targets_dict[target_type].keys())
+    fold_ids = sorted(folds.keys())
 
     # collect all ground truths and predictions here
     train_targets_list = []
@@ -154,25 +183,17 @@ for target_type in target_types:
     test_targets_list = []
     test_predictions_list = []
      
-    # do image-based leave-one-out: original images determine fold structure
-    for test_image in image_names:
+    # perform cross validation
+    for test_fold in fold_ids:
     
-        # preparing test set for this fold
-        test_features = features_dict[test_image]
-        target = targets_dict[target_type][test_image]
-        test_targets = [target]*len(test_features)
+        # which images belong to test and which to train?
+        test_images = folds[test_fold]
+        train_images = [img_name for img_name in image_names if img_name not in test_images]
         
-        # preparing training set for this fold
-        train_features = []
-        train_targets = []
-        for img_name in image_names:
-            if img_name == test_image:
-                continue
-            features = features_dict[img_name]
-            target = targets_dict[target_type][img_name]
-            train_features += features
-            train_targets += [target]*len(features)
-        
+        # prepare features and targets for train and test
+        test_features, test_targets = prepare_fold(test_images, features_dict, targets_dict[target_type])        
+        train_features, train_targets = prepare_fold(train_images, features_dict, targets_dict[target_type])        
+               
         train_predictions, test_predictions = prediction_function(train_features, train_targets, test_features, test_targets)
 
         train_targets_list += train_targets
