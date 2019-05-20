@@ -2,17 +2,35 @@
 
 echo 'experiment 3'
 
+# declare some lists to make code below less repetitive 
+feature_sets=("inception image_min_7_g")
+baselines=("--zero")
+regressors=("--linear --random_forest")
+lassos=("0.1 0.2 0.5 1.0 2.0 5.0 10.0 20.0 50.0 100.0"))
+targets=("1 2 3 5 6 7 8 9 10")
+
+# no parameter means local execution
+if [ "$#" -ne 1 ]
+then
+	echo '[local execution]'
+	cmd=python
+	script=code/regression/regression.py
+# parameter 'grid' means execution on grid
+elif [ $1 = grid ]
+then
+	echo '[grid execution]'
+	cmd=qsub
+	script=code/regression/regression.sge
+# all other parameters are not supported
+else
+	echo '[ERROR: argument not supported, exiting now!]'
+	exit 1
+fi
+
 # set up the directory structure
 echo '    setting up directory structure'
 rm -r -f data/NOUN/ML_results/experiment_3
 mkdir -p data/NOUN/ML_results/experiment_3
-
-# declare some lists to make code below less repetitive 
-feature_sets=("inception") #TODO: add best image-based one
-baselines=("--zero --mean --normal --draw")
-regressors=("--linear --random_forest")
-lassos=("0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0")
-targets=("1 2 3 5 6 7 8 9 10")
 
 for target in $targets
 do
@@ -22,7 +40,7 @@ do
 	for baseline in $baselines
 	do
 		echo "            $baseline"	
-		python code/regression/regression.py data/NOUN/dataset/targets.pickle 'Kruskal_'"$target" data/NOUN/dataset/features_inception.pickle data/NOUN/dataset/folds.csv 'data/NOUN/ML_results/experiment_3/Kruskal_'"$target"'/baselines.csv' -s 42 $baseline
+		$cmd $script data/NOUN/dataset/targets.pickle 'Kruskal_'"$target" data/NOUN/dataset/features_inception.pickle data/NOUN/dataset/folds.csv 'data/NOUN/ML_results/experiment_3/Kruskal_'"$target"'/baselines.csv' -s 42 $baseline
 	done
 
 	# now compute the results for the real regressions
@@ -33,13 +51,13 @@ do
 		for regressor in $regressors
 		do
 			echo "                $regressor"
-			python code/regression/regression.py data/NOUN/dataset/targets.pickle "$target"'_4' 'data/NOUN/dataset/features_'"$feature_set"'.pickle' data/NOUN/dataset/folds.csv 'data/NOUN/ML_results/experiment_3/Kruskal_'"$target"'/'"$feature_set"'.csv' -s 42 $regressor
+			$cmd $script data/NOUN/dataset/targets.pickle "$target"'_4' 'data/NOUN/dataset/features_'"$feature_set"'.pickle' data/NOUN/dataset/folds.csv 'data/NOUN/ML_results/experiment_3/Kruskal_'"$target"'/'"$feature_set"'.csv' -s 42 $regressor
 		done
 
 		for lasso in $lassos
 		do
 			echo "            lasso $lasso"
-			python code/regression/regression.py data/NOUN/dataset/targets.pickle "$target"'_4' 'data/NOUN/dataset/features_'"$feature_set"'.pickle' data/NOUN/dataset/folds.csv 'data/NOUN/ML_results/experiment_3/Kruskal_'"$target"'/'"$feature_set"'.csv' -s 42 --lasso $lasso
+			$cmd $script data/NOUN/dataset/targets.pickle "$target"'_4' 'data/NOUN/dataset/features_'"$feature_set"'.pickle' data/NOUN/dataset/folds.csv 'data/NOUN/ML_results/experiment_3/Kruskal_'"$target"'/'"$feature_set"'.csv' -s 42 --lasso $lasso
 		done
 
 	done
