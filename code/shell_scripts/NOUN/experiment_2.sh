@@ -31,13 +31,14 @@ fi
 # set up the directory structure
 echo '    setting up directory structure'
 rm -r -f data/NOUN/ML_results/experiment_2
-mkdir -p data/NOUN/ML_results/experiment_2/classical data/NOUN/ML_results/experiment_2/Kruskal 
-mkdir -p data/NOUN/ML_results/experiment_2/metric_SMACOF data/NOUN/ML_results/experiment_2/nonmetric_SMACOF
+mkdir -p data/NOUN/ML_results/experiment_2
 
 
 for target in $targets
 do
 	echo '    $target'
+	mkdir -p 'data/NOUN/ML_results/experiment_2/'"$target"'/'
+
 	# first compute the baselines: using a single feature set is sufficient as features are ignored anyways, don't need shuffled targets as results are same anyways
 	echo '        baselines'
 	for baseline in $baselines

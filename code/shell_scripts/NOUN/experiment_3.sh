@@ -35,6 +35,8 @@ mkdir -p data/NOUN/ML_results/experiment_3
 for target in $targets
 do
 	echo '    Kruskal_$target'
+	mkdir -p 'data/NOUN/ML_results/experiment_3/Kruskal_'"$target"'/'
+
 	# first compute the baselines: using a single feature set is sufficient as features are ignored anyways, don't need shuffled targets as results are same anyways
 	echo '        baselines'
 	for baseline in $baselines
