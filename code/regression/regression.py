@@ -131,7 +131,7 @@ def lasso_regression(train_features, train_targets, test_features, test_targets)
 
 # computing a random forest regression with default hyperparameters
 def random_forest_regression(train_features, train_targets, test_features, test_targets):
-    regressor =  RandomForestRegressor(n_jobs = -1, random_state = args.seed)
+    regressor =  RandomForestRegressor(n_estimators = 100, n_jobs = -1, random_state = args.seed)
     return sklearn_regression(train_features, train_targets, test_features, test_targets, regressor)
 
 # collect the features and the targets for the given fold
