@@ -10,6 +10,7 @@ Created on Tue May 14 10:12:54 2019
 import argparse, pickle, os, fcntl
 import numpy as np
 from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.metrics.pairwise import paired_distances
 from sklearn.dummy import DummyRegressor
 from sklearn.linear_model import LinearRegression, Lasso
 from sklearn.ensemble import RandomForestRegressor
@@ -55,7 +56,7 @@ if set(targets_dict['correct'].keys()) != set(features_dict.keys()):
 if not os.path.exists(args.output_file):
     with open(args.output_file, 'w') as f:
         fcntl.flock(f, fcntl.LOCK_EX)
-        f.write("regressor,targets,data_set,mse,rmse,r2\n")
+        f.write("regressor,targets,data_set,mse,med,r2\n")
         fcntl.flock(f, fcntl.LOCK_UN)
 
 # load the fold structure into a dictionary (fold_id --> list of images in fold)
@@ -75,9 +76,9 @@ with open(args.folds_file, 'r') as f:
 # helper function for computing the three evaluation metrics
 def evaluate(ground_truth, prediction):
     mse = mean_squared_error(ground_truth, prediction)
-    rmse = np.sqrt(mse)
+    mean_euclidean_distance = np.mean(paired_distances(ground_truth, prediction, metric = 'euclidean'))
     r2 = r2_score(ground_truth, prediction)
-    return mse, rmse, r2
+    return mse, mean_euclidean_distance, r2
 
 # run any sklearn-based regression
 def sklearn_regression(train_features, train_targets, test_features, test_targets, regressor):
@@ -120,13 +121,13 @@ def draw_baseline(train_features, train_targets, test_features, test_targets):
 
 # computing a simple linear regression
 def linear_regression(train_features, train_targets, test_features, test_targets):
-    regressor =  LinearRegression(n_jobs = -1)
+    regressor =  LinearRegression(normalize = True, n_jobs = -1)
     return sklearn_regression(train_features, train_targets, test_features, test_targets, regressor)
 
 # computing a lasso regression
 def lasso_regression(train_features, train_targets, test_features, test_targets):
     alpha = args.lasso / len(train_features[0])
-    regressor =  Lasso(alpha = alpha, precompute = True, max_iter = 10000)
+    regressor =  Lasso(alpha = alpha, precompute = True, max_iter = 10000, normalize = True)
     return sklearn_regression(train_features, train_targets, test_features, test_targets, regressor)
 
 # computing a random forest regression with default hyperparameters
@@ -202,11 +203,11 @@ for target_type in target_types:
         test_predictions_list += list(test_predictions)
 
     # compute metrics in the end to make sure that R² is reasonable
-    train_mse, train_rmse, train_r2 = evaluate(train_targets_list, train_predictions_list)
-    test_mse, test_rmse, test_r2 = evaluate(test_targets_list, test_predictions_list)
+    train_mse, train_med, train_r2 = evaluate(train_targets_list, train_predictions_list)
+    test_mse, test_med, test_r2 = evaluate(test_targets_list, test_predictions_list)
        
     with open(args.output_file, 'a') as f:
         fcntl.flock(f, fcntl.LOCK_EX)
-        f.write('{0},{1},{2},{3},{4},{5}\n'.format(regressor_name, target_type, 'training', train_mse, train_rmse, train_r2))
-        f.write('{0},{1},{2},{3},{4},{5}\n'.format(regressor_name, target_type, 'test', test_mse, test_rmse, test_r2))
+        f.write('{0},{1},{2},{3},{4},{5}\n'.format(regressor_name, target_type, 'training', train_mse, train_med, train_r2))
+        f.write('{0},{1},{2},{3},{4},{5}\n'.format(regressor_name, target_type, 'test', test_mse, test_med, test_r2))
         fcntl.flock(f, fcntl.LOCK_UN)
