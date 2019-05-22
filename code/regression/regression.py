@@ -56,7 +56,7 @@ if set(targets_dict['correct'].keys()) != set(features_dict.keys()):
 if not os.path.exists(args.output_file):
     with open(args.output_file, 'w') as f:
         fcntl.flock(f, fcntl.LOCK_EX)
-        f.write("regressor,targets,data_set,mse,med,r2\n")
+        f.write("regressor,targets,train_mse,train_med,train_r2,test_mse,test_med,test_r2\n")
         fcntl.flock(f, fcntl.LOCK_UN)
 
 # load the fold structure into a dictionary (fold_id --> list of images in fold)
@@ -208,6 +208,5 @@ for target_type in target_types:
        
     with open(args.output_file, 'a') as f:
         fcntl.flock(f, fcntl.LOCK_EX)
-        f.write('{0},{1},{2},{3},{4},{5}\n'.format(regressor_name, target_type, 'training', train_mse, train_med, train_r2))
-        f.write('{0},{1},{2},{3},{4},{5}\n'.format(regressor_name, target_type, 'test', test_mse, test_med, test_r2))
+        f.write('{0},{1},{2},{3},{4},{5},{6},{7}\n'.format(regressor_name, target_type, train_mse, train_med, train_r2, test_mse, test_med, test_r2))
         fcntl.flock(f, fcntl.LOCK_UN)
