@@ -1,0 +1,16 @@
+#!/bin/bash
+#$ -N image
+#$ -l mem=4G
+#$ -pe default 2
+#$ -l h_rt=72:00:00
+#$ -cwd
+#$ -o $HOME/store/sge-logs
+#$ -e $HOME/store/sge-logs
+
+export PATH="/net/projects/scratch/winter/valid_until_31_July_2019/lbechberger/miniconda/bin:$PATH"
+source activate tensorflow-CS
+echo $*
+echo $* >&2
+python code/regression/reduced_image_features.py $*
+
+source deactivate tensorflow-CS

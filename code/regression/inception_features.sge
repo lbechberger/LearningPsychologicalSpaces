@@ -1,0 +1,18 @@
+#!/bin/bash
+#$ -N inception
+#$ -l mem=4G
+#$ -pe default 4
+#$ -l h_rt=1:30:00
+#$ -cwd
+#$ -l cuda=1
+#$ -l cuda_cores=384
+#$ -o $HOME/store/sge-logs
+#$ -e $HOME/store/sge-logs
+
+export PATH="/net/projects/scratch/winter/valid_until_31_July_2019/lbechberger/miniconda/bin:$PATH"
+source activate tensorflow-CS
+echo $*
+echo $* >&2
+python code/regression/inception_features.py $*
+
+source deactivate tensorflow-CS

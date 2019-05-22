@@ -3,7 +3,7 @@
 echo 'experiment 3'
 
 # declare some lists to make code below less repetitive 
-feature_sets=("inception image_min_7_g")
+feature_sets=("inception")  #TODO add best pixel-based feature space
 baselines=("--zero")
 regressors=("--linear --random_forest")
 lassos=("0.1 0.2 0.5 1.0 2.0 5.0 10.0 20.0 50.0 100.0"))

@@ -3,8 +3,8 @@
 echo 'experiment 1'
 
 # declare some lists to make code below less repetitive 
-feature_sets=("inception image_min_7_g image_min_18_g image_min_12_rgb image_min_18_rgb")
-lasso_sets=("inception image_min_7_g")
+feature_sets=("inception image_mean_6_grey image_mean_30_grey image_min_12_rgb image_mean_50_rgb")
+lasso_sets=("inception")
 baselines=("--zero --mean --normal --draw")
 regressors=("--linear --random_forest")
 lassos=("0.1 0.2 0.5 1.0 2.0 5.0 10.0 20.0 50.0 100.0")
