@@ -3,10 +3,11 @@
 echo 'experiment 3'
 
 # declare some lists to make code below less repetitive 
-feature_sets=("inception")  #TODO add best pixel-based feature space
+feature_sets=("inception image_mean_6_grey")
+lasso_sets=("inception")
 baselines=("--zero")
 regressors=("--linear --random_forest")
-lassos=("0.1 0.2 0.5 1.0 2.0 5.0 10.0 20.0 50.0 100.0"))
+lassos=("0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1.0 2.0 5.0 10.0")
 targets=("1 2 3 5 6 7 8 9 10")
 
 # no parameter means local execution
@@ -55,7 +56,11 @@ do
 			echo "                $regressor"
 			$cmd $script data/NOUN/dataset/targets.pickle "$target"'_4' 'data/NOUN/dataset/features_'"$feature_set"'.pickle' data/NOUN/dataset/folds.csv 'data/NOUN/ML_results/experiment_3/Kruskal_'"$target"'/'"$feature_set"'.csv' -s 42 $regressor
 		done
+	done
 
+	for feature_set in $lasso_sets
+	do
+		echo "            $feature_set"
 		for lasso in $lassos
 		do
 			echo "            lasso $lasso"

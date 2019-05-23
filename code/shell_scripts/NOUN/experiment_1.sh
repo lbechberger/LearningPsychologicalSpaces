@@ -4,10 +4,10 @@ echo 'experiment 1'
 
 # declare some lists to make code below less repetitive 
 feature_sets=("inception image_mean_6_grey image_mean_30_grey image_mean_12_rgb image_mean_50_rgb")
-lasso_sets=("inception")
+lasso_sets=("inception image_mean_6_grey image_mean_30_grey")
 baselines=("--zero --mean --normal --draw")
 regressors=("--linear --random_forest")
-lassos=("0.1 0.2 0.5 1.0 2.0 5.0 10.0 20.0 50.0 100.0")
+lassos=("0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1.0 2.0 5.0 10.0")
 
 # no parameter means local execution
 if [ "$#" -ne 1 ]
