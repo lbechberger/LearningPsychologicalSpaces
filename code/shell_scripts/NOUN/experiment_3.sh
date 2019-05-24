@@ -54,7 +54,7 @@ do
 		for regressor in $regressors
 		do
 			echo "                $regressor"
-			$cmd $script data/NOUN/dataset/targets.pickle "$target"'_4' 'data/NOUN/dataset/features_'"$feature_set"'.pickle' data/NOUN/dataset/folds.csv 'data/NOUN/ML_results/experiment_3/Kruskal_'"$target"'/'"$feature_set"'.csv' -s 42 $regressor
+			$cmd $script data/NOUN/dataset/targets.pickle 'Kruskal_'"$target" 'data/NOUN/dataset/features_'"$feature_set"'.pickle' data/NOUN/dataset/folds.csv 'data/NOUN/ML_results/experiment_3/Kruskal_'"$target"'/'"$feature_set"'.csv' -s 42 $regressor
 		done
 	done
 
@@ -64,7 +64,7 @@ do
 		for lasso in $lassos
 		do
 			echo "            lasso $lasso"
-			$cmd $script data/NOUN/dataset/targets.pickle "$target"'_4' 'data/NOUN/dataset/features_'"$feature_set"'.pickle' data/NOUN/dataset/folds.csv 'data/NOUN/ML_results/experiment_3/Kruskal_'"$target"'/'"$feature_set"'.csv' -s 42 --lasso $lasso
+			$cmd $script data/NOUN/dataset/targets.pickle 'Kruskal_'"$target" 'data/NOUN/dataset/features_'"$feature_set"'.pickle' data/NOUN/dataset/folds.csv 'data/NOUN/ML_results/experiment_3/Kruskal_'"$target"'/'"$feature_set"'.csv' -s 42 --lasso $lasso
 		done
 
 	done
