@@ -76,7 +76,16 @@ with open(args.folds_file, 'r') as f:
 # helper function for computing the three evaluation metrics
 def evaluate(ground_truth, prediction):
     mse = mean_squared_error(ground_truth, prediction)
-    mean_euclidean_distance = np.mean(paired_distances(ground_truth, prediction, metric = 'euclidean'))
+
+    # conversion necessary for mean euclidean distance in 1-dimensional target space
+    gt = np.array(ground_truth)
+    p = np.array(prediction)
+    if len(p.shape) == 1:
+        p = p.reshape(-1,1)
+    if len(gt.shape) == 1:
+        gt = gt.reshape(-1,1)
+    mean_euclidean_distance = np.mean(paired_distances(gt, p, metric = 'euclidean'))
+
     r2 = r2_score(ground_truth, prediction)
     return mse, mean_euclidean_distance, r2
 
