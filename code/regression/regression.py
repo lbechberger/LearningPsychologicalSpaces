@@ -91,7 +91,10 @@ def evaluate(ground_truth, prediction):
 
 # run any sklearn-based regression
 def sklearn_regression(train_features, train_targets, test_features, test_targets, regressor):
-    regressor.fit(train_features, train_targets)
+    targets = np.array(train_targets)
+    if targets.shape[1] == 1:
+        targets = targets.ravel()
+    regressor.fit(train_features, targets)
     train_predictions = regressor.predict(train_features)
     test_predictions = regressor.predict(test_features)  
     return train_predictions, test_predictions 
