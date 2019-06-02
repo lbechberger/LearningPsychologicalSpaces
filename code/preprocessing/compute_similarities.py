@@ -204,12 +204,16 @@ if args.plot:
     output_path = args.output_file.split('.')[0]    
     
     plt.hist(all_similarities, bins=21)
-    plt.title('distribution of all similarity values')
+    plt.title('Distribution of Values in all Dissimilarity Matrices')
+    plt.xlabel('Dissimilarity')
+    plt.ylabel('Number of Occurences')
     plt.savefig(output_path + '-distr.png', bbox_inches='tight', dpi=200)
     plt.close()
 
     dissimilarity_values = dissimilarity_matrix.reshape((-1,1))
     plt.hist(dissimilarity_values, bins=21)
-    plt.title('distribution of averaged dissimilarity values in matrix')
+    plt.title('Distribution of Values in Global Dissimilarity Matrix')
+    plt.xlabel('Dissimilarity')
+    plt.ylabel('Number of Occurences')
     plt.savefig(output_path + '-matrix.png', bbox_inches='tight', dpi=200)
     plt.close()          
