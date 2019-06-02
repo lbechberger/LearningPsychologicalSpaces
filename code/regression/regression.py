@@ -75,7 +75,7 @@ with open(args.folds_file, 'r') as f:
 
 # helper function for computing the three evaluation metrics
 def evaluate(ground_truth, prediction):
-    mse = mean_squared_error(ground_truth, prediction)
+    mse = sum(mean_squared_error(ground_truth, prediction, multioutput = 'raw_values'))
 
     # conversion necessary for mean euclidean distance in 1-dimensional target space
     gt = np.array(ground_truth)
