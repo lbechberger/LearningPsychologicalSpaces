@@ -3,8 +3,8 @@
 echo 'experiment 3'
 
 # declare some lists to make code below less repetitive 
-feature_sets=("inception image_mean_6_grey")
-lasso_sets=("inception")
+feature_sets=("ANN")
+lasso_sets=("ANN")
 baselines=("--zero")
 regressors=("--linear --random_forest")
 lassos=("0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1.0 2.0 5.0 10.0")
@@ -43,7 +43,7 @@ do
 	for baseline in $baselines
 	do
 		echo "            $baseline"	
-		$cmd $script data/NOUN/dataset/targets.pickle 'Kruskal_'"$target" data/NOUN/dataset/features_inception.pickle data/NOUN/dataset/folds.csv 'data/NOUN/ML_results/experiment_3/Kruskal_'"$target"'/baselines.csv' -s 42 $baseline
+		$cmd $script data/NOUN/dataset/targets.pickle 'nonmetric_SMACOF_'"$target" data/NOUN/dataset/features_inception.pickle data/NOUN/dataset/folds.csv 'data/NOUN/ML_results/experiment_3/nonmetric_SMACOF_'"$target"'/baselines.csv' -s 42 $baseline
 	done
 
 	# now compute the results for the real regressions
@@ -54,7 +54,7 @@ do
 		for regressor in $regressors
 		do
 			echo "                $regressor"
-			$cmd $script data/NOUN/dataset/targets.pickle 'Kruskal_'"$target" 'data/NOUN/dataset/features_'"$feature_set"'.pickle' data/NOUN/dataset/folds.csv 'data/NOUN/ML_results/experiment_3/Kruskal_'"$target"'/'"$feature_set"'.csv' -s 42 $regressor
+			$cmd $script data/NOUN/dataset/targets.pickle 'nonmetric_SMACOF_'"$target" 'data/NOUN/dataset/features_'"$feature_set"'.pickle' data/NOUN/dataset/folds.csv 'data/NOUN/ML_results/experiment_3/nonmetric_SMACOF_'"$target"'/'"$feature_set"'.csv' -s 42 $regressor
 		done
 	done
 
@@ -64,7 +64,7 @@ do
 		for lasso in $lassos
 		do
 			echo "            lasso $lasso"
-			$cmd $script data/NOUN/dataset/targets.pickle 'Kruskal_'"$target" 'data/NOUN/dataset/features_'"$feature_set"'.pickle' data/NOUN/dataset/folds.csv 'data/NOUN/ML_results/experiment_3/Kruskal_'"$target"'/'"$feature_set"'.csv' -s 42 --lasso $lasso
+			$cmd $script data/NOUN/dataset/targets.pickle 'nonmetric_SMACOF_'"$target" 'data/NOUN/dataset/features_'"$feature_set"'.pickle' data/NOUN/dataset/folds.csv 'data/NOUN/ML_results/experiment_3/nonmetric_SMACOF_'"$target"'/'"$feature_set"'.csv' -s 42 --lasso $lasso
 		done
 
 	done

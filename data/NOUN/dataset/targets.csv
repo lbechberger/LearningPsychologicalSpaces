@@ -5,12 +5,12 @@ Kruskal_4,data/NOUN/vectors/Kruskal/4D-vectors.csv
 metric_SMACOF_4,data/NOUN/vectors/metric_SMACOF/4D-vectors.csv
 nonmetric_SMACOF_4,data/NOUN/vectors/nonmetric_SMACOF/4D-vectors.csv
 
-Kruskal_1,data/NOUN/vectors/Kruskal/1D-vectors.csv
-Kruskal_2,data/NOUN/vectors/Kruskal/2D-vectors.csv
-Kruskal_3,data/NOUN/vectors/Kruskal/3D-vectors.csv
-Kruskal_5,data/NOUN/vectors/Kruskal/5D-vectors.csv
-Kruskal_6,data/NOUN/vectors/Kruskal/6D-vectors.csv
-Kruskal_7,data/NOUN/vectors/Kruskal/7D-vectors.csv
-Kruskal_8,data/NOUN/vectors/Kruskal/8D-vectors.csv
-Kruskal_9,data/NOUN/vectors/Kruskal/9D-vectors.csv
-Kruskal_10,data/NOUN/vectors/Kruskal/10D-vectors.csv
+nonmetric_SMACOF_1,data/NOUN/vectors/nonmetric_SMACOF/1D-vectors.csv
+nonmetric_SMACOF_2,data/NOUN/vectors/nonmetric_SMACOF/2D-vectors.csv
+nonmetric_SMACOF_3,data/NOUN/vectors/nonmetric_SMACOF/3D-vectors.csv
+nonmetric_SMACOF_5,data/NOUN/vectors/nonmetric_SMACOF/5D-vectors.csv
+nonmetric_SMACOF_6,data/NOUN/vectors/nonmetric_SMACOF/6D-vectors.csv
+nonmetric_SMACOF_7,data/NOUN/vectors/nonmetric_SMACOF/7D-vectors.csv
+nonmetric_SMACOF_8,data/NOUN/vectors/nonmetric_SMACOF/8D-vectors.csv
+nonmetric_SMACOF_9,data/NOUN/vectors/nonmetric_SMACOF/9D-vectors.csv
+nonmetric_SMACOF_10,data/NOUN/vectors/nonmetric_SMACOF/10D-vectors.csv
