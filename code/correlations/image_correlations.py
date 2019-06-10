@@ -137,10 +137,9 @@ with open(output_file_name, 'w', buffering=1) as f:
                     # create scatter plot if user want us to
                     fig, ax = plt.subplots(figsize=(12,12))
                     ax.scatter(sim_vector,target_vector)
-                    plt.xlabel('image distance')
-                    plt.ylabel('real distance')
-                    plt.title('scatter plot {0} {1} {2} distance'.format(block_size, aggregator_name, scoring_name))
-            
+                    plt.xlabel('Pixel-based Distance', fontsize = 20)
+                    plt.ylabel('Dissimilarity from Psychological Study', fontsize = 20)
+                    
                     output_file_name = os.path.join(args.output_folder, '{0}-{1}-{2}.png'.format(block_size, aggregator_name, scoring_name))        
                     
                     fig.savefig(output_file_name, bbox_inches='tight', dpi=200)

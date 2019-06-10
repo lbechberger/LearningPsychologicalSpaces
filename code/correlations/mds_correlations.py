@@ -109,10 +109,9 @@ with open(output_file_name, 'w', buffering=1) as f_out:
                 # create scatter plot if user want us to
                 fig, ax = plt.subplots(figsize=(12,12))
                 ax.scatter(sim_vector,target_vector)
-                plt.xlabel('MDS distance')
-                plt.ylabel('real distance')
-                plt.title('scatter plot {0}D {1} distance'.format(number_of_dimensions, scoring_name))
-        
+                plt.xlabel('Distance in Similarity Space', fontsize = 20)
+                plt.ylabel('Dissimilarity from Psychological Study', fontsize = 20)
+                
                 output_file_name = os.path.join(args.output_folder, '{0}D-{1}.png'.format(number_of_dimensions, scoring_name))        
                 
                 fig.savefig(output_file_name, bbox_inches='tight', dpi=200)

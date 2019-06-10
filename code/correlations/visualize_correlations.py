@@ -91,21 +91,20 @@ for metric in pixel_data.keys():
 
                 
         # add best MDS
-        if scoring in mds_dict.keys():
-            y_mds = [max(map(lambda x: x[1], mds_scores))]*len(bar_indices)
-            label_list.append('best MDS')
-            ax.plot(bar_indices, y_mds)
+#        if scoring in mds_dict.keys():
+#            y_mds = [max(map(lambda x: x[1], mds_scores))]*len(bar_indices)
+#            label_list.append('best MDS')
+#            ax.plot(bar_indices, y_mds)
             
         
         # create the final plot and store it
-        ax.set_xlabel('block size')
+        ax.set_xlabel('Block Size', fontsize = 20)
         ax.set_xticks(bar_indices)
         ax.set_xticklabels(legend)
-        ax.set_ylabel(metric)
+        ax.set_ylabel(metric, fontsize = 20)
         if metric == 'r2':
             ax.set_ylim(-1,1)
-        ax.set_title(scoring)
-        plt.legend(label_list)
+        plt.legend(label_list, fontsize = 20)
         output_file_name = os.path.join(args.output_folder, '{0}-{1}-pixel.jpg'.format(metric, scoring))
         plt.savefig(output_file_name, bbox_inches='tight', dpi=200)
         plt.close()
@@ -130,9 +129,8 @@ for metric in pixel_data.keys():
             legend.append('best pixel: {0}'.format(best_pixel_result_metric[0]))
             ax.plot(bar_indices, y_pixel)
 
-            ax.set_xlabel('number of dimensions')
-            ax.set_ylabel(metric)
-            ax.set_title(scoring)
+            ax.set_xlabel('Number of Dimensions', fontsize = 20)
+            ax.set_ylabel(metric, fontsize = 20)
             ax.set_xticks(bar_indices)
             ax.set_xticklabels(legend)
             output_file_name = os.path.join(args.output_folder, '{0}-{1}-MDS.jpg'.format(metric, scoring))
