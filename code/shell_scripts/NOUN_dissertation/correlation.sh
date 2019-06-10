@@ -34,7 +34,6 @@ python code/correlations/inception_correlations.py /tmp/inception data/NOUN/simi
 
 
 # visualize correlation results
-echo 'visualizing correlation'
-echo '    RGB'
+echo 'visualizing correlation results'
 python code/correlations/visualize_correlations.py -o data/NOUN/visualizations/correlations/ data/NOUN/analysis/pixel_correlations/sim.csv data/NOUN/analysis/classical/sim-MDS.csv &> data/NOUN/visualizations/correlations/best.txt &
 wait
