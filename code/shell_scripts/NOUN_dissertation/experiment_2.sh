@@ -3,7 +3,7 @@
 echo 'experiment 2'
 
 # declare some lists to make code below less repetitive 
-feature_sets=("ANN")
+feature_sets=("ANN pixel_1875")
 lasso_sets=("ANN")
 baselines=("--zero")
 regressors=("--linear --random_forest")
