@@ -43,7 +43,7 @@ do
 	for baseline in $baselines
 	do
 		echo "            $baseline"	
-		$cmd $script data/NOUN/dataset/targets.pickle 'nonmetric_SMACOF_'"$target" data/NOUN/dataset/features_inception.pickle data/NOUN/dataset/folds.csv 'data/NOUN/ML_results/experiment_3/nonmetric_SMACOF_'"$target"'/baselines.csv' -s 42 $baseline
+		$cmd $script data/NOUN/dataset/targets.pickle 'nonmetric_SMACOF_'"$target" data/NOUN/dataset/features_ANN.pickle data/NOUN/dataset/folds.csv 'data/NOUN/ML_results/experiment_3/nonmetric_SMACOF_'"$target"'/baselines.csv' -s 42 $baseline
 	done
 
 	# now compute the results for the real regressions
