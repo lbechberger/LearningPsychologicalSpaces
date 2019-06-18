@@ -11,13 +11,8 @@ Created on Tue Dec  4 09:27:06 2018
 import pickle, argparse, os
 from PIL import Image
 import numpy as np
-from sklearn.isotonic import IsotonicRegression
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics.pairwise import cosine_distances, euclidean_distances, manhattan_distances
-from sklearn.metrics import r2_score
-from scipy.stats import pearsonr, spearmanr, kendalltau
 from skimage.measure import block_reduce
-from matplotlib import pyplot as plt
+from code.util import compute_correlations, distance_functions
 
 parser = argparse.ArgumentParser(description='Pixel-based similarity baseline')
 parser.add_argument('similarity_file', help = 'the input file containing the target similarity ratings')
@@ -29,7 +24,6 @@ parser.add_argument('-p', '--plot', action = 'store_true', help = 'create scatte
 args = parser.parse_args()
 
 aggregator_functions = {'max': np.max, 'mean': np.mean, 'min': np.min, 'median': np.median}
-scoring_functions = {'Cosine': cosine_distances, 'Euclidean': euclidean_distances, 'Manhattan': manhattan_distances}
 
 # set up file name for output file
 _, path_and_file = os.path.splitdrive(args.similarity_file)
@@ -96,51 +90,25 @@ with open(output_file_name, 'w', buffering=1) as f:
                 img = np.reshape(img, (1,-1))
                 transformed_images.append(img)
     
-            for scoring_name, scoring_function in scoring_functions.items():
-                dissimilarity_scores = np.ones(target_dissimilarities.shape)
+            for distance_name, distance_function in distance_functions.items():
+
+                correlation_metrics = compute_correlations(transformed_images, target_dissimilarities, distance_function)
                 
-                for i in range(len(item_ids)):
-                    for j in range(len(item_ids)):
-    
-                        img_i = transformed_images[i]
-                        img_j = transformed_images[j]    
-                        score = scoring_function(img_i, img_j)[0][0]
-                        dissimilarity_scores[i][j] = score
+                f.write("{0},{1},{2},{3},{4},{5},{6},{7},{8}\n".format(aggregator_name, block_size, image_size, distance_name, 
+                                                                    correlation_metrics['pearson'], 
+                                                                    correlation_metrics['spearman'], 
+                                                                    correlation_metrics['kendall'], 
+                                                                    correlation_metrics['r2_linear'], 
+                                                                    correlation_metrics['r2_isotonic']))
                 
-                # transform dissimilarity matrices into vectors for correlation computation
-                target_vector = np.reshape(target_dissimilarities, (-1,1)) 
-                sim_vector = np.reshape(dissimilarity_scores, (-1,1)) 
-                
-                # compute correlations
-                pearson, _ = pearsonr(sim_vector, target_vector)
-                spearman, _ = spearmanr(sim_vector, target_vector)
-                kendall, _ = kendalltau(sim_vector, target_vector)
-            
-                # compute least squares regression for R² metric
-                linear_regression = LinearRegression()
-                linear_regression.fit(sim_vector, target_vector)
-                predictions = linear_regression.predict(sim_vector)
-                r2_linear = r2_score(target_vector, predictions)
-                
-                # compute isotonic regression for R² metric
-                x = np.reshape(dissimilarity_scores, (-1))
-                y = np.reshape(target_dissimilarities, (-1))
-                isotonic_regression = IsotonicRegression()
-                predictions = isotonic_regression.fit_transform(x, y)
-                r2_isotonic = r2_score(y, predictions)
-                
-                f.write("{0},{1},{2},{3},{4},{5},{6},{7},{8}\n".format(aggregator_name, block_size, image_size, scoring_name, 
-                                                                    pearson[0], spearman, kendall, r2_linear, r2_isotonic))
-                
-                
-                if args.plot:
-                    # create scatter plot if user want us to
-                    fig, ax = plt.subplots(figsize=(12,12))
-                    ax.scatter(sim_vector,target_vector)
-                    plt.xlabel('Pixel-based Distance', fontsize = 20)
-                    plt.ylabel('Dissimilarity from Psychological Study', fontsize = 20)
-                    
-                    output_file_name = os.path.join(args.output_folder, '{0}-{1}-{2}.png'.format(block_size, aggregator_name, scoring_name))        
-                    
-                    fig.savefig(output_file_name, bbox_inches='tight', dpi=200)
-                    plt.close()
+#                if args.plot:
+#                    # create scatter plot if user want us to
+#                    fig, ax = plt.subplots(figsize=(12,12))
+#                    ax.scatter(sim_vector,target_vector)
+#                    plt.xlabel('Pixel-based Distance', fontsize = 20)
+#                    plt.ylabel('Dissimilarity from Psychological Study', fontsize = 20)
+#                    
+#                    output_file_name = os.path.join(args.output_folder, '{0}-{1}-{2}.png'.format(block_size, aggregator_name, scoring_name))        
+#                    
+#                    fig.savefig(output_file_name, bbox_inches='tight', dpi=200)
+#                    plt.close()

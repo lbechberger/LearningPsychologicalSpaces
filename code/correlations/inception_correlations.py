@@ -9,16 +9,10 @@ Created on Sun May 12 07:56:40 2019
 """
 
 import pickle, argparse, os, sys, tarfile
-import numpy as np
-from sklearn.isotonic import IsotonicRegression
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics.pairwise import cosine_distances, euclidean_distances, manhattan_distances
-from sklearn.metrics import r2_score
-from scipy.stats import pearsonr, spearmanr, kendalltau
-from matplotlib import pyplot as plt
 import tensorflow as tf
 from tensorflow.python.platform import gfile
 from six.moves import urllib
+from code.util import compute_correlations, distance_functions
 
 parser = argparse.ArgumentParser(description='Pixel-based similarity baseline')
 parser.add_argument('model_dir', help = 'folder for storing the pretrained network')
@@ -27,8 +21,6 @@ parser.add_argument('image_folder', help = 'the folder containing the original i
 parser.add_argument('-o', '--output_folder', help = 'the folder to which the output should be saved', default='.')
 parser.add_argument('-p', '--plot', action = 'store_true', help = 'create scatter plots of distances vs. dissimilarities')
 args = parser.parse_args()
-
-scoring_functions = {'Cosine': cosine_distances, 'Euclidean': euclidean_distances, 'Manhattan': manhattan_distances}
 
 # set up file name for output file
 _, path_and_file = os.path.splitdrive(args.similarity_file)
@@ -109,53 +101,26 @@ with open(output_file_name, 'w', buffering=1) as f:
 
     f.write("scoring,pearson,spearman,kendall,r2_linear,r2_isotonic\n")
            
-    for scoring_name, scoring_function in scoring_functions.items():
+    for distance_name, distance_function in distance_functions.items():
+        
+        correlation_metrics = compute_correlations(inception_features, target_dissimilarities, distance_function)
+        f.write("{0},{1},{2},{3},{4},{5}\n".format(distance_name, 
+                                                    correlation_metrics['pearson'], 
+                                                    correlation_metrics['spearman'], 
+                                                    correlation_metrics['kendall'], 
+                                                    correlation_metrics['r2_linear'], 
+                                                    correlation_metrics['r2_isotonic']))
 
-        dissimilarity_scores = np.ones(target_dissimilarities.shape)
+        print('done with {0}'.format(distance_name))
         
-        for i in range(len(item_ids)):
-            for j in range(len(item_ids)):
-
-                img_i = inception_features[i]
-                img_j = inception_features[j] 
-                score = scoring_function(img_i, img_j)[0][0]
-                dissimilarity_scores[i][j] = score
-        
-        # transform dissimilarity matrices into vectors for correlation computation
-        target_vector = np.reshape(target_dissimilarities, (-1,1)) 
-        sim_vector = np.reshape(dissimilarity_scores, (-1,1)) 
-       
-        # compute correlations
-        pearson, _ = pearsonr(sim_vector, target_vector)
-        spearman, _ = spearmanr(sim_vector, target_vector)
-        kendall, _ = kendalltau(sim_vector, target_vector)
-    
-        # compute least squares regression for R² metric
-        linear_regression = LinearRegression()
-        linear_regression.fit(sim_vector, target_vector)
-        predictions = linear_regression.predict(sim_vector)
-        r2_linear = r2_score(target_vector, predictions)
-        
-        # compute isotonic regression for R² metric
-        x = np.reshape(dissimilarity_scores, (-1))
-        y = np.reshape(target_dissimilarities, (-1))
-        isotonic_regression = IsotonicRegression()
-        predictions = isotonic_regression.fit_transform(x, y)
-        r2_isotonic = r2_score(y, predictions)
-        
-        f.write("{0},{1},{2},{3},{4},{5}\n".format(scoring_name, 
-                                                            pearson[0], spearman, kendall, r2_linear, r2_isotonic))
-        
-        print('done with {0}'.format(scoring_name))
-        
-        if args.plot:
-            # create scatter plot if user want us to
-            fig, ax = plt.subplots(figsize=(12,12))
-            ax.scatter(sim_vector,target_vector)
-            plt.xlabel('ANN-based Distance', fontsize = 20)
-            plt.ylabel('Dissimilarity from Psychological Study', fontsize = 20)
-                    
-            output_file_name = os.path.join(args.output_folder, '{0}.png'.format(scoring_name))        
-            
-            fig.savefig(output_file_name, bbox_inches='tight', dpi=200)
-            plt.close()
+#        if args.plot:
+#            # create scatter plot if user want us to
+#            fig, ax = plt.subplots(figsize=(12,12))
+#            ax.scatter(sim_vector,target_vector)
+#            plt.xlabel('ANN-based Distance', fontsize = 20)
+#            plt.ylabel('Dissimilarity from Psychological Study', fontsize = 20)
+#                    
+#            output_file_name = os.path.join(args.output_folder, '{0}.png'.format(scoring_name))        
+#            
+#            fig.savefig(output_file_name, bbox_inches='tight', dpi=200)
+#            plt.close()
