@@ -19,7 +19,7 @@ python code/dataset/prepare_targets.py data/NOUN/dataset/targets.csv data/NOUN/d
 # compute features
 echo '    feature extraction'
 echo '        ANN-based features'
-python code/regression/inception_features.py /tmp/inception data/NOUN/dataset/augmented data/NOUN/dataset/features_ANN.pickle
+python -m code.regression.inception_features /tmp/inception data/NOUN/dataset/augmented data/NOUN/dataset/features_ANN.pickle
 echo '        pixel-based features'
 python code/regression/reduced_image_features.py data/NOUN/dataset/augmented/ data/NOUN/dataset/features_pixel_1875.pickle -b 12 -a mean
 python code/regression/reduced_image_features.py data/NOUN/dataset/augmented/ data/NOUN/dataset/features_pixel_507.pickle -b 24 -a mean
