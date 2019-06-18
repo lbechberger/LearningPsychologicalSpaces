@@ -21,8 +21,8 @@ echo '    feature extraction'
 echo '        ANN-based features'
 python -m code.regression.inception_features /tmp/inception data/NOUN/dataset/augmented data/NOUN/dataset/features_ANN.pickle
 echo '        pixel-based features'
-python code/regression/reduced_image_features.py data/NOUN/dataset/augmented/ data/NOUN/dataset/features_pixel_1875.pickle -b 12 -a mean
-python code/regression/reduced_image_features.py data/NOUN/dataset/augmented/ data/NOUN/dataset/features_pixel_507.pickle -b 24 -a mean
+python -m code.regression.reduced_image_features data/NOUN/dataset/augmented/ data/NOUN/dataset/features_pixel_1875.pickle -b 12 -a mean
+python -m code.regression.reduced_image_features data/NOUN/dataset/augmented/ data/NOUN/dataset/features_pixel_507.pickle -b 24 -a mean
 
 # analyze feature spaces
 echo '    cluster analysis'

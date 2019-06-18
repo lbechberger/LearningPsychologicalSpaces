@@ -9,9 +9,8 @@ Created on Thu May  9 08:06:21 2019
 
 import pickle, argparse, os
 from PIL import Image
-import numpy as np
-from skimage.measure import block_reduce
 import tensorflow as tf
+from code.util import downscale_image, aggregator_functions
 
 parser = argparse.ArgumentParser(description='Feature Extraction based on reducing the image size')
 parser.add_argument('input_dir', help = 'input folder containing the augmented data')
@@ -20,24 +19,6 @@ parser.add_argument('-g', '--greyscale', action = 'store_true', help = 'only con
 parser.add_argument('-a', '--aggregator', default = 'mean', help = 'aggregator function to use when downscaling the images')
 parser.add_argument('-b', '--block_size', type = int, default = 1, help = 'block size to use when downscaling the images')
 args = parser.parse_args()
-
-aggregator_functions = {'max': np.max, 'mean': np.mean, 'min': np.min, 'median': np.median}
-
-def downscale_image(image, aggregator, block_size, greyscale):
-    
-    if greyscale:
-        img = image.convert("L")
-        array = np.asarray(img.getdata())
-        array = np.reshape(array, img.size)
-        img = block_reduce(array, (block_size, block_size), aggregator_functions[aggregator])
-    else:
-        array = np.asarray(image.getdata())
-        width, height = image.size
-        array = np.reshape(array, [width, height, 3])
-        img = block_reduce(array, (block_size, block_size, 1), aggregator_functions[aggregator])
-    # make a column vector out of this and store it
-    result = np.reshape(img, (-1))
-    return result
 
 # need to convert tensorflow string representation into numbers
 tf_image_string = tf.placeholder(tf.string)
@@ -58,7 +39,7 @@ with tf.Session() as session:
         for image in images:
             pixels = session.run(decoder, feed_dict = {tf_image_string : image})
             img = Image.fromarray(pixels, 'RGB')
-            downscaled = downscale_image(img, args.aggregator, args.block_size, args.greyscale)
+            downscaled, _ = downscale_image(img, aggregator_functions[args.aggregator], args.block_size, args.greyscale, (-1))
             downscaled_images.append(downscaled)
 
         result[image_name] = downscaled_images

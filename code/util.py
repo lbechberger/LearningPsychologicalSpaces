@@ -20,7 +20,6 @@ def compute_correlations(vectors, dissimilarities, distance_function):
     
     Returns a dictionary from correlation metric to its corresponding value.
     """    
-    
     import numpy as np
     from sklearn.isotonic import IsotonicRegression
     from sklearn.linear_model import LinearRegression
@@ -110,3 +109,32 @@ def extract_inception_features(images, model_dir):
             inception_features.append(feature_vector.reshape(1, -1))
                 
     return inception_features
+
+import numpy as np
+# aggregator functions for block_reduce
+aggregator_functions = {'max': np.max, 'mean': np.mean, 'min': np.min, 'median': np.median}
+
+def downscale_image(image, aggregator_function, block_size, greyscale, output_shape):
+    """
+    Downscales the given image via block_reduce using the given aggregator and block size.
+    """
+    import numpy as np
+    from skimage.measure import block_reduce
+
+    if greyscale:
+        img = image.convert("L")
+        array = np.asarray(img.getdata())
+        array = np.reshape(array, img.size)
+        img = block_reduce(array, (block_size, block_size), aggregator_function)
+    else:
+        array = np.asarray(image.getdata())
+        width, height = image.size
+        array = np.reshape(array, [width, height, 3])
+        img = block_reduce(array, (block_size, block_size, 1), aggregator_function)
+    
+    image_size = img.shape[0]
+    # make a column vector out of this and store it
+    result = np.reshape(img, output_shape)
+    return result, image_size
+
+
