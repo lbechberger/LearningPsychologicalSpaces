@@ -8,7 +8,7 @@ Created on Wed Feb  7 14:50:22 2018
 """
 
 import random, pickle, argparse
-import numpy as np
+from code.util import load_mds_vectors
 
 parser = argparse.ArgumentParser(description='Preparing the target vectors for the regression')
 parser.add_argument('input_file', help = 'csv file containing the paths to target vector files')
@@ -30,18 +30,8 @@ with open(args.input_file, 'r') as f:
         target_name = tokens[0]
         target_file = tokens[1]
 
-        real_dict = {}
+        real_dict = load_mds_vectors(target_file)
         shuffled_dict = {}
-        
-        # read in all the vectors from the specified file
-        with open(target_file, 'r') as f:
-            for line in f:
-                if len(line) == 0:
-                    continue
-                tokens = line.split(',')
-                img_name = tokens[0]
-                vector = tokens[1:]
-                real_dict[img_name] = np.array(list(map(lambda x: float(x), vector)))
         
         # shuffle them
         keys = list(real_dict.keys())

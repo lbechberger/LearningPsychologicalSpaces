@@ -18,7 +18,9 @@ def compute_correlations(vectors, dissimilarities, distance_function):
     Computes the correlation between vector distances and actual dissimilarities,
     using the given distance function between the vectors.
     
-    Returns a dictionary from correlation metric to its corresponding value.
+    Returns a dictionary from correlation metric to its corresponding value. 
+    For convenience, this dictionary also contains both the vector of target dissimilarities
+    and the vector of predicted similarities.
     """    
     import numpy as np
     from sklearn.isotonic import IsotonicRegression
@@ -60,7 +62,8 @@ def compute_correlations(vectors, dissimilarities, distance_function):
     r2_isotonic = r2_score(y, predictions)
     
     return {'pearson': pearson[0], 'spearman': spearman, 'kendall': kendall,
-                'r2_linear': r2_linear, 'r2_isotonic': r2_isotonic}
+                'r2_linear': r2_linear, 'r2_isotonic': r2_isotonic,
+                'targets': target_vector, 'predictions': sim_vector}
 
 
 def extract_inception_features(images, model_dir):
@@ -138,3 +141,80 @@ def downscale_image(image, aggregator_function, block_size, greyscale, output_sh
     return result, image_size
 
 
+def downscale_images(images, aggregator_function, block_size, greyscale, output_shape):
+    """
+    Downscales all of the given images via block_reduce using the given aggregator and block size.
+    """
+    
+    result = []
+    for image in images:
+        downscaled_image, _ = downscale_image(image, aggregator_function, block_size, greyscale, output_shape)
+        result.append(downscaled_image)  
+    return result
+
+def load_image_files_pixel(item_ids, image_folder):
+    """
+    Loads all image files in the format needed for the pixel baseline.
+    """
+    import os
+    from PIL import Image
+
+    images = []
+    for item_id in item_ids:
+        for file_name in os.listdir(image_folder):
+            if os.path.isfile(os.path.join(image_folder, file_name)) and item_id in file_name:
+                # found the corresponding image: load it
+                img = Image.open(os.path.join(image_folder, file_name), 'r')
+                images.append(img)
+                
+                # don't need to look at other files for this item_id, so can break out of inner loop
+                break
+
+    return images
+
+def load_image_files_ann(item_ids, image_folder):
+    """
+    Loads all image files in the format needed for the ANN baseline.
+    """
+
+    import os
+    from tensorflow.python.platform import gfile
+
+    images = []
+    for item_id in item_ids:
+        for file_name in os.listdir(image_folder):
+            if os.path.isfile(os.path.join(image_folder, file_name)) and item_id in file_name:
+                # found the corresponding image: load it
+                image_data = gfile.FastGFile(os.path.join(image_folder, file_name), 'rb').read()            
+                images.append(image_data)
+
+                # don't need to look at other files for this item_id, so can break out of inner loop
+                break
+
+    return images
+
+def load_mds_vectors(vector_file, item_ids = None):
+    """
+    Loads the MDS vectors from the given file. 
+    
+    Returns either a dictionary from item ID to vector or a list of vectors (ordered by item ID),
+    depending on whether a list of item IDs is given.
+    """
+
+    result_dict = {}
+    result_list = []    
+    
+    with open(vector_file, 'r') as f:
+        for line in f:
+            tokens = line.replace('\n','').split(',')
+            item = tokens[0]
+            vector = list(map(lambda x: float(x), tokens[1:]))
+            
+            result_dict[item] = vector
+    
+    if item_ids is not None:
+        for item_id in item_ids:
+            result_list.append(np.reshape(result_dict[item_id], (1,-1)))
+        return result_list
+        
+    return result_dict

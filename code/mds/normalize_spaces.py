@@ -9,6 +9,7 @@ Created on Thu Feb  7 08:48:04 2019
 
 import argparse, os
 import numpy as np
+from code.util import load_mds_vectors
 
 parser = argparse.ArgumentParser(description='Normalizes all MDS spaces in the given folder')
 parser.add_argument('input_folder', help = 'the directory containing all the original MDS spaces')
@@ -36,15 +37,14 @@ for file_name in os.listdir(args.input_folder):
         
         if args.verbose:
             print(file_name)
-            
+        
+        dictionary = load_mds_vectors(path_to_file)
+        
         # read all the vectors and the item names
-        item_ids = []        
+        item_ids = list(sorted(dictionary.keys()))
         vectors = []
-        with open(path_to_file, 'r') as f:
-            for line in f:
-                tokens = line.split(',')
-                item_ids.append(tokens[0])
-                vectors.append(list(map(lambda x: float(x), tokens[1:])))
+        for item_id in item_ids:
+            vectors.append(dictionary[item_id])
         vectors = np.array(vectors)
         
         # make sure that centorid of vectors is at origin

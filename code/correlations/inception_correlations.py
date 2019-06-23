@@ -10,7 +10,7 @@ Created on Sun May 12 07:56:40 2019
 
 import pickle, argparse, os
 from tensorflow.python.platform import gfile
-from code.util import compute_correlations, distance_functions, extract_inception_features
+from code.util import compute_correlations, distance_functions, extract_inception_features, load_image_files_ann
 
 parser = argparse.ArgumentParser(description='Pixel-based similarity baseline')
 parser.add_argument('model_dir', help = 'folder for storing the pretrained network')
@@ -33,15 +33,7 @@ with open(args.similarity_file, 'rb') as f:
 item_ids = input_data['items']
 target_dissimilarities = input_data['dissimilarities']
 
-# load all images
-images = []
-for item_id in item_ids:
-    for file_name in os.listdir(args.image_folder):
-        if os.path.isfile(os.path.join(args.image_folder, file_name)) and item_id in file_name:
-            # found the corresponding image: load it
-            image_data = gfile.FastGFile(os.path.join(args.image_folder, file_name), 'rb').read()            
-            images.append(image_data)
- 
+images = load_image_files_ann(item_ids, args.image_folder) 
 inception_features = extract_inception_features(images, args.model_dir)
 
 print('extracted features')
@@ -61,15 +53,3 @@ with open(output_file_name, 'w', buffering=1) as f:
                                                     correlation_metrics['r2_isotonic']))
 
         print('done with {0}'.format(distance_name))
-        
-#        if args.plot:
-#            # create scatter plot if user want us to
-#            fig, ax = plt.subplots(figsize=(12,12))
-#            ax.scatter(sim_vector,target_vector)
-#            plt.xlabel('ANN-based Distance', fontsize = 20)
-#            plt.ylabel('Dissimilarity from Psychological Study', fontsize = 20)
-#                    
-#            output_file_name = os.path.join(args.output_folder, '{0}.png'.format(scoring_name))        
-#            
-#            fig.savefig(output_file_name, bbox_inches='tight', dpi=200)
-#            plt.close()

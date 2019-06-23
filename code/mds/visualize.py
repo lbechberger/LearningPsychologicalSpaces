@@ -12,6 +12,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 from PIL import Image
+from code.util import load_mds_vectors
 
 parser = argparse.ArgumentParser(description=' Visualizing MDS spaces')
 parser.add_argument('vector_folder', help = 'path to the folder containing the vectors')
@@ -33,26 +34,15 @@ for file_name in os.listdir(args.vector_folder):
         if dim > args.max:
             continue
 
-        vectors = []
-        with open(os.path.join(args.vector_folder, file_name), 'r') as f:
-            for line in f:
-                vector = []
-                tokens = line.replace('\n', '').split(',')
-                # first entry is the item ID
-                vector.append(tokens[0])
-                # all other entries are the coordinates
-                vector += list(map(lambda x: float(x), tokens[1:]))
-                vectors.append(vector)
-        
-        items = list(map(lambda x: x[0], vectors))
-        vector_map[dim] = {'vectors' : vectors, 'items' : items}
+        local_dict = load_mds_vectors(os.path.join(args.vector_folder, file_name))
+        vector_map[dim] = local_dict
           
 
 # then read in all the images
 if args.image_folder != None:
     
     images = []
-    for item in list(vector_map.values())[0]['items']:
+    for item in list(vector_map.values())[0].keys():
         for file_name in os.listdir(args.image_folder):
             if os.path.isfile(os.path.join(args.image_folder, file_name)) and item in file_name:
                 # found the corresponding image
@@ -74,11 +64,13 @@ if args.image_folder != None:
 # iterate over all spaces
 for dim, mapping in vector_map.items():
     print('        {0} dimensions'.format(dim))
-    vectors = mapping['vectors']
-    items = mapping['items']
+    items = list(sorted(mapping.keys()))
+    vectors = []
+    for item in items:
+        vectors.append(mapping[item])
     # create a 2D plot for all pairs of dimensions
-    for first_dim in range(1, dim + 1):
-        for second_dim in range(first_dim + 1, dim + 1):
+    for first_dim in range(dim):
+        for second_dim in range(first_dim + 1, dim):
             
             x = list(map(lambda x: x[first_dim], vectors))
             y = list(map(lambda x: x[second_dim], vectors))
@@ -110,10 +102,12 @@ for dim, mapping in vector_map.items():
             		bbox=dict(boxstyle='round,pad=0.5', fc='yellow', alpha=0.5),
             		arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=0'))
             
-            plt.xlabel('MDS dimension #{0}'.format(first_dim))
-            plt.ylabel('MDS dimension #{0}'.format(second_dim))
+            plt.rc('xtick',labelsize = 20)
+            plt.rc('ytick',labelsize = 20)
+            plt.xlabel('MDS dimension #{0}'.format(first_dim + 1), fontsize = 20)
+            plt.ylabel('MDS dimension #{0}'.format(second_dim + 1), fontsize = 20)
     
-            output_file_name = os.path.join(args.output_folder, '{0}D-{1}-{2}.png'.format(dim, first_dim, second_dim))        
+            output_file_name = os.path.join(args.output_folder, '{0}D-{1}-{2}.png'.format(dim, first_dim + 1, second_dim + 1))        
             
             fig.savefig(output_file_name, bbox_inches='tight', dpi=200)
             plt.close()

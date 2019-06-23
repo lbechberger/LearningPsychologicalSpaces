@@ -35,5 +35,10 @@ python -m code.correlations.inception_correlations /tmp/inception data/NOUN/simi
 
 # visualize correlation results
 echo 'visualizing correlation results'
-python code/correlations/visualize_correlations.py -o data/NOUN/visualizations/correlations/ data/NOUN/analysis/pixel_correlations/sim.csv data/NOUN/analysis/classical/sim-MDS.csv &> data/NOUN/visualizations/correlations/best.txt &
+python -m code.correlations.visualize_correlations -o data/NOUN/visualizations/correlations/ data/NOUN/analysis/pixel_correlations/sim.csv data/NOUN/analysis/classical/sim-MDS.csv &> data/NOUN/visualizations/correlations/best.txt &
+python -m code.correlations.scatter_plot data/NOUN/similarities/sim.pickle data/NOUN/visualizations/correlations/scatter_MDS.png --mds data/NOUN/vectors/Kruskal/1D-vectors.csv -d Euclidean &
+python -m code.correlations.scatter_plot data/NOUN/similarities/sim.pickle data/NOUN/visualizations/correlations/scatter_ANN.png --ann /tmp/inception -d Manhattan -i data/NOUN/images/ &
+python -m code.correlations.scatter_plot data/NOUN/similarities/sim.pickle data/NOUN/visualizations/correlations/scatter_pixel.png --pixel min -b 19 -d Euclidean -i data/NOUN/images/ &
 wait
+
+

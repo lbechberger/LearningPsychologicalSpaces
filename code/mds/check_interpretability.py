@@ -11,6 +11,7 @@ import argparse, os
 from sklearn.svm import LinearSVC
 from sklearn.metrics import cohen_kappa_score
 import numpy as np
+from code.util import load_mds_vectors
 
 parser = argparse.ArgumentParser(description='Finding interpretable directions')
 parser.add_argument('vector_file', help = 'the input file containing the vectors')
@@ -23,16 +24,7 @@ parser.add_argument('-s', '--seed', type = int, help = 'seed for random number g
 args = parser.parse_args()
 
 # read the vectors
-vectors = {}
-with open(args.vector_file, 'r') as f:
-    for line in f:
-        vector = []
-        tokens = line.replace('\n', '').split(',')
-        # first entry is the item ID
-        item = tokens[0]
-        # all other entries are the coordinates
-        vector += list(map(lambda x: float(x), tokens[1:]))
-        vectors[item] = vector
+vectors = load_mds_vectors(args.vector_file)
 
 kappas = {'MDS':[], 'uniform':[], 'normal':[], 'shuffled':[]}
 category_names = []

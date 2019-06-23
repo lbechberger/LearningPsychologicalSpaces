@@ -17,11 +17,11 @@ cp data/NOUN/raw_data/4D-vectors.csv data/NOUN/vectors/HorstHout/4D-vectors.csv
 # preprocessing
 echo 'preprocessing data'
 echo '    reading CSV file'
-python code/preprocessing/preprocess_NOUN.py data/NOUN/raw_data/raw_distances.csv data/NOUN/raw_data/data.pickle
+python -m code.preprocessing.preprocess_NOUN data/NOUN/raw_data/raw_distances.csv data/NOUN/raw_data/data.pickle
 echo '    computing similarities'
-python code/preprocessing/compute_similarities.py data/NOUN/raw_data/data.pickle data/NOUN/similarities/sim.pickle -s within -l -p &> data/NOUN/similarities/log.txt
+python -m code.preprocessing.compute_similarities data/NOUN/raw_data/data.pickle data/NOUN/similarities/sim.pickle -s within -l -p &> data/NOUN/similarities/log.txt
 echo '    creating CSV files'
-python code/preprocessing/pickle_to_csv.py data/NOUN/similarities/sim.pickle data/NOUN/similarities/
+python -m code.preprocessing.pickle_to_csv data/NOUN/similarities/sim.pickle data/NOUN/similarities/
 
 
 # run MDS
@@ -39,27 +39,27 @@ wait
 # normalize MDS spaces
 echo 'normalizing MDS spaces'
 echo '    classical'
-python code/mds/normalize_spaces.py data/NOUN/vectors/classical/ &
+python -m code.mds.normalize_spaces data/NOUN/vectors/classical/ &
 echo '    Kruskal'
-python code/mds/normalize_spaces.py data/NOUN/vectors/Kruskal/ &
+python -m code.mds.normalize_spaces data/NOUN/vectors/Kruskal/ &
 echo '    nonmetric SMACOF'
-python code/mds/normalize_spaces.py data/NOUN/vectors/nonmetric_SMACOF/ &
+python -m code.mds.normalize_spaces data/NOUN/vectors/nonmetric_SMACOF/ &
 echo '    metric SMACOF'
-python code/mds/normalize_spaces.py data/NOUN/vectors/metric_SMACOF/ &
+python -m code.mds.normalize_spaces data/NOUN/vectors/metric_SMACOF/ &
 echo '    Horst and Hout 4D'
-python code/mds/normalize_spaces.py data/NOUN/vectors/HorstHout/ &
+python -m code.mds.normalize_spaces data/NOUN/vectors/HorstHout/ &
 wait
 
 # visualize MDS spaces
 echo 'visualizing MDS spaces'
 echo '    classical'
-python code/mds/visualize.py data/NOUN/vectors/classical/ data/NOUN/visualizations/spaces/classical -i data/NOUN/images/ -m $max &
+python -m code.mds.visualize data/NOUN/vectors/classical/ data/NOUN/visualizations/spaces/classical -i data/NOUN/images/ -m $max &
 echo '    Kruskal'
-python code/mds/visualize.py data/NOUN/vectors/Kruskal/ data/NOUN/visualizations/spaces/Kruskal -i data/NOUN/images/ -m $max &
+python -m code.mds.visualize data/NOUN/vectors/Kruskal/ data/NOUN/visualizations/spaces/Kruskal -i data/NOUN/images/ -m $max &
 echo '    nonmetric SMACOF'
-python code/mds/visualize.py data/NOUN/vectors/nonmetric_SMACOF/ data/NOUN/visualizations/spaces/nonmetric_SMACOF -i data/NOUN/images/ -m $max &
+python -m code.mds.visualize data/NOUN/vectors/nonmetric_SMACOF/ data/NOUN/visualizations/spaces/nonmetric_SMACOF -i data/NOUN/images/ -m $max &
 echo '    metric SMACOF'
-python code/mds/visualize.py data/NOUN/vectors/metric_SMACOF data/NOUN/visualizations/spaces/metric_SMACOF -i data/NOUN/images/ -m $max &
+python -m code.mds.visualize data/NOUN/vectors/metric_SMACOF data/NOUN/visualizations/spaces/metric_SMACOF -i data/NOUN/images/ -m $max &
 echo '    Horst and Hout 4D'
-python code/mds/visualize.py data/NOUN/vectors/HorstHout/ data/NOUN/visualizations/spaces/HorstHout -i data/NOUN/images/ -m $max &
+python -m code.mds.visualize data/NOUN/vectors/HorstHout/ data/NOUN/visualizations/spaces/HorstHout -i data/NOUN/images/ -m $max &
 wait

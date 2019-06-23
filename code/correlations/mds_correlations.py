@@ -8,8 +8,7 @@ Created on Thu Dec  6 11:43:04 2018
 """
 
 import pickle, argparse, os
-import numpy as np
-from code.util import compute_correlations, distance_functions
+from code.util import compute_correlations, distance_functions, load_mds_vectors
 
 parser = argparse.ArgumentParser(description='correlation of MDS distances to human similarity ratings')
 parser.add_argument('similarity_file', help = 'the input file containing the target similarity ratings')
@@ -39,19 +38,8 @@ with open(output_file_name, 'w', buffering=1) as f_out:
 
     for number_of_dimensions in range(args.n_min, args.n_max + 1):
         
-        n_dim_vecs = {}
-        vectors = []  
-        # load the vectors -- first into a dictionary ...
-        with open(os.path.join(args.mds_folder, "{0}D-vectors.csv".format(number_of_dimensions)), 'r') as f_in:
-            for line in f_in:
-                tokens = line.replace('\n','').split(',')
-                item = tokens[0]
-                vector = list(map(lambda x: float(x), tokens[1:]))
-                n_dim_vecs[item] = np.array(vector)
-        
-        # ... then in correct ordering into a list      
-        for item_id in item_ids:
-            vectors.append(np.reshape(n_dim_vecs[item_id], (1,-1)))
+        # load the vectors into a list 
+        vectors = load_mds_vectors(os.path.join(args.mds_folder, "{0}D-vectors.csv".format(number_of_dimensions)), item_ids)
         
         for distance_name, distance_function in distance_functions.items():
 
@@ -62,17 +50,3 @@ with open(output_file_name, 'w', buffering=1) as f_out:
                                                                     correlation_metrics['kendall'], 
                                                                     correlation_metrics['r2_linear'], 
                                                                     correlation_metrics['r2_isotonic']))
-
-
-#            
-#            if args.plot:
-#                # create scatter plot if user want us to
-#                fig, ax = plt.subplots(figsize=(12,12))
-#                ax.scatter(sim_vector,target_vector)
-#                plt.xlabel('Distance in Similarity Space', fontsize = 20)
-#                plt.ylabel('Dissimilarity from Psychological Study', fontsize = 20)
-#                
-#                output_file_name = os.path.join(args.output_folder, '{0}D-{1}.png'.format(number_of_dimensions, scoring_name))        
-#                
-#                fig.savefig(output_file_name, bbox_inches='tight', dpi=200)
-#                plt.close()

@@ -10,6 +10,7 @@ Created on Wed Nov 14 10:57:29 2018
 import pickle, argparse, os, fcntl
 import numpy as np
 from scipy.optimize import linprog
+from code.util import load_mds_vectors
 
 parser = argparse.ArgumentParser(description='Convexity analysis')
 parser.add_argument('vector_file', help = 'the input file containing the vectors')
@@ -45,16 +46,7 @@ with open(args.data_set_file, 'rb') as f:
     data_set = pickle.load(f)
 
 # read the vectors
-vectors = {}
-with open(args.vector_file, 'r') as f:
-    for line in f:
-        vector = []
-        tokens = line.replace('\n', '').split(',')
-        # first entry is the item ID
-        item = tokens[0]
-        # all other entries are the coordinates
-        vector += list(map(lambda x: float(x), tokens[1:]))
-        vectors[item] = vector
+vectors = load_mds_vectors(args.vector_file)
 
 items = list(vectors.keys())
 categories = []

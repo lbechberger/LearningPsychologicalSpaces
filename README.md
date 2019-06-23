@@ -142,7 +142,7 @@ We implemented the MDS step in R and not in Python because R offers a greater va
 
 In order to make the individual MDS solutions more comparable, we normalize them by moving their centroid to the origin and by making sure that their root mean squared distance to the origin equals one. This is done by the script `normalize_spaces.py`, which can be invoked by simply giving it the path to the directory containing all the vector files:
 ```
-python code/mds/normalize_spaces.py path/to/input_folder
+python -m code.mds.normalize_spaces path/to/input_folder
 ```
 The script **overrides** the original files. It can take the following optional arguments:
 - `-b` or `--backup`: Create a backup of the original files. Will be stored in the same folder as the original files, file name is identical, but 'backup' is appended before the file extension.
@@ -154,7 +154,7 @@ The script **overrides** the original files. It can take the following optional 
 
 The script `visualize.py` can be used to create two-dimensional plots of the resulting MDS spaces. You can execute it as follows from the project's root directory:
 ```
-python code/mds/visualize.py path/to/vector_folder path/to/output_folder/
+python -m code.mds.visualize path/to/vector_folder path/to/output_folder/
 ```
 The script reads in the vectors from all csv files in the `vector_folder`, creates two-dimensional plots for all pairs of dimensions, and stores them in the given output folder. 
 
@@ -170,7 +170,7 @@ The script finally outputs the total number of violations as well as the group-w
 
 The script can be exectued as follows (where `n_dims` is the number of dimension of this specific MDS space):
 ```
-python code/mds/analyze_convexity.py path/to/vectors.csv path/to/data.pickle n_dims
+python -m code.mds.analyze_convexity path/to/vectors.csv path/to/data.pickle n_dims
 ```
 It takes the following optional arguments:
 - `-o` or `--output_file`: If an output file is given, the results are appended to this file in CSV style.
@@ -183,7 +183,7 @@ The script `check_interpretability.py` tries to find interpretable directions in
 
 The script can be invoked as follows (where `n_dims` is the number of dimensions of the underlying space):
 ```
-python code/mds/check_interpretability.py path/to/vectors.csv path/to/classification/folder/ n_dims
+python -m code.mds.check_interpretability path/to/vectors.csv path/to/classification/folder/ n_dims
 ```
 It takes the following optional arguments:
 - `-o` or `--output_file`: If an output file is given, the results are appended to this file in CSV style.
@@ -199,32 +199,30 @@ The folder `correlations` contains scripts for estimating how well the MDS space
 
 The script `image_correlations.py` loads the images and interprets them as one-dimensional vectors of pixel values. It then computes for each pair of items the different similarity measures (i.e., cosine distance, Euclidean distance, Manhattan distance) of their pixel-based representation. The resulting similarity matrix is compared to the one obtained from human similarity judgements by computing different correlation statistics (Pearson's R, Spearman's Rho, Kendall's Tau, and the coefficient of determination R Squared). The script can be executed as follows, where `similarity_file.pickle` is the output file of the overall preprocessing and where `image_folder` is the directory containing all images:
 ```
-python code/correlations/image_correlations.py path/to/similarity_file.pickle path/to/image_folder
+python -m code.correlations.image_correlations path/to/similarity_file.pickle path/to/image_folder
 ```
 In addition to doing these computations on the full pixel-wise information, the script also shrinks the image by aggregating all pixels within a block of size `k` times `k` into a single number. The script iterates over all possible sizes of k (from 1 to 283 in our case) and uses different aggregation strategies (namely: max, min, mean, median).
 The script takes the following optional parameter:
 - `-o` or `--output`: The output folder where the resulting correlation values are stored (default: `.`, i.e., the current working directory).
 - `-s` or `--size`: The size of the image, i.e., the maximal number of `k` to use (default: 283).
 - `-g` or `--greyscale`: If this flag is set, the three color channels are collapsed into a single greyscale channel when loading the images. If not, full RGB information is used.
-- `-p` or `--plot`: If this flag is set, scatter plots are created and stored for each of the similarity measures.
 
 ### 3.2 MDS-Based Similarities
 
 The script `mds_correlations.py` loads the MDS vectors and derives distances between pairs of stimuli based on the cosine distance, the Euclidean distance, and the Manhattan distance. These distances are then correlated to the human dissimilarity ratings with Pearson's R, Spearman's Rho, Kendall's Tau, and the coefficient of determination R Squared. The script can be executed as follows:
 ```
-python code/correlations/mds_correlations.py path/to/similarity_file.pickle path/to/mds_folder
+python -m code.correlations.mds_correlations path/to/similarity_file.pickle path/to/mds_folder
 ```
 Here, `similarity_file.pickle` is again the output file of the overall preprocessing, whereas `mds_folder` is the folder where the MDS vectors are stored. The script takes the following optional arguments:
 - `-o` or `--output`: The output folder where the resulting correlation values are stored (default: `.`, i.e., the current working directory).
 - `--n_min`: The size of the smallest space to investigate (defaults to 1).
 - `--n_max`: The size of the largest space to investigate (defaults to 20).
-- `-p` or `--plot`: If this flag is set, scatter plots are created and stored for each of the similarity measures.
 
 ### 3.3 Visualizing The Correlations
 
 The script `visualize_correlations.py` can be used to visualize the results of the correlation computations. It can be invoked as follows:
 ```
-python code/correlations/visualize_correlations.py path/to/pixel_file.csv path/to/mds_file.csv
+python -m code.correlations.visualize_correlations path/to/pixel_file.csv path/to/mds_file.csv
 ```
 Here, `pixel_file.csv` and `mds_file.csv` are the output files of `image_correlations.py` and `mds_correlations.py`, respectively. The script takes the following additional optional arugments:
 - `-o` or `--output`: The output folder where the resulting visualizations are stored (default: `.`, i.e., the current working directory).
@@ -233,12 +231,27 @@ Here, `pixel_file.csv` and `mds_file.csv` are the output files of `image_correla
 
 As a second baseline, we use the features extracted by the inception network to predict the similarities between images from the data set. The corresponding script is called `inception_correlations.py` and is invoked as follows:
 ```
-python code/correlations/inception_correlations.py path/to/model_folder path/to/similarity_file.pickle path/to/image_folder
+python -m code.correlations.inception_correlations path/to/model_folder path/to/similarity_file.pickle path/to/image_folder
 ```
 The script downloads the inception network into the given `model_folder`, takes all images from the `image_folder`, computes their inception features, and uses the Manhattan, Euclidean, and Cosine distance to define a similarity measure on these features. It then computes the usual correlation metrics to the similarity ratings from `similarity_file.pickle`. The script takes the following optional arguments:
 - `-o` or `--output`: The output folder where the resulting correlation values are stored (default: `.`, i.e., the current working directory).
-- `-p` or `--plot`: If this flag is set, scatter plots are created and stored for each of the similarity measures.
 
+### 3.5 Scatter Plots
+
+For some further visualization, the script `scatter_plot.py` can be used in order to create a scatter plot of predicted distances and actual dissimilarities. It is invoked as follows:
+```
+python -m code.correlations.scatter_plot path/to/similarity_file.pickle path/to/output_image.png
+```
+Here, `similarity_file.pickle` refers to the file generated by the preprocessing and `output_image.png` is the file name under which the scatter plot will be stored. There are three different modes for the scatter plot generation (based on the three correlation approaches) and exactly one of them must be picked via an optional argument:
+- `--mds` or `-m`: The given file of MDS vectors is used for computing the predicted distances.
+- `--ann` or `-a`: The inception network is used for predicting distances, the given path determines where the pretrained network is stored.
+	- `--image_folder` or `-i` gives the folder where all the images are stored. Defaults to `.`, i.e., the current working directory.
+- `--pixel` or `-p`: The given aggregator is used to perform the image downscaling in order to obtain distances.
+	- `--image_folder` or `-i` gives the folder where all the images are stored. Defaults to `.`, i.e., the current working directory.
+	- `--block_size` or `-b` determines the block size (defaults to 1).
+	- `--greyscale` or `-g`: If this flag is set, images are interpreted as greyscale.
+
+For all three of these cases, the parameter `--distance` or `-d` determines which distance function to use (`Euclidean`, `Manhattan`, or `Cosine`).
 
 ## 4 Preparing the Data Set for Machine Learning
 
@@ -248,7 +261,7 @@ In order to run a regression from images to MDS coordinates, multiple preprocess
 
 We used [ImgAug](https://github.com/aleju/imgaug) for augmenting our image data set. This is done with the script `data_augmentation.py`. It can be invoked as follows:
 ```
-python code/dataset/data_augmentation.py path/to/image_folder/ path/to/output_folder/ n
+python -m code.dataset.data_augmentation path/to/image_folder/ path/to/output_folder/ n
 ```
 The script searches for all jpg images in the given `image_folder`, creates `n` augmented samples of each image and stores the results in the given `output_folder` (one pickle file per original image). The script takes the following optional command line arguments:
 - `-s` or `--seed`: Specify a seed for the random number generator in order to make the results deterministic. If no seed is given, then the random number generator is not seeded.
@@ -271,7 +284,7 @@ Augmentation is done by appling the folloing operations in random order:
 
 In order to visually check that the augmentation step worked, you can use the script `show_augmented_images.py` to display them. It can be executed as follows:
 ```
-python code/dataset/show_augmented_images.py path/to/augmented.pickle
+python -m code.dataset.show_augmented_images path/to/augmented.pickle
 ```
 Here, `augmented.pickle` is one of the pickle files created by `data_augmentation.py`. By default, the script displays three rows (adjustable via `-r` or `--rows`) and four columns (adjustable via `-c` or `--columns`).
 
@@ -279,7 +292,7 @@ Here, `augmented.pickle` is one of the pickle files created by `data_augmentatio
 
 As our experiments are run against a wide variety of target spaces, we created a script called `prepare_targets.py` which for convenience collects all possible target vectors in a single pickle file. It moreover creates a shuffled version of the targets for later usage as a control case. The script can be invoked as follows:
 ```
-python code/dataset/prepare_targets.py path/to/input.csv path/to/output.pickle
+python -m code.dataset.prepare_targets path/to/input.csv path/to/output.pickle
 ```
 Here, `input.csv` is a csv file with two columns: In each row, the first column contains a short descriptive name of the target space and the second column contains the path to the corresponding file with the MDS vectors (as created in Section 2.1). The script iterates through all these target spaces and collects the MDS vectors. When shuffling them, the same seed is used for all spaces to ensure that the results are comparable. By setting `-s` or `--seed`, the user can specify a fixed seed, otherwise a random seed is drawn in the beginning of the script. 
 
@@ -294,14 +307,14 @@ As a first pass of the regression task, we evaluate some simple baselines (which
 
 In order to create feature vectors based on the inception-v3 network, one can use the script `regression/inception_features.py`. It is invoked as follows:
 ```
-python code/regression/inception_features.py path/to/model_folder path/to/input_folder path/to/output.pickle
+python -m code.regression.inception_features path/to/model_folder path/to/input_folder path/to/output.pickle
 ```
 The script downloads the [Inception-v3 network](https://arxiv.org/abs/1512.00567) into the folder specified by `model_folder`, reads all augmented images from the folder specified by `input_folder`, uses them as input to the inception network, grabs the activations of the second-to-last layer of the network (2048 neurons) and stores a dictionary mapping from image name to a list of feature vectors in the pickle file specified by `output.pickle`.
 
 ### 5.2 Feature Extraction by Downscaling Images
 In order to create feature vectors by downscaling the original images, one can use the script `regression/reduced_image_features.py`. It is invoked as follows:
 ```
-python code/regression/reduced_image_features.py path/to/input_folder path/to/output.pickle
+python -m code.regression.reduced_image_features path/to/input_folder path/to/output.pickle
 ```
 The script reads all augmented images from the folder specified by `input_folder`, reduces them according to the way described already in Section 3.1, and stores a dictionary mapping from image name to a list of feature vectors in the pickle file specified by `output.pickle`. It takes the following optional arguments:
 - `-a` or `--aggregator`: Type of aggregator function to use. One of `max`, `min`, `std`, `var`, `median`, `product` (default: `mean`).
@@ -311,7 +324,7 @@ The script reads all augmented images from the folder specified by `input_folder
 ### 5.3 Cluster Analysis of Feature Vectors
 The point of data set augmentation is to create a larger variety of input images and to introduce some additional noise into the data set. The script `cluster_analysis.py` takes a file of feature vectors and analyzes whether they form strong clusters (in the sense that all augmented images based on the same original are very similar to each other, but very different from other images). It uses the Silhouette Coefficient to quantify this. As comparison, the Silhouette Coefficient of a shuffled data set is computed. The script can be called as follows:
 ```
-python code/regression/cluster_analysis.py path/to/features.pickle
+python -m code.regression.cluster_analysis path/to/features.pickle
 ```
 Here, `features.pickle` is the pickle file generated by either `inception_features.py` or `reduced_image_features.py`. The script takes the following optional arguments:
 - `-n` or `--n_sample`: The number of samples to randomly draw for each original image (defaults to 100). Computing the Silhouette Coefficient may be untractable for large data sets.
@@ -321,7 +334,7 @@ Here, `features.pickle` is the pickle file generated by either `inception_featur
 
 The script `regression.py` can be used to run a linear regression, a lasso regression, or any of the baselines. It is called as follows:
 ```
-python code/regression/regression.py path/to/target_vectors.pickle space_name path/to/features.pickle path/to/output.csv 
+python -m code.regression.regression path/to/target_vectors.pickle space_name path/to/features.pickle path/to/output.csv 
 ```
 Here, `target_vectors.pickle` is the file generated by `prepare_targets.py`, `space_name` is the name of a target space contained in this file, `features.pickle` contains the features to be used (either generated by `inception_features.py` or by `reduced_image_features.py`), and `output.csv` is the file in which the results will be stored (the script appends to the file if it already exists).
 

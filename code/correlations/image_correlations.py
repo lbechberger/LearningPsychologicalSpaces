@@ -9,9 +9,8 @@ Created on Tue Dec  4 09:27:06 2018
 """
 
 import pickle, argparse, os
-from PIL import Image
 import numpy as np
-from code.util import compute_correlations, distance_functions, downscale_image, aggregator_functions
+from code.util import compute_correlations, distance_functions, downscale_image, aggregator_functions, load_image_files_pixel
 
 parser = argparse.ArgumentParser(description='Pixel-based similarity baseline')
 parser.add_argument('similarity_file', help = 'the input file containing the target similarity ratings')
@@ -35,17 +34,7 @@ with open(args.similarity_file, 'rb') as f:
 item_ids = input_data['items']
 target_dissimilarities = input_data['dissimilarities']
 
-# load all images
-images = []
-for item_id in item_ids:
-    for file_name in os.listdir(args.image_folder):
-        if os.path.isfile(os.path.join(args.image_folder, file_name)) and item_id in file_name:
-            # found the corresponding image: load it
-            img = Image.open(os.path.join(args.image_folder, file_name), 'r')
-            images.append(img)
-            
-            # don't need to look at other files for this item_id, so can break out of inner loop
-            break
+images = load_image_files_pixel(item_ids, args.image_folder, )
 
 with open(output_file_name, 'w', buffering=1) as f:
 
@@ -83,15 +72,3 @@ with open(output_file_name, 'w', buffering=1) as f:
                                                                     correlation_metrics['kendall'], 
                                                                     correlation_metrics['r2_linear'], 
                                                                     correlation_metrics['r2_isotonic']))
-                
-#                if args.plot:
-#                    # create scatter plot if user want us to
-#                    fig, ax = plt.subplots(figsize=(12,12))
-#                    ax.scatter(sim_vector,target_vector)
-#                    plt.xlabel('Pixel-based Distance', fontsize = 20)
-#                    plt.ylabel('Dissimilarity from Psychological Study', fontsize = 20)
-#                    
-#                    output_file_name = os.path.join(args.output_folder, '{0}-{1}-{2}.png'.format(block_size, aggregator_name, scoring_name))        
-#                    
-#                    fig.savefig(output_file_name, bbox_inches='tight', dpi=200)
-#                    plt.close()

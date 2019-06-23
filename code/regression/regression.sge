@@ -11,6 +11,6 @@ export PATH="/net/projects/scratch/winter/valid_until_31_July_2019/lbechberger/m
 source activate tensorflow-CS
 echo $*
 echo $* >&2
-python code/regression/regression.py $*
+python -m code.regression.regression $*
 
 source deactivate tensorflow-CS

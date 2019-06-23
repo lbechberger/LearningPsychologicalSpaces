@@ -14,8 +14,8 @@ targets=("classical Kruskal metric_SMACOF nonmetric_SMACOF")
 if [ "$#" -ne 1 ]
 then
 	echo '[local execution]'
-	cmd=python
-	script=code/regression/regression.py
+	cmd='python -m'
+	script=code.regression.regression
 # parameter 'grid' means execution on grid
 elif [ $1 = grid ]
 then
