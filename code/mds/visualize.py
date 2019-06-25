@@ -102,10 +102,10 @@ for dim, mapping in vector_map.items():
             		bbox=dict(boxstyle='round,pad=0.5', fc='yellow', alpha=0.5),
             		arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=0'))
             
-            plt.rc('xtick',labelsize = 16)
-            plt.rc('ytick',labelsize = 16)
-            plt.xlabel('MDS dimension #{0}'.format(first_dim + 1), fontsize = 20)
-            plt.ylabel('MDS dimension #{0}'.format(second_dim + 1), fontsize = 20)
+            ax.tick_params(axis="x", labelsize=16)
+            ax.tick_params(axis="y", labelsize=16)
+            ax.set_xlabel('MDS dimension #{0}'.format(first_dim + 1), fontsize = 20)
+            ax.set_ylabel('MDS dimension #{0}'.format(second_dim + 1), fontsize = 20)
     
             output_file_name = os.path.join(args.output_folder, '{0}D-{1}-{2}.png'.format(dim, first_dim + 1, second_dim + 1))        
             

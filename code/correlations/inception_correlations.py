@@ -9,7 +9,6 @@ Created on Sun May 12 07:56:40 2019
 """
 
 import pickle, argparse, os
-from tensorflow.python.platform import gfile
 from code.util import compute_correlations, distance_functions, extract_inception_features, load_image_files_ann
 
 parser = argparse.ArgumentParser(description='Pixel-based similarity baseline')
