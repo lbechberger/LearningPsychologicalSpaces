@@ -19,6 +19,8 @@ args = parser.parse_args()
 
 pixel_data = {'pearson':{}, 'spearman':{}, 'kendall':{}, 'r2_linear':{}, 'r2_isotonic':{}}
 mds_data = {'pearson':{}, 'spearman':{}, 'kendall':{}, 'r2_linear':{}, 'r2_isotonic':{}}
+metric_display = {'pearson': r"Pearson's $r$", 'spearman': r"Spearman's $\rho$", 'kendall': r"Kendall's $\tau$",
+                      'r2_linear': r"$R^2$ based on a Linear Regression", 'r2_isotonic': r"$R^2$ based on a Isotonic Regression"}
 
 # read in pixel-based information
 with open(args.pixel_file, 'r') as f:
@@ -90,18 +92,13 @@ for metric in pixel_data.keys():
                 best_pixel_result_scoring = ['{0}-{1}'.format(aggregator, max_i), max_val]
 
                 
-        # add best MDS
-#        if scoring in mds_dict.keys():
-#            y_mds = [max(map(lambda x: x[1], mds_scores))]*len(bar_indices)
-#            label_list.append('best MDS')
-#            ax.plot(bar_indices, y_mds)
-            
-        
         # create the final plot and store it
+        ax.tick_params(axis="x", labelsize=16)
+        ax.tick_params(axis="y", labelsize=16)
         ax.set_xlabel('Block Size', fontsize = 20)
         ax.set_xticks(bar_indices)
         ax.set_xticklabels(legend)
-        ax.set_ylabel(metric, fontsize = 20)
+        ax.set_ylabel(metric_display[metric], fontsize = 20)
         if metric == 'r2':
             ax.set_ylim(-1,1)
         plt.legend(label_list, fontsize = 20)
@@ -124,13 +121,10 @@ for metric in pixel_data.keys():
             y_values = list(map(lambda x: x[1], sorted_values))
             ax.plot(bar_indices, y_values)
             
-            # add best pixel
-            y_pixel = [best_pixel_result_metric[1]]*len(bar_indices)
-            legend.append('best pixel: {0}'.format(best_pixel_result_metric[0]))
-            ax.plot(bar_indices, y_pixel)
-
+            ax.tick_params(axis="x", labelsize=16)
+            ax.tick_params(axis="y", labelsize=16)
             ax.set_xlabel('Number of Dimensions', fontsize = 20)
-            ax.set_ylabel(metric, fontsize = 20)
+            ax.set_ylabel(metric_display[metric], fontsize = 20)
             ax.set_xticks(bar_indices)
             ax.set_xticklabels(legend)
             output_file_name = os.path.join(args.output_folder, '{0}-{1}-MDS.jpg'.format(metric, scoring))

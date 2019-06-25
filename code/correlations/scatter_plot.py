@@ -34,24 +34,24 @@ target_dissimilarities = input_data['dissimilarities']
 
 if args.mds is not None:
     transformed_items = load_mds_vectors(args.mds, item_ids)
-    x_label = 'Distance in MDS Space'
+    x_label = '{0} Distance in MDS Space'.format(args.distance)
     
 elif args.ann is not None:
     images = load_image_files_ann(item_ids, args.image_folder)
     transformed_items = extract_inception_features(images, args.ann)
-    x_label = 'Distance of ANN activation vectors'
+    x_label = '{0} Distance of ANN Activation Vectors'.format(args.distance)
     
 else: # i.e., args.pixel is not None
     images = load_image_files_pixel(item_ids, args.image_folder)
     transformed_items = downscale_images(images, aggregator_functions[args.pixel], args.block_size, args.greyscale, (1,-1))
-    x_label = 'Distance of downscaled images'
+    x_label = '{0} Distance of Downscaled Images'.format(args.distance)
     
 
 corr_dict = compute_correlations(transformed_items, target_dissimilarities, distance_functions[args.distance])
 
 fig, ax = plt.subplots(figsize=(12,12))
-ax.tick_params(axis="x", labelsize=20)
-ax.tick_params(axis="y", labelsize=20)
+ax.tick_params(axis="x", labelsize=16)
+ax.tick_params(axis="y", labelsize=16)
 ax.scatter(corr_dict['predictions'], corr_dict['targets'])
 plt.xlabel(x_label, fontsize = 20)
 plt.ylabel('Dissimilarity from Psychological Study', fontsize = 20)

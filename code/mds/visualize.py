@@ -102,8 +102,8 @@ for dim, mapping in vector_map.items():
             		bbox=dict(boxstyle='round,pad=0.5', fc='yellow', alpha=0.5),
             		arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=0'))
             
-            plt.rc('xtick',labelsize = 20)
-            plt.rc('ytick',labelsize = 20)
+            plt.rc('xtick',labelsize = 16)
+            plt.rc('ytick',labelsize = 16)
             plt.xlabel('MDS dimension #{0}'.format(first_dim + 1), fontsize = 20)
             plt.ylabel('MDS dimension #{0}'.format(second_dim + 1), fontsize = 20)
     

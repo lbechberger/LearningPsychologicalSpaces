@@ -124,12 +124,12 @@ for idx1, item1 in enumerate(items_of_interest):
 
 # plot histograms of ranges and standard deviations
 plt.hist(similarity_ranges, bins=21)
-plt.title('distribution of similarity ranges')
+plt.title('Distribution of Similarity Ranges')
 plt.savefig(args.output_path + 'range.png', bbox_inches='tight', dpi=200)
 plt.close()
 
 plt.hist(similarity_stds, bins=21)
-plt.title('distribution of similarity std')
+plt.title('Distribution of Similarity Standard Deviations')
 plt.savefig(args.output_path + 'std.png', bbox_inches='tight', dpi=200)
 plt.close()
 
@@ -241,11 +241,11 @@ for i in range(len(categories_of_interest)):
 
 # plot histograms of within vs between categories
 plt.hist(all_within, bins=21)
-plt.title('distribution of similarity ranges within categories')
+plt.title('Distribution of Similarity Ranges within Categories')
 plt.savefig(args.output_path + 'within.png', bbox_inches='tight', dpi=200)
 plt.close()
 
 plt.hist(all_between, bins=21)
-plt.title('distribution of similarity ranges between categories')
+plt.title('Distribution of Similarity Ranges between Categories')
 plt.savefig(args.output_path + 'between.png', bbox_inches='tight', dpi=200)
 plt.close()
