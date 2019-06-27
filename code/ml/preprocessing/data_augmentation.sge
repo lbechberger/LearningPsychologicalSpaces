@@ -12,7 +12,7 @@
 export PATH="/net/projects/scratch/winter/valid_until_31_July_2019/lbechberger/miniconda/bin:$PATH"
 source activate tensorflow-CS
 
-python -m code.ml.preprocessing.data_augmentation $*
+python -u -m code.ml.preprocessing.data_augmentation $*
 
 source deactivate tensorflow-CS
 rm /tmp/* -R -f 2> /dev/null
