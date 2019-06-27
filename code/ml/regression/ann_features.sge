@@ -1,0 +1,18 @@
+#!/bin/bash
+#$ -N ANN_features
+#$ -l mem=16G
+#$ -pe default 4
+#$ -l h_rt=1:30:00
+#$ -l cuda=1
+#$ -l cuda_cores=384
+#$ -cwd
+#$ -o $HOME/store/sge-logs
+#$ -e $HOME/store/sge-logs
+
+export PATH="/net/projects/scratch/winter/valid_until_31_July_2019/lbechberger/miniconda/bin:$PATH"
+source activate tensorflow-CS
+
+python -m code.ml.regression.ann_features $*
+
+source deactivate tensorflow-CS
+rm /tmp/* -R -f 2> /dev/null
