@@ -66,7 +66,7 @@ def compute_correlations(vectors, dissimilarities, distance_function):
                 'targets': target_vector, 'predictions': sim_vector}
 
 
-def extract_inception_features(images, model_dir):
+def extract_inception_features(images, model_dir, output_shape):
     """
     Loads the inception network and extracts features for all the given items.
     
@@ -109,7 +109,7 @@ def extract_inception_features(images, model_dir):
             
         for image in images:
             feature_vector = sess.run(second_to_last_tensor, {'DecodeJpeg/contents:0': image})
-            inception_features.append(feature_vector.reshape(1, -1))
+            inception_features.append(feature_vector.reshape(output_shape))
                 
     return inception_features
 

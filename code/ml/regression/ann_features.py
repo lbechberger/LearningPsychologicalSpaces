@@ -25,6 +25,6 @@ for image_file in image_file_names:
     image_name = image_file.split('.')[0]
     print("        processing {0}".format(image_name))
     image_data = pickle.load(open(os.path.join(args.input_dir, image_file), 'rb'))
-    result[image_name] = extract_inception_features(image_data, args.model_dir)
+    result[image_name] = extract_inception_features(image_data, args.model_dir, (-1))
 
 pickle.dump(result, open(args.output_file, 'wb'))

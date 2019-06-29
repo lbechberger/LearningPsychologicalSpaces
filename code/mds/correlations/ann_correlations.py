@@ -26,7 +26,7 @@ item_ids = input_data['items']
 target_dissimilarities = input_data['dissimilarities']
 
 images = load_image_files_ann(item_ids, args.image_folder) 
-inception_features = extract_inception_features(images, args.model_dir)
+inception_features = extract_inception_features(images, args.model_dir, (1, -1))
 
 print('extracted features')
 
