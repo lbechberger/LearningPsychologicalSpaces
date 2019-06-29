@@ -32,8 +32,8 @@ wait
 echo 'visualizing correlation results'
 # overview graphs
 python -m code.mds.correlations.visualize_correlations -o data/NOUN/mds/visualizations/correlations/ data/NOUN/mds/correlations/pixel.csv data/NOUN/mds/correlations/classical.csv &> data/NOUN/mds/correlations/best.txt &
-# scatter plot for 1D MDS
-python -m code.mds.correlations.scatter_plot data/NOUN/mds/similarities/sim.pickle data/NOUN/mds/visualizations/correlations/scatter_MDS.png --mds data/NOUN/mds/vectors/Kruskal/1D-vectors.csv -d Euclidean &
+# scatter plot for 2D MDS
+python -m code.mds.correlations.scatter_plot data/NOUN/mds/similarities/sim.pickle data/NOUN/mds/visualizations/correlations/scatter_MDS.png --mds data/NOUN/mds/vectors/nonmetric_SMACOF/2D-vectors.csv -d Euclidean &
 # scatter plot for ANN baseline
 python -m code.mds.correlations.scatter_plot data/NOUN/mds/similarities/sim.pickle data/NOUN/mds/visualizations/correlations/scatter_ANN.png --ann /tmp/inception -d Manhattan -i data/NOUN/images/ &
 # scatter plot for best pixel baseline
