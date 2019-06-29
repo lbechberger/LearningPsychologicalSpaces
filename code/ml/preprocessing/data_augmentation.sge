@@ -1,6 +1,6 @@
 #!/bin/bash
 #$ -N augmentation
-#$ -l mem=16G
+#$ -l mem=8G
 #$ -pe default 4
 #$ -l h_rt=1:30:00
 #$ -l cuda=1
