@@ -29,6 +29,6 @@ echo '    cluster analysis'
 echo '        ANN-based features'
 python -m code.ml.regression.cluster_analysis data/NOUN/ml/dataset/features_ANN.pickle -n 100 -s 42 > data/NOUN/ml/dataset/features_ANN.txt
 echo '        pixel-based features'
-python -m code.ml.regression.cluster_analysis.py data/NOUN/ml/dataset/features_pixel_1875.pickle -n 100 -s 42 > data/NOUN/ml/dataset/features_pixel_1875.txt
-python -m code.ml.regression.cluster_analysis.py data/NOUN/ml/dataset/features_pixel_507.pickle -n 100 -s 42 > data/NOUN/ml/dataset/features_pixel_507.txt
+python -m code.ml.regression.cluster_analysis data/NOUN/ml/dataset/features_pixel_1875.pickle -n 100 -s 42 > data/NOUN/ml/dataset/features_pixel_1875.txt
+python -m code.ml.regression.cluster_analysis data/NOUN/ml/dataset/features_pixel_507.pickle -n 100 -s 42 > data/NOUN/ml/dataset/features_pixel_507.txt
 

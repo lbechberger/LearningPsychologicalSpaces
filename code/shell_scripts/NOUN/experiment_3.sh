@@ -6,7 +6,7 @@ echo 'experiment 3'
 feature_sets=("ANN")
 lasso_sets=("ANN")
 baselines=("--zero")
-regressors=("--linear --random_forest")
+regressors=("--linear")
 lassos=("0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1.0 2.0 5.0 10.0")
 targets=("1 2 3 5 6 7 8 9 10")
 
