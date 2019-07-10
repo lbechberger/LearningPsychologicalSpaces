@@ -18,7 +18,7 @@ parser = argparse.ArgumentParser(description=' Visualizing MDS spaces')
 parser.add_argument('vector_folder', help = 'path to the folder containing the vectors')
 parser.add_argument('output_folder', help = 'path to the folder where the visualizations should be stored')
 parser.add_argument('-i', '--image_folder', help = 'the folder containing images of the items', default = None)
-parser.add_argument('-z', '--zoom', type = int, help = 'the factor to which the images are scaled', default = 0.15)
+parser.add_argument('-z', '--zoom', type = float, help = 'the factor to which the images are scaled', default = 0.15)
 parser.add_argument('-m', '--max', type = int, help = 'size of the largest space to be visualized', default = 10)
 args = parser.parse_args()
 
