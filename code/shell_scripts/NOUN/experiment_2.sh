@@ -3,12 +3,20 @@
 echo 'experiment 2'
 
 # declare some lists to make code below less repetitive 
-feature_sets=("ANN pixel_1875")
-lasso_sets=("ANN")
-baselines=("--zero")
-regressors=("--linear --random_forest")
-lassos=("0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1.0 2.0 5.0 10.0")
-targets=("classical Kruskal metric_SMACOF nonmetric_SMACOF")
+default_feature_sets=("ANN pixel_1875")
+default_lasso_sets=("ANN")
+default_baselines=("--zero")
+defaults_regressors=("--linear --random_forest")
+default_lassos=("0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1.0 2.0 5.0 10.0")
+default_targets=("classical Kruskal metric_SMACOF nonmetric_SMACOF")
+
+feature_sets="${feature_sets_ex2:-$default_feature_sets}"
+lasso_sets="${lasso_sets_ex2:-$default_lasso_sets}"
+baselines="${baselines_ex2:-$default_baselines}"
+regressors="${regressors_ex2:-$default_regressors}"
+lassos="${lassos:-$default_lassos}"
+targets="${targets_ex2:-$default_targets}"
+
 
 # no parameter means local execution
 if [ "$#" -ne 1 ]

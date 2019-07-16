@@ -1,10 +1,11 @@
 #!/bin/bash
 
 # look at spaces with up to 10 dimensions, only visualize spaces with up to 5 dimensions
-dims=10
-max=5
+dims="${dims:-10}"
+max="${max:-5}"
 
-spaces=("classical Kruskal metric_SMACOF nonmetric_SMACOF")
+default_spaces=("classical Kruskal metric_SMACOF nonmetric_SMACOF")
+spaces="${algorithms:-$default_spaces}"
 
 # set up the directory structure
 echo 'setting up directory structure'

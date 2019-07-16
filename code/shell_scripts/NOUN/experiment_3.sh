@@ -3,12 +3,19 @@
 echo 'experiment 3'
 
 # declare some lists to make code below less repetitive 
-feature_sets=("ANN")
-lasso_sets=("ANN")
-baselines=("--zero")
-regressors=("--linear")
-lassos=("0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1.0 2.0 5.0 10.0")
-targets=("1 2 3 5 6 7 8 9 10")
+default_feature_sets=("ANN")
+default_lasso_sets=("ANN")
+default_baselines=("--zero")
+defaults_regressors=("--linear")
+default_lassos=("0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1.0 2.0 5.0 10.0")
+default_targets=("1 2 3 5 6 7 8 9 10")
+
+feature_sets="${feature_sets_ex3:-$default_feature_sets}"
+lasso_sets="${lasso_sets_ex3:-$default_lasso_sets}"
+baselines="${baselines_ex3:-$default_baselines}"
+regressors="${regressors_ex3:-$default_regressors}"
+lassos="${lassos:-$default_lassos}"
+targets="${targets_ex3:-$default_targets}"
 
 # no parameter means local execution
 if [ "$#" -ne 1 ]
