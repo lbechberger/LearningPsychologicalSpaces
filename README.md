@@ -6,7 +6,7 @@ The code in this repository explores learning a mapping from images to psycholog
 
 Research based on an earlier version (v0.1) of this repository has been presented at [AIC 2018](http://aic2018.pa.icar.cnr.it/): 
 
-Lucas Bechberger and Elektra Kypridemou. "Mapping Images to Psychological Similarity Spaces Using Neural Networks" [Preprint](https://arxiv.org/abs/1804.07758)
+Lucas Bechberger and Elektra Kypridemou. "Mapping Images to Psychological Similarity Spaces Using Neural Networks" [Paper](http://ceur-ws.org/Vol-2418/) [Preprint](https://arxiv.org/abs/1804.07758)
 
 ## 1 About
 
