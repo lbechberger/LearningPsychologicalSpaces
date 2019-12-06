@@ -105,11 +105,11 @@ data/NOUN/ml/dataset/augmented/
 data/NOUN/ml/dataset/features*
 
 # Shapes data
-data/Shapes/raw_data/
-data/Shapes/vectors/
 data/Shapes/images/
-data/Shapes/visualizations/
-data/Shapes/similarities/
-data/Shapes/analysis/
-data/Shapes/classifications
+data/Shapes/mds/raw_data/
+data/Shapes/mds/vectors/
+data/Shapes/mds/visualizations/
+data/Shapes/mds/similarities/
+data/Shapes/mds/analysis/
+data/Shapes/mds/classifications
 

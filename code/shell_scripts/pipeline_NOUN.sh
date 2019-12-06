@@ -40,7 +40,7 @@ then
 	regressors_ex3=("--linear")
 	targets_ex3=("1 2 3 5 6 7 8 9 10")
 
-# parameter 'dissertation' means execution of CARLA paper code only
+# parameter 'dissertation' means execution of full code as used in dissertation
 elif [ $1 = dissertation ]
 then
 	echo '[configuration of dissertation]'
