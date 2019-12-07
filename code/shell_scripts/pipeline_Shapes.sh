@@ -18,6 +18,8 @@ then
 
 	# space analysis setup
 	tiebreakers=("primary secondary")
+	dims=10
+	max=5
 
 # parameter 'dissertation' means execution of full code as used in dissertation
 elif [ $1 = dissertation ]
@@ -31,6 +33,8 @@ then
 
 	# space analysis setup
 	tiebreakers=("primary secondary")
+	dims=10
+	max=5
 
 # all other parameters are not supported
 else
@@ -40,3 +44,4 @@ fi
 
 # now execute all individual scripts 
 . code/shell_scripts/Shapes/data_analysis.sh
+. code/shell_scripts/Shapes/space_analysis.sh
