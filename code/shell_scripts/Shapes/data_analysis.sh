@@ -42,7 +42,7 @@ do
 		python -m code.mds.preprocessing.pickle_to_csv 'data/Shapes/mds/similarities/'"$dataset"'/'"$aggregator"'/sim.pickle' 'data/Shapes/mds/similarities/'"$dataset"'/'"$aggregator"'/'
 
 		echo '        analyzing the distribution of similarity ratings'
-		python -m code.mds.preprocessing.analyze_similarities 'data/Shapes/mds/raw_data/data_'"$dataset"'.pickle' -s between -o 'data/Shapes/mds/analysis/'"$dataset"'/'"$aggregator"'/' $aggregator_flag &> 'data/Shapes/mds/analysis/'"$dataset"'/'"$aggregator"'/analysis.txt'
+		python -m code.mds.preprocessing.analyze_similarity_distribution 'data/Shapes/mds/raw_data/data_'"$dataset"'.pickle' -s between -o 'data/Shapes/mds/analysis/'"$dataset"'/'"$aggregator"'/' $aggregator_flag &> 'data/Shapes/mds/analysis/'"$dataset"'/'"$aggregator"'/analysis.txt'
 	
 	done
 
