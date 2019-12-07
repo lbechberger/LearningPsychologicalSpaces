@@ -121,7 +121,16 @@ constraints_per_item = {}
 for item in items_of_interest:
     constraints_per_item[item] = 0
 
+# all raw similarity ratings that are used to aggregate the entries of the dissimilarity matrix
 all_similarities = []
+
+# dictionary mapping from unique similarity values to their respective counts
+pairwise_similarities = {}
+def add_pairwise_similarity(similarity_value):
+    if similarity_value in pairwise_similarities:
+        pairwise_similarities[similarity_value] += 1
+    else:
+        pairwise_similarities[similarity_value] = 1
 
 for index1, item1 in enumerate(items_of_interest):
     for index2, item2 in enumerate(items_of_interest):
@@ -180,6 +189,7 @@ for index1, item1 in enumerate(items_of_interest):
         constraints_per_item[item2] += 1
 
         all_similarities += similarity_ratings
+        add_pairwise_similarity(overall_similarity)
 
 # analyze matrix
 matrix_size = len(items_of_interest) * len(items_of_interest)
@@ -191,6 +201,12 @@ for item, num_constraints in constraints_per_item.items():
     print("{0}: {1} constraints".format(item, num_constraints))
     average_num_constraints += num_constraints
 print("average number of constraints per item: {0}".format(average_num_constraints / len(items_of_interest)))
+
+number_of_ties = 0
+for value, count in pairwise_similarities.items():
+    number_of_ties += (count * (count - 1)) / 2
+print("number of ties (off diagonal, ignoring symmetry) in the matrix: {0} ({1}% of the pairs, {2} distinct values)".format(number_of_ties, 
+          100 * (number_of_ties / ((matrix_size * (matrix_size - 1)) / 2)), len(pairwise_similarities.keys())))
 
 result = {'items': items_of_interest, 'item_names': item_names, 'similarities': similarity_matrix, 'dissimilarities': dissimilarity_matrix}
 
