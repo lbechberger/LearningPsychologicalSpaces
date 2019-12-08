@@ -93,7 +93,7 @@ do
 			else
 				flags=''
 			fi
-			python -m code.mds.similarity_spaces.analyze_interpretablility 'data/Shapes/mds/vectors/'"$aggregator"'/'"$tiebreaker"'/'"$i"'D-vectors.csv' data/Shapes/mds/classifications/ $i -o 'data/Shapes/mds/analysis/visual/'"$aggregator"'/'"$tiebreaker"'/directions/directions.csv' $flags > 'data/Shapes/mds/analysis/visual/'"$aggregator"'/'"$tiebreaker"'/directions/'"$i"'D-directions.txt' &
+			python -m code.mds.similarity_spaces.analyze_interpretability 'data/Shapes/mds/vectors/'"$aggregator"'/'"$tiebreaker"'/'"$i"'D-vectors.csv' data/Shapes/mds/classifications/ $i -o 'data/Shapes/mds/analysis/visual/'"$aggregator"'/'"$tiebreaker"'/directions/directions.csv' $flags > 'data/Shapes/mds/analysis/visual/'"$aggregator"'/'"$tiebreaker"'/directions/'"$i"'D-directions.txt' &
 		done
 	done
 done
