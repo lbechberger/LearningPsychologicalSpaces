@@ -17,7 +17,7 @@ parser.add_argument('-s', '--subset', help = 'the subset of data to use', defaul
 parser.add_argument('-m', '--median', action="store_true", help = 'use median instead of mean')
 parser.add_argument('-l', '--limit', action="store_true", help = 'limit the number of similarity ratings to take into account')
 parser.add_argument('-lv', '--limit_value', type = int, default = 0, help = 'limit value to use')
-parser.add_argument('-p', '--plot', action="store_true", help = 'plot a histogram of distance values')
+parser.add_argument('-p', '--plot', action="store_true", help = 'plot two histograms of the distance values')
 args = parser.parse_args()
 
 np.random.seed(42) # fixed random seed to ensure reproducibility
@@ -229,17 +229,20 @@ if args.plot:
 
     output_path = args.output_file.split('.')[0]    
     
-    plt.hist(all_similarities, bins=21)
-    plt.title('Distribution of Values in all Dissimilarity Matrices')
-    plt.xlabel('Dissimilarity')
-    plt.ylabel('Number of Occurences')
-    plt.savefig(output_path + '-distr.png', bbox_inches='tight', dpi=200)
-    plt.close()
-
-    dissimilarity_values = dissimilarity_matrix.reshape((-1,1))
-    plt.hist(dissimilarity_values, bins=21)
-    plt.title('Distribution of Values in Global Dissimilarity Matrix')
-    plt.xlabel('Dissimilarity')
-    plt.ylabel('Number of Occurences')
-    plt.savefig(output_path + '-matrix.png', bbox_inches='tight', dpi=200)
-    plt.close()          
+    bin_sizes = [21, 5]
+    
+    for bin_size in bin_sizes:
+        plt.hist(all_similarities, bins=bin_size)
+        plt.title('Distribution of Values in all Dissimilarity Matrices')
+        plt.xlabel('Dissimilarity')
+        plt.ylabel('Number of Occurences')
+        plt.savefig('{0}-distr-{1}.png'.format(output_path, bin_size), bbox_inches='tight', dpi=200)
+        plt.close()
+    
+        dissimilarity_values = dissimilarity_matrix.reshape((-1,1))
+        plt.hist(dissimilarity_values, bins=bin_size)
+        plt.title('Distribution of Values in Global Dissimilarity Matrix')
+        plt.xlabel('Dissimilarity')
+        plt.ylabel('Number of Occurences')
+        plt.savefig('{0}-matrix-{1}.png'.format(output_path, bin_size), bbox_inches='tight', dpi=200)
+        plt.close()          

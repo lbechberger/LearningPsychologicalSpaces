@@ -103,6 +103,3 @@ do
 	python -m code.mds.preprocessing.pickle_to_csv 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/sim.pickle' 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/'
 
 # TODO: Spearman correlation and scatter plot --> visual_conceptual_correlations?
-# TODO: two histograms (rough and fine)	--> compute_similarities
-# TODO: count #unique values --> compute_similarities
-
