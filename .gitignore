@@ -106,7 +106,7 @@ data/NOUN/ml/dataset/features*
 
 # Shapes data
 data/Shapes/images/
-data/Shapes/mds/raw_data/
+data/Shapes/raw_data/
 data/Shapes/mds/vectors/
 data/Shapes/mds/visualizations/
 data/Shapes/mds/similarities/
