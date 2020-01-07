@@ -16,7 +16,7 @@ parser.add_argument('output_file', help = 'path to the output pickle file')
 parser.add_argument('-s', '--subset', help = 'the subset of data to use', default="all")
 parser.add_argument('-m', '--median', action="store_true", help = 'use median instead of mean')
 parser.add_argument('-l', '--limit', action="store_true", help = 'limit the number of similarity ratings to take into account')
-parser.add_argument('-lv', '--limit_value', type = int, default = 0, help = 'limit value to use')
+parser.add_argument('-v', '--limit_value', type = int, default = 0, help = 'limit value to use')
 parser.add_argument('-p', '--plot', action="store_true", help = 'plot two histograms of the distance values')
 args = parser.parse_args()
 
