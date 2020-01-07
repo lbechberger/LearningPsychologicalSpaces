@@ -16,6 +16,7 @@ parser.add_argument('output_file', help = 'path to the output pickle file')
 parser.add_argument('-s', '--subset', help = 'the subset of data to use', default="all")
 parser.add_argument('-m', '--median', action="store_true", help = 'use median instead of mean')
 parser.add_argument('-l', '--limit', action="store_true", help = 'limit the number of similarity ratings to take into account')
+parser.add_argument('-lv', '--limit_value', type = int, default = 0, help = 'limit value to use')
 parser.add_argument('-p', '--plot', action="store_true", help = 'plot a histogram of distance values')
 args = parser.parse_args()
 
@@ -28,7 +29,12 @@ with open(args.input_file, "rb") as f:
 item_ids = list(data_set['items'].keys())
 
 if args.limit:
-    limit = 1000
+    if args.limit_value == 0:
+        search_limit = True
+        limit = 1000
+    else:
+        search_limit = False
+        limit = args.limit_value
     
 if args.subset == "all":
     # use all the similarity ratings that we have    
@@ -90,28 +96,32 @@ elif args.subset == "cats":
 items_of_interest = sorted(items_of_interest)
 item_names = list(map(lambda x: data_set['items'][x]['name'], items_of_interest))
 
+# set limit (if necessary)
 if args.limit:
-    for idx1, item1 in enumerate(items_of_interest):
-        for idx2, item2 in enumerate(items_of_interest):
-            if idx2 <= idx1:
-                continue
-            
-            tuple_id = str(sorted([item1, item2]))   
-            if tuple_id in data_set['similarities']:
-                similarity_ratings = data_set['similarities'][tuple_id]['values']
-                if args.subset == "between":
-                    # remove everything from first study
-                    border = data_set['similarities'][tuple_id]['border']
-                    similarity_ratings = similarity_ratings[border:]
-                elif args.subset == "within":
-                    # remove everything from second study
-                    border = data_set['similarities'][tuple_id]['border']
-                    similarity_ratings = similarity_ratings[:border]
+    if search_limit:
+        for idx1, item1 in enumerate(items_of_interest):
+            for idx2, item2 in enumerate(items_of_interest):
+                if idx2 <= idx1:
+                    continue
                 
-                if len(similarity_ratings) > 0:
-                    # only adapt the limit if there are any ratings left
-                    limit = min(limit, len(similarity_ratings))
-    print("Using a limit of {0}".format(limit))                
+                tuple_id = str(sorted([item1, item2]))
+                if tuple_id in data_set['similarities']:
+                    similarity_ratings = data_set['similarities'][tuple_id]['values']
+                    if args.subset == "between":
+                        # remove everything from first study
+                        border = data_set['similarities'][tuple_id]['border']
+                        similarity_ratings = similarity_ratings[border:]
+                    elif args.subset == "within":
+                        # remove everything from second study
+                        border = data_set['similarities'][tuple_id]['border']
+                        similarity_ratings = similarity_ratings[:border]
+                    
+                    if len(similarity_ratings) > 0:
+                        # only adapt the limit if there are any ratings left
+                        limit = min(limit, len(similarity_ratings))
+        print("Using a computed limit of {0}".format(limit))
+    else:
+        print("Using a given limit of {0}".format(limit))
 
 # compute dissimilarity matrix
 dissimilarity_matrix = np.zeros((len(items_of_interest), len(items_of_interest)))
