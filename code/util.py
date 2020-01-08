@@ -218,3 +218,111 @@ def load_mds_vectors(vector_file, item_ids = None):
         return result_list
         
     return result_dict
+
+
+def select_data_subset(subset, data_set):
+    """
+    Select a subset of the given data set.
+    
+    The parameter 'subset' can have the following values: 'all', 'between', 'within', 'cats'.
+    Returns a triple of lists: items_of_interest, item_names, and categories_of_interest.
+    """
+    
+    item_ids = list(data_set['items'].keys())
+    category_names = list(data_set['categories'].keys())
+    
+    if subset == "all":
+        # use all the similarity ratings that we have    
+        
+        items_of_interest = list(item_ids)
+        categories_of_interest = list(category_names)
+    
+    elif subset == "between":
+        # only use the similarity ratings from the 'between' file
+    
+        items_of_interest = []   
+        
+        for idx1, item1 in enumerate(item_ids):
+            for idx2, item2 in enumerate(item_ids):
+                
+                if idx2 <= idx1:
+                    continue
+                
+                tuple_id = str(sorted([item1, item2]))
+                if tuple_id in data_set['similarities']:
+                    border = data_set['similarities'][tuple_id]['border']
+                    between_ratings = data_set['similarities'][tuple_id]['values'][border:]
+                    if len(between_ratings) > 0:
+                        items_of_interest.append(item1)
+                        items_of_interest.append(item2)
+        
+        items_of_interest = list(set(items_of_interest)) # remove duplicates
+        categories_of_interest = list(set(map(lambda x: data_set['items'][x]['category'], items_of_interest)))
+    
+    elif subset == "within":
+        # only use the similarity ratings from the 'within' file
+        items_of_interest = []   
+        
+        for idx1, item1 in enumerate(item_ids):
+            for idx2, item2 in enumerate(item_ids):
+                
+                if idx2 <= idx1:
+                    continue
+                
+                tuple_id = str(sorted([item1, item2]))
+                if tuple_id in data_set['similarities']:
+                    border = data_set['similarities'][tuple_id]['border']
+                    between_ratings = data_set['similarities'][tuple_id]['values'][:border]
+                    if len(between_ratings) > 0:
+                        items_of_interest.append(item1)
+                        items_of_interest.append(item2)
+        
+        items_of_interest = list(set(items_of_interest)) # remove duplicates
+        categories_of_interest = list(set(map(lambda x: data_set['items'][x]['category'], items_of_interest)))
+        
+    elif subset == "cats":
+        # consider only the categories from the second study, but use all items within them
+        categories_of_interest = ["C03_Elektrogeräte", "C04_Gebäude", "C05_Gemüse", "C06_Geschirr", "C07_Insekten", 
+                                       "C10_Landtiere", "C12_Oberkörperbekleidung", "C13_Obst", "C14_Pflanzen", 
+                                       "C19_Straßenfahrzeuge", "C21_Vögel", "C25_Werkzeug"]
+        items_of_interest = []
+        for item in item_ids:
+            if data_set['items'][item]['category'] in categories_of_interest:
+                items_of_interest.append(item)
+    
+    # no matter which subset was used: sort the idem IDs and create a corresponding list of item names
+    items_of_interest = sorted(items_of_interest)
+    item_names = list(map(lambda x: data_set['items'][x]['name'], items_of_interest))
+    categories_of_interest = sorted(categories_of_interest)
+    
+    return items_of_interest, item_names, categories_of_interest
+
+
+def find_limit(subset, data_set, items_of_interest):
+    """
+    Find the minimum number of similarity ratings to use as a limit.
+    Look only at the given subset of the given data_set concerning the given set of items_of_interest.
+    """    
+    
+    limit = 1000
+    for idx1, item1 in enumerate(items_of_interest):
+        for idx2, item2 in enumerate(items_of_interest):
+            if idx2 <= idx1:
+                continue
+            
+            tuple_id = str(sorted([item1, item2]))
+            if tuple_id in data_set['similarities']:
+                similarity_ratings = data_set['similarities'][tuple_id]['values']
+                if subset == "between":
+                    # remove everything from first study
+                    border = data_set['similarities'][tuple_id]['border']
+                    similarity_ratings = similarity_ratings[border:]
+                elif subset == "within":
+                    # remove everything from second study
+                    border = data_set['similarities'][tuple_id]['border']
+                    similarity_ratings = similarity_ratings[:border]
+                
+                if len(similarity_ratings) > 0:
+                    # only adapt the limit if there are any ratings left
+                    limit = min(limit, len(similarity_ratings))
+    return limit

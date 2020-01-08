@@ -51,7 +51,7 @@ done
 # RQ1: Comparing conceptual to visual similarity
 # ----------------------------------------------
 
-echo 'RQ1: comparting conceptual and visual similarity matrices (median only)'
+echo 'RQ1: comparing conceptual and visual similarity matrices (median only)'
 echo '    aggregating ratings'
 for dataset in $datasets
 do
@@ -69,11 +69,15 @@ python -m  code.mds.preprocessing.compare_visual_conceptual 'data/Shapes/mds/sim
 # RQ2: Do 'Sim' categories have higher internal shape similarity than 'Dis' categories?
 # -------------------------------------------------------------------------------------
 
-# TODO
-# --> analyze_similarity_distribution
-#python -m code.mds.preprocessing.analyze_similarity_distribution 'data/Shapes/raw_data/data_'"$dataset"'.pickle' -s between -o 'data/Shapes/mds/analysis/'"$dataset"'/'"$aggregator"'/' $aggregator_flag &> 'data/Shapes/mds/analysis/'"$dataset"'/'"$aggregator"'/analysis.txt'
+echo 'RQ2: Does the Sim-Dis distinction reflect visual similarity?'
 
-# create average images of the categories
+echo '    analyzing raw data'
+for dataset in $datasets
+do
+	echo '        '"$dataset"
+	python -m code.mds.preprocessing.analyze_similarity_distribution 'data/Shapes/raw_data/data_'"$dataset"'.pickle' -s between -o 'data/Shapes/mds/analysis/dataset/'"$dataset"'/' --median &> 'data/Shapes/mds/analysis/dataset/'"$dataset"'/analysis.txt'
+done
+
 echo '    creating average images for all the categories'
 for image_size in $image_sizes
 do

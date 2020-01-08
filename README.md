@@ -108,15 +108,16 @@ The result is a pickle file which consists of a dictionary with the following co
 
 #### 2.1.4 Analyzing the Distribution of Similarity Ratings
 
-The script `analyze_similarity_distribution.py` can be used to collect some statistics on the distribution of similarity ratings for a given subset of the data (prints out some statistics and creates some plots). It can be executed as follows:
+The script `analyze_similarity_distribution.py` can be used to collect some statistics on the distribution of similarity ratings for a given subset of the data with respect to the "Sim"-"Dis" category distinction. It can be executed as follows:
 ```
 python -m code.mds.preprocessing.analyze_similarity_distribution path/to/input_file.pickle
 ```
-The input file is here the `output.pickle` created by the `preprocess_Shapes.py` or the `preprocess_NOUN.py` script. The script takes the following optional parameters:
+The input file is here the `output.pickle` created by the `preprocess_Shapes.py` script. The script takes the following optional parameters:
 
 - `-s` or `--subset`: Specifies which subset of the similarity ratings to use. Default is `all` (which means that all similarity ratings from both studies are used). Other supported options are `between`, `within`,  and `cats` (see above).
-- `-o` or `--output_path`: The path to the folder where the plots shall be stored. Defaults to `.`, i.e., the current working directory.
 - `-m` or `--median`: Use the median instead of the mean for aggregating the similarity ratings across participants.
+- `-l` or `--limit`: Limit the number of similarity ratings to use to ensure that an equal amount of ratings is aggregated for all item pairs. 
+- `-v` or `--limit_value`: Used to give an explicit value for the limit to use. If not set, the script will use the minimal number of ratings observed for any item pair as limit.
 
 #### 2.1.5 Creating Average Images
 
@@ -254,7 +255,7 @@ Here, `similarity_file.pickle` is again the output file of the overall preproces
 - `--n_min`: The size of the smallest space to investigate (defaults to 1).
 - `--n_max`: The size of the largest space to investigate (defaults to 20).
 
-#### 2.3.4 Similarities from another Study
+#### 2.3.4 Similarities from Different Datasets/Aggregations
 
 The script `similarity_correlations.py` compares the aggregated dissimilarity ratings from two pickle files (output of `compute_similarities.py`) by using the correlation metrics listed above. It can be invoked as follows:
 ```
