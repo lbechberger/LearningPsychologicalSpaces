@@ -254,7 +254,19 @@ Here, `similarity_file.pickle` is again the output file of the overall preproces
 - `--n_min`: The size of the smallest space to investigate (defaults to 1).
 - `--n_max`: The size of the largest space to investigate (defaults to 20).
 
-#### 2.3.4 Visualizing The Correlations
+#### 2.3.4 Similarities from another Study
+
+The script `similarity_correlations.py` compares the aggregated dissimilarity ratings from two pickle files (output of `compute_similarities.py`) by using the correlation metrics listed above. It can be invoked as follows:
+```
+python -m code.mds.correlations.similarity_correlations path/to/first_similarity_file.pickle path/to/second_similarity_file.pickle
+```
+The script accepts the following optional parameters:
+- `-f` or `--first_name`: Descriptive name for the first set of dissimilarities. Used for output and plotting.
+- `-s` or `--second_name`: Descriptive name for the second set of dissimilarities. Used for output and plotting.
+- `-p` or `--plot`: If this flag is set, a scatter plot is created and stored.
+- `-o` or `--output_folder`: Path to the folder where the scatter plot shall be saved. Defaults to `.`, i.e., the current working directory.
+
+#### 2.3.5 Visualizing The Correlations
 
 The script `visualize_correlations.py` can be used to visualize the results of both the pixel-based correlations and the MDS-based correlations as a function of block size and number of dimensions, respectively. It can be invoked as follows:
 ```
@@ -263,7 +275,7 @@ python -m code.mds.correlations.visualize_correlations path/to/pixel_file.csv pa
 Here, `pixel_file.csv` and `mds_file.csv` are the output files of `pixel_correlations.py` and `mds_correlations.py`, respectively. The script takes the following additional optional arugments:
 - `-o` or `--output`: The output folder where the resulting visualizations are stored (default: `.`, i.e., the current working directory).
 
-#### 2.3.5 Creating Scatter Plots
+#### 2.3.6 Creating Scatter Plots
 
 For some further visualization, the script `scatter_plot.py` can be used in order to create a scatter plot of predicted distances versus actual dissimilarities. It is invoked as follows:
 ```
