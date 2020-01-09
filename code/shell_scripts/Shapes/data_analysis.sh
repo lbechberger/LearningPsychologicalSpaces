@@ -103,7 +103,12 @@ done
 # RQ3: Comparing binary to continuous dimension ratings
 # -----------------------------------------------------
 
-# TODO
+echo 'RQ3: comparing binary to continuous dimension ratings'
+for dimension in $dimensions:
+do
+	echo '    looking at '"$dimension"' data'
+	python -m code.mds.preprocessing.analyze_dimension 'data/Shapes/raw_data/preprocessed/'"$dimension"'.pickle' 'data/Shapes/mds/analysis/dimension/'"$dimension"'/' 'data/Shapes/mds/classification/'"$dimension"'.pickle' 'data/Shapes/mds/regression/'"$dimension"'.pickle' &> 'data/Shapes/mds/analysis/dimension/'"$dimension"'/analysis.txt'
+done
 
 # RQ4: Comparing dissimilarity matrices of median aggregation and mean aggregation
 # --------------------------------------------------------------------------------
@@ -125,4 +130,3 @@ done
 echo '    computing correlation of the aggregated similarity ratings'
 python -m code.mds.correlations.similarity_correlations 'data/Shapes/mds/similarities/aggregator/median/sim.pickle' 'data/Shapes/mds/similarities/aggregator/mean/sim.pickle' -o 'data/Shapes/mds/analysis/aggregator/' -p -f 'median' -s 'mean' &> 'data/Shapes/mds/analysis/aggregator/correlations.txt'
 
-# TODO: Spearman correlation and scatter plot --> visual_conceptual_correlations?
