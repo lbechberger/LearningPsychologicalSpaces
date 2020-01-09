@@ -63,7 +63,7 @@ The folder `code/mds/preprocessing` contains various scripts for preprocessing t
   - `'border'`: An integer indicating the border between similarity ratings from the two studies. You can use `values[:border]` to access only the similarity ratings of the first study (only within category) and `values[border:]` to acces only the similarity ratings of the second study (mostly between cateory, but also some within category). **
 
 
-#### 2.1.1 Parsing NOUN CSV file
+#### 2.1.1 Parsing NOUN Similarity Data
 
 The script `preprocess_NOUN.py` reads in the distances obtained via SpAM and stores them in a pickle file for further processing. It can be executed as follows from the project's root directory:
 ```
@@ -73,7 +73,7 @@ The script reads the distance information from the specified csv file and stores
 
 With respect to the resulting `output.pickle` file, we would like to make the following comments: As the NOUN data set does not divide the stimuli into separate categories, we store all items under a single global category which is considered to consist of artificial stimuli. We assume that the visual homogeneity of this category is unclear. As the individual stimuli do not have meaningful names, we use their IDs also as human readable names. Finally, as there is only a single study, we set `border` to zero.
 
-#### 2.1.2 Parsing Shapes CSV Files
+#### 2.1.2 Parsing Shapes Similarity Data
 
 In order to make the Shapes data processible by our scripts, please run the script `preprocess_Shapes.py` as follows from the project's root directory:
 ```
@@ -84,7 +84,19 @@ The file `within.csv` contains within category similarity judments (first study)
 
 The resulting `output.pickle` file makes use of the full dictionary structure outlined above.
 
-#### 2.1.3 Aggregating Similarity Ratings
+#### 2.1.3 Parsing Shapes Dimension Data
+
+The script `preprocess_dimension.py` reads in the dimension ratings (both binary and continuous) from two given CSV files and stores them in a single pickle file for further usage. It can be invoked as follows:
+```
+python -m code.mds.preprocessing.preprocess_dimension path/to/binary_ratings.csv path/to/continuous_ratings.csv path/to/output.pickle
+```
+
+The resulting `output.pickle` file contains a single dictionary which maps each item ID to a dictionary with the following entries:
+- `binary`: A list of tuples consisting of the respective response (True/False/None) and the respective reaction time.
+- `continuous`: A list of continuous scale ratings.
+- `name`: A human readable name for the item.
+
+#### 2.1.4 Aggregating Similarity Ratings
 
 The next step in the preprocessing pipeline is to extract similarity ratings from the overall data set. This can be done with the script `compute_similarities.py`. You can execute it as follows from the project's root directory:
 ```
@@ -106,7 +118,7 @@ The result is a pickle file which consists of a dictionary with the following co
 - `'similarities'`: A quadratic matrix of similarity values. Both rows and columns are ordered like in `'items'`. Values of `nan` are used to indicate that there is no similarity rating available for a pair of stimuli.
 - `'dissimilarities'`: A quadratic matrix of dissimilarity values analogous to `'similarities'`. Here, values of 0 indicate missing similarity ratings.
 
-#### 2.1.4 Analyzing the Distribution of Similarity Ratings
+#### 2.1.5 Analyzing the Distribution of Similarity Ratings
 
 The script `analyze_similarity_distribution.py` can be used to collect some statistics on the distribution of similarity ratings for a given subset of the data with respect to the "Sim"-"Dis" category distinction. It can be executed as follows:
 ```
@@ -119,7 +131,7 @@ The input file is here the `output.pickle` created by the `preprocess_Shapes.py`
 - `-l` or `--limit`: Limit the number of similarity ratings to use to ensure that an equal amount of ratings is aggregated for all item pairs. 
 - `-v` or `--limit_value`: Used to give an explicit value for the limit to use. If not set, the script will use the minimal number of ratings observed for any item pair as limit.
 
-#### 2.1.5 Creating Average Images
+#### 2.1.6 Creating Average Images
 
 The script `average_images.py` can be used in order to create an average image for each of the categories. It can be invoked as follows:
 ```
@@ -130,7 +142,7 @@ Here, `input_file.pickle` corresponds to the output file of `preprocess_Shapes.p
 - `-r` or `--resolution`: The desired size (width and height) of the output images, defaults to 283 (i.e, the size of the original images from the Shapes data set).
 - `-s` or `--subset`: The subset of data to use, defaults to `all`. Possible other options are `between`, `within`, and `cats` (see above).
 
-#### 2.1.6 Writing CSV Files of Aggregated Dissimilarities
+#### 2.1.7 Writing CSV Files of Aggregated Dissimilarities
 The R script for multidimensional scaling that we will use in the next step needs the aggregated dissimilarity data in form of a CSV file. The script `pickle_to_csv.py` stores the similaritiy ratings from `input_file.pickle` into a CSV file called `distance_matrix.csv` as well as the list of item names in a file called `item_names.csv`. Both output files are stored in the given `output_folder`. The `input_file.pickle` should be the file created by `compute_similarities.py`. The script can be invoked as follows:
 ```
 python -m code.mds.preprocessing.pickle_to_csv path/to/input_file.pickle path/to/output_folder/

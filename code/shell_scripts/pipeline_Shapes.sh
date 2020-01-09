@@ -15,6 +15,7 @@ then
 	datasets=("visual conceptual")
 	aggregators=("mean median")
 	image_sizes=("283 100 50 20 10 5")
+	dimensions=("FORM LINES")
 
 	# space analysis setup
 	tiebreakers=("primary secondary")
@@ -30,6 +31,7 @@ then
 	datasets=("visual conceptual")
 	aggregators=("mean median")
 	image_sizes=("283 100 50 20 10 5")
+	dimensions=("FORM LINES")
 
 	# space analysis setup
 	tiebreakers=("primary secondary")

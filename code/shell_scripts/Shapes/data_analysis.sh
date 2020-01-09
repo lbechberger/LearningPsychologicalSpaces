@@ -7,13 +7,18 @@
 default_datasets=("visual conceptual")
 default_aggregators=("mean median")
 default_image_sizes=("283 100 50 20 10 5")
+default_dimensions=("FORM LINES")
 
 datasets="${datasets:-$default_datasets}"
 aggregators="${aggregators:-$default_aggregators}"
 image_sizes="${image_sizes:-$default_image_sizes}"
+dimensions="${dimensions:-$default_dimensions}"
 
 # set up the directory structure
 echo 'setting up directory structure'
+
+mkdir -p data/Shapes/raw_data/preprocessed
+
 for dataset in $datasets
 do
 	mkdir -p 'data/Shapes/mds/analysis/dataset/'"$dataset"'/'
@@ -22,8 +27,13 @@ done
 
 for aggregator in $aggregators
 do
-		mkdir -p 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/'
-		mkdir -p 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/'
+	mkdir -p 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/'
+	mkdir -p 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/'
+done
+
+for dimension in $dimensions
+do
+	mkdir -p 'data/Shapes/mds/analysis/dimension/'"$dimension"'/'
 done
 
 for image_size in $image_sizes
@@ -40,12 +50,17 @@ echo 'preprocessing data'
 for dataset in $datasets
 do
 	echo '    reading CSV files for '"$dataset"' similarity'
-	python -m code.mds.preprocessing.preprocess_Shapes data/Shapes/raw_data/within.csv 'data/Shapes/raw_data/'"$dataset"'.csv' 'data/Shapes/raw_data/data_'"$dataset"'.pickle' &> 'data/Shapes/raw_data/preprocess_'"$dataset"'.txt'
+	python -m code.mds.preprocessing.preprocess_Shapes data/Shapes/raw_data/within.csv 'data/Shapes/raw_data/'"$dataset"'.csv' 'data/Shapes/raw_data/preprocessed/data_'"$dataset"'.pickle' &> 'data/Shapes/raw_data/preprocessed/preprocess_'"$dataset"'.txt'
 
 done
 
-# TODO: read in dimension data and preprocess it
+# read in dimension data and preprocess it
+for dimension in $dimensions
+do
+	echo '    reading CSV files for '"$dimension"' ratings'
+	python -m code.mds.preprocessing.preprocess_dimension 'data/Shapes/raw_data/'"$dimension"'_binary.csv' 'data/Shapes/raw_data/'"$dimension"'_continuous.csv' 'data/Shapes/raw_data/preprocessed/'"$dimension"'.pickle' &> 'data/Shapes/raw_data/preprocessed/preprocess_'"$dimension"'.txt'
 
+done
 	
 	
 # RQ1: Comparing conceptual to visual similarity
@@ -56,7 +71,7 @@ echo '    aggregating ratings'
 for dataset in $datasets
 do
 	# use a limit of 10, because conceptual similarity has only 10 ratings per pair
-	python -m code.mds.preprocessing.compute_similarities 'data/Shapes/raw_data/data_'"$dataset"'.pickle' 'data/Shapes/mds/similarities/dataset/'"$dataset"'/sim.pickle' -s between -l -v 10 -p --median &> 'data/Shapes/mds/similarities/dataset/'"$dataset"'/log.txt'
+	python -m code.mds.preprocessing.compute_similarities 'data/Shapes/raw_data/preprocessed/data_'"$dataset"'.pickle' 'data/Shapes/mds/similarities/dataset/'"$dataset"'/sim.pickle' -s between -l -v 10 -p --median &> 'data/Shapes/mds/similarities/dataset/'"$dataset"'/log.txt'
 done
 
 echo '    correlations'
@@ -75,14 +90,14 @@ echo '    analyzing raw data'
 for dataset in $datasets
 do
 	echo '        '"$dataset"
-	python -m code.mds.preprocessing.analyze_similarity_distribution 'data/Shapes/raw_data/data_'"$dataset"'.pickle' -s between -o 'data/Shapes/mds/analysis/dataset/'"$dataset"'/' --median &> 'data/Shapes/mds/analysis/dataset/'"$dataset"'/analysis.txt'
+	python -m code.mds.preprocessing.analyze_similarity_distribution 'data/Shapes/raw_data/preprocessed/data_'"$dataset"'.pickle' -s between -o 'data/Shapes/mds/analysis/dataset/'"$dataset"'/' --median &> 'data/Shapes/mds/analysis/dataset/'"$dataset"'/analysis.txt'
 done
 
 echo '    creating average images for all the categories'
 for image_size in $image_sizes
 do
 	echo '        target image size '"$image_size"
-	python -m code.mds.preprocessing.average_images data/Shapes/raw_data/data_visual.pickle data/Shapes/images/ -s between -o 'data/Shapes/mds/visualizations/average_images/'"$image_size"'/' -r $image_size &> 'data/Shapes/mds/visualizations/average_images/'"$image_size"'.txt'
+	python -m code.mds.preprocessing.average_images data/Shapes/raw_data/preprocessed/data_visual.pickle data/Shapes/images/ -s between -o 'data/Shapes/mds/visualizations/average_images/'"$image_size"'/' -r $image_size &> 'data/Shapes/mds/visualizations/average_images/'"$image_size"'.txt'
 done
 
 # RQ3: Comparing binary to continuous dimension ratings
@@ -101,7 +116,7 @@ do
 	[ "$aggregator" == "median" ] && aggregator_flag='--median' || aggregator_flag=''
 
 	# use a limit of 15 because we have more data for the visual similarities
-	python -m code.mds.preprocessing.compute_similarities 'data/Shapes/raw_data/data_'"$dataset"'.pickle' 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/sim.pickle' -s between -l -v 15 -p $aggregator_flag &> 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/log.txt'
+	python -m code.mds.preprocessing.compute_similarities 'data/Shapes/raw_data/preprocessed/data_'"$dataset"'.pickle' 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/sim.pickle' -s between -l -v 15 -p $aggregator_flag &> 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/log.txt'
 
 	echo '        creating CSV files for MDS'
 	python -m code.mds.preprocessing.pickle_to_csv 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/sim.pickle' 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/'
