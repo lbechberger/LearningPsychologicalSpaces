@@ -53,7 +53,7 @@ for item_id, inner_dict in dimension_data.items():
     binary_value = (binary_responses.count(True) - binary_responses.count(False)) / len(binary_responses)
     aggregated_binary[item_id] = binary_value
     
-    # aggregate response time into scale: take median RT, , multiply
+    # aggregate response time into scale: take median RT
     rt_median = np.median(binary_rts) / 1000
     # put through exponentially decaying function (RT = 0 gives value of 1, large RT gives value close to 0) --> how far away from decision surface
     rt_abs = np.exp(-rt_median)

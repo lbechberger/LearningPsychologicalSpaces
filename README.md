@@ -80,7 +80,7 @@ In order to make the Shapes data processible by our scripts, please run the scri
 python -m code.mds.preprocessing.preprocess_Shape path/to/within.csv path/to/within_between.csv path/to/output.pickle
 ```
 
-The file `within.csv` contains within category similarity judments (first study), the file `within_between.csv` contains similarity ratings both within and between categories (second study). All of these similarity ratings are based on shape similarity only (participants were explicitly asked to not consider *conceptual* similarity).
+The file `within.csv` contains within category similarity judments (first study), the file `within_between.csv` contains similarity ratings both within and between categories (second study). The optional flag `-r` or `--reverse` can be set in order to reverse the order of similarity ratings (necessary when using conceptual similarity, as the scale there is inverted).
 
 The resulting `output.pickle` file makes use of the full dictionary structure outlined above.
 

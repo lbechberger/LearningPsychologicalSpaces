@@ -52,7 +52,8 @@ echo 'preprocessing data'
 for dataset in $datasets
 do
 	echo '    reading CSV files for '"$dataset"' similarity'
-	python -m code.mds.preprocessing.preprocess_Shapes data/Shapes/raw_data/within.csv 'data/Shapes/raw_data/'"$dataset"'.csv' 'data/Shapes/raw_data/preprocessed/data_'"$dataset"'.pickle' &> 'data/Shapes/raw_data/preprocessed/preprocess_'"$dataset"'.txt'
+	[ "$dataset" == "conceptual" ] && reverse_flag='--reverse' || reverse_flag=''	
+	python -m code.mds.preprocessing.preprocess_Shapes data/Shapes/raw_data/within.csv 'data/Shapes/raw_data/'"$dataset"'.csv' 'data/Shapes/raw_data/preprocessed/data_'"$dataset"'.pickle' $reverse_flag &> 'data/Shapes/raw_data/preprocessed/preprocess_'"$dataset"'.txt'
 
 done
 
@@ -92,7 +93,7 @@ echo '    analyzing raw data'
 for dataset in $datasets
 do
 	echo '        '"$dataset"
-	python -m code.mds.preprocessing.analyze_similarity_distribution 'data/Shapes/raw_data/preprocessed/data_'"$dataset"'.pickle' -s between -o 'data/Shapes/mds/analysis/dataset/'"$dataset"'/' --median &> 'data/Shapes/mds/analysis/dataset/'"$dataset"'/analysis.txt'
+	python -m code.mds.preprocessing.analyze_similarity_distribution 'data/Shapes/raw_data/preprocessed/data_'"$dataset"'.pickle' -s between --median &> 'data/Shapes/mds/analysis/dataset/'"$dataset"'/analysis.txt'
 done
 
 echo '    creating average images for all the categories'
