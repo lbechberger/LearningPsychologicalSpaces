@@ -54,12 +54,11 @@ for item_id, inner_dict in dimension_data.items():
     aggregated_binary[item_id] = binary_value
     
     # aggregate response time into scale: take median RT, , multiply
-    rt_median = np.median(binary_rts)    
+    rt_median = np.median(binary_rts) / 1000
     # put through exponentially decaying function (RT = 0 gives value of 1, large RT gives value close to 0) --> how far away from decision surface
-    # TODO: rt values 100-9000, 30-7000 --> better mapping
     rt_abs = np.exp(-rt_median)
     # multiply with sign of binary_value to distinguish positive from negative examples
-    rt_value = rt_abs * abs(binary_value)
+    rt_value = rt_abs * np.sign(binary_value)
     aggregated_rt[item_id] = rt_value
     
     # aggregate continouous rating into scale: take median and rescale it from [0,1000] to [-1,1]
@@ -81,7 +80,7 @@ for first_scale, second_scale in combinations(regression_output.keys(), 2):
     for item_id in items_sorted:
         first_vector.append(regression_output[first_scale][item_id])
         second_vector.append(regression_output[second_scale][item_id])
-    spearman = spearmanr(first_vector, second_vector)
+    spearman, _ = spearmanr(first_vector, second_vector)
     print("Spearman correlation between {0} and {1}: {2}".format(first_scale, second_scale, spearman))
     
     # create scatter plot
@@ -106,7 +105,7 @@ for scale_name, scale_data in regression_output.items():
     print('Positive examples for {0}'.format(scale_name))
     print(','.join(map(lambda x: item_names[x], positive)))
     print('Negative examples for {0}'.format(scale_name))
-    print(','.join(map(lambda x: item_names[x}, negative)))
+    print(','.join(map(lambda x: item_names[x], negative)))
 
 # store this information as classification output
 with open(args.classification_file, 'wb') as f_out:
