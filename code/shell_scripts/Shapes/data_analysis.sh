@@ -18,6 +18,8 @@ dimensions="${dimensions:-$default_dimensions}"
 echo 'setting up directory structure'
 
 mkdir -p data/Shapes/raw_data/preprocessed
+mkdir -p data/Shapes/mds/classification
+mkdir -p data/Shapes/mds/regression
 
 for dataset in $datasets
 do
@@ -104,10 +106,10 @@ done
 # -----------------------------------------------------
 
 echo 'RQ3: comparing binary to continuous dimension ratings'
-for dimension in $dimensions:
+for dimension in $dimensions
 do
 	echo '    looking at '"$dimension"' data'
-	python -m code.mds.preprocessing.analyze_dimension 'data/Shapes/raw_data/preprocessed/'"$dimension"'.pickle' 'data/Shapes/mds/analysis/dimension/'"$dimension"'/' 'data/Shapes/mds/classification/'"$dimension"'.pickle' 'data/Shapes/mds/regression/'"$dimension"'.pickle' &> 'data/Shapes/mds/analysis/dimension/'"$dimension"'/analysis.txt'
+	python -m code.mds.preprocessing.analyze_dimension 'data/Shapes/raw_data/preprocessed/'"$dimension"'.pickle' 'data/Shapes/mds/analysis/dimension/'"$dimension"'/' 'data/Shapes/mds/classification/'"$dimension"'.pickle' 'data/Shapes/mds/regression/'"$dimension"'.pickle' -i data/Shapes/images &> 'data/Shapes/mds/analysis/dimension/'"$dimension"'/analysis.txt'
 done
 
 # RQ4: Comparing dissimilarity matrices of median aggregation and mean aggregation

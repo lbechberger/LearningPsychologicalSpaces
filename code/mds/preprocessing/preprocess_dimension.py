@@ -15,7 +15,7 @@ parser.add_argument('continuous_file', help = 'CSV file containing the continuou
 parser.add_argument('output_file', help = 'path to the output pickle file')
 args = parser.parse_args()
 
-response_mapping = {'länglich': True, 'gleich': False, 'keineAhnung': None,
+response_mapping = {'länglich': False, 'gleich': True, 'keineAhnung': None,
                     'gebogen': True, 'gerade': False}
 
 item_name_to_id = {}

@@ -326,3 +326,84 @@ def find_limit(subset, data_set, items_of_interest):
                     # only adapt the limit if there are any ratings left
                     limit = min(limit, len(similarity_ratings))
     return limit
+
+def load_item_images(image_folder, item_ids):
+    """
+    Loads the images for all the given items from the given folder.
+    
+    Returns a list of images sorted in the same way as item_ids.
+    """
+
+    import os    
+    from PIL import Image
+    
+    images = []
+    for item in item_ids:
+        for file_name in os.listdir(image_folder):
+            if os.path.isfile(os.path.join(image_folder, file_name)) and item in file_name:
+                # found the corresponding image
+                img = Image.open(os.path.join(image_folder, file_name), 'r')
+                img = img.convert("RGBA")
+                
+                # conversion of white to alpha based on https://stackoverflow.com/a/765774
+                img_data = img.getdata()
+                new_data = []
+                for item in img_data:
+                    if item[0] == 255 and item[1] == 255 and item[2] == 255:
+                        new_data.append((255, 255, 255, 0))
+                    else:
+                        new_data.append(item)
+                img.putdata(new_data)
+                images.append(img)
+                break
+    return images
+
+def create_labeled_scatter_plot(x, y, output_file_name, x_label = "x-axis", y_label = "y-axis", images = None, zoom = 0.15, item_ids = None):
+    """
+    Creates a  labeled scatter plot of the given lists x and y.
+    
+    Uses the given axis labels and stores the plot under the given file name. 
+    If images is a list of PIL Images, they are used instead of points in the scatter plot, scaled with the given zoom.
+    If images is None and item_ids is a list of item IDs, they are added as annotation to the points of the scatter plot
+    """
+    
+    import matplotlib.pyplot as plt
+    from matplotlib.offsetbox import OffsetImage, AnnotationBbox
+    import numpy as np
+
+    fig, ax = plt.subplots(figsize=(12,12))
+    if images != None:
+        
+        # plot scatter plot with images        
+        # based on https://stackoverflow.com/questions/22566284/matplotlib-how-to-plot-images-instead-of-points
+        if ax is None:
+            ax = plt.gca()
+        x, y = np.atleast_1d(x, y)
+        artists = []
+        for x0, y0, im0 in zip(x, y, images):
+            im = OffsetImage(im0, zoom=zoom)
+            ab = AnnotationBbox(im, (x0, y0), xycoords='data', frameon=False)
+            artists.append(ax.add_artist(ab))
+        ax.update_datalim(np.column_stack([x, y]))
+        ax.autoscale()
+        ax.scatter(x,y, s=0)
+    else:
+        # plot scatter plot without images
+        ax.scatter(x,y)
+        # add item IDs if given
+        if item_ids != None:
+            for label, x0, y0 in zip(items, x, y):
+                plt.annotate(
+        		label,
+        		xy=(x0, y0), xytext=(-20, 20),
+        		textcoords='offset points', ha='right', va='bottom',
+        		bbox=dict(boxstyle='round,pad=0.5', fc='yellow', alpha=0.5),
+        		arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=0'))
+        
+    ax.tick_params(axis="x", labelsize=16)
+    ax.tick_params(axis="y", labelsize=16)
+    ax.set_xlabel(x_label, fontsize=20)
+    ax.set_ylabel(y_label, fontsize=20)
+
+    fig.savefig(output_file_name, bbox_inches='tight', dpi=200)
+    plt.close()

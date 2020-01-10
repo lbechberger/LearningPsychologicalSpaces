@@ -111,5 +111,7 @@ data/Shapes/mds/vectors/
 data/Shapes/mds/visualizations/
 data/Shapes/mds/similarities/
 data/Shapes/mds/analysis/
-data/Shapes/mds/classifications
+data/Shapes/mds/classifications/
+data/Shapes/mds/classification/
+data/Shapes/mds/regression/
 

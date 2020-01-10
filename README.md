@@ -92,7 +92,7 @@ python -m code.mds.preprocessing.preprocess_dimension path/to/binary_ratings.csv
 ```
 
 The resulting `output.pickle` file contains a single dictionary which maps each item ID to a dictionary with the following entries:
-- `'binary'`: A list of tuples consisting of the respective response (True/False/None) and the respective reaction time.
+- `'binary'`: A list of tuples consisting of the respective reaction time and the respective response (True/False/None).
 - `'continuous'`: A list of continuous scale ratings.
 - `'name'`: A human readable name for the item.
 
@@ -161,7 +161,11 @@ Finally, the script also creates a regression structure for downstream processin
 - `'binary'`: Regression information based on the binary classification responses.
 - `'rt'`: Regression information based on the reaction times in binary classification.
 - `'continuous'`: Regression information based on the continuous rating responses.
-In each case, the regression information is stored as an inner dictionary mapping from item IDs to integer values representing their respective value on the regression target scale.
+In each case, the regression information is stored as an inner dictionary mapping from item IDs to float values in [-1,1] representing their respective value on the regression target scale.
+
+The script accepts the following optional parameters:
+- `-i` or `--image_folder`: Path to the folder containing the images for the items. If given, it will use the item images to create scatter plots. If not given, an ordinary scatter plot will be used.
+- `-z` or `--zoom`: Determines the size of the item images in the scatter plot. Defaults to 0.15.
 
 #### 2.1.8 Writing CSV Files of Aggregated Dissimilarities
 The R script for multidimensional scaling that we will use in the next step needs the aggregated dissimilarity data in form of a CSV file. The script `pickle_to_csv.py` stores the similaritiy ratings from `input_file.pickle` into a CSV file called `distance_matrix.csv` as well as the list of item names in a file called `item_names.csv`. Both output files are stored in the given `output_folder`. The `input_file.pickle` should be the file created by `compute_similarities.py`. The script can be invoked as follows:
