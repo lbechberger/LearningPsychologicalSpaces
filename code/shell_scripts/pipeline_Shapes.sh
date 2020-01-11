@@ -18,9 +18,9 @@ then
 	dimensions=("FORM LINES")
 
 	# space analysis setup
-	tiebreakers=("primary secondary")
-	dims=10
-	max=5
+	dimension_limit=10
+	visualization_limit=2	
+	convexity_limit=5
 
 # parameter 'dissertation' means execution of full code as used in dissertation
 elif [ $1 = dissertation ]
@@ -34,9 +34,9 @@ then
 	dimensions=("FORM LINES")
 
 	# space analysis setup
-	tiebreakers=("primary secondary")
-	dims=10
-	max=5
+	dimension_limit=10
+	visualization_limit=2
+	convexity_limit=5
 
 # all other parameters are not supported
 else
