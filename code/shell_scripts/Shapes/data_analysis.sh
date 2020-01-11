@@ -20,6 +20,7 @@ echo 'setting up directory structure'
 mkdir -p data/Shapes/raw_data/preprocessed
 mkdir -p data/Shapes/mds/classification
 mkdir -p data/Shapes/mds/regression
+mkdir -p data/Shapes/mds/analysis/aggregator
 
 for dataset in $datasets
 do
@@ -29,7 +30,6 @@ done
 
 for aggregator in $aggregators
 do
-	mkdir -p 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/'
 	mkdir -p 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/'
 done
 

@@ -38,7 +38,7 @@ if args.mds is not None:
     
 elif args.ann is not None:
     images = load_image_files_ann(item_ids, args.image_folder)
-    transformed_items = extract_inception_features(images, args.ann)
+    transformed_items = extract_inception_features(images, args.ann, (1, -1))
     x_label = '{0} Distance of ANN Activation Vectors'.format(args.distance)
     
 else: # i.e., args.pixel is not None
