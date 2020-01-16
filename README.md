@@ -155,12 +155,14 @@ Moreover, the script derives a classification structure for downstream processin
 - `'binary'`: Classification information based on the binary classification responses.
 - `'rt'`: Classification information based on the reaction times in binary classification.
 - `'continuous'`: Classification information based on the continuous rating responses.
+
 In each case, the classification information is stored as an inner dictionary with the keys `'positive'` and `'negative'` mapping to a list of item IDs belonging to the positive and negative classes, respectively.
 
 Finally, the script also creates a regression structure for downstream processing, which is stored in `regression.pickle` as a dictionary with the following entries:
 - `'binary'`: Regression information based on the binary classification responses.
 - `'rt'`: Regression information based on the reaction times in binary classification.
 - `'continuous'`: Regression information based on the continuous rating responses.
+
 In each case, the regression information is stored as an inner dictionary mapping from item IDs to float values in [-1,1] representing their respective value on the regression target scale.
 
 The script accepts the following optional parameters:
@@ -240,19 +242,21 @@ It takes the following optional arguments:
 - `-s` or `--seed`: Specify a seed for the random number generator in order to make the results deterministic. If no seed is given, then the random number generator is not seeded.
 
 #### 2.2.5 Searching for Interpretable Directions
-The script `analyze_interpretability.py` tries to find interpretable directions in a given similarity space based on preexisting binary classifications of the items. 
+The script `analyze_interpretability.py` tries to find interpretable directions in a given similarity space based on a regression or classification task. 
 It can be invoked as follows (where `n_dims` is the number of dimensions of the underlying space):
 ```
-python -m code.mds.similarity_spaces.analyze_interpretability path/to/vectors.csv path/to/classification_folder/ n_dims
+python -m code.mds.similarity_spaces.analyze_interpretability path/to/vectors.csv n_dims path/to/output.csv
 ```
-The script iterates over all files in the given `classification_folder` and constructs a classification problem for each of these files. Each file is expected to contain a list of positive examples, represented by one item ID per line. A linear SVM is trained using the vectors provided in `vectors.csv` and the classification as extracted from the classification file. All data points are used for both training and evaluating. Evaulation is done by using Cohen's kappa. The script outputs for each classification task the value of Cohen's kappa as well as the normal vector of the separating hyperplane. The latter can be thought of as an interpretable direction if the value of kappa is sufficiently high. Just like `analyze_convexity.py`, also the `analyze_interpretability.py` script compares the result to the average over multiple repetitions for randomly sampled points (uniformly distributed vectors, normally distributed vectors, shuffled assignment of real vectors).
+Here, `vectors.csv` contains the vectors in an `n_dims`-dimensional similarity space (produced by `mds.r`). Depending on whether the flag `--classification` or the flag `--regression` is set (see below), the script constructs a classification/regression problem and trains a linear SVM on it. The quality of the model fit is evaluated using Cohen's kappa or the coefficient of determination R² (for classification and regression, respectively). The resulting numbers are stored in `output.csv`, along with the normal vector of the separating hyperplane (which can be interpreted as interpretable direction if the value of the evaluation metric looks promising).
 
 The script takes the following optional arguments:
-- `-o` or `--output_file`: If an output file is given, the results are appended to this file in CSV style.
+- `-c` or `--classification`: Path to a pickle file containing the classification information (as created by `analyze_dimension.py`). If this flag is set, a classification task will be used for finding interpretable directions.
+- `-r` or `--regression`: Path to a pickle file containing the regression information (as created by `analyze_dimension.py`). If this flag is set, a regression task will be used for finding interpretable directions.
 - `-b` or `--baseline`: Only if this flag is set, the script will also estimate the expected values of randomly drawn points.
-- `-r` or `--repetitions`: Determines the number of repetitions used when sampling from the baselines. Defaults to 20. More samples means more accurate estimation, but longer runtime.
+- `-n` or `--repetitions`: Determines the number of repetitions used when sampling from the baselines. Defaults to 20. More samples means more accurate estimation, but longer runtime.
 - `-s` or `--seed`: Specify a seed for the random number generator in order to make the results deterministic. If no seed is given, then the random number generator is not seeded.
 
+Please note that either `-r` or `-c` must be given -- if none or both arguments are given the script will not run.
 
 ### 2.3 Correlations to Similarity Ratings
 

@@ -109,9 +109,17 @@ wait
 echo '    analyzing interpretable directions'
 for aggregator in $aggregators
 do
-	for i in `seq 1 $dimension_limit`
+	for dimension in $dimensions
 	do
-		python -m code.mds.similarity_spaces.analyze_interpretability 'data/Shapes/mds/vectors/'"$aggregator"'/'"$i"'D-vectors.csv' data/Shapes/mds/classifications/ $i -o 'data/Shapes/mds/analysis/visual/'"$aggregator"'/directions/directions.csv' -b -n 100 -s 42 > 'data/Shapes/mds/analysis/visual/'"$aggregator"'/directions/'"$i"'D-directions.txt' &
+		for i in `seq 1 $dimension_limit`
+		do
+			# classification
+			python -m code.mds.similarity_spaces.analyze_interpretability 'data/Shapes/mds/vectors/'"$aggregator"'/'"$i"'D-vectors.csv' $i 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/'"$dimension"'-classification.csv' -r 'data/Shapes/mds/regression/'"$dimension"'.pickle' -b -n 100 -s 42 &
+			
+# regression
+			python -m code.mds.similarity_spaces.analyze_interpretability 'data/Shapes/mds/vectors/'"$aggregator"'/'"$i"'D-vectors.csv' $i 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/'"$dimension"'-regression.csv' -c 'data/Shapes/mds/classification/'"$dimension"'.pickle' -b -n 100 -s 42 &
+
+		done
 	done
 done
 wait
