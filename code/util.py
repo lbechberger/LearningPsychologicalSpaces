@@ -358,13 +358,15 @@ def load_item_images(image_folder, item_ids):
                 break
     return images
 
-def create_labeled_scatter_plot(x, y, output_file_name, x_label = "x-axis", y_label = "y-axis", images = None, zoom = 0.15, item_ids = None):
+def create_labeled_scatter_plot(x, y, output_file_name, x_label = "x-axis", y_label = "y-axis", images = None, zoom = 0.15, item_ids = None, directions = None):
     """
     Creates a  labeled scatter plot of the given lists x and y.
     
     Uses the given axis labels and stores the plot under the given file name. 
     If images is a list of PIL Images, they are used instead of points in the scatter plot, scaled with the given zoom.
-    If images is None and item_ids is a list of item IDs, they are added as annotation to the points of the scatter plot
+    If images is None and item_ids is a list of item IDs, they are added as annotation to the points of the scatter plot.
+    
+    If directions is not None, the directions contained in it are added to the plot.
     """
     
     import matplotlib.pyplot as plt
@@ -387,12 +389,13 @@ def create_labeled_scatter_plot(x, y, output_file_name, x_label = "x-axis", y_la
         ax.update_datalim(np.column_stack([x, y]))
         ax.autoscale()
         ax.scatter(x,y, s=0)
+
     else:
         # plot scatter plot without images
         ax.scatter(x,y)
         # add item IDs if given
         if item_ids != None:
-            for label, x0, y0 in zip(items, x, y):
+            for label, x0, y0 in zip(item_ids, x, y):
                 plt.annotate(
         		label,
         		xy=(x0, y0), xytext=(-20, 20),
@@ -404,6 +407,15 @@ def create_labeled_scatter_plot(x, y, output_file_name, x_label = "x-axis", y_la
     ax.tick_params(axis="y", labelsize=16)
     ax.set_xlabel(x_label, fontsize=20)
     ax.set_ylabel(y_label, fontsize=20)
+
+    if directions is not None:
+        
+        for direction_name, direction_vector in directions:
+            ax.arrow(0, 0, direction_vector[0], direction_vector[1], head_width = 0.03, color = 'k')
+            text_pos_x = direction_vector[0] + np.sign(direction_vector[0])*len(direction_name)*0.05
+            text_pos_y = direction_vector[1] + np.sign(direction_vector[1])*0.1
+            plt.text(text_pos_x, text_pos_y, direction_name, size=16, ha='center', va='center', color='k')
+
 
     fig.savefig(output_file_name, bbox_inches='tight', dpi=200)
     plt.close()

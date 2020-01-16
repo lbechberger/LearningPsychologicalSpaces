@@ -124,6 +124,8 @@ do
 done
 wait
 
+#TODO filter interpretable dimensions
+
 
 # visualize correlation results
 echo '    visualizing correlations'

@@ -16,6 +16,7 @@ parser.add_argument('output_folder', help = 'path to the folder where the visual
 parser.add_argument('-i', '--image_folder', help = 'the folder containing images of the items', default = None)
 parser.add_argument('-z', '--zoom', type = float, help = 'the factor to which the images are scaled', default = 0.15)
 parser.add_argument('-m', '--max', type = int, help = 'size of the largest space to be visualized', default = 10)
+parser.add_argument('-d', '--directions_file', help = 'file containing the directions to plot', default = None)
 args = parser.parse_args()
 
 # first read in all the vectors
@@ -40,6 +41,11 @@ items = list(sorted(list(vector_map.values())[0].keys()))
 images = None
 if args.image_folder != None:
     images = load_item_images(args.image_folder, items)    
+
+# if we have directions: read them in
+if args.directions_file is not None:
+    directions = {}
+    # TODO
     
 # iterate over all spaces
 for dim, mapping in vector_map.items():
