@@ -47,20 +47,28 @@ done
 wait
 
 echo '   creating scatter plots of best fits'
-for aggregator in $aggregators
-do
-	# create scatter plot for best pixel result
-	# TODO: update these values!
-	best_pixel_a=mean
-	best_pixel_b=42
-	best_pixel_d=Euclidean
-	python -m code.mds.correlations.scatter_plot 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/sim.pickle' 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/best_pixel.png' -p $best_pixel_a -i data/Shapes/images/ -b $best_pixel_b -d $best_pixel_d -g &
 
-	# create scatter plot for best ANN result
-	# TODO: update this value!
-	best_ann_d=Euclidean
-	python -m code.mds.correlations.scatter_plot 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/sim.pickle' 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/ann.png' -a /tmp/inception -i data/Shapes/images/ -d $best_ann_d -g &
-done
+# MEAN
+# create scatter plot for best pixel result
+best_pixel_a=min
+best_pixel_b=26
+best_pixel_d=Euclidean
+python -m code.mds.correlations.scatter_plot 'data/Shapes/mds/similarities/aggregator/mean/sim.pickle' 'data/Shapes/mds/analysis/aggregator/mean/correlations/best_pixel.png' -p $best_pixel_a -i data/Shapes/images/ -b $best_pixel_b -d $best_pixel_d -g &
+
+# create scatter plot for best ANN result
+best_ann_d=Manhattan
+python -m code.mds.correlations.scatter_plot 'data/Shapes/mds/similarities/aggregator/mean/sim.pickle' 'data/Shapes/mds/analysis/aggregator/mean/correlations/ann.png' -a /tmp/inception -i data/Shapes/images/ -d $best_ann_d -g &
+
+# MEDIAN
+best_pixel_a=min
+best_pixel_b=24
+best_pixel_d=Euclidean
+python -m code.mds.correlations.scatter_plot 'data/Shapes/mds/similarities/aggregator/median/sim.pickle' 'data/Shapes/mds/analysis/aggregator/median/correlations/best_pixel.png' -p $best_pixel_a -i data/Shapes/images/ -b $best_pixel_b -d $best_pixel_d -g &
+
+# create scatter plot for best ANN result
+best_ann_d=Manhattan
+python -m code.mds.correlations.scatter_plot 'data/Shapes/mds/similarities/aggregator/median/sim.pickle' 'data/Shapes/mds/analysis/aggregator/median/correlations/ann.png' -a /tmp/inception -i data/Shapes/images/ -d $best_ann_d -g &
+
 wait
 
 # RQ6: To what extent do the spaces based on median and mean differ?
@@ -131,7 +139,7 @@ wait
 echo '    visualizing correlations'
 for aggregator in $aggregators
 do
-	python -m code.mds.correlations.visualize_correlations -o 'data/Shapes/mds/visualizations/correlations/'"$aggregator"'/' 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/pixel.csv' 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/mds.csv' &> 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/best.txt' &
+	python -m code.mds.correlations.visualize_correlations -o 'data/Shapes/mds/visualizations/correlations/'"$aggregator"'/' 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/pixel.csv' 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/mds_to_'"$aggregator"'.csv' &> 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/best.txt' &
 done
 wait
 
