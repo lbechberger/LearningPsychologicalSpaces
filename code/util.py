@@ -415,7 +415,8 @@ def create_labeled_scatter_plot(x, y, output_file_name, x_label = "x-axis", y_la
             text_pos_x = direction_vector[0] + np.sign(direction_vector[0])*len(direction_name)*0.05
             text_pos_y = direction_vector[1] + np.sign(direction_vector[1])*0.1
             plt.text(text_pos_x, text_pos_y, direction_name, size=16, ha='center', va='center', color='k')
-
+            # https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.arrow.html
+            # https://matplotlib.org/3.1.1/gallery/text_labels_and_annotations/arrow_demo.html#sphx-glr-gallery-text-labels-and-annotations-arrow-demo-py
 
     fig.savefig(output_file_name, bbox_inches='tight', dpi=200)
     plt.close()

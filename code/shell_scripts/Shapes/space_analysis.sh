@@ -71,10 +71,10 @@ python -m code.mds.correlations.scatter_plot 'data/Shapes/mds/similarities/aggre
 
 wait
 
-# RQ6: To what extent do the spaces based on median and mean differ?
+# RQ6: How well do the MDS spaces reflect the dissimilarity ratings?
 # ------------------------------------------------------------------
 
-echo 'RQ6: To what extent do the spaces based on median and mean differ?'
+echo 'RQ6: How well do the MDS spaces reflect the dissimilarity ratings?'
 
 # run MDS
 echo '    running MDS'
@@ -102,8 +102,11 @@ do
 	done
 done
 
-# analyze convexity
-echo '    analyzing convexity'
+# RQ7: How well do the MDS Spaces Enforce the Convexity of Conceptual Regions?
+# ----------------------------------------------------------------------------
+
+echo 'RQ7: How well do the MDS Spaces Enforce the Convexity of Conceptual Regions?'
+
 for aggregator in $aggregators
 do
 	for i in `seq 1 $convexity_limit`
@@ -113,19 +116,22 @@ do
 done
 wait
 
-# analyze interpretable directions
-echo '    analyzing interpretable directions'
+# RQ8: Are the interpretable directions reflected in the MDS spaces?
+# ------------------------------------------------------------------
+
+echo 'RQ8: Are the interpretable directions reflected in the MDS spaces?'
+
 for aggregator in $aggregators
 do
 	for dimension in $dimensions
 	do
 		for i in `seq 1 $dimension_limit`
 		do
-			# classification
-			python -m code.mds.similarity_spaces.analyze_interpretability 'data/Shapes/mds/vectors/'"$aggregator"'/'"$i"'D-vectors.csv' $i 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/'"$dimension"'-classification.csv' -r 'data/Shapes/mds/regression/'"$dimension"'.pickle' -b -n 100 -s 42 &
+			# regression
+			python -m code.mds.similarity_spaces.analyze_interpretability 'data/Shapes/mds/vectors/'"$aggregator"'/'"$i"'D-vectors.csv' $i 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/'"$dimension"'-regression.csv' -r 'data/Shapes/mds/regression/'"$dimension"'.pickle' -b -n 100 -s 42 &
 			
-# regression
-			python -m code.mds.similarity_spaces.analyze_interpretability 'data/Shapes/mds/vectors/'"$aggregator"'/'"$i"'D-vectors.csv' $i 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/'"$dimension"'-regression.csv' -c 'data/Shapes/mds/classification/'"$dimension"'.pickle' -b -n 100 -s 42 &
+			# classification
+			python -m code.mds.similarity_spaces.analyze_interpretability 'data/Shapes/mds/vectors/'"$aggregator"'/'"$i"'D-vectors.csv' $i 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/'"$dimension"'-classification.csv' -c 'data/Shapes/mds/classification/'"$dimension"'.pickle' -b -n 100 -s 42 &
 
 		done
 	done
@@ -134,6 +140,11 @@ wait
 
 #TODO filter interpretable dimensions
 
+
+# Some additional visualizations
+# ------------------------------
+
+echo 'Some additional visualizations'
 
 # visualize correlation results
 echo '    visualizing correlations'
