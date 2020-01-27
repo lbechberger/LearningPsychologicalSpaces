@@ -15,7 +15,7 @@ then
 	datasets=("visual conceptual")
 	aggregators=("mean median")
 	image_sizes=("283 100 50 20 10 5")
-	dimensions=("FORM LINES")
+	dimensions=("FORM LINES ORIENTATION")
 
 	# space analysis setup
 	dimension_limit=10
@@ -31,7 +31,7 @@ then
 	datasets=("visual conceptual")
 	aggregators=("mean median")
 	image_sizes=("283 100 50 20 10 5")
-	dimensions=("FORM LINES")
+	dimensions=("FORM LINES ORIENTATION")
 
 	# space analysis setup
 	dimension_limit=10

@@ -65,7 +65,7 @@ for item_id, inner_dict in dimension_data.items():
     # aggregate continouous rating into scale: take median/median and rescale it from [0,1000] to [-1,1]
     continuous_mean = np.mean(continuous)
     continuous_mean_value = (continuous_mean / 500) - 1
-    aggregated_continuous_median[item_id] = continuous_mean_value
+    aggregated_continuous_mean[item_id] = continuous_mean_value
 
     continuous_median = np.median(continuous)
     continuous_median_value = (continuous_median / 500) - 1

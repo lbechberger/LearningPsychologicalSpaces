@@ -13,6 +13,8 @@ parser = argparse.ArgumentParser(description='Preprocessing dimension ratings')
 parser.add_argument('binary_file', help = 'CSV file containing the binary dimension ratings')
 parser.add_argument('continuous_file', help = 'CSV file containing the continuous dimension ratings')
 parser.add_argument('output_file', help = 'path to the output pickle file')
+parser.add_argument('-p', '--plot', action = 'store_true', help = 'plot histograms for the given values')
+parser.add_argument('-o', '--output_folder', help = 'folder where the histograms shall be stored', default = '.')
 args = parser.parse_args()
 
 response_mapping = {'länglich': False, 'gleich': True, 'keineAhnung': None,
@@ -20,6 +22,9 @@ response_mapping = {'länglich': False, 'gleich': True, 'keineAhnung': None,
 
 item_name_to_id = {}
 output = {}
+
+rts = []
+continuous = []
 
 # read in information from binary ratings
 with open(args.binary_file, 'r') as f_in:
@@ -39,6 +44,8 @@ with open(args.binary_file, 'r') as f_in:
         response = response_mapping[row['Response']]
         output[item_id]['binary'].append((rt, response))
         
+        rts.append(rt)
+        
 
 # read in information from continuous ratings
 with open(args.continuous_file, 'r') as f_in:
@@ -51,6 +58,21 @@ with open(args.continuous_file, 'r') as f_in:
             if len(value) > 0:
                 # ignore empty entries
                 output[item_id]['continuous'].append(int(value))
+                continuous.append(int(value))
 
 with open(args.output_file, 'wb') as f_out:
     pickle.dump(output, f_out)
+
+# do the plotting
+if args.plot:
+    from matplotlib import pyplot as plt
+    import os
+
+    for data, title in [(rts,'Response Time'), (continuous, 'Continuous Rating')]:
+        plt.hist(data, bins=21)
+        plt.title('Histogram of {0}'.format(title))
+        plt.xlabel(title)
+        plt.ylabel('Number of Occurences')
+        plot_output_file = os.path.join(args.output_folder, "{0}-hist.png".format(title))
+        plt.savefig(plot_output_file, bbox_inches='tight', dpi=200)
+        plt.close()

@@ -7,7 +7,7 @@
 default_datasets=("visual conceptual")
 default_aggregators=("mean median")
 default_image_sizes=("283 100 50 20 10 5")
-default_dimensions=("FORM LINES")
+default_dimensions=("FORM LINES ORIENTATION")
 
 datasets="${datasets:-$default_datasets}"
 aggregators="${aggregators:-$default_aggregators}"
@@ -61,7 +61,7 @@ done
 for dimension in $dimensions
 do
 	echo '    reading CSV files for '"$dimension"' ratings'
-	python -m code.mds.preprocessing.preprocess_dimension 'data/Shapes/raw_data/'"$dimension"'_binary.csv' 'data/Shapes/raw_data/'"$dimension"'_continuous.csv' 'data/Shapes/raw_data/preprocessed/'"$dimension"'.pickle' &> 'data/Shapes/raw_data/preprocessed/preprocess_'"$dimension"'.txt'
+	python -m code.mds.preprocessing.preprocess_dimension 'data/Shapes/raw_data/'"$dimension"'_binary.csv' 'data/Shapes/raw_data/'"$dimension"'_continuous.csv' 'data/Shapes/raw_data/preprocessed/'"$dimension"'.pickle' -p -o 'data/Shapes/mds/analysis/dimension/'"$dimension"'/' &> 'data/Shapes/raw_data/preprocessed/preprocess_'"$dimension"'.txt'
 
 done
 	

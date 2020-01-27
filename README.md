@@ -96,6 +96,10 @@ The resulting `output.pickle` file contains a single dictionary which maps each 
 - `'continuous'`: A list of continuous scale ratings.
 - `'name'`: A human readable name for the item.
 
+The script takes the following optional arguments:
+- `-p`or `--plot`: If this flag is set, histograms for the response times and the continuous values are created.
+- `-o` or `--output`: Path to the folder in which the histograms shall be stored.
+
 #### 2.1.4 Aggregating Similarity Ratings
 
 The next step in the preprocessing pipeline is to extract similarity ratings from the overall data set. This can be done with the script `compute_similarities.py`. You can execute it as follows from the project's root directory:
