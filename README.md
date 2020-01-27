@@ -307,6 +307,7 @@ The script accepts the following optional parameters:
 - `-s` or `--second_name`: Descriptive name for the second set of dissimilarities. Used for output and plotting.
 - `-p` or `--plot`: If this flag is set, a scatter plot is created and stored.
 - `-o` or `--output_folder`: Path to the folder where the scatter plot shall be saved. Defaults to `.`, i.e., the current working directory.
+- `--sim_only`: Only consider items from categories based on visual similarity. If this argument is given, it needs to point to a pickle file produced by `preprocess_Shapes.py`.
 
 #### 2.3.5 Visualizing The Correlations
 

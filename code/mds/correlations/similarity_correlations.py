@@ -20,8 +20,9 @@ parser.add_argument('first_similarity_file', help = 'the input file containing t
 parser.add_argument('second_similarity_file', help = 'the input file containing the second set of similarity ratings')
 parser.add_argument('-f', '--first_name', help = 'name of the first set of similarity ratings', default = 'first study')
 parser.add_argument('-s', '--second_name', help = 'name of the second set of similarity ratings', default = 'second study')
-parser.add_argument('-o', '--output_folder', help = 'the folder to which the output should be saved', default='.')
+parser.add_argument('-o', '--output_folder', help = 'the folder to which the output should be saved', default = '.')
 parser.add_argument('-p', '--plot', action = 'store_true', help = 'create scatter plots')
+parser.add_argument('--sim_only', help = 'only consider visually similar categories (based on the given raw input file)', default = None)
 args = parser.parse_args()
 
 # load the similarity data
@@ -33,6 +34,34 @@ with open(args.second_similarity_file, 'rb') as f_in:
 item_ids = first_input_data['items']
 first_dissimilarities = first_input_data['dissimilarities']
 second_dissimilarities = second_input_data['dissimilarities']
+
+# if necessary: only keep items inside the 'Sim' categories
+if args.sim_only is not None:
+
+    with open(args.sim_only, 'rb') as f_in:
+        raw_data = pickle.load(f_in)
+    
+    # select applicable items    
+    sim_items = []
+    sim_indices = []
+    for idx, item_id in enumerate(item_ids):
+        cat = raw_data['items'][item_id]['category']
+        vis = raw_data['categories'][cat]['visSim']
+        if vis == 'Sim':
+            sim_items.append(item_id)
+            sim_indices.append(idx)
+    
+    # shrink the dissimilarity matrices, respectively
+    first_sim_dissimilarities = np.take(first_dissimilarities, sim_indices, axis = 0)
+    first_sim_dissimilarities = np.take(first_sim_dissimilarities, sim_indices, axis = 1)
+    
+    second_sim_dissimilarities = np.take(second_dissimilarities, sim_indices, axis = 0)
+    second_sim_dissimilarities = np.take(second_sim_dissimilarities, sim_indices, axis = 1)
+    
+    # overwrite the variables
+    item_ids = sim_items
+    first_dissimilarities = first_sim_dissimilarities
+    second_dissimilarities = second_sim_dissimilarities
 
 # transform dissimilarity matrices into vectors for correlation computation
 first_vector = np.reshape(first_dissimilarities, (-1,1)) 
