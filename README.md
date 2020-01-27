@@ -168,6 +168,7 @@ In each case, the regression information is stored as an inner dictionary mappin
 The script accepts the following optional parameters:
 - `-i` or `--image_folder`: Path to the folder containing the images for the items. If given, it will use the item images to create scatter plots. If not given, an ordinary scatter plot will be used.
 - `-z` or `--zoom`: Determines the size of the item images in the scatter plot. Defaults to 0.15.
+- `-m` or `--median`: If this flag is set, the median is used to aggregate the continuous responses. If it is not set, the arithmetic mean is used.
 
 #### 2.1.8 Writing CSV Files of Aggregated Dissimilarities
 The R script for multidimensional scaling that we will use in the next step needs the aggregated dissimilarity data in form of a CSV file. The script `pickle_to_csv.py` stores the similaritiy ratings from `input_file.pickle` into a CSV file called `distance_matrix.csv` as well as the list of item names in a file called `item_names.csv`. Both output files are stored in the given `output_folder`. The `input_file.pickle` should be the file created by `compute_similarities.py`. The script can be invoked as follows:

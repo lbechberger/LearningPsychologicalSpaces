@@ -40,7 +40,8 @@ if args.image_folder != None:
 
 aggregated_binary = {}
 aggregated_rt = {}
-aggregated_continuous = {}
+aggregated_continuous_mean = {}
+aggregated_continuous_median = {}
 
 # aggregate the individual responses into an overall score on a scale from -1 to 1
 for item_id, inner_dict in dimension_data.items():
@@ -61,13 +62,17 @@ for item_id, inner_dict in dimension_data.items():
     rt_value = rt_abs * np.sign(binary_value)
     aggregated_rt[item_id] = rt_value
     
-    # aggregate continouous rating into scale: take median and rescale it from [0,1000] to [-1,1]
+    # aggregate continouous rating into scale: take median/median and rescale it from [0,1000] to [-1,1]
+    continuous_mean = np.mean(continuous)
+    continuous_mean_value = (continuous_mean / 500) - 1
+    aggregated_continuous_median[item_id] = continuous_mean_value
+
     continuous_median = np.median(continuous)
-    continuous_value = (continuous_median / 500) - 1
-    aggregated_continuous[item_id] = continuous_value
+    continuous_median_value = (continuous_median / 500) - 1
+    aggregated_continuous_median[item_id] = continuous_median_value
     
 # store this information as regression output
-regression_output = {'binary': aggregated_binary, 'rt': aggregated_rt, 'continuous': aggregated_continuous}
+regression_output = {'binary': aggregated_binary, 'rt': aggregated_rt, 'continuous_mean': aggregated_continuous_mean, 'continuous_median': aggregated_continuous_median}
 with open(args.regression_file, 'wb') as f_out:
     pickle.dump(regression_output, f_out)    
 
@@ -98,14 +103,14 @@ for scale_name, scale_data in regression_output.items():
     negative_cutoff = int(len(list_of_tuples) / 4)
     positive_cutoff = len(list_of_tuples) - negative_cutoff
     positive = list(map(lambda x: x[0], list_of_tuples[positive_cutoff:]))
-    negative = list(map(lambda x: x[0], list_of_tuples[:negative_cutoff]))
+    negative = list(map(lambda x: x[0], list_of_tuples[:negative_cutoff]))    
     
     classification_output[scale_name] = {'positive': positive, 'negative': negative}
     
     print('Positive examples for {0}'.format(scale_name))
-    print(','.join(map(lambda x: item_names[x], positive)))
+    print(','.join(sorted(map(lambda x: item_names[x], positive))))
     print('Negative examples for {0}'.format(scale_name))
-    print(','.join(map(lambda x: item_names[x], negative)))
+    print(','.join(sorted(map(lambda x: item_names[x], negative))))
 
 # store this information as classification output
 with open(args.classification_file, 'wb') as f_out:
@@ -117,13 +122,7 @@ for first_scale, second_scale in combinations(classification_output.keys(), 2):
     first_data = classification_output[first_scale]
     second_data = classification_output[second_scale]
     
-    # helper function to compute jaccard index: intersection over unification
-    def jaccard_index(list1, list2):
-        intersection_size = len(set(list1).intersection(list2))
-        unification_size = len(set(list1).union(list2))
-        return intersection_size / unification_size
-
-    jaccard_pos = jaccard_index(first_data['positive'], second_data['positive'])
-    jaccard_neg = jaccard_index(first_data['negative'], second_data['negative'])
+    intersection_pos = len(set(first_data['positive']).intersection(second_data['positive']))
+    intersection_neg = len(set(first_data['negative']).intersection(second_data['negative']))
     
-    print('Comparing classification of {0} to {1}: Jaccard Pos {2}, Jaccard Neg {3}'.format(first_scale, second_scale, jaccard_pos, jaccard_neg))
+    print('Comparing classification of {0} to {1}: Intersection Pos {2}, Intersection Neg {3}'.format(first_scale, second_scale, intersection_pos, intersection_neg))
