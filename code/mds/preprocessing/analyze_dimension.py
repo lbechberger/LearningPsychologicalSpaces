@@ -42,6 +42,8 @@ aggregated_binary = {}
 aggregated_rt = {}
 aggregated_continuous_mean = {}
 aggregated_continuous_median = {}
+max_rt = float('-inf')
+min_rt = float('inf')
 
 # aggregate the individual responses into an overall score on a scale from -1 to 1
 for item_id, inner_dict in dimension_data.items():
@@ -55,12 +57,13 @@ for item_id, inner_dict in dimension_data.items():
     aggregated_binary[item_id] = binary_value
     
     # aggregate response time into scale: take median RT
-    rt_median = np.median(binary_rts) / 1000
-    # put through exponentially decaying function (RT = 0 gives value of 1, large RT gives value close to 0) --> how far away from decision surface
-    rt_abs = np.exp(-rt_median)
-    # multiply with sign of binary_value to distinguish positive from negative examples
-    rt_value = rt_abs * np.sign(binary_value)
-    aggregated_rt[item_id] = rt_value
+    rt_median = np.median(binary_rts)
+    # put through logarithm (RT ~ e^-x --> x ~ -ln RT)
+    rt_abs = -np.log(rt_median)
+    aggregated_rt[item_id] = rt_abs
+    # keep maximum and minimum up to date
+    max_rt = max(max_rt, rt_abs)
+    min_rt = min(min_rt, rt_abs)
     
     # aggregate continouous rating into scale: take median/median and rescale it from [0,1000] to [-1,1]
     continuous_mean = np.mean(continuous)
@@ -70,6 +73,14 @@ for item_id, inner_dict in dimension_data.items():
     continuous_median = np.median(continuous)
     continuous_median_value = (continuous_median / 500) - 1
     aggregated_continuous_median[item_id] = continuous_median_value
+
+# need to rescale the RT-based ratings onto a scale between -1 and 1
+for item_id, rt_abs in aggregated_rt.items():
+    rt_abs_rescaled = (rt_abs - min_rt) / (max_rt - min_rt)
+    # multiply with sign of binary_value to distinguish positive from negative examples
+    rt_value = rt_abs_rescaled * np.sign(aggregated_binary[item_id])
+    aggregated_rt[item_id] = rt_value
+    
     
 # store this information as regression output
 regression_output = {'binary': aggregated_binary, 'rt': aggregated_rt, 'continuous_mean': aggregated_continuous_mean, 'continuous_median': aggregated_continuous_median}
@@ -77,7 +88,7 @@ with open(args.regression_file, 'wb') as f_out:
     pickle.dump(regression_output, f_out)    
 
 # look at all pairs of scales
-for first_scale, second_scale in combinations(regression_output.keys(), 2):
+for first_scale, second_scale in combinations(sorted(regression_output.keys()), 2):
     
     # compute Spearman correlation
     first_vector = []
@@ -117,7 +128,7 @@ with open(args.classification_file, 'wb') as f_out:
     pickle.dump(classification_output, f_out)    
 
 # look at all pairs of scales
-for first_scale, second_scale in combinations(classification_output.keys(), 2):
+for first_scale, second_scale in combinations(sorted(classification_output.keys()), 2):
 
     first_data = classification_output[first_scale]
     second_data = classification_output[second_scale]

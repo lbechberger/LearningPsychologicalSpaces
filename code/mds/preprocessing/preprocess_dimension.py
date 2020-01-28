@@ -67,8 +67,12 @@ with open(args.output_file, 'wb') as f_out:
 if args.plot:
     from matplotlib import pyplot as plt
     import os
+    import numpy as np
+    
+    inverted_rts = -np.log(rts)
 
-    for data, title in [(rts,'Response Time'), (continuous, 'Continuous Rating')]:
+    for data, title in [(rts,'Response Time'), (continuous, 'Continuous Rating'), (inverted_rts, 'Negative Log RT')]:
+        
         plt.hist(data, bins=21)
         plt.title('Histogram of {0}'.format(title))
         plt.xlabel(title)
