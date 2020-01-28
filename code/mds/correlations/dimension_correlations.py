@@ -37,7 +37,7 @@ if args.image_folder != None:
 
 
 # look at binary, continuous, RT separately
-for scale_type in first_data.keys():
+for scale_type in sorted(first_data.keys()):
     first_scale = first_data[scale_type]
     second_scale = second_data[scale_type]
     
