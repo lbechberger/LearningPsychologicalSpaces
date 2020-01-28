@@ -173,7 +173,20 @@ The script accepts the following optional parameters:
 - `-i` or `--image_folder`: Path to the folder containing the images for the items. If given, it will use the item images to create scatter plots. If not given, an ordinary scatter plot will be used.
 - `-z` or `--zoom`: Determines the size of the item images in the scatter plot. Defaults to 0.15.
 
-#### 2.1.8 Writing CSV Files of Aggregated Dissimilarities
+#### 2.1.8 Correlations between Interpretable Dimensions
+
+The script `compare_dimensions.py` compares the scales of two different interpretable dimensions to each other, based on each of the scale variants. It can be invoked as follows:
+```
+python -m code.mds.preprocessing.compare_dimensions path/to/first.pickle path/to/second.pickle path/to/output_folder
+```
+The data about the first and second dimension is read in from `first.pickle` and `second.pickle`, respectively. Both files are the `regression.pickle` output files of the `analyze_dimension.py` script. Scatter plots of the two dimensions are stored in the given `output_folder`. The script takes the following optional arguments:
+- `-i` or `--image_folder`: Path to the folder containing the images for the items. If given, it will use the item images to create scatter plots. If not given, an ordinary scatter plot will be used.
+- `-z` or `--zoom`: Determines the size of the item images in the scatter plot. Defaults to 0.15.
+- `-f` or `--first_name`: Name to use for the first dimension. Defaults to `first`.
+- `-s` or `--second_name`: Name to use for the second dimension. Defaults to `second`.
+
+
+#### 2.1.9 Writing CSV Files of Aggregated Dissimilarities
 The R script for multidimensional scaling that we will use in the next step needs the aggregated dissimilarity data in form of a CSV file. The script `pickle_to_csv.py` stores the similaritiy ratings from `input_file.pickle` into a CSV file called `distance_matrix.csv` as well as the list of item names in a file called `item_names.csv`. Both output files are stored in the given `output_folder`. The `input_file.pickle` should be the file created by `compute_similarities.py`. The script can be invoked as follows:
 ```
 python -m code.mds.preprocessing.pickle_to_csv path/to/input_file.pickle path/to/output_folder/
@@ -313,17 +326,9 @@ The script accepts the following optional parameters:
 - `-o` or `--output_folder`: Path to the folder where the scatter plot shall be saved. Defaults to `.`, i.e., the current working directory.
 - `--sim_only`: Only consider items from categories based on visual similarity. If this argument is given, it needs to point to a pickle file produced by `preprocess_Shapes.py`.
 
-#### 2.3.5 Correlations between Interpretable Dimensions
+#### 2.3.5. Dimension-Based Similarities
 
-The script `dimension_correlations.py` compares the scales of two different interpretable dimensions to each other, based on each of the scale variants. It can be invoked as follows:
-```
-python -m code.mds.correlations.dimension_correlations path/to/first.pickle path/to/second.pickle path/to/output_folder
-```
-The data about the first and second dimension is read in from `first.pickle` and `second.pickle`, respectively. Both files are the `regression.pickle` output files of the `analyze_dimension.py` script. Scatter plots of the two dimensions are stored in the given `output_folder`. The script takes the following optional arguments:
-- `-i` or `--image_folder`: Path to the folder containing the images for the items. If given, it will use the item images to create scatter plots. If not given, an ordinary scatter plot will be used.
-- `-z` or `--zoom`: Determines the size of the item images in the scatter plot. Defaults to 0.15.
-- `-f` or `--first_name`: Name to use for the first dimension. Defaults to `first`.
-- `-s` or `--second_name`: Name to use for the second dimension. Defaults to `second`.
+TODO
 
 #### 2.3.6 Visualizing The Correlations
 

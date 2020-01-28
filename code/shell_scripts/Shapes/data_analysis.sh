@@ -118,9 +118,9 @@ do
 	python -m code.mds.preprocessing.analyze_dimension 'data/Shapes/raw_data/preprocessed/'"$dimension"'.pickle' 'data/Shapes/mds/analysis/dimension/'"$dimension"'/' 'data/Shapes/mds/classification/'"$dimension"'.pickle' 'data/Shapes/mds/regression/'"$dimension"'.pickle' -i data/Shapes/images &> 'data/Shapes/mds/analysis/dimension/'"$dimension"'/analysis.txt'
 done
 
-python -m code.mds.correlations.dimension_correlations 'data/Shapes/mds/regression/FORM.pickle' 'data/Shapes/mds/regression/LINES.pickle' 'data/Shapes/mds/analysis/dimension/' -f FORM -s LINES -i data/Shapes/images &> 'data/Shapes/mds/analysis/dimension/FORM-LINES.txt'
-python -m code.mds.correlations.dimension_correlations 'data/Shapes/mds/regression/FORM.pickle' 'data/Shapes/mds/regression/ORIENTATION.pickle' 'data/Shapes/mds/analysis/dimension/' -f FORM -s ORIENTATION -i data/Shapes/images &> 'data/Shapes/mds/analysis/dimension/FORM-ORIENTATION.txt'
-python -m code.mds.correlations.dimension_correlations 'data/Shapes/mds/regression/LINES.pickle' 'data/Shapes/mds/regression/ORIENTATION.pickle' 'data/Shapes/mds/analysis/dimension/' -f LINES -s ORIENTATION -i data/Shapes/images &> 'data/Shapes/mds/analysis/dimension/LINES-ORIENTATION.txt'
+python -m code.mds.preprocessing.compare_dimensions 'data/Shapes/mds/regression/FORM.pickle' 'data/Shapes/mds/regression/LINES.pickle' 'data/Shapes/mds/analysis/dimension/' -f FORM -s LINES -i data/Shapes/images &> 'data/Shapes/mds/analysis/dimension/FORM-LINES.txt'
+python -m code.mds.preprocessing.compare_dimensions 'data/Shapes/mds/regression/FORM.pickle' 'data/Shapes/mds/regression/ORIENTATION.pickle' 'data/Shapes/mds/analysis/dimension/' -f FORM -s ORIENTATION -i data/Shapes/images &> 'data/Shapes/mds/analysis/dimension/FORM-ORIENTATION.txt'
+python -m code.mds.preprocessing.compare_dimensions 'data/Shapes/mds/regression/LINES.pickle' 'data/Shapes/mds/regression/ORIENTATION.pickle' 'data/Shapes/mds/analysis/dimension/' -f LINES -s ORIENTATION -i data/Shapes/images &> 'data/Shapes/mds/analysis/dimension/LINES-ORIENTATION.txt'
 
 
 
