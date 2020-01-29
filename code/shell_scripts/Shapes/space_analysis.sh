@@ -21,6 +21,7 @@ do
 	mkdir -p 'data/Shapes/mds/vectors/'"$aggregator"'/'
 	mkdir -p 'data/Shapes/mds/visualizations/spaces/'"$aggregator"'/'
 	mkdir -p 'data/Shapes/mds/visualizations/correlations/'"$aggregator"'/'
+	mkdir -p 'data/Shapes/mds/visualizations/average_images/'"$aggregator"'/'
 	mkdir -p 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/'
 	mkdir -p 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/convexity/'
 	mkdir -p 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/'
@@ -52,18 +53,27 @@ echo '   creating scatter plots of best fits'
 # create scatter plot for best pixel result
 best_pixel_a=min
 best_pixel_b=26
+best_pixel_r=11
 best_pixel_d=Euclidean
 python -m code.mds.correlations.scatter_plot 'data/Shapes/mds/similarities/aggregator/mean/sim.pickle' 'data/Shapes/mds/analysis/aggregator/mean/correlations/best_pixel.png' -p $best_pixel_a -i data/Shapes/images/ -b $best_pixel_b -d $best_pixel_d -g &
+
+# create average category images for best pixel result
+python -m code.mds.preprocessing.average_images data/Shapes/raw_data/preprocessed/data_visual.pickle data/Shapes/images/ -s between -o 'data/Shapes/mds/visualizations/average_images/mean/' -r $best_pixel_r -a $best_pixel_a &> 'data/Shapes/mds/visualizations/average_images/mean.txt'
 
 # create scatter plot for best ANN result
 best_ann_d=Manhattan
 python -m code.mds.correlations.scatter_plot 'data/Shapes/mds/similarities/aggregator/mean/sim.pickle' 'data/Shapes/mds/analysis/aggregator/mean/correlations/ann.png' -a /tmp/inception -i data/Shapes/images/ -d $best_ann_d -g &
 
 # MEDIAN
+# create scatter plot for best pixel result
 best_pixel_a=min
 best_pixel_b=24
+best_pixel_r=12
 best_pixel_d=Euclidean
 python -m code.mds.correlations.scatter_plot 'data/Shapes/mds/similarities/aggregator/median/sim.pickle' 'data/Shapes/mds/analysis/aggregator/median/correlations/best_pixel.png' -p $best_pixel_a -i data/Shapes/images/ -b $best_pixel_b -d $best_pixel_d -g &
+
+# create average category images for best pixel result
+python -m code.mds.preprocessing.average_images data/Shapes/raw_data/preprocessed/data_visual.pickle data/Shapes/images/ -s between -o 'data/Shapes/mds/visualizations/average_images/median/' -r $best_pixel_r -a $best_pixel_a &> 'data/Shapes/mds/visualizations/average_images/median.txt'
 
 # create scatter plot for best ANN result
 best_ann_d=Manhattan

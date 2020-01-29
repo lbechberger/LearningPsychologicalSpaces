@@ -145,6 +145,7 @@ Here, `input_file.pickle` corresponds to the output file of `preprocess_Shapes.p
 - `-o` or `--output_folder`: The destination folder for the output images, defaults to `.`, i.e., the current working directory.
 - `-r` or `--resolution`: The desired size (width and height) of the output images, defaults to 283 (i.e, the size of the original images from the Shapes data set).
 - `-s` or `--subset`: The subset of data to use, defaults to `all`. Possible other options are `between`, `within`, and `cats` (see above).
+- `-a` or `--aggregator`: The aggregator to use for downscaling the images. Defaults to `mean`. Other possible values are `min`, `max`, and `median`.
 
 #### 2.1.7 Analyzing Dimension Ratings
 

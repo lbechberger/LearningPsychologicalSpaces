@@ -27,7 +27,7 @@ with open(args.similarity_file, 'rb') as f:
 item_ids = input_data['items']
 target_dissimilarities = input_data['dissimilarities']
 
-images = load_image_files_pixel(item_ids, args.image_folder, )
+images = load_image_files_pixel(item_ids, args.image_folder)
 
 with open(args.output_file, 'w', buffering=1) as f:
 
