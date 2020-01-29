@@ -111,6 +111,13 @@ do
 		python -m code.mds.correlations.mds_correlations 'data/Shapes/mds/similarities/aggregator/'"$target_aggregator"'/sim.pickle' 'data/Shapes/mds/vectors/'"$source_aggregator"'/' -o 'data/Shapes/mds/analysis/aggregator/'"$source_aggregator"'/correlations/mds_to_'"$target_aggregator"'.csv' --n_max $dimension_limit &
 	done
 done
+wait
+
+echo '    correlation of distances on the interpretable dimensions to dissimilarities from the matrices'
+for aggregator in $aggregators
+do
+	python -m code.mds.correlations.dimension_correlations 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/sim.pickle' 'data/Shapes/mds/regression/' -o 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/dims.csv' &
+done
 
 # RQ7: How well do the MDS Spaces Enforce the Convexity of Conceptual Regions?
 # ----------------------------------------------------------------------------
