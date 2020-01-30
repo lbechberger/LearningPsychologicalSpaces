@@ -259,8 +259,21 @@ It takes the following optional arguments:
 - `-r` or `--repetitions`: Determines the number of repetitions used when sampling from the baselines. Defaults to 20. More samples means more accurate estimation, but longer runtime.
 - `-s` or `--seed`: Specify a seed for the random number generator in order to make the results deterministic. If no seed is given, then the random number generator is not seeded.
 
-#### 2.2.5 Searching for Interpretable Directions
-The script `analyze_interpretability.py` tries to find interpretable directions in a given similarity space based on a regression or classification task. 
+#### 2.2.5 Analyzing Category Density
+
+The script `analyze_density.py` evaluates category density by computing the average distance to the category prototype for all categories. *This is only applicable to the Shapes data set, as there are no categories in NOUN.* The script can be invoked as follows:
+```
+python -m code.mds.similarity_spaces.analyze_density path/to/vectors.csv path/to/data.pickle n_dims
+```
+Here, `vectors.csv` contains MDS vectors of dimensionality `n_dims` and `data.pickle` is the data set file created by `preprocess_Shapes.py`. The script takes the following optional parameters:
+- `-o` or `--output_file`: If an output file is given, the results are appended to this file in CSV style.
+- `-b` or `--baseline`: Ony if this flag is set, the script will also estimate the expected values of randomly drawn points.
+- `-r` or `--repetitions`: Determines the number of repetitions used when sampling from the baselines. Defaults to 20. More samples means more accurate estimation, but longer runtime.
+- `-s` or `--seed`: Specify a seed for the random number generator in order to make the results deterministic. If no seed is given, then the random number generator is not seeded.
+
+
+#### 2.2.6 Searching for Interpretable Directions
+The script `analyze_interpretability.py` tries to find interpretable directions in a given similarity space based on a regression or classification task. *This is only applicable to the Shapes data set, as there are no categories in NOUN.*
 It can be invoked as follows (where `n_dims` is the number of dimensions of the underlying space):
 ```
 python -m code.mds.similarity_spaces.analyze_interpretability path/to/vectors.csv n_dims path/to/output.csv

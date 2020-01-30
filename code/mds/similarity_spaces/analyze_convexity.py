@@ -55,11 +55,8 @@ for item in items:
     if category not in categories:
         categories.append(category)
 
-# prepare the dictionaries for collecting the violation counts
-sim_violations = {}
-art_violations = {}
-sum_violations = {}
 
+# prepare the dictionaries for collecting the violation counts
 def get_internal_dict():
     return {'MDS':0, 'uniform':0, 'normal':0, 'shuffled':0}
 
