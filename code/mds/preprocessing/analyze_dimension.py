@@ -39,11 +39,14 @@ if args.image_folder != None:
 
 
 aggregated_binary = {}
-aggregated_rt = {}
+aggregated_rt_mean = {}
+aggregated_rt_median = {}
 aggregated_continuous_mean = {}
 aggregated_continuous_median = {}
-max_rt = float('-inf')
-min_rt = float('inf')
+max_rt_mean = float('-inf')
+min_rt_mean = float('inf')
+max_rt_median = float('-inf')
+min_rt_median = float('inf')
 
 # aggregate the individual responses into an overall score on a scale from -1 to 1
 for item_id, inner_dict in dimension_data.items():
@@ -57,14 +60,20 @@ for item_id, inner_dict in dimension_data.items():
     aggregated_binary[item_id] = binary_value
     
     # aggregate response time into scale: take median RT
-    rt_median = np.median(binary_rts)
+    rt_mean = np.mean(binary_rts)
     # put through logarithm (RT ~ e^-x --> x ~ -ln RT)
-    rt_abs = -np.log(rt_median)
-    aggregated_rt[item_id] = rt_abs
+    rt_abs_mean = -np.log(rt_mean)
+    aggregated_rt_mean[item_id] = rt_abs_mean
     # keep maximum and minimum up to date
-    max_rt = max(max_rt, rt_abs)
-    min_rt = min(min_rt, rt_abs)
-    
+    max_rt_mean = max(max_rt_mean, rt_abs_mean)
+    min_rt_mean = min(min_rt_mean, rt_abs_mean)
+
+    rt_median = np.median(binary_rts)
+    rt_abs_median = -np.log(rt_median)
+    aggregated_rt_median[item_id] = rt_abs_median
+    max_rt_median = max(max_rt_median, rt_abs_median)
+    min_rt_median = min(min_rt_median, rt_abs_median)
+
     # aggregate continouous rating into scale: take median/median and rescale it from [0,1000] to [-1,1]
     continuous_mean = np.mean(continuous)
     continuous_mean_value = (continuous_mean / 500) - 1
@@ -75,15 +84,22 @@ for item_id, inner_dict in dimension_data.items():
     aggregated_continuous_median[item_id] = continuous_median_value
 
 # need to rescale the RT-based ratings onto a scale between -1 and 1
-for item_id, rt_abs in aggregated_rt.items():
-    rt_abs_rescaled = (rt_abs - min_rt) / (max_rt - min_rt)
+for item_id, rt_abs in aggregated_rt_mean.items():
+    rt_abs_rescaled = (rt_abs - min_rt_mean) / (max_rt_mean - min_rt_mean)
     # multiply with sign of binary_value to distinguish positive from negative examples
     rt_value = rt_abs_rescaled * np.sign(aggregated_binary[item_id])
-    aggregated_rt[item_id] = rt_value
+    aggregated_rt_mean[item_id] = rt_value
+    
+for item_id, rt_abs in aggregated_rt_median.items():
+    rt_abs_rescaled = (rt_abs - min_rt_median) / (max_rt_median - min_rt_median)
+    # multiply with sign of binary_value to distinguish positive from negative examples
+    rt_value = rt_abs_rescaled * np.sign(aggregated_binary[item_id])
+    aggregated_rt_median[item_id] = rt_value
     
     
 # store this information as regression output
-regression_output = {'binary': aggregated_binary, 'rt': aggregated_rt, 'continuous_mean': aggregated_continuous_mean, 'continuous_median': aggregated_continuous_median}
+regression_output = {'binary': aggregated_binary, 'rt_mean': aggregated_rt_mean, 'rt_median': aggregated_rt_median, 
+                     'continuous_mean': aggregated_continuous_mean, 'continuous_median': aggregated_continuous_median}
 with open(args.regression_file, 'wb') as f_out:
     pickle.dump(regression_output, f_out)    
 
