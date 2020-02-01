@@ -8,10 +8,13 @@ default_aggregators=("mean median")
 default_dimension_limit=10
 default_visualization_limit=2
 default_convexity_limit=5
+default_dimensions=("FORM LINES ORIENTATION")
+
 aggregators="${aggregators:-$default_aggregators}"
 dimension_limit="${dimension_limit:-$default_dimension_limit}"
 visualization_limit="${visualization_limit:-$default_visualization_limit}"
 convexity_limit="${convexity_limit:-$default_convexity_limit}"
+dimensions="${dimensions:-$default_dimensions}"
 
 
 # set up the directory structure
@@ -139,24 +142,24 @@ wait
 
 echo 'RQ8: Are the interpretable directions reflected in the MDS spaces?'
 
+echo '    finding directions'
 for aggregator in $aggregators
 do
 	for dimension in $dimensions
 	do
 		for i in `seq 1 $dimension_limit`
 		do
-			# regression
-			python -m code.mds.similarity_spaces.analyze_interpretability 'data/Shapes/mds/vectors/'"$aggregator"'/'"$i"'D-vectors.csv' $i 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/'"$dimension"'-regression.csv' -r 'data/Shapes/mds/regression/'"$dimension"'.pickle' -b -n 100 -s 42 &
-			
-			# classification
-			python -m code.mds.similarity_spaces.analyze_interpretability 'data/Shapes/mds/vectors/'"$aggregator"'/'"$i"'D-vectors.csv' $i 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/'"$dimension"'-classification.csv' -c 'data/Shapes/mds/classification/'"$dimension"'.pickle' -b -n 100 -s 42 &
-
+			python -m code.mds.similarity_spaces.find_directions 'data/Shapes/mds/vectors/'"$aggregator"'/'"$i"'D-vectors.csv' $i 'data/Shapes/mds/classification/'"$dimension"'.pickle' 'data/Shapes/mds/regression/'"$dimension"'.pickle' 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/'"$dimension"'.csv'
 		done
 	done
 done
 wait
 
+#TODO compare cosine similarity of directions
+
 #TODO filter interpretable dimensions
+
+
 
 
 # Some additional visualizations

@@ -273,21 +273,18 @@ Here, `vectors.csv` contains MDS vectors of dimensionality `n_dims` and `data.pi
 
 
 #### 2.2.6 Searching for Interpretable Directions
-The script `analyze_interpretability.py` tries to find interpretable directions in a given similarity space based on a regression or classification task. *This is only applicable to the Shapes data set, as there are no categories in NOUN.*
+The script `find_directions.py` tries to find interpretable directions in a given similarity space based on a regression or classification task. *This is only applicable to the Shapes data set, as there are no categories in NOUN.*
 It can be invoked as follows (where `n_dims` is the number of dimensions of the underlying space):
 ```
-python -m code.mds.similarity_spaces.analyze_interpretability path/to/vectors.csv n_dims path/to/output.csv
+python -m code.mds.similarity_spaces.find_directions path/to/vectors.csv n_dims path/to/classification.pickle path/to/regression.pickle path/to/output.csv
 ```
-Here, `vectors.csv` contains the vectors in an `n_dims`-dimensional similarity space (produced by `mds.r`). Depending on whether the flag `--classification` or the flag `--regression` is set (see below), the script constructs a classification/regression problem and trains a linear SVM on it. The quality of the model fit is evaluated using Cohen's kappa or the coefficient of determination R² (for classification and regression, respectively). The resulting numbers are stored in `output.csv`, along with the normal vector of the separating hyperplane (which can be interpreted as interpretable direction if the value of the evaluation metric looks promising).
+Here, `vectors.csv` contains the vectors in an `n_dims`-dimensional similarity space (produced by `mds.r`). Based on the classification and regression information (`classification.pickle` and `regression.pickle`, respectively - both outputs of `analyze_dimension.py`) the script constructs a classification and a regression problem and trains a linear SVM on them. The quality of the model fit is evaluated by extracting the normal vector of the separating hyperplane and by projecting all points onto this normal vector. Then, we use Cohen's kappa to measure how well a simple threshold classifier on the resulting values performs. Moreover, we compute the Spearman correlation of the projected vectors to the scale values from the regression problem. The resulting numbers are stored in `output.csv`, along with the extracted direction.
 
-The script takes the following optional arguments:
-- `-c` or `--classification`: Path to a pickle file containing the classification information (as created by `analyze_dimension.py`). If this flag is set, a classification task will be used for finding interpretable directions.
-- `-r` or `--regression`: Path to a pickle file containing the regression information (as created by `analyze_dimension.py`). If this flag is set, a regression task will be used for finding interpretable directions.
-- `-b` or `--baseline`: Only if this flag is set, the script will also estimate the expected values of randomly drawn points.
-- `-n` or `--repetitions`: Determines the number of repetitions used when sampling from the baselines. Defaults to 20. More samples means more accurate estimation, but longer runtime.
-- `-s` or `--seed`: Specify a seed for the random number generator in order to make the results deterministic. If no seed is given, then the random number generator is not seeded.
+#### 2.2.7 Comparing Interpretable Directions
 
-Please note that either `-r` or `-c` must be given -- if none or both arguments are given the script will not run.
+
+#### 2.2.8 Filtering Interpretable Directions
+
 
 ### 2.3 Correlations to Similarity Ratings
 
