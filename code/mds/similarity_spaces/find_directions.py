@@ -8,7 +8,8 @@ Created on Fri Nov 16 12:47:16 2018
 """
 
 import argparse, os, pickle, fcntl
-from sklearn.svm import LinearSVC, LinearSVR
+from sklearn.svm import LinearSVC
+from sklearn.linear_model import LinearRegression
 from sklearn.metrics import cohen_kappa_score
 import numpy as np
 from code.util import load_mds_vectors
@@ -83,12 +84,12 @@ for dataset_name in classification_data.keys():
     svc_model.fit(classification_data[dataset_name]['vectors'], classification_data[dataset_name]['targets'])
     svc_direction = np.reshape(svc_model.coef_, (-1))
     candidate_directions['SVC'] = normalize(svc_direction)   
-    
-    # train linear SVR on regression problem
-    svr_model = LinearSVR(dual = False, loss='squared_epsilon_insensitive')
-    svr_model.fit(regression_data[dataset_name]['vectors'], regression_data[dataset_name]['targets'])
-    svr_direction = np.reshape(svr_model.coef_, (-1))
-    candidate_directions['SVR'] = normalize(svr_direction)
+        
+    # train linear regression on regression problem    
+    lin_reg_model = LinearRegression()
+    lin_reg_model.fit(regression_data[dataset_name]['vectors'], regression_data[dataset_name]['targets'])
+    lin_reg_direction = np.reshape(lin_reg_model.coef_, (-1))
+    candidate_directions['LinReg'] = normalize(lin_reg_direction)
     
     # now project all data points onto the directions
     projected_vectors_classification = {}
