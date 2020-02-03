@@ -27,7 +27,7 @@ do
 	mkdir -p 'data/Shapes/mds/visualizations/average_images/'"$aggregator"'/'
 	mkdir -p 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/'
 	mkdir -p 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/convexity/'
-	mkdir -p 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/'
+	mkdir -p 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/raw/'
 	mkdir -p 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/'
 done
 
@@ -149,9 +149,16 @@ do
 	do
 		for i in `seq 1 $dimension_limit`
 		do
-			python -m code.mds.similarity_spaces.find_directions 'data/Shapes/mds/vectors/'"$aggregator"'/'"$i"'D-vectors.csv' $i 'data/Shapes/mds/classification/'"$dimension"'.pickle' 'data/Shapes/mds/regression/'"$dimension"'.pickle' 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/'"$dimension"'.csv'
+			python -m code.mds.similarity_spaces.find_directions 'data/Shapes/mds/vectors/'"$aggregator"'/'"$i"'D-vectors.csv' $i 'data/Shapes/mds/classification/'"$dimension"'.pickle' 'data/Shapes/mds/regression/'"$dimension"'.pickle' 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/raw/'"$dimension"'.csv' &
 		done
 	done
+done
+wait
+
+echo '    comparing directions'
+for aggregator in $aggregators
+do
+	python -m code.mds.similarity_spaces.compare_directions 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/raw/' $dimension_limit 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/similarities.csv' &
 done
 wait
 
