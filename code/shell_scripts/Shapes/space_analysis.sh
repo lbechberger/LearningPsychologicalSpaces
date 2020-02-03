@@ -201,7 +201,7 @@ do
 	# for each evaluation criterion also with the corresponding directions
 	for criterion in $criteria
 	do
-		python -m code.mds.similarity_spaces.visualize_spaces 'data/Shapes/mds/vectors/'"$aggregator"'/' 'data/Shapes/mds/visualizations/spaces/'"$aggregator"'/clean/' -i data/Shapes/images/ -m $visualization_limit -d 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/filtered.csv' -c $criterion &
+		python -m code.mds.similarity_spaces.visualize_spaces 'data/Shapes/mds/vectors/'"$aggregator"'/' 'data/Shapes/mds/visualizations/spaces/'"$aggregator"'/'"$criterion"'/' -i data/Shapes/images/ -m $visualization_limit -d 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/filtered.csv' -c $criterion &
 	done
 done
 wait
