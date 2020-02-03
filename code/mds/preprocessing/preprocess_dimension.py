@@ -18,7 +18,8 @@ parser.add_argument('-o', '--output_folder', help = 'folder where the histograms
 args = parser.parse_args()
 
 response_mapping = {'länglich': False, 'gleich': True, 'keineAhnung': None,
-                    'gebogen': True, 'gerade': False}
+                    'gebogen': True, 'gerade': False,
+                    'vertikal': True, 'horizontal': False, 'diagonal1': None, 'diagonal2': None}
 
 item_name_to_id = {}
 output = {}
