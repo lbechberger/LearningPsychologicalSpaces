@@ -410,7 +410,7 @@ def create_labeled_scatter_plot(x, y, output_file_name, x_label = "x-axis", y_la
 
     if directions is not None:
         
-        for direction_name, direction_vector in directions:
+        for direction_name, direction_vector in directions.items():
             ax.arrow(0, 0, direction_vector[0], direction_vector[1], head_width = 0.03, color = 'k')
             text_pos_x = direction_vector[0] + np.sign(direction_vector[0])*len(direction_name)*0.05
             text_pos_y = direction_vector[1] + np.sign(direction_vector[1])*0.1

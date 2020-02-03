@@ -19,8 +19,10 @@ then
 
 	# space analysis setup
 	dimension_limit=10
-	visualization_limit=2	
+	visualization_limit=5	
 	convexity_limit=5
+	criteria=("kappa spearman")
+	directions=("FORM LINES ORIENTATION visSim artificial")
 
 # parameter 'dissertation' means execution of full code as used in dissertation
 elif [ $1 = dissertation ]
@@ -35,8 +37,10 @@ then
 
 	# space analysis setup
 	dimension_limit=10
-	visualization_limit=2
+	visualization_limit=5
 	convexity_limit=5
+	criteria=("kappa spearman")
+	directions=("FORM LINES ORIENTATION visSim artificial")
 
 # all other parameters are not supported
 else

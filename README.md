@@ -249,6 +249,8 @@ The script takes the following optional arguments:
 - `-i` or `--image_folder`: Path to a folder where the images of the items are stored. If this is given, then the images from this folder are used in the visualization. If no image folder is given, then data points are labeled with their item ID.
 - `-z` or `--zoom`: Determines how much the images are scaled. Default is 0.15.
 - `-m` or `--max`: Determines the dimensionality of the largest space to be visualized. Defaults to 10.
+- `-d` or `--directions_file`: If a path to a directions file (output of `filter_directions.py`) is given, then the given directions are also included into the plots.
+- `-c` or `--criterion`: If directions are plotted, the given criterion decides which ones are used. Defaults to `kappa`. Can also be set to `spearman`.
 
 #### 2.2.4 Checking for Convexity
 

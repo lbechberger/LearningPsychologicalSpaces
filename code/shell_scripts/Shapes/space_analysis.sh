@@ -6,15 +6,17 @@
 # set up global variables
 default_aggregators=("mean median")
 default_dimension_limit=10
-default_visualization_limit=2
+default_visualization_limit=5
 default_convexity_limit=5
-default_dimensions=("FORM LINES ORIENTATION")
+default_directions=("FORM LINES ORIENTATION visSim artificial")
+default_criteria=("kappa spearman")
 
 aggregators="${aggregators:-$default_aggregators}"
 dimension_limit="${dimension_limit:-$default_dimension_limit}"
 visualization_limit="${visualization_limit:-$default_visualization_limit}"
 convexity_limit="${convexity_limit:-$default_convexity_limit}"
-dimensions="${dimensions:-$default_dimensions}"
+directions="${directions:-$default_directions}"
+criteria="${criteria:-$default_criteria}"
 
 
 # set up the directory structure
@@ -22,7 +24,11 @@ echo 'setting up directory structure'
 for aggregator in $aggregators
 do
 	mkdir -p 'data/Shapes/mds/vectors/'"$aggregator"'/'
-	mkdir -p 'data/Shapes/mds/visualizations/spaces/'"$aggregator"'/'
+	mkdir -p 'data/Shapes/mds/visualizations/spaces/'"$aggregator"'/clean/'
+	for criterion in $criteria
+	do
+		mkdir -p 'data/Shapes/mds/visualizations/spaces/'"$aggregator"'/'"$criterion"'/'
+	done
 	mkdir -p 'data/Shapes/mds/visualizations/correlations/'"$aggregator"'/'
 	mkdir -p 'data/Shapes/mds/visualizations/average_images/'"$aggregator"'/'
 	mkdir -p 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/'
@@ -145,11 +151,11 @@ echo 'RQ8: Are the interpretable directions reflected in the MDS spaces?'
 echo '    finding directions'
 for aggregator in $aggregators
 do
-	for dimension in $dimensions
+	for direction in $directions
 	do
 		for i in `seq 1 $dimension_limit`
 		do
-			python -m code.mds.similarity_spaces.find_directions 'data/Shapes/mds/vectors/'"$aggregator"'/'"$i"'D-vectors.csv' $i 'data/Shapes/mds/classification/'"$dimension"'.pickle' 'data/Shapes/mds/regression/'"$dimension"'.pickle' 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/raw/'"$dimension"'.csv' &
+			python -m code.mds.similarity_spaces.find_directions 'data/Shapes/mds/vectors/'"$aggregator"'/'"$i"'D-vectors.csv' $i 'data/Shapes/mds/classification/'"$direction"'.pickle' 'data/Shapes/mds/regression/'"$direction"'.pickle' 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/raw/'"$direction"'.csv' &
 		done
 	done
 done
@@ -165,9 +171,9 @@ wait
 echo '    filtering and aggregating directions'
 for aggregator in $aggregators
 do
-	for dimension in $dimensions
+	for direction in $directions
 	do
-		python -m code.mds.similarity_spaces.filter_directions 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/raw/'"$dimension"'.csv' $dimension $dimension_limit 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/filtered.csv' &
+		python -m code.mds.similarity_spaces.filter_directions 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/raw/'"$direction"'.csv' $direction $dimension_limit 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/filtered.csv' &
 	done
 done
 wait
@@ -190,6 +196,12 @@ wait
 echo '    visualizing MDS spaces'
 for aggregator in $aggregators
 do
-	python -m code.mds.similarity_spaces.visualize_spaces 'data/Shapes/mds/vectors/'"$aggregator"'/' 'data/Shapes/mds/visualizations/spaces/'"$aggregator"'/' -i data/Shapes/images/ -m $visualization_limit &
+	# without directions
+	python -m code.mds.similarity_spaces.visualize_spaces 'data/Shapes/mds/vectors/'"$aggregator"'/' 'data/Shapes/mds/visualizations/spaces/'"$aggregator"'/clean/' -i data/Shapes/images/ -m $visualization_limit &
+	# for each evaluation criterion also with the corresponding directions
+	for criterion in $criteria
+	do
+		python -m code.mds.similarity_spaces.visualize_spaces 'data/Shapes/mds/vectors/'"$aggregator"'/' 'data/Shapes/mds/visualizations/spaces/'"$aggregator"'/clean/' -i data/Shapes/images/ -m $visualization_limit -d 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/filtered.csv' -c $criterion &
+	done
 done
 wait

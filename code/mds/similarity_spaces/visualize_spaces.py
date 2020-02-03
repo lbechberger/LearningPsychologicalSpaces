@@ -7,7 +7,7 @@ Created on Wed Nov 14 09:54:42 2018
 @author: lbechberger
 """
 
-import argparse, os
+import argparse, os, csv
 from code.util import load_mds_vectors, load_item_images, create_labeled_scatter_plot
 
 parser = argparse.ArgumentParser(description=' Visualizing MDS spaces')
@@ -17,6 +17,7 @@ parser.add_argument('-i', '--image_folder', help = 'the folder containing images
 parser.add_argument('-z', '--zoom', type = float, help = 'the factor to which the images are scaled', default = 0.15)
 parser.add_argument('-m', '--max', type = int, help = 'size of the largest space to be visualized', default = 10)
 parser.add_argument('-d', '--directions_file', help = 'file containing the directions to plot', default = None)
+parser.add_argument('-c', '--criterion', help = 'filtering criterion to use for the directions to plot', default = 'kappa')
 args = parser.parse_args()
 
 # first read in all the vectors
@@ -45,12 +46,25 @@ if args.image_folder != None:
 # if we have directions: read them in
 if args.directions_file is not None:
     directions = {}
-    # TODO
+    for i in range(1, args.max + 1):
+        directions[i] = {}
+    
+    with open(args.directions_file, 'r') as f_in:
+        reader = csv.DictReader(f_in)
+        for row in reader:
+            dims = int(row['dims'])
+            criterion = row['criterion']
+            if dims > args.max or criterion != args.criterion:
+                continue            
+            direction_name = row['direction_name']
+            vector = [float(row['d{0}'.format(d)]) for d in range(dims)]
+            directions[dims][direction_name] = vector
     
 # iterate over all spaces
 for dim, mapping in vector_map.items():
     print('        {0} dimensions'.format(dim))
     items = list(sorted(mapping.keys()))
+    
     vectors = []
     for item in items:
         vectors.append(mapping[item])
@@ -64,4 +78,12 @@ for dim, mapping in vector_map.items():
             x_label = 'MDS dimension #{0}'.format(first_dim + 1)
             y_label = 'MDS dimension #{0}'.format(second_dim + 1)
             
-            create_labeled_scatter_plot(x, y, output_file_name, x_label = x_label, y_label = y_label, images = images, zoom = args.zoom, item_ids = items)            
+            if args.directions_file is not None:
+                plot_directions = {}
+                for direction_name, direction_vector in directions[dim].items():
+                    plot_directions[direction_name] = [direction_vector[first_dim], direction_vector[second_dim]]
+            else:
+                plot_directions = None
+                    
+            
+            create_labeled_scatter_plot(x, y, output_file_name, x_label = x_label, y_label = y_label, images = images, zoom = args.zoom, item_ids = items, directions = plot_directions)            
