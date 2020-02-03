@@ -187,8 +187,16 @@ The data about the first and second dimension is read in from `first.pickle` and
 - `-f` or `--first_name`: Name to use for the first dimension. Defaults to `first`.
 - `-s` or `--second_name`: Name to use for the second dimension. Defaults to `second`.
 
+#### 2.1.9 Creating Interpretable Dimensions from Category Information
 
-#### 2.1.9 Writing CSV Files of Aggregated Dissimilarities
+The script `dimensions_from_categories.py` uses the category structure to create candidate dimensions based on both the `visSim` and the `artificial` information. It loads the raw data from `input.pickle` (output of `preprocess_Shapes.py`) and stores the regression and classification information in the given `regression_folder` and `classification_folder`, respectively. The script can be executed as follows:
+```
+python -m code.mds.preprocessing.dimensions_from_categories path/to/input.pickle path/to/regression_folder path/to/classification_folder
+```
+The script accepts the following optional arguments:
+- `-s` or `--subset`: The subset of data to use, defaults to `all`. Possible other options are `between`, `within`, and `cats` (see above).
+
+#### 2.1.10 Writing CSV Files of Aggregated Dissimilarities
 The R script for multidimensional scaling that we will use in the next step needs the aggregated dissimilarity data in form of a CSV file. The script `pickle_to_csv.py` stores the similaritiy ratings from `input_file.pickle` into a CSV file called `distance_matrix.csv` as well as the list of item names in a file called `item_names.csv`. Both output files are stored in the given `output_folder`. The `input_file.pickle` should be the file created by `compute_similarities.py`. The script can be invoked as follows:
 ```
 python -m code.mds.preprocessing.pickle_to_csv path/to/input_file.pickle path/to/output_folder/

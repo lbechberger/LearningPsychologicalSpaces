@@ -112,16 +112,20 @@ done
 
 echo 'RQ3: comparing binary to continuous dimension ratings'
 
+# analyze each dimension and construct regression & classification problem
 for dimension in $dimensions
 do
 	echo '    looking at '"$dimension"' data'
 	python -m code.mds.preprocessing.analyze_dimension 'data/Shapes/raw_data/preprocessed/'"$dimension"'.pickle' 'data/Shapes/mds/analysis/dimension/'"$dimension"'/' 'data/Shapes/mds/classification/'"$dimension"'.pickle' 'data/Shapes/mds/regression/'"$dimension"'.pickle' -i data/Shapes/images &> 'data/Shapes/mds/analysis/dimension/'"$dimension"'/analysis.txt'
 done
 
+# compare dimensions pairwise
 python -m code.mds.preprocessing.compare_dimensions 'data/Shapes/mds/regression/FORM.pickle' 'data/Shapes/mds/regression/LINES.pickle' 'data/Shapes/mds/analysis/dimension/' -f FORM -s LINES -i data/Shapes/images &> 'data/Shapes/mds/analysis/dimension/FORM-LINES.txt'
 python -m code.mds.preprocessing.compare_dimensions 'data/Shapes/mds/regression/FORM.pickle' 'data/Shapes/mds/regression/ORIENTATION.pickle' 'data/Shapes/mds/analysis/dimension/' -f FORM -s ORIENTATION -i data/Shapes/images &> 'data/Shapes/mds/analysis/dimension/FORM-ORIENTATION.txt'
 python -m code.mds.preprocessing.compare_dimensions 'data/Shapes/mds/regression/LINES.pickle' 'data/Shapes/mds/regression/ORIENTATION.pickle' 'data/Shapes/mds/analysis/dimension/' -f LINES -s ORIENTATION -i data/Shapes/images &> 'data/Shapes/mds/analysis/dimension/LINES-ORIENTATION.txt'
 
+# create dimensions from category structure
+python -m code.mds.preprocessing.dimensions_from_categories data/Shapes/raw_data/preprocessed/data_visual.pickle data/Shapes/mds/regression/ data/Shapes/mds/classification -s between
 
 
 # RQ4: Comparing dissimilarity matrices of median aggregation and mean aggregation
