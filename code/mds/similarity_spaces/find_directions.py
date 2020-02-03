@@ -12,7 +12,7 @@ from sklearn.svm import LinearSVC
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import cohen_kappa_score
 import numpy as np
-from code.util import load_mds_vectors
+from code.util import load_mds_vectors, normalize_direction
 from scipy.stats import spearmanr
 
 parser = argparse.ArgumentParser(description='Finding interpretable directions')
@@ -22,13 +22,6 @@ parser.add_argument('classification_file', help = 'the pickle file containing th
 parser.add_argument('regression_file', help = 'the pickle file containing the regression information')
 parser.add_argument('output_file', help = 'output csv file for collecting the results')
 args = parser.parse_args()
-
-# normalizes a given vector
-def normalize(v):
-    norm = np.linalg.norm(v)
-    if norm == 0: 
-       return v
-    return v / norm
 
 # project a list of vectors onto a given direction
 def project_vectors_onto_direction(vectors, direction):
@@ -83,13 +76,13 @@ for dataset_name in classification_data.keys():
     svc_model = LinearSVC(dual = False)
     svc_model.fit(classification_data[dataset_name]['vectors'], classification_data[dataset_name]['targets'])
     svc_direction = np.reshape(svc_model.coef_, (-1))
-    candidate_directions['SVC'] = normalize(svc_direction)   
+    candidate_directions['SVC'] = normalize_direction(svc_direction)   
         
     # train linear regression on regression problem    
     lin_reg_model = LinearRegression()
     lin_reg_model.fit(regression_data[dataset_name]['vectors'], regression_data[dataset_name]['targets'])
     lin_reg_direction = np.reshape(lin_reg_model.coef_, (-1))
-    candidate_directions['LinReg'] = normalize(lin_reg_direction)
+    candidate_directions['LinReg'] = normalize_direction(lin_reg_direction)
     
     # now project all data points onto the directions
     projected_vectors_classification = {}

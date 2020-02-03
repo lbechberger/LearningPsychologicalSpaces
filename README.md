@@ -289,6 +289,11 @@ python -m code.mds.similarity_spaces.compare_directions path/to/input_folder/ n_
 ```
 
 #### 2.2.8 Filtering Interpretable Directions
+In order to aggregate the different candidate directions for each feature, one can use the script `filter_directions.py`. It can be invoked as follows:
+```
+python -m code.mds.similarity_spaces.filter_directions path/to/input_file.csv direction_name n_dims path/to/output.csv
+```
+The script loads the candidate directions along with their evaluation results from `input_file.csv` (which is the output of `find_directions.py`). For each space (up to `n_dims`), it compares all candidate directions based on Cohen's kappa and based on the Spearman correlation. For each of these evaluation metrics, the directions with the highest values are kept and averaged. The result (the dimensionality of the space, the `direction_name`, the averaged direction and the list of candidate directions it is based on) is written to `output.csv`.
 
 
 ### 2.3 Correlations to Similarity Ratings

@@ -162,11 +162,15 @@ do
 done
 wait
 
-#TODO compare cosine similarity of directions
-
-#TODO filter interpretable dimensions
-
-
+echo '    filtering and aggregating directions'
+for aggregator in $aggregators
+do
+	for dimension in $dimensions
+	do
+		python -m code.mds.similarity_spaces.filter_directions 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/raw/'"$dimension"'.csv' $dimension $dimension_limit 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/filtered.csv' &
+	done
+done
+wait
 
 
 # Some additional visualizations

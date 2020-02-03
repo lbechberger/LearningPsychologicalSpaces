@@ -420,3 +420,13 @@ def create_labeled_scatter_plot(x, y, output_file_name, x_label = "x-axis", y_la
 
     fig.savefig(output_file_name, bbox_inches='tight', dpi=200)
     plt.close()
+
+
+def normalize_direction(v):
+    """
+    Normalizes the given vector v (i.e., divides it by its length).
+    """
+    norm = np.linalg.norm(v)
+    if norm == 0: 
+       return v
+    return v / norm
