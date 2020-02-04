@@ -33,8 +33,8 @@ for direction_name, neg_name, pos_name in candidate_directions:
 
     for category in categories_of_interest:
         category_info = data_set['categories'][category]
-        pos_examples += [item for item in category_info['items'] if category_info[direction_name] == pos_name]
-        neg_examples += [item for item in category_info['items'] if category_info[direction_name] == neg_name]
+        pos_examples += [item for item in category_info['items'] if category_info[direction_name] == pos_name and item in items_of_interest]
+        neg_examples += [item for item in category_info['items'] if category_info[direction_name] == neg_name and item in items_of_interest]
         
     classification_output = {'metadata': {'positive': pos_examples, 'negative': neg_examples}}      
         
