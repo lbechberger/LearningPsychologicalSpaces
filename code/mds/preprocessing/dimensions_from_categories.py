@@ -8,7 +8,6 @@ Created on Mon Feb  3 09:34:20 2020
 """
 
 import pickle, argparse, os
-import numpy as np
 from code.util import select_data_subset
 
 parser = argparse.ArgumentParser(description='Creating initerpretable directions from metadata about categories')
@@ -27,22 +26,27 @@ items_of_interest, _, categories_of_interest =  select_data_subset(args.subset, 
 
 candidate_directions = [('visSim', 'Sim', 'Dis'), ('artificial', 'nat', 'art')]
 
-for category in categories_of_interest:
-    category_info = data_set['categories'][category]
-    for direction_name, neg_name, pos_name in candidate_directions:
-        pos_examples = [item for item in category_info['items'] if category_info[direction_name] == pos_name]
-        neg_examples = [item for item in category_info['items'] if category_info[direction_name] == neg_name]
-        classification_output = {'metadata': {'positive': pos_examples, 'negative': neg_examples}}      
+for direction_name, neg_name, pos_name in candidate_directions:
+    pos_examples = []
+    neg_examples = []
+
+
+    for category in categories_of_interest:
+        category_info = data_set['categories'][category]
+        pos_examples += [item for item in category_info['items'] if category_info[direction_name] == pos_name]
+        neg_examples += [item for item in category_info['items'] if category_info[direction_name] == neg_name]
         
-        with open(os.path.join(args.classification_folder, '{0}.pickle'.format(direction_name)), 'wb') as f_out:
-            pickle.dump(classification_output, f_out)
+    classification_output = {'metadata': {'positive': pos_examples, 'negative': neg_examples}}      
         
-        regression_map = {}
-        for item in pos_examples:
-            regression_map[item] = 1
-        for item in neg_examples:
-            regression_map[item] = -1
-        regression_output = {'metadata': regression_map}
-        
-        with open(os.path.join(args.regression_folder, '{0}.pickle'.format(direction_name)), 'wb') as f_out:
-            pickle.dump(regression_output, f_out)
+    with open(os.path.join(args.classification_folder, '{0}.pickle'.format(direction_name)), 'wb') as f_out:
+        pickle.dump(classification_output, f_out)
+    
+    regression_map = {}
+    for item in pos_examples:
+        regression_map[item] = 1
+    for item in neg_examples:
+        regression_map[item] = -1
+    regression_output = {'metadata': regression_map}
+    
+    with open(os.path.join(args.regression_folder, '{0}.pickle'.format(direction_name)), 'wb') as f_out:
+        pickle.dump(regression_output, f_out)

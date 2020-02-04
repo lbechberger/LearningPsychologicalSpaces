@@ -127,6 +127,7 @@ for aggregator in $aggregators
 do
 	python -m code.mds.correlations.dimension_correlations 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/sim.pickle' 'data/Shapes/mds/regression/' -o 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/dims.csv' &
 done
+wait
 
 # RQ7: How well do the MDS Spaces Enforce the Convexity of Conceptual Regions?
 # ----------------------------------------------------------------------------

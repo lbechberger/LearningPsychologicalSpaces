@@ -52,7 +52,12 @@ with open(args.output_file, 'w', buffering=1) as f_out:
             # ignore empty set
             continue
         
-        for scale_type in sorted(dimension_data[space[0]].keys()):       
+        largest_set_of_scale_types = []
+        for dim_name in space:
+            if len(dimension_data[dim_name].keys()) > len(largest_set_of_scale_types):
+                largest_set_of_scale_types = sorted(dimension_data[dim_name].keys())
+        
+        for scale_type in largest_set_of_scale_types:       
         
             # populate the vectors
             vectors = []
@@ -61,7 +66,11 @@ with open(args.output_file, 'w', buffering=1) as f_out:
                 
                 item_vec = []
                 for dim_name in space:
-                    item_vec.append(dimension_data[dim_name][scale_type][item_id])
+                    if scale_type in dimension_data[dim_name]:
+                        item_vec.append(dimension_data[dim_name][scale_type][item_id])
+                    else:
+                        # dimensions extracted from categories: only have one constant scale type
+                        item_vec.append(dimension_data[dim_name]['metadata'][item_id])
                 item_vec = np.array(item_vec)
                 vectors.append(item_vec.reshape((-1,1)))
                
