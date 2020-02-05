@@ -72,7 +72,7 @@ with open(args.output_file, 'w', buffering=1) as f_out:
                         # dimensions extracted from categories: only have one constant scale type
                         item_vec.append(dimension_data[dim_name]['metadata'][item_id])
                 item_vec = np.array(item_vec)
-                vectors.append(item_vec.reshape((-1,1)))
+                vectors.append(item_vec.reshape(1,-1))
                
             # compute correlations
             for distance_name, distance_function in distance_functions.items():
