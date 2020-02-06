@@ -174,7 +174,8 @@ for aggregator in $aggregators
 do
 	for direction in $directions
 	do
-		python -m code.mds.similarity_spaces.filter_directions 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/raw/'"$direction"'.csv' $direction $dimension_limit 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/filtered.csv' &
+		# TODO update thresholds based on analysis of raw results
+		python -m code.mds.similarity_spaces.filter_directions 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/raw/'"$direction"'.csv' $direction $dimension_limit 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/filtered.csv' -k 0.5 -s 0.5 &
 	done
 done
 wait
