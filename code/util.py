@@ -430,3 +430,21 @@ def normalize_direction(v):
     if norm == 0: 
        return v
     return v / norm
+
+def normalize_vectors(vectors):
+    """
+    Normalizes a given list of vectors such that their centroid is in the origin 
+    and that their root mean squared distance from the origin equals one.
+    """
+
+    # first center them
+    centroid = np.average(vectors, axis = 0)
+    centered_vectors = vectors - centroid
+    
+    # now rescale them
+    squared_distances = np.sum(np.square(centered_vectors), axis = 1)
+    mean_squared_distance = np.average(squared_distances)
+    root_mean_squared_distance = np.sqrt(mean_squared_distance) 
+    normalized_vectors = centered_vectors / root_mean_squared_distance    
+    
+    return normalized_vectors

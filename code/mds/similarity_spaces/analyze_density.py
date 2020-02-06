@@ -10,7 +10,7 @@ Created on Wed Jan 29 12:47:17 2020
 import pickle, argparse, os, fcntl
 import numpy as np
 from sklearn.metrics.pairwise import euclidean_distances
-from code.util import load_mds_vectors
+from code.util import load_mds_vectors, normalize_vectors
 
 parser = argparse.ArgumentParser(description='Density analysis')
 parser.add_argument('vector_file', help = 'the input file containing the vectors')
@@ -73,11 +73,13 @@ for category in categories:
         for i in range(args.repetitions):
             # UNIFORM
             uniform_points = np.random.rand(len(category_points), args.n, 1)
-            avg_uniform_distance += mean_distance_to_prototype(uniform_points)       
+            uniform_points = normalize_vectors(uniform_points)
+            avg_uniform_distance += mean_distance_to_prototype(uniform_points)
             
             # NORMAL
             normal_points = np.random.normal(size=(len(category_points), args.n, 1))
-            avg_normal_distance += mean_distance_to_prototype(normal_points)       
+            normal_points = normalize_vectors(normal_points)
+            avg_normal_distance += mean_distance_to_prototype(normal_points)
             
             # SHUFFLED
             shuffled_data_points = []
