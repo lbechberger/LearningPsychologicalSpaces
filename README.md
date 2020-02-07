@@ -308,6 +308,11 @@ The script takes the following optional parameters:
 - `-k` or `--kappa_threshold`: Minimal value of Cohen's kappa required to pass the filter. Defaults to 0.
 - `-s` or `--spearman_threshold`: Minimal value of the Spearman correlation required to pass the filter. Defaults to 0.
 
+#### 2.2.9 Aggregating Evaluation Results for Interpretable Directions
+In order to make the subsequent analysis easier, the script `aggregate_direction_results.py` can be used to aggregate the evaluation results created by `find_directions.py` based on direction name, scale type, and ML model (by averaging over the two other conditions). It is executed as follows, where `input_folder`contains the csv files created by `find_directions.py` (and no additional files!), `n_dims` is the maximal dimensionality of the similarity space to consider. The results will be stored as separate csv files inside the `output_folder`.
+```
+python -m code.mds.similarity_spaces.aggregate_direction_results path/to/input_folder/ n_dims path/to/output/folder
+```
 
 ### 2.3 Correlations to Similarity Ratings
 

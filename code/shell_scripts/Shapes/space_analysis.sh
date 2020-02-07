@@ -34,6 +34,7 @@ do
 	mkdir -p 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/'
 	mkdir -p 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/convexity/'
 	mkdir -p 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/raw/'
+	mkdir -p 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/aggregated/'
 	mkdir -p 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/'
 done
 
@@ -174,7 +175,9 @@ for aggregator in $aggregators
 do
 	for direction in $directions
 	do
-		# TODO update thresholds based on analysis of raw results
+		python -m code.mds.similarity_spaces.aggregate_direction_results 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/raw/' $dimension_limit 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/aggregated/'
+
+		# TODO update thresholds based on analysis of raw results		
 		python -m code.mds.similarity_spaces.filter_directions 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/raw/'"$direction"'.csv' $direction $dimension_limit 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/filtered.csv' -k 0.5 -s 0.5 &
 	done
 done
