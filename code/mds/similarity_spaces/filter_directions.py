@@ -16,8 +16,8 @@ parser.add_argument('input_file', help = 'the input csv file for the given direc
 parser.add_argument('direction_name', help = 'human-readable name for the direction')
 parser.add_argument('n_dims', type = int, help = 'the maximal number of dimensions to consider')
 parser.add_argument('output_file', help = 'output csv file for storing the identified directions')
-parser.add_argument('-k', '--kappa_threshod', type = float, help = 'minimal kappa value needed to pass the filter', default = 0.0)
-parser.add_argument('-s', '--spearman_threshod', type = float, help = 'minimal spearman correlation needed to pass the filter', default = 0.0)
+parser.add_argument('-k', '--kappa_threshold', type = float, help = 'minimal kappa value needed to pass the filter', default = 0.0)
+parser.add_argument('-s', '--spearman_threshold', type = float, help = 'minimal spearman correlation needed to pass the filter', default = 0.0)
 args = parser.parse_args()
 
 thresholds = {'kappa': args.kappa_threshold, 'spearman': args.spearman_threshold }
