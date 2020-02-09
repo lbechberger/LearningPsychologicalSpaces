@@ -21,7 +21,11 @@ parser.add_argument('regression_file', help = 'output pickle file for the regres
 parser.add_argument('-i', '--image_folder', help = 'the folder containing images of the items', default = None)
 parser.add_argument('-z', '--zoom', type = float, help = 'the factor to which the images are scaled', default = 0.15)
 parser.add_argument('-r', '--response_times', action = 'store_true', help = 'additionally convert response times into scale')
+parser.add_argument('-m', '--median', action = 'store_true', help = 'use the median for aggregation instead of the mean')
 args = parser.parse_args()
+
+# set aggregator function based on parameter
+aggregator = np.median if args.median else np.mean
 
 # load feature data
 with open(args.input_file, 'rb') as f_in:
@@ -38,75 +42,53 @@ images = None
 if args.image_folder != None:
     images = load_item_images(args.image_folder, items_sorted)    
 
-
-aggregated_binary = {}
-aggregated_continuous_mean = {}
-aggregated_continuous_median = {}
+aggregated_pre_attentive = {}
+aggregated_attentive = {}
 
 if args.response_times:
-    aggregated_rt_mean = {}
-    aggregated_rt_median = {}
-    max_rt_mean = float('-inf')
-    min_rt_mean = float('inf')
-    max_rt_median = float('-inf')
-    min_rt_median = float('inf')
+    aggregated_rt = {}
+    max_rt = float('-inf')
+    min_rt = float('inf')
 
 # aggregate the individual responses into an overall score on a scale from -1 to 1
 for item_id, inner_dict in feature_data.items():
     # collect information about this item
-    binary_responses = list(map(lambda x: x[1], inner_dict['binary']))
-    binary_rts = list(map(lambda x: x[0], inner_dict['binary']))
-    continuous = inner_dict['continuous']
+    pre_attentive_responses = list(map(lambda x: x[1], inner_dict['pre-attentive']))
+    attentive_responses = inner_dict['attentive']
     
-    # aggregate classification decision into scale: percentage of True - percentage of False --> value between -1 and 1
-    binary_value = (binary_responses.count(True) - binary_responses.count(False)) / len(binary_responses)
-    aggregated_binary[item_id] = binary_value
+    # aggregate pre-attentive classification decision into scale: percentage of True - percentage of False --> value between -1 and 1
+    pre_attentive_value = (pre_attentive_responses.count(True) - pre_attentive_responses.count(False)) / len(pre_attentive_responses)
+    aggregated_pre_attentive[item_id] = pre_attentive_value
     
     if args.response_times:
+        # load RTs
+        rts = list(map(lambda x: x[0], inner_dict['pre-attentive']))
         # aggregate response time into scale: take median RT
-        rt_mean = np.mean(binary_rts)
+        rt = aggregator(rts)
         # put through logarithm (RT ~ e^-x --> x ~ -ln RT)
-        rt_abs_mean = -np.log(rt_mean)
-        aggregated_rt_mean[item_id] = rt_abs_mean
+        rt_abs = -np.log(rt)
+        aggregated_rt[item_id] = rt_abs
         # keep maximum and minimum up to date
-        max_rt_mean = max(max_rt_mean, rt_abs_mean)
-        min_rt_mean = min(min_rt_mean, rt_abs_mean)
+        max_rt = max(max_rt, rt_abs)
+        min_rt = min(min_rt, rt_abs)
     
-        rt_median = np.median(binary_rts)
-        rt_abs_median = -np.log(rt_median)
-        aggregated_rt_median[item_id] = rt_abs_median
-        max_rt_median = max(max_rt_median, rt_abs_median)
-        min_rt_median = min(min_rt_median, rt_abs_median)
-
-    # aggregate continouous rating into scale: take median/median and rescale it from [0,1000] to [-1,1]
-    continuous_mean = np.mean(continuous)
-    continuous_mean_value = (continuous_mean / 500) - 1
-    aggregated_continuous_mean[item_id] = continuous_mean_value
-
-    continuous_median = np.median(continuous)
-    continuous_median_value = (continuous_median / 500) - 1
-    aggregated_continuous_median[item_id] = continuous_median_value
+    # aggregate attentive continouous rating into scale: take median/median and rescale it from [0,1000] to [-1,1]
+    attentive = aggregator(attentive_responses)
+    attentive_value = (attentive / 500) - 1
+    aggregated_attentive[item_id] = attentive_value
 
 if args.response_times:
     # need to rescale the RT-based ratings onto a scale between -1 and 1
-    for item_id, rt_abs in aggregated_rt_mean.items():
-        rt_abs_rescaled = (rt_abs - min_rt_mean) / (max_rt_mean - min_rt_mean)
+    for item_id, rt_abs in aggregated_rt.items():
+        rt_abs_rescaled = (rt_abs - min_rt) / (max_rt - min_rt)
         # multiply with sign of binary_value to distinguish positive from negative examples
-        rt_value = rt_abs_rescaled * np.sign(aggregated_binary[item_id])
-        aggregated_rt_mean[item_id] = rt_value
-        
-    for item_id, rt_abs in aggregated_rt_median.items():
-        rt_abs_rescaled = (rt_abs - min_rt_median) / (max_rt_median - min_rt_median)
-        # multiply with sign of binary_value to distinguish positive from negative examples
-        rt_value = rt_abs_rescaled * np.sign(aggregated_binary[item_id])
-        aggregated_rt_median[item_id] = rt_value
-    
+        rt_value = rt_abs_rescaled * np.sign(aggregated_attentive[item_id])
+        aggregated_rt[item_id] = rt_value
     
 # store this information as regression output
-regression_output = {'binary': aggregated_binary, 'continuous_mean': aggregated_continuous_mean, 'continuous_median': aggregated_continuous_median}
+regression_output = {'pre-attentive': aggregated_pre_attentive, 'attentive': aggregated_attentive}
 if args.response_times:
-    regression_output['rt_mean'] = aggregated_rt_mean
-    regression_output['rt_median'] = aggregated_rt_median
+    regression_output['rt'] = aggregated_rt
     
 with open(args.regression_file, 'wb') as f_out:
     pickle.dump(regression_output, f_out)    

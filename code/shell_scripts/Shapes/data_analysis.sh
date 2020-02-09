@@ -53,7 +53,7 @@ for dataset in $datasets
 do
 	echo '    reading CSV files for '"$dataset"' similarity'
 	[ "$dataset" == "conceptual" ] && reverse_flag='--reverse' || reverse_flag=''	
-	python -m code.mds.preprocessing.preprocess_Shapes data/Shapes/raw_data/within.csv 'data/Shapes/raw_data/'"$dataset"'.csv' 'data/Shapes/raw_data/preprocessed/data_'"$dataset"'.pickle' $reverse_flag &> 'data/Shapes/raw_data/preprocessed/preprocess_'"$dataset"'.txt'
+	python -m code.mds.preprocessing.preprocess_Shapes data/Shapes/raw_data/visual_similarities_within.csv 'data/Shapes/raw_data/'"$dataset"'_similarities.csv' 'data/Shapes/raw_data/preprocessed/data_'"$dataset"'.pickle' $reverse_flag &> 'data/Shapes/raw_data/preprocessed/preprocess_'"$dataset"'.txt'
 
 done
 
@@ -61,7 +61,7 @@ done
 for feature in $perceptual_features
 do
 	echo '    reading CSV files for '"$feature"' ratings'
-	python -m code.mds.preprocessing.preprocess_feature 'data/Shapes/raw_data/'"$feature"'_binary.csv' 'data/Shapes/raw_data/'"$feature"'_continuous.csv' 'data/Shapes/raw_data/preprocessed/'"$feature"'.pickle' -p -o 'data/Shapes/mds/analysis/features/'"$feature"'/' &> 'data/Shapes/raw_data/preprocessed/preprocess_'"$feature"'.txt'
+	python -m code.mds.preprocessing.preprocess_feature 'data/Shapes/raw_data/'"$feature"'_pre-attentive.csv' 'data/Shapes/raw_data/'"$feature"'_attentive.csv' 'data/Shapes/raw_data/preprocessed/'"$feature"'.pickle' -p -o 'data/Shapes/mds/analysis/features/'"$feature"'/' &> 'data/Shapes/raw_data/preprocessed/preprocess_'"$feature"'.txt'
 
 done
 	
@@ -116,7 +116,7 @@ echo 'RQ3: Comparing pre-attentive to attentive ratings of perceptual features'
 for feature in $perceptual_features
 do
 	echo '    looking at '"$feature"' data'
-	python -m code.mds.preprocessing.analyze_feature 'data/Shapes/raw_data/preprocessed/'"$feature"'.pickle' 'data/Shapes/mds/analysis/features/'"$feature"'/' 'data/Shapes/mds/classification/'"$feature"'.pickle' 'data/Shapes/mds/regression/'"$feature"'.pickle' -i data/Shapes/images &> 'data/Shapes/mds/analysis/features/'"$feature"'/analysis.txt'
+	python -m code.mds.preprocessing.analyze_feature 'data/Shapes/raw_data/preprocessed/'"$feature"'.pickle' 'data/Shapes/mds/analysis/features/'"$feature"'/' 'data/Shapes/mds/classification/'"$feature"'.pickle' 'data/Shapes/mds/regression/'"$feature"'.pickle' -i data/Shapes/images -m &> 'data/Shapes/mds/analysis/features/'"$feature"'/analysis.txt'
 done
 
 # compare features pairwise
@@ -131,7 +131,7 @@ do
 	done
 done
 
-# create features from category structure (i.e., 'artificial' and 'visSim')
+# create features from category structure (i.e., 'artificial' and 'visSim') for further analysis
 python -m code.mds.preprocessing.features_from_categories data/Shapes/raw_data/preprocessed/data_visual.pickle data/Shapes/mds/regression/ data/Shapes/mds/classification -s between
 
 
