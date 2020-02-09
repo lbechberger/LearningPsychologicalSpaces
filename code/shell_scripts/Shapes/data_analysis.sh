@@ -61,7 +61,7 @@ done
 for feature in $perceptual_features
 do
 	echo '    reading CSV files for '"$feature"' ratings'
-	python -m code.mds.preprocessing.preprocess_dimension 'data/Shapes/raw_data/'"$feature"'_binary.csv' 'data/Shapes/raw_data/'"$feature"'_continuous.csv' 'data/Shapes/raw_data/preprocessed/'"$feature"'.pickle' -p -o 'data/Shapes/mds/analysis/features/'"$feature"'/' &> 'data/Shapes/raw_data/preprocessed/preprocess_'"$feature"'.txt'
+	python -m code.mds.preprocessing.preprocess_feature 'data/Shapes/raw_data/'"$feature"'_binary.csv' 'data/Shapes/raw_data/'"$feature"'_continuous.csv' 'data/Shapes/raw_data/preprocessed/'"$feature"'.pickle' -p -o 'data/Shapes/mds/analysis/features/'"$feature"'/' &> 'data/Shapes/raw_data/preprocessed/preprocess_'"$feature"'.txt'
 
 done
 	
@@ -116,7 +116,7 @@ echo 'RQ3: Comparing pre-attentive to attentive ratings of perceptual features'
 for feature in $perceptual_features
 do
 	echo '    looking at '"$feature"' data'
-	python -m code.mds.preprocessing.analyze_dimension 'data/Shapes/raw_data/preprocessed/'"$feature"'.pickle' 'data/Shapes/mds/analysis/features/'"$feature"'/' 'data/Shapes/mds/classification/'"$feature"'.pickle' 'data/Shapes/mds/regression/'"$feature"'.pickle' -i data/Shapes/images &> 'data/Shapes/mds/analysis/features/'"$feature"'/analysis.txt'
+	python -m code.mds.preprocessing.analyze_feature 'data/Shapes/raw_data/preprocessed/'"$feature"'.pickle' 'data/Shapes/mds/analysis/features/'"$feature"'/' 'data/Shapes/mds/classification/'"$feature"'.pickle' 'data/Shapes/mds/regression/'"$feature"'.pickle' -i data/Shapes/images &> 'data/Shapes/mds/analysis/features/'"$feature"'/analysis.txt'
 done
 
 # compare features pairwise
@@ -126,13 +126,13 @@ do
 	do
 		if [[ "$first_feature" < "$second_feature" ]]
 		then
-			python -m code.mds.preprocessing.compare_dimensions 'data/Shapes/mds/regression/'"$first_feature"'.pickle' 'data/Shapes/mds/regression/'"$second_feature"'.pickle' 'data/Shapes/mds/analysis/features/' -f $first_feature -s $second_feature -i data/Shapes/images &> 'data/Shapes/mds/analysis/features/'"$first_feature"'-'$second_feature'.txt'
+			python -m code.mds.preprocessing.compare_features 'data/Shapes/mds/regression/'"$first_feature"'.pickle' 'data/Shapes/mds/regression/'"$second_feature"'.pickle' 'data/Shapes/mds/analysis/features/' -f $first_feature -s $second_feature -i data/Shapes/images &> 'data/Shapes/mds/analysis/features/'"$first_feature"'-'$second_feature'.txt'
 		fi
 	done
 done
 
 # create features from category structure (i.e., 'artificial' and 'visSim')
-python -m code.mds.preprocessing.dimensions_from_categories data/Shapes/raw_data/preprocessed/data_visual.pickle data/Shapes/mds/regression/ data/Shapes/mds/classification -s between
+python -m code.mds.preprocessing.features_from_categories data/Shapes/raw_data/preprocessed/data_visual.pickle data/Shapes/mds/regression/ data/Shapes/mds/classification -s between
 
 
 # RQ4: Comparing dissimilarity matrices of median aggregation and mean aggregation

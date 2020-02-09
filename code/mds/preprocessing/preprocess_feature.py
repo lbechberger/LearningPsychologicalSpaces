@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Read in the ratings about a given dimension and store it as pickle file.
+Read in the ratings about a given psychological feature and store it as pickle file.
 
 Created on Thu Jan  9 11:48:19 2020
 
@@ -9,15 +9,16 @@ Created on Thu Jan  9 11:48:19 2020
 
 import pickle, argparse, csv
 
-parser = argparse.ArgumentParser(description='Preprocessing dimension ratings')
-parser.add_argument('binary_file', help = 'CSV file containing the binary dimension ratings')
-parser.add_argument('continuous_file', help = 'CSV file containing the continuous dimension ratings')
+parser = argparse.ArgumentParser(description='Preprocessing ratings for psychological features')
+parser.add_argument('binary_file', help = 'CSV file containing the binary feature ratings')
+parser.add_argument('continuous_file', help = 'CSV file containing the continuous feature ratings')
 parser.add_argument('output_file', help = 'path to the output pickle file')
 parser.add_argument('-p', '--plot', action = 'store_true', help = 'plot histograms for the given values')
 parser.add_argument('-o', '--output_folder', help = 'folder where the histograms shall be stored', default = '.')
 args = parser.parse_args()
 
-response_mapping = {'länglich': False, 'gleich': True, 'keineAhnung': None,
+response_mapping = {'keineAhnung': None,
+                    'länglich': False, 'gleich': True, 
                     'gebogen': True, 'gerade': False,
                     'vertikal': True, 'horizontal': False, 'diagonal1': None, 'diagonal2': None}
 

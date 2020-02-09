@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Computes the correlations between the scales for two interpretable dimensions.
+Computes the correlations between the scales for two psychological features.
 
 Created on Mon Jan 27 15:52:20 2020
 
@@ -11,20 +11,20 @@ import pickle, argparse, os
 from scipy.stats import spearmanr
 from code.util import load_item_images, create_labeled_scatter_plot
 
-parser = argparse.ArgumentParser(description='Correlating the scales of two dimensions')
-parser.add_argument('first_dimension', help = 'pickle file containing the data about the first dimension')
-parser.add_argument('second_dimension', help = 'pickle file containing the data about the second dimension')
+parser = argparse.ArgumentParser(description='Correlating the scales of two features')
+parser.add_argument('first_feature', help = 'pickle file containing the data about the first feature')
+parser.add_argument('second_feature', help = 'pickle file containing the data about the second feature')
 parser.add_argument('output_folder', help = 'folder where the plots will be stored')
 parser.add_argument('-i', '--image_folder', help = 'the folder containing images of the items', default = None)
 parser.add_argument('-z', '--zoom', type = float, help = 'the factor to which the images are scaled', default = 0.15)
-parser.add_argument('-f', '--first_name', help = 'name for the first dimension', default = 'first')
-parser.add_argument('-s', '--second_name', help = 'name for the second dimension', default = 'second')
+parser.add_argument('-f', '--first_name', help = 'name for the first feature', default = 'first')
+parser.add_argument('-s', '--second_name', help = 'name for the second feature', default = 'second')
 args = parser.parse_args()
 
-# load dimension data
-with open(args.first_dimension, 'rb') as f_in:
+# load feature data
+with open(args.first_feature, 'rb') as f_in:
     first_data = pickle.load(f_in)
-with open(args.second_dimension, 'rb') as f_in:
+with open(args.second_feature, 'rb') as f_in:
     second_data = pickle.load(f_in)
 
 # sorted list of item_ids
@@ -36,7 +36,7 @@ if args.image_folder != None:
     images = load_item_images(args.image_folder, items_sorted)    
 
 
-# look at binary, continuous, RT separately
+# look at all scale types separately
 for scale_type in sorted(first_data.keys()):
     first_scale = first_data[scale_type]
     second_scale = second_data[scale_type]

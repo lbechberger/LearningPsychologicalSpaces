@@ -123,10 +123,10 @@ do
 done
 wait
 
-echo '    correlation of distances on the interpretable dimensions to dissimilarities from the matrices'
+echo '    correlation of distances on the interpretable directions to dissimilarities from the matrices'
 for aggregator in $aggregators
 do
-	python -m code.mds.correlations.dimension_correlations 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/sim.pickle' 'data/Shapes/mds/regression/' -o 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/dims.csv' &
+	python -m code.mds.correlations.feature_correlations 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/sim.pickle' 'data/Shapes/mds/regression/' -o 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/dims.csv' &
 done
 wait
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Analyzes a given dimension based on its ratings and creates regression and classification targets for downstream tasks.
+Analyzes a given pychological feature based on its ratings and creates regression and classification targets for downstream tasks.
 
 Created on Thu Jan  9 12:44:34 2020
 
@@ -13,8 +13,8 @@ from itertools import combinations
 from scipy.stats import spearmanr
 from code.util import load_item_images, create_labeled_scatter_plot
 
-parser = argparse.ArgumentParser(description='Analyzing dimension data')
-parser.add_argument('input_file', help = 'pickle file containing the preprocessed dimension data')
+parser = argparse.ArgumentParser(description='Analyzing psychological feature')
+parser.add_argument('input_file', help = 'pickle file containing the preprocessed feature data')
 parser.add_argument('analysis_folder', help = 'folder where the plots will be stored')
 parser.add_argument('classification_file', help = 'output pickle file for the classification information')
 parser.add_argument('regression_file', help = 'output pickle file for the regression information')
@@ -23,15 +23,15 @@ parser.add_argument('-z', '--zoom', type = float, help = 'the factor to which th
 parser.add_argument('-r', '--response_times', action = 'store_true', help = 'additionally convert response times into scale')
 args = parser.parse_args()
 
-# load dimension data
+# load feature data
 with open(args.input_file, 'rb') as f_in:
-    dimension_data = pickle.load(f_in)
+    feature_data = pickle.load(f_in)
 
 # sorted list of item_ids
-items_sorted = list(sorted(list(dimension_data.keys())))
+items_sorted = list(sorted(list(feature_data.keys())))
 item_names = {}
 for item in items_sorted:
-    item_names[item] = dimension_data[item]['name']
+    item_names[item] = feature_data[item]['name']
 
 # then read in all the images
 images = None
@@ -52,7 +52,7 @@ if args.response_times:
     min_rt_median = float('inf')
 
 # aggregate the individual responses into an overall score on a scale from -1 to 1
-for item_id, inner_dict in dimension_data.items():
+for item_id, inner_dict in feature_data.items():
     # collect information about this item
     binary_responses = list(map(lambda x: x[1], inner_dict['binary']))
     binary_rts = list(map(lambda x: x[0], inner_dict['binary']))
