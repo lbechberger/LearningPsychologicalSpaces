@@ -9,13 +9,13 @@ then
 # parameter 'paper' means execution of paper code only
 elif [ $1 = paper ]
 then
-	echo '[configuration of CARLA paper]'
+	echo '[configuration of paper]'
 
 	# data analysis setup
 	datasets=("visual conceptual")
 	aggregators=("mean median")
 	image_sizes=("283 100 50 20 10 5")
-	dimensions=("FORM LINES ORIENTATION")
+	perceptual_features=("FORM LINES ORIENTATION")
 
 	# space analysis setup
 	dimension_limit=10
@@ -33,7 +33,7 @@ then
 	datasets=("visual conceptual")
 	aggregators=("mean median")
 	image_sizes=("283 100 50 20 10 5")
-	dimensions=("FORM LINES ORIENTATION")
+	perceptual_features=("FORM LINES ORIENTATION")
 
 	# space analysis setup
 	dimension_limit=10

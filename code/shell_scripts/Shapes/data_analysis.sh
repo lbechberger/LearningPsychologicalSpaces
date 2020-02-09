@@ -7,12 +7,12 @@
 default_datasets=("visual conceptual")
 default_aggregators=("mean median")
 default_image_sizes=("283 100 50 20 10 5")
-default_dimensions=("FORM LINES ORIENTATION")
+default_perceptual_features=("FORM LINES ORIENTATION")
 
 datasets="${datasets:-$default_datasets}"
 aggregators="${aggregators:-$default_aggregators}"
 image_sizes="${image_sizes:-$default_image_sizes}"
-dimensions="${dimensions:-$default_dimensions}"
+perceptual_features="${perceptual_features:-$default_perceptual_features}"
 
 # set up the directory structure
 echo 'setting up directory structure'
@@ -33,9 +33,9 @@ do
 	mkdir -p 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/'
 done
 
-for dimension in $dimensions
+for feature in $perceptual_features
 do
-	mkdir -p 'data/Shapes/mds/analysis/dimension/'"$dimension"'/'
+	mkdir -p 'data/Shapes/mds/analysis/features/'"$feature"'/'
 done
 
 for image_size in $image_sizes
@@ -57,11 +57,11 @@ do
 
 done
 
-# read in dimension data and preprocess it
-for dimension in $dimensions
+# read in perceptual feature data and preprocess it
+for feature in $perceptual_features
 do
-	echo '    reading CSV files for '"$dimension"' ratings'
-	python -m code.mds.preprocessing.preprocess_dimension 'data/Shapes/raw_data/'"$dimension"'_binary.csv' 'data/Shapes/raw_data/'"$dimension"'_continuous.csv' 'data/Shapes/raw_data/preprocessed/'"$dimension"'.pickle' -p -o 'data/Shapes/mds/analysis/dimension/'"$dimension"'/' &> 'data/Shapes/raw_data/preprocessed/preprocess_'"$dimension"'.txt'
+	echo '    reading CSV files for '"$feature"' ratings'
+	python -m code.mds.preprocessing.preprocess_dimension 'data/Shapes/raw_data/'"$feature"'_binary.csv' 'data/Shapes/raw_data/'"$feature"'_continuous.csv' 'data/Shapes/raw_data/preprocessed/'"$feature"'.pickle' -p -o 'data/Shapes/mds/analysis/features/'"$feature"'/' &> 'data/Shapes/raw_data/preprocessed/preprocess_'"$feature"'.txt'
 
 done
 	
@@ -107,24 +107,31 @@ do
 	python -m code.mds.preprocessing.average_images data/Shapes/raw_data/preprocessed/data_visual.pickle data/Shapes/images/ -s between -o 'data/Shapes/mds/visualizations/average_images/'"$image_size"'/' -r $image_size &> 'data/Shapes/mds/visualizations/average_images/'"$image_size"'.txt'
 done
 
-# RQ3: Comparing binary to continuous dimension ratings
-# -----------------------------------------------------
+# RQ3: Comparing pre-attentive to attentive ratings of perceptual features
+# ------------------------------------------------------------------------
 
-echo 'RQ3: comparing binary to continuous dimension ratings'
+echo 'RQ3: Comparing pre-attentive to attentive ratings of perceptual features'
 
-# analyze each dimension and construct regression & classification problem
-for dimension in $dimensions
+# analyze each perceptual feature and construct regression & classification problem
+for feature in $perceptual_features
 do
-	echo '    looking at '"$dimension"' data'
-	python -m code.mds.preprocessing.analyze_dimension 'data/Shapes/raw_data/preprocessed/'"$dimension"'.pickle' 'data/Shapes/mds/analysis/dimension/'"$dimension"'/' 'data/Shapes/mds/classification/'"$dimension"'.pickle' 'data/Shapes/mds/regression/'"$dimension"'.pickle' -i data/Shapes/images &> 'data/Shapes/mds/analysis/dimension/'"$dimension"'/analysis.txt'
+	echo '    looking at '"$feature"' data'
+	python -m code.mds.preprocessing.analyze_dimension 'data/Shapes/raw_data/preprocessed/'"$feature"'.pickle' 'data/Shapes/mds/analysis/features/'"$feature"'/' 'data/Shapes/mds/classification/'"$feature"'.pickle' 'data/Shapes/mds/regression/'"$feature"'.pickle' -i data/Shapes/images &> 'data/Shapes/mds/analysis/features/'"$feature"'/analysis.txt'
 done
 
-# compare dimensions pairwise
-python -m code.mds.preprocessing.compare_dimensions 'data/Shapes/mds/regression/FORM.pickle' 'data/Shapes/mds/regression/LINES.pickle' 'data/Shapes/mds/analysis/dimension/' -f FORM -s LINES -i data/Shapes/images &> 'data/Shapes/mds/analysis/dimension/FORM-LINES.txt'
-python -m code.mds.preprocessing.compare_dimensions 'data/Shapes/mds/regression/FORM.pickle' 'data/Shapes/mds/regression/ORIENTATION.pickle' 'data/Shapes/mds/analysis/dimension/' -f FORM -s ORIENTATION -i data/Shapes/images &> 'data/Shapes/mds/analysis/dimension/FORM-ORIENTATION.txt'
-python -m code.mds.preprocessing.compare_dimensions 'data/Shapes/mds/regression/LINES.pickle' 'data/Shapes/mds/regression/ORIENTATION.pickle' 'data/Shapes/mds/analysis/dimension/' -f LINES -s ORIENTATION -i data/Shapes/images &> 'data/Shapes/mds/analysis/dimension/LINES-ORIENTATION.txt'
+# compare features pairwise
+for first_feature in $perceptual_features
+do
+	for second_feature in $perceptual_features
+	do
+		if [[ "$first_feature" < "$second_feature" ]]
+		then
+			python -m code.mds.preprocessing.compare_dimensions 'data/Shapes/mds/regression/'"$first_feature"'.pickle' 'data/Shapes/mds/regression/'"$second_feature"'.pickle' 'data/Shapes/mds/analysis/features/' -f $first_feature -s $second_feature -i data/Shapes/images &> 'data/Shapes/mds/analysis/features/'"$first_feature"'-'$second_feature'.txt'
+		fi
+	done
+done
 
-# create dimensions from category structure
+# create features from category structure (i.e., 'artificial' and 'visSim')
 python -m code.mds.preprocessing.dimensions_from_categories data/Shapes/raw_data/preprocessed/data_visual.pickle data/Shapes/mds/regression/ data/Shapes/mds/classification -s between
 
 
