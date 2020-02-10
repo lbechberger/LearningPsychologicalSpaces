@@ -448,3 +448,30 @@ def normalize_vectors(vectors):
     normalized_vectors = centered_vectors / root_mean_squared_distance    
     
     return normalized_vectors
+
+def add_correlation_metrics_to_parser(parser):
+    """
+    Add command line arguments for correlation criteria to the given argument parser.
+    """
+    parser.add_argument('--pearson', action = 'store_true', help = 'compute and store Pearson correlation')
+    parser.add_argument('--spearman', action = 'store_true', help = 'compute and store Spearman correlation')
+    parser.add_argument('--kendall', action = 'store_true', help = 'compute and store Kendall correlation')
+    parser.add_argument('--r2_linear', action = 'store_true', help = 'compute and store coefficient of determination for linear regression')
+    parser.add_argument('--r2_isotonic', action = 'store_true', help = 'compute and store coefficient of determination for isotonic regression')
+
+def get_correlation_metrics_from_args(args):
+    """
+    Extract a list of correlation metrics to use from the program arguments.
+    """
+    correlation_metrics = []
+    if args.pearson:
+        correlation_metrics.append('pearson')
+    if args.spearman:
+        correlation_metrics.append('spearman')
+    if args.kendall:
+        correlation_metrics.append('kendall')
+    if args.r2_linear:
+        correlation_metrics.append('r2_linear')
+    if args.r2_isotonic:
+        correlation_metrics.append('r2_isotonic')
+    return correlation_metrics

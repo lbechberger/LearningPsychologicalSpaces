@@ -326,6 +326,13 @@ The pixels of the resulting downscaled images are interpreted as one-dimensional
 python -m code.mds.correlations.pixel_correlations path/to/similarity_file.pickle path/to/image_folder
 ```
 
+Please note that one or more of the following flags must be set in order to specify the correlation metric(s) to use in the analysis:
+- `--pearson`: Compute Pearson's correlation coefficient (linear correlation).
+- `--spearman`: Compute Spearman's correlation coefficient (monotone correlation).
+- `--kendall`: Compute Kendall's correlation coefficient (monotone correlation).
+- `--r2_linear`: Compute the coefficient of determination R² for a linear regression (linear correlation).
+- `--r2_isotonic`: Compute the coefficient of determination R² for an isotonic regression (monotone correlation).
+
 The script takes the following optional parameters:
 - `-o` or `--output_file`: Path to the output csv file where the resulting correlation values are stored (default: `pixel.csv`).
 - `-s` or `--size`: The size of the full images, i.e., the maximal number of `k` to use (default: 300, i.e. the image size of the NOUN data set).
@@ -337,7 +344,16 @@ As a second baseline, we use the features extracted by the a neural network (mor
 ```
 python -m code.mds.correlations.ann_correlations path/to/model_folder path/to/similarity_file.pickle path/to/image_folder
 ```
-The script downloads the inception network into the given `model_folder`, takes all images from the `image_folder`, and computes the activation of the second-to-last layer of the ANN. This activation vector is then used as a feature vectors. All of the distance measures are used to build distance matrices, which are then in turn correlated with the original dissimilarity ratings from `similarity_file.pickle`. The script takes the following optional arguments:
+The script downloads the inception network into the given `model_folder`, takes all images from the `image_folder`, and computes the activation of the second-to-last layer of the ANN. This activation vector is then used as a feature vectors. All of the distance measures are used to build distance matrices, which are then in turn correlated with the original dissimilarity ratings from `similarity_file.pickle`. 
+
+Please note that one or more of the following flags must be set in order to specify the correlation metric(s) to use in the analysis:
+- `--pearson`: Compute Pearson's correlation coefficient (linear correlation).
+- `--spearman`: Compute Spearman's correlation coefficient (monotone correlation).
+- `--kendall`: Compute Kendall's correlation coefficient (monotone correlation).
+- `--r2_linear`: Compute the coefficient of determination R² for a linear regression (linear correlation).
+- `--r2_isotonic`: Compute the coefficient of determination R² for an isotonic regression (monotone correlation).
+
+The script takes the following optional arguments:
 - `-o` or `--output_file`: Path to the output csv file where the resulting correlation values are stored (default: `ann.csv`).
 
 #### 2.3.3 MDS-Based Similarities
@@ -346,7 +362,16 @@ The script `mds_correlations.py` loads the MDS vectors and derives distances bet
 ```
 python -m code.mds.correlations.mds_correlations path/to/similarity_file.pickle path/to/mds_folder
 ```
-Here, `similarity_file.pickle` is again the output file of the overall preprocessing, whereas `mds_folder` is the folder where the MDS vectors are stored. The script takes the following optional arguments:
+Here, `similarity_file.pickle` is again the output file of the overall preprocessing, whereas `mds_folder` is the folder where the MDS vectors are stored. 
+
+Please note that one or more of the following flags must be set in order to specify the correlation metric(s) to use in the analysis:
+- `--pearson`: Compute Pearson's correlation coefficient (linear correlation).
+- `--spearman`: Compute Spearman's correlation coefficient (monotone correlation).
+- `--kendall`: Compute Kendall's correlation coefficient (monotone correlation).
+- `--r2_linear`: Compute the coefficient of determination R² for a linear regression (linear correlation).
+- `--r2_isotonic`: Compute the coefficient of determination R² for an isotonic regression (monotone correlation).
+
+The script takes the following optional arguments:
 - `-o` or `--output_file`: Path to the output csv file where the resulting correlation values are stored (default: `mds.csv`).
 - `--n_min`: The size of the smallest space to investigate (defaults to 1).
 - `--n_max`: The size of the largest space to investigate (defaults to 20).
@@ -370,7 +395,16 @@ If we interpret the values on the scales of the (psychological) features as coor
 ```
 python -m code.mds.correlations.feature_correlations path/to/similarity_file.pickle path/to/regression_folder
 ```
-Here, `similarity_file.pickle` is again the output file of the overall preprocessing, whereas `regression_folder` is the folder where the scale information about the features is stored (i.e., the folder containing the `regression.pickle` output from `analyze_feature.py`. The script loads all pickle files from the `regression_folder` and looks at all possible combinations of features and scale type. The script takes the following optional arguments:
+Here, `similarity_file.pickle` is again the output file of the overall preprocessing, whereas `regression_folder` is the folder where the scale information about the features is stored (i.e., the folder containing the `regression.pickle` output from `analyze_feature.py`. The script loads all pickle files from the `regression_folder` and looks at all possible combinations of features and scale type. 
+
+Please note that one or more of the following flags must be set in order to specify the correlation metric(s) to use in the analysis:
+- `--pearson`: Compute Pearson's correlation coefficient (linear correlation).
+- `--spearman`: Compute Spearman's correlation coefficient (monotone correlation).
+- `--kendall`: Compute Kendall's correlation coefficient (monotone correlation).
+- `--r2_linear`: Compute the coefficient of determination R² for a linear regression (linear correlation).
+- `--r2_isotonic`: Compute the coefficient of determination R² for an isotonic regression (monotone correlation).
+
+The script takes the following optional arguments:
 - `-o` or `--output_file`: Path to the output csv file where the resulting correlation values are stored (default: `features.csv`).
 
 
@@ -380,7 +414,16 @@ The script `visualize_correlations.py` can be used to visualize the results of b
 ```
 python -m code.mds.correlations.visualize_correlations path/to/pixel_file.csv path/to/mds_file.csv
 ```
-Here, `pixel_file.csv` and `mds_file.csv` are the output files of `pixel_correlations.py` and `mds_correlations.py`, respectively. The script takes the following additional optional arugments:
+Here, `pixel_file.csv` and `mds_file.csv` are the output files of `pixel_correlations.py` and `mds_correlations.py`, respectively. 
+
+Please note that one or more of the following flags must be set in order to specify the correlation metric(s) to use for visualization:
+- `--pearson`: Compute Pearson's correlation coefficient (linear correlation).
+- `--spearman`: Compute Spearman's correlation coefficient (monotone correlation).
+- `--kendall`: Compute Kendall's correlation coefficient (monotone correlation).
+- `--r2_linear`: Compute the coefficient of determination R² for a linear regression (linear correlation).
+- `--r2_isotonic`: Compute the coefficient of determination R² for an isotonic regression (monotone correlation).
+
+The script takes the following additional optional arguments:
 - `-o` or `--output`: The output folder where the resulting visualizations are stored (default: `.`, i.e., the current working directory).
 
 #### 2.3.7 Creating Scatter Plots

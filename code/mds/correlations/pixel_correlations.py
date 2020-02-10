@@ -11,6 +11,7 @@ Created on Tue Dec  4 09:27:06 2018
 import pickle, argparse
 import numpy as np
 from code.util import compute_correlations, distance_functions, downscale_image, aggregator_functions, load_image_files_pixel
+from code.util import add_correlation_metrics_to_parser, get_correlation_metrics_from_args
 
 parser = argparse.ArgumentParser(description='Pixel-based similarity baseline')
 parser.add_argument('similarity_file', help = 'the input file containing the target similarity ratings')
@@ -18,7 +19,10 @@ parser.add_argument('image_folder', help = 'the folder containing the original i
 parser.add_argument('-o', '--output_file', help = 'the csv file to which the output should be saved', default='pixel.csv')
 parser.add_argument('-s', '--size', type = int, default = 300, help = 'the size of the image, used to determine the maximal block size')
 parser.add_argument('-g', '--greyscale', action = 'store_true', help = 'only consider greyscale information (i.e., collapse color channels)')
+add_correlation_metrics_to_parser(parser)
 args = parser.parse_args()
+
+correlation_metrics = get_correlation_metrics_from_args(args)
 
 # load the real similarity data
 with open(args.similarity_file, 'rb') as f:
@@ -31,7 +35,7 @@ images = load_image_files_pixel(item_ids, args.image_folder)
 
 with open(args.output_file, 'w', buffering=1) as f:
 
-    f.write("aggregator,block_size,image_size,scoring,pearson,spearman,kendall,r2_linear,r2_isotonic\n")
+    f.write("aggregator,block_size,image_size,scoring,{0}\n".format(','.join(correlation_metrics)))
     last_image_size = 9999
     for block_size in range(1, args.size + 1):
         
@@ -57,11 +61,7 @@ with open(args.output_file, 'w', buffering=1) as f:
     
             for distance_name, distance_function in distance_functions.items():
 
-                correlation_metrics = compute_correlations(transformed_images, target_dissimilarities, distance_function)
+                correlation_results = compute_correlations(transformed_images, target_dissimilarities, distance_function)
                 
-                f.write("{0},{1},{2},{3},{4},{5},{6},{7},{8}\n".format(aggregator_name, block_size, image_size, distance_name, 
-                                                                    correlation_metrics['pearson'], 
-                                                                    correlation_metrics['spearman'], 
-                                                                    correlation_metrics['kendall'], 
-                                                                    correlation_metrics['r2_linear'], 
-                                                                    correlation_metrics['r2_isotonic']))
+                f.write("{0},{1},{2},{3},{4},\n".format(aggregator_name, block_size, image_size, distance_name, 
+                                                                    ','.join(map(lambda x: str(correlation_results[x]), correlation_metrics))))

@@ -10,15 +10,23 @@ Created on Wed Dec 12 09:01:26 2018
 import argparse, os, csv
 from matplotlib import pyplot as plt
 import numpy as np
+from code.util import add_correlation_metrics_to_parser, get_correlation_metrics_from_args
 
 parser = argparse.ArgumentParser(description='Visualizing correlations')
 parser.add_argument('pixel_file', help = 'the input file containing the results of the pixel-wise similarities')
 parser.add_argument('mds_file', help = 'the input file containing the results of the MDS-based similarities')
 parser.add_argument('-o', '--output_folder', help = 'the folder to which the output should be saved', default='.')
+add_correlation_metrics_to_parser(parser)
 args = parser.parse_args()
 
-pixel_data = {'pearson':{}, 'spearman':{}, 'kendall':{}, 'r2_linear':{}, 'r2_isotonic':{}}
-mds_data = {'pearson':{}, 'spearman':{}, 'kendall':{}, 'r2_linear':{}, 'r2_isotonic':{}}
+correlation_metrics = get_correlation_metrics_from_args(args)
+
+pixel_data = {}
+mds_data = {}
+for metric in correlation_metrics:
+    pixel_data[metric] = {}
+    mds_data[metric] = {}
+
 metric_display = {'pearson': r"Pearson's $r$", 'spearman': r"Spearman's $\rho$", 'kendall': r"Kendall's $\tau$",
                       'r2_linear': r"$R^2$ based on a Linear Regression", 'r2_isotonic': r"$R^2$ based on a Isotonic Regression"}
 

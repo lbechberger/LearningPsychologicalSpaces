@@ -11,12 +11,16 @@ import pickle, argparse, os
 import numpy as np
 from code.util import compute_correlations, distance_functions
 from itertools import chain, combinations
+from code.util import add_correlation_metrics_to_parser, get_correlation_metrics_from_args
    
 parser = argparse.ArgumentParser(description='Correlating the scales of two features')
 parser.add_argument('similarity_file', help = 'the input file containing the target similarity ratings')
 parser.add_argument('feature_folder', help = 'folder containing the pickle files for all the features')
 parser.add_argument('-o', '--output_file', help = 'the csv file to which the output should be saved', default='features.csv')
+add_correlation_metrics_to_parser(parser)
 args = parser.parse_args()
+
+correlation_metrics = get_correlation_metrics_from_args(args)
 
 # load the real similarity data
 with open(args.similarity_file, 'rb') as f_in:
@@ -41,7 +45,7 @@ def powerset(iterable):
 
 with open(args.output_file, 'w', buffering=1) as f_out:
 
-    f_out.write("n_dims,type,dims,scoring,pearson,spearman,kendall,r2_linear,r2_isotonic\n")
+    f_out.write("n_dims,type,dims,scoring,{0}\n".format(','.join(correlation_metrics)))
 
     # look at the power set of all spaces
     spaces = powerset(sorted(feature_data.keys()))
@@ -77,11 +81,7 @@ with open(args.output_file, 'w', buffering=1) as f_out:
             # compute correlations
             for distance_name, distance_function in distance_functions.items():
 
-                correlation_metrics = compute_correlations(vectors, target_dissimilarities, distance_function)
-                f_out.write("{0},{1},{2},{3},{4},{5},{6},{7},{8}\n".format(number_of_dimensions, scale_type,
+                correlation_results = compute_correlations(vectors, target_dissimilarities, distance_function)
+                f_out.write("{0},{1},{2},{3},{4}\n".format(number_of_dimensions, scale_type,
                                                             '-'.join(space), distance_name,
-                                                            correlation_metrics['pearson'], 
-                                                            correlation_metrics['spearman'], 
-                                                            correlation_metrics['kendall'], 
-                                                            correlation_metrics['r2_linear'], 
-                                                            correlation_metrics['r2_isotonic']))
+                                                            ','.join(map(lambda x: str(correlation_results[x]), correlation_metrics))))

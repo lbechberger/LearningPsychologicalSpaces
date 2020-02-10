@@ -16,6 +16,7 @@ then
 	max=5
 	algorithms=("metric_SMACOF nonmetric_SMACOF")
 	spaces=("metric_SMACOF nonmetric_SMACOF")
+	correlation_metrics=("--pearson --spearman")
 
 	# ML setup
 	lassos=("0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1.0 2.0 5.0 10.0")
@@ -50,6 +51,7 @@ then
 	max=5
 	algorithms=("classical Kruskal metric_SMACOF nonmetric_SMACOF")
 	spaces=("classical Kruskal metric_SMACOF nonmetric_SMACOF HorstHout")
+	correlation_metrics=("--pearson --spearman --kendall --r2_linear --r2_isotonic")
 
 	# ML setup
 	lassos=("0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1.0 2.0 5.0 10.0")

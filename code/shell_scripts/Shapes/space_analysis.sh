@@ -35,7 +35,6 @@ do
 	mkdir -p 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/convexity/'
 	mkdir -p 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/raw/'
 	mkdir -p 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/aggregated/'
-	mkdir -p 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/'
 done
 
 
@@ -50,10 +49,10 @@ do
 	echo '    looking at '"$aggregator"' matrix'
 
 	# run pixel baseline
-	python -m code.mds.correlations.pixel_correlations 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/sim.pickle' data/Shapes/images/ -o 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/pixel.csv' -s 283 -g &
+	python -m code.mds.correlations.pixel_correlations 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/sim.pickle' data/Shapes/images/ -o 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/pixel.csv' -s 283 -g --spearman &
 
 	# run ANN baseline
-	python -m code.mds.correlations.ann_correlations /tmp/inception 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/sim.pickle' data/Shapes/images/ -o 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/ann.csv' &
+	python -m code.mds.correlations.ann_correlations /tmp/inception 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/sim.pickle' data/Shapes/images/ -o 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/ann.csv' --spearman &
 done
 wait
 
@@ -118,7 +117,7 @@ for source_aggregator in $aggregators
 do
 	for target_aggregator in $aggregators
 	do
-		python -m code.mds.correlations.mds_correlations 'data/Shapes/mds/similarities/aggregator/'"$target_aggregator"'/sim.pickle' 'data/Shapes/mds/vectors/'"$source_aggregator"'/' -o 'data/Shapes/mds/analysis/aggregator/'"$source_aggregator"'/correlations/mds_to_'"$target_aggregator"'.csv' --n_max $dimension_limit &
+		python -m code.mds.correlations.mds_correlations 'data/Shapes/mds/similarities/aggregator/'"$target_aggregator"'/sim.pickle' 'data/Shapes/mds/vectors/'"$source_aggregator"'/' -o 'data/Shapes/mds/analysis/aggregator/'"$source_aggregator"'/correlations/mds_to_'"$target_aggregator"'.csv' --n_max $dimension_limit --spearman &
 	done
 done
 wait
@@ -126,7 +125,7 @@ wait
 echo '    correlation of distances on the interpretable directions to dissimilarities from the matrices'
 for aggregator in $aggregators
 do
-	python -m code.mds.correlations.feature_correlations 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/sim.pickle' 'data/Shapes/mds/regression/' -o 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/dims.csv' &
+	python -m code.mds.correlations.feature_correlations 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/sim.pickle' 'data/Shapes/mds/regression/' -o 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/dims.csv' --spearman &
 done
 wait
 
@@ -192,7 +191,7 @@ echo 'Some additional visualizations'
 echo '    visualizing correlations'
 for aggregator in $aggregators
 do
-	python -m code.mds.correlations.visualize_correlations -o 'data/Shapes/mds/visualizations/correlations/'"$aggregator"'/' 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/pixel.csv' 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/mds_to_'"$aggregator"'.csv' &> 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/best.txt' &
+	python -m code.mds.correlations.visualize_correlations -o 'data/Shapes/mds/visualizations/correlations/'"$aggregator"'/' 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/pixel.csv' 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/mds_to_'"$aggregator"'.csv' --spearman &> 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/best.txt' &
 done
 wait
 
