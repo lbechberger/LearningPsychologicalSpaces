@@ -43,21 +43,21 @@ with open(args.classification_file, 'rb') as f_in:
     raw_data = pickle.load(f_in)
 
 classification_data = {}
-for dataset_name, dataset in raw_data.items():
+for feature_type, dataset in raw_data.items():
     
     positive_examples = [vectors_dict[item] for item in dataset['positive']]
     negative_examples = [vectors_dict[item] for item in dataset['negative']]
     vectors = positive_examples + negative_examples
     targets = [1]*len(positive_examples) + [0]*len(negative_examples)
     
-    classification_data[dataset_name] = {'vectors': vectors, 'targets': targets}
+    classification_data[feature_type] = {'vectors': vectors, 'targets': targets}
     
 # load regression data and transform it into sklearn compatible structure
 with open(args.regression_file, 'rb') as f_in:
     raw_data = pickle.load(f_in)
 
 regression_data = {}
-for dataset_name, dataset in raw_data.items():
+for feature_type, dataset in raw_data.items():
 
     vectors = []
     targets = []        
@@ -65,22 +65,22 @@ for dataset_name, dataset in raw_data.items():
         vectors.append(vectors_dict[item])
         targets.append(target)
 
-    regression_data[dataset_name] = {'vectors': vectors, 'targets': targets}        
+    regression_data[feature_type] = {'vectors': vectors, 'targets': targets}        
         
 # go thorugh each of the data sets
-for dataset_name in classification_data.keys():
+for feature_type in classification_data.keys():
     
     candidate_directions = {}    
     
     # train linear SVC on classification problem
     svc_model = LinearSVC(dual = False)
-    svc_model.fit(classification_data[dataset_name]['vectors'], classification_data[dataset_name]['targets'])
+    svc_model.fit(classification_data[feature_type]['vectors'], classification_data[feature_type]['targets'])
     svc_direction = np.reshape(svc_model.coef_, (-1))
     candidate_directions['SVC'] = normalize_direction(svc_direction)   
         
     # train linear regression on regression problem    
     lin_reg_model = LinearRegression()
-    lin_reg_model.fit(regression_data[dataset_name]['vectors'], regression_data[dataset_name]['targets'])
+    lin_reg_model.fit(regression_data[feature_type]['vectors'], regression_data[feature_type]['targets'])
     lin_reg_direction = np.reshape(lin_reg_model.coef_, (-1))
     candidate_directions['LinReg'] = normalize_direction(lin_reg_direction)
     
@@ -88,8 +88,8 @@ for dataset_name in classification_data.keys():
     projected_vectors_classification = {}
     projected_vectors_regression = {}
     for direction_name, direction in candidate_directions.items():
-        projected_vectors_classification[direction_name] = project_vectors_onto_direction(classification_data[dataset_name]['vectors'], direction)
-        projected_vectors_regression[direction_name] = project_vectors_onto_direction(regression_data[dataset_name]['vectors'], direction)
+        projected_vectors_classification[direction_name] = project_vectors_onto_direction(classification_data[feature_type]['vectors'], direction)
+        projected_vectors_regression[direction_name] = project_vectors_onto_direction(regression_data[feature_type]['vectors'], direction)
         
     # evaluate by classification (Cohen's kappa) and correlation (Spearman correlation)
     evaluation_kappa = {}
@@ -124,7 +124,7 @@ for dataset_name in classification_data.keys():
     if not os.path.exists(args.output_file):
 
         # construct headline
-        headline = 'dims,scale_type,model,kappa,spearman,{0}\n'.format(','.join(['d{0}'.format(i) for i in range(20)]))
+        headline = 'dims,feature_type,model,kappa,spearman,{0}\n'.format(','.join(['d{0}'.format(i) for i in range(20)]))
         
         with open(args.output_file, 'w') as f:
             fcntl.flock(f, fcntl.LOCK_EX)
@@ -135,7 +135,7 @@ for dataset_name in classification_data.keys():
     with open(args.output_file, 'a') as f:
         fcntl.flock(f, fcntl.LOCK_EX)           
         for direction_name in evaluation_kappa.keys():
-            line_items = [args.n_dims, dataset_name, direction_name, evaluation_kappa[direction_name], evaluation_spearman[direction_name]] + [i for i in candidate_directions[direction_name]]
+            line_items = [args.n_dims, feature_type, direction_name, evaluation_kappa[direction_name], evaluation_spearman[direction_name]] + [i for i in candidate_directions[direction_name]]
             f.write(",".join(map(lambda x: str(x), line_items)))
             f.write("\n")
         fcntl.flock(f, fcntl.LOCK_UN)

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Computes the correlations between the scales for two psychological features.
+Computes the correlations between the different feature types for two psychological features.
 
 Created on Mon Jan 27 15:52:20 2020
 
@@ -11,7 +11,7 @@ import pickle, argparse, os
 from scipy.stats import spearmanr
 from code.util import load_item_images, create_labeled_scatter_plot
 
-parser = argparse.ArgumentParser(description='Correlating the scales of two features')
+parser = argparse.ArgumentParser(description='Correlating two psychological features')
 parser.add_argument('first_feature', help = 'pickle file containing the data about the first feature')
 parser.add_argument('second_feature', help = 'pickle file containing the data about the second feature')
 parser.add_argument('output_folder', help = 'folder where the plots will be stored')
@@ -36,20 +36,20 @@ if args.image_folder != None:
     images = load_item_images(args.image_folder, items_sorted)    
 
 
-# look at all scale types separately
-for scale_type in sorted(first_data.keys()):
-    first_scale = first_data[scale_type]
-    second_scale = second_data[scale_type]
+# look at all feature types separately
+for feature_type in sorted(first_data.keys()):
+    first_scale = first_data[feature_type]
+    second_scale = second_data[feature_type]
     
     item_ids = sorted(first_scale.keys())
     first_values = [first_scale[item_id] for item_id in item_ids]
     second_values = [second_scale[item_id] for item_id in item_ids]
     
     spearman, _ = spearmanr(first_values, second_values)
-    print("Spearman correlation for {0} scale: {1}".format(scale_type, spearman))
+    print("Spearman correlation for {0} feature: {1}".format(feature_type, spearman))
     
     # create scatter plot
-    output_file_name = os.path.join(args.output_folder, 'scatter-{0}-{1}-{2}.png'.format(args.first_name, args.second_name, scale_type))        
+    output_file_name = os.path.join(args.output_folder, 'scatter-{0}-{1}-{2}.png'.format(args.first_name, args.second_name, feature_type))        
     create_labeled_scatter_plot(first_values, second_values, output_file_name, x_label = args.first_name, y_label = args.second_name, images = images, zoom = args.zoom)  
 
     

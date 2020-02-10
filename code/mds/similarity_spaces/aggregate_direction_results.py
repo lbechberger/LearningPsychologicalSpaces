@@ -17,11 +17,11 @@ parser.add_argument('n_dims', type = int, help = 'the maximal number of dimensio
 parser.add_argument('output_folder', help = 'folder where the output csv files will be stored')
 args = parser.parse_args()
 
-# one entry for each dimension; then split up into 'direction_name', 'scale_type', and 'model'
+# one entry for each dimension; then split up into 'direction_name', 'feature_type', and 'model'
 # for each of them contain list of kappas and list of spearmans
 direction_data = {}
 for dims in range(1, args.n_dims + 1):
-    direction_data[dims] = {'direction_name': {}, 'scale_type': {}, 'model': {}}
+    direction_data[dims] = {'direction_name': {}, 'feature_type': {}, 'model': {}}
 
 # create inner dictionary if necessary, store evaluation information
 def add_to_dict(dictionary, key, kappa, spearman):
@@ -41,18 +41,18 @@ for file_name in os.listdir(args.input_folder):
             reader = csv.DictReader(f_in)
             for row in reader:
                 dims = int(row['dims'])
-                scale_type = row['scale_type']
+                feature_type = row['feature_type']
                 model = row['model']
                 kappa = float(row['kappa'])
                 spearman = float(row['spearman'])
                 
                 add_to_dict(direction_data[dims]['direction_name'], direction_name, kappa, spearman)
-                if scale_type != 'metadata':
-                    # ignore the category-based directions when analyzing scale_type and model
-                    add_to_dict(direction_data[dims]['scale_type'], scale_type, kappa, spearman)
+                if feature_type != 'metadata':
+                    # ignore the category-based directions when analyzing feature type and model
+                    add_to_dict(direction_data[dims]['feature_type'], feature_type, kappa, spearman)
                     add_to_dict(direction_data[dims]['model'], model, kappa, spearman)
 
-output = {'direction_name': [], 'scale_type': [], 'model': []}   
+output = {'direction_name': [], 'feature_type': [], 'model': []}   
              
 # iterate over all dimensions
 for dims in range(1, args.n_dims + 1):

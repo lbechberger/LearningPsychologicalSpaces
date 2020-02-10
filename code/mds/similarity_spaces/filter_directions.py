@@ -30,13 +30,13 @@ with open(args.input_file, 'r') as f_in:
     reader = csv.DictReader(f_in)
     for row in reader:
         dims = int(row['dims'])
-        scale_type = row['scale_type']
+        feature_type = row['feature_type']
         model = row['model']
         kappa = float(row['kappa'])
         spearman = float(row['spearman'])
         vector = np.array([float(row['d{0}'.format(d)]) for d in range(dims)])
         
-        data_tuple = ('{0}-{1}'.format(scale_type, model), kappa, spearman, vector)
+        data_tuple = ('{0}-{1}'.format(feature_type, model), kappa, spearman, vector)
         data_dict[dims].append(data_tuple)
 
 # create file and headline if necessary
