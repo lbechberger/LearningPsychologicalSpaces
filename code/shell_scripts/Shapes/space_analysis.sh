@@ -90,10 +90,10 @@ python -m code.mds.correlations.scatter_plot 'data/Shapes/mds/similarities/aggre
 
 wait
 
-# RQ6: How well do the MDS spaces reflect the dissimilarity ratings?
-# ------------------------------------------------------------------
+# RQ6: How well do the MDS spaces and the features reflect the dissimilarity ratings?
+# -----------------------------------------------------------------------------------
 
-echo 'RQ6: How well do the MDS spaces reflect the dissimilarity ratings?'
+echo 'RQ6: How well do the MDS spaces and the features reflect the dissimilarity ratings?'
 
 # run MDS
 echo '    running MDS'
@@ -122,32 +122,34 @@ do
 done
 wait
 
-echo '    correlation of distances on the interpretable directions to dissimilarities from the matrices'
+echo '    correlation of feature distances to dissimilarities from the matrices'
 for aggregator in $aggregators
 do
 	python -m code.mds.correlations.feature_correlations 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/sim.pickle' 'data/Shapes/mds/regression/' -o 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/dims.csv' --spearman &
 done
 wait
 
-# RQ7: How well do the MDS Spaces Enforce the Convexity of Conceptual Regions?
-# ----------------------------------------------------------------------------
+# RQ7: How well-shaped are the conceptual regions?
+# ------------------------------------------------
 
-echo 'RQ7: How well do the MDS Spaces Enforce the Convexity of Conceptual Regions?'
+echo 'RQ7: How well-shaped are the conceptual regions?'
 
 for aggregator in $aggregators
 do
 	for i in `seq 1 $convexity_limit`
 	do
+		# check whether regions are convex
 		python -m code.mds.similarity_spaces.analyze_convexity 'data/Shapes/mds/vectors/'"$aggregator"'/'"$i"'D-vectors.csv' data/Shapes/raw_data/preprocessed/data_visual.pickle $i -o 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/convexity/convexities.csv' -b -r 100 -s 42 > 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/convexity/'"$i"'D-convexity.txt' &
+		# check how large the regions are
 		python -m code.mds.similarity_spaces.analyze_density 'data/Shapes/mds/vectors/'"$aggregator"'/'"$i"'D-vectors.csv'  data/Shapes/raw_data/preprocessed/data_visual.pickle $i -o 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/convexity/densities.csv' -b -r 100 -s 42 > 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/convexity/'"$i"'D-density.txt' &
 	done
 done
 wait
 
-# RQ8: Are the interpretable directions reflected in the MDS spaces?
-# ------------------------------------------------------------------
+# RQ8: Are the (psychological) features reflected as interpretable directions in the similarity spaces?
+# -----------------------------------------------------------------------------------------------------
 
-echo 'RQ8: Are the interpretable directions reflected in the MDS spaces?'
+echo 'RQ8: Are the (psychological) features reflected as interpretable directions in the similarity spaces?'
 
 echo '    finding directions'
 for aggregator in $aggregators
@@ -201,6 +203,7 @@ for aggregator in $aggregators
 do
 	# without directions
 	python -m code.mds.similarity_spaces.visualize_spaces 'data/Shapes/mds/vectors/'"$aggregator"'/' 'data/Shapes/mds/visualizations/spaces/'"$aggregator"'/clean/' -i data/Shapes/images/ -m $visualization_limit &
+	
 	# for each evaluation criterion also with the corresponding directions
 	for criterion in $criteria
 	do

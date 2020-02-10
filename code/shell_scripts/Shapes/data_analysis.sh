@@ -131,7 +131,7 @@ do
 	done
 done
 
-# create features from category structure (i.e., 'artificial' and 'visSim') for further analysis
+# create features from category structure (i.e., 'artificial' and 'visSim') for further downstream analysis
 python -m code.mds.preprocessing.features_from_categories data/Shapes/raw_data/preprocessed/data_visual.pickle data/Shapes/mds/regression/ data/Shapes/mds/classification -s between
 
 
