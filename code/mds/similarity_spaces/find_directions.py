@@ -110,13 +110,13 @@ for feature_type in classification_data.keys():
                     predictions.append(0)
                 else:
                     predictions.append(1)
-            kappa = cohen_kappa_score(predictions, classification_data[dataset_name]['targets'])
+            kappa = cohen_kappa_score(predictions, classification_data[feature_type]['targets'])
             max_kappa = max(kappa, max_kappa)
         evaluation_kappa[direction_name] = max_kappa
     
     # correlation
     for direction_name, vectors in projected_vectors_regression.items():
-        evaluation_spearman[direction_name], _ = spearmanr(vectors, regression_data[dataset_name]['targets'])
+        evaluation_spearman[direction_name], _ = spearmanr(vectors, regression_data[feature_type]['targets'])
         
     # finally: output results
         
