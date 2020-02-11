@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Analyze the density of the conceptual regions.
+Analyze the size of the conceptual regions.
 
 Created on Wed Jan 29 12:47:17 2020
 
@@ -12,7 +12,7 @@ import numpy as np
 from sklearn.metrics.pairwise import euclidean_distances
 from code.util import load_mds_vectors, normalize_vectors
 
-parser = argparse.ArgumentParser(description='Density analysis')
+parser = argparse.ArgumentParser(description='Analyzing the size of conceptual regions')
 parser.add_argument('vector_file', help = 'the input file containing the vectors')
 parser.add_argument('data_set_file', help = 'the pickle file containing the data set')
 parser.add_argument('n', type = int, help = 'number of dimensions of the MDS space')
