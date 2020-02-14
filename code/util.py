@@ -128,12 +128,12 @@ def downscale_image(image, aggregator_function, block_size, greyscale, output_sh
         img = image.convert("L")
         array = np.asarray(img.getdata())
         array = np.reshape(array, img.size)
-        img = block_reduce(array, (block_size, block_size), aggregator_function)
+        img = block_reduce(array, (block_size, block_size), aggregator_function, cval = 255)
     else:
         array = np.asarray(image.getdata())
         width, height = image.size
         array = np.reshape(array, [width, height, 3])
-        img = block_reduce(array, (block_size, block_size, 1), aggregator_function)
+        img = block_reduce(array, (block_size, block_size, 1), aggregator_function, cval = 255)
     
     image_size = img.shape[0]
     # make a column vector out of this and store it
