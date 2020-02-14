@@ -149,8 +149,8 @@ if args.plot:
     
     for bin_size in bin_sizes:
         plt.hist(all_similarities, bins=bin_size)
-        plt.title('Distribution of Values in all Dissimilarity Matrices')
-        plt.xlabel('Dissimilarity')
+        plt.title('Distribution of Raw Similarity Ratings')
+        plt.xlabel('Similarity')
         plt.ylabel('Number of Occurences')
         plt.savefig('{0}-distr-{1}.png'.format(output_path, bin_size), bbox_inches='tight', dpi=200)
         plt.close()
