@@ -43,8 +43,18 @@ for category_name, category_dict in data_set['categories'].items():
         img = images[img_idx]
         img_res = max(img_res, img.size[0])
         block_size = int(np.ceil(img.size[0] / args.resolution))
-        small_img, size = downscale_image(img, aggregator_functions[args.aggregator], block_size, True, (args.resolution, args.resolution))
-                
+        reduced_resolution = int(np.ceil(img_res / block_size))
+        small_img, size = downscale_image(img, aggregator_functions[args.aggregator], block_size, True, (reduced_resolution, reduced_resolution))
+        
+        # pad the image with zeroes if necessary
+        if reduced_resolution != args.resolution:
+            pad_size = (args.resolution - reduced_resolution) / 2
+            pad_before = int(pad_size)
+            pad_after = int(np.ceil(pad_size))
+            small_img = np.pad(small_img, (pad_before, pad_after), mode = 'constant', constant_values = 255)
+            
+            print("Padded image from {0} to {1} pixels: Before {2}, after {3}".format(reduced_resolution, args.resolution, pad_before, pad_after))
+        
         # add to the average image of this category
         if len(image) == 0:
             image = small_img
