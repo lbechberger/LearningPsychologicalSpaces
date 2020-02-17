@@ -28,7 +28,7 @@ with open(args.second_feature, 'rb') as f_in:
     second_data = pickle.load(f_in)
 
 # sorted list of item_ids
-items_sorted = list(sorted(first_data['binary'].keys()))
+items_sorted = list(sorted(first_data['pre-attentive'].keys()))
 
 # then read in all the images
 images = None
