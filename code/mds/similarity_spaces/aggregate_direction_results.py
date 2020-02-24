@@ -17,11 +17,11 @@ parser.add_argument('n_dims', type = int, help = 'the maximal number of dimensio
 parser.add_argument('output_folder', help = 'folder where the output csv files will be stored')
 args = parser.parse_args()
 
-# one entry for each dimension; then split up into 'direction_name', 'feature_type', and 'model'
+# one entry for each dimension; then split up into 'feature_name', 'feature_type', and 'model'
 # for each of them contain list of kappas and list of spearmans
 direction_data = {}
 for dims in range(1, args.n_dims + 1):
-    direction_data[dims] = {'direction_name': {}, 'feature_type': {}, 'model': {}}
+    direction_data[dims] = {'feature_name': {}, 'feature_type': {}, 'model': {}}
 
 # create inner dictionary if necessary, store evaluation information
 def add_to_dict(dictionary, key, kappa, spearman):
@@ -33,9 +33,9 @@ def add_to_dict(dictionary, key, kappa, spearman):
 # load direction data
 for file_name in os.listdir(args.input_folder):
     if file_name.endswith('.csv'):
-        direction_name = file_name.split('.')[0]
+        feature_name = file_name.split('.')[0]
         for dims in range(1, args.n_dims + 1):
-            direction_data[dims][direction_name] = {}
+            direction_data[dims][feature_name] = {}
 
         with open(os.path.join(args.input_folder, file_name), 'r') as f_in:            
             reader = csv.DictReader(f_in)
@@ -46,13 +46,13 @@ for file_name in os.listdir(args.input_folder):
                 kappa = float(row['kappa'])
                 spearman = float(row['spearman'])
                 
-                add_to_dict(direction_data[dims]['direction_name'], direction_name, kappa, spearman)
+                add_to_dict(direction_data[dims]['feature_name'], feature_name, kappa, spearman)
                 if feature_type != 'metadata':
                     # ignore the category-based directions when analyzing feature type and model
                     add_to_dict(direction_data[dims]['feature_type'], feature_type, kappa, spearman)
                     add_to_dict(direction_data[dims]['model'], model, kappa, spearman)
 
-output = {'direction_name': [], 'feature_type': [], 'model': []}   
+output = {'feature_name': [], 'feature_type': [], 'model': []}   
              
 # iterate over all dimensions
 for dims in range(1, args.n_dims + 1):
