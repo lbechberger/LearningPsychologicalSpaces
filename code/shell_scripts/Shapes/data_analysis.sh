@@ -75,7 +75,11 @@ for dataset in $datasets
 do
 	# use a limit of 10, because conceptual similarity has only 10 ratings per pair
 	python -m code.mds.preprocessing.compute_similarities 'data/Shapes/raw_data/preprocessed/data_'"$dataset"'.pickle' 'data/Shapes/mds/similarities/dataset/'"$dataset"'/sim.pickle' -s between -l -v 10 -p --median &> 'data/Shapes/mds/similarities/dataset/'"$dataset"'/log.txt'
+
+	# output the matrices in csv style for easier inspection
+	python -m code.mds.preprocessing.pickle_to_csv 'data/Shapes/mds/similarities/dataset/'"$dataset"'/sim.pickle' 'data/Shapes/mds/similarities/dataset/'"$dataset"'/'
 done
+
 
 echo '    correlations'
 # full matrices
