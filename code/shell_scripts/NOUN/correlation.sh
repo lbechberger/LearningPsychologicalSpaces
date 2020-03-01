@@ -16,7 +16,7 @@ mkdir -p data/NOUN/mds/correlations/ data/NOUN/mds/visualizations/correlations/
 
 # run pixel-based correlation
 echo 'pixel-based correlation'
-python -m code.mds.correlations.pixel_correlations data/NOUN/mds/similarities/sim.pickle data/NOUN/images/ -o data/NOUN/mds/correlations/pixel.csv -s 300 $correlation_metrics
+python -m code.mds.correlations.pixel_correlations data/NOUN/mds/similarities/sim.pickle data/NOUN/images/ -o data/NOUN/mds/correlations/pixel.csv -w 300 $correlation_metrics
 
 # run ANN-based correlation
 echo 'ANN-based correlation'

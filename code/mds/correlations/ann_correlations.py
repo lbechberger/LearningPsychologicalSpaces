@@ -17,6 +17,8 @@ parser.add_argument('model_dir', help = 'folder for storing the pretrained netwo
 parser.add_argument('similarity_file', help = 'the input file containing the target similarity ratings')
 parser.add_argument('image_folder', help = 'the folder containing the original images')
 parser.add_argument('-o', '--output_file', help = 'the csv file to which the output should be saved', default='ann.csv')
+parser.add_argument('-n', '--n_folds', type = int, help = 'number of folds to use for cross-validation when optimizing weights', default = 5)
+parser.add_argument('-s', '--seed', type = int, help = 'fixed seed to use for creating the folds', default = None)
 add_correlation_metrics_to_parser(parser)
 args = parser.parse_args()
 
@@ -36,11 +38,16 @@ print('extracted features')
 
 with open(args.output_file, 'w', buffering=1) as f:
 
-    f.write("scoring,{0}\n".format(','.join(correlation_metrics)))
+    f.write("scoring,weights,{0}\n".format(','.join(correlation_metrics)))
            
-    for distance_name, distance_function in distance_functions.items():
+    for distance_function in sorted(distance_functions.keys()):
         
+        # raw correlation
         correlation_results = compute_correlations(inception_features, target_dissimilarities, distance_function)
-        f.write("{0},{1}\n".format(distance_name, ','.join(map(lambda x: str(correlation_results[x]), correlation_metrics))))
+        f.write("{0},fixed,{1}\n".format(distance_function, ','.join(map(lambda x: str(correlation_results[x]), correlation_metrics))))
 
-        print('done with {0}'.format(distance_name))
+        # correlation with optimized weights
+        correlation_results = compute_correlations(inception_features, target_dissimilarities, distance_function, args.n_folds, args.seed)
+        f.write("{0},optimized,{1}\n".format(distance_function, ','.join(map(lambda x: str(correlation_results[x]), correlation_metrics))))
+
+        print('done with {0}; weights: {1}'.format(distance_function. correlation_results['weights']))

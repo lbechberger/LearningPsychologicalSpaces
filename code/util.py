@@ -7,63 +7,160 @@ Created on Tue Jun 18 23:09:08 2019
 @author: lbechberger
 """
 
-from sklearn.metrics.pairwise import cosine_distances, euclidean_distances, manhattan_distances
+from math import sqrt
 
 # distance functions to use in compute_correlations
-distance_functions = {'Cosine': cosine_distances, 'Euclidean': euclidean_distances, 'Manhattan': manhattan_distances}
+distance_functions = {'inner product': {'precompute': lambda x, y: [-1 * x_i * y_i for x_i, y_i in zip(x, y)],
+                                        'regression_targets': lambda x: x,
+                                        'aggregate': lambda x, w: sum([x_i * w_i * w_i for x_i, w_i in zip(x, w)]),
+                                        'weights': lambda x: sqrt(x)}, 
+                      'Euclidean': {'precompute': lambda x, y: [(x_i - y_i)*(x_i - y_i) for x_i, y_i in zip(x, y)],
+                                    'regression_targets': lambda x: x * x,
+                                    'aggregate': lambda x, w: sqrt(sum([x_i * w_i * w_i for x_i, w_i in zip(x, w)])),
+                                    'weights': lambda x: sqrt(x)}, 
+                      'Manhattan': {'precompute': lambda x, y: [abs(x_i - y_i) for x_i, y_i in zip(x, y)],
+                                    'regression_targets': lambda x: x,
+                                    'aggregate': lambda x, w: sum([x_i * w_i for x_i, w_i in zip(x, w)]),
+                                    'weights': lambda x: x}}
 
+def evaluate_fold(distances, dissimilarities):
+    """Evaluates a given fold with predicted distances and target dissimilarities."""
 
-def compute_correlations(vectors, dissimilarities, distance_function):
-    """
-    Computes the correlation between vector distances and actual dissimilarities,
-    using the given distance function between the vectors.
-    
-    Returns a dictionary from correlation metric to its corresponding value. 
-    For convenience, this dictionary also contains both the vector of target dissimilarities
-    and the vector of predicted similarities.
-    """    
-    import numpy as np
     from sklearn.isotonic import IsotonicRegression
     from sklearn.linear_model import LinearRegression
     from sklearn.metrics import r2_score
     from scipy.stats import pearsonr, spearmanr, kendalltau
-
-    # initialize dissimilarities with ones (arbitrary, will be overwritten anyways)
-    dissimilarity_scores = np.ones(dissimilarities.shape)
-                
-    for i in range(len(vectors)):
-        for j in range(len(vectors)):
-
-            vec_i = vectors[i]
-            vec_j = vectors[j]    
-            score = distance_function(vec_i, vec_j)[0][0]
-            dissimilarity_scores[i][j] = score
-                
-    # transform dissimilarity matrices into vectors for correlation computation
+    
+    # transform input into vectors for correlation computation
     target_vector = np.reshape(dissimilarities, (-1,1)) 
-    sim_vector = np.reshape(dissimilarity_scores, (-1,1)) 
+    distance_vector = np.reshape(distances, (-1,1)) 
     
     # compute correlations
-    pearson, _ = pearsonr(sim_vector, target_vector)
-    spearman, _ = spearmanr(sim_vector, target_vector)
-    kendall, _ = kendalltau(sim_vector, target_vector)
+    pearson, _ = pearsonr(distance_vector, target_vector)
+    spearman, _ = spearmanr(distance_vector, target_vector)
+    kendall, _ = kendalltau(distance_vector, target_vector)
 
     # compute least squares regression for R² metric
     linear_regression = LinearRegression()
-    linear_regression.fit(sim_vector, target_vector)
-    predictions = linear_regression.predict(sim_vector)
+    linear_regression.fit(distance_vector, target_vector)
+    predictions = linear_regression.predict(distance_vector)
     r2_linear = r2_score(target_vector, predictions)
     
     # compute isotonic regression for R² metric
-    x = np.reshape(dissimilarity_scores, (-1))
-    y = np.reshape(dissimilarities, (-1))
+    x = np.reshape(distance_vector, (-1))
+    y = np.reshape(target_vector, (-1))
     isotonic_regression = IsotonicRegression()
     predictions = isotonic_regression.fit_transform(x, y)
     r2_isotonic = r2_score(y, predictions)
     
     return {'pearson': pearson[0], 'spearman': spearman, 'kendall': kendall,
                 'r2_linear': r2_linear, 'r2_isotonic': r2_isotonic,
-                'targets': target_vector, 'predictions': sim_vector}
+                'targets': target_vector, 'predictions': distance_vector}
+   
+    
+
+def compute_correlations(vectors, dissimilarities, distance_function, n_folds = None, seed = None):
+    """
+    Computes the correlation between vector distances and actual dissimilarities,
+    using the given distance function between the vectors. If n_folds is not None, then
+    dimension weights are estimated based on a linear regression in an 'n_folds'-fold cross validation
+    (using the given seed to create the folds).
+    
+    Returns a dictionary from correlation metric to its corresponding value. 
+    For convenience, this dictionary also contains both the vector of target dissimilarities
+    and the vector of predicted distances as well as the (average) weights for the individual dimensions.
+    """  
+    
+    import numpy as np
+    
+    precomputed_distances = []
+    target_dissimilarities = []
+    # only look at upper triangle of matrix (as it is symmetric and the diagonal is not interesting)
+    for i in range(len(vectors)):
+        for j in range(i + 1, len(vectors)):
+
+            vec_i = np.reshape(vectors[i], -1)
+            vec_j = np.reshape(vectors[j], -1)  
+            precomputed = distance_functions[distance_function]['precompute'](vec_i, vec_j)
+            precomputed_distances.append(precomputed)
+            
+            target_dissimilarities.append(dissimilarities[i][j])
+    
+    precomputed_distances = np.array(precomputed_distances)
+    target_dissimilarities = np.array(target_dissimilarities)
+    
+    if n_folds is None:
+        # use fixed weights and evaluate once
+        weights = [1]*len(precomputed_distances[0])
+
+        distances = [distance_functions[distance_function]['aggregate'](x, weights) for x in precomputed_distances]
+        overall_result = evaluate_fold(distances, target_dissimilarities)
+        overall_result['weights'] = weights
+        return overall_result
+        
+    else: # do cross-validation
+
+        from scipy.optimize import nnls
+        from sklearn.model_selection import KFold
+
+        # create fold structure        
+        kf = KFold(n_splits = n_folds, shuffle = True, random_state = seed)
+
+        weights_list = [] 
+        results_list = None
+
+        # iterate through folds        
+        for train_index, test_index in kf.split(precomputed_distances):
+            
+            # collect and prepare training data
+            training_distances = precomputed_distances[train_index]
+            training_targets = target_dissimilarities[train_index]
+            
+            # collect and prepare test data
+            test_distances = precomputed_distances[test_index]
+            test_targets = target_dissimilarities[test_index]
+            
+            # transform targets if necessary
+            transformed_targets = [distance_functions[distance_function]['regression_targets'](x) for x in training_targets]
+            transformed_targets = np.array(transformed_targets)
+
+            # do regression
+            raw_weights, _ = nnls(training_distances, transformed_targets)
+
+            if sum(raw_weights) == 0:
+                # non-negative linear regression did not work --> try with Lasso and very small alpha
+                from sklearn.linear_model import Lasso
+                lasso = Lasso(alpha = 1e-10, positive = True, random_state=seed)
+                lasso.fit(training_distances, transformed_targets)
+                raw_weights = lasso.coef_   
+            
+            weights = [distance_functions[distance_function]['weights'](w) for w in raw_weights]
+            
+            # store weights
+            weights_list.append(weights)
+            
+            # evaluate
+            distances = [distance_functions[distance_function]['aggregate'](x, weights) for x in test_distances]
+            result = evaluate_fold(distances, test_targets)
+            
+            # aggregate
+            if results_list is None:
+                results_list = {}
+                for key, value in result.items():
+                    results_list[key] = [value]
+            
+            for key, value in result.items():
+                results_list[key].append(value)
+            
+        # average across folds
+        overall_result = {}
+        for key, value in results_list.items():
+            overall_result[key] = np.mean(results_list[key])
+        
+        overall_result['weights'] = np.mean(weights_list, axis = 0)        
+        
+        return overall_result
+        
 
 
 def extract_inception_features(images, model_dir, output_shape):

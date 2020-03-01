@@ -17,6 +17,8 @@ parser = argparse.ArgumentParser(description='Correlating the scales of two feat
 parser.add_argument('similarity_file', help = 'the input file containing the target similarity ratings')
 parser.add_argument('feature_folder', help = 'folder containing the pickle files for all the features')
 parser.add_argument('-o', '--output_file', help = 'the csv file to which the output should be saved', default='features.csv')
+parser.add_argument('-n', '--n_folds', type = int, help = 'number of folds to use for cross-validation when optimizing weights', default = 5)
+parser.add_argument('-s', '--seed', type = int, help = 'fixed seed to use for creating the folds', default = None)
 add_correlation_metrics_to_parser(parser)
 args = parser.parse_args()
 
@@ -45,12 +47,13 @@ def powerset(iterable):
 
 with open(args.output_file, 'w', buffering=1) as f_out:
 
-    f_out.write("n_dims,type,dims,scoring,{0}\n".format(','.join(correlation_metrics)))
+    f_out.write("n_dims,type,dims,scoring,weights,{0}\n".format(','.join(correlation_metrics)))
 
     # look at the power set of all spaces
     spaces = powerset(sorted(feature_data.keys()))
     for space in spaces:
         
+        print('-'.join(space))
         number_of_dimensions = len(space)        
         if number_of_dimensions == 0:
             # ignore empty set
@@ -79,9 +82,19 @@ with open(args.output_file, 'w', buffering=1) as f_out:
                 vectors.append(item_vec.reshape(1,-1))
                
             # compute correlations
-            for distance_name, distance_function in distance_functions.items():
+            for distance_function in sorted(distance_functions.keys()):
 
+                # raw correlation
                 correlation_results = compute_correlations(vectors, target_dissimilarities, distance_function)
-                f_out.write("{0},{1},{2},{3},{4}\n".format(number_of_dimensions, scale_type,
-                                                            '-'.join(space), distance_name,
+                f_out.write("{0},{1},{2},{3},fixed,{4}\n".format(number_of_dimensions, scale_type,
+                                                            '-'.join(space), distance_function,
                                                             ','.join(map(lambda x: str(correlation_results[x]), correlation_metrics))))
+
+                # correlation with optimized weights
+                correlation_results = compute_correlations(vectors, target_dissimilarities, distance_function, args.n_folds, args.seed)
+                f_out.write("{0},{1},{2},{3},optimized,{4}\n".format(number_of_dimensions, scale_type,
+                                                            '-'.join(space), distance_function,
+                                                            ','.join(map(lambda x: str(correlation_results[x]), correlation_metrics))))
+
+                print('\tdone with {0}-{1}; weights: {2}'.format(scale_type, distance_function, correlation_results['weights']))
+                                                            

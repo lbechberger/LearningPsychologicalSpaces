@@ -315,13 +315,13 @@ python -m code.mds.similarity_spaces.aggregate_direction_results path/to/input_f
 
 ### 2.3 Correlations to Similarity Ratings
 
-The folder `mds/correlations` contains scripts for estimating how well the MDS spaces represent the underlying similarity ratings. As a baseline, pixel-based similarities of the corresponding images as well as the similarities of an ANN's activation vectors are used. In all cases, we consider three distance measures (Euclidean, Manhattan, Cosine) and five correlation metrics (Pearson's r, Spearman's rho, Kendall's tau, and the coefficient of determination R²).
+The folder `mds/correlations` contains scripts for estimating how well the MDS spaces represent the underlying similarity ratings. As a baseline, pixel-based similarities of the corresponding images as well as the similarities of an ANN's activation vectors are used. In all cases, we consider three distance measures (Euclidean, Manhattan, inner product) and five correlation metrics (Pearson's r, Spearman's rho, Kendall's tau, and the coefficient of determination R²).
 
 #### 2.3.1 Pixel-Based Similarities
 
 The script `pixel_correlations.py` loads the images and downscales them using scipy's `block_reduce` function (see [here](https://scikit-image.org/docs/dev/api/skimage.measure.html#skimage.measure.block_reduce)). Here, all pixels within a block of size `k` times `k` are aggregated via one of the following aggregation functions: maximum, minimum, arithmetic mean, median. The script automatically iterates over all possible combinations of `k` and the aggregation function.
 
-The pixels of the resulting downscaled images are interpreted as one-dimensional feature vectors. All of the distance measures are used to build distance matrices, which are then in turn correlated with the original dissimilarity ratings. The script can be executed as follows, where `similarity_file.pickle` is the output file of the overall preprocessing and where `image_folder` is the directory containing all images:
+The pixels of the resulting downscaled images are interpreted as one-dimensional feature vectors. All of the distance measures are used to build distance matrices, which are then in turn correlated with the original dissimilarity ratings (both using the raw distances and using a weighted version where dimension weights are estimated in a cross-validation). The script can be executed as follows, where `similarity_file.pickle` is the output file of the overall preprocessing and where `image_folder` is the directory containing all images:
 ```
 python -m code.mds.correlations.pixel_correlations path/to/similarity_file.pickle path/to/image_folder
 ```
@@ -335,8 +335,10 @@ Please note that one or more of the following flags must be set in order to spec
 
 The script takes the following optional parameters:
 - `-o` or `--output_file`: Path to the output csv file where the resulting correlation values are stored (default: `pixel.csv`).
-- `-s` or `--size`: The size of the full images, i.e., the maximal number of `k` to use (default: 300, i.e. the image size of the NOUN data set).
+- `-w` or `--width`: The width (and also height) of the full images, i.e., the maximal number of `k` to use (default: 300, i.e. the image size of the NOUN data set).
 - `-g` or `--greyscale`: If this flag is set, the three color channels are collapsed into a single greyscale channel when loading the images. If not, full RGB information is used.
+- `-n` or `--n_folds`: The number of folds to use in the cross-validation process of optimizing dimension weights (defaults to 5).
+- `-s` or `--seed`: Specify a seed for the random number generator in order to make the folds and thus the overall results deterministic. If no seed is given, then the random number generator is not seeded.
 
 #### 2.3.2 ANN-Based Similarities
 
@@ -344,7 +346,7 @@ As a second baseline, we use the features extracted by the a neural network (mor
 ```
 python -m code.mds.correlations.ann_correlations path/to/model_folder path/to/similarity_file.pickle path/to/image_folder
 ```
-The script downloads the inception network into the given `model_folder`, takes all images from the `image_folder`, and computes the activation of the second-to-last layer of the ANN. This activation vector is then used as a feature vectors. All of the distance measures are used to build distance matrices, which are then in turn correlated with the original dissimilarity ratings from `similarity_file.pickle`. 
+The script downloads the inception network into the given `model_folder`, takes all images from the `image_folder`, and computes the activation of the second-to-last layer of the ANN. This activation vector is then used as a feature vectors. All of the distance measures are used to build distance matrices, which are then in turn correlated with the original dissimilarity ratings from `similarity_file.pickle` (both using the raw distances and using a weighted version where dimension weights are estimated in a cross-validation). 
 
 Please note that one or more of the following flags must be set in order to specify the correlation metric(s) to use in the analysis:
 - `--pearson`: Compute Pearson's correlation coefficient (linear correlation).
@@ -355,10 +357,12 @@ Please note that one or more of the following flags must be set in order to spec
 
 The script takes the following optional arguments:
 - `-o` or `--output_file`: Path to the output csv file where the resulting correlation values are stored (default: `ann.csv`).
+- `-n` or `--n_folds`: The number of folds to use in the cross-validation process of optimizing dimension weights (defaults to 5).
+- `-s` or `--seed`: Specify a seed for the random number generator in order to make the folds and thus the overall results deterministic. If no seed is given, then the random number generator is not seeded.
 
 #### 2.3.3 MDS-Based Similarities
 
-The script `mds_correlations.py` loads the MDS vectors and derives distances between pairs of stimuli based on the three distance measures. These distances are then correlated to the human dissimilarity ratings. The script can be executed as follows:
+The script `mds_correlations.py` loads the MDS vectors and derives distances between pairs of stimuli based on the three distance measures. These distances are then correlated to the human dissimilarity ratings (both using the raw distances and using a weighted version where dimension weights are estimated in a cross-validation). The script can be executed as follows:
 ```
 python -m code.mds.correlations.mds_correlations path/to/similarity_file.pickle path/to/mds_folder
 ```
@@ -375,6 +379,8 @@ The script takes the following optional arguments:
 - `-o` or `--output_file`: Path to the output csv file where the resulting correlation values are stored (default: `mds.csv`).
 - `--n_min`: The size of the smallest space to investigate (defaults to 1).
 - `--n_max`: The size of the largest space to investigate (defaults to 20).
+- `-n` or `--n_folds`: The number of folds to use in the cross-validation process of optimizing dimension weights (defaults to 5).
+- `-s` or `--seed`: Specify a seed for the random number generator in order to make the folds and thus the overall results deterministic. If no seed is given, then the random number generator is not seeded.
 
 #### 2.3.4 Similarities from Different Datasets/Aggregations
 
@@ -391,7 +397,7 @@ The script accepts the following optional parameters:
 
 #### 2.3.5. Feature-Based Similarities
 
-If we interpret the values on the scales of the (psychological) features as coordinates of a similarity space, we can use these coordinates to also compute distances between stimuli. The script `feature_correlations.py` does exactly this and computes the correlation to the original dissimilarity ratings. It is called as follows:
+If we interpret the values on the scales of the (psychological) features as coordinates of a similarity space, we can use these coordinates to also compute distances between stimuli. The script `feature_correlations.py` does exactly this and computes the correlation to the original dissimilarity ratings (both using the raw distances and using a weighted version where dimension weights are estimated in a cross-validation). It is called as follows:
 ```
 python -m code.mds.correlations.feature_correlations path/to/similarity_file.pickle path/to/regression_folder
 ```
@@ -406,6 +412,8 @@ Please note that one or more of the following flags must be set in order to spec
 
 The script takes the following optional arguments:
 - `-o` or `--output_file`: Path to the output csv file where the resulting correlation values are stored (default: `features.csv`).
+- `-n` or `--n_folds`: The number of folds to use in the cross-validation process of optimizing dimension weights (defaults to 5).
+- `-s` or `--seed`: Specify a seed for the random number generator in order to make the folds and thus the overall results deterministic. If no seed is given, then the random number generator is not seeded.
 
 
 #### 2.3.6 Visualizing The Correlations
