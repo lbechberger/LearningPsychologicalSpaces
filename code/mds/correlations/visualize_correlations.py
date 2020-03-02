@@ -36,15 +36,18 @@ with open(args.pixel_file, 'r') as f:
     for row in reader:
         for metric, metric_dict in pixel_data.items():
             
-            # scoring = Euclidean, Manhattan, Cosine, MutualInformation
+            # scoring = Euclidean, Manhattan, inner product
             if row['scoring'] not in metric_dict.keys():
                 metric_dict[row['scoring']] = {}
-                
-            # aggregator = min, max, mean, ...
-            if row['aggregator'] not in metric_dict[row['scoring']].keys():
-                metric_dict[row['scoring']][row['aggregator']] = []
             
-            metric_dict[row['scoring']][row['aggregator']].append([int(row['block_size']), float(row[metric])])
+            if row['weights'] not in metric_dict[row['scoring']].keys():
+                metric_dict[row['scoring']][row['weights']] = {}
+            
+            # aggregator = min, max, mean, ...
+            if row['aggregator'] not in metric_dict[row['scoring']][row['weights']].keys():
+                metric_dict[row['scoring']][row['weights']][row['aggregator']] = []
+            
+            metric_dict[row['scoring']][row['weights']][row['aggregator']].append([int(row['block_size']), float(row[metric])])
 
 # read in MDS-based information
 with open(args.mds_file, 'r') as f:
@@ -54,9 +57,12 @@ with open(args.mds_file, 'r') as f:
             
             # scoring = Euclidean, Manhattan, Cosine
             if row['scoring'] not in metric_dict.keys():
-                metric_dict[row['scoring']] = []
+                metric_dict[row['scoring']] = {}
             
-            metric_dict[row['scoring']].append([int(row['n_dims']), float(row[metric])])
+            if row['weights'] not in metric_dict[row['scoring']].keys():
+                metric_dict[row['scoring']][row['weights']] = []
+            
+            metric_dict[row['scoring']][row['weights']].append([int(row['n_dims']), float(row[metric])])
 
 
 # now use that data to create some plots and some statistics
@@ -70,85 +76,87 @@ for metric in pixel_data.keys():
     
     for scoring in pixel_dict.keys():
         
-        pixel_scores = pixel_dict[scoring]
-        best_pixel_result_scoring = ['None', -1000]
-        if scoring in mds_dict.keys():
-            mds_scores = mds_dict[scoring]
-            x_mds = []
-
-        # first the plot for the pixel data...
-        label_list = []
-        fig, ax = plt.subplots(figsize=(24,12))
-        for aggregator, values in pixel_scores.items():
-            # sort and plot
-            sorted_values = sorted(values, key = lambda x: x[0])
-            bar_indices = np.arange(len(sorted_values))
-            y_values = list(map(lambda x: x[1], sorted_values))
-            legend = list(map(lambda x: x[0], sorted_values))
-            label_list.append(aggregator)
-            ax.plot(bar_indices, y_values)
-            
-            # checking whether this result was better
-            max_val = max(map(lambda x: x[1], sorted_values))
-            if max_val > best_pixel_result_scoring[1]:
-                # find corresponding i
+        for weights in pixel_dict[scoring].keys():        
+        
+            pixel_scores = pixel_dict[scoring][weights]
+            best_pixel_result_scoring = ['None', -1000]
+            if scoring in mds_dict.keys():
+                mds_scores = mds_dict[scoring][weights]
+                x_mds = []
+    
+            # first the plot for the pixel data...
+            label_list = []
+            fig, ax = plt.subplots(figsize=(24,12))
+            for aggregator, values in pixel_scores.items():
+                # sort and plot
+                sorted_values = sorted(values, key = lambda x: x[0])
+                bar_indices = np.arange(len(sorted_values))
+                y_values = list(map(lambda x: x[1], sorted_values))
+                legend = list(map(lambda x: x[0], sorted_values))
+                label_list.append(aggregator)
+                ax.plot(bar_indices, y_values)
+                
+                # checking whether this result was better
+                max_val = max(map(lambda x: x[1], sorted_values))
+                if max_val > best_pixel_result_scoring[1]:
+                    # find corresponding i
+                    max_i = 0
+                    for i, val in (sorted_values):
+                        if val == max_val:
+                            max_i = i
+                            break
+                    best_pixel_result_scoring = ['{0}-{1}'.format(aggregator, max_i), max_val]
+    
+                    
+            # create the final plot and store it
+            ax.tick_params(axis="x", labelsize=16)
+            ax.tick_params(axis="y", labelsize=16)
+            ax.set_xlabel('Block Size', fontsize = 20)
+            ax.set_xticks(bar_indices)
+            ax.set_xticklabels(legend)
+            ax.set_ylabel(metric_display[metric], fontsize = 20)
+            if metric == 'r2':
+                ax.set_ylim(-1,1)
+            plt.legend(label_list, fontsize = 20)
+            output_file_name = os.path.join(args.output_folder, '{0}-{1}-{2}-pixel.jpg'.format(metric, scoring, weights))
+            plt.savefig(output_file_name, bbox_inches='tight', dpi=200)
+            plt.close()
+        
+            # print best pixel result
+            print('best pixel result for {0}-{1}-{2}: {3}'.format(metric, scoring, weights, best_pixel_result_scoring))
+            if best_pixel_result_scoring[1] > best_pixel_result_metric[1]:
+                best_pixel_result_metric = ['{0}-{1}-{2}'.format(scoring, weights, best_pixel_result_scoring[0]), best_pixel_result_scoring[1]]
+        
+            # ... now the plot for the MDS data
+            fig, ax = plt.subplots(figsize=(24,12))
+            if scoring in mds_dict.keys():
+                # sort, plot, and store
+                sorted_values = sorted(mds_scores, key = lambda x: x[0])
+                bar_indices = np.arange(len(sorted_values))
+                legend = list(map(lambda x: x[0], sorted_values))
+                y_values = list(map(lambda x: x[1], sorted_values))
+                ax.plot(bar_indices, y_values)
+                
+                ax.tick_params(axis="x", labelsize=16)
+                ax.tick_params(axis="y", labelsize=16)
+                ax.set_xlabel('Number of Dimensions', fontsize = 20)
+                ax.set_ylabel(metric_display[metric], fontsize = 20)
+                ax.set_xticks(bar_indices)
+                ax.set_xticklabels(legend)
+                output_file_name = os.path.join(args.output_folder, '{0}-{1}-{2}-MDS.jpg'.format(metric, scoring, weights))
+                plt.savefig(output_file_name, bbox_inches='tight', dpi=200)
+                plt.close()
+                
+                # look for best result
+                max_val = max(map(lambda x: x[1], sorted_values))
                 max_i = 0
                 for i, val in (sorted_values):
                     if val == max_val:
                         max_i = i
                         break
-                best_pixel_result_scoring = ['{0}-{1}'.format(aggregator, max_i), max_val]
-
-                
-        # create the final plot and store it
-        ax.tick_params(axis="x", labelsize=16)
-        ax.tick_params(axis="y", labelsize=16)
-        ax.set_xlabel('Block Size', fontsize = 20)
-        ax.set_xticks(bar_indices)
-        ax.set_xticklabels(legend)
-        ax.set_ylabel(metric_display[metric], fontsize = 20)
-        if metric == 'r2':
-            ax.set_ylim(-1,1)
-        plt.legend(label_list, fontsize = 20)
-        output_file_name = os.path.join(args.output_folder, '{0}-{1}-pixel.jpg'.format(metric, scoring))
-        plt.savefig(output_file_name, bbox_inches='tight', dpi=200)
-        plt.close()
-    
-        # print best pixel result
-        print('best pixel result for {0}-{1}: {2}'.format(metric, scoring, best_pixel_result_scoring))
-        if best_pixel_result_scoring[1] > best_pixel_result_metric[1]:
-            best_pixel_result_metric = ['{0}-{1}'.format(scoring, best_pixel_result_scoring[0]), best_pixel_result_scoring[1]]
-    
-        # ... now the plot for the MDS data
-        fig, ax = plt.subplots(figsize=(24,12))
-        if scoring in mds_dict.keys():
-            # sort, plot, and store
-            sorted_values = sorted(mds_scores, key = lambda x: x[0])
-            bar_indices = np.arange(len(sorted_values))
-            legend = list(map(lambda x: x[0], sorted_values))
-            y_values = list(map(lambda x: x[1], sorted_values))
-            ax.plot(bar_indices, y_values)
-            
-            ax.tick_params(axis="x", labelsize=16)
-            ax.tick_params(axis="y", labelsize=16)
-            ax.set_xlabel('Number of Dimensions', fontsize = 20)
-            ax.set_ylabel(metric_display[metric], fontsize = 20)
-            ax.set_xticks(bar_indices)
-            ax.set_xticklabels(legend)
-            output_file_name = os.path.join(args.output_folder, '{0}-{1}-MDS.jpg'.format(metric, scoring))
-            plt.savefig(output_file_name, bbox_inches='tight', dpi=200)
-            plt.close()
-            
-            # look for best result
-            max_val = max(map(lambda x: x[1], sorted_values))
-            max_i = 0
-            for i, val in (sorted_values):
-                if val == max_val:
-                    max_i = i
-                    break
-            print('best MDS result for {0}-{1}: {2}'.format(metric, scoring, [max_i, max_val]))
-            if max_val > best_mds_result_metric[1]:
-                best_mds_result_metric = ['{0}-{1}'.format(scoring, max_i), max_val]
+                print('best MDS result for {0}-{1}-{2}: {3}'.format(metric, scoring, weights, [max_i, max_val]))
+                if max_val > best_mds_result_metric[1]:
+                    best_mds_result_metric = ['{0}-{1}-{2}'.format(scoring, weights, max_i), max_val]
     
     # print best results for given metric overall
     print('\t best pixel result for {0}: {1}'.format(metric, best_pixel_result_metric))

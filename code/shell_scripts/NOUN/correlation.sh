@@ -16,20 +16,20 @@ mkdir -p data/NOUN/mds/correlations/ data/NOUN/mds/visualizations/correlations/
 
 # run pixel-based correlation
 echo 'pixel-based correlation'
-python -m code.mds.correlations.pixel_correlations data/NOUN/mds/similarities/sim.pickle data/NOUN/images/ -o data/NOUN/mds/correlations/pixel.csv -w 300 $correlation_metrics
+python -m code.mds.correlations.pixel_correlations data/NOUN/mds/similarities/sim.pickle data/NOUN/images/ -o data/NOUN/mds/correlations/pixel.csv -w 300 $correlation_metrics -s 42 &> data/NOUN/mds/correlations/pixel-log.txt
 
 # run ANN-based correlation
 echo 'ANN-based correlation'
-python -m code.mds.correlations.ann_correlations /tmp/inception data/NOUN/mds/similarities/sim.pickle data/NOUN/images/ -o data/NOUN/mds/correlations/ann.csv $correlation_metrics
+python -m code.mds.correlations.ann_correlations /tmp/inception data/NOUN/mds/similarities/sim.pickle data/NOUN/images/ -o data/NOUN/mds/correlations/ann.csv $correlation_metrics -s 42 &> data/NOUN/mds/correlations/ann-log.txt
 
 # run MDS correlations
 echo 'MDS correlation'
 for space in $spaces
 do
 	echo '    '"$space"
-	python -m code.mds.correlations.mds_correlations data/NOUN/mds/similarities/sim.pickle 'data/NOUN/mds/vectors/'"$space"'/' -o 'data/NOUN/mds/correlations/'"$space"'.csv' --n_max $dims $correlation_metrics &
+	python -m code.mds.correlations.mds_correlations data/NOUN/mds/similarities/sim.pickle 'data/NOUN/mds/vectors/'"$space"'/' -o 'data/NOUN/mds/correlations/'"$space"'.csv' --n_max $dims $correlation_metrics -s 42 &> 'data/NOUN/mds/correlations/'"$space"'-log.txt' &
 done
-python -m code.mds.correlations.mds_correlations data/NOUN/mds/similarities/sim.pickle data/NOUN/mds/vectors/HorstHout/ -o data/NOUN/mds/correlations/HorstHout.csv --n_min 4 --n_max 4 $correlation_metrics &
+python -m code.mds.correlations.mds_correlations data/NOUN/mds/similarities/sim.pickle data/NOUN/mds/vectors/HorstHout/ -o data/NOUN/mds/correlations/HorstHout.csv --n_min 4 --n_max 4 $correlation_metrics -s 42 &> data/NOUN/mds/correlations/HorstHout-log.txt &
 wait
 
 # visualize correlation results

@@ -72,4 +72,4 @@ with open(args.output_file, 'w', buffering=1) as f:
                 f.write("{0},{1},{2},{3},optimized,{4}\n".format(aggregator_name, block_size, image_size, distance_function, 
                                                                     ','.join(map(lambda x: str(correlation_results[x]), correlation_metrics))))
                 
-                print('done with {0}-{1}-{2}; weights: {2}'.format(block_size, aggregator_name, distance_function, correlation_results['weights']))
+                print('done with {0}-{1}-{2}; weights: {3}'.format(block_size, aggregator_name, distance_function, correlation_results['weights']))

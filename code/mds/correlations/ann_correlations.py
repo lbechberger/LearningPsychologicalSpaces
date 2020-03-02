@@ -50,4 +50,4 @@ with open(args.output_file, 'w', buffering=1) as f:
         correlation_results = compute_correlations(inception_features, target_dissimilarities, distance_function, args.n_folds, args.seed)
         f.write("{0},optimized,{1}\n".format(distance_function, ','.join(map(lambda x: str(correlation_results[x]), correlation_metrics))))
 
-        print('done with {0}; weights: {1}'.format(distance_function. correlation_results['weights']))
+        print('done with {0}; weights: {1}'.format(distance_function, correlation_results['weights']))
