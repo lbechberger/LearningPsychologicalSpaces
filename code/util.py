@@ -133,24 +133,28 @@ def compute_correlations(vectors, dissimilarities, distance_function, n_folds = 
                 lasso = Lasso(alpha = 1e-10, positive = True, random_state=seed)
                 lasso.fit(training_distances, transformed_targets)
                 raw_weights = lasso.coef_   
-            
+                            
             weights = [distance_functions[distance_function]['weights'](w) for w in raw_weights]
             
-            # store weights
-            weights_list.append(weights)
-            
-            # evaluate
-            distances = [distance_functions[distance_function]['aggregate'](x, weights) for x in test_distances]
-            result = evaluate_fold(distances, test_targets)
-            
-            # aggregate
-            if results_list is None:
-                results_list = {}
-                for key, value in result.items():
-                    results_list[key] = [value]
+            if sum(weights) == 0:
+                # this should not happen; if it does: warn and skip fold
+                print("WARNING! All optimized weights are zero, skipping this fold!")
             else:
-                for key, value in result.items():
-                    results_list[key].append(value)
+                # store weights
+                weights_list.append(weights)
+                
+                # evaluate
+                distances = [distance_functions[distance_function]['aggregate'](x, weights) for x in test_distances]
+                result = evaluate_fold(distances, test_targets)
+                
+                # aggregate
+                if results_list is None:
+                    results_list = {}
+                    for key, value in result.items():
+                        results_list[key] = [value]
+                else:
+                    for key, value in result.items():
+                        results_list[key].append(value)
             
         # average across folds
         overall_result = {}
@@ -161,7 +165,13 @@ def compute_correlations(vectors, dissimilarities, distance_function, n_folds = 
             else:
                 overall_result[key] = np.mean(value)
         
-        overall_result['weights'] = np.mean(weights_list, axis = 0)        
+        overall_result['weights'] = np.mean(weights_list, axis = 0)  
+        
+        # worst case: weights have always been zero
+        if sum(overall_result['weights']) == 0:
+            # manually set all output values to NaN
+            for evaluation_metric in ['pearson', 'spearman', 'kendall', 'r2_linear', 'r2_isotonic']:
+                overall_result[evaluation_metric] = float('NaN')
         
         return overall_result
         
