@@ -155,23 +155,26 @@ def compute_correlations(vectors, dissimilarities, distance_function, n_folds = 
                 else:
                     for key, value in result.items():
                         results_list[key].append(value)
-            
-        # average across folds
+    
+    
         overall_result = {}
-        for key, value in results_list.items():
             
-            if key == 'predictions' or key == 'targets':
-                overall_result[key] = np.concatenate(value, axis = 0)
-            else:
-                overall_result[key] = np.mean(value)
+        if results_list is not None:
+            # average across folds
+            for key, value in results_list.items():
+                
+                if key == 'predictions' or key == 'targets':
+                    overall_result[key] = np.concatenate(value, axis = 0)
+                else:
+                    overall_result[key] = np.mean(value)
+            
+            overall_result['weights'] = np.mean(weights_list, axis = 0)  
         
-        overall_result['weights'] = np.mean(weights_list, axis = 0)  
-        
-        # worst case: weights have always been zero
-        if sum(overall_result['weights']) == 0:
-            # manually set all output values to NaN
-            for evaluation_metric in ['pearson', 'spearman', 'kendall', 'r2_linear', 'r2_isotonic']:
-                overall_result[evaluation_metric] = float('NaN')
+        else:
+            # worst case: weights have always been zero
+            # --> manually set all output values to NaN
+            for key in ['pearson', 'spearman', 'kendall', 'r2_linear', 'r2_isotonic', 'weights', 'predictions', 'targets']:
+                overall_result[key] = float('NaN')
         
         return overall_result
         
