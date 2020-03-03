@@ -9,7 +9,7 @@ Created on Wed Jun 19 00:38:28 2019
 
 import matplotlib.pyplot as plt
 import argparse, pickle
-from code.util import compute_correlations, distance_functions, extract_inception_features, downscale_images, aggregator_functions, load_image_files_pixel, load_image_files_ann, load_mds_vectors
+from code.util import compute_correlations, extract_inception_features, downscale_images, aggregator_functions, load_image_files_pixel, load_image_files_ann, load_mds_vectors
 
 parser = argparse.ArgumentParser(description='Scatter plot generation')
 parser.add_argument('similarity_file', help = 'the input file containing the target similarity ratings')
@@ -21,6 +21,9 @@ parser.add_argument('--pixel', '-p', help = 'aggregator for pixel baseline', def
 parser.add_argument('--block_size', '-b', type = int, help = 'block size for pixel baseline', default = 1)
 parser.add_argument('--image_folder', '-i', help = 'path to image folder', default = '.')
 parser.add_argument('--greyscale', '-g', action = 'store_true', help = 'should images be converted to greyscale for pixel baseline?')
+parser.add_argument('--optimized', '-o', action = 'store_true', help = 'if this flag is set, weights are optimized in cross-validation')
+parser.add_argument('-n', '--n_folds', type = int, help = 'number of folds to use for cross-validation when optimizing weights', default = 5)
+parser.add_argument('-s', '--seed', type = int, help = 'fixed seed to use for creating the folds', default = None)
 args = parser.parse_args()
 
 if sum([args.mds is not None, args.ann is not None, args.pixel is not None]) != 1:
@@ -46,8 +49,14 @@ else: # i.e., args.pixel is not None
     transformed_items = downscale_images(images, aggregator_functions[args.pixel], args.block_size, args.greyscale, (1,-1))
     x_label = '{0} Distance of Downscaled Images'.format(args.distance)
     
+if args.optimized:
+    folds = args.n_folds
+    seed = args.seed
+else:
+    folds = None
+    seed = None
 
-corr_dict = compute_correlations(transformed_items, target_dissimilarities, distance_functions[args.distance])
+corr_dict = compute_correlations(transformed_items, target_dissimilarities, args.distance, folds, seed)
 
 fig, ax = plt.subplots(figsize=(12,12))
 ax.tick_params(axis="x", labelsize=16)
