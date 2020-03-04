@@ -1,0 +1,19 @@
+#!/bin/bash
+#$ -N pixel
+#$ -l mem=32G
+#$ -pe default 2
+#$ -l h_rt=72:00:00
+#$ -cwd
+#$ -o $HOME
+#$ -e $HOME
+
+export PATH="$HOME/miniconda/bin:$PATH"
+rm /tmp/* -R -f 2> /dev/null
+
+date
+source activate tensorflow-CS
+python -u -m code.mds.correlations.pixel_correlations data/NOUN/mds/similarities/sim.pickle data/NOUN/images/ -o data/NOUN/mds/correlations/pixel.csv -w 300 --pearson --spearman --kendall --r2_linear --r2_isotonic -s 42 &> data/NOUN/mds/correlations/pixel-log.txt
+source deactivate tensorflow-CS
+date
+
+rm /tmp/* -R -f 2> /dev/null
