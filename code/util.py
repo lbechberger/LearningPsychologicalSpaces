@@ -10,7 +10,7 @@ Created on Tue Jun 18 23:09:08 2019
 from math import sqrt
 
 # distance functions to use in compute_correlations
-distance_functions = {'inner product': {'precompute': lambda x, y: [-1 * x_i * y_i for x_i, y_i in zip(x, y)],
+distance_functions = {'InnerProduct': {'precompute': lambda x, y: [-1 * x_i * y_i for x_i, y_i in zip(x, y)],
                                         'regression_targets': lambda x: x,
                                         'aggregate': lambda x, w: sum([x_i * w_i * w_i for x_i, w_i in zip(x, w)]),
                                         'weights': lambda x: sqrt(x)}, 
