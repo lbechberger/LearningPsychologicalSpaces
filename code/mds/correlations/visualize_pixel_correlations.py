@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Visualizes the correlations measured between the similarity ratings and the MDS/pixel-based ones.
+Visualizes the correlations measured between the dissimilarity ratings and pixel-based distances.
 
 Created on Wed Dec 12 09:01:26 2018
 
@@ -14,7 +14,6 @@ from code.util import add_correlation_metrics_to_parser, get_correlation_metrics
 
 parser = argparse.ArgumentParser(description='Visualizing correlations')
 parser.add_argument('pixel_file', help = 'the input file containing the results of the pixel-wise similarities')
-parser.add_argument('mds_file', help = 'the input file containing the results of the MDS-based similarities')
 parser.add_argument('-o', '--output_folder', help = 'the folder to which the output should be saved', default='.')
 add_correlation_metrics_to_parser(parser)
 args = parser.parse_args()
@@ -22,10 +21,8 @@ args = parser.parse_args()
 correlation_metrics = get_correlation_metrics_from_args(args)
 
 pixel_data = {}
-mds_data = {}
 for metric in correlation_metrics:
     pixel_data[metric] = {}
-    mds_data[metric] = {}
 
 metric_display = {'pearson': r"Pearson's $r$", 'spearman': r"Spearman's $\rho$", 'kendall': r"Kendall's $\tau$",
                       'r2_linear': r"$R^2$ based on a Linear Regression", 'r2_isotonic': r"$R^2$ based on a Isotonic Regression"}
@@ -49,30 +46,13 @@ with open(args.pixel_file, 'r') as f:
             
             metric_dict[row['scoring']][row['weights']][row['aggregator']].append([int(row['block_size']), float(row[metric])])
 
-# read in MDS-based information
-with open(args.mds_file, 'r') as f:
-    reader = csv.DictReader(f)
-    for row in reader:
-        for metric, metric_dict in mds_data.items():
-            
-            # scoring = Euclidean, Manhattan, Cosine
-            if row['scoring'] not in metric_dict.keys():
-                metric_dict[row['scoring']] = {}
-            
-            if row['weights'] not in metric_dict[row['scoring']].keys():
-                metric_dict[row['scoring']][row['weights']] = []
-            
-            metric_dict[row['scoring']][row['weights']].append([int(row['n_dims']), float(row[metric])])
-
 
 # now use that data to create some plots and some statistics
 for metric in pixel_data.keys():
 
     pixel_dict = pixel_data[metric]
-    mds_dict = mds_data[metric]
     
     best_pixel_result_metric = ['None', -1000]
-    best_mds_result_metric = ['None', -1000]    
     
     for scoring in pixel_dict.keys():
         
@@ -80,9 +60,6 @@ for metric in pixel_data.keys():
         
             pixel_scores = pixel_dict[scoring][weights]
             best_pixel_result_scoring = ['None', -1000]
-            if scoring in mds_dict.keys():
-                mds_scores = mds_dict[scoring][weights]
-                x_mds = []
     
             # first the plot for the pixel data...
             label_list = []
@@ -126,39 +103,7 @@ for metric in pixel_data.keys():
             print('best pixel result for {0}-{1}-{2}: {3}'.format(metric, scoring, weights, best_pixel_result_scoring))
             if best_pixel_result_scoring[1] > best_pixel_result_metric[1]:
                 best_pixel_result_metric = ['{0}-{1}-{2}'.format(scoring, weights, best_pixel_result_scoring[0]), best_pixel_result_scoring[1]]
-        
-            # ... now the plot for the MDS data
-            fig, ax = plt.subplots(figsize=(24,12))
-            if scoring in mds_dict.keys():
-                # sort, plot, and store
-                sorted_values = sorted(mds_scores, key = lambda x: x[0])
-                bar_indices = np.arange(len(sorted_values))
-                legend = list(map(lambda x: x[0], sorted_values))
-                y_values = list(map(lambda x: x[1], sorted_values))
-                ax.plot(bar_indices, y_values)
-                
-                ax.tick_params(axis="x", labelsize=16)
-                ax.tick_params(axis="y", labelsize=16)
-                ax.set_xlabel('Number of Dimensions', fontsize = 20)
-                ax.set_ylabel(metric_display[metric], fontsize = 20)
-                ax.set_xticks(bar_indices)
-                ax.set_xticklabels(legend)
-                output_file_name = os.path.join(args.output_folder, '{0}-{1}-{2}-MDS.jpg'.format(metric, scoring, weights))
-                plt.savefig(output_file_name, bbox_inches='tight', dpi=200)
-                plt.close()
-                
-                # look for best result
-                max_val = max(map(lambda x: x[1], sorted_values))
-                max_i = 0
-                for i, val in (sorted_values):
-                    if val == max_val:
-                        max_i = i
-                        break
-                print('best MDS result for {0}-{1}-{2}: {3}'.format(metric, scoring, weights, [max_i, max_val]))
-                if max_val > best_mds_result_metric[1]:
-                    best_mds_result_metric = ['{0}-{1}-{2}'.format(scoring, weights, max_i), max_val]
-    
+            
     # print best results for given metric overall
     print('\t best pixel result for {0}: {1}'.format(metric, best_pixel_result_metric))
-    print('\t best MDS result for {0}: {1}'.format(metric, best_mds_result_metric))
             

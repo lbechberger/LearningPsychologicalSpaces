@@ -108,13 +108,19 @@ do
 	done < 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/scatter.config'
 done
 
-
+echo '    creating average category image according to best pixel baseline'
 # create average category images for best pixel result (MEAN)
 python -m code.mds.preprocessing.average_images data/Shapes/raw_data/preprocessed/data_visual.pickle data/Shapes/images/ -s between -o 'data/Shapes/mds/visualizations/average_images/mean/' -r 12 -a min &> 'data/Shapes/mds/visualizations/average_images/mean.txt'
 
 # create average category images for best pixel result (MEDIAN)
 python -m code.mds.preprocessing.average_images data/Shapes/raw_data/preprocessed/data_visual.pickle data/Shapes/images/ -s between -o 'data/Shapes/mds/visualizations/average_images/median/' -r 12 -a min &> 'data/Shapes/mds/visualizations/average_images/median.txt'
 
+# visualize correlation results for pixel baselines
+echo '    visualizing pixel correlations'
+for aggregator in $aggregators
+do
+	python -m code.mds.correlations.visualize_pixel_correlations -o 'data/Shapes/mds/visualizations/correlations/'"$aggregator"'/' 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/pixel.csv' --spearman &> 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/best_pixel.txt'
+done
 
 
 # RQ6: How well do the MDS spaces reflect the dissimilarity ratings?
@@ -148,6 +154,15 @@ do
 	done
 done
 wait
+
+# create scatter plots
+for aggregator in $aggregators
+do
+	for i in  `seq 1 $visualization_limit`
+	do
+		python -m code.mds.correlations.scatter_plot 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/sim.pickle' 'data/Shapes/mds/visualizations/correlations/'"$aggregator"'/scatter/mds_'"$i"'.png' -m 'data/Shapes/mds/vectors/'"$aggregator"'/'"$i"'D-vectors.csv' -d Euclidean
+	done
+done
 
 # RQ7: How well-shaped are the conceptual regions?
 # ------------------------------------------------
@@ -204,21 +219,10 @@ done
 wait
 
 
-# Some additional visualizations
-# ------------------------------
+# Visualize MDS spaces with interpretable directions
+# --------------------------------------------------
 
-echo 'Some additional visualizations'
-
-# visualize correlation results
-echo '    visualizing correlations'
-for aggregator in $aggregators
-do
-	python -m code.mds.correlations.visualize_correlations -o 'data/Shapes/mds/visualizations/correlations/'"$aggregator"'/' 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/pixel.csv' 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/mds_to_'"$aggregator"'.csv' --spearman &> 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/best.txt' &
-done
-wait
-
-# visualize MDS spaces
-echo '    visualizing MDS spaces'
+echo 'visualizing MDS spaces'
 for aggregator in $aggregators
 do
 	# without directions
