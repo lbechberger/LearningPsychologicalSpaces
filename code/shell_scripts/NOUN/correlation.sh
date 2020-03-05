@@ -35,7 +35,7 @@ wait
 # visualize correlation results
 echo 'visualizing correlation results'
 # overview graphs
-python -m code.mds.correlations.visualize_correlations -o data/NOUN/mds/visualizations/correlations/ data/NOUN/mds/correlations/pixel.csv data/NOUN/mds/correlations/classical.csv $correlation_metrics &> data/NOUN/mds/correlations/best.txt &
+python -m code.mds.correlations.visualize_pixel_correlations -o data/NOUN/mds/visualizations/correlations/ data/NOUN/mds/correlations/pixel.csv $correlation_metrics &> data/NOUN/mds/correlations/best_pixel.txt &
 # scatter plot for 2D MDS
 python -m code.mds.correlations.scatter_plot data/NOUN/mds/similarities/sim.pickle data/NOUN/mds/visualizations/correlations/scatter_MDS.png --mds data/NOUN/mds/vectors/nonmetric_SMACOF/2D-vectors.csv -d Euclidean &
 # scatter plot for ANN baseline
