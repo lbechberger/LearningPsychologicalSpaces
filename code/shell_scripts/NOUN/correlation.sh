@@ -12,7 +12,7 @@ spaces="${algorithms:-$default_algorithms}"
 
 # set up the directory structure
 echo 'setting up directory structure'
-mkdir -p data/NOUN/mds/correlations/ data/NOUN/mds/visualizations/correlations/
+mkdir -p data/NOUN/mds/correlations/ data/NOUN/mds/visualizations/correlations/scatter
 
 # run pixel-based correlation
 echo 'pixel-based correlation'
@@ -36,12 +36,17 @@ wait
 echo 'visualizing correlation results'
 # overview graphs
 python -m code.mds.correlations.visualize_pixel_correlations -o data/NOUN/mds/visualizations/correlations/ data/NOUN/mds/correlations/pixel.csv $correlation_metrics &> data/NOUN/mds/correlations/best_pixel.txt &
-# scatter plot for 2D MDS
-python -m code.mds.correlations.scatter_plot data/NOUN/mds/similarities/sim.pickle data/NOUN/mds/visualizations/correlations/scatter_MDS.png --mds data/NOUN/mds/vectors/nonmetric_SMACOF/2D-vectors.csv -d Euclidean &
+# scatter plots for nonmetric SMACOF
+for i in `seq 1 $max`
+do
+	python -m code.mds.correlations.scatter_plot data/NOUN/mds/similarities/sim.pickle 'data/NOUN/mds/visualizations/correlations/scatter/nonmetric_SMACOF_'"$i"'D.png' --mds 'data/NOUN/mds/vectors/nonmetric_SMACOF/'"$i"'D-vectors.csv' -d Euclidean &	
+done
 # scatter plot for ANN baseline
-python -m code.mds.correlations.scatter_plot data/NOUN/mds/similarities/sim.pickle data/NOUN/mds/visualizations/correlations/scatter_ANN.png --ann /tmp/inception -d Manhattan -i data/NOUN/images/ &
+python -m code.mds.correlations.scatter_plot data/NOUN/mds/similarities/sim.pickle data/NOUN/mds/visualizations/correlations/scatter/ANN_fixed.png --ann /tmp/inception -d Manhattan -i data/NOUN/images/ &
+python -m code.mds.correlations.scatter_plot data/NOUN/mds/similarities/sim.pickle data/NOUN/mds/visualizations/correlations/scatter/ANN_optimized.png --ann /tmp/inception -d Euclidean -i data/NOUN/images/ -o -s 42 &
 # scatter plot for best pixel baseline
-python -m code.mds.correlations.scatter_plot data/NOUN/mds/similarities/sim.pickle data/NOUN/mds/visualizations/correlations/scatter_pixel.png --pixel min -b 19 -d Euclidean -i data/NOUN/images/ &
+python -m code.mds.correlations.scatter_plot data/NOUN/mds/similarities/sim.pickle data/NOUN/mds/visualizations/correlations/scatter/pixel_fixed.png --pixel min -b 18 -d Manhattan -i data/NOUN/images/ &
+python -m code.mds.correlations.scatter_plot data/NOUN/mds/similarities/sim.pickle data/NOUN/mds/visualizations/correlations/scatter/pixel_optimized.png --pixel min -b 2 -d Euclidean -i data/NOUN/images/ -o -s 42 &
 wait
 
 
