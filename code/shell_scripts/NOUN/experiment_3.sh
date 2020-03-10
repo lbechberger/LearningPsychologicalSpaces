@@ -6,7 +6,7 @@ echo 'experiment 3'
 default_feature_sets=("ANN")
 default_lasso_sets=("ANN")
 default_baselines=("--zero")
-defaults_regressors=("--linear")
+default_regressors=("--linear")
 default_lassos=("0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1.0 2.0 5.0 10.0")
 default_targets=("1 2 3 5 6 7 8 9 10")
 
@@ -41,7 +41,7 @@ mkdir -p data/NOUN/ml/experiment_3
 
 for target in $targets
 do
-	echo '    nonmetric_SMACOF_$target'
+	echo "    nonmetric_SMACOF_$target"
 	mkdir -p 'data/NOUN/ml/experiment_3/nonmetric_SMACOF_'"$target"'/'
 
 	# first compute the baselines: using a single feature set is sufficient as features are ignored anyways, don't need shuffled targets as results are same anyways

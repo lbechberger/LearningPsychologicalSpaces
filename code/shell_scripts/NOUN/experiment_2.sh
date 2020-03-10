@@ -6,7 +6,7 @@ echo 'experiment 2'
 default_feature_sets=("ANN pixel_1875")
 default_lasso_sets=("ANN")
 default_baselines=("--zero")
-defaults_regressors=("--linear --random_forest")
+default_regressors=("--linear --random_forest")
 default_lassos=("0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1.0 2.0 5.0 10.0")
 default_targets=("classical Kruskal metric_SMACOF nonmetric_SMACOF")
 
@@ -44,7 +44,7 @@ mkdir -p data/NOUN/ml/experiment_2
 
 for target in $targets
 do
-	echo '    $target'
+	echo "    $target"
 	mkdir -p 'data/NOUN/ml/experiment_2/'"$target"'/'
 
 	# first compute the baselines: using a single feature set is sufficient as features are ignored anyways, don't need shuffled targets as results are same anyways
