@@ -109,11 +109,17 @@ if args.plot:
     # create scatter plot if user want us to
     fig, ax = plt.subplots(figsize=(12,12))
     u, c = np.unique(np.c_[first_vector,second_vector], return_counts=True, axis=0)
-    s = lambda x : (((x-x.min())/float(x.max()-x.min())+1)*8)**2
+    s = lambda x : ((8*(x-x.min())/float(x.max()-x.min())+1)*8)**2
+
+    ax.tick_params(axis="x", labelsize=16)
+    ax.tick_params(axis="y", labelsize=16)
     ax.scatter(u[:,0],u[:,1],s = s(c))
-    plt.xlabel('{0} dissimilarity'.format(args.first_name))
-    plt.ylabel('{0} dissimilarity'.format(args.second_name))
-    plt.title('scatter plot of {0} and {1} dissimilarity'.format(args.first_name, args.second_name))
+
+    plt.xlabel('{0} Dissimilarity'.format(args.first_name), fontsize = 20)
+    plt.ylabel('{0} Dissimilarity'.format(args.second_name), fontsize = 20)
+    plt.title('Scatter Plot of {0} and {1} Dissimilarity'.format(args.first_name, args.second_name), fontsize = 20)
+
+
 
     output_file_name = os.path.join(args.output_folder, 'scatter.png')        
     

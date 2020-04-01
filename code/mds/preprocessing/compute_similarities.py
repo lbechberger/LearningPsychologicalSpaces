@@ -148,17 +148,25 @@ if args.plot:
     bin_sizes = [21, 5]
     
     for bin_size in bin_sizes:
-        plt.hist(all_similarities, bins=bin_size)
+        counts, bins, _ = plt.hist(all_similarities, bins=bin_size)
         plt.title('Distribution of Raw Similarity Ratings')
         plt.xlabel('Similarity')
         plt.ylabel('Number of Occurences')
         plt.savefig('{0}-distr-{1}.png'.format(output_path, bin_size), bbox_inches='tight', dpi=200)
         plt.close()
+        
+        print("\nBin content of raw ratings ({0} bins):".format(bin_size))
+        for c, b in zip(counts, bins):
+            print("{0},{1}".format(b,c))
     
         dissimilarity_values = dissimilarity_matrix.reshape((-1,1))
-        plt.hist(dissimilarity_values, bins=bin_size)
+        counts, bins, _ = plt.hist(dissimilarity_values, bins=bin_size)
         plt.title('Distribution of Values in Global Dissimilarity Matrix')
         plt.xlabel('Dissimilarity')
         plt.ylabel('Number of Occurences')
         plt.savefig('{0}-matrix-{1}.png'.format(output_path, bin_size), bbox_inches='tight', dpi=200)
-        plt.close()          
+        plt.close()    
+        
+        print("\nBin content of matrix entries ({0} bins):".format(bin_size))
+        for c, b in zip(counts, bins):
+            print("{0},{1}".format(b,c))
