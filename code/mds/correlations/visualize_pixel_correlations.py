@@ -64,14 +64,20 @@ for metric in pixel_data.keys():
             # first the plot for the pixel data...
             label_list = []
             fig, ax = plt.subplots(figsize=(24,12))
-            for aggregator, values in pixel_scores.items():
+
+            aggregators = zip(sorted(pixel_scores.keys()),['-', '--', '-.', ':']*(int(len(pixel_scores.keys())/4)))         
+            
+            for aggregator, line_style in aggregators:
+                
+                values = pixel_scores[aggregator]
+                
                 # sort and plot
                 sorted_values = sorted(values, key = lambda x: x[0])
                 bar_indices = np.arange(len(sorted_values))
                 y_values = list(map(lambda x: x[1], sorted_values))
                 legend = list(map(lambda x: x[0], sorted_values))
                 label_list.append(aggregator)
-                ax.plot(bar_indices, y_values)
+                ax.plot(bar_indices, y_values, line_style)
                 
                 # checking whether this result was better
                 max_val = max(map(lambda x: x[1], sorted_values))

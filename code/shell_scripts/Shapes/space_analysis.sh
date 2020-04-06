@@ -32,7 +32,7 @@ do
 	mkdir -p 'data/Shapes/mds/visualizations/correlations/'"$aggregator"'/scatter/'
 	mkdir -p 'data/Shapes/mds/visualizations/average_images/'"$aggregator"'/'
 	mkdir -p 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/'
-	mkdir -p 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/convexity/'
+	mkdir -p 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/regions/'
 	mkdir -p 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/raw/'
 	mkdir -p 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/aggregated/'
 done
@@ -49,13 +49,13 @@ do
 	echo '    looking at '"$aggregator"' matrix'
 
 	# run pixel baseline
-	python -m code.mds.correlations.pixel_correlations 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/sim.pickle' data/Shapes/images/ -o 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/pixel.csv' -w 283 -g --spearman -s 42 &> 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/pixel-log.txt' 
+	python -m code.mds.correlations.pixel_correlations 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/sim.pickle' data/Shapes/images/ -o 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/pixel.csv' -w 283 -g --kendall -s 42 &> 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/pixel-log.txt' 
 
 	# run ANN baseline
-	python -m code.mds.correlations.ann_correlations /tmp/inception 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/sim.pickle' data/Shapes/images/ -o 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/ann.csv' --spearman -s 42 &> 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/ann-log.txt'
+	python -m code.mds.correlations.ann_correlations /tmp/inception 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/sim.pickle' data/Shapes/images/ -o 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/ann.csv' --kendall -s 42 &> 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/ann-log.txt'
 
 	# run feature baseline
-	python -m code.mds.correlations.feature_correlations 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/sim.pickle' 'data/Shapes/mds/regression/' -o 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/features.csv' --spearman -s 42 &> 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/features-log.txt' 
+	python -m code.mds.correlations.feature_correlations 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/sim.pickle' 'data/Shapes/mds/regression/' -o 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/features.csv' --kendall -s 42 &> 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/features-log.txt' 
 done
 
 
@@ -119,7 +119,7 @@ python -m code.mds.preprocessing.average_images data/Shapes/raw_data/preprocesse
 echo '    visualizing pixel correlations'
 for aggregator in $aggregators
 do
-	python -m code.mds.correlations.visualize_pixel_correlations -o 'data/Shapes/mds/visualizations/correlations/'"$aggregator"'/' 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/pixel.csv' --spearman &> 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/best_pixel.txt'
+	python -m code.mds.correlations.visualize_pixel_correlations -o 'data/Shapes/mds/visualizations/correlations/'"$aggregator"'/' 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/pixel.csv' --kendall &> 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/best_pixel.txt'
 done
 
 
@@ -150,7 +150,7 @@ for source_aggregator in $aggregators
 do
 	for target_aggregator in $aggregators
 	do
-		python -m code.mds.correlations.mds_correlations 'data/Shapes/mds/similarities/aggregator/'"$target_aggregator"'/sim.pickle' 'data/Shapes/mds/vectors/'"$source_aggregator"'/' -o 'data/Shapes/mds/analysis/aggregator/'"$source_aggregator"'/correlations/mds_to_'"$target_aggregator"'.csv' --n_max $dimension_limit --spearman -s 42 &> 'data/Shapes/mds/analysis/aggregator/'"$source_aggregator"'/correlations/mds_to_'"$target_aggregator"'-log.txt'&
+		python -m code.mds.correlations.mds_correlations 'data/Shapes/mds/similarities/aggregator/'"$target_aggregator"'/sim.pickle' 'data/Shapes/mds/vectors/'"$source_aggregator"'/' -o 'data/Shapes/mds/analysis/aggregator/'"$source_aggregator"'/correlations/mds_to_'"$target_aggregator"'.csv' --n_max $dimension_limit --kendall -s 42 &> 'data/Shapes/mds/analysis/aggregator/'"$source_aggregator"'/correlations/mds_to_'"$target_aggregator"'-log.txt'&
 	done
 done
 wait
@@ -173,10 +173,14 @@ for aggregator in $aggregators
 do
 	for i in `seq 1 $convexity_limit`
 	do
-		# check whether regions are convex
-		python -m code.mds.similarity_spaces.analyze_convexity 'data/Shapes/mds/vectors/'"$aggregator"'/'"$i"'D-vectors.csv' data/Shapes/raw_data/preprocessed/data_visual.pickle $i -o 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/convexity/convexities.csv' -b -r 100 -s 42 > 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/convexity/'"$i"'D-convexity.txt' &
+		# check whether regions overlap
+		python -m code.mds.similarity_spaces.analyze_overlap 'data/Shapes/mds/vectors/'"$aggregator"'/'"$i"'D-vectors.csv' data/Shapes/raw_data/preprocessed/data_visual.pickle $i -o 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/regions/overlaps.csv' -b -r 100 -s 42 > 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/regions/'"$i"'D-overlap.txt' &
+	done
+
+	for i in `seq 1 $dimension_limit`
+	do	
 		# check how large the regions are
-		python -m code.mds.similarity_spaces.analyze_concept_size 'data/Shapes/mds/vectors/'"$aggregator"'/'"$i"'D-vectors.csv'  data/Shapes/raw_data/preprocessed/data_visual.pickle $i -o 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/convexity/densities.csv' -b -r 100 -s 42 > 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/convexity/'"$i"'D-density.txt' &
+		python -m code.mds.similarity_spaces.analyze_concept_size 'data/Shapes/mds/vectors/'"$aggregator"'/'"$i"'D-vectors.csv'  data/Shapes/raw_data/preprocessed/data_visual.pickle $i -o 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/regions/sizes.csv' -b -r 100 -s 42 > 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/regions/'"$i"'D-size.txt' &
 	done
 done
 wait

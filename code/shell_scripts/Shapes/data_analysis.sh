@@ -157,5 +157,5 @@ do
 done
 
 echo '    computing correlation of the aggregated similarity ratings'
-python -m code.mds.correlations.similarity_correlations 'data/Shapes/mds/similarities/aggregator/median/sim.pickle' 'data/Shapes/mds/similarities/aggregator/mean/sim.pickle' -o 'data/Shapes/mds/analysis/aggregator/' -p -f 'median' -s 'mean' &> 'data/Shapes/mds/analysis/aggregator/correlations.txt'
+python -m code.mds.correlations.similarity_correlations 'data/Shapes/mds/similarities/aggregator/median/sim.pickle' 'data/Shapes/mds/similarities/aggregator/mean/sim.pickle' -o 'data/Shapes/mds/analysis/aggregator/' -p -f 'Median' -s 'Mean' &> 'data/Shapes/mds/analysis/aggregator/correlations.txt'
 

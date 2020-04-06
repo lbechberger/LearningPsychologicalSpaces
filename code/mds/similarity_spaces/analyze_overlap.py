@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Analyze a given space for convextiy.
+Analyze the overlap between conceptual regions.
 
 Created on Wed Nov 14 10:57:29 2018
 
@@ -12,7 +12,7 @@ import numpy as np
 from scipy.optimize import linprog
 from code.util import load_mds_vectors
 
-parser = argparse.ArgumentParser(description='Convexity analysis')
+parser = argparse.ArgumentParser(description='Analyze overlap of conceptual regions')
 parser.add_argument('vector_file', help = 'the input file containing the vectors')
 parser.add_argument('data_set_file', help = 'the pickle file containing the data set')
 parser.add_argument('n', type = int, help = 'number of dimensions of the MDS space')

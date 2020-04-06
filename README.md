@@ -251,9 +251,9 @@ The script takes the following optional arguments:
 - `-d` or `--directions_file`: If a path to a directions file (output of `filter_directions.py`) is given, then the given directions are also included into the plots.
 - `-c` or `--criterion`: If directions are plotted, the given criterion decides which ones are used. Defaults to `kappa`. Can also be set to `spearman`.
 
-#### 2.2.4 Checking for Convexity
+#### 2.2.4 Checking for Overlap
 
-The script `analyze_convexity.py` can be used to check whether the categories within the space are convex. *This is only applicable to the Shapes data set, as there are no categories in NOUN.*
+The script `analyze_overlap.py` can be used to check whether the categories within the space are non-overlapping. *This is only applicable to the Shapes data set, as there are no categories in NOUN.*
 
 The script iterates over all categories, builds a convex hull of the items belonging to this category and counts how many points from other categories lie within this convex hull. Each point that lies in the convex hull of a different concept is counted as one violation. The script outputs the number of violations for each category, together with an estimate of how many violations would be expected if points are randomly sampled from a uniform distribution, a normal distribution, or the overall set of given points.
 
@@ -261,7 +261,7 @@ The script finally outputs the total number of violations as well as the group-w
 
 The script can be exectued as follows (where `n_dims` is the number of dimension of this specific similarity space):
 ```
-python -m code.mds.similarity_spaces.analyze_convexity path/to/vectors.csv path/to/data.pickle n_dims
+python -m code.mds.similarity_spaces.analyze_overlap path/to/vectors.csv path/to/data.pickle n_dims
 ```
 It takes the following optional arguments:
 - `-o` or `--output_file`: If an output file is given, the results are appended to this file in CSV style.
@@ -269,11 +269,11 @@ It takes the following optional arguments:
 - `-r` or `--repetitions`: Determines the number of repetitions used when sampling from the baselines. Defaults to 20. More samples means more accurate estimation, but longer runtime.
 - `-s` or `--seed`: Specify a seed for the random number generator in order to make the results deterministic. If no seed is given, then the random number generator is not seeded.
 
-#### 2.2.5 Analyzing Category Density
+#### 2.2.5 Analyzing Category Size
 
-The script `analyze_density.py` evaluates category density by computing the average distance to the category prototype for all categories. *This is only applicable to the Shapes data set, as there are no categories in NOUN.* The script can be invoked as follows:
+The script `analyze_concept_size.py` evaluates category size by computing the average distance to the category prototype for all categories. *This is only applicable to the Shapes data set, as there are no categories in NOUN.* The script can be invoked as follows:
 ```
-python -m code.mds.similarity_spaces.analyze_density path/to/vectors.csv path/to/data.pickle n_dims
+python -m code.mds.similarity_spaces.analyze_concept_size path/to/vectors.csv path/to/data.pickle n_dims
 ```
 Here, `vectors.csv` contains MDS vectors of dimensionality `n_dims` and `data.pickle` is the data set file created by `preprocess_Shapes.py`. The script takes the following optional parameters:
 - `-o` or `--output_file`: If an output file is given, the results are appended to this file in CSV style.
