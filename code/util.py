@@ -342,8 +342,12 @@ def select_data_subset(subset, data_set):
     Returns a triple of lists: items_of_interest, item_names, and categories_of_interest.
     """
     
-    item_ids = list(data_set['items'].keys())
-    category_names = list(data_set['categories'].keys())
+    category_names = data_set['category_names']
+    
+    # sort item IDs based on categories
+    item_ids = []
+    for category in category_names:
+        item_ids += data_set['categories'][category]['items']
     
     if subset == "all":
         # use all the similarity ratings that we have    
@@ -371,7 +375,8 @@ def select_data_subset(subset, data_set):
                         items_of_interest.append(item2)
         
         items_of_interest = list(set(items_of_interest)) # remove duplicates
-        categories_of_interest = list(set(map(lambda x: data_set['items'][x]['category'], items_of_interest)))
+        cats = list(set(map(lambda x: data_set['items'][x]['category'], items_of_interest)))
+        categories_of_interest = [cat for cat in category_names if cat in cats]
     
     elif subset == "within":
         # only use the similarity ratings from the 'within' file
@@ -392,22 +397,27 @@ def select_data_subset(subset, data_set):
                         items_of_interest.append(item2)
         
         items_of_interest = list(set(items_of_interest)) # remove duplicates
-        categories_of_interest = list(set(map(lambda x: data_set['items'][x]['category'], items_of_interest)))
+        cats = list(set(map(lambda x: data_set['items'][x]['category'], items_of_interest)))
+        categories_of_interest = [cat for cat in category_names if cat in cats]
         
     elif subset == "cats":
         # consider only the categories from the second study, but use all items within them
-        categories_of_interest = ["C03_Elektrogeräte", "C04_Gebäude", "C05_Gemüse", "C06_Geschirr", "C07_Insekten", 
-                                       "C10_Landtiere", "C12_Oberkörperbekleidung", "C13_Obst", "C14_Pflanzen", 
-                                       "C19_Straßenfahrzeuge", "C21_Vögel", "C25_Werkzeug"]
+        categories_of_interest = ["buildings", "vegetables", "dishes", "insects", "street vehicles", 
+                                      "fruits", "electrical appliances", "animals", 
+                                      "upper body clothing", "plants", "birds", "tools"]
         items_of_interest = []
         for item in item_ids:
             if data_set['items'][item]['category'] in categories_of_interest:
                 items_of_interest.append(item)
     
     # no matter which subset was used: sort the idem IDs and create a corresponding list of item names
-    items_of_interest = sorted(items_of_interest)
+    items = list(items_of_interest)
+    items_of_interest = []
+    for category in categories_of_interest:
+        for item in data_set['categories'][category]['items']:
+            if item in items:
+                items_of_interest.append(item)
     item_names = list(map(lambda x: data_set['items'][x]['name'], items_of_interest))
-    categories_of_interest = sorted(categories_of_interest)
     
     return items_of_interest, item_names, categories_of_interest
 

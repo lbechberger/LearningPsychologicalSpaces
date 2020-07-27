@@ -18,7 +18,7 @@ parser.add_argument('-s', '--subset', help = 'the subset of data to use', defaul
 parser.add_argument('-m', '--median', action="store_true", help = 'use median instead of mean')
 parser.add_argument('-l', '--limit', action="store_true", help = 'limit the number of similarity ratings to take into account')
 parser.add_argument('-v', '--limit_value', type = int, default = 0, help = 'limit value to use')
-parser.add_argument('-p', '--plot', action="store_true", help = 'plot two histograms of the distance values')
+parser.add_argument('-p', '--plot', action="store_true", help = 'plot two histograms of the dissimilarity values')
 args = parser.parse_args()
 
 np.random.seed(42) # fixed random seed to ensure reproducibility
@@ -28,7 +28,7 @@ with open(args.input_file, "rb") as f:
     data_set = pickle.load(f)
 
 # select subset of overall data set
-items_of_interest, item_names, _ =  select_data_subset(args.subset, data_set) 
+items_of_interest, item_names, categories_of_interest =  select_data_subset(args.subset, data_set) 
 
 # set limit (if necessary)
 if args.limit:
@@ -134,12 +134,13 @@ for value, count in pairwise_similarities.items():
 print("number of ties (off diagonal, ignoring symmetry) in the matrix: {0} ({1}% of the pairs, {2} distinct values)".format(number_of_ties, 
           100 * (number_of_ties / ((matrix_size * (matrix_size - 1)) / 2)), len(pairwise_similarities.keys())))
 
-result = {'items': items_of_interest, 'item_names': item_names, 'similarities': similarity_matrix, 'dissimilarities': dissimilarity_matrix}
+result = {'items': items_of_interest, 'item_names': item_names, 'similarities': similarity_matrix, 
+          'dissimilarities': dissimilarity_matrix, 'category_names': categories_of_interest}
 
 with open(args.output_file, 'wb') as f:
     pickle.dump(result, f)
 
-# plot the distribution of distances in the distance matrix
+# plot the distribution of dissimilarities in the dissimilarity matrix
 if args.plot:
     from matplotlib import pyplot as plt
 

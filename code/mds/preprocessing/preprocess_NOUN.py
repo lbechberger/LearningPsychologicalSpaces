@@ -72,7 +72,7 @@ with open(args.distance_table, 'r') as f:
 for _ , sim_dict in similarity_info.items():
     sim_dict['border'] = len(sim_dict['values'])
 
-output = {'categories': category_info, 'items': item_info, 'similarities': similarity_info}
+output = {'categories': category_info, 'items': item_info, 'similarities': similarity_info, 'category_names': [cat_name]}
 
 # dump everything into a pickle file
 with open(args.output_file, "wb") as f:

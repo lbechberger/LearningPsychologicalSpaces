@@ -60,7 +60,8 @@ The folder `code/mds/preprocessing` contains various scripts for preprocessing t
 - `'similarities'`: A dictionary using the string representation of sets of two items as keys and dictionaries as values. These dictionaries have the following elements:
   - `'relation'`: Is this a 'within' category or a 'between' category rating? 
   - `'values'`: A list of similarity values (integers from 1 to 5, where 1 means 'no visual similarity' and 5 means 'high visual similarity')
-  - `'border'`: An integer indicating the border between similarity ratings from the two studies. You can use `values[:border]` to access only the similarity ratings of the first study (only within category) and `values[border:]` to acces only the similarity ratings of the second study (mostly between cateory, but also some within category). **
+  - `'border'`: An integer indicating the border between similarity ratings from the two studies. You can use `values[:border]` to access only the similarity ratings of the first study (only within category) and `values[border:]` to acces only the similarity ratings of the second study (mostly between cateory, but also some within category).
+- `'category_names'`: A ordered list of category names, determines the order in which categories shall be iterated over in subsequent scripts.
 
 
 #### 2.1.1 Parsing NOUN Similarity Data
@@ -121,6 +122,7 @@ The result is a pickle file which consists of a dictionary with the following co
 - `'item_names'`: The list of item names for all the items (sorted in same way as `'items'`).
 - `'similarities'`: A quadratic matrix of similarity values. Both rows and columns are ordered like in `'items'`. Values of `nan` are used to indicate that there is no similarity rating available for a pair of stimuli.
 - `'dissimilarities'`: A quadratic matrix of dissimilarity values analogous to `'similarities'`. Here, values of 0 indicate missing similarity ratings.
+- `'category_names'`: A ordered list of category names, determines the order in which categories shall be iterated over in subsequent scripts.
 
 #### 2.1.5 Analyzing the Distribution of Similarity Ratings
 
