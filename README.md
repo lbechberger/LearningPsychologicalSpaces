@@ -203,6 +203,15 @@ The R script for multidimensional scaling that we will use in the next step need
 python -m code.mds.preprocessing.pickle_to_csv path/to/input_file.pickle path/to/output_folder/
 ```
 
+#### 2.1.11 Creating Heatmaps of the Similarity Matrices 
+
+In order to visualize the similarity matrices, one can use the script `plot_similarity_tables.py`. It also directly compares visual to conceptual ratings, given as `visual.pickle` and `conceptual.pickle` (output of `compute_similarities.py`). It creates one item-based heatmap (above diagonal: visual similarity, below diagonal: conceptual similarity) and two category-based heatmaps (one for visual similarity and another one for conceptual similarity) and stores them in the given `output_folder`. The script can be executed as follows:
+
+```
+python -m code.mds.preprocessing.plot_similarity_tables path/to/visual.pickle path/to/conceptual.pickle path/to/output_folder/
+```
+Using the optional parameter `-i` or `--image_folder`, one can pass a folder containing images for the items, which are then used to label the rows and columns of the matrix (*WARNING! Feature not fully developed*).
+
 ### 2.2 Multidimensional Scaling
 
 The folder `code/mds/similarity_spaces` contains various scripts for transforming the given data set from pairwise similarity ratings into a conceptual space and for analyzing the resulting space.

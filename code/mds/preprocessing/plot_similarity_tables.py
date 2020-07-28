@@ -5,7 +5,7 @@ Created on Mon Jul 27 13:37:53 2020
 @author: lbechberger
 """
 
-import pickle, argparse
+import pickle, argparse, os
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm as cm
@@ -15,6 +15,7 @@ from code.util import load_item_images
 parser = argparse.ArgumentParser(description='Plotting similarity tables')
 parser.add_argument('visual_similarity_file', help = 'the input file containing the visual similarity ratings')
 parser.add_argument('conceptual_similarity_file', help = 'the input file containing the conceptual similarity ratings')
+parser.add_argument('output_folder', help = 'the folder where the plots shall be stored')
 parser.add_argument('-i', '--image_folder', help = 'the folder containing the original images', default = None)
 args = parser.parse_args()
 
@@ -32,7 +33,7 @@ if args.image_folder is not None:
     images = load_item_images(args.image_folder, list(visual_input_data['items']))
 
 # does the actual plotting
-def plot_matrices(visual_matrix, conceptual_matrix, legend, mode='merge', images = None):
+def plot_matrices(visual_matrix, conceptual_matrix, legend, output_file_name, mode='merge', images = None):
 
     # helper function for plotting images instead of item names
     def offset_image(coord, ax):
@@ -52,7 +53,11 @@ def plot_matrices(visual_matrix, conceptual_matrix, legend, mode='merge', images
             if i >= j and mode in ['merge','conceptual']:
                 unified_matrix[i][j] = conceptual_matrix[i][j]
 
-    fig, ax = plt.subplots()
+    if mode == 'merge':
+        figsize = (12,9)
+    else:
+        figsize = (6.4,4.8)
+    fig, ax = plt.subplots(figsize=figsize)#figsize=(width,width))
     im = ax.imshow(unified_matrix, cm.get_cmap('gray_r'))
     
     if mode == 'visual':
@@ -66,25 +71,24 @@ def plot_matrices(visual_matrix, conceptual_matrix, legend, mode='merge', images
 
 
     if images is None:
-        print('bla')
         ax.set_xticks(np.arange(len(legend)))
         ax.set_yticks(np.arange(len(legend)))
         ax.set_xticklabels(legend)
         ax.set_yticklabels(legend) 
     else:
-        print('beep')
         for ctr in range(len(legend)):
             offset_image(ctr, ax)
     
 
-    fig.tight_layout()        
-    plt.show()
-
+    fig.tight_layout()     
+    fig.savefig(output_file_name, bbox_inches='tight', dpi=200)
+    #plt.show()
 
 # first plot item-based matrices
 visual_item_matrix = visual_input_data['similarities']
 conceptual_item_matrix = conceptual_input_data['similarities']
-plot_matrices(visual_item_matrix, conceptual_item_matrix, visual_input_data['item_names'], images=images)
+file_name = os.path.join(args.output_folder, 'heatmap_item_based.png')
+plot_matrices(visual_item_matrix, conceptual_item_matrix, visual_input_data['item_names'], file_name, images=images)
 
 # now plot category-based matrices
 category_names = visual_input_data['category_names']
@@ -113,5 +117,7 @@ for first_cat in range(len(category_names)):
         conceptual_category_matrix[first_cat][second_cat] = conceptual_median
         conceptual_category_matrix[second_cat][first_cat] = conceptual_median
 
-plot_matrices(visual_category_matrix, conceptual_category_matrix, category_names, mode='visual')
-plot_matrices(visual_category_matrix, conceptual_category_matrix, category_names, mode='conceptual')
+visual_file_name = os.path.join(args.output_folder, 'heatmap_category_based_visual.png')
+conceptual_file_name = os.path.join(args.output_folder, 'heatmap_category_based_conceptual.png')
+plot_matrices(visual_category_matrix, conceptual_category_matrix, category_names, visual_file_name, mode='visual')
+plot_matrices(visual_category_matrix, conceptual_category_matrix, category_names, conceptual_file_name, mode='conceptual')

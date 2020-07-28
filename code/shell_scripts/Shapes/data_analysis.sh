@@ -21,6 +21,7 @@ mkdir -p data/Shapes/raw_data/preprocessed
 mkdir -p data/Shapes/mds/classification
 mkdir -p data/Shapes/mds/regression
 mkdir -p data/Shapes/mds/analysis/aggregator
+mkdir -p data/Shapes/mds/visualizations/similarities data/Shapes/mds/visualizations/average_images
 
 for dataset in $datasets
 do
@@ -53,7 +54,7 @@ for dataset in $datasets
 do
 	echo '    reading CSV files for '"$dataset"' similarity'
 	[ "$dataset" == "conceptual" ] && reverse_flag='--reverse' || reverse_flag=''	
-	python -m code.mds.preprocessing.preprocess_Shapes data/Shapes/raw_data/visual_similarities_within.csv 'data/Shapes/raw_data/'"$dataset"'_similarities.csv' 'data/Shapes/raw_data/preprocessed/data_'"$dataset"'.pickle' $reverse_flag &> 'data/Shapes/raw_data/preprocessed/preprocess_'"$dataset"'.txt'
+	python -m code.mds.preprocessing.preprocess_Shapes data/Shapes/raw_data/visual_similarities_within.csv 'data/Shapes/raw_data/'"$dataset"'_similarities.csv' data/Shapes/raw_data/categories.csv data/Shapes/raw_data/items.csv 'data/Shapes/raw_data/preprocessed/data_'"$dataset"'.pickle' $reverse_flag &> 'data/Shapes/raw_data/preprocessed/preprocess_'"$dataset"'.txt'
 
 done
 
@@ -90,6 +91,9 @@ python -m code.mds.correlations.similarity_correlations 'data/Shapes/mds/similar
 	
 echo '    differences'
 python -m  code.mds.preprocessing.compare_visual_conceptual 'data/Shapes/mds/similarities/dataset/visual/sim.pickle' 'data/Shapes/mds/similarities/dataset/conceptual/sim.pickle' &> 'data/Shapes/mds/analysis/dataset/differences.txt'
+
+echo '    visualization'
+python -m code.mds.preprocessing.plot_similarity_tables data/Shapes/mds/similarities/dataset/visual/sim.pickle data/Shapes/mds/similarities/dataset/conceptual/sim.pickle data/Shapes/mds/visualizations/similarities 
 
 
 # RQ2: Do 'Sim' categories have higher internal shape similarity than 'Dis' categories?
