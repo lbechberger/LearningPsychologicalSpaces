@@ -9,10 +9,13 @@ import pickle, argparse
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm as cm
+from matplotlib.offsetbox import OffsetImage, AnnotationBbox
+from code.util import load_item_images
 
 parser = argparse.ArgumentParser(description='Plotting similarity tables')
 parser.add_argument('visual_similarity_file', help = 'the input file containing the visual similarity ratings')
 parser.add_argument('conceptual_similarity_file', help = 'the input file containing the conceptual similarity ratings')
+parser.add_argument('-i', '--image_folder', help = 'the folder containing the original images', default = None)
 args = parser.parse_args()
 
 np.random.seed(42) # fixed random seed to ensure reproducibility
@@ -23,8 +26,23 @@ with open(args.visual_similarity_file, 'rb') as f_in:
 with open(args.conceptual_similarity_file, 'rb') as f_in:
     conceptual_input_data = pickle.load(f_in)
 
+# load the images (if applicable)
+images = None
+if args.image_folder is not None:
+    images = load_item_images(args.image_folder, list(visual_input_data['items']))
+
 # does the actual plotting
-def plot_matrices(visual_matrix, conceptual_matrix, legend, mode='merge', value_range=[0,5]):
+def plot_matrices(visual_matrix, conceptual_matrix, legend, mode='merge', images = None):
+
+    # helper function for plotting images instead of item names
+    def offset_image(coord, ax):
+        img = images[coord]
+        im = OffsetImage(img, zoom = 0.05)
+        im.image.axes = ax
+        
+        ab = AnnotationBbox(im, (0, coord), xybox=(-16., -0.), frameon=False, xycoords='data', 
+                            boxcoords="offset points", pad=0)
+        ax.add_artist(ab)
 
     unified_matrix = np.ones(visual_matrix.shape)
     for i in range(len(legend)):
@@ -46,11 +64,17 @@ def plot_matrices(visual_matrix, conceptual_matrix, legend, mode='merge', value_
         cbar.ax.set_ylabel("similarity", rotation='vertical')
         cbar.ax.set_yticklabels(['low','high'])
 
-    ax.set_xticks(np.arange(len(legend)))
-    ax.set_yticks(np.arange(len(legend)))
 
-    ax.set_xticklabels(legend)
-    ax.set_yticklabels(legend)   
+    if images is None:
+        print('bla')
+        ax.set_xticks(np.arange(len(legend)))
+        ax.set_yticks(np.arange(len(legend)))
+        ax.set_xticklabels(legend)
+        ax.set_yticklabels(legend) 
+    else:
+        print('beep')
+        for ctr in range(len(legend)):
+            offset_image(ctr, ax)
     
 
     fig.tight_layout()        
@@ -60,7 +84,7 @@ def plot_matrices(visual_matrix, conceptual_matrix, legend, mode='merge', value_
 # first plot item-based matrices
 visual_item_matrix = visual_input_data['similarities']
 conceptual_item_matrix = conceptual_input_data['similarities']
-plot_matrices(visual_item_matrix, conceptual_item_matrix, visual_input_data['item_names'])
+plot_matrices(visual_item_matrix, conceptual_item_matrix, visual_input_data['item_names'], images=images)
 
 # now plot category-based matrices
 category_names = visual_input_data['category_names']
