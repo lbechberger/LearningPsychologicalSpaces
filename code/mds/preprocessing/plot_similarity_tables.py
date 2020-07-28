@@ -39,11 +39,11 @@ def plot_matrices(visual_matrix, conceptual_matrix, legend, mode='merge', value_
     
     if mode == 'visual':
         ax.tick_params(bottom=False,left=False,top=True,right=True, labeltop=True, labelright=True, labelbottom=False, labelleft=False)    
-        plt.setp(ax.get_xticklabels(), rotation='vertical')#90, ha='left', rotation_mode='anchor')
+        plt.setp(ax.get_xticklabels(), rotation='vertical')
     else:
-        plt.setp(ax.get_xticklabels(), rotation='vertical')#90, ha='right', rotation_mode='anchor')
+        plt.setp(ax.get_xticklabels(), rotation='vertical')
         cbar = ax.figure.colorbar(im, ticks=[1.1,4.9], ax=ax, orientation='vertical')
-        cbar.ax.set_ylabel("similarity", rotation='vertical')#-90, va='bottom')
+        cbar.ax.set_ylabel("similarity", rotation='vertical')
         cbar.ax.set_yticklabels(['low','high'])
 
     ax.set_xticks(np.arange(len(legend)))
