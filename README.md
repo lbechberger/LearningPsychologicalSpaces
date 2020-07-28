@@ -205,7 +205,7 @@ python -m code.mds.preprocessing.pickle_to_csv path/to/input_file.pickle path/to
 
 #### 2.1.11 Creating Heatmaps of the Similarity Matrices 
 
-In order to visualize the similarity matrices, one can use the script `plot_similarity_tables.py`. It also directly compares visual to conceptual ratings, given as `visual.pickle` and `conceptual.pickle` (output of `compute_similarities.py`). It creates one item-based heatmap (above diagonal: visual similarity, below diagonal: conceptual similarity) and two category-based heatmaps (one for visual similarity and another one for conceptual similarity) and stores them in the given `output_folder`. The script can be executed as follows:
+In order to visualize the similarity matrices, one can use the script `plot_similarity_tables.py`. It also directly compares visual to conceptual ratings, given as `visual.pickle` and `conceptual.pickle` (output of `compute_similarities.py`). It creates one item-based heatmap (above diagonal: visual similarity, below diagonal: conceptual similarity) and two category-based heatmaps (one for visual similarity and another one for conceptual similarity) and stores them in the given `output_folder`. Moreover, a box plot based on within and between-category ratings for visual and conceptual similarity is generated. The script can be executed as follows:
 
 ```
 python -m code.mds.preprocessing.plot_similarity_tables path/to/visual.pickle path/to/conceptual.pickle path/to/output_folder/

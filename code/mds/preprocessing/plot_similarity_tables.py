@@ -33,7 +33,7 @@ if args.image_folder is not None:
     images = load_item_images(args.image_folder, list(visual_input_data['items']))
 
 # does the actual plotting
-def plot_matrices(visual_matrix, conceptual_matrix, legend, output_file_name, mode='merge', images = None):
+def make_heatmaps(visual_matrix, conceptual_matrix, legend, output_file_name, mode='merge', images = None):
 
     # helper function for plotting images instead of item names
     def offset_image(coord, ax):
@@ -57,7 +57,7 @@ def plot_matrices(visual_matrix, conceptual_matrix, legend, output_file_name, mo
         figsize = (12,9)
     else:
         figsize = (6.4,4.8)
-    fig, ax = plt.subplots(figsize=figsize)#figsize=(width,width))
+    fig, ax = plt.subplots(figsize=figsize)
     im = ax.imshow(unified_matrix, cm.get_cmap('gray_r'))
     
     if mode == 'visual':
@@ -82,21 +82,53 @@ def plot_matrices(visual_matrix, conceptual_matrix, legend, output_file_name, mo
 
     fig.tight_layout()     
     fig.savefig(output_file_name, bbox_inches='tight', dpi=200)
-    #plt.show()
+
+# makes a box plot comparing ratings
+def make_boxplot(visual_data, conceptual_data, output_file_name):
+    
+    # helper function
+    def single_boxplot(data, color, sign, label, ax):   
+        bp = ax.boxplot(data, positions=np.array(range(len(data)))*2.0 +sign*0.4, widths=0.6, sym='')
+        plt.setp(bp['boxes'], color=color)
+        plt.setp(bp['whiskers'], color=color)
+        plt.setp(bp['caps'], color=color)
+        plt.setp(bp['medians'], color=color)
+        ax.plot([], c=color, label=label)
+    
+    
+    fig, ax = plt.subplots()
+    
+    single_boxplot(visual_data, 'red', -1, 'Visual Similarity', ax)
+    single_boxplot(conceptual_data, 'blue', 1, 'Conceptual Similarity', ax)
+    ax.legend()
+
+    group_names = ['Within VC Categories', 'Within VV Categories', 'Between Categories']
+    ax.set_xticks(range(0, len(group_names) * 2, 2))
+    ax.set_xticklabels(group_names)    
+    ax.set_xlim(-2, len(group_names)*2)
+    plt.setp(ax.get_xticklabels(), rotation=45)
+    
+    fig.tight_layout()     
+    fig.savefig(output_file_name, bbox_inches='tight', dpi=200)
 
 # first plot item-based matrices
 visual_item_matrix = visual_input_data['similarities']
 conceptual_item_matrix = conceptual_input_data['similarities']
 file_name = os.path.join(args.output_folder, 'heatmap_item_based.png')
-plot_matrices(visual_item_matrix, conceptual_item_matrix, visual_input_data['item_names'], file_name, images=images)
+make_heatmaps(visual_item_matrix, conceptual_item_matrix, visual_input_data['item_names'], file_name, images=images)
 
-# now plot category-based matrices
+# now do category-based analysis
 category_names = visual_input_data['category_names']
 visual_category_matrix = np.zeros((len(category_names), len(category_names)))
 conceptual_category_matrix = np.zeros((len(category_names), len(category_names)))
 
+# 1st entry: within VC category, 2nd entry: within VV category, 3rd entry: between categories
+visual_groupings = [[],[],[]]
+conceptual_groupings = [[],[],[]]
+
 items_per_category = int(visual_item_matrix.shape[0]/len(category_names))
 
+# collect data
 for first_cat in range(len(category_names)):
     for second_cat in range(first_cat, len(category_names)):
         
@@ -109,6 +141,7 @@ for first_cat in range(len(category_names)):
                 visual_values.append(visual_item_matrix[x][y])
                 conceptual_values.append(conceptual_item_matrix[x][y])
         
+        # collect data for overall similarity matrices
         visual_median = np.median(visual_values)
         visual_category_matrix[first_cat][second_cat] = visual_median
         visual_category_matrix[second_cat][first_cat] = visual_median
@@ -116,8 +149,28 @@ for first_cat in range(len(category_names)):
         conceptual_median = np.median(conceptual_values)
         conceptual_category_matrix[first_cat][second_cat] = conceptual_median
         conceptual_category_matrix[second_cat][first_cat] = conceptual_median
+        
+        # collect data for box plots
+        if first_cat == second_cat:
+            # within category
+            if first_cat < 6:
+                # VV category
+                group_idx = 1
+            else:
+                # VC category
+                group_idx = 0
+        else:
+            # between category
+            group_idx = 2
+        
+        visual_groupings[group_idx] += visual_values
+        conceptual_groupings[group_idx] += conceptual_values
 
+# do the plotting
 visual_file_name = os.path.join(args.output_folder, 'heatmap_category_based_visual.png')
 conceptual_file_name = os.path.join(args.output_folder, 'heatmap_category_based_conceptual.png')
-plot_matrices(visual_category_matrix, conceptual_category_matrix, category_names, visual_file_name, mode='visual')
-plot_matrices(visual_category_matrix, conceptual_category_matrix, category_names, conceptual_file_name, mode='conceptual')
+make_heatmaps(visual_category_matrix, conceptual_category_matrix, category_names, visual_file_name, mode='visual')
+make_heatmaps(visual_category_matrix, conceptual_category_matrix, category_names, conceptual_file_name, mode='conceptual')
+
+boxplot_file_name = os.path.join(args.output_folder, 'boxplot.png')
+make_boxplot(visual_groupings, conceptual_groupings, boxplot_file_name)
