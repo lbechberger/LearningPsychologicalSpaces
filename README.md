@@ -78,10 +78,10 @@ With respect to the resulting `output.pickle` file, we would like to make the fo
 
 In order to make the Shapes data processible by our scripts, please run the script `preprocess_Shapes.py` as follows from the project's root directory:
 ```
-python -m code.mds.preprocessing.preprocess_Shape path/to/within.csv path/to/within_between.csv path/to/output.pickle
+python -m code.mds.preprocessing.preprocess_Shape path/to/within.csv path/to/within_between.csv path/to/categories.csv path/to/items.csv path/to/output.pickle
 ```
 
-The file `within.csv` contains within category similarity judments (first study), the file `within_between.csv` contains similarity ratings both within and between categories (second study). The optional flag `-r` or `--reverse` can be set in order to reverse the order of similarity ratings (necessary when using conceptual similarity, as the scale there is inverted).
+The file `within.csv` contains within category similarity judments (first study), the file `within_between.csv` contains similarity ratings both within and between categories (second study). The file `categories.csv` contains an ordered list of category translations which will be used both to translate the category names and to order the categories as specified in the similarity matrix. The file `items.csv` contains a translation of item IDs to item names. The optional flag `-r` or `--reverse` can be set in order to reverse the order of similarity ratings (necessary when using conceptual similarity, as the scale there is inverted).
 
 The resulting `output.pickle` file makes use of the full dictionary structure outlined above.
 

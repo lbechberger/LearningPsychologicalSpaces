@@ -14,13 +14,16 @@ import pickle, argparse
 parser = argparse.ArgumentParser(description='Preprocessing similarity data of the Shapes study')
 parser.add_argument('within_file', help = 'CSV file containing data from the within-study (study 1)')
 parser.add_argument('within_between_file', help = 'CSV file containing data from the within-between-study (study 2)')
-parser.add_argument('categories_file', help = 'CSV file contained an ordered list of categories and their desired names')
+parser.add_argument('categories_file', help = 'CSV file containing an ordered list of categories and their desired names')
+parser.add_argument('items_file', help = 'CSV file containing a mapping of item names')
 parser.add_argument('output_file', help = 'path to the output pickle file')
 parser.add_argument('-r', '--reverse', action = 'store_true', help = 'use distances instead of similarities')
 args = parser.parse_args()
 
 category_names = []
 category_map = {}
+item_map = {}
+
 category_info = {}
 item_info = {}
 similarity_info = {}
@@ -32,6 +35,12 @@ with open(args.categories_file, 'r') as f:
         
         category_map[tokens[0]] = tokens[1]
         category_names.append(tokens[1])
+
+# read in the item names
+with open(args.items_file, 'r') as f:
+    for line in f:
+        tokens = line.replace('\n','').split(',')
+        item_map[tokens[0]] = tokens[1]
         
 # first only read within category information
 print("Reading {0}...".format(args.within_file))
@@ -56,8 +65,8 @@ with open(args.within_file, 'r') as f:
         
         
         # triples: id, name, category
-        item1 = (tokens[3], tokens[4], category)
-        item2 = (tokens[5], tokens[6], category)
+        item1 = (tokens[3], item_map[tokens[3]], category)
+        item2 = (tokens[5], item_map[tokens[5]], category)
 
         for item in [item1, item2]:
             # check whether the items are already known
@@ -87,8 +96,8 @@ with open(args.within_between_file, 'r') as f:
         tokens = line.replace('\n', '').split(',')
         
         # tuples: id, name
-        item1 = (tokens[4], tokens[5])
-        item2 = (tokens[8], tokens[9])
+        item1 = (tokens[4], item_map[tokens[4]])
+        item2 = (tokens[8], item_map[tokens[8]])
 
         item_tuple_id = str(sorted([tokens[4], tokens[8]]))
         
