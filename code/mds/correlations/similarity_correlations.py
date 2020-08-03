@@ -68,12 +68,12 @@ first_vector = np.reshape(first_dissimilarities, (-1,1))
 second_vector = np.reshape(second_dissimilarities, (-1,1)) 
 
 # compute correlations
-pearson, _ = pearsonr(first_vector, second_vector)
-print("Pearson correlation:", pearson[0])
-spearman, _ = spearmanr(first_vector, second_vector)
-print("Spearman correlation:", spearman)
-kendall, _ = kendalltau(first_vector, second_vector)
-print("Kendall correlation:", kendall)
+pearson, pearson_p = pearsonr(first_vector, second_vector)
+print("Pearson correlation: {0} (p = {1})".format(pearson[0], pearson_p))
+spearman, spearman_p = spearmanr(first_vector, second_vector)
+print("Spearman correlation: {0} (p = {1})".format(spearman, spearman_p))
+kendall, kendall_p = kendalltau(first_vector, second_vector)
+print("Kendall correlation: {0} (p = {1})".format(kendall, kendall_p))
 
 # compute least squares regression for R² metric: first to second
 linear_regression = LinearRegression()

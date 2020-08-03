@@ -45,8 +45,8 @@ for feature_type in sorted(first_data.keys()):
     first_values = [first_scale[item_id] for item_id in item_ids]
     second_values = [second_scale[item_id] for item_id in item_ids]
     
-    spearman, _ = spearmanr(first_values, second_values)
-    print("Spearman correlation for {0} feature: {1}".format(feature_type, spearman))
+    spearman, p_value = spearmanr(first_values, second_values)
+    print("Spearman correlation for {0} feature: {1} (p = {2})".format(feature_type, spearman, p_value))
     
     # create scatter plot
     output_file_name = os.path.join(args.output_folder, 'scatter-{0}-{1}-{2}.png'.format(args.first_name, args.second_name, feature_type))        
