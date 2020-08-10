@@ -53,8 +53,17 @@ if (is.null(opt$input_file)) {
   stop("Missing non-optional argument!", call. = FALSE)
 }
 
-# read in the data
-data <- read.csv2(opt$input_file)
+# read in the data and ensure correct data types
+data <- read.csv(opt$input_file)
+data$ratings <- factor(data$ratings, ordered=T)
+data$pairID <-as.factor(data$pairID)
+
 
 # check the coding
 str(data)
+
+# TODO: helper function for clmm on conceptual vs visual
+
+# TODO: call helper function on all data, within pairs, between pairs
+
+# TODO: spearman correlation of visual vs conceptual ratings
