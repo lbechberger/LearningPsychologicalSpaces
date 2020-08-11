@@ -83,7 +83,7 @@ with open(args.within_file, 'r') as f:
         similarity_values = list(map(lambda x: int(x), filter(None, tokens[7:])))
         if args.reverse:
             similarity_values = list(map(lambda x: 6 - x, similarity_values))
-        similarity_info[str(sorted([tokens[3], tokens[5]]))] = {'relation': 'within', 'values': similarity_values, 'border':len(similarity_values)}
+        similarity_info[str(sorted([tokens[3], tokens[5]]))] = {'relation': 'within', 'category_type': tokens[1], 'values': similarity_values, 'border':len(similarity_values)}
 
 # now read within_between category information
 print("Reading {0}...".format(args.within_between_file))
@@ -111,12 +111,20 @@ with open(args.within_between_file, 'r') as f:
         if args.reverse:
             similarity_values = list(map(lambda x: 6 - x, similarity_values))
         
+        # transform information about category type
+        category_type = 'Mix'
+        if tokens[0] == 'within':
+            if tokens[1] == 'visDis':
+                category_type = 'Dis'
+            else:
+                category_type = 'Sim'
+        
         if item_tuple_id in similarity_info:
             # if we already have similarity information from the previous study: append
             similarity_info[item_tuple_id]['values'] += similarity_values
         else:
             # otherwise: add new line
-            similarity_info[item_tuple_id] = {'relation': tokens[0], 'values': similarity_values, 'border':0}
+            similarity_info[item_tuple_id] = {'relation': tokens[0], 'category_type': category_type, 'values': similarity_values, 'border':0}
 
 
 

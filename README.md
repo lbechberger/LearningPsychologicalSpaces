@@ -59,6 +59,7 @@ The folder `code/mds/preprocessing` contains various scripts for preprocessing t
   - `'category'`: The name of the category this item belongs to. 
 - `'similarities'`: A dictionary using the string representation of sets of two items as keys and dictionaries as values. These dictionaries have the following elements:
   - `'relation'`: Is this a 'within' category or a 'between' category rating? 
+  - `'categoryType'`: `visSim` information of the category (i.e., 'Sim', 'Dis', or 'x') or 'Mix' if items from different categories.
   - `'values'`: A list of similarity values (integers from 1 to 5, where 1 means 'no visual similarity' and 5 means 'high visual similarity')
   - `'border'`: An integer indicating the border between similarity ratings from the two studies. You can use `values[:border]` to access only the similarity ratings of the first study (only within category) and `values[border:]` to acces only the similarity ratings of the second study (mostly between cateory, but also some within category).
 - `'category_names'`: A ordered list of category names, determines the order in which categories shall be iterated over in subsequent scripts.
@@ -201,6 +202,11 @@ The script accepts the following optional arguments:
 The R script for multidimensional scaling that we will use in the next step needs the aggregated dissimilarity data in form of a CSV file. The script `pickle_to_csv.py` stores the similaritiy ratings from `input_file.pickle` into a CSV file called `distance_matrix.csv` as well as the list of item names in a file called `item_names.csv`. Both output files are stored in the given `output_folder`. The `input_file.pickle` should be the file created by `compute_similarities.py`. The script can be invoked as follows:
 ```
 python -m code.mds.preprocessing.pickle_to_csv path/to/input_file.pickle path/to/output_folder/
+```
+
+Also some of our analysis scripts (conducting statistical tests on the data) are written in R and need their input as CSV files. The script `create_similarity_csv.py` dumps the raw similarity ratings from `ìnput_file.pickle` (which is based on `preprocess_Shapes.py`) into `output_file.csv`, annotating the ratings with the given `rating_type`:
+```
+python -m code.mds.preprocessing.create_similarity_csv path/to/input_file.pickle path/to/output_file.csv rating_type
 ```
 
 #### 2.1.11 Creating Heatmaps of the Similarity Matrices 

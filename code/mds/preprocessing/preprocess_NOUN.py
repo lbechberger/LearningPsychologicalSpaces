@@ -67,7 +67,7 @@ with open(args.distance_table, 'r') as f:
                 similarity_info[item_tuple_id]['values'].append(similarity)
             else:
                 # otherwise: add new line
-                similarity_info[item_tuple_id] = {'relation': 'within', 'values': [similarity], 'border':0}
+                similarity_info[item_tuple_id] = {'relation': 'within', 'category_type': 'x', 'values': [similarity], 'border':0}
 
 for _ , sim_dict in similarity_info.items():
     sim_dict['border'] = len(sim_dict['values'])
