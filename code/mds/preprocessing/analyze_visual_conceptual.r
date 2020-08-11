@@ -70,24 +70,28 @@ run_clmm <- function(input_data) {
   # build mixed effects model (CLMM): 
   #   do ratings depend on rating type? --> ratings ~ ratingType
   #   taking into account that individual picture pair may influence rating --> (1|pairID)
-  #model<-clmm(ratings ~ ratingType + (1+ratingType|pairID),  data=input_data)
-  #model <- clmm2(ratings ~ ratingType, random=pairID, data = input_data, Hess = TRUE) 
-  #model <- clmm(ratings ~ ratingType + (1|pairID), data = input_data)
-  # alternative: model<-clmm(ratings ~ ratingType + (1+ratingType|pairID),  data=inputdata) --> with random slopes taking into account that difference between rating types may differ among picture pairs --> (1 + ratingType | pairID)
-  
-  #model<-clmm(ratings ~ ratingType + (1+ratingType|pairID),  data=input_data)
-  model <- clm(ratings ~ ratingType + pairID, data=input_data)
-  summary(model)
+  #   taking into account that difference between rating types may differ among picture pairs --> (1 + ratingType | pairID)
+
+  model <- clmm(ratings ~ ratingType + (1+ratingType|pairID),  data=input_data)
+  print(model)
   
   # test model assumptions:
   # 1) (partial) proportional odds/equal slopes (= der Effekt von ratingType muss konstant sein f?r jeden Anstieg im Rating-Wert 1vs.2, 2vs.3, etc)
-  nominal_test(model)
+#  nominal_test(model)
   #> annahme ist erf?llt, wenn p>.05 (als kein sign. Ergebnis)
   
   # 2) keine scale effects (= Skalen-Punkte wurden in beiden Studien und f?r alle Bildpaare gleich interpretiert und auch genutzt, also nicht in manchen F?llen z.B. Extrempunkte gemieden, nur mittelster Wert gew?hlt etc.)
-  scale_test(model)
+#  scale_test(model)
   # > Annahme ist erf?llt, wenn p>.05 (also kein sign. Ergebnis)
   
+  # check significance of ratingType effect
+  #   null hypothesis: ratingType does not matter
+  model.null <- clmm(ratings ~ 1 + (1+ratingType|pairID),data=input_data, control=clmm.control(gradTol = 3e-4))
+  print(model.null)
+
+  anova(model, model.null)
+  
+  # TODO: check significance of visualType effect and interaction of effects
 }
 
 # TODO: call helper function on all data, within pairs, between pairs
@@ -98,5 +102,7 @@ between <- subset(data, pairType=="between")
 
 within <- subset(data, pairType=="within")
 #run_clmm(within)
+
+# TODO ratingType and visualType effects
 
 # TODO: spearman correlation of visual vs conceptual ratings
