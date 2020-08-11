@@ -43,27 +43,60 @@ if(!require(ggplot2)){
 }
 
 # parse the command line arguments
-option_list = list(make_option(c("-i", "--input_file"), type = "character", default = NULL, help = "path to input file"))
+option_list = list(make_option(c("-c", "--conceptual_file"), type = "character", default = NULL, help = "path to input file with conceptual ratings"),
+                   make_option(c("-v", "--visual_file"), type = "character", default = NULL, help = "path to input file with visual ratings"))
 
 opt_parser = OptionParser(option_list = option_list)
 opt = parse_args(opt_parser)
 
-if (is.null(opt$input_file)) {
+if (is.null(opt$conceptual_file) || is.null(opt$visual_file)) {
   print_help(opt_parser)
   stop("Missing non-optional argument!", call. = FALSE)
 }
 
-# read in the data and ensure correct data types
-data <- read.csv(opt$input_file)
+# read in the data from the two files, concatenate it, and ensure correct data types
+data_conceptual <- read.csv2(opt$conceptual_file)
+data_visual <- read.csv2(opt$visual_file)
+
+data <- rbind(data_conceptual, data_visual)
+
 data$ratings <- factor(data$ratings, ordered=T)
 data$pairID <-as.factor(data$pairID)
 
-
-# check the coding
-str(data)
-
-# TODO: helper function for clmm on conceptual vs visual
+# helper function for running clmm on conceptual vs visual on a given data table
+run_clmm <- function(input_data) {
+  str(input_data)
+  
+  # build mixed effects model (CLMM): 
+  #   do ratings depend on rating type? --> ratings ~ ratingType
+  #   taking into account that individual picture pair may influence rating --> (1|pairID)
+  #model<-clmm(ratings ~ ratingType + (1+ratingType|pairID),  data=input_data)
+  #model <- clmm2(ratings ~ ratingType, random=pairID, data = input_data, Hess = TRUE) 
+  #model <- clmm(ratings ~ ratingType + (1|pairID), data = input_data)
+  # alternative: model<-clmm(ratings ~ ratingType + (1+ratingType|pairID),  data=inputdata) --> with random slopes taking into account that difference between rating types may differ among picture pairs --> (1 + ratingType | pairID)
+  
+  #model<-clmm(ratings ~ ratingType + (1+ratingType|pairID),  data=input_data)
+  model <- clm(ratings ~ ratingType + pairID, data=input_data)
+  summary(model)
+  
+  # test model assumptions:
+  # 1) (partial) proportional odds/equal slopes (= der Effekt von ratingType muss konstant sein f?r jeden Anstieg im Rating-Wert 1vs.2, 2vs.3, etc)
+  nominal_test(model)
+  #> annahme ist erf?llt, wenn p>.05 (als kein sign. Ergebnis)
+  
+  # 2) keine scale effects (= Skalen-Punkte wurden in beiden Studien und f?r alle Bildpaare gleich interpretiert und auch genutzt, also nicht in manchen F?llen z.B. Extrempunkte gemieden, nur mittelster Wert gew?hlt etc.)
+  scale_test(model)
+  # > Annahme ist erf?llt, wenn p>.05 (also kein sign. Ergebnis)
+  
+}
 
 # TODO: call helper function on all data, within pairs, between pairs
+run_clmm(data)
+
+between <- subset(data, pairType=="between")
+#run_clmm(between)
+
+within <- subset(data, pairType=="within")
+#run_clmm(within)
 
 # TODO: spearman correlation of visual vs conceptual ratings
