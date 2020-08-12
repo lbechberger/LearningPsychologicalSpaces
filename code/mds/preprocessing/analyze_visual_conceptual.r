@@ -65,31 +65,39 @@ data$pairID <-as.factor(data$pairID)
 
 # helper function for running clmm on conceptual vs visual on a given data table
 run_clmm <- function(input_data) {
-  str(input_data)
+  #str(input_data)
   
   # build mixed effects model (CLMM): 
   #   do ratings depend on rating type? --> ratings ~ ratingType
   #   taking into account that individual picture pair may influence rating --> (1|pairID)
   #   taking into account that difference between rating types may differ among picture pairs --> (1 + ratingType | pairID)
 
-  model <- clmm(ratings ~ ratingType + (1+ratingType|pairID),  data=input_data)
+  model <<- clmm(ratings ~ ratingType + (1+ratingType|pairID),  data=input_data)
   print(model)
-  
+  print('')
   # test model assumptions:
+  model.test <- clm(ratings ~ ratingType + pairID, data=input_data)
   # 1) (partial) proportional odds/equal slopes (= der Effekt von ratingType muss konstant sein f?r jeden Anstieg im Rating-Wert 1vs.2, 2vs.3, etc)
-#  nominal_test(model)
+  print(nominal_test(model.test))
+  print('')
   #> annahme ist erf?llt, wenn p>.05 (als kein sign. Ergebnis)
   
   # 2) keine scale effects (= Skalen-Punkte wurden in beiden Studien und f?r alle Bildpaare gleich interpretiert und auch genutzt, also nicht in manchen F?llen z.B. Extrempunkte gemieden, nur mittelster Wert gew?hlt etc.)
-#  scale_test(model)
+  print(scale_test(model.test))
+  print('')
   # > Annahme ist erf?llt, wenn p>.05 (also kein sign. Ergebnis)
+  
+  
+#  Anova(model, type="II")
   
   # check significance of ratingType effect
   #   null hypothesis: ratingType does not matter
-  model.null <- clmm(ratings ~ 1 + (1+ratingType|pairID),data=input_data, control=clmm.control(gradTol = 3e-4))
+  model.null <<- clmm(ratings ~ 1 + (1+ratingType|pairID),data=input_data, control=clmm.control(gradTol = 3e-4))
   print(model.null)
-
-  anova(model, model.null)
+  print('')
+  
+  print(anova(model, model.null))
+  print('')
   
   # TODO: check significance of visualType effect and interaction of effects
 }
