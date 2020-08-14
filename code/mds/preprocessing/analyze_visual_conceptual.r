@@ -77,6 +77,7 @@ run_clmm <- function(input_data) {
   print('')
   # test model assumptions:
   model.test <- clm(ratings ~ ratingType + pairID, data=input_data)
+  print(model.test)
   # 1) (partial) proportional odds/equal slopes (= der Effekt von ratingType muss konstant sein f?r jeden Anstieg im Rating-Wert 1vs.2, 2vs.3, etc)
   print(nominal_test(model.test))
   print('')
