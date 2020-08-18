@@ -63,8 +63,8 @@ rm data/Shapes/mds/data_set/individual/similarities/conceptual_15.csv
 # read in perceptual feature data and preprocess it
 for feature in $perceptual_features
 do
-	echo '    reading CSV files for '"$feature"' rating_types'
-	python -m code.mds.preprocessing.preprocess_feature 'data/Shapes/raw_data/'"$feature"'_pre-attentive.csv' 'data/Shapes/raw_data/'"$feature"'_attentive.csv' 'data/Shapes/raw_data/preprocessed/'"$feature"'.pickle' -p -o 'data/Shapes/mds/analysis/features/'"$feature"'/' &> 'data/Shapes/raw_data/preprocessed/preprocess_'"$feature"'.txt'
+	echo '    '"$feature"' feature'
+	python -m code.mds.preprocessing.preprocess_feature 'data/Shapes/raw_data/'"$feature"'_pre-attentive.csv' 'data/Shapes/raw_data/'"$feature"'_attentive.csv' 'data/Shapes/mds/features/'"$feature"'.pickle' -p -o 'data/Shapes/mds/analysis/features/'"$feature"'/' &> 'data/Shapes/raw_data/preprocessed/preprocess_'"$feature"'.txt'
 
 done
 	
