@@ -30,7 +30,7 @@ with open(args.distance_table, 'r') as f:
         
         if item1 not in item_info:
             # if not: add item information to dictionary
-            item_info[item1] = {'name': item1, 'category': cat_name}
+            item_info[item1] = {'category': cat_name}
         # check whether item is already associated with category
         if item1 not in category_info[cat_name]['items']:
             # if not: do so now
@@ -49,7 +49,7 @@ with open(args.distance_table, 'r') as f:
             
             if item2 not in item_info:
                 # if not: add item information to dictionary
-                item_info[item2] = {'name': item2, 'category': cat_name}
+                item_info[item2] = {'category': cat_name}
             # check whether item is already associated with category
             if item2 not in category_info[cat_name]['items']:
                 # if not: do so now
@@ -67,7 +67,7 @@ with open(args.distance_table, 'r') as f:
                 similarity_info[item_tuple_id]['values'].append(similarity)
             else:
                 # otherwise: add new line
-                similarity_info[item_tuple_id] = {'relation': 'within', 'category_type': 'x', 'values': [similarity], 'border':0}
+                similarity_info[item_tuple_id] = {'relation': 'within', 'category_type': 'x', 'values': [similarity]}
 
 for _ , sim_dict in similarity_info.items():
     sim_dict['border'] = len(sim_dict['values'])

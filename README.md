@@ -51,17 +51,15 @@ The folder `code/mds` contains all scripts necessary for the first part of our s
 
 The folder `code/mds/preprocessing` contains various scripts for preprocessing the data set in order to prepare it for multidimensional scaling. Depending on the data set (NOUN vs. Shapes), the first preprocessing step differs (see below), but results in the same output data structure, namely a dictionary with the following elements:
 - `'categories'`: A dictionary using category names as keys and containing dictionaries as values. These dictionaries have the following elements:
-  - `'visSim'`: Is the category visually homogeneous? 'Sim' means homogeneous, 'Dis' means not homogeneous, and 'x' means unclear. 
+  - `'visSim'`: Is the category visually homogeneous? 'VC' means 'Visually Coherent', 'Dis' means 'Visually Variable', and 'x' means unclear. 
   - `'artificial'`: Does the category consist of natural ('nat') or artificial ('art') items? 
-  - `'items'`: A list of the IDs of all items that belong into this category. 
-- `'items'`: A dictionary using item IDs as keys and containing dictionaries as values. These dictionaries have the following elements:
-  - `'name'`: A human readable name for the item. 
+  - `'items'`: A list of all items that belong into this category. 
+- `'items'`: A dictionary using item names as keys and containing dictionaries as values. These dictionaries have the following elements:
   - `'category'`: The name of the category this item belongs to. 
 - `'similarities'`: A dictionary using the string representation of sets of two items as keys and dictionaries as values. These dictionaries have the following elements:
   - `'relation'`: Is this a 'within' category or a 'between' category rating? 
-  - `'categoryType'`: `visSim` information of the category (i.e., 'Sim', 'Dis', or 'x') or 'Mix' if items from different categories.
+  - `'categoryType'`: `visSim` information of the category (i.e., 'VV', 'VC', or 'x') or 'Mix' if items from different categories.
   - `'values'`: A list of similarity values (integers from 1 to 5, where 1 means 'no visual similarity' and 5 means 'high visual similarity')
-  - `'border'`: An integer indicating the border between similarity ratings from the two studies. You can use `values[:border]` to access only the similarity ratings of the first study (only within category) and `values[border:]` to acces only the similarity ratings of the second study (mostly between cateory, but also some within category).
 - `'category_names'`: A ordered list of category names, determines the order in which categories shall be iterated over in subsequent scripts.
 
 
@@ -73,18 +71,23 @@ python -m code.mds.preprocessing.preprocess_NOUN path/to/distance_table.csv path
 ```
 The script reads the distance information from the specified csv file and stores it together with some further information in the specified pickle file. 
 
-With respect to the resulting `output.pickle` file, we would like to make the following comments: As the NOUN data set does not divide the stimuli into separate categories, we store all items under a single global category which is considered to consist of artificial stimuli. We assume that the visual homogeneity of this category is unclear. As the individual stimuli do not have meaningful names, we use their IDs also as human readable names. Finally, as there is only a single study, we set `border` to zero.
+With respect to the resulting `output.pickle` file, we would like to make the following comments: As the NOUN data set does not divide the stimuli into separate categories, we store all items under a single global category which is considered to consist of artificial stimuli. We assume that the visual homogeneity of this category is unclear. As the individual stimuli do not have meaningful names, we use their IDs also as human readable names.
 
 #### 2.1.2 Parsing Shapes Similarity Data
 
 In order to make the Shapes data processible by our scripts, please run the script `preprocess_Shapes.py` as follows from the project's root directory:
 ```
-python -m code.mds.preprocessing.preprocess_Shape path/to/within.csv path/to/within_between.csv path/to/categories.csv path/to/items.csv path/to/output.pickle
+python -m code.mds.preprocessing.preprocess_Shape path/to/within.csv path/to/within_between.csv path/to/category_names.csv path/to/item_names.csv path/to/output.pickle path/to/output.csv rating_type
 ```
 
-The file `within.csv` contains within category similarity judments (first study), the file `within_between.csv` contains similarity ratings both within and between categories (second study). The file `categories.csv` contains an ordered list of category translations which will be used both to translate the category names and to order the categories as specified in the similarity matrix. The file `items.csv` contains a translation of item IDs to item names. The optional flag `-r` or `--reverse` can be set in order to reverse the order of similarity ratings (necessary when using conceptual similarity, as the scale there is inverted).
+The file `within.csv` contains within category similarity judments, the file `within_between.csv` contains similarity ratings both within and between categories. The file `category_names.csv` contains an ordered list of category translations which will be used both to translate the category names and to order the categories as specified in the similarity matrix. The file `item_names.csv` contains a translation of item IDs to item names. The resulting information structure is stored in `output.pickle` according to the format described above. Moreover, using the given `rating_type` the most important information is also exported to `output.csv` which has the header `pairID;pairType;visualType;ratingType;ratings` and one line per rating. This csv file can be imported into R for further statistical analysis of the ratings.
 
-The resulting `output.pickle` file makes use of the full dictionary structure outlined above.
+The script takes the following optional parameters:
+- `-r` or `--reverse` can be set in order to reverse the order of similarity ratings (necessary when using conceptual similarity, as the scale there is inverted)
+- `-s` or `--subset`: Specifies which subset of the similarity ratings to use. Default is `all` (which means that all similarity ratings from both studies are used). Another supported option is `between` where only the ratings from the first study are used. Here, all items that did not appear in the first study are removed from further consideration. A third option is `cats` which only considers the categories used in the second study, but which keeps all items from these categories (also items that were only used in the first, but not in the second study). The fourth option `within` only uses data from the first study.
+- `-l` or `--limit`: Limit the number of similarity ratings to use to ensure that an equal amount of ratings is aggregated for all item pairs. 
+- `-v` or `--limit_value`: Used to give an explicit value for the limit to use. If not set, the script will use the minimal number of ratings observed for any item pair as limit.
+
 
 #### 2.1.3 Parsing Shape Features Data
 

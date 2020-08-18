@@ -4,29 +4,29 @@
 # -------------
 
 # set up global variables
-default_datasets=("visual conceptual")
+default_rating_types=("visual conceptual")
 default_aggregators=("mean median")
 default_image_sizes=("283 100 50 20 10 5")
 default_perceptual_features=("FORM LINES ORIENTATION")
+default_rating_limits=("10 15")
 
-datasets="${datasets:-$default_datasets}"
+rating_types="${rating_types:-$default_rating_types}"
 aggregators="${aggregators:-$default_aggregators}"
 image_sizes="${image_sizes:-$default_image_sizes}"
 perceptual_features="${perceptual_features:-$default_perceptual_features}"
+rating_limits="${rating_limits:-$default_rating_limits}"
 
 # set up the directory structure
 echo 'setting up directory structure'
 
-mkdir -p data/Shapes/raw_data/preprocessed
-mkdir -p data/Shapes/mds/classification
-mkdir -p data/Shapes/mds/regression
-mkdir -p data/Shapes/mds/analysis/aggregator
-mkdir -p data/Shapes/mds/visualizations/similarities data/Shapes/mds/visualizations/average_images
+mkdir -p data/Shapes/mds/features 
+mkdir -p data/Shapes/mds/data_set/individual/features data/Shapes/mds/data_set/individual/similarities
+mkdir -p data/Shapes/mds/data_set/aggregated/features data/Shapes/mds/data_set/aggregated/similarities
+mkdir -p data/Shapes/mds/visualizations/similarity_matrices data/Shapes/mds/visualizations/features data/Shapes/mds/visualizations/average_images
 
-for dataset in $datasets
+for rating_type in $rating_types
 do
-	mkdir -p 'data/Shapes/mds/analysis/dataset/'"$dataset"'/'
-	mkdir -p 'data/Shapes/mds/similarities/dataset/'"$dataset"'/'
+	mkdir -p 'data/Shapes/mds/similarities/rating_type/'"$rating"'/'
 done		
 
 for aggregator in $aggregators
@@ -34,15 +34,11 @@ do
 	mkdir -p 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/'
 done
 
-for feature in $perceptual_features
-do
-	mkdir -p 'data/Shapes/mds/analysis/features/'"$feature"'/'
-done
-
 for image_size in $image_sizes
 do
 	mkdir -p 'data/Shapes/mds/visualizations/average_images/'"$image_size"'/'
 done
+
 
 # Preprocessing
 # -------------
@@ -50,18 +46,24 @@ done
 echo 'preprocessing data'
 
 # read in similarity data and preprocess it
-for dataset in $datasets
+for rating_type in $rating_types
 do
-	echo '    reading CSV files for '"$dataset"' similarity'
-	[ "$dataset" == "conceptual" ] && reverse_flag='--reverse' || reverse_flag=''	
-	python -m code.mds.preprocessing.preprocess_Shapes data/Shapes/raw_data/visual_similarities_within.csv 'data/Shapes/raw_data/'"$dataset"'_similarities.csv' data/Shapes/raw_data/categories.csv data/Shapes/raw_data/items.csv 'data/Shapes/raw_data/preprocessed/data_'"$dataset"'.pickle' $reverse_flag &> 'data/Shapes/raw_data/preprocessed/preprocess_'"$dataset"'.txt'
+	echo '    '"$rating_type"' similarity'
+	[ "$rating" == "conceptual" ] && reverse_flag='--reverse' || reverse_flag=''	
+	for rating_limit in $rating_limits
+	do
+		python -m code.mds.preprocessing.preprocess_Shapes data/Shapes/raw_data/visual_similarities_within.csv 'data/Shapes/raw_data/'"$rating_type"'_similarities.csv' data/Shapes/raw_data/category_names.csv data/Shapes/raw_data/item_names.csv 'data/Shapes/mds/similarities/rating_type/individual_ratings_'"$rating_type"'_'"$rating_limit"'.pickle' 'data/Shapes/mds/data_set/individual/similarities/'"$rating_type"'_'"$rating_limit"'.csv' $rating_type $reverse_flag -s between -l -v $rating_limit
+	done
 
 done
+rm data/Shapes/mds/data_set/individual/similarities/conceptual_15.csv
+
+#TODO continue here
 
 # read in perceptual feature data and preprocess it
 for feature in $perceptual_features
 do
-	echo '    reading CSV files for '"$feature"' ratings'
+	echo '    reading CSV files for '"$feature"' rating_types'
 	python -m code.mds.preprocessing.preprocess_feature 'data/Shapes/raw_data/'"$feature"'_pre-attentive.csv' 'data/Shapes/raw_data/'"$feature"'_attentive.csv' 'data/Shapes/raw_data/preprocessed/'"$feature"'.pickle' -p -o 'data/Shapes/mds/analysis/features/'"$feature"'/' &> 'data/Shapes/raw_data/preprocessed/preprocess_'"$feature"'.txt'
 
 done
@@ -71,14 +73,14 @@ done
 # ----------------------------------------------
 
 echo 'RQ1: comparing conceptual and visual similarity matrices (median only)'
-echo '    aggregating ratings'
-for dataset in $datasets
+echo '    aggregating rating_types'
+for rating_type in $rating_types
 do
-	# use a limit of 10, because conceptual similarity has only 10 ratings per pair
-	python -m code.mds.preprocessing.compute_similarities 'data/Shapes/raw_data/preprocessed/data_'"$dataset"'.pickle' 'data/Shapes/mds/similarities/dataset/'"$dataset"'/sim.pickle' -s between -l -v 10 -p --median &> 'data/Shapes/mds/similarities/dataset/'"$dataset"'/log.txt'
+	# use a limit of 10, because conceptual similarity has only 10 rating_types per pair
+	python -m code.mds.preprocessing.compute_similarities 'data/Shapes/raw_data/preprocessed/data_'"$rating_type"'.pickle' 'data/Shapes/mds/similarities/dataset/'"$rating_type"'/sim.pickle' -s between -l -v 10 -p --median &> 'data/Shapes/mds/similarities/dataset/'"$rating_type"'/log.txt'
 
 	# output the matrices in csv style for easier inspection
-	python -m code.mds.preprocessing.pickle_to_csv 'data/Shapes/mds/similarities/dataset/'"$dataset"'/sim.pickle' 'data/Shapes/mds/similarities/dataset/'"$dataset"'/'
+	python -m code.mds.preprocessing.pickle_to_csv 'data/Shapes/mds/similarities/dataset/'"$rating_type"'/sim.pickle' 'data/Shapes/mds/similarities/dataset/'"$rating_type"'/'
 done
 
 
@@ -102,10 +104,10 @@ python -m code.mds.preprocessing.plot_similarity_tables data/Shapes/mds/similari
 echo 'RQ2: Does the Sim-Dis distinction reflect visual similarity?'
 
 echo '    analyzing raw data'
-for dataset in $datasets
+for rating_type in $rating_types
 do
-	echo '        '"$dataset"
-	python -m code.mds.preprocessing.analyze_similarity_distribution 'data/Shapes/raw_data/preprocessed/data_'"$dataset"'.pickle' -s between --median &> 'data/Shapes/mds/analysis/dataset/'"$dataset"'/analysis.txt'
+	echo '        '"$rating_type"
+	python -m code.mds.preprocessing.analyze_similarity_distribution 'data/Shapes/raw_data/preprocessed/data_'"$rating_type"'.pickle' -s between --median &> 'data/Shapes/mds/analysis/dataset/'"$rating_type"'/analysis.txt'
 done
 
 echo '    creating average images for all the categories'
@@ -115,10 +117,10 @@ do
 	python -m code.mds.preprocessing.average_images data/Shapes/raw_data/preprocessed/data_visual.pickle data/Shapes/images/ -s between -o 'data/Shapes/mds/visualizations/average_images/'"$image_size"'/' -r $image_size &> 'data/Shapes/mds/visualizations/average_images/'"$image_size"'.txt'
 done
 
-# RQ3: Comparing pre-attentive to attentive ratings of perceptual features
+# RQ3: Comparing pre-attentive to attentive rating_types of perceptual features
 # ------------------------------------------------------------------------
 
-echo 'RQ3: Comparing pre-attentive to attentive ratings of perceptual features'
+echo 'RQ3: Comparing pre-attentive to attentive rating_types of perceptual features'
 
 # analyze each perceptual feature and construct regression & classification problem
 for feature in $perceptual_features
@@ -160,6 +162,6 @@ do
 	python -m code.mds.preprocessing.pickle_to_csv 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/sim.pickle' 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/'
 done
 
-echo '    computing correlation of the aggregated similarity ratings'
+echo '    computing correlation of the aggregated similarity rating_types'
 python -m code.mds.correlations.similarity_correlations 'data/Shapes/mds/similarities/aggregator/median/sim.pickle' 'data/Shapes/mds/similarities/aggregator/mean/sim.pickle' -o 'data/Shapes/mds/analysis/aggregator/' -p -f 'Median' -s 'Mean' &> 'data/Shapes/mds/analysis/aggregator/correlations.txt'
 

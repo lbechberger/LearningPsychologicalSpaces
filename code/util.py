@@ -417,9 +417,8 @@ def select_data_subset(subset, data_set):
         for item in data_set['categories'][category]['items']:
             if item in items:
                 items_of_interest.append(item)
-    item_names = list(map(lambda x: data_set['items'][x]['name'], items_of_interest))
     
-    return items_of_interest, item_names, categories_of_interest
+    return items_of_interest, categories_of_interest
 
 
 def find_limit(subset, data_set, items_of_interest):

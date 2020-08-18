@@ -12,7 +12,7 @@ then
 	echo '[configuration of paper]'
 
 	# data analysis setup
-	datasets=("visual conceptual")
+	rating_types=("visual conceptual")
 	aggregators=("mean median")
 	image_sizes=("283 100 50 20 10 5")
 	perceptual_features=("FORM LINES ORIENTATION")
@@ -30,7 +30,7 @@ then
 	echo '[configuration of dissertation]'
 
 	# data analysis setup
-	datasets=("visual conceptual")
+	rating_types=("visual conceptual")
 	aggregators=("mean median")
 	image_sizes=("283 100 50 20 10 5")
 	perceptual_features=("FORM LINES ORIENTATION")
