@@ -8,12 +8,11 @@ Created on Thu Mar  7 13:14:23 2019
 """
 
 import pickle, argparse
-from scipy.stats import mannwhitneyu
 import numpy as np
 
-parser = argparse.ArgumentParser(description='Compare visual to conceptual similarity ratings')
-parser.add_argument('visual_similarity_file', help = 'the input file containing the visual similarity ratings')
-parser.add_argument('conceptual_similarity_file', help = 'the input file containing the conceptual similarity ratings')
+parser = argparse.ArgumentParser(description='Find item pairs with identical or very different ratings amon visual and conceptual similarity')
+parser.add_argument('visual_similarity_file', help = 'the input file containing the aggregated visual similarity ratings')
+parser.add_argument('conceptual_similarity_file', help = 'the input file containing the aggregated conceptual similarity ratings')
 args = parser.parse_args()
 
 # load the similarity data
@@ -22,14 +21,14 @@ with open(args.visual_similarity_file, 'rb') as f_in:
 with open(args.conceptual_similarity_file, 'rb') as f_in:
     conceptual_input_data = pickle.load(f_in)
 
-item_names = visual_input_data['item_names']
-visual_dissimilarities = visual_input_data['dissimilarities']
-conceptual_dissimilarities = conceptual_input_data['dissimilarities']
+item_names = visual_input_data['items']
+visual_similarities = visual_input_data['similarities']
+conceptual_similarities = conceptual_input_data['similarities']
 
 # compute the difference between the two matrices and look for item pairs with large and small differences
 print("Looking for item pairs with large and small differences")
-print("Negative values: conceptually more similar than visually; Positive values: visually more similar than conceptually")
-difference_matrix = conceptual_dissimilarities - visual_dissimilarities
+print("Positive values: conceptually more similar than visually; Negative values: visually more similar than conceptually")
+difference_matrix = conceptual_similarities - visual_similarities
 upper_threshold = np.percentile(np.abs(difference_matrix), 98)
 lower_threshold = np.percentile(np.abs(difference_matrix), 2)
 
@@ -55,9 +54,3 @@ for item_1, item_2, difference in list_of_large_differences:
 print('\nsmall differences:')
 for item_1, item_2, difference in list_of_small_differences:
     print("\t{0} - {1} : {2}".format(item_1, item_2, difference))
-
-# statistical significance test: MannWhitneyU
-visual_vector = np.reshape(visual_dissimilarities, (-1))
-conceptual_vector = np.reshape(conceptual_dissimilarities, (-1))
-mannwhitneyu_stat, mannwhitneyu_p = mannwhitneyu(visual_vector, conceptual_vector)
-print("\nStatistical analysis of differences: p = {0} (stat: {1})".format(mannwhitneyu_p, mannwhitneyu_stat))

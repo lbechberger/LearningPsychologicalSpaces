@@ -106,6 +106,9 @@ do
 	python -m code.mds.data_analysis.average_images data/Shapes/mds/similarities/aggregator/individual_ratings.pickle data/Shapes/images/ -o 'data/Shapes/mds/visualizations/average_images/'"$image_size"'/' -r $image_size &> 'data/Shapes/mds/visualizations/average_images/'"$image_size"'.txt'
 done
 
+echo '    comparing visual and conceptual similarity'
+python -m  code.mds.data_analysis.find_item_pair_differences data/Shapes/mds/similarities/rating_type/visual/aggregated_ratings.pickle data/Shapes/mds/similarities/rating_type/conceptual/aggregated_ratings.pickle  &> data/Shapes/mds/similarities/rating_type/differences.txt
+
 # TODO continue here
 
 	
@@ -131,8 +134,7 @@ python -m code.mds.correlations.similarity_correlations 'data/Shapes/mds/similar
 python -m code.mds.correlations.similarity_correlations 'data/Shapes/mds/similarities/dataset/visual/sim.pickle' 'data/Shapes/mds/similarities/dataset/conceptual/sim.pickle' -f 'Visual (Sim)' -s 'Conceptual (Sim)' --sim_only 'data/Shapes/raw_data/preprocessed/data_visual.pickle' &> 'data/Shapes/mds/analysis/dataset/correlations(Sim).txt'
 
 	
-echo '    differences'
-python -m  code.mds.preprocessing.compare_visual_conceptual 'data/Shapes/mds/similarities/dataset/visual/sim.pickle' 'data/Shapes/mds/similarities/dataset/conceptual/sim.pickle' &> 'data/Shapes/mds/analysis/dataset/differences.txt'
+
 
 echo '    visualization'
 python -m code.mds.preprocessing.plot_similarity_tables data/Shapes/mds/similarities/dataset/visual/sim.pickle data/Shapes/mds/similarities/dataset/conceptual/sim.pickle data/Shapes/mds/visualizations/similarities 

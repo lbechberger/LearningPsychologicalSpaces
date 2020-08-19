@@ -1,0 +1,997 @@
+Looking for item pairs with large and small differences
+Positive values: conceptually more similar than visually; Negative values: visually more similar than conceptually
+
+large differences:
+	glass - plate : 4.0
+	teapot - apple : -4.0
+	bicycle - car : 4.0
+	banana - cherry : 4.0
+	bell pepper - carrot : 4.0
+	carrot - onion : 4.0
+	igloo - pyramid : 3.5
+	bus - scooter : 3.5
+	bus - tractor : 3.5
+	ant - butterfly : 3.5
+	apple - banana : 3.5
+	banana - raspberry : 3.5
+	asparagus - saw : -3.5
+	bowl - salt shaker : 3.0
+	bowl - igloo : -3.0
+	bowl - apple : -3.0
+	bowl - lemon : -3.0
+	plate - salt shaker : 3.0
+	plate - toaster : 3.0
+	salt shaker - teapot : 3.0
+	salt shaker - sunflower : -3.0
+	teapot - igloo : -3.0
+	teapot - ladybug : -3.0
+	teapot - lemon : -3.0
+	teapot - onion : -3.0
+	church - windmill : 3.0
+	igloo - ladybug : -3.0
+	igloo - onion : -3.0
+	lighthouse - pyramid : 3.0
+	car - scooter : 3.0
+	dragonfly - stag : 3.0
+	dragonfly - owl : 3.0
+	fly - pigeon : 3.0
+	fly - stork : 3.0
+	ladybug - apple : -3.0
+	ladybug - lemon : -3.0
+	ladybug - horse : 3.0
+	apple - asparagus : 3.0
+	banana - bell pepper : 3.0
+	banana - onion : 3.0
+	banana - saw : -3.0
+	cherry - raspberry : 3.0
+	cherry - asparagus : 3.0
+	cherry - carrot : 3.0
+	raspberry - carrot : 3.0
+	asparagus - bell pepper : 3.0
+	asparagus - onion : 3.0
+	asparagus - axe : -3.0
+	asparagus - pliers : -3.0
+	asparagus - shovel : -3.0
+	broccoli - onion : 3.0
+	broccoli - palm tree : -3.0
+	carrot - saw : -3.0
+	cow - pigeon : 3.0
+
+small differences:
+	bowl - church : 0.0
+	bowl - lighthouse : 0.0
+	bowl - pyramid : 0.0
+	bowl - windmill : 0.0
+	bowl - bicycle : 0.0
+	bowl - bus : 0.0
+	bowl - scooter : 0.0
+	bowl - tractor : 0.0
+	bowl - ant : 0.0
+	bowl - butterfly : 0.0
+	bowl - dragonfly : 0.0
+	bowl - fly : 0.0
+	bowl - banana : 0.0
+	bowl - asparagus : 0.0
+	bowl - bell pepper : 0.0
+	bowl - dandelion : 0.0
+	bowl - palm tree : 0.0
+	bowl - rose : 0.0
+	bowl - sunflower : 0.0
+	bowl - tulip : 0.0
+	bowl - cow : 0.0
+	bowl - donkey : 0.0
+	bowl - goat : 0.0
+	bowl - horse : 0.0
+	bowl - stag : 0.0
+	bowl - eagle : 0.0
+	bowl - owl : 0.0
+	bowl - parrot : 0.0
+	bowl - pigeon : 0.0
+	bowl - stork : 0.0
+	bowl - pliers : 0.0
+	bowl - shovel : 0.0
+	bowl - television : 0.0
+	bowl - blouse : 0.0
+	bowl - coat : 0.0
+	bowl - jacket : 0.0
+	bowl - shirt : 0.0
+	bowl - uniform : 0.0
+	glass - church : 0.0
+	glass - igloo : 0.0
+	glass - windmill : 0.0
+	glass - bicycle : 0.0
+	glass - bus : 0.0
+	glass - scooter : 0.0
+	glass - tractor : 0.0
+	glass - ant : 0.0
+	glass - butterfly : 0.0
+	glass - dragonfly : 0.0
+	glass - fly : 0.0
+	glass - ladybug : 0.0
+	glass - cherry : 0.0
+	glass - lemon : 0.0
+	glass - carrot : 0.0
+	glass - onion : 0.0
+	glass - dandelion : 0.0
+	glass - rose : 0.0
+	glass - tulip : 0.0
+	glass - donkey : 0.0
+	glass - goat : 0.0
+	glass - horse : 0.0
+	glass - stag : 0.0
+	glass - eagle : 0.0
+	glass - owl : 0.0
+	glass - pigeon : 0.0
+	glass - stork : 0.0
+	glass - axe : 0.0
+	glass - pliers : 0.0
+	glass - shovel : 0.0
+	glass - television : 0.0
+	glass - coat : 0.0
+	glass - jacket : 0.0
+	glass - shirt : 0.0
+	glass - uniform : 0.0
+	plate - church : 0.0
+	plate - lighthouse : 0.0
+	plate - pyramid : 0.0
+	plate - windmill : 0.0
+	plate - bicycle : 0.0
+	plate - car : 0.0
+	plate - scooter : 0.0
+	plate - tractor : 0.0
+	plate - ant : 0.0
+	plate - butterfly : 0.0
+	plate - dragonfly : 0.0
+	plate - fly : 0.0
+	plate - banana : 0.0
+	plate - cherry : 0.0
+	plate - asparagus : 0.0
+	plate - dandelion : 0.0
+	plate - palm tree : 0.0
+	plate - rose : 0.0
+	plate - sunflower : 0.0
+	plate - tulip : 0.0
+	plate - cow : 0.0
+	plate - donkey : 0.0
+	plate - goat : 0.0
+	plate - horse : 0.0
+	plate - stag : 0.0
+	plate - eagle : 0.0
+	plate - owl : 0.0
+	plate - parrot : 0.0
+	plate - pigeon : 0.0
+	plate - stork : 0.0
+	plate - axe : 0.0
+	plate - hammer : 0.0
+	plate - saw : 0.0
+	plate - shovel : 0.0
+	plate - television : 0.0
+	plate - blouse : 0.0
+	plate - coat : 0.0
+	plate - jacket : 0.0
+	plate - shirt : 0.0
+	plate - uniform : 0.0
+	salt shaker - igloo : 0.0
+	salt shaker - bicycle : 0.0
+	salt shaker - bus : 0.0
+	salt shaker - scooter : 0.0
+	salt shaker - tractor : 0.0
+	salt shaker - ant : 0.0
+	salt shaker - butterfly : 0.0
+	salt shaker - dragonfly : 0.0
+	salt shaker - fly : 0.0
+	salt shaker - ladybug : 0.0
+	salt shaker - cherry : 0.0
+	salt shaker - rose : 0.0
+	salt shaker - cow : 0.0
+	salt shaker - donkey : 0.0
+	salt shaker - goat : 0.0
+	salt shaker - horse : 0.0
+	salt shaker - stag : 0.0
+	salt shaker - parrot : 0.0
+	salt shaker - stork : 0.0
+	salt shaker - axe : 0.0
+	teapot - lighthouse : 0.0
+	teapot - windmill : 0.0
+	teapot - bicycle : 0.0
+	teapot - bus : 0.0
+	teapot - scooter : 0.0
+	teapot - ant : 0.0
+	teapot - butterfly : 0.0
+	teapot - dragonfly : 0.0
+	teapot - fly : 0.0
+	teapot - banana : 0.0
+	teapot - cherry : 0.0
+	teapot - asparagus : 0.0
+	teapot - broccoli : 0.0
+	teapot - carrot : 0.0
+	teapot - dandelion : 0.0
+	teapot - rose : 0.0
+	teapot - donkey : 0.0
+	teapot - goat : 0.0
+	teapot - horse : 0.0
+	teapot - stag : 0.0
+	teapot - axe : 0.0
+	teapot - hammer : 0.0
+	church - igloo : 0.0
+	church - lighthouse : 0.0
+	church - bicycle : 0.0
+	church - car : 0.0
+	church - tractor : 0.0
+	church - ant : 0.0
+	church - butterfly : 0.0
+	church - dragonfly : 0.0
+	church - fly : 0.0
+	church - ladybug : 0.0
+	church - apple : 0.0
+	church - banana : 0.0
+	church - cherry : 0.0
+	church - lemon : 0.0
+	church - raspberry : 0.0
+	church - asparagus : 0.0
+	church - bell pepper : 0.0
+	church - broccoli : 0.0
+	church - carrot : 0.0
+	church - onion : 0.0
+	church - palm tree : 0.0
+	church - rose : 0.0
+	church - sunflower : 0.0
+	church - tulip : 0.0
+	church - cow : 0.0
+	church - goat : 0.0
+	church - horse : 0.0
+	church - stag : 0.0
+	church - owl : 0.0
+	church - parrot : 0.0
+	church - pigeon : 0.0
+	church - stork : 0.0
+	church - axe : 0.0
+	church - pliers : 0.0
+	church - saw : 0.0
+	church - shovel : 0.0
+	church - television : 0.0
+	church - blouse : 0.0
+	church - coat : 0.0
+	church - jacket : 0.0
+	church - shirt : 0.0
+	church - uniform : 0.0
+	igloo - bicycle : 0.0
+	igloo - scooter : 0.0
+	igloo - tractor : 0.0
+	igloo - ant : 0.0
+	igloo - butterfly : 0.0
+	igloo - dragonfly : 0.0
+	igloo - fly : 0.0
+	igloo - banana : 0.0
+	igloo - cherry : 0.0
+	igloo - carrot : 0.0
+	igloo - dandelion : 0.0
+	igloo - palm tree : 0.0
+	igloo - rose : 0.0
+	igloo - sunflower : 0.0
+	igloo - tulip : 0.0
+	igloo - cow : 0.0
+	igloo - goat : 0.0
+	igloo - horse : 0.0
+	igloo - stag : 0.0
+	igloo - eagle : 0.0
+	igloo - owl : 0.0
+	igloo - parrot : 0.0
+	igloo - stork : 0.0
+	igloo - axe : 0.0
+	igloo - hammer : 0.0
+	igloo - pliers : 0.0
+	igloo - saw : 0.0
+	igloo - shovel : 0.0
+	igloo - microwave : 0.0
+	igloo - blouse : 0.0
+	igloo - shirt : 0.0
+	igloo - uniform : 0.0
+	lighthouse - bicycle : 0.0
+	lighthouse - bus : 0.0
+	lighthouse - car : 0.0
+	lighthouse - scooter : 0.0
+	lighthouse - ant : 0.0
+	lighthouse - butterfly : 0.0
+	lighthouse - dragonfly : 0.0
+	lighthouse - fly : 0.0
+	lighthouse - ladybug : 0.0
+	lighthouse - apple : 0.0
+	lighthouse - cherry : 0.0
+	lighthouse - lemon : 0.0
+	lighthouse - raspberry : 0.0
+	lighthouse - bell pepper : 0.0
+	lighthouse - onion : 0.0
+	lighthouse - cow : 0.0
+	lighthouse - donkey : 0.0
+	lighthouse - goat : 0.0
+	lighthouse - horse : 0.0
+	lighthouse - parrot : 0.0
+	lighthouse - stork : 0.0
+	lighthouse - axe : 0.0
+	lighthouse - saw : 0.0
+	lighthouse - dishwasher : 0.0
+	lighthouse - microwave : 0.0
+	lighthouse - toaster : 0.0
+	lighthouse - washing machine : 0.0
+	lighthouse - shirt : 0.0
+	pyramid - bicycle : 0.0
+	pyramid - bus : 0.0
+	pyramid - tractor : 0.0
+	pyramid - ant : 0.0
+	pyramid - dragonfly : 0.0
+	pyramid - fly : 0.0
+	pyramid - ladybug : 0.0
+	pyramid - apple : 0.0
+	pyramid - cherry : 0.0
+	pyramid - lemon : 0.0
+	pyramid - raspberry : 0.0
+	pyramid - asparagus : 0.0
+	pyramid - bell pepper : 0.0
+	pyramid - carrot : 0.0
+	pyramid - onion : 0.0
+	pyramid - dandelion : 0.0
+	pyramid - palm tree : 0.0
+	pyramid - rose : 0.0
+	pyramid - sunflower : 0.0
+	pyramid - cow : 0.0
+	pyramid - donkey : 0.0
+	pyramid - goat : 0.0
+	pyramid - stag : 0.0
+	pyramid - eagle : 0.0
+	pyramid - owl : 0.0
+	pyramid - parrot : 0.0
+	pyramid - pigeon : 0.0
+	pyramid - stork : 0.0
+	pyramid - axe : 0.0
+	pyramid - hammer : 0.0
+	pyramid - pliers : 0.0
+	pyramid - shovel : 0.0
+	pyramid - dishwasher : 0.0
+	pyramid - microwave : 0.0
+	pyramid - blouse : 0.0
+	pyramid - coat : 0.0
+	pyramid - jacket : 0.0
+	pyramid - shirt : 0.0
+	pyramid - uniform : 0.0
+	windmill - bus : 0.0
+	windmill - car : 0.0
+	windmill - scooter : 0.0
+	windmill - ant : 0.0
+	windmill - fly : 0.0
+	windmill - ladybug : 0.0
+	windmill - apple : 0.0
+	windmill - banana : 0.0
+	windmill - raspberry : 0.0
+	windmill - carrot : 0.0
+	windmill - onion : 0.0
+	windmill - dandelion : 0.0
+	windmill - donkey : 0.0
+	windmill - goat : 0.0
+	windmill - horse : 0.0
+	windmill - owl : 0.0
+	windmill - parrot : 0.0
+	windmill - stork : 0.0
+	windmill - axe : 0.0
+	windmill - hammer : 0.0
+	windmill - saw : 0.0
+	windmill - microwave : 0.0
+	windmill - television : 0.0
+	windmill - coat : 0.0
+	bicycle - fly : 0.0
+	bicycle - ladybug : 0.0
+	bicycle - lemon : 0.0
+	bicycle - asparagus : 0.0
+	bicycle - bell pepper : 0.0
+	bicycle - broccoli : 0.0
+	bicycle - carrot : 0.0
+	bicycle - dandelion : 0.0
+	bicycle - palm tree : 0.0
+	bicycle - rose : 0.0
+	bicycle - sunflower : 0.0
+	bicycle - tulip : 0.0
+	bicycle - stag : 0.0
+	bicycle - owl : 0.0
+	bicycle - parrot : 0.0
+	bicycle - pigeon : 0.0
+	bicycle - stork : 0.0
+	bicycle - axe : 0.0
+	bicycle - saw : 0.0
+	bicycle - microwave : 0.0
+	bicycle - television : 0.0
+	bicycle - toaster : 0.0
+	bicycle - coat : 0.0
+	bicycle - jacket : 0.0
+	bicycle - shirt : 0.0
+	bus - butterfly : 0.0
+	bus - dragonfly : 0.0
+	bus - fly : 0.0
+	bus - ladybug : 0.0
+	bus - apple : 0.0
+	bus - cherry : 0.0
+	bus - lemon : 0.0
+	bus - raspberry : 0.0
+	bus - asparagus : 0.0
+	bus - bell pepper : 0.0
+	bus - broccoli : 0.0
+	bus - onion : 0.0
+	bus - dandelion : 0.0
+	bus - palm tree : 0.0
+	bus - rose : 0.0
+	bus - sunflower : 0.0
+	bus - tulip : 0.0
+	bus - stag : 0.0
+	bus - eagle : 0.0
+	bus - owl : 0.0
+	bus - parrot : 0.0
+	bus - pigeon : 0.0
+	bus - stork : 0.0
+	bus - axe : 0.0
+	bus - pliers : 0.0
+	bus - saw : 0.0
+	bus - dishwasher : 0.0
+	bus - blouse : 0.0
+	bus - coat : 0.0
+	bus - shirt : 0.0
+	bus - uniform : 0.0
+	car - butterfly : 0.0
+	car - dragonfly : 0.0
+	car - ladybug : 0.0
+	car - apple : 0.0
+	car - banana : 0.0
+	car - cherry : 0.0
+	car - bell pepper : 0.0
+	car - carrot : 0.0
+	car - onion : 0.0
+	car - dandelion : 0.0
+	car - palm tree : 0.0
+	car - rose : 0.0
+	car - sunflower : 0.0
+	car - tulip : 0.0
+	car - owl : 0.0
+	car - parrot : 0.0
+	car - pigeon : 0.0
+	car - stork : 0.0
+	car - axe : 0.0
+	car - hammer : 0.0
+	car - pliers : 0.0
+	car - shovel : 0.0
+	car - blouse : 0.0
+	car - coat : 0.0
+	car - jacket : 0.0
+	car - shirt : 0.0
+	car - uniform : 0.0
+	scooter - ant : 0.0
+	scooter - butterfly : 0.0
+	scooter - ladybug : 0.0
+	scooter - apple : 0.0
+	scooter - banana : 0.0
+	scooter - lemon : 0.0
+	scooter - raspberry : 0.0
+	scooter - asparagus : 0.0
+	scooter - bell pepper : 0.0
+	scooter - broccoli : 0.0
+	scooter - carrot : 0.0
+	scooter - onion : 0.0
+	scooter - palm tree : 0.0
+	scooter - sunflower : 0.0
+	scooter - cow : 0.0
+	scooter - horse : 0.0
+	scooter - eagle : 0.0
+	scooter - owl : 0.0
+	scooter - parrot : 0.0
+	scooter - stork : 0.0
+	scooter - dishwasher : 0.0
+	scooter - microwave : 0.0
+	scooter - television : 0.0
+	scooter - toaster : 0.0
+	scooter - washing machine : 0.0
+	scooter - blouse : 0.0
+	scooter - coat : 0.0
+	scooter - jacket : 0.0
+	scooter - shirt : 0.0
+	scooter - uniform : 0.0
+	tractor - ant : 0.0
+	tractor - dragonfly : 0.0
+	tractor - fly : 0.0
+	tractor - ladybug : 0.0
+	tractor - apple : 0.0
+	tractor - banana : 0.0
+	tractor - cherry : 0.0
+	tractor - lemon : 0.0
+	tractor - raspberry : 0.0
+	tractor - asparagus : 0.0
+	tractor - carrot : 0.0
+	tractor - dandelion : 0.0
+	tractor - palm tree : 0.0
+	tractor - rose : 0.0
+	tractor - sunflower : 0.0
+	tractor - tulip : 0.0
+	tractor - stag : 0.0
+	tractor - eagle : 0.0
+	tractor - owl : 0.0
+	tractor - parrot : 0.0
+	tractor - pigeon : 0.0
+	tractor - stork : 0.0
+	tractor - axe : 0.0
+	tractor - saw : 0.0
+	tractor - dishwasher : 0.0
+	tractor - television : 0.0
+	tractor - blouse : 0.0
+	tractor - coat : 0.0
+	tractor - jacket : 0.0
+	tractor - shirt : 0.0
+	ant - fly : 0.0
+	ant - cherry : 0.0
+	ant - bell pepper : 0.0
+	ant - broccoli : 0.0
+	ant - palm tree : 0.0
+	ant - stag : 0.0
+	ant - stork : 0.0
+	ant - axe : 0.0
+	ant - hammer : 0.0
+	ant - pliers : 0.0
+	ant - saw : 0.0
+	ant - shovel : 0.0
+	ant - dishwasher : 0.0
+	ant - microwave : 0.0
+	ant - television : 0.0
+	ant - toaster : 0.0
+	ant - washing machine : 0.0
+	ant - blouse : 0.0
+	ant - coat : 0.0
+	ant - jacket : 0.0
+	ant - shirt : 0.0
+	ant - uniform : 0.0
+	butterfly - banana : 0.0
+	butterfly - broccoli : 0.0
+	butterfly - axe : 0.0
+	butterfly - hammer : 0.0
+	butterfly - pliers : 0.0
+	butterfly - saw : 0.0
+	butterfly - shovel : 0.0
+	butterfly - dishwasher : 0.0
+	butterfly - microwave : 0.0
+	butterfly - toaster : 0.0
+	butterfly - coat : 0.0
+	butterfly - shirt : 0.0
+	butterfly - uniform : 0.0
+	dragonfly - tulip : 0.0
+	dragonfly - goat : 0.0
+	dragonfly - dishwasher : 0.0
+	dragonfly - microwave : 0.0
+	dragonfly - television : 0.0
+	dragonfly - toaster : 0.0
+	dragonfly - washing machine : 0.0
+	dragonfly - blouse : 0.0
+	dragonfly - coat : 0.0
+	dragonfly - shirt : 0.0
+	dragonfly - uniform : 0.0
+	fly - bell pepper : 0.0
+	fly - axe : 0.0
+	fly - hammer : 0.0
+	fly - saw : 0.0
+	fly - shovel : 0.0
+	fly - dishwasher : 0.0
+	fly - microwave : 0.0
+	fly - television : 0.0
+	fly - toaster : 0.0
+	fly - washing machine : 0.0
+	fly - blouse : 0.0
+	fly - coat : 0.0
+	fly - jacket : 0.0
+	fly - uniform : 0.0
+	ladybug - asparagus : 0.0
+	ladybug - broccoli : 0.0
+	ladybug - carrot : 0.0
+	ladybug - palm tree : 0.0
+	ladybug - axe : 0.0
+	ladybug - hammer : 0.0
+	ladybug - pliers : 0.0
+	ladybug - shovel : 0.0
+	ladybug - television : 0.0
+	ladybug - washing machine : 0.0
+	ladybug - blouse : 0.0
+	ladybug - coat : 0.0
+	ladybug - jacket : 0.0
+	ladybug - uniform : 0.0
+	apple - bell pepper : 0.0
+	apple - axe : 0.0
+	apple - hammer : 0.0
+	apple - pliers : 0.0
+	apple - saw : 0.0
+	apple - microwave : 0.0
+	apple - television : 0.0
+	apple - washing machine : 0.0
+	apple - coat : 0.0
+	apple - shirt : 0.0
+	apple - uniform : 0.0
+	banana - carrot : 0.0
+	banana - donkey : 0.0
+	banana - parrot : 0.0
+	banana - pigeon : 0.0
+	banana - stork : 0.0
+	banana - dishwasher : 0.0
+	banana - microwave : 0.0
+	banana - television : 0.0
+	banana - toaster : 0.0
+	banana - washing machine : 0.0
+	banana - blouse : 0.0
+	banana - jacket : 0.0
+	banana - shirt : 0.0
+	banana - uniform : 0.0
+	cherry - donkey : 0.0
+	cherry - goat : 0.0
+	cherry - eagle : 0.0
+	cherry - owl : 0.0
+	cherry - axe : 0.0
+	cherry - hammer : 0.0
+	cherry - pliers : 0.0
+	cherry - saw : 0.0
+	cherry - dishwasher : 0.0
+	cherry - microwave : 0.0
+	cherry - television : 0.0
+	cherry - toaster : 0.0
+	cherry - washing machine : 0.0
+	cherry - blouse : 0.0
+	cherry - coat : 0.0
+	cherry - jacket : 0.0
+	cherry - shirt : 0.0
+	cherry - uniform : 0.0
+	lemon - bell pepper : 0.0
+	lemon - onion : 0.0
+	lemon - donkey : 0.0
+	lemon - goat : 0.0
+	lemon - stag : 0.0
+	lemon - stork : 0.0
+	lemon - axe : 0.0
+	lemon - hammer : 0.0
+	lemon - shovel : 0.0
+	lemon - dishwasher : 0.0
+	lemon - television : 0.0
+	lemon - coat : 0.0
+	lemon - jacket : 0.0
+	lemon - shirt : 0.0
+	lemon - uniform : 0.0
+	raspberry - donkey : 0.0
+	raspberry - stag : 0.0
+	raspberry - owl : 0.0
+	raspberry - axe : 0.0
+	raspberry - hammer : 0.0
+	raspberry - pliers : 0.0
+	raspberry - saw : 0.0
+	raspberry - shovel : 0.0
+	raspberry - microwave : 0.0
+	raspberry - television : 0.0
+	raspberry - toaster : 0.0
+	raspberry - washing machine : 0.0
+	raspberry - coat : 0.0
+	raspberry - jacket : 0.0
+	raspberry - shirt : 0.0
+	raspberry - uniform : 0.0
+	asparagus - rose : 0.0
+	asparagus - sunflower : 0.0
+	asparagus - cow : 0.0
+	asparagus - donkey : 0.0
+	asparagus - goat : 0.0
+	asparagus - parrot : 0.0
+	asparagus - pigeon : 0.0
+	asparagus - stork : 0.0
+	asparagus - dishwasher : 0.0
+	asparagus - television : 0.0
+	asparagus - toaster : 0.0
+	asparagus - washing machine : 0.0
+	asparagus - blouse : 0.0
+	asparagus - jacket : 0.0
+	asparagus - shirt : 0.0
+	asparagus - uniform : 0.0
+	bell pepper - donkey : 0.0
+	bell pepper - pigeon : 0.0
+	bell pepper - stork : 0.0
+	bell pepper - axe : 0.0
+	bell pepper - hammer : 0.0
+	bell pepper - saw : 0.0
+	bell pepper - shovel : 0.0
+	bell pepper - dishwasher : 0.0
+	bell pepper - microwave : 0.0
+	bell pepper - toaster : 0.0
+	bell pepper - washing machine : 0.0
+	bell pepper - blouse : 0.0
+	bell pepper - coat : 0.0
+	bell pepper - jacket : 0.0
+	broccoli - rose : 0.0
+	broccoli - goat : 0.0
+	broccoli - stork : 0.0
+	broccoli - axe : 0.0
+	broccoli - saw : 0.0
+	broccoli - microwave : 0.0
+	broccoli - television : 0.0
+	broccoli - toaster : 0.0
+	broccoli - coat : 0.0
+	carrot - palm tree : 0.0
+	carrot - sunflower : 0.0
+	carrot - cow : 0.0
+	carrot - donkey : 0.0
+	carrot - owl : 0.0
+	carrot - dishwasher : 0.0
+	carrot - microwave : 0.0
+	carrot - television : 0.0
+	carrot - toaster : 0.0
+	carrot - washing machine : 0.0
+	carrot - blouse : 0.0
+	carrot - coat : 0.0
+	carrot - jacket : 0.0
+	carrot - shirt : 0.0
+	carrot - uniform : 0.0
+	onion - donkey : 0.0
+	onion - goat : 0.0
+	onion - horse : 0.0
+	onion - stag : 0.0
+	onion - parrot : 0.0
+	onion - axe : 0.0
+	onion - hammer : 0.0
+	onion - pliers : 0.0
+	onion - saw : 0.0
+	onion - shovel : 0.0
+	onion - dishwasher : 0.0
+	onion - microwave : 0.0
+	onion - blouse : 0.0
+	onion - coat : 0.0
+	onion - jacket : 0.0
+	onion - shirt : 0.0
+	onion - uniform : 0.0
+	dandelion - sunflower : 0.0
+	dandelion - tulip : 0.0
+	dandelion - eagle : 0.0
+	dandelion - parrot : 0.0
+	dandelion - dishwasher : 0.0
+	dandelion - microwave : 0.0
+	dandelion - television : 0.0
+	dandelion - toaster : 0.0
+	dandelion - washing machine : 0.0
+	dandelion - blouse : 0.0
+	dandelion - coat : 0.0
+	dandelion - jacket : 0.0
+	dandelion - shirt : 0.0
+	dandelion - uniform : 0.0
+	palm tree - rose : 0.0
+	palm tree - cow : 0.0
+	palm tree - donkey : 0.0
+	palm tree - goat : 0.0
+	palm tree - horse : 0.0
+	palm tree - owl : 0.0
+	palm tree - pigeon : 0.0
+	palm tree - dishwasher : 0.0
+	palm tree - microwave : 0.0
+	palm tree - television : 0.0
+	palm tree - toaster : 0.0
+	palm tree - washing machine : 0.0
+	palm tree - blouse : 0.0
+	palm tree - coat : 0.0
+	palm tree - shirt : 0.0
+	palm tree - uniform : 0.0
+	rose - sunflower : 0.0
+	rose - tulip : 0.0
+	rose - goat : 0.0
+	rose - horse : 0.0
+	rose - owl : 0.0
+	rose - axe : 0.0
+	rose - pliers : 0.0
+	rose - dishwasher : 0.0
+	rose - microwave : 0.0
+	rose - television : 0.0
+	rose - toaster : 0.0
+	rose - washing machine : 0.0
+	rose - blouse : 0.0
+	rose - coat : 0.0
+	rose - uniform : 0.0
+	sunflower - tulip : 0.0
+	sunflower - owl : 0.0
+	sunflower - dishwasher : 0.0
+	sunflower - microwave : 0.0
+	sunflower - television : 0.0
+	sunflower - toaster : 0.0
+	sunflower - washing machine : 0.0
+	sunflower - blouse : 0.0
+	sunflower - jacket : 0.0
+	sunflower - shirt : 0.0
+	sunflower - uniform : 0.0
+	tulip - cow : 0.0
+	tulip - goat : 0.0
+	tulip - pigeon : 0.0
+	tulip - stork : 0.0
+	tulip - saw : 0.0
+	tulip - dishwasher : 0.0
+	tulip - microwave : 0.0
+	tulip - television : 0.0
+	tulip - toaster : 0.0
+	tulip - washing machine : 0.0
+	tulip - blouse : 0.0
+	tulip - jacket : 0.0
+	tulip - shirt : 0.0
+	cow - goat : 0.0
+	cow - horse : 0.0
+	cow - axe : 0.0
+	cow - hammer : 0.0
+	cow - pliers : 0.0
+	cow - saw : 0.0
+	cow - dishwasher : 0.0
+	cow - television : 0.0
+	cow - washing machine : 0.0
+	cow - blouse : 0.0
+	cow - coat : 0.0
+	cow - shirt : 0.0
+	cow - uniform : 0.0
+	donkey - goat : 0.0
+	donkey - horse : 0.0
+	donkey - pigeon : 0.0
+	donkey - axe : 0.0
+	donkey - hammer : 0.0
+	donkey - pliers : 0.0
+	donkey - saw : 0.0
+	donkey - shovel : 0.0
+	donkey - dishwasher : 0.0
+	donkey - microwave : 0.0
+	donkey - television : 0.0
+	donkey - toaster : 0.0
+	donkey - washing machine : 0.0
+	donkey - blouse : 0.0
+	donkey - coat : 0.0
+	donkey - jacket : 0.0
+	donkey - shirt : 0.0
+	donkey - uniform : 0.0
+	goat - stork : 0.0
+	goat - axe : 0.0
+	goat - pliers : 0.0
+	goat - saw : 0.0
+	goat - shovel : 0.0
+	goat - dishwasher : 0.0
+	goat - microwave : 0.0
+	goat - television : 0.0
+	goat - toaster : 0.0
+	goat - washing machine : 0.0
+	goat - blouse : 0.0
+	goat - coat : 0.0
+	goat - jacket : 0.0
+	goat - shirt : 0.0
+	goat - uniform : 0.0
+	horse - axe : 0.0
+	horse - hammer : 0.0
+	horse - saw : 0.0
+	horse - shovel : 0.0
+	horse - dishwasher : 0.0
+	horse - microwave : 0.0
+	horse - television : 0.0
+	horse - toaster : 0.0
+	horse - washing machine : 0.0
+	horse - blouse : 0.0
+	horse - coat : 0.0
+	horse - jacket : 0.0
+	horse - shirt : 0.0
+	horse - uniform : 0.0
+	stag - axe : 0.0
+	stag - hammer : 0.0
+	stag - saw : 0.0
+	stag - shovel : 0.0
+	stag - dishwasher : 0.0
+	stag - microwave : 0.0
+	stag - television : 0.0
+	stag - toaster : 0.0
+	stag - washing machine : 0.0
+	stag - blouse : 0.0
+	stag - jacket : 0.0
+	stag - uniform : 0.0
+	eagle - owl : 0.0
+	eagle - parrot : 0.0
+	eagle - pigeon : 0.0
+	eagle - hammer : 0.0
+	eagle - dishwasher : 0.0
+	eagle - microwave : 0.0
+	eagle - television : 0.0
+	eagle - washing machine : 0.0
+	eagle - blouse : 0.0
+	eagle - coat : 0.0
+	eagle - shirt : 0.0
+	eagle - uniform : 0.0
+	owl - parrot : 0.0
+	owl - pigeon : 0.0
+	owl - axe : 0.0
+	owl - shovel : 0.0
+	owl - dishwasher : 0.0
+	owl - microwave : 0.0
+	owl - television : 0.0
+	owl - washing machine : 0.0
+	owl - blouse : 0.0
+	owl - jacket : 0.0
+	owl - shirt : 0.0
+	parrot - pigeon : 0.0
+	parrot - dishwasher : 0.0
+	parrot - microwave : 0.0
+	parrot - television : 0.0
+	parrot - toaster : 0.0
+	parrot - washing machine : 0.0
+	parrot - blouse : 0.0
+	parrot - jacket : 0.0
+	parrot - shirt : 0.0
+	pigeon - stork : 0.0
+	pigeon - pliers : 0.0
+	pigeon - dishwasher : 0.0
+	pigeon - microwave : 0.0
+	pigeon - television : 0.0
+	pigeon - toaster : 0.0
+	pigeon - washing machine : 0.0
+	pigeon - blouse : 0.0
+	pigeon - jacket : 0.0
+	pigeon - uniform : 0.0
+	stork - axe : 0.0
+	stork - pliers : 0.0
+	stork - saw : 0.0
+	stork - dishwasher : 0.0
+	stork - microwave : 0.0
+	stork - television : 0.0
+	stork - toaster : 0.0
+	stork - washing machine : 0.0
+	stork - blouse : 0.0
+	stork - coat : 0.0
+	stork - jacket : 0.0
+	stork - shirt : 0.0
+	stork - uniform : 0.0
+	axe - hammer : 0.0
+	axe - shovel : 0.0
+	axe - dishwasher : 0.0
+	axe - television : 0.0
+	axe - blouse : 0.0
+	axe - coat : 0.0
+	axe - jacket : 0.0
+	axe - shirt : 0.0
+	axe - uniform : 0.0
+	hammer - saw : 0.0
+	hammer - dishwasher : 0.0
+	hammer - microwave : 0.0
+	hammer - television : 0.0
+	hammer - blouse : 0.0
+	hammer - jacket : 0.0
+	hammer - shirt : 0.0
+	hammer - uniform : 0.0
+	pliers - microwave : 0.0
+	pliers - television : 0.0
+	pliers - blouse : 0.0
+	pliers - jacket : 0.0
+	pliers - shirt : 0.0
+	pliers - uniform : 0.0
+	saw - dishwasher : 0.0
+	saw - microwave : 0.0
+	saw - toaster : 0.0
+	saw - washing machine : 0.0
+	saw - blouse : 0.0
+	saw - coat : 0.0
+	saw - shirt : 0.0
+	saw - uniform : 0.0
+	shovel - dishwasher : 0.0
+	shovel - television : 0.0
+	shovel - washing machine : 0.0
+	shovel - blouse : 0.0
+	shovel - jacket : 0.0
+	shovel - shirt : 0.0
+	shovel - uniform : 0.0
+	dishwasher - toaster : 0.0
+	dishwasher - washing machine : 0.0
+	microwave - coat : 0.0
+	microwave - uniform : 0.0
+	television - toaster : 0.0
+	television - coat : 0.0
+	television - shirt : 0.0
+	toaster - washing machine : 0.0
+	toaster - coat : 0.0
+	toaster - jacket : 0.0
+	toaster - shirt : 0.0
+	toaster - uniform : 0.0
+	washing machine - shirt : 0.0
+	blouse - coat : 0.0
+	blouse - jacket : 0.0
+	blouse - shirt : 0.0
+	blouse - uniform : 0.0
+	coat - jacket : 0.0
+	coat - uniform : 0.0
+	jacket - shirt : 0.0
+	shirt - uniform : 0.0

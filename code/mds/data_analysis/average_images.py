@@ -21,8 +21,8 @@ parser.add_argument('-a', '--aggregator', help = 'aggregator to use when downsca
 args = parser.parse_args()
 
 # load the data set from the pickle file
-with open(args.input_file, "rb") as f:
-    data_set = pickle.load(f)
+with open(args.input_file, "rb") as f_in:
+    data_set = pickle.load(f_in)
 
 item_names = list(data_set['items'].keys())
 
