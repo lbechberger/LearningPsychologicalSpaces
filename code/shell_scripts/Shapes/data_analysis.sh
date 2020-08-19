@@ -98,6 +98,14 @@ do
 	done
 done
 
+# create average category images at various sizes
+echo '    creating average images for all the categories'
+for image_size in $image_sizes
+do
+	echo '        target image size '"$image_size"
+	python -m code.mds.data_analysis.average_images data/Shapes/mds/similarities/aggregator/individual_ratings.pickle data/Shapes/images/ -o 'data/Shapes/mds/visualizations/average_images/'"$image_size"'/' -r $image_size &> 'data/Shapes/mds/visualizations/average_images/'"$image_size"'.txt'
+done
+
 # TODO continue here
 
 	
@@ -128,21 +136,6 @@ python -m  code.mds.preprocessing.compare_visual_conceptual 'data/Shapes/mds/sim
 
 echo '    visualization'
 python -m code.mds.preprocessing.plot_similarity_tables data/Shapes/mds/similarities/dataset/visual/sim.pickle data/Shapes/mds/similarities/dataset/conceptual/sim.pickle data/Shapes/mds/visualizations/similarities 
-
-
-# RQ2: Do 'Sim' categories have higher internal shape similarity than 'Dis' categories?
-# -------------------------------------------------------------------------------------
-
-echo 'RQ2: Does the Sim-Dis distinction reflect visual similarity?'
-
-
-
-echo '    creating average images for all the categories'
-for image_size in $image_sizes
-do
-	echo '        target image size '"$image_size"
-	python -m code.mds.preprocessing.average_images data/Shapes/raw_data/preprocessed/data_visual.pickle data/Shapes/images/ -s between -o 'data/Shapes/mds/visualizations/average_images/'"$image_size"'/' -r $image_size &> 'data/Shapes/mds/visualizations/average_images/'"$image_size"'.txt'
-done
 
 
 

@@ -151,11 +151,13 @@ python -m code.mds.preprocessing.features_from_categories path/to/input.pickle p
 
 ### 2.2 Analysis of the Data
 
+The folder `code/mds/data_analysis` contains some scripts for visualizing and analyzing the (preprocessed) data set. While the statistical analyses are done with specialized R scripts, other functionality is provided by python scripts.
+
 #### 2.2.1 Correlations between Psychological Features
 
 The script `compare_features.py` compares the scales of two different psychological features to each other, based on each of the scale types. It can be invoked as follows:
 ```
-python -m code.mds.preprocessing.compare_features path/to/first.pickle path/to/second.pickle path/to/output_folder
+python -m code.mds.data_analysis.compare_features path/to/first.pickle path/to/second.pickle path/to/output_folder
 ```
 The data about the first and second feature is read in from `first.pickle` and `second.pickle`, respectively. Both files are the output files of the `preprocess_feature.py` script. Scatter plots of the two features are stored in the given `output_folder`. The script takes the following optional arguments:
 - `-i` or `--image_folder`: Path to the folder containing the images for the items. If given, it will use the item images to create scatter plots. If not given, an ordinary scatter plot will be used.
@@ -164,16 +166,15 @@ The data about the first and second feature is read in from `first.pickle` and `
 - `-s` or `--second_name`: Name to use for the second feature. Defaults to `second`.
 
 
-#### 2.1.6 Creating Average Images
+#### 2.2.2 Creating Average Images
 
 The script `average_images.py` can be used in order to create an average image for each of the categories. It can be invoked as follows:
 ```
-python -m code.mds.preprocessing.average_images path/to/input_file.pickle path/to/image_folder
+python -m code.mds.data_analysis.average_images path/to/input_file.pickle path/to/image_folder
 ```
 Here, `input_file.pickle` corresponds to the output file of `preprocess_Shapes.py` or `preprocess_NOUN.py` and `image_folder` points to the folder where all the original images reside. The script takes the following optional arguments:
 - `-o` or `--output_folder`: The destination folder for the output images, defaults to `.`, i.e., the current working directory.
 - `-r` or `--resolution`: The desired size (width and height) of the output images, defaults to 283 (i.e, the size of the original images from the Shapes data set).
-- `-s` or `--subset`: The subset of data to use, defaults to `all`. Possible other options are `between`, `within`, and `cats` (see above).
 - `-a` or `--aggregator`: The aggregator to use for downscaling the images. Defaults to `mean`. Other possible values are `min`, `max`, and `median`.
 
 
