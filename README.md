@@ -102,11 +102,11 @@ The script takes the following optional arguments:
 - `-m` or `--median`: Use the median instead of the mean for aggregating the similarity ratings across participants.
 
 The file `output_file.pickle` consists of a dictionary with the following content:
-- `'category_names'`: An ordered list of category names, determines the order in which categories shall be iterated over in subsequent scripts.
+- `'categories'`: An ordered list of category names, determines the order in which categories shall be iterated over in subsequent scripts.
 - `'items'`: An ordered list of item names of all the items for which the similarity values have been computed. Items are ordered alphabetically within a category and accordings to `'category_names'`.
 - `'similarities'`: A quadratic matrix of similarity values. Both rows and columns are ordered like in `'items'`. Values of `nan` are used to indicate that there is no similarity rating available for a pair of stimuli.
 - `'dissimilarities'`: A quadratic matrix of dissimilarity values analogous to `'similarities'`. Here, values of 0 indicate missing similarity ratings.
-- `'category_similaritiy'`: A quadratic matrix of category-based similarity ratings (i.e., similarities within and between categories).
+- `'category_similarities'`: A quadratic matrix of category-based similarity ratings (i.e., similarities within and between categories).
 
 
 #### 2.1.4 Parsing Shape Features Data
@@ -149,7 +149,7 @@ The script `features_from_categories.py` uses the category structure to create c
 python -m code.mds.preprocessing.features_from_categories path/to/input.pickle path/to/output_folder
 ```
 
-### 2.2 Analysis of the Data
+### 2.2 Analysis of the Data Set
 
 The folder `code/mds/data_analysis` contains some scripts for visualizing and analyzing the (preprocessed) data set. While the statistical analyses are done with specialized R scripts, other functionality is provided by python scripts.
 
@@ -186,16 +186,13 @@ python -m code.mds.data_analysis.find_item_pair_differences path/to/visual.pickl
 Here, `conceptual.pickle` and `visual.pickle` are the corresponding output files of `aggregate_similarities.py`.
 
 
+#### 2.2.4 Creating Heatmaps of the Similarity Matrices 
 
-#### 2.1.11 Creating Heatmaps of the Similarity Matrices 
-
-In order to visualize the similarity matrices, one can use the script `plot_similarity_tables.py`. It also directly compares visual to conceptual ratings, given as `visual.pickle` and `conceptual.pickle` (output of `compute_similarities.py`). It creates one item-based heatmap (above diagonal: visual similarity, below diagonal: conceptual similarity) and two category-based heatmaps (one for visual similarity and another one for conceptual similarity) and stores them in the given `output_folder`. Moreover, a box plot based on within and between-category ratings for visual and conceptual similarity is generated. The script can be executed as follows:
+In order to visualize the similarity matrices, one can use the script `plot_similarity_matrices.py`. It also directly compares visual to conceptual ratings, given as `visual.pickle` and `conceptual.pickle` (output of `aggregate_similarities.py`). It creates one item-based heatmap (above diagonal: visual similarity, below diagonal: conceptual similarity) and one category-based heatmap (same structure), and stores them as a single image `output_file.png`.
 
 ```
-python -m code.mds.preprocessing.plot_similarity_tables path/to/visual.pickle path/to/conceptual.pickle path/to/output_folder/
+python -m code.mds.preprocessing.plot_similarity_matrices path/to/visual.pickle path/to/conceptual.pickle path/to/output_file.png
 ```
-Using the optional parameter `-i` or `--image_folder`, one can pass a folder containing images for the items, which are then used to label the rows and columns of the matrix (*WARNING! Feature not fully developed*).
-
 
 
 ### 2.2 Multidimensional Scaling

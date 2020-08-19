@@ -109,6 +109,9 @@ done
 echo '    comparing visual and conceptual similarity'
 python -m  code.mds.data_analysis.find_item_pair_differences data/Shapes/mds/similarities/rating_type/visual/aggregated_ratings.pickle data/Shapes/mds/similarities/rating_type/conceptual/aggregated_ratings.pickle  &> data/Shapes/mds/similarities/rating_type/differences.txt
 
+echo '    visualization'
+python -m code.mds.data_analysis.plot_similarity_matrices data/Shapes/mds/similarities/rating_type/visual/aggregated_ratings.pickle data/Shapes/mds/similarities/rating_type/conceptual/aggregated_ratings.pickle data/Shapes/mds/visualizations/similarities/
+
 # TODO continue here
 
 	
@@ -136,8 +139,7 @@ python -m code.mds.correlations.similarity_correlations 'data/Shapes/mds/similar
 	
 
 
-echo '    visualization'
-python -m code.mds.preprocessing.plot_similarity_tables data/Shapes/mds/similarities/dataset/visual/sim.pickle data/Shapes/mds/similarities/dataset/conceptual/sim.pickle data/Shapes/mds/visualizations/similarities 
+
 
 
 
