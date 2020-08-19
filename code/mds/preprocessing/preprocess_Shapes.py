@@ -43,22 +43,22 @@ if args.seed is not None:
 
 
 # read in the category names
-with open(args.categories_file, 'r') as f:
-    for line in f:
+with open(args.categories_file, 'r') as f_in:
+    for line in f_in:
         tokens = line.replace('\n','').split(',')
         
         category_map[tokens[0]] = tokens[1]
         category_names.append(tokens[1])
 
 # read in the item names
-with open(args.items_file, 'r') as f:
-    for line in f:
+with open(args.items_file, 'r') as f_in:
+    for line in f_in:
         tokens = line.replace('\n','').split(',')
         item_map[tokens[0]] = tokens[1]
         
 # first only read within category information
-with open(args.within_file, 'r') as f:
-    for line in f:
+with open(args.within_file, 'r') as f_in:
+    for line in f_in:
         # ignore header
         if line.startswith("Combi_category"):
             continue
@@ -98,8 +98,8 @@ with open(args.within_file, 'r') as f:
         similarity_info[str(sorted([item_map[tokens[3]], item_map[tokens[5]]]))] = {'relation': 'within', 'category_type': vis_sim_map[tokens[1]], 'values': similarity_values, 'border':len(similarity_values)}
 
 # now read within_between category information
-with open(args.within_between_file, 'r') as f:
-    for line in f:
+with open(args.within_between_file, 'r') as f_in:
+    for line in f_in:
         # ignore header
         if line.startswith("Relation"):
             continue
@@ -196,12 +196,12 @@ for index1, item1 in enumerate(items_of_interest):
 
 # now write everything into a pickle file
 output = {'categories': filtered_category_info, 'items': filtered_item_info, 'similarities': filtered_similarity_info, 'category_names': categories_of_interest}
-with open(args.output_pickle_file, "wb") as f:
-    pickle.dump(output, f)
+with open(args.output_pickle_file, "wb") as f_out:
+    pickle.dump(output, f_out)
     
 # ... and also into a csv file
-with open(args.output_csv_file, 'w') as f:
-    f.write('pairID;pairType;visualType;ratingType;ratings\n')
+with open(args.output_csv_file, 'w') as f_out:
+    f_out.write('pairID;pairType;visualType;ratingType;ratings\n')
     for index1, item1 in enumerate(items_of_interest):
         for index2, item2 in enumerate(items_of_interest):
             
@@ -212,5 +212,5 @@ with open(args.output_csv_file, 'w') as f:
             visual_type = filtered_similarity_info[tuple_id]['category_type']
             
             for rating in filtered_similarity_info[tuple_id]['values']:
-                f.write("{0};{1};{2};{3};{4}\n".format(tuple_id, pair_type, visual_type, args.rating_type, rating))
+                f_out.write("{0};{1};{2};{3};{4}\n".format(tuple_id, pair_type, visual_type, args.rating_type, rating))
 

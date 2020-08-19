@@ -8,13 +8,11 @@ default_rating_types=("visual conceptual")
 default_aggregators=("mean median")
 default_image_sizes=("283 100 50 20 10 5")
 default_perceptual_features=("FORM LINES ORIENTATION")
-default_rating_limits=("10 15")
 
 rating_types="${rating_types:-$default_rating_types}"
 aggregators="${aggregators:-$default_aggregators}"
 image_sizes="${image_sizes:-$default_image_sizes}"
 perceptual_features="${perceptual_features:-$default_perceptual_features}"
-rating_limits="${rating_limits:-$default_rating_limits}"
 
 # set up the directory structure
 echo 'setting up directory structure'
@@ -26,7 +24,7 @@ mkdir -p data/Shapes/mds/visualizations/similarity_matrices
 
 for rating_type in $rating_types
 do
-	mkdir -p 'data/Shapes/mds/similarities/rating_type/'"$rating"'/'
+	mkdir -p 'data/Shapes/mds/similarities/rating_type/'"$rating_type"'/'
 done		
 
 for aggregator in $aggregators
@@ -52,14 +50,22 @@ echo 'preprocessing data'
 # read in similarity data and preprocess it
 for rating_type in $rating_types
 do
-	echo '    '"$rating_type"' similarity'
-	[ "$rating" == "conceptual" ] && reverse_flag='--reverse' || reverse_flag=''
-	for rating_limit in $rating_limits
-	do
-		python -m code.mds.preprocessing.preprocess_Shapes data/Shapes/raw_data/visual_similarities_within.csv 'data/Shapes/raw_data/'"$rating_type"'_similarities.csv' data/Shapes/raw_data/category_names.csv data/Shapes/raw_data/item_names.csv 'data/Shapes/mds/similarities/rating_type/individual_ratings_'"$rating_type"'_'"$rating_limit"'.pickle' 'data/Shapes/mds/data_set/individual/similarities/'"$rating_type"'_'"$rating_limit"'.csv' $rating_type $reverse_flag -s between -l -v $rating_limit &> 'data/Shapes/mds/similarities/rating_type/log_'"$rating_type"'_'"$rating_limit"'.txt'
-	done
+	echo '    '"$rating_type"' similarity (median aggregation, 10 ratings)'
+	[ "$rating_type" == "conceptual" ] && reverse_flag='--reverse' || reverse_flag=''
+	python -m code.mds.preprocessing.preprocess_Shapes data/Shapes/raw_data/visual_similarities_within.csv 'data/Shapes/raw_data/'"$rating_type"'_similarities.csv' data/Shapes/raw_data/category_names.csv data/Shapes/raw_data/item_names.csv 'data/Shapes/mds/similarities/rating_type/'"$rating_type"'/individual_ratings.pickle' 'data/Shapes/mds/data_set/individual/similarities/'"$rating_type"'_10.csv' $rating_type $reverse_flag -s between -l -v 10 &> 'data/Shapes/mds/similarities/rating_type/'"$rating_type"'/log_preprocessing.txt'
+
+	python -m code.mds.preprocessing.aggregate_similarities 'data/Shapes/mds/similarities/rating_type/'"$rating_type"'/individual_ratings.pickle' 'data/Shapes/mds/similarities/rating_type/'"$rating_type"'/aggregated_ratings.pickle' 'data/Shapes/mds/similarities/rating_type/'"$rating_type"'/' 'data/Shapes/mds/data_set/aggregated/similarities/'"$rating_type"'_median_10.csv' $rating_type --median &> 'data/Shapes/mds/similarities/rating_type/'"$rating_type"'/log_aggregation.txt'
+
 done
-rm data/Shapes/mds/data_set/individual/similarities/conceptual_15.csv data/Shapes/mds/similarities/rating_type/log_conceptual_15.txt
+
+for aggregator in $aggregators
+do
+	echo '    visual similarity ('"$aggregator"' aggregation, 15 ratings)'
+	python -m code.mds.preprocessing.preprocess_Shapes data/Shapes/raw_data/visual_similarities_within.csv 'data/Shapes/raw_data/visual_similarities.csv' data/Shapes/raw_data/category_names.csv data/Shapes/raw_data/item_names.csv 'data/Shapes/mds/similarities/aggregator/individual_ratings.pickle' 'data/Shapes/mds/data_set/individual/similarities/visual_15.csv' visual -s between -l -v 15 &> 'data/Shapes/mds/similarities/aggregator/log_preprocessing.txt'
+
+	[ "$aggregator" == "median" ] && aggregator_flag='--median' || aggregator_flag=''
+	python -m code.mds.preprocessing.aggregate_similarities 'data/Shapes/mds/similarities/aggregator/individual_ratings.pickle' 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/aggregated_ratings.pickle' 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/' 'data/Shapes/mds/data_set/aggregated/similarities/visual_'"$aggregator"'_15.csv' visual $aggregator_flag &> 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/log_aggregation.txt'
+done
 
 # read in perceptual feature data and preprocess it
 for feature in $perceptual_features
@@ -67,9 +73,11 @@ do
 	echo '    '"$feature"' feature'
 	python -m code.mds.preprocessing.preprocess_feature 'data/Shapes/raw_data/'"$feature"'_pre-attentive.csv' 'data/Shapes/raw_data/'"$feature"'_attentive.csv' data/Shapes/raw_data/category_names.csv data/Shapes/raw_data/item_names.csv 'data/Shapes/mds/features/'"$feature"'.pickle' 'data/Shapes/mds/data_set/individual/features/'"$feature"'.csv' 'data/Shapes/mds/data_set/aggregated/features/'"$feature"'.csv' -p 'data/Shapes/mds/visualizations/features/'"$feature"'/' -i data/Shapes/images &> 'data/Shapes/mds/features/log_'"$feature"'.txt'
 done
-
+# dump all of them into common files
 python -m code.mds.preprocessing.export_feature_ratings data/Shapes/mds/features data/Shapes/mds/data_set/individual/features/all_features.csv data/Shapes/mds/data_set/aggregated/features/all_features.csv
-# TODO continue here
+
+
+
 	
 	
 # RQ1: Comparing conceptual to visual similarity

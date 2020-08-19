@@ -22,8 +22,8 @@ cat_name = 'no_category'
 category_info[cat_name] = {'visSim' : 'x', 'artificial' : 'art', 'items' : []}
 
 # read dissimilarity matrix from csv file
-with open(args.distance_table, 'r') as f:
-    reader = csv.DictReader(f, delimiter=',')
+with open(args.distance_table, 'r') as f_in:
+    reader = csv.DictReader(f_in, delimiter=',')
     for row in reader:
         # first item known by entry in column 'Stimulus'
         item1 = row['Stimulus']
@@ -75,5 +75,5 @@ for _ , sim_dict in similarity_info.items():
 output = {'categories': category_info, 'items': item_info, 'similarities': similarity_info, 'category_names': [cat_name]}
 
 # dump everything into a pickle file
-with open(args.output_file, "wb") as f:
-    pickle.dump(output, f)
+with open(args.output_file, "wb") as f_out:
+    pickle.dump(output, f_out)

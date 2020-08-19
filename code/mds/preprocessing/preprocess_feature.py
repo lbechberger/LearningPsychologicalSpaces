@@ -39,15 +39,15 @@ individual_ratings = {'pre-attentive':{}, 'attentive':{}}
 aggregated_ratings = {'pre-attentive':{}, 'attentive':{}}
 
 # read in the category names
-with open(args.categories_file, 'r') as f:
-    for line in f:
+with open(args.categories_file, 'r') as f_in:
+    for line in f_in:
         tokens = line.replace('\n','').split(',')
         
         category_map[tokens[0]] = tokens[1]
 
 # read in the item names
-with open(args.items_file, 'r') as f:
-    for line in f:
+with open(args.items_file, 'r') as f_in:
+    for line in f_in:
         tokens = line.replace('\n','').split(',')
         item_map_id_to_english[tokens[0]] = tokens[1]
         item_map_english_to_id[tokens[1]] = tokens[0]

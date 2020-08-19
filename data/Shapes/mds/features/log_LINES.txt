@@ -1,7 +1,7 @@
 Positive examples for pre-attentive
-rose,broccoli,cherry,ladybug,lemon,butterfly,onion,cow,owl,goat,apple,banana,plate,teapot,bowl
+broccoli,blouse,cherry,onion,butterfly,ladybug,apple,owl,cow,lemon,goat,banana,teapot,plate,bowl
 Negative examples for pre-attentive
-washing machine,pliers,church,television,salt shaker,toaster,pyramid,windmill,dishwasher,microwave,axe,bus,lighthouse,asparagus,scooter
+washing machine,pliers,church,television,salt shaker,pyramid,axe,toaster,dishwasher,microwave,windmill,bus,lighthouse,asparagus,scooter
 Positive examples for attentive
 pigeon,bell pepper,owl,eagle,cherry,fly,banana,lemon,ladybug,tulip,apple,bowl,teapot,plate,raspberry
 Negative examples for attentive

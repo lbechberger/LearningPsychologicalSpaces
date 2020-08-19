@@ -1,0 +1,1771 @@
+pairID;pairType;visualType;ratingType;ratings
+['bowl', 'glass'];within;VV;visual;4.0
+['bowl', 'plate'];within;VV;visual;4.0
+['bowl', 'salt shaker'];within;VV;visual;1.0
+['bowl', 'teapot'];within;VV;visual;2.0
+['bowl', 'church'];between;Mix;visual;1.0
+['bowl', 'igloo'];between;Mix;visual;4.0
+['bowl', 'lighthouse'];between;Mix;visual;1.0
+['bowl', 'pyramid'];between;Mix;visual;1.0
+['bowl', 'windmill'];between;Mix;visual;1.0
+['bicycle', 'bowl'];between;Mix;visual;1.0
+['bowl', 'bus'];between;Mix;visual;1.0
+['bowl', 'car'];between;Mix;visual;1.0
+['bowl', 'scooter'];between;Mix;visual;1.0
+['bowl', 'tractor'];between;Mix;visual;1.0
+['ant', 'bowl'];between;Mix;visual;1.0
+['bowl', 'butterfly'];between;Mix;visual;1.0
+['bowl', 'dragonfly'];between;Mix;visual;1.0
+['bowl', 'fly'];between;Mix;visual;1.0
+['bowl', 'ladybug'];between;Mix;visual;3.0
+['apple', 'bowl'];between;Mix;visual;4.0
+['banana', 'bowl'];between;Mix;visual;1.0
+['bowl', 'cherry'];between;Mix;visual;2.0
+['bowl', 'lemon'];between;Mix;visual;4.0
+['bowl', 'raspberry'];between;Mix;visual;2.0
+['asparagus', 'bowl'];between;Mix;visual;1.0
+['bell pepper', 'bowl'];between;Mix;visual;1.0
+['bowl', 'broccoli'];between;Mix;visual;1.0
+['bowl', 'carrot'];between;Mix;visual;1.0
+['bowl', 'onion'];between;Mix;visual;3.0
+['bowl', 'dandelion'];between;Mix;visual;1.0
+['bowl', 'palm tree'];between;Mix;visual;1.0
+['bowl', 'rose'];between;Mix;visual;1.0
+['bowl', 'sunflower'];between;Mix;visual;1.0
+['bowl', 'tulip'];between;Mix;visual;1.0
+['bowl', 'cow'];between;Mix;visual;1.0
+['bowl', 'donkey'];between;Mix;visual;1.0
+['bowl', 'goat'];between;Mix;visual;1.0
+['bowl', 'horse'];between;Mix;visual;1.0
+['bowl', 'stag'];between;Mix;visual;1.0
+['bowl', 'eagle'];between;Mix;visual;1.0
+['bowl', 'owl'];between;Mix;visual;1.0
+['bowl', 'parrot'];between;Mix;visual;1.0
+['bowl', 'pigeon'];between;Mix;visual;1.0
+['bowl', 'stork'];between;Mix;visual;1.0
+['axe', 'bowl'];between;Mix;visual;1.0
+['bowl', 'hammer'];between;Mix;visual;1.0
+['bowl', 'pliers'];between;Mix;visual;1.0
+['bowl', 'saw'];between;Mix;visual;1.0
+['bowl', 'shovel'];between;Mix;visual;1.0
+['bowl', 'dishwasher'];between;Mix;visual;1.0
+['bowl', 'microwave'];between;Mix;visual;3.0
+['bowl', 'television'];between;Mix;visual;2.0
+['bowl', 'toaster'];between;Mix;visual;1.0
+['bowl', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'bowl'];between;Mix;visual;1.0
+['bowl', 'coat'];between;Mix;visual;1.0
+['bowl', 'jacket'];between;Mix;visual;1.0
+['bowl', 'shirt'];between;Mix;visual;1.0
+['bowl', 'uniform'];between;Mix;visual;1.0
+['glass', 'plate'];within;VV;visual;1.0
+['glass', 'salt shaker'];within;VV;visual;3.0
+['glass', 'teapot'];within;VV;visual;2.0
+['church', 'glass'];between;Mix;visual;1.0
+['glass', 'igloo'];between;Mix;visual;1.0
+['glass', 'lighthouse'];between;Mix;visual;3.0
+['glass', 'pyramid'];between;Mix;visual;1.0
+['glass', 'windmill'];between;Mix;visual;2.0
+['bicycle', 'glass'];between;Mix;visual;1.0
+['bus', 'glass'];between;Mix;visual;1.0
+['car', 'glass'];between;Mix;visual;2.0
+['glass', 'scooter'];between;Mix;visual;1.0
+['glass', 'tractor'];between;Mix;visual;1.0
+['ant', 'glass'];between;Mix;visual;1.0
+['butterfly', 'glass'];between;Mix;visual;1.0
+['dragonfly', 'glass'];between;Mix;visual;1.0
+['fly', 'glass'];between;Mix;visual;1.0
+['glass', 'ladybug'];between;Mix;visual;1.0
+['apple', 'glass'];between;Mix;visual;2.0
+['banana', 'glass'];between;Mix;visual;2.0
+['cherry', 'glass'];between;Mix;visual;1.0
+['glass', 'lemon'];between;Mix;visual;1.0
+['glass', 'raspberry'];between;Mix;visual;2.0
+['asparagus', 'glass'];between;Mix;visual;3.0
+['bell pepper', 'glass'];between;Mix;visual;3.0
+['broccoli', 'glass'];between;Mix;visual;2.0
+['carrot', 'glass'];between;Mix;visual;1.0
+['glass', 'onion'];between;Mix;visual;1.0
+['dandelion', 'glass'];between;Mix;visual;1.0
+['glass', 'palm tree'];between;Mix;visual;2.0
+['glass', 'rose'];between;Mix;visual;2.0
+['glass', 'sunflower'];between;Mix;visual;3.0
+['glass', 'tulip'];between;Mix;visual;2.0
+['cow', 'glass'];between;Mix;visual;1.0
+['donkey', 'glass'];between;Mix;visual;1.0
+['glass', 'goat'];between;Mix;visual;1.0
+['glass', 'horse'];between;Mix;visual;1.0
+['glass', 'stag'];between;Mix;visual;1.0
+['eagle', 'glass'];between;Mix;visual;1.0
+['glass', 'owl'];between;Mix;visual;2.0
+['glass', 'parrot'];between;Mix;visual;1.0
+['glass', 'pigeon'];between;Mix;visual;1.0
+['glass', 'stork'];between;Mix;visual;1.0
+['axe', 'glass'];between;Mix;visual;1.0
+['glass', 'hammer'];between;Mix;visual;2.0
+['glass', 'pliers'];between;Mix;visual;1.0
+['glass', 'saw'];between;Mix;visual;2.0
+['glass', 'shovel'];between;Mix;visual;1.0
+['dishwasher', 'glass'];between;Mix;visual;1.0
+['glass', 'microwave'];between;Mix;visual;1.0
+['glass', 'television'];between;Mix;visual;1.0
+['glass', 'toaster'];between;Mix;visual;2.0
+['glass', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'glass'];between;Mix;visual;2.0
+['coat', 'glass'];between;Mix;visual;3.0
+['glass', 'jacket'];between;Mix;visual;1.0
+['glass', 'shirt'];between;Mix;visual;1.0
+['glass', 'uniform'];between;Mix;visual;2.0
+['plate', 'salt shaker'];within;VV;visual;1.0
+['plate', 'teapot'];within;VV;visual;1.0
+['church', 'plate'];between;Mix;visual;1.0
+['igloo', 'plate'];between;Mix;visual;2.0
+['lighthouse', 'plate'];between;Mix;visual;1.0
+['plate', 'pyramid'];between;Mix;visual;1.0
+['plate', 'windmill'];between;Mix;visual;1.0
+['bicycle', 'plate'];between;Mix;visual;1.0
+['bus', 'plate'];between;Mix;visual;1.0
+['car', 'plate'];between;Mix;visual;1.0
+['plate', 'scooter'];between;Mix;visual;1.0
+['plate', 'tractor'];between;Mix;visual;1.0
+['ant', 'plate'];between;Mix;visual;1.0
+['butterfly', 'plate'];between;Mix;visual;1.0
+['dragonfly', 'plate'];between;Mix;visual;1.0
+['fly', 'plate'];between;Mix;visual;1.0
+['ladybug', 'plate'];between;Mix;visual;3.0
+['apple', 'plate'];between;Mix;visual;3.0
+['banana', 'plate'];between;Mix;visual;1.0
+['cherry', 'plate'];between;Mix;visual;1.0
+['lemon', 'plate'];between;Mix;visual;2.0
+['plate', 'raspberry'];between;Mix;visual;2.0
+['asparagus', 'plate'];between;Mix;visual;1.0
+['bell pepper', 'plate'];between;Mix;visual;2.0
+['broccoli', 'plate'];between;Mix;visual;2.0
+['carrot', 'plate'];between;Mix;visual;1.0
+['onion', 'plate'];between;Mix;visual;3.0
+['dandelion', 'plate'];between;Mix;visual;1.0
+['palm tree', 'plate'];between;Mix;visual;1.0
+['plate', 'rose'];between;Mix;visual;1.0
+['plate', 'sunflower'];between;Mix;visual;1.0
+['plate', 'tulip'];between;Mix;visual;1.0
+['cow', 'plate'];between;Mix;visual;1.0
+['donkey', 'plate'];between;Mix;visual;1.0
+['goat', 'plate'];between;Mix;visual;1.0
+['horse', 'plate'];between;Mix;visual;1.0
+['plate', 'stag'];between;Mix;visual;1.0
+['eagle', 'plate'];between;Mix;visual;1.0
+['owl', 'plate'];between;Mix;visual;1.0
+['parrot', 'plate'];between;Mix;visual;1.0
+['pigeon', 'plate'];between;Mix;visual;1.0
+['plate', 'stork'];between;Mix;visual;1.0
+['axe', 'plate'];between;Mix;visual;1.0
+['hammer', 'plate'];between;Mix;visual;1.0
+['plate', 'pliers'];between;Mix;visual;1.0
+['plate', 'saw'];between;Mix;visual;1.0
+['plate', 'shovel'];between;Mix;visual;1.0
+['dishwasher', 'plate'];between;Mix;visual;1.0
+['microwave', 'plate'];between;Mix;visual;2.0
+['plate', 'television'];between;Mix;visual;1.0
+['plate', 'toaster'];between;Mix;visual;1.0
+['plate', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'plate'];between;Mix;visual;1.0
+['coat', 'plate'];between;Mix;visual;1.0
+['jacket', 'plate'];between;Mix;visual;1.0
+['plate', 'shirt'];between;Mix;visual;1.0
+['plate', 'uniform'];between;Mix;visual;1.0
+['salt shaker', 'teapot'];within;VV;visual;2.0
+['church', 'salt shaker'];between;Mix;visual;2.0
+['igloo', 'salt shaker'];between;Mix;visual;1.0
+['lighthouse', 'salt shaker'];between;Mix;visual;2.0
+['pyramid', 'salt shaker'];between;Mix;visual;1.0
+['salt shaker', 'windmill'];between;Mix;visual;3.0
+['bicycle', 'salt shaker'];between;Mix;visual;1.0
+['bus', 'salt shaker'];between;Mix;visual;1.0
+['car', 'salt shaker'];between;Mix;visual;2.0
+['salt shaker', 'scooter'];between;Mix;visual;1.0
+['salt shaker', 'tractor'];between;Mix;visual;1.0
+['ant', 'salt shaker'];between;Mix;visual;1.0
+['butterfly', 'salt shaker'];between;Mix;visual;1.0
+['dragonfly', 'salt shaker'];between;Mix;visual;1.0
+['fly', 'salt shaker'];between;Mix;visual;1.0
+['ladybug', 'salt shaker'];between;Mix;visual;1.0
+['apple', 'salt shaker'];between;Mix;visual;1.0
+['banana', 'salt shaker'];between;Mix;visual;2.0
+['cherry', 'salt shaker'];between;Mix;visual;1.0
+['lemon', 'salt shaker'];between;Mix;visual;1.0
+['raspberry', 'salt shaker'];between;Mix;visual;2.0
+['asparagus', 'salt shaker'];between;Mix;visual;2.0
+['bell pepper', 'salt shaker'];between;Mix;visual;3.0
+['broccoli', 'salt shaker'];between;Mix;visual;2.0
+['carrot', 'salt shaker'];between;Mix;visual;2.0
+['onion', 'salt shaker'];between;Mix;visual;1.0
+['dandelion', 'salt shaker'];between;Mix;visual;2.0
+['palm tree', 'salt shaker'];between;Mix;visual;2.0
+['rose', 'salt shaker'];between;Mix;visual;2.0
+['salt shaker', 'sunflower'];between;Mix;visual;3.0
+['salt shaker', 'tulip'];between;Mix;visual;2.0
+['cow', 'salt shaker'];between;Mix;visual;1.0
+['donkey', 'salt shaker'];between;Mix;visual;1.0
+['goat', 'salt shaker'];between;Mix;visual;1.0
+['horse', 'salt shaker'];between;Mix;visual;1.0
+['salt shaker', 'stag'];between;Mix;visual;1.0
+['eagle', 'salt shaker'];between;Mix;visual;1.0
+['owl', 'salt shaker'];between;Mix;visual;2.0
+['parrot', 'salt shaker'];between;Mix;visual;1.0
+['pigeon', 'salt shaker'];between;Mix;visual;2.0
+['salt shaker', 'stork'];between;Mix;visual;1.0
+['axe', 'salt shaker'];between;Mix;visual;1.0
+['hammer', 'salt shaker'];between;Mix;visual;1.0
+['pliers', 'salt shaker'];between;Mix;visual;2.0
+['salt shaker', 'saw'];between;Mix;visual;2.0
+['salt shaker', 'shovel'];between;Mix;visual;2.0
+['dishwasher', 'salt shaker'];between;Mix;visual;2.0
+['microwave', 'salt shaker'];between;Mix;visual;1.0
+['salt shaker', 'television'];between;Mix;visual;2.0
+['salt shaker', 'toaster'];between;Mix;visual;1.0
+['salt shaker', 'washing machine'];between;Mix;visual;2.0
+['blouse', 'salt shaker'];between;Mix;visual;1.0
+['coat', 'salt shaker'];between;Mix;visual;3.0
+['jacket', 'salt shaker'];between;Mix;visual;1.0
+['salt shaker', 'shirt'];between;Mix;visual;2.0
+['salt shaker', 'uniform'];between;Mix;visual;2.0
+['church', 'teapot'];between;Mix;visual;1.0
+['igloo', 'teapot'];between;Mix;visual;4.0
+['lighthouse', 'teapot'];between;Mix;visual;1.0
+['pyramid', 'teapot'];between;Mix;visual;1.0
+['teapot', 'windmill'];between;Mix;visual;1.0
+['bicycle', 'teapot'];between;Mix;visual;1.0
+['bus', 'teapot'];between;Mix;visual;1.0
+['car', 'teapot'];between;Mix;visual;2.0
+['scooter', 'teapot'];between;Mix;visual;1.0
+['teapot', 'tractor'];between;Mix;visual;2.0
+['ant', 'teapot'];between;Mix;visual;1.0
+['butterfly', 'teapot'];between;Mix;visual;1.0
+['dragonfly', 'teapot'];between;Mix;visual;1.0
+['fly', 'teapot'];between;Mix;visual;1.0
+['ladybug', 'teapot'];between;Mix;visual;4.0
+['apple', 'teapot'];between;Mix;visual;5.0
+['banana', 'teapot'];between;Mix;visual;1.0
+['cherry', 'teapot'];between;Mix;visual;1.0
+['lemon', 'teapot'];between;Mix;visual;4.0
+['raspberry', 'teapot'];between;Mix;visual;3.0
+['asparagus', 'teapot'];between;Mix;visual;1.0
+['bell pepper', 'teapot'];between;Mix;visual;3.0
+['broccoli', 'teapot'];between;Mix;visual;1.0
+['carrot', 'teapot'];between;Mix;visual;1.0
+['onion', 'teapot'];between;Mix;visual;4.0
+['dandelion', 'teapot'];between;Mix;visual;1.0
+['palm tree', 'teapot'];between;Mix;visual;1.0
+['rose', 'teapot'];between;Mix;visual;1.0
+['sunflower', 'teapot'];between;Mix;visual;2.0
+['teapot', 'tulip'];between;Mix;visual;1.0
+['cow', 'teapot'];between;Mix;visual;1.0
+['donkey', 'teapot'];between;Mix;visual;1.0
+['goat', 'teapot'];between;Mix;visual;1.0
+['horse', 'teapot'];between;Mix;visual;1.0
+['stag', 'teapot'];between;Mix;visual;1.0
+['eagle', 'teapot'];between;Mix;visual;2.0
+['owl', 'teapot'];between;Mix;visual;2.0
+['parrot', 'teapot'];between;Mix;visual;2.0
+['pigeon', 'teapot'];between;Mix;visual;2.0
+['stork', 'teapot'];between;Mix;visual;1.0
+['axe', 'teapot'];between;Mix;visual;1.0
+['hammer', 'teapot'];between;Mix;visual;1.0
+['pliers', 'teapot'];between;Mix;visual;1.0
+['saw', 'teapot'];between;Mix;visual;1.0
+['shovel', 'teapot'];between;Mix;visual;1.0
+['dishwasher', 'teapot'];between;Mix;visual;2.0
+['microwave', 'teapot'];between;Mix;visual;1.0
+['teapot', 'television'];between;Mix;visual;2.0
+['teapot', 'toaster'];between;Mix;visual;1.0
+['teapot', 'washing machine'];between;Mix;visual;2.0
+['blouse', 'teapot'];between;Mix;visual;2.0
+['coat', 'teapot'];between;Mix;visual;2.0
+['jacket', 'teapot'];between;Mix;visual;2.0
+['shirt', 'teapot'];between;Mix;visual;2.0
+['teapot', 'uniform'];between;Mix;visual;2.0
+['church', 'igloo'];within;VV;visual;1.0
+['church', 'lighthouse'];within;VV;visual;3.0
+['church', 'pyramid'];within;VV;visual;2.0
+['church', 'windmill'];within;VV;visual;2.0
+['bicycle', 'church'];between;Mix;visual;1.0
+['bus', 'church'];between;Mix;visual;2.0
+['car', 'church'];between;Mix;visual;1.0
+['church', 'scooter'];between;Mix;visual;2.0
+['church', 'tractor'];between;Mix;visual;1.0
+['ant', 'church'];between;Mix;visual;1.0
+['butterfly', 'church'];between;Mix;visual;1.0
+['church', 'dragonfly'];between;Mix;visual;1.0
+['church', 'fly'];between;Mix;visual;1.0
+['church', 'ladybug'];between;Mix;visual;1.0
+['apple', 'church'];between;Mix;visual;1.0
+['banana', 'church'];between;Mix;visual;1.0
+['cherry', 'church'];between;Mix;visual;1.0
+['church', 'lemon'];between;Mix;visual;1.0
+['church', 'raspberry'];between;Mix;visual;1.0
+['asparagus', 'church'];between;Mix;visual;1.0
+['bell pepper', 'church'];between;Mix;visual;1.0
+['broccoli', 'church'];between;Mix;visual;1.0
+['carrot', 'church'];between;Mix;visual;1.0
+['church', 'onion'];between;Mix;visual;1.0
+['church', 'dandelion'];between;Mix;visual;1.0
+['church', 'palm tree'];between;Mix;visual;1.0
+['church', 'rose'];between;Mix;visual;1.0
+['church', 'sunflower'];between;Mix;visual;1.0
+['church', 'tulip'];between;Mix;visual;1.0
+['church', 'cow'];between;Mix;visual;1.0
+['church', 'donkey'];between;Mix;visual;1.0
+['church', 'goat'];between;Mix;visual;1.0
+['church', 'horse'];between;Mix;visual;1.0
+['church', 'stag'];between;Mix;visual;1.0
+['church', 'eagle'];between;Mix;visual;1.0
+['church', 'owl'];between;Mix;visual;1.0
+['church', 'parrot'];between;Mix;visual;1.0
+['church', 'pigeon'];between;Mix;visual;1.0
+['church', 'stork'];between;Mix;visual;1.0
+['axe', 'church'];between;Mix;visual;1.0
+['church', 'hammer'];between;Mix;visual;1.0
+['church', 'pliers'];between;Mix;visual;1.0
+['church', 'saw'];between;Mix;visual;1.0
+['church', 'shovel'];between;Mix;visual;1.0
+['church', 'dishwasher'];between;Mix;visual;2.0
+['church', 'microwave'];between;Mix;visual;2.0
+['church', 'television'];between;Mix;visual;1.0
+['church', 'toaster'];between;Mix;visual;1.0
+['church', 'washing machine'];between;Mix;visual;2.0
+['blouse', 'church'];between;Mix;visual;1.0
+['church', 'coat'];between;Mix;visual;1.0
+['church', 'jacket'];between;Mix;visual;1.0
+['church', 'shirt'];between;Mix;visual;1.0
+['church', 'uniform'];between;Mix;visual;1.0
+['igloo', 'lighthouse'];within;VV;visual;1.0
+['igloo', 'pyramid'];within;VV;visual;2.0
+['igloo', 'windmill'];within;VV;visual;2.0
+['bicycle', 'igloo'];between;Mix;visual;1.0
+['bus', 'igloo'];between;Mix;visual;2.0
+['car', 'igloo'];between;Mix;visual;2.0
+['igloo', 'scooter'];between;Mix;visual;1.0
+['igloo', 'tractor'];between;Mix;visual;1.0
+['ant', 'igloo'];between;Mix;visual;1.0
+['butterfly', 'igloo'];between;Mix;visual;1.0
+['dragonfly', 'igloo'];between;Mix;visual;1.0
+['fly', 'igloo'];between;Mix;visual;1.0
+['igloo', 'ladybug'];between;Mix;visual;3.0
+['apple', 'igloo'];between;Mix;visual;2.0
+['banana', 'igloo'];between;Mix;visual;1.0
+['cherry', 'igloo'];between;Mix;visual;1.0
+['igloo', 'lemon'];between;Mix;visual;3.0
+['igloo', 'raspberry'];between;Mix;visual;3.0
+['asparagus', 'igloo'];between;Mix;visual;1.0
+['bell pepper', 'igloo'];between;Mix;visual;3.0
+['broccoli', 'igloo'];between;Mix;visual;3.0
+['carrot', 'igloo'];between;Mix;visual;1.0
+['igloo', 'onion'];between;Mix;visual;3.0
+['dandelion', 'igloo'];between;Mix;visual;1.0
+['igloo', 'palm tree'];between;Mix;visual;1.0
+['igloo', 'rose'];between;Mix;visual;1.0
+['igloo', 'sunflower'];between;Mix;visual;1.0
+['igloo', 'tulip'];between;Mix;visual;1.0
+['cow', 'igloo'];between;Mix;visual;1.0
+['donkey', 'igloo'];between;Mix;visual;1.0
+['goat', 'igloo'];between;Mix;visual;1.0
+['horse', 'igloo'];between;Mix;visual;1.0
+['igloo', 'stag'];between;Mix;visual;1.0
+['eagle', 'igloo'];between;Mix;visual;1.0
+['igloo', 'owl'];between;Mix;visual;1.0
+['igloo', 'parrot'];between;Mix;visual;1.0
+['igloo', 'pigeon'];between;Mix;visual;2.0
+['igloo', 'stork'];between;Mix;visual;1.0
+['axe', 'igloo'];between;Mix;visual;1.0
+['hammer', 'igloo'];between;Mix;visual;1.0
+['igloo', 'pliers'];between;Mix;visual;1.0
+['igloo', 'saw'];between;Mix;visual;1.0
+['igloo', 'shovel'];between;Mix;visual;1.0
+['dishwasher', 'igloo'];between;Mix;visual;2.0
+['igloo', 'microwave'];between;Mix;visual;1.0
+['igloo', 'television'];between;Mix;visual;2.0
+['igloo', 'toaster'];between;Mix;visual;2.0
+['igloo', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'igloo'];between;Mix;visual;1.0
+['coat', 'igloo'];between;Mix;visual;1.0
+['igloo', 'jacket'];between;Mix;visual;1.0
+['igloo', 'shirt'];between;Mix;visual;1.0
+['igloo', 'uniform'];between;Mix;visual;1.0
+['lighthouse', 'pyramid'];within;VV;visual;1.0
+['lighthouse', 'windmill'];within;VV;visual;3.0
+['bicycle', 'lighthouse'];between;Mix;visual;1.0
+['bus', 'lighthouse'];between;Mix;visual;1.0
+['car', 'lighthouse'];between;Mix;visual;1.0
+['lighthouse', 'scooter'];between;Mix;visual;1.0
+['lighthouse', 'tractor'];between;Mix;visual;1.0
+['ant', 'lighthouse'];between;Mix;visual;1.0
+['butterfly', 'lighthouse'];between;Mix;visual;1.0
+['dragonfly', 'lighthouse'];between;Mix;visual;1.0
+['fly', 'lighthouse'];between;Mix;visual;1.0
+['ladybug', 'lighthouse'];between;Mix;visual;1.0
+['apple', 'lighthouse'];between;Mix;visual;1.0
+['banana', 'lighthouse'];between;Mix;visual;2.0
+['cherry', 'lighthouse'];between;Mix;visual;1.0
+['lemon', 'lighthouse'];between;Mix;visual;1.0
+['lighthouse', 'raspberry'];between;Mix;visual;1.0
+['asparagus', 'lighthouse'];between;Mix;visual;2.0
+['bell pepper', 'lighthouse'];between;Mix;visual;1.0
+['broccoli', 'lighthouse'];between;Mix;visual;2.0
+['carrot', 'lighthouse'];between;Mix;visual;2.0
+['lighthouse', 'onion'];between;Mix;visual;1.0
+['dandelion', 'lighthouse'];between;Mix;visual;3.0
+['lighthouse', 'palm tree'];between;Mix;visual;3.0
+['lighthouse', 'rose'];between;Mix;visual;2.0
+['lighthouse', 'sunflower'];between;Mix;visual;2.0
+['lighthouse', 'tulip'];between;Mix;visual;4.0
+['cow', 'lighthouse'];between;Mix;visual;1.0
+['donkey', 'lighthouse'];between;Mix;visual;1.0
+['goat', 'lighthouse'];between;Mix;visual;1.0
+['horse', 'lighthouse'];between;Mix;visual;1.0
+['lighthouse', 'stag'];between;Mix;visual;2.0
+['eagle', 'lighthouse'];between;Mix;visual;1.0
+['lighthouse', 'owl'];between;Mix;visual;1.0
+['lighthouse', 'parrot'];between;Mix;visual;1.0
+['lighthouse', 'pigeon'];between;Mix;visual;1.0
+['lighthouse', 'stork'];between;Mix;visual;1.0
+['axe', 'lighthouse'];between;Mix;visual;2.0
+['hammer', 'lighthouse'];between;Mix;visual;3.0
+['lighthouse', 'pliers'];between;Mix;visual;2.0
+['lighthouse', 'saw'];between;Mix;visual;1.0
+['lighthouse', 'shovel'];between;Mix;visual;3.0
+['dishwasher', 'lighthouse'];between;Mix;visual;1.0
+['lighthouse', 'microwave'];between;Mix;visual;1.0
+['lighthouse', 'television'];between;Mix;visual;1.0
+['lighthouse', 'toaster'];between;Mix;visual;1.0
+['lighthouse', 'washing machine'];between;Mix;visual;2.0
+['blouse', 'lighthouse'];between;Mix;visual;1.0
+['coat', 'lighthouse'];between;Mix;visual;2.0
+['jacket', 'lighthouse'];between;Mix;visual;2.0
+['lighthouse', 'shirt'];between;Mix;visual;1.0
+['lighthouse', 'uniform'];between;Mix;visual;2.0
+['pyramid', 'windmill'];within;VV;visual;3.0
+['bicycle', 'pyramid'];between;Mix;visual;1.0
+['bus', 'pyramid'];between;Mix;visual;1.0
+['car', 'pyramid'];between;Mix;visual;1.0
+['pyramid', 'scooter'];between;Mix;visual;1.0
+['pyramid', 'tractor'];between;Mix;visual;1.0
+['ant', 'pyramid'];between;Mix;visual;1.0
+['butterfly', 'pyramid'];between;Mix;visual;1.0
+['dragonfly', 'pyramid'];between;Mix;visual;1.0
+['fly', 'pyramid'];between;Mix;visual;1.0
+['ladybug', 'pyramid'];between;Mix;visual;1.0
+['apple', 'pyramid'];between;Mix;visual;1.0
+['banana', 'pyramid'];between;Mix;visual;1.0
+['cherry', 'pyramid'];between;Mix;visual;1.0
+['lemon', 'pyramid'];between;Mix;visual;1.0
+['pyramid', 'raspberry'];between;Mix;visual;1.0
+['asparagus', 'pyramid'];between;Mix;visual;1.0
+['bell pepper', 'pyramid'];between;Mix;visual;1.0
+['broccoli', 'pyramid'];between;Mix;visual;1.0
+['carrot', 'pyramid'];between;Mix;visual;1.0
+['onion', 'pyramid'];between;Mix;visual;1.0
+['dandelion', 'pyramid'];between;Mix;visual;1.0
+['palm tree', 'pyramid'];between;Mix;visual;1.0
+['pyramid', 'rose'];between;Mix;visual;1.0
+['pyramid', 'sunflower'];between;Mix;visual;1.0
+['pyramid', 'tulip'];between;Mix;visual;1.0
+['cow', 'pyramid'];between;Mix;visual;1.0
+['donkey', 'pyramid'];between;Mix;visual;1.0
+['goat', 'pyramid'];between;Mix;visual;1.0
+['horse', 'pyramid'];between;Mix;visual;1.0
+['pyramid', 'stag'];between;Mix;visual;1.0
+['eagle', 'pyramid'];between;Mix;visual;1.0
+['owl', 'pyramid'];between;Mix;visual;1.0
+['parrot', 'pyramid'];between;Mix;visual;1.0
+['pigeon', 'pyramid'];between;Mix;visual;1.0
+['pyramid', 'stork'];between;Mix;visual;1.0
+['axe', 'pyramid'];between;Mix;visual;1.0
+['hammer', 'pyramid'];between;Mix;visual;1.0
+['pliers', 'pyramid'];between;Mix;visual;1.0
+['pyramid', 'saw'];between;Mix;visual;1.0
+['pyramid', 'shovel'];between;Mix;visual;1.0
+['dishwasher', 'pyramid'];between;Mix;visual;1.0
+['microwave', 'pyramid'];between;Mix;visual;1.0
+['pyramid', 'television'];between;Mix;visual;2.0
+['pyramid', 'toaster'];between;Mix;visual;2.0
+['pyramid', 'washing machine'];between;Mix;visual;2.0
+['blouse', 'pyramid'];between;Mix;visual;1.0
+['coat', 'pyramid'];between;Mix;visual;1.0
+['jacket', 'pyramid'];between;Mix;visual;1.0
+['pyramid', 'shirt'];between;Mix;visual;1.0
+['pyramid', 'uniform'];between;Mix;visual;1.0
+['bicycle', 'windmill'];between;Mix;visual;1.0
+['bus', 'windmill'];between;Mix;visual;1.0
+['car', 'windmill'];between;Mix;visual;1.0
+['scooter', 'windmill'];between;Mix;visual;1.0
+['tractor', 'windmill'];between;Mix;visual;1.0
+['ant', 'windmill'];between;Mix;visual;1.0
+['butterfly', 'windmill'];between;Mix;visual;1.0
+['dragonfly', 'windmill'];between;Mix;visual;3.0
+['fly', 'windmill'];between;Mix;visual;1.0
+['ladybug', 'windmill'];between;Mix;visual;1.0
+['apple', 'windmill'];between;Mix;visual;1.0
+['banana', 'windmill'];between;Mix;visual;1.0
+['cherry', 'windmill'];between;Mix;visual;1.0
+['lemon', 'windmill'];between;Mix;visual;1.0
+['raspberry', 'windmill'];between;Mix;visual;1.0
+['asparagus', 'windmill'];between;Mix;visual;2.0
+['bell pepper', 'windmill'];between;Mix;visual;2.0
+['broccoli', 'windmill'];between;Mix;visual;2.0
+['carrot', 'windmill'];between;Mix;visual;1.0
+['onion', 'windmill'];between;Mix;visual;1.0
+['dandelion', 'windmill'];between;Mix;visual;2.0
+['palm tree', 'windmill'];between;Mix;visual;3.0
+['rose', 'windmill'];between;Mix;visual;2.0
+['sunflower', 'windmill'];between;Mix;visual;3.0
+['tulip', 'windmill'];between;Mix;visual;1.0
+['cow', 'windmill'];between;Mix;visual;1.0
+['donkey', 'windmill'];between;Mix;visual;1.0
+['goat', 'windmill'];between;Mix;visual;1.0
+['horse', 'windmill'];between;Mix;visual;1.0
+['stag', 'windmill'];between;Mix;visual;2.0
+['eagle', 'windmill'];between;Mix;visual;1.0
+['owl', 'windmill'];between;Mix;visual;1.0
+['parrot', 'windmill'];between;Mix;visual;1.0
+['pigeon', 'windmill'];between;Mix;visual;1.0
+['stork', 'windmill'];between;Mix;visual;1.0
+['axe', 'windmill'];between;Mix;visual;1.0
+['hammer', 'windmill'];between;Mix;visual;1.0
+['pliers', 'windmill'];between;Mix;visual;1.0
+['saw', 'windmill'];between;Mix;visual;1.0
+['shovel', 'windmill'];between;Mix;visual;2.0
+['dishwasher', 'windmill'];between;Mix;visual;1.0
+['microwave', 'windmill'];between;Mix;visual;1.0
+['television', 'windmill'];between;Mix;visual;1.0
+['toaster', 'windmill'];between;Mix;visual;2.0
+['washing machine', 'windmill'];between;Mix;visual;2.0
+['blouse', 'windmill'];between;Mix;visual;2.0
+['coat', 'windmill'];between;Mix;visual;1.0
+['jacket', 'windmill'];between;Mix;visual;1.0
+['shirt', 'windmill'];between;Mix;visual;1.0
+['uniform', 'windmill'];between;Mix;visual;1.0
+['bicycle', 'bus'];within;VV;visual;3.0
+['bicycle', 'car'];within;VV;visual;1.0
+['bicycle', 'scooter'];within;VV;visual;4.0
+['bicycle', 'tractor'];within;VV;visual;3.0
+['ant', 'bicycle'];between;Mix;visual;1.0
+['bicycle', 'butterfly'];between;Mix;visual;2.0
+['bicycle', 'dragonfly'];between;Mix;visual;1.0
+['bicycle', 'fly'];between;Mix;visual;1.0
+['bicycle', 'ladybug'];between;Mix;visual;1.0
+['apple', 'bicycle'];between;Mix;visual;1.0
+['banana', 'bicycle'];between;Mix;visual;1.0
+['bicycle', 'cherry'];between;Mix;visual;3.0
+['bicycle', 'lemon'];between;Mix;visual;1.0
+['bicycle', 'raspberry'];between;Mix;visual;1.0
+['asparagus', 'bicycle'];between;Mix;visual;1.0
+['bell pepper', 'bicycle'];between;Mix;visual;1.0
+['bicycle', 'broccoli'];between;Mix;visual;1.0
+['bicycle', 'carrot'];between;Mix;visual;1.0
+['bicycle', 'onion'];between;Mix;visual;1.0
+['bicycle', 'dandelion'];between;Mix;visual;1.0
+['bicycle', 'palm tree'];between;Mix;visual;1.0
+['bicycle', 'rose'];between;Mix;visual;1.0
+['bicycle', 'sunflower'];between;Mix;visual;1.0
+['bicycle', 'tulip'];between;Mix;visual;1.0
+['bicycle', 'cow'];between;Mix;visual;2.0
+['bicycle', 'donkey'];between;Mix;visual;2.0
+['bicycle', 'goat'];between;Mix;visual;2.0
+['bicycle', 'horse'];between;Mix;visual;3.0
+['bicycle', 'stag'];between;Mix;visual;1.0
+['bicycle', 'eagle'];between;Mix;visual;1.0
+['bicycle', 'owl'];between;Mix;visual;1.0
+['bicycle', 'parrot'];between;Mix;visual;1.0
+['bicycle', 'pigeon'];between;Mix;visual;1.0
+['bicycle', 'stork'];between;Mix;visual;1.0
+['axe', 'bicycle'];between;Mix;visual;1.0
+['bicycle', 'hammer'];between;Mix;visual;1.0
+['bicycle', 'pliers'];between;Mix;visual;1.0
+['bicycle', 'saw'];between;Mix;visual;1.0
+['bicycle', 'shovel'];between;Mix;visual;1.0
+['bicycle', 'dishwasher'];between;Mix;visual;1.0
+['bicycle', 'microwave'];between;Mix;visual;1.0
+['bicycle', 'television'];between;Mix;visual;1.0
+['bicycle', 'toaster'];between;Mix;visual;1.0
+['bicycle', 'washing machine'];between;Mix;visual;1.0
+['bicycle', 'blouse'];between;Mix;visual;2.0
+['bicycle', 'coat'];between;Mix;visual;1.0
+['bicycle', 'jacket'];between;Mix;visual;1.0
+['bicycle', 'shirt'];between;Mix;visual;1.0
+['bicycle', 'uniform'];between;Mix;visual;1.0
+['bus', 'car'];within;VV;visual;3.0
+['bus', 'scooter'];within;VV;visual;1.0
+['bus', 'tractor'];within;VV;visual;2.0
+['ant', 'bus'];between;Mix;visual;2.0
+['bus', 'butterfly'];between;Mix;visual;1.0
+['bus', 'dragonfly'];between;Mix;visual;1.0
+['bus', 'fly'];between;Mix;visual;1.0
+['bus', 'ladybug'];between;Mix;visual;1.0
+['apple', 'bus'];between;Mix;visual;1.0
+['banana', 'bus'];between;Mix;visual;2.0
+['bus', 'cherry'];between;Mix;visual;1.0
+['bus', 'lemon'];between;Mix;visual;1.0
+['bus', 'raspberry'];between;Mix;visual;1.0
+['asparagus', 'bus'];between;Mix;visual;1.0
+['bell pepper', 'bus'];between;Mix;visual;1.0
+['broccoli', 'bus'];between;Mix;visual;1.0
+['bus', 'carrot'];between;Mix;visual;1.0
+['bus', 'onion'];between;Mix;visual;1.0
+['bus', 'dandelion'];between;Mix;visual;1.0
+['bus', 'palm tree'];between;Mix;visual;1.0
+['bus', 'rose'];between;Mix;visual;1.0
+['bus', 'sunflower'];between;Mix;visual;1.0
+['bus', 'tulip'];between;Mix;visual;1.0
+['bus', 'cow'];between;Mix;visual;3.0
+['bus', 'donkey'];between;Mix;visual;2.0
+['bus', 'goat'];between;Mix;visual;1.0
+['bus', 'horse'];between;Mix;visual;2.0
+['bus', 'stag'];between;Mix;visual;1.0
+['bus', 'eagle'];between;Mix;visual;1.0
+['bus', 'owl'];between;Mix;visual;1.0
+['bus', 'parrot'];between;Mix;visual;1.0
+['bus', 'pigeon'];between;Mix;visual;1.0
+['bus', 'stork'];between;Mix;visual;1.0
+['axe', 'bus'];between;Mix;visual;1.0
+['bus', 'hammer'];between;Mix;visual;2.0
+['bus', 'pliers'];between;Mix;visual;1.0
+['bus', 'saw'];between;Mix;visual;1.0
+['bus', 'shovel'];between;Mix;visual;1.0
+['bus', 'dishwasher'];between;Mix;visual;2.0
+['bus', 'microwave'];between;Mix;visual;3.0
+['bus', 'television'];between;Mix;visual;2.0
+['bus', 'toaster'];between;Mix;visual;1.0
+['bus', 'washing machine'];between;Mix;visual;2.0
+['blouse', 'bus'];between;Mix;visual;1.0
+['bus', 'coat'];between;Mix;visual;1.0
+['bus', 'jacket'];between;Mix;visual;1.0
+['bus', 'shirt'];between;Mix;visual;1.0
+['bus', 'uniform'];between;Mix;visual;1.0
+['car', 'scooter'];within;VV;visual;1.0
+['car', 'tractor'];within;VV;visual;4.0
+['ant', 'car'];between;Mix;visual;1.0
+['butterfly', 'car'];between;Mix;visual;1.0
+['car', 'dragonfly'];between;Mix;visual;1.0
+['car', 'fly'];between;Mix;visual;2.0
+['car', 'ladybug'];between;Mix;visual;1.0
+['apple', 'car'];between;Mix;visual;1.0
+['banana', 'car'];between;Mix;visual;1.0
+['car', 'cherry'];between;Mix;visual;1.0
+['car', 'lemon'];between;Mix;visual;2.0
+['car', 'raspberry'];between;Mix;visual;1.0
+['asparagus', 'car'];between;Mix;visual;1.0
+['bell pepper', 'car'];between;Mix;visual;1.0
+['broccoli', 'car'];between;Mix;visual;1.0
+['car', 'carrot'];between;Mix;visual;1.0
+['car', 'onion'];between;Mix;visual;1.0
+['car', 'dandelion'];between;Mix;visual;1.0
+['car', 'palm tree'];between;Mix;visual;1.0
+['car', 'rose'];between;Mix;visual;1.0
+['car', 'sunflower'];between;Mix;visual;1.0
+['car', 'tulip'];between;Mix;visual;1.0
+['car', 'cow'];between;Mix;visual;3.0
+['car', 'donkey'];between;Mix;visual;2.0
+['car', 'goat'];between;Mix;visual;3.0
+['car', 'horse'];between;Mix;visual;1.0
+['car', 'stag'];between;Mix;visual;1.0
+['car', 'eagle'];between;Mix;visual;1.0
+['car', 'owl'];between;Mix;visual;1.0
+['car', 'parrot'];between;Mix;visual;1.0
+['car', 'pigeon'];between;Mix;visual;1.0
+['car', 'stork'];between;Mix;visual;1.0
+['axe', 'car'];between;Mix;visual;1.0
+['car', 'hammer'];between;Mix;visual;1.0
+['car', 'pliers'];between;Mix;visual;1.0
+['car', 'saw'];between;Mix;visual;1.0
+['car', 'shovel'];between;Mix;visual;1.0
+['car', 'dishwasher'];between;Mix;visual;1.0
+['car', 'microwave'];between;Mix;visual;1.0
+['car', 'television'];between;Mix;visual;2.0
+['car', 'toaster'];between;Mix;visual;2.0
+['car', 'washing machine'];between;Mix;visual;2.0
+['blouse', 'car'];between;Mix;visual;1.0
+['car', 'coat'];between;Mix;visual;1.0
+['car', 'jacket'];between;Mix;visual;1.0
+['car', 'shirt'];between;Mix;visual;1.0
+['car', 'uniform'];between;Mix;visual;1.0
+['scooter', 'tractor'];within;VV;visual;3.0
+['ant', 'scooter'];between;Mix;visual;1.0
+['butterfly', 'scooter'];between;Mix;visual;1.0
+['dragonfly', 'scooter'];between;Mix;visual;1.0
+['fly', 'scooter'];between;Mix;visual;2.0
+['ladybug', 'scooter'];between;Mix;visual;1.0
+['apple', 'scooter'];between;Mix;visual;1.0
+['banana', 'scooter'];between;Mix;visual;2.0
+['cherry', 'scooter'];between;Mix;visual;1.0
+['lemon', 'scooter'];between;Mix;visual;1.0
+['raspberry', 'scooter'];between;Mix;visual;1.0
+['asparagus', 'scooter'];between;Mix;visual;1.0
+['bell pepper', 'scooter'];between;Mix;visual;1.0
+['broccoli', 'scooter'];between;Mix;visual;1.0
+['carrot', 'scooter'];between;Mix;visual;1.0
+['onion', 'scooter'];between;Mix;visual;1.0
+['dandelion', 'scooter'];between;Mix;visual;2.0
+['palm tree', 'scooter'];between;Mix;visual;1.0
+['rose', 'scooter'];between;Mix;visual;1.0
+['scooter', 'sunflower'];between;Mix;visual;1.0
+['scooter', 'tulip'];between;Mix;visual;2.0
+['cow', 'scooter'];between;Mix;visual;1.0
+['donkey', 'scooter'];between;Mix;visual;1.0
+['goat', 'scooter'];between;Mix;visual;2.0
+['horse', 'scooter'];between;Mix;visual;1.0
+['scooter', 'stag'];between;Mix;visual;2.0
+['eagle', 'scooter'];between;Mix;visual;1.0
+['owl', 'scooter'];between;Mix;visual;1.0
+['parrot', 'scooter'];between;Mix;visual;1.0
+['pigeon', 'scooter'];between;Mix;visual;2.0
+['scooter', 'stork'];between;Mix;visual;1.0
+['axe', 'scooter'];between;Mix;visual;1.0
+['hammer', 'scooter'];between;Mix;visual;2.0
+['pliers', 'scooter'];between;Mix;visual;1.0
+['saw', 'scooter'];between;Mix;visual;2.0
+['scooter', 'shovel'];between;Mix;visual;2.0
+['dishwasher', 'scooter'];between;Mix;visual;1.0
+['microwave', 'scooter'];between;Mix;visual;1.0
+['scooter', 'television'];between;Mix;visual;1.0
+['scooter', 'toaster'];between;Mix;visual;1.0
+['scooter', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'scooter'];between;Mix;visual;1.0
+['coat', 'scooter'];between;Mix;visual;1.0
+['jacket', 'scooter'];between;Mix;visual;1.0
+['scooter', 'shirt'];between;Mix;visual;1.0
+['scooter', 'uniform'];between;Mix;visual;1.0
+['ant', 'tractor'];between;Mix;visual;1.0
+['butterfly', 'tractor'];between;Mix;visual;1.0
+['dragonfly', 'tractor'];between;Mix;visual;1.0
+['fly', 'tractor'];between;Mix;visual;1.0
+['ladybug', 'tractor'];between;Mix;visual;2.0
+['apple', 'tractor'];between;Mix;visual;1.0
+['banana', 'tractor'];between;Mix;visual;1.0
+['cherry', 'tractor'];between;Mix;visual;1.0
+['lemon', 'tractor'];between;Mix;visual;1.0
+['raspberry', 'tractor'];between;Mix;visual;1.0
+['asparagus', 'tractor'];between;Mix;visual;1.0
+['bell pepper', 'tractor'];between;Mix;visual;1.0
+['broccoli', 'tractor'];between;Mix;visual;2.0
+['carrot', 'tractor'];between;Mix;visual;1.0
+['onion', 'tractor'];between;Mix;visual;1.0
+['dandelion', 'tractor'];between;Mix;visual;1.0
+['palm tree', 'tractor'];between;Mix;visual;1.0
+['rose', 'tractor'];between;Mix;visual;1.0
+['sunflower', 'tractor'];between;Mix;visual;1.0
+['tractor', 'tulip'];between;Mix;visual;1.0
+['cow', 'tractor'];between;Mix;visual;2.0
+['donkey', 'tractor'];between;Mix;visual;3.0
+['goat', 'tractor'];between;Mix;visual;3.0
+['horse', 'tractor'];between;Mix;visual;2.0
+['stag', 'tractor'];between;Mix;visual;1.0
+['eagle', 'tractor'];between;Mix;visual;1.0
+['owl', 'tractor'];between;Mix;visual;1.0
+['parrot', 'tractor'];between;Mix;visual;1.0
+['pigeon', 'tractor'];between;Mix;visual;1.0
+['stork', 'tractor'];between;Mix;visual;1.0
+['axe', 'tractor'];between;Mix;visual;1.0
+['hammer', 'tractor'];between;Mix;visual;1.0
+['pliers', 'tractor'];between;Mix;visual;1.0
+['saw', 'tractor'];between;Mix;visual;1.0
+['shovel', 'tractor'];between;Mix;visual;1.0
+['dishwasher', 'tractor'];between;Mix;visual;2.0
+['microwave', 'tractor'];between;Mix;visual;1.0
+['television', 'tractor'];between;Mix;visual;2.0
+['toaster', 'tractor'];between;Mix;visual;1.0
+['tractor', 'washing machine'];between;Mix;visual;2.0
+['blouse', 'tractor'];between;Mix;visual;1.0
+['coat', 'tractor'];between;Mix;visual;1.0
+['jacket', 'tractor'];between;Mix;visual;1.0
+['shirt', 'tractor'];between;Mix;visual;1.0
+['tractor', 'uniform'];between;Mix;visual;2.0
+['ant', 'butterfly'];within;VV;visual;2.0
+['ant', 'dragonfly'];within;VV;visual;3.0
+['ant', 'fly'];within;VV;visual;5.0
+['ant', 'ladybug'];within;VV;visual;3.0
+['ant', 'apple'];between;Mix;visual;1.0
+['ant', 'banana'];between;Mix;visual;1.0
+['ant', 'cherry'];between;Mix;visual;2.0
+['ant', 'lemon'];between;Mix;visual;2.0
+['ant', 'raspberry'];between;Mix;visual;1.0
+['ant', 'asparagus'];between;Mix;visual;1.0
+['ant', 'bell pepper'];between;Mix;visual;1.0
+['ant', 'broccoli'];between;Mix;visual;1.0
+['ant', 'carrot'];between;Mix;visual;1.0
+['ant', 'onion'];between;Mix;visual;1.0
+['ant', 'dandelion'];between;Mix;visual;1.0
+['ant', 'palm tree'];between;Mix;visual;1.0
+['ant', 'rose'];between;Mix;visual;2.0
+['ant', 'sunflower'];between;Mix;visual;1.0
+['ant', 'tulip'];between;Mix;visual;1.0
+['ant', 'cow'];between;Mix;visual;3.0
+['ant', 'donkey'];between;Mix;visual;2.0
+['ant', 'goat'];between;Mix;visual;4.0
+['ant', 'horse'];between;Mix;visual;1.0
+['ant', 'stag'];between;Mix;visual;3.0
+['ant', 'eagle'];between;Mix;visual;2.0
+['ant', 'owl'];between;Mix;visual;2.0
+['ant', 'parrot'];between;Mix;visual;2.0
+['ant', 'pigeon'];between;Mix;visual;2.0
+['ant', 'stork'];between;Mix;visual;3.0
+['ant', 'axe'];between;Mix;visual;1.0
+['ant', 'hammer'];between;Mix;visual;1.0
+['ant', 'pliers'];between;Mix;visual;1.0
+['ant', 'saw'];between;Mix;visual;1.0
+['ant', 'shovel'];between;Mix;visual;1.0
+['ant', 'dishwasher'];between;Mix;visual;1.0
+['ant', 'microwave'];between;Mix;visual;1.0
+['ant', 'television'];between;Mix;visual;1.0
+['ant', 'toaster'];between;Mix;visual;1.0
+['ant', 'washing machine'];between;Mix;visual;1.0
+['ant', 'blouse'];between;Mix;visual;1.0
+['ant', 'coat'];between;Mix;visual;1.0
+['ant', 'jacket'];between;Mix;visual;1.0
+['ant', 'shirt'];between;Mix;visual;1.0
+['ant', 'uniform'];between;Mix;visual;1.0
+['butterfly', 'dragonfly'];within;VV;visual;3.0
+['butterfly', 'fly'];within;VV;visual;4.0
+['butterfly', 'ladybug'];within;VV;visual;2.0
+['apple', 'butterfly'];between;Mix;visual;2.0
+['banana', 'butterfly'];between;Mix;visual;1.0
+['butterfly', 'cherry'];between;Mix;visual;2.0
+['butterfly', 'lemon'];between;Mix;visual;1.0
+['butterfly', 'raspberry'];between;Mix;visual;1.0
+['asparagus', 'butterfly'];between;Mix;visual;1.0
+['bell pepper', 'butterfly'];between;Mix;visual;1.0
+['broccoli', 'butterfly'];between;Mix;visual;2.0
+['butterfly', 'carrot'];between;Mix;visual;1.0
+['butterfly', 'onion'];between;Mix;visual;2.0
+['butterfly', 'dandelion'];between;Mix;visual;1.0
+['butterfly', 'palm tree'];between;Mix;visual;2.0
+['butterfly', 'rose'];between;Mix;visual;2.0
+['butterfly', 'sunflower'];between;Mix;visual;2.0
+['butterfly', 'tulip'];between;Mix;visual;1.0
+['butterfly', 'cow'];between;Mix;visual;1.0
+['butterfly', 'donkey'];between;Mix;visual;1.0
+['butterfly', 'goat'];between;Mix;visual;2.0
+['butterfly', 'horse'];between;Mix;visual;1.0
+['butterfly', 'stag'];between;Mix;visual;1.0
+['butterfly', 'eagle'];between;Mix;visual;3.0
+['butterfly', 'owl'];between;Mix;visual;1.0
+['butterfly', 'parrot'];between;Mix;visual;1.0
+['butterfly', 'pigeon'];between;Mix;visual;2.0
+['butterfly', 'stork'];between;Mix;visual;2.0
+['axe', 'butterfly'];between;Mix;visual;1.0
+['butterfly', 'hammer'];between;Mix;visual;1.0
+['butterfly', 'pliers'];between;Mix;visual;1.0
+['butterfly', 'saw'];between;Mix;visual;1.0
+['butterfly', 'shovel'];between;Mix;visual;1.0
+['butterfly', 'dishwasher'];between;Mix;visual;1.0
+['butterfly', 'microwave'];between;Mix;visual;1.0
+['butterfly', 'television'];between;Mix;visual;2.0
+['butterfly', 'toaster'];between;Mix;visual;1.0
+['butterfly', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'butterfly'];between;Mix;visual;2.0
+['butterfly', 'coat'];between;Mix;visual;1.0
+['butterfly', 'jacket'];between;Mix;visual;1.0
+['butterfly', 'shirt'];between;Mix;visual;2.0
+['butterfly', 'uniform'];between;Mix;visual;1.0
+['dragonfly', 'fly'];within;VV;visual;3.0
+['dragonfly', 'ladybug'];within;VV;visual;3.0
+['apple', 'dragonfly'];between;Mix;visual;1.0
+['banana', 'dragonfly'];between;Mix;visual;2.0
+['cherry', 'dragonfly'];between;Mix;visual;1.0
+['dragonfly', 'lemon'];between;Mix;visual;1.0
+['dragonfly', 'raspberry'];between;Mix;visual;1.0
+['asparagus', 'dragonfly'];between;Mix;visual;2.0
+['bell pepper', 'dragonfly'];between;Mix;visual;1.0
+['broccoli', 'dragonfly'];between;Mix;visual;1.0
+['carrot', 'dragonfly'];between;Mix;visual;3.0
+['dragonfly', 'onion'];between;Mix;visual;2.0
+['dandelion', 'dragonfly'];between;Mix;visual;3.0
+['dragonfly', 'palm tree'];between;Mix;visual;2.0
+['dragonfly', 'rose'];between;Mix;visual;3.0
+['dragonfly', 'sunflower'];between;Mix;visual;2.0
+['dragonfly', 'tulip'];between;Mix;visual;3.0
+['cow', 'dragonfly'];between;Mix;visual;1.0
+['donkey', 'dragonfly'];between;Mix;visual;1.0
+['dragonfly', 'goat'];between;Mix;visual;2.0
+['dragonfly', 'horse'];between;Mix;visual;1.0
+['dragonfly', 'stag'];between;Mix;visual;1.0
+['dragonfly', 'eagle'];between;Mix;visual;2.0
+['dragonfly', 'owl'];between;Mix;visual;1.0
+['dragonfly', 'parrot'];between;Mix;visual;2.0
+['dragonfly', 'pigeon'];between;Mix;visual;2.0
+['dragonfly', 'stork'];between;Mix;visual;2.0
+['axe', 'dragonfly'];between;Mix;visual;3.0
+['dragonfly', 'hammer'];between;Mix;visual;3.0
+['dragonfly', 'pliers'];between;Mix;visual;2.0
+['dragonfly', 'saw'];between;Mix;visual;2.0
+['dragonfly', 'shovel'];between;Mix;visual;4.0
+['dishwasher', 'dragonfly'];between;Mix;visual;1.0
+['dragonfly', 'microwave'];between;Mix;visual;1.0
+['dragonfly', 'television'];between;Mix;visual;1.0
+['dragonfly', 'toaster'];between;Mix;visual;1.0
+['dragonfly', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'dragonfly'];between;Mix;visual;1.0
+['coat', 'dragonfly'];between;Mix;visual;1.0
+['dragonfly', 'jacket'];between;Mix;visual;1.0
+['dragonfly', 'shirt'];between;Mix;visual;1.0
+['dragonfly', 'uniform'];between;Mix;visual;1.0
+['fly', 'ladybug'];within;VV;visual;3.0
+['apple', 'fly'];between;Mix;visual;1.0
+['banana', 'fly'];between;Mix;visual;1.0
+['cherry', 'fly'];between;Mix;visual;1.0
+['fly', 'lemon'];between;Mix;visual;2.0
+['fly', 'raspberry'];between;Mix;visual;1.0
+['asparagus', 'fly'];between;Mix;visual;1.0
+['bell pepper', 'fly'];between;Mix;visual;1.0
+['broccoli', 'fly'];between;Mix;visual;1.0
+['carrot', 'fly'];between;Mix;visual;1.0
+['fly', 'onion'];between;Mix;visual;1.0
+['dandelion', 'fly'];between;Mix;visual;1.0
+['fly', 'palm tree'];between;Mix;visual;1.0
+['fly', 'rose'];between;Mix;visual;1.0
+['fly', 'sunflower'];between;Mix;visual;1.0
+['fly', 'tulip'];between;Mix;visual;2.0
+['cow', 'fly'];between;Mix;visual;2.0
+['donkey', 'fly'];between;Mix;visual;2.0
+['fly', 'goat'];between;Mix;visual;2.0
+['fly', 'horse'];between;Mix;visual;1.0
+['fly', 'stag'];between;Mix;visual;1.0
+['eagle', 'fly'];between;Mix;visual;2.0
+['fly', 'owl'];between;Mix;visual;2.0
+['fly', 'parrot'];between;Mix;visual;2.0
+['fly', 'pigeon'];between;Mix;visual;1.0
+['fly', 'stork'];between;Mix;visual;2.0
+['axe', 'fly'];between;Mix;visual;1.0
+['fly', 'hammer'];between;Mix;visual;1.0
+['fly', 'pliers'];between;Mix;visual;2.0
+['fly', 'saw'];between;Mix;visual;1.0
+['fly', 'shovel'];between;Mix;visual;1.0
+['dishwasher', 'fly'];between;Mix;visual;1.0
+['fly', 'microwave'];between;Mix;visual;1.0
+['fly', 'television'];between;Mix;visual;1.0
+['fly', 'toaster'];between;Mix;visual;1.0
+['fly', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'fly'];between;Mix;visual;1.0
+['coat', 'fly'];between;Mix;visual;1.0
+['fly', 'jacket'];between;Mix;visual;1.0
+['fly', 'shirt'];between;Mix;visual;1.0
+['fly', 'uniform'];between;Mix;visual;1.0
+['apple', 'ladybug'];between;Mix;visual;5.0
+['banana', 'ladybug'];between;Mix;visual;1.0
+['cherry', 'ladybug'];between;Mix;visual;1.0
+['ladybug', 'lemon'];between;Mix;visual;5.0
+['ladybug', 'raspberry'];between;Mix;visual;4.0
+['asparagus', 'ladybug'];between;Mix;visual;1.0
+['bell pepper', 'ladybug'];between;Mix;visual;3.0
+['broccoli', 'ladybug'];between;Mix;visual;3.0
+['carrot', 'ladybug'];between;Mix;visual;1.0
+['ladybug', 'onion'];between;Mix;visual;3.0
+['dandelion', 'ladybug'];between;Mix;visual;1.0
+['ladybug', 'palm tree'];between;Mix;visual;1.0
+['ladybug', 'rose'];between;Mix;visual;1.0
+['ladybug', 'sunflower'];between;Mix;visual;1.0
+['ladybug', 'tulip'];between;Mix;visual;1.0
+['cow', 'ladybug'];between;Mix;visual;1.0
+['donkey', 'ladybug'];between;Mix;visual;2.0
+['goat', 'ladybug'];between;Mix;visual;2.0
+['horse', 'ladybug'];between;Mix;visual;1.0
+['ladybug', 'stag'];between;Mix;visual;2.0
+['eagle', 'ladybug'];between;Mix;visual;3.0
+['ladybug', 'owl'];between;Mix;visual;2.0
+['ladybug', 'parrot'];between;Mix;visual;1.0
+['ladybug', 'pigeon'];between;Mix;visual;2.0
+['ladybug', 'stork'];between;Mix;visual;1.0
+['axe', 'ladybug'];between;Mix;visual;1.0
+['hammer', 'ladybug'];between;Mix;visual;1.0
+['ladybug', 'pliers'];between;Mix;visual;1.0
+['ladybug', 'saw'];between;Mix;visual;2.0
+['ladybug', 'shovel'];between;Mix;visual;1.0
+['dishwasher', 'ladybug'];between;Mix;visual;1.0
+['ladybug', 'microwave'];between;Mix;visual;1.0
+['ladybug', 'television'];between;Mix;visual;1.0
+['ladybug', 'toaster'];between;Mix;visual;1.0
+['ladybug', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'ladybug'];between;Mix;visual;1.0
+['coat', 'ladybug'];between;Mix;visual;1.0
+['jacket', 'ladybug'];between;Mix;visual;1.0
+['ladybug', 'shirt'];between;Mix;visual;2.0
+['ladybug', 'uniform'];between;Mix;visual;1.0
+['apple', 'banana'];within;VV;visual;1.0
+['apple', 'cherry'];within;VV;visual;3.0
+['apple', 'lemon'];within;VV;visual;5.0
+['apple', 'raspberry'];within;VV;visual;5.0
+['apple', 'asparagus'];between;Mix;visual;1.0
+['apple', 'bell pepper'];between;Mix;visual;4.0
+['apple', 'broccoli'];between;Mix;visual;3.0
+['apple', 'carrot'];between;Mix;visual;2.0
+['apple', 'onion'];between;Mix;visual;5.0
+['apple', 'dandelion'];between;Mix;visual;1.0
+['apple', 'palm tree'];between;Mix;visual;1.0
+['apple', 'rose'];between;Mix;visual;2.0
+['apple', 'sunflower'];between;Mix;visual;2.0
+['apple', 'tulip'];between;Mix;visual;2.0
+['apple', 'cow'];between;Mix;visual;1.0
+['apple', 'donkey'];between;Mix;visual;1.0
+['apple', 'goat'];between;Mix;visual;1.0
+['apple', 'horse'];between;Mix;visual;1.0
+['apple', 'stag'];between;Mix;visual;1.0
+['apple', 'eagle'];between;Mix;visual;1.0
+['apple', 'owl'];between;Mix;visual;2.0
+['apple', 'parrot'];between;Mix;visual;1.0
+['apple', 'pigeon'];between;Mix;visual;1.0
+['apple', 'stork'];between;Mix;visual;1.0
+['apple', 'axe'];between;Mix;visual;1.0
+['apple', 'hammer'];between;Mix;visual;1.0
+['apple', 'pliers'];between;Mix;visual;1.0
+['apple', 'saw'];between;Mix;visual;1.0
+['apple', 'shovel'];between;Mix;visual;1.0
+['apple', 'dishwasher'];between;Mix;visual;1.0
+['apple', 'microwave'];between;Mix;visual;1.0
+['apple', 'television'];between;Mix;visual;1.0
+['apple', 'toaster'];between;Mix;visual;1.0
+['apple', 'washing machine'];between;Mix;visual;1.0
+['apple', 'blouse'];between;Mix;visual;2.0
+['apple', 'coat'];between;Mix;visual;1.0
+['apple', 'jacket'];between;Mix;visual;2.0
+['apple', 'shirt'];between;Mix;visual;1.0
+['apple', 'uniform'];between;Mix;visual;1.0
+['banana', 'cherry'];within;VV;visual;1.0
+['banana', 'lemon'];within;VV;visual;2.0
+['banana', 'raspberry'];within;VV;visual;1.0
+['asparagus', 'banana'];between;Mix;visual;3.0
+['banana', 'bell pepper'];between;Mix;visual;1.0
+['banana', 'broccoli'];between;Mix;visual;2.0
+['banana', 'carrot'];between;Mix;visual;4.0
+['banana', 'onion'];between;Mix;visual;1.0
+['banana', 'dandelion'];between;Mix;visual;2.0
+['banana', 'palm tree'];between;Mix;visual;3.0
+['banana', 'rose'];between;Mix;visual;1.0
+['banana', 'sunflower'];between;Mix;visual;2.0
+['banana', 'tulip'];between;Mix;visual;3.0
+['banana', 'cow'];between;Mix;visual;2.0
+['banana', 'donkey'];between;Mix;visual;1.0
+['banana', 'goat'];between;Mix;visual;1.0
+['banana', 'horse'];between;Mix;visual;1.0
+['banana', 'stag'];between;Mix;visual;1.0
+['banana', 'eagle'];between;Mix;visual;1.0
+['banana', 'owl'];between;Mix;visual;3.0
+['banana', 'parrot'];between;Mix;visual;2.0
+['banana', 'pigeon'];between;Mix;visual;1.0
+['banana', 'stork'];between;Mix;visual;1.0
+['axe', 'banana'];between;Mix;visual;3.0
+['banana', 'hammer'];between;Mix;visual;3.0
+['banana', 'pliers'];between;Mix;visual;4.0
+['banana', 'saw'];between;Mix;visual;4.0
+['banana', 'shovel'];between;Mix;visual;3.0
+['banana', 'dishwasher'];between;Mix;visual;1.0
+['banana', 'microwave'];between;Mix;visual;1.0
+['banana', 'television'];between;Mix;visual;1.0
+['banana', 'toaster'];between;Mix;visual;1.0
+['banana', 'washing machine'];between;Mix;visual;1.0
+['banana', 'blouse'];between;Mix;visual;1.0
+['banana', 'coat'];between;Mix;visual;1.0
+['banana', 'jacket'];between;Mix;visual;1.0
+['banana', 'shirt'];between;Mix;visual;1.0
+['banana', 'uniform'];between;Mix;visual;1.0
+['cherry', 'lemon'];within;VV;visual;3.0
+['cherry', 'raspberry'];within;VV;visual;2.0
+['asparagus', 'cherry'];between;Mix;visual;1.0
+['bell pepper', 'cherry'];between;Mix;visual;2.0
+['broccoli', 'cherry'];between;Mix;visual;2.0
+['carrot', 'cherry'];between;Mix;visual;1.0
+['cherry', 'onion'];between;Mix;visual;3.0
+['cherry', 'dandelion'];between;Mix;visual;2.0
+['cherry', 'palm tree'];between;Mix;visual;1.0
+['cherry', 'rose'];between;Mix;visual;1.0
+['cherry', 'sunflower'];between;Mix;visual;1.0
+['cherry', 'tulip'];between;Mix;visual;2.0
+['cherry', 'cow'];between;Mix;visual;1.0
+['cherry', 'donkey'];between;Mix;visual;1.0
+['cherry', 'goat'];between;Mix;visual;1.0
+['cherry', 'horse'];between;Mix;visual;1.0
+['cherry', 'stag'];between;Mix;visual;1.0
+['cherry', 'eagle'];between;Mix;visual;1.0
+['cherry', 'owl'];between;Mix;visual;1.0
+['cherry', 'parrot'];between;Mix;visual;1.0
+['cherry', 'pigeon'];between;Mix;visual;1.0
+['cherry', 'stork'];between;Mix;visual;1.0
+['axe', 'cherry'];between;Mix;visual;1.0
+['cherry', 'hammer'];between;Mix;visual;1.0
+['cherry', 'pliers'];between;Mix;visual;1.0
+['cherry', 'saw'];between;Mix;visual;1.0
+['cherry', 'shovel'];between;Mix;visual;1.0
+['cherry', 'dishwasher'];between;Mix;visual;1.0
+['cherry', 'microwave'];between;Mix;visual;1.0
+['cherry', 'television'];between;Mix;visual;1.0
+['cherry', 'toaster'];between;Mix;visual;1.0
+['cherry', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'cherry'];between;Mix;visual;1.0
+['cherry', 'coat'];between;Mix;visual;1.0
+['cherry', 'jacket'];between;Mix;visual;1.0
+['cherry', 'shirt'];between;Mix;visual;1.0
+['cherry', 'uniform'];between;Mix;visual;1.0
+['lemon', 'raspberry'];within;VV;visual;4.0
+['asparagus', 'lemon'];between;Mix;visual;1.0
+['bell pepper', 'lemon'];between;Mix;visual;4.0
+['broccoli', 'lemon'];between;Mix;visual;2.0
+['carrot', 'lemon'];between;Mix;visual;2.0
+['lemon', 'onion'];between;Mix;visual;4.0
+['dandelion', 'lemon'];between;Mix;visual;1.0
+['lemon', 'palm tree'];between;Mix;visual;1.0
+['lemon', 'rose'];between;Mix;visual;1.0
+['lemon', 'sunflower'];between;Mix;visual;2.0
+['lemon', 'tulip'];between;Mix;visual;1.0
+['cow', 'lemon'];between;Mix;visual;1.0
+['donkey', 'lemon'];between;Mix;visual;1.0
+['goat', 'lemon'];between;Mix;visual;1.0
+['horse', 'lemon'];between;Mix;visual;1.0
+['lemon', 'stag'];between;Mix;visual;1.0
+['eagle', 'lemon'];between;Mix;visual;1.0
+['lemon', 'owl'];between;Mix;visual;2.0
+['lemon', 'parrot'];between;Mix;visual;1.0
+['lemon', 'pigeon'];between;Mix;visual;2.0
+['lemon', 'stork'];between;Mix;visual;1.0
+['axe', 'lemon'];between;Mix;visual;1.0
+['hammer', 'lemon'];between;Mix;visual;1.0
+['lemon', 'pliers'];between;Mix;visual;1.0
+['lemon', 'saw'];between;Mix;visual;2.0
+['lemon', 'shovel'];between;Mix;visual;1.0
+['dishwasher', 'lemon'];between;Mix;visual;1.0
+['lemon', 'microwave'];between;Mix;visual;1.0
+['lemon', 'television'];between;Mix;visual;1.0
+['lemon', 'toaster'];between;Mix;visual;2.0
+['lemon', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'lemon'];between;Mix;visual;1.0
+['coat', 'lemon'];between;Mix;visual;1.0
+['jacket', 'lemon'];between;Mix;visual;1.0
+['lemon', 'shirt'];between;Mix;visual;1.0
+['lemon', 'uniform'];between;Mix;visual;1.0
+['asparagus', 'raspberry'];between;Mix;visual;2.0
+['bell pepper', 'raspberry'];between;Mix;visual;4.0
+['broccoli', 'raspberry'];between;Mix;visual;3.0
+['carrot', 'raspberry'];between;Mix;visual;1.0
+['onion', 'raspberry'];between;Mix;visual;4.0
+['dandelion', 'raspberry'];between;Mix;visual;1.0
+['palm tree', 'raspberry'];between;Mix;visual;1.0
+['raspberry', 'rose'];between;Mix;visual;1.0
+['raspberry', 'sunflower'];between;Mix;visual;2.0
+['raspberry', 'tulip'];between;Mix;visual;2.0
+['cow', 'raspberry'];between;Mix;visual;1.0
+['donkey', 'raspberry'];between;Mix;visual;1.0
+['goat', 'raspberry'];between;Mix;visual;1.0
+['horse', 'raspberry'];between;Mix;visual;1.0
+['raspberry', 'stag'];between;Mix;visual;1.0
+['eagle', 'raspberry'];between;Mix;visual;1.0
+['owl', 'raspberry'];between;Mix;visual;2.0
+['parrot', 'raspberry'];between;Mix;visual;2.0
+['pigeon', 'raspberry'];between;Mix;visual;1.0
+['raspberry', 'stork'];between;Mix;visual;1.0
+['axe', 'raspberry'];between;Mix;visual;1.0
+['hammer', 'raspberry'];between;Mix;visual;1.0
+['pliers', 'raspberry'];between;Mix;visual;1.0
+['raspberry', 'saw'];between;Mix;visual;1.0
+['raspberry', 'shovel'];between;Mix;visual;1.0
+['dishwasher', 'raspberry'];between;Mix;visual;1.0
+['microwave', 'raspberry'];between;Mix;visual;1.0
+['raspberry', 'television'];between;Mix;visual;1.0
+['raspberry', 'toaster'];between;Mix;visual;1.0
+['raspberry', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'raspberry'];between;Mix;visual;2.0
+['coat', 'raspberry'];between;Mix;visual;1.0
+['jacket', 'raspberry'];between;Mix;visual;1.0
+['raspberry', 'shirt'];between;Mix;visual;1.0
+['raspberry', 'uniform'];between;Mix;visual;1.0
+['asparagus', 'bell pepper'];within;VV;visual;2.0
+['asparagus', 'broccoli'];within;VV;visual;3.0
+['asparagus', 'carrot'];within;VV;visual;4.0
+['asparagus', 'onion'];within;VV;visual;2.0
+['asparagus', 'dandelion'];between;Mix;visual;2.0
+['asparagus', 'palm tree'];between;Mix;visual;2.0
+['asparagus', 'rose'];between;Mix;visual;2.0
+['asparagus', 'sunflower'];between;Mix;visual;2.0
+['asparagus', 'tulip'];between;Mix;visual;2.0
+['asparagus', 'cow'];between;Mix;visual;1.0
+['asparagus', 'donkey'];between;Mix;visual;1.0
+['asparagus', 'goat'];between;Mix;visual;1.0
+['asparagus', 'horse'];between;Mix;visual;1.0
+['asparagus', 'stag'];between;Mix;visual;1.0
+['asparagus', 'eagle'];between;Mix;visual;1.0
+['asparagus', 'owl'];between;Mix;visual;1.0
+['asparagus', 'parrot'];between;Mix;visual;2.0
+['asparagus', 'pigeon'];between;Mix;visual;2.0
+['asparagus', 'stork'];between;Mix;visual;1.0
+['asparagus', 'axe'];between;Mix;visual;4.0
+['asparagus', 'hammer'];between;Mix;visual;2.0
+['asparagus', 'pliers'];between;Mix;visual;4.0
+['asparagus', 'saw'];between;Mix;visual;4.0
+['asparagus', 'shovel'];between;Mix;visual;4.0
+['asparagus', 'dishwasher'];between;Mix;visual;1.0
+['asparagus', 'microwave'];between;Mix;visual;2.0
+['asparagus', 'television'];between;Mix;visual;1.0
+['asparagus', 'toaster'];between;Mix;visual;1.0
+['asparagus', 'washing machine'];between;Mix;visual;1.0
+['asparagus', 'blouse'];between;Mix;visual;1.0
+['asparagus', 'coat'];between;Mix;visual;2.0
+['asparagus', 'jacket'];between;Mix;visual;1.0
+['asparagus', 'shirt'];between;Mix;visual;1.0
+['asparagus', 'uniform'];between;Mix;visual;1.0
+['bell pepper', 'broccoli'];within;VV;visual;3.0
+['bell pepper', 'carrot'];within;VV;visual;1.0
+['bell pepper', 'onion'];within;VV;visual;4.0
+['bell pepper', 'dandelion'];between;Mix;visual;1.0
+['bell pepper', 'palm tree'];between;Mix;visual;1.0
+['bell pepper', 'rose'];between;Mix;visual;1.0
+['bell pepper', 'sunflower'];between;Mix;visual;2.0
+['bell pepper', 'tulip'];between;Mix;visual;2.0
+['bell pepper', 'cow'];between;Mix;visual;2.0
+['bell pepper', 'donkey'];between;Mix;visual;1.0
+['bell pepper', 'goat'];between;Mix;visual;1.0
+['bell pepper', 'horse'];between;Mix;visual;1.0
+['bell pepper', 'stag'];between;Mix;visual;1.0
+['bell pepper', 'eagle'];between;Mix;visual;1.0
+['bell pepper', 'owl'];between;Mix;visual;2.0
+['bell pepper', 'parrot'];between;Mix;visual;2.0
+['bell pepper', 'pigeon'];between;Mix;visual;1.0
+['bell pepper', 'stork'];between;Mix;visual;1.0
+['axe', 'bell pepper'];between;Mix;visual;1.0
+['bell pepper', 'hammer'];between;Mix;visual;1.0
+['bell pepper', 'pliers'];between;Mix;visual;2.0
+['bell pepper', 'saw'];between;Mix;visual;1.0
+['bell pepper', 'shovel'];between;Mix;visual;1.0
+['bell pepper', 'dishwasher'];between;Mix;visual;1.0
+['bell pepper', 'microwave'];between;Mix;visual;1.0
+['bell pepper', 'television'];between;Mix;visual;2.0
+['bell pepper', 'toaster'];between;Mix;visual;1.0
+['bell pepper', 'washing machine'];between;Mix;visual;1.0
+['bell pepper', 'blouse'];between;Mix;visual;1.0
+['bell pepper', 'coat'];between;Mix;visual;1.0
+['bell pepper', 'jacket'];between;Mix;visual;1.0
+['bell pepper', 'shirt'];between;Mix;visual;2.0
+['bell pepper', 'uniform'];between;Mix;visual;2.0
+['broccoli', 'carrot'];within;VV;visual;2.0
+['broccoli', 'onion'];within;VV;visual;3.0
+['broccoli', 'dandelion'];between;Mix;visual;2.0
+['broccoli', 'palm tree'];between;Mix;visual;5.0
+['broccoli', 'rose'];between;Mix;visual;3.0
+['broccoli', 'sunflower'];between;Mix;visual;4.0
+['broccoli', 'tulip'];between;Mix;visual;3.0
+['broccoli', 'cow'];between;Mix;visual;1.0
+['broccoli', 'donkey'];between;Mix;visual;1.0
+['broccoli', 'goat'];between;Mix;visual;1.0
+['broccoli', 'horse'];between;Mix;visual;1.0
+['broccoli', 'stag'];between;Mix;visual;2.0
+['broccoli', 'eagle'];between;Mix;visual;1.0
+['broccoli', 'owl'];between;Mix;visual;1.0
+['broccoli', 'parrot'];between;Mix;visual;1.0
+['broccoli', 'pigeon'];between;Mix;visual;1.0
+['broccoli', 'stork'];between;Mix;visual;1.0
+['axe', 'broccoli'];between;Mix;visual;1.0
+['broccoli', 'hammer'];between;Mix;visual;1.0
+['broccoli', 'pliers'];between;Mix;visual;2.0
+['broccoli', 'saw'];between;Mix;visual;1.0
+['broccoli', 'shovel'];between;Mix;visual;1.0
+['broccoli', 'dishwasher'];between;Mix;visual;2.0
+['broccoli', 'microwave'];between;Mix;visual;1.0
+['broccoli', 'television'];between;Mix;visual;1.0
+['broccoli', 'toaster'];between;Mix;visual;1.0
+['broccoli', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'broccoli'];between;Mix;visual;2.0
+['broccoli', 'coat'];between;Mix;visual;2.0
+['broccoli', 'jacket'];between;Mix;visual;1.0
+['broccoli', 'shirt'];between;Mix;visual;2.0
+['broccoli', 'uniform'];between;Mix;visual;2.0
+['carrot', 'onion'];within;VV;visual;1.0
+['carrot', 'dandelion'];between;Mix;visual;3.0
+['carrot', 'palm tree'];between;Mix;visual;2.0
+['carrot', 'rose'];between;Mix;visual;2.0
+['carrot', 'sunflower'];between;Mix;visual;3.0
+['carrot', 'tulip'];between;Mix;visual;3.0
+['carrot', 'cow'];between;Mix;visual;1.0
+['carrot', 'donkey'];between;Mix;visual;2.0
+['carrot', 'goat'];between;Mix;visual;2.0
+['carrot', 'horse'];between;Mix;visual;1.0
+['carrot', 'stag'];between;Mix;visual;1.0
+['carrot', 'eagle'];between;Mix;visual;2.0
+['carrot', 'owl'];between;Mix;visual;1.0
+['carrot', 'parrot'];between;Mix;visual;3.0
+['carrot', 'pigeon'];between;Mix;visual;1.0
+['carrot', 'stork'];between;Mix;visual;2.0
+['axe', 'carrot'];between;Mix;visual;4.0
+['carrot', 'hammer'];between;Mix;visual;4.0
+['carrot', 'pliers'];between;Mix;visual;3.0
+['carrot', 'saw'];between;Mix;visual;4.0
+['carrot', 'shovel'];between;Mix;visual;4.0
+['carrot', 'dishwasher'];between;Mix;visual;1.0
+['carrot', 'microwave'];between;Mix;visual;1.0
+['carrot', 'television'];between;Mix;visual;1.0
+['carrot', 'toaster'];between;Mix;visual;1.0
+['carrot', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'carrot'];between;Mix;visual;1.0
+['carrot', 'coat'];between;Mix;visual;1.0
+['carrot', 'jacket'];between;Mix;visual;1.0
+['carrot', 'shirt'];between;Mix;visual;1.0
+['carrot', 'uniform'];between;Mix;visual;1.0
+['dandelion', 'onion'];between;Mix;visual;1.0
+['onion', 'palm tree'];between;Mix;visual;2.0
+['onion', 'rose'];between;Mix;visual;2.0
+['onion', 'sunflower'];between;Mix;visual;2.0
+['onion', 'tulip'];between;Mix;visual;2.0
+['cow', 'onion'];between;Mix;visual;1.0
+['donkey', 'onion'];between;Mix;visual;1.0
+['goat', 'onion'];between;Mix;visual;1.0
+['horse', 'onion'];between;Mix;visual;1.0
+['onion', 'stag'];between;Mix;visual;1.0
+['eagle', 'onion'];between;Mix;visual;2.0
+['onion', 'owl'];between;Mix;visual;1.0
+['onion', 'parrot'];between;Mix;visual;1.0
+['onion', 'pigeon'];between;Mix;visual;2.0
+['onion', 'stork'];between;Mix;visual;1.0
+['axe', 'onion'];between;Mix;visual;1.0
+['hammer', 'onion'];between;Mix;visual;1.0
+['onion', 'pliers'];between;Mix;visual;1.0
+['onion', 'saw'];between;Mix;visual;1.0
+['onion', 'shovel'];between;Mix;visual;1.0
+['dishwasher', 'onion'];between;Mix;visual;1.0
+['microwave', 'onion'];between;Mix;visual;1.0
+['onion', 'television'];between;Mix;visual;2.0
+['onion', 'toaster'];between;Mix;visual;1.0
+['onion', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'onion'];between;Mix;visual;1.0
+['coat', 'onion'];between;Mix;visual;1.0
+['jacket', 'onion'];between;Mix;visual;1.0
+['onion', 'shirt'];between;Mix;visual;1.0
+['onion', 'uniform'];between;Mix;visual;1.0
+['dandelion', 'palm tree'];within;VC;visual;4.0
+['dandelion', 'rose'];within;VC;visual;5.0
+['dandelion', 'sunflower'];within;VC;visual;5.0
+['dandelion', 'tulip'];within;VC;visual;5.0
+['cow', 'dandelion'];between;Mix;visual;1.0
+['dandelion', 'donkey'];between;Mix;visual;1.0
+['dandelion', 'goat'];between;Mix;visual;1.0
+['dandelion', 'horse'];between;Mix;visual;1.0
+['dandelion', 'stag'];between;Mix;visual;1.0
+['dandelion', 'eagle'];between;Mix;visual;2.0
+['dandelion', 'owl'];between;Mix;visual;1.0
+['dandelion', 'parrot'];between;Mix;visual;2.0
+['dandelion', 'pigeon'];between;Mix;visual;1.0
+['dandelion', 'stork'];between;Mix;visual;1.0
+['axe', 'dandelion'];between;Mix;visual;2.0
+['dandelion', 'hammer'];between;Mix;visual;2.0
+['dandelion', 'pliers'];between;Mix;visual;1.0
+['dandelion', 'saw'];between;Mix;visual;1.0
+['dandelion', 'shovel'];between;Mix;visual;2.0
+['dandelion', 'dishwasher'];between;Mix;visual;1.0
+['dandelion', 'microwave'];between;Mix;visual;1.0
+['dandelion', 'television'];between;Mix;visual;1.0
+['dandelion', 'toaster'];between;Mix;visual;1.0
+['dandelion', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'dandelion'];between;Mix;visual;1.0
+['coat', 'dandelion'];between;Mix;visual;1.0
+['dandelion', 'jacket'];between;Mix;visual;1.0
+['dandelion', 'shirt'];between;Mix;visual;1.0
+['dandelion', 'uniform'];between;Mix;visual;1.0
+['palm tree', 'rose'];within;VC;visual;5.0
+['palm tree', 'sunflower'];within;VC;visual;4.0
+['palm tree', 'tulip'];within;VC;visual;4.0
+['cow', 'palm tree'];between;Mix;visual;1.0
+['donkey', 'palm tree'];between;Mix;visual;1.0
+['goat', 'palm tree'];between;Mix;visual;1.0
+['horse', 'palm tree'];between;Mix;visual;1.0
+['palm tree', 'stag'];between;Mix;visual;1.0
+['eagle', 'palm tree'];between;Mix;visual;2.0
+['owl', 'palm tree'];between;Mix;visual;1.0
+['palm tree', 'parrot'];between;Mix;visual;2.0
+['palm tree', 'pigeon'];between;Mix;visual;1.0
+['palm tree', 'stork'];between;Mix;visual;2.0
+['axe', 'palm tree'];between;Mix;visual;2.0
+['hammer', 'palm tree'];between;Mix;visual;3.0
+['palm tree', 'pliers'];between;Mix;visual;3.0
+['palm tree', 'saw'];between;Mix;visual;2.0
+['palm tree', 'shovel'];between;Mix;visual;2.0
+['dishwasher', 'palm tree'];between;Mix;visual;1.0
+['microwave', 'palm tree'];between;Mix;visual;1.0
+['palm tree', 'television'];between;Mix;visual;1.0
+['palm tree', 'toaster'];between;Mix;visual;1.0
+['palm tree', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'palm tree'];between;Mix;visual;1.0
+['coat', 'palm tree'];between;Mix;visual;2.0
+['jacket', 'palm tree'];between;Mix;visual;2.0
+['palm tree', 'shirt'];between;Mix;visual;1.0
+['palm tree', 'uniform'];between;Mix;visual;1.0
+['rose', 'sunflower'];within;VC;visual;5.0
+['rose', 'tulip'];within;VC;visual;5.0
+['cow', 'rose'];between;Mix;visual;1.0
+['donkey', 'rose'];between;Mix;visual;1.0
+['goat', 'rose'];between;Mix;visual;1.0
+['horse', 'rose'];between;Mix;visual;1.0
+['rose', 'stag'];between;Mix;visual;2.0
+['eagle', 'rose'];between;Mix;visual;3.0
+['owl', 'rose'];between;Mix;visual;3.0
+['parrot', 'rose'];between;Mix;visual;1.0
+['pigeon', 'rose'];between;Mix;visual;2.0
+['rose', 'stork'];between;Mix;visual;1.0
+['axe', 'rose'];between;Mix;visual;1.0
+['hammer', 'rose'];between;Mix;visual;3.0
+['pliers', 'rose'];between;Mix;visual;2.0
+['rose', 'saw'];between;Mix;visual;1.0
+['rose', 'shovel'];between;Mix;visual;2.0
+['dishwasher', 'rose'];between;Mix;visual;1.0
+['microwave', 'rose'];between;Mix;visual;1.0
+['rose', 'television'];between;Mix;visual;1.0
+['rose', 'toaster'];between;Mix;visual;1.0
+['rose', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'rose'];between;Mix;visual;1.0
+['coat', 'rose'];between;Mix;visual;1.0
+['jacket', 'rose'];between;Mix;visual;1.0
+['rose', 'shirt'];between;Mix;visual;2.0
+['rose', 'uniform'];between;Mix;visual;1.0
+['sunflower', 'tulip'];within;VC;visual;5.0
+['cow', 'sunflower'];between;Mix;visual;1.0
+['donkey', 'sunflower'];between;Mix;visual;1.0
+['goat', 'sunflower'];between;Mix;visual;1.0
+['horse', 'sunflower'];between;Mix;visual;1.0
+['stag', 'sunflower'];between;Mix;visual;1.0
+['eagle', 'sunflower'];between;Mix;visual;1.0
+['owl', 'sunflower'];between;Mix;visual;3.0
+['parrot', 'sunflower'];between;Mix;visual;2.0
+['pigeon', 'sunflower'];between;Mix;visual;2.0
+['stork', 'sunflower'];between;Mix;visual;1.0
+['axe', 'sunflower'];between;Mix;visual;3.0
+['hammer', 'sunflower'];between;Mix;visual;2.0
+['pliers', 'sunflower'];between;Mix;visual;3.0
+['saw', 'sunflower'];between;Mix;visual;2.0
+['shovel', 'sunflower'];between;Mix;visual;1.0
+['dishwasher', 'sunflower'];between;Mix;visual;1.0
+['microwave', 'sunflower'];between;Mix;visual;1.0
+['sunflower', 'television'];between;Mix;visual;1.0
+['sunflower', 'toaster'];between;Mix;visual;1.0
+['sunflower', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'sunflower'];between;Mix;visual;1.0
+['coat', 'sunflower'];between;Mix;visual;3.0
+['jacket', 'sunflower'];between;Mix;visual;1.0
+['shirt', 'sunflower'];between;Mix;visual;1.0
+['sunflower', 'uniform'];between;Mix;visual;1.0
+['cow', 'tulip'];between;Mix;visual;1.0
+['donkey', 'tulip'];between;Mix;visual;1.0
+['goat', 'tulip'];between;Mix;visual;1.0
+['horse', 'tulip'];between;Mix;visual;1.0
+['stag', 'tulip'];between;Mix;visual;1.0
+['eagle', 'tulip'];between;Mix;visual;2.0
+['owl', 'tulip'];between;Mix;visual;2.0
+['parrot', 'tulip'];between;Mix;visual;3.0
+['pigeon', 'tulip'];between;Mix;visual;1.0
+['stork', 'tulip'];between;Mix;visual;1.0
+['axe', 'tulip'];between;Mix;visual;2.0
+['hammer', 'tulip'];between;Mix;visual;3.0
+['pliers', 'tulip'];between;Mix;visual;3.0
+['saw', 'tulip'];between;Mix;visual;1.0
+['shovel', 'tulip'];between;Mix;visual;4.0
+['dishwasher', 'tulip'];between;Mix;visual;1.0
+['microwave', 'tulip'];between;Mix;visual;1.0
+['television', 'tulip'];between;Mix;visual;1.0
+['toaster', 'tulip'];between;Mix;visual;1.0
+['tulip', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'tulip'];between;Mix;visual;2.0
+['coat', 'tulip'];between;Mix;visual;2.0
+['jacket', 'tulip'];between;Mix;visual;1.0
+['shirt', 'tulip'];between;Mix;visual;1.0
+['tulip', 'uniform'];between;Mix;visual;3.0
+['cow', 'donkey'];within;VC;visual;4.0
+['cow', 'goat'];within;VC;visual;5.0
+['cow', 'horse'];within;VC;visual;5.0
+['cow', 'stag'];within;VC;visual;4.0
+['cow', 'eagle'];between;Mix;visual;2.0
+['cow', 'owl'];between;Mix;visual;2.0
+['cow', 'parrot'];between;Mix;visual;2.0
+['cow', 'pigeon'];between;Mix;visual;2.0
+['cow', 'stork'];between;Mix;visual;2.0
+['axe', 'cow'];between;Mix;visual;1.0
+['cow', 'hammer'];between;Mix;visual;1.0
+['cow', 'pliers'];between;Mix;visual;1.0
+['cow', 'saw'];between;Mix;visual;1.0
+['cow', 'shovel'];between;Mix;visual;1.0
+['cow', 'dishwasher'];between;Mix;visual;1.0
+['cow', 'microwave'];between;Mix;visual;2.0
+['cow', 'television'];between;Mix;visual;1.0
+['cow', 'toaster'];between;Mix;visual;2.0
+['cow', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'cow'];between;Mix;visual;1.0
+['coat', 'cow'];between;Mix;visual;1.0
+['cow', 'jacket'];between;Mix;visual;2.0
+['cow', 'shirt'];between;Mix;visual;1.0
+['cow', 'uniform'];between;Mix;visual;1.0
+['donkey', 'goat'];within;VC;visual;5.0
+['donkey', 'horse'];within;VC;visual;5.0
+['donkey', 'stag'];within;VC;visual;5.0
+['donkey', 'eagle'];between;Mix;visual;2.0
+['donkey', 'owl'];between;Mix;visual;2.0
+['donkey', 'parrot'];between;Mix;visual;2.0
+['donkey', 'pigeon'];between;Mix;visual;3.0
+['donkey', 'stork'];between;Mix;visual;3.0
+['axe', 'donkey'];between;Mix;visual;1.0
+['donkey', 'hammer'];between;Mix;visual;1.0
+['donkey', 'pliers'];between;Mix;visual;1.0
+['donkey', 'saw'];between;Mix;visual;1.0
+['donkey', 'shovel'];between;Mix;visual;1.0
+['dishwasher', 'donkey'];between;Mix;visual;1.0
+['donkey', 'microwave'];between;Mix;visual;1.0
+['donkey', 'television'];between;Mix;visual;1.0
+['donkey', 'toaster'];between;Mix;visual;1.0
+['donkey', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'donkey'];between;Mix;visual;1.0
+['coat', 'donkey'];between;Mix;visual;1.0
+['donkey', 'jacket'];between;Mix;visual;1.0
+['donkey', 'shirt'];between;Mix;visual;1.0
+['donkey', 'uniform'];between;Mix;visual;1.0
+['goat', 'horse'];within;VC;visual;5.0
+['goat', 'stag'];within;VC;visual;5.0
+['eagle', 'goat'];between;Mix;visual;2.0
+['goat', 'owl'];between;Mix;visual;2.0
+['goat', 'parrot'];between;Mix;visual;3.0
+['goat', 'pigeon'];between;Mix;visual;2.0
+['goat', 'stork'];between;Mix;visual;4.0
+['axe', 'goat'];between;Mix;visual;1.0
+['goat', 'hammer'];between;Mix;visual;1.0
+['goat', 'pliers'];between;Mix;visual;1.0
+['goat', 'saw'];between;Mix;visual;1.0
+['goat', 'shovel'];between;Mix;visual;1.0
+['dishwasher', 'goat'];between;Mix;visual;1.0
+['goat', 'microwave'];between;Mix;visual;1.0
+['goat', 'television'];between;Mix;visual;1.0
+['goat', 'toaster'];between;Mix;visual;1.0
+['goat', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'goat'];between;Mix;visual;1.0
+['coat', 'goat'];between;Mix;visual;1.0
+['goat', 'jacket'];between;Mix;visual;1.0
+['goat', 'shirt'];between;Mix;visual;1.0
+['goat', 'uniform'];between;Mix;visual;1.0
+['horse', 'stag'];within;VC;visual;5.0
+['eagle', 'horse'];between;Mix;visual;2.0
+['horse', 'owl'];between;Mix;visual;2.0
+['horse', 'parrot'];between;Mix;visual;2.0
+['horse', 'pigeon'];between;Mix;visual;2.0
+['horse', 'stork'];between;Mix;visual;3.0
+['axe', 'horse'];between;Mix;visual;1.0
+['hammer', 'horse'];between;Mix;visual;1.0
+['horse', 'pliers'];between;Mix;visual;1.0
+['horse', 'saw'];between;Mix;visual;1.0
+['horse', 'shovel'];between;Mix;visual;1.0
+['dishwasher', 'horse'];between;Mix;visual;1.0
+['horse', 'microwave'];between;Mix;visual;1.0
+['horse', 'television'];between;Mix;visual;1.0
+['horse', 'toaster'];between;Mix;visual;1.0
+['horse', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'horse'];between;Mix;visual;1.0
+['coat', 'horse'];between;Mix;visual;1.0
+['horse', 'jacket'];between;Mix;visual;1.0
+['horse', 'shirt'];between;Mix;visual;1.0
+['horse', 'uniform'];between;Mix;visual;1.0
+['eagle', 'stag'];between;Mix;visual;2.0
+['owl', 'stag'];between;Mix;visual;2.0
+['parrot', 'stag'];between;Mix;visual;1.0
+['pigeon', 'stag'];between;Mix;visual;2.0
+['stag', 'stork'];between;Mix;visual;3.0
+['axe', 'stag'];between;Mix;visual;1.0
+['hammer', 'stag'];between;Mix;visual;1.0
+['pliers', 'stag'];between;Mix;visual;1.0
+['saw', 'stag'];between;Mix;visual;1.0
+['shovel', 'stag'];between;Mix;visual;1.0
+['dishwasher', 'stag'];between;Mix;visual;1.0
+['microwave', 'stag'];between;Mix;visual;1.0
+['stag', 'television'];between;Mix;visual;1.0
+['stag', 'toaster'];between;Mix;visual;1.0
+['stag', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'stag'];between;Mix;visual;1.0
+['coat', 'stag'];between;Mix;visual;1.0
+['jacket', 'stag'];between;Mix;visual;1.0
+['shirt', 'stag'];between;Mix;visual;1.0
+['stag', 'uniform'];between;Mix;visual;1.0
+['eagle', 'owl'];within;VC;visual;5.0
+['eagle', 'parrot'];within;VC;visual;5.0
+['eagle', 'pigeon'];within;VC;visual;5.0
+['eagle', 'stork'];within;VC;visual;4.0
+['axe', 'eagle'];between;Mix;visual;2.0
+['eagle', 'hammer'];between;Mix;visual;1.0
+['eagle', 'pliers'];between;Mix;visual;2.0
+['eagle', 'saw'];between;Mix;visual;3.0
+['eagle', 'shovel'];between;Mix;visual;2.0
+['dishwasher', 'eagle'];between;Mix;visual;1.0
+['eagle', 'microwave'];between;Mix;visual;1.0
+['eagle', 'television'];between;Mix;visual;1.0
+['eagle', 'toaster'];between;Mix;visual;1.0
+['eagle', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'eagle'];between;Mix;visual;1.0
+['coat', 'eagle'];between;Mix;visual;1.0
+['eagle', 'jacket'];between;Mix;visual;1.0
+['eagle', 'shirt'];between;Mix;visual;1.0
+['eagle', 'uniform'];between;Mix;visual;1.0
+['owl', 'parrot'];within;VC;visual;5.0
+['owl', 'pigeon'];within;VC;visual;5.0
+['owl', 'stork'];within;VC;visual;4.0
+['axe', 'owl'];between;Mix;visual;1.0
+['hammer', 'owl'];between;Mix;visual;2.0
+['owl', 'pliers'];between;Mix;visual;1.0
+['owl', 'saw'];between;Mix;visual;2.0
+['owl', 'shovel'];between;Mix;visual;1.0
+['dishwasher', 'owl'];between;Mix;visual;1.0
+['microwave', 'owl'];between;Mix;visual;1.0
+['owl', 'television'];between;Mix;visual;1.0
+['owl', 'toaster'];between;Mix;visual;1.0
+['owl', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'owl'];between;Mix;visual;1.0
+['coat', 'owl'];between;Mix;visual;2.0
+['jacket', 'owl'];between;Mix;visual;1.0
+['owl', 'shirt'];between;Mix;visual;1.0
+['owl', 'uniform'];between;Mix;visual;1.0
+['parrot', 'pigeon'];within;VC;visual;5.0
+['parrot', 'stork'];within;VC;visual;5.0
+['axe', 'parrot'];between;Mix;visual;4.0
+['hammer', 'parrot'];between;Mix;visual;3.0
+['parrot', 'pliers'];between;Mix;visual;3.0
+['parrot', 'saw'];between;Mix;visual;3.0
+['parrot', 'shovel'];between;Mix;visual;3.0
+['dishwasher', 'parrot'];between;Mix;visual;1.0
+['microwave', 'parrot'];between;Mix;visual;1.0
+['parrot', 'television'];between;Mix;visual;1.0
+['parrot', 'toaster'];between;Mix;visual;1.0
+['parrot', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'parrot'];between;Mix;visual;1.0
+['coat', 'parrot'];between;Mix;visual;2.0
+['jacket', 'parrot'];between;Mix;visual;1.0
+['parrot', 'shirt'];between;Mix;visual;1.0
+['parrot', 'uniform'];between;Mix;visual;1.0
+['pigeon', 'stork'];within;VC;visual;5.0
+['axe', 'pigeon'];between;Mix;visual;2.0
+['hammer', 'pigeon'];between;Mix;visual;2.0
+['pigeon', 'pliers'];between;Mix;visual;1.0
+['pigeon', 'saw'];between;Mix;visual;3.0
+['pigeon', 'shovel'];between;Mix;visual;2.0
+['dishwasher', 'pigeon'];between;Mix;visual;1.0
+['microwave', 'pigeon'];between;Mix;visual;1.0
+['pigeon', 'television'];between;Mix;visual;1.0
+['pigeon', 'toaster'];between;Mix;visual;1.0
+['pigeon', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'pigeon'];between;Mix;visual;1.0
+['coat', 'pigeon'];between;Mix;visual;1.0
+['jacket', 'pigeon'];between;Mix;visual;1.0
+['pigeon', 'shirt'];between;Mix;visual;1.0
+['pigeon', 'uniform'];between;Mix;visual;1.0
+['axe', 'stork'];between;Mix;visual;1.0
+['hammer', 'stork'];between;Mix;visual;1.0
+['pliers', 'stork'];between;Mix;visual;1.0
+['saw', 'stork'];between;Mix;visual;1.0
+['shovel', 'stork'];between;Mix;visual;2.0
+['dishwasher', 'stork'];between;Mix;visual;1.0
+['microwave', 'stork'];between;Mix;visual;1.0
+['stork', 'television'];between;Mix;visual;1.0
+['stork', 'toaster'];between;Mix;visual;1.0
+['stork', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'stork'];between;Mix;visual;1.0
+['coat', 'stork'];between;Mix;visual;1.0
+['jacket', 'stork'];between;Mix;visual;1.0
+['shirt', 'stork'];between;Mix;visual;1.0
+['stork', 'uniform'];between;Mix;visual;1.0
+['axe', 'hammer'];within;VC;visual;5.0
+['axe', 'pliers'];within;VC;visual;4.0
+['axe', 'saw'];within;VC;visual;4.0
+['axe', 'shovel'];within;VC;visual;5.0
+['axe', 'dishwasher'];between;Mix;visual;1.0
+['axe', 'microwave'];between;Mix;visual;1.0
+['axe', 'television'];between;Mix;visual;1.0
+['axe', 'toaster'];between;Mix;visual;1.0
+['axe', 'washing machine'];between;Mix;visual;1.0
+['axe', 'blouse'];between;Mix;visual;1.0
+['axe', 'coat'];between;Mix;visual;1.0
+['axe', 'jacket'];between;Mix;visual;1.0
+['axe', 'shirt'];between;Mix;visual;1.0
+['axe', 'uniform'];between;Mix;visual;1.0
+['hammer', 'pliers'];within;VC;visual;4.0
+['hammer', 'saw'];within;VC;visual;5.0
+['hammer', 'shovel'];within;VC;visual;4.0
+['dishwasher', 'hammer'];between;Mix;visual;1.0
+['hammer', 'microwave'];between;Mix;visual;1.0
+['hammer', 'television'];between;Mix;visual;1.0
+['hammer', 'toaster'];between;Mix;visual;1.0
+['hammer', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'hammer'];between;Mix;visual;1.0
+['coat', 'hammer'];between;Mix;visual;2.0
+['hammer', 'jacket'];between;Mix;visual;1.0
+['hammer', 'shirt'];between;Mix;visual;1.0
+['hammer', 'uniform'];between;Mix;visual;1.0
+['pliers', 'saw'];within;VC;visual;4.0
+['pliers', 'shovel'];within;VC;visual;5.0
+['dishwasher', 'pliers'];between;Mix;visual;1.0
+['microwave', 'pliers'];between;Mix;visual;1.0
+['pliers', 'television'];between;Mix;visual;1.0
+['pliers', 'toaster'];between;Mix;visual;1.0
+['pliers', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'pliers'];between;Mix;visual;1.0
+['coat', 'pliers'];between;Mix;visual;2.0
+['jacket', 'pliers'];between;Mix;visual;1.0
+['pliers', 'shirt'];between;Mix;visual;1.0
+['pliers', 'uniform'];between;Mix;visual;1.0
+['saw', 'shovel'];within;VC;visual;4.0
+['dishwasher', 'saw'];between;Mix;visual;1.0
+['microwave', 'saw'];between;Mix;visual;1.0
+['saw', 'television'];between;Mix;visual;1.0
+['saw', 'toaster'];between;Mix;visual;1.0
+['saw', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'saw'];between;Mix;visual;1.0
+['coat', 'saw'];between;Mix;visual;1.0
+['jacket', 'saw'];between;Mix;visual;1.0
+['saw', 'shirt'];between;Mix;visual;1.0
+['saw', 'uniform'];between;Mix;visual;1.0
+['dishwasher', 'shovel'];between;Mix;visual;1.0
+['microwave', 'shovel'];between;Mix;visual;1.0
+['shovel', 'television'];between;Mix;visual;1.0
+['shovel', 'toaster'];between;Mix;visual;1.0
+['shovel', 'washing machine'];between;Mix;visual;1.0
+['blouse', 'shovel'];between;Mix;visual;1.0
+['coat', 'shovel'];between;Mix;visual;1.0
+['jacket', 'shovel'];between;Mix;visual;1.0
+['shirt', 'shovel'];between;Mix;visual;1.0
+['shovel', 'uniform'];between;Mix;visual;1.0
+['dishwasher', 'microwave'];within;VC;visual;4.0
+['dishwasher', 'television'];within;VC;visual;4.0
+['dishwasher', 'toaster'];within;VC;visual;4.0
+['dishwasher', 'washing machine'];within;VC;visual;5.0
+['blouse', 'dishwasher'];between;Mix;visual;2.0
+['coat', 'dishwasher'];between;Mix;visual;1.0
+['dishwasher', 'jacket'];between;Mix;visual;1.0
+['dishwasher', 'shirt'];between;Mix;visual;2.0
+['dishwasher', 'uniform'];between;Mix;visual;1.0
+['microwave', 'television'];within;VC;visual;4.0
+['microwave', 'toaster'];within;VC;visual;4.0
+['microwave', 'washing machine'];within;VC;visual;4.0
+['blouse', 'microwave'];between;Mix;visual;2.0
+['coat', 'microwave'];between;Mix;visual;1.0
+['jacket', 'microwave'];between;Mix;visual;1.0
+['microwave', 'shirt'];between;Mix;visual;1.0
+['microwave', 'uniform'];between;Mix;visual;1.0
+['television', 'toaster'];within;VC;visual;5.0
+['television', 'washing machine'];within;VC;visual;5.0
+['blouse', 'television'];between;Mix;visual;2.0
+['coat', 'television'];between;Mix;visual;1.0
+['jacket', 'television'];between;Mix;visual;2.0
+['shirt', 'television'];between;Mix;visual;1.0
+['television', 'uniform'];between;Mix;visual;2.0
+['toaster', 'washing machine'];within;VC;visual;5.0
+['blouse', 'toaster'];between;Mix;visual;1.0
+['coat', 'toaster'];between;Mix;visual;1.0
+['jacket', 'toaster'];between;Mix;visual;1.0
+['shirt', 'toaster'];between;Mix;visual;1.0
+['toaster', 'uniform'];between;Mix;visual;1.0
+['blouse', 'washing machine'];between;Mix;visual;2.0
+['coat', 'washing machine'];between;Mix;visual;1.0
+['jacket', 'washing machine'];between;Mix;visual;2.0
+['shirt', 'washing machine'];between;Mix;visual;2.0
+['uniform', 'washing machine'];between;Mix;visual;2.0
+['blouse', 'coat'];within;VC;visual;5.0
+['blouse', 'jacket'];within;VC;visual;5.0
+['blouse', 'shirt'];within;VC;visual;5.0
+['blouse', 'uniform'];within;VC;visual;5.0
+['coat', 'jacket'];within;VC;visual;5.0
+['coat', 'shirt'];within;VC;visual;5.0
+['coat', 'uniform'];within;VC;visual;5.0
+['jacket', 'shirt'];within;VC;visual;5.0
+['jacket', 'uniform'];within;VC;visual;4.0
+['shirt', 'uniform'];within;VC;visual;5.0

@@ -1,9 +1,9 @@
+Positive examples for pre-attentive
+rose,uniform,tulip,broccoli,shirt,sunflower,dandelion,palm tree,jacket,blouse,bell pepper,salt shaker,glass,lighthouse,coat
+Negative examples for pre-attentive
+car,donkey,microwave,goat,bowl,plate,bicycle,cow,igloo,bus,horse,ant,butterfly,tractor,toaster
 Positive examples for attentive
 windmill,tulip,bell pepper,dandelion,shirt,broccoli,coat,uniform,rose,jacket,lighthouse,palm tree,glass,sunflower,salt shaker
 Negative examples for attentive
 car,microwave,cow,plate,goat,horse,ant,donkey,stag,tractor,bicycle,fly,church,bowl,bus
-Positive examples for pre-attentive
-rose,uniform,broccoli,shirt,tulip,sunflower,dandelion,blouse,palm tree,jacket,bell pepper,salt shaker,lighthouse,glass,coat
-Negative examples for pre-attentive
-car,goat,microwave,bowl,donkey,plate,bicycle,horse,igloo,cow,bus,ant,butterfly,tractor,television
 Comparing classification of attentive to pre-attentive: Intersection Pos 14, Intersection Neg 12
