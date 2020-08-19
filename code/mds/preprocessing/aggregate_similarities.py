@@ -121,8 +121,9 @@ with open(args.output_pickle_file, 'wb') as f_out:
     pickle.dump(result, f_out)
 
 # write csv output for R analysis
+aggregator_name = 'median' if args.median else 'mean'
 with open(args.output_csv_file, 'w') as f_out:
-    f_out.write('pairID;pairType;visualType;ratingType;ratings\n')
+    f_out.write('pairID;pairType;visualType;ratingType;aggregator;ratings\n')
     for index1, item1 in enumerate(items):
         for index2, item2 in enumerate(items):
             
@@ -132,7 +133,7 @@ with open(args.output_csv_file, 'w') as f_out:
             rating = similarity_matrix[index1,index2]
             pair_type = data_set['similarities'][tuple_id]['relation']
             visual_type = data_set['similarities'][tuple_id]['category_type']
-            f_out.write("{0};{1};{2};{3};{4}\n".format(tuple_id, pair_type, visual_type, args.rating_type, rating))
+            f_out.write("{0};{1};{2};{3};{4};{5}\n".format(tuple_id, pair_type, visual_type, args.rating_type, aggregator_name, rating))
        
 
 # write dissimilarity matrix output

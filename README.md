@@ -87,6 +87,7 @@ The script takes the following optional parameters:
 - `-s` or `--subset`: Specifies which subset of the similarity ratings to use. Default is `all` (which means that all similarity ratings from both studies are used). Another supported option is `between` where only the ratings from the first study are used. Here, all items that did not appear in the first study are removed from further consideration. A third option is `cats` which only considers the categories used in the second study, but which keeps all items from these categories (also items that were only used in the first, but not in the second study). The fourth option `within` only uses data from the first study.
 - `-l` or `--limit`: Limit the number of similarity ratings to use to ensure that an equal amount of ratings is aggregated for all item pairs. 
 - `-v` or `--limit_value`: Used to give an explicit value for the limit to use. If not set, the script will use the minimal number of ratings observed for any item pair as limit.
+- `--seed`: The given seed is used to initialize the random number generator; if no seed is given, results are not reproducible!
 
 #### 2.1.3 Aggregating Similarity Ratings
 

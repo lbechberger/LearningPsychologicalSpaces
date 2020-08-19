@@ -52,7 +52,7 @@ for rating_type in $rating_types
 do
 	echo '    '"$rating_type"' similarity (median aggregation, 10 ratings)'
 	[ "$rating_type" == "conceptual" ] && reverse_flag='--reverse' || reverse_flag=''
-	python -m code.mds.preprocessing.preprocess_Shapes data/Shapes/raw_data/visual_similarities_within.csv 'data/Shapes/raw_data/'"$rating_type"'_similarities.csv' data/Shapes/raw_data/category_names.csv data/Shapes/raw_data/item_names.csv 'data/Shapes/mds/similarities/rating_type/'"$rating_type"'/individual_ratings.pickle' 'data/Shapes/mds/data_set/individual/similarities/'"$rating_type"'_10.csv' $rating_type $reverse_flag -s between -l -v 10 &> 'data/Shapes/mds/similarities/rating_type/'"$rating_type"'/log_preprocessing.txt'
+	python -m code.mds.preprocessing.preprocess_Shapes data/Shapes/raw_data/visual_similarities_within.csv 'data/Shapes/raw_data/'"$rating_type"'_similarities.csv' data/Shapes/raw_data/category_names.csv data/Shapes/raw_data/item_names.csv 'data/Shapes/mds/similarities/rating_type/'"$rating_type"'/individual_ratings.pickle' 'data/Shapes/mds/data_set/individual/similarities/'"$rating_type"'_10.csv' $rating_type $reverse_flag -s between -l -v 10 --seed 42 &> 'data/Shapes/mds/similarities/rating_type/'"$rating_type"'/log_preprocessing.txt'
 
 	python -m code.mds.preprocessing.aggregate_similarities 'data/Shapes/mds/similarities/rating_type/'"$rating_type"'/individual_ratings.pickle' 'data/Shapes/mds/similarities/rating_type/'"$rating_type"'/aggregated_ratings.pickle' 'data/Shapes/mds/similarities/rating_type/'"$rating_type"'/' 'data/Shapes/mds/data_set/aggregated/similarities/'"$rating_type"'_median_10.csv' $rating_type --median &> 'data/Shapes/mds/similarities/rating_type/'"$rating_type"'/log_aggregation.txt'
 
@@ -61,7 +61,7 @@ done
 for aggregator in $aggregators
 do
 	echo '    visual similarity ('"$aggregator"' aggregation, 15 ratings)'
-	python -m code.mds.preprocessing.preprocess_Shapes data/Shapes/raw_data/visual_similarities_within.csv 'data/Shapes/raw_data/visual_similarities.csv' data/Shapes/raw_data/category_names.csv data/Shapes/raw_data/item_names.csv 'data/Shapes/mds/similarities/aggregator/individual_ratings.pickle' 'data/Shapes/mds/data_set/individual/similarities/visual_15.csv' visual -s between -l -v 15 &> 'data/Shapes/mds/similarities/aggregator/log_preprocessing.txt'
+	python -m code.mds.preprocessing.preprocess_Shapes data/Shapes/raw_data/visual_similarities_within.csv 'data/Shapes/raw_data/visual_similarities.csv' data/Shapes/raw_data/category_names.csv data/Shapes/raw_data/item_names.csv 'data/Shapes/mds/similarities/aggregator/individual_ratings.pickle' 'data/Shapes/mds/data_set/individual/similarities/visual_15.csv' visual -s between -l -v 15  --seed 42 &> 'data/Shapes/mds/similarities/aggregator/log_preprocessing.txt'
 
 	[ "$aggregator" == "median" ] && aggregator_flag='--median' || aggregator_flag=''
 	python -m code.mds.preprocessing.aggregate_similarities 'data/Shapes/mds/similarities/aggregator/individual_ratings.pickle' 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/aggregated_ratings.pickle' 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/' 'data/Shapes/mds/data_set/aggregated/similarities/visual_'"$aggregator"'_15.csv' visual $aggregator_flag &> 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/log_aggregation.txt'
@@ -75,6 +75,7 @@ do
 done
 # dump all of them into common files
 python -m code.mds.preprocessing.export_feature_ratings data/Shapes/mds/features data/Shapes/mds/data_set/individual/features/all_features.csv data/Shapes/mds/data_set/aggregated/features/all_features.csv
+
 
 
 
