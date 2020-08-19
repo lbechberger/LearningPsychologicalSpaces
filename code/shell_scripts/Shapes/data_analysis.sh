@@ -22,7 +22,7 @@ echo 'setting up directory structure'
 mkdir -p data/Shapes/mds/features 
 mkdir -p data/Shapes/mds/data_set/individual/features data/Shapes/mds/data_set/individual/similarities
 mkdir -p data/Shapes/mds/data_set/aggregated/features data/Shapes/mds/data_set/aggregated/similarities
-mkdir -p data/Shapes/mds/visualizations/similarity_matrices data/Shapes/mds/visualizations/features data/Shapes/mds/visualizations/average_images
+mkdir -p data/Shapes/mds/visualizations/similarity_matrices
 
 for rating_type in $rating_types
 do
@@ -39,6 +39,10 @@ do
 	mkdir -p 'data/Shapes/mds/visualizations/average_images/'"$image_size"'/'
 done
 
+for feature in $perceptual_features
+do
+	mkdir -p 'data/Shapes/mds/visualizations/features/'"$feature"'/'
+done
 
 # Preprocessing
 # -------------
@@ -49,24 +53,22 @@ echo 'preprocessing data'
 for rating_type in $rating_types
 do
 	echo '    '"$rating_type"' similarity'
-	[ "$rating" == "conceptual" ] && reverse_flag='--reverse' || reverse_flag=''	
+	[ "$rating" == "conceptual" ] && reverse_flag='--reverse' || reverse_flag=''
 	for rating_limit in $rating_limits
 	do
-		python -m code.mds.preprocessing.preprocess_Shapes data/Shapes/raw_data/visual_similarities_within.csv 'data/Shapes/raw_data/'"$rating_type"'_similarities.csv' data/Shapes/raw_data/category_names.csv data/Shapes/raw_data/item_names.csv 'data/Shapes/mds/similarities/rating_type/individual_ratings_'"$rating_type"'_'"$rating_limit"'.pickle' 'data/Shapes/mds/data_set/individual/similarities/'"$rating_type"'_'"$rating_limit"'.csv' $rating_type $reverse_flag -s between -l -v $rating_limit
+		python -m code.mds.preprocessing.preprocess_Shapes data/Shapes/raw_data/visual_similarities_within.csv 'data/Shapes/raw_data/'"$rating_type"'_similarities.csv' data/Shapes/raw_data/category_names.csv data/Shapes/raw_data/item_names.csv 'data/Shapes/mds/similarities/rating_type/individual_ratings_'"$rating_type"'_'"$rating_limit"'.pickle' 'data/Shapes/mds/data_set/individual/similarities/'"$rating_type"'_'"$rating_limit"'.csv' $rating_type $reverse_flag -s between -l -v $rating_limit &> 'data/Shapes/mds/similarities/rating_type/log_'"$rating_type"'_'"$rating_limit"'.txt'
 	done
-
 done
-rm data/Shapes/mds/data_set/individual/similarities/conceptual_15.csv
-
-#TODO continue here
+rm data/Shapes/mds/data_set/individual/similarities/conceptual_15.csv data/Shapes/mds/similarities/rating_type/log_conceptual_15.txt
 
 # read in perceptual feature data and preprocess it
 for feature in $perceptual_features
 do
 	echo '    '"$feature"' feature'
-	python -m code.mds.preprocessing.preprocess_feature 'data/Shapes/raw_data/'"$feature"'_pre-attentive.csv' 'data/Shapes/raw_data/'"$feature"'_attentive.csv' 'data/Shapes/mds/features/'"$feature"'.pickle' -p -o 'data/Shapes/mds/analysis/features/'"$feature"'/' &> 'data/Shapes/raw_data/preprocessed/preprocess_'"$feature"'.txt'
-
+	python -m code.mds.preprocessing.preprocess_feature 'data/Shapes/raw_data/'"$feature"'_pre-attentive.csv' 'data/Shapes/raw_data/'"$feature"'_attentive.csv' data/Shapes/raw_data/category_names.csv data/Shapes/raw_data/item_names.csv 'data/Shapes/mds/features/'"$feature"'.pickle' 'data/Shapes/mds/data_set/individual/features/'"$feature"'.csv' 'data/Shapes/mds/data_set/aggregated/features/'"$feature"'.csv' -p 'data/Shapes/mds/visualizations/features/'"$feature"'/' -i data/Shapes/images &> 'data/Shapes/mds/features/log_'"$feature"'.txt'
 done
+
+# TODO continue here
 	
 	
 # RQ1: Comparing conceptual to visual similarity
