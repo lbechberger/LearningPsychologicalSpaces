@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Computes the correlations between the different feature types for two psychological features.
+Visualizes the correlations between the different feature types for two psychological features.
 
 Created on Mon Jan 27 15:52:20 2020
 
@@ -8,7 +8,6 @@ Created on Mon Jan 27 15:52:20 2020
 """
 
 import pickle, argparse, os
-from scipy.stats import spearmanr
 from code.util import load_item_images, create_labeled_scatter_plot
 
 parser = argparse.ArgumentParser(description='Correlating two psychological features')
@@ -23,9 +22,9 @@ args = parser.parse_args()
 
 # load feature data
 with open(args.first_feature, 'rb') as f_in:
-    first_data = pickle.load(f_in)
+    first_data = pickle.load(f_in)['aggregated']
 with open(args.second_feature, 'rb') as f_in:
-    second_data = pickle.load(f_in)
+    second_data = pickle.load(f_in)['aggregated']
 
 # sorted list of item_ids
 items_sorted = list(sorted(first_data['pre-attentive'].keys()))
@@ -41,12 +40,9 @@ for feature_type in sorted(first_data.keys()):
     first_scale = first_data[feature_type]
     second_scale = second_data[feature_type]
     
-    item_ids = sorted(first_scale.keys())
-    first_values = [first_scale[item_id] for item_id in item_ids]
-    second_values = [second_scale[item_id] for item_id in item_ids]
-    
-    spearman, p_value = spearmanr(first_values, second_values)
-    print("Spearman correlation for {0} feature: {1} (p = {2})".format(feature_type, spearman, p_value))
+    items = sorted(first_scale.keys())
+    first_values = [first_scale[item] for item in items]
+    second_values = [second_scale[item] for item in items]
     
     # create scatter plot
     output_file_name = os.path.join(args.output_folder, 'scatter-{0}-{1}-{2}.png'.format(args.first_name, args.second_name, feature_type))        

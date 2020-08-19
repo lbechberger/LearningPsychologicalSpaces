@@ -81,8 +81,25 @@ echo '    features based on category structure'
 python -m code.mds.preprocessing.features_from_categories data/Shapes/mds/similarities/aggregator/individual_ratings.pickle data/Shapes/mds/features/
 
 
+# Analysis
+# --------
+echo 'data analysis'
 
-	
+# comparing psychological features to each other
+echo '    comparing psychological features'
+for first_feature in $perceptual_features
+do
+	for second_feature in $perceptual_features
+	do
+		if [[ "$first_feature" < "$second_feature" ]]
+		then
+			python -m code.mds.data_analysis.compare_features 'data/Shapes/mds/features/'"$first_feature"'.pickle' 'data/Shapes/mds/features/'"$second_feature"'.pickle' 'data/Shapes/mds/visualizations/features/'"$feature"'/' -f $first_feature -s $second_feature -i data/Shapes/images
+		fi
+	done
+done
+
+# TODO continue here
+
 	
 # RQ1: Comparing conceptual to visual similarity
 # ----------------------------------------------
@@ -118,42 +135,13 @@ python -m code.mds.preprocessing.plot_similarity_tables data/Shapes/mds/similari
 
 echo 'RQ2: Does the Sim-Dis distinction reflect visual similarity?'
 
-echo '    analyzing raw data'
-for rating_type in $rating_types
-do
-	echo '        '"$rating_type"
-	python -m code.mds.preprocessing.analyze_similarity_distribution 'data/Shapes/raw_data/preprocessed/data_'"$rating_type"'.pickle' -s between --median &> 'data/Shapes/mds/analysis/dataset/'"$rating_type"'/analysis.txt'
-done
+
 
 echo '    creating average images for all the categories'
 for image_size in $image_sizes
 do
 	echo '        target image size '"$image_size"
 	python -m code.mds.preprocessing.average_images data/Shapes/raw_data/preprocessed/data_visual.pickle data/Shapes/images/ -s between -o 'data/Shapes/mds/visualizations/average_images/'"$image_size"'/' -r $image_size &> 'data/Shapes/mds/visualizations/average_images/'"$image_size"'.txt'
-done
-
-# RQ3: Comparing pre-attentive to attentive rating_types of perceptual features
-# ------------------------------------------------------------------------
-
-echo 'RQ3: Comparing pre-attentive to attentive rating_types of perceptual features'
-
-# analyze each perceptual feature and construct regression & classification problem
-for feature in $perceptual_features
-do
-	echo '    looking at '"$feature"' data'
-	python -m code.mds.preprocessing.analyze_feature 'data/Shapes/raw_data/preprocessed/'"$feature"'.pickle' 'data/Shapes/mds/analysis/features/'"$feature"'/' 'data/Shapes/mds/classification/'"$feature"'.pickle' 'data/Shapes/mds/regression/'"$feature"'.pickle' -i data/Shapes/images -m &> 'data/Shapes/mds/analysis/features/'"$feature"'/analysis.txt'
-done
-
-# compare features pairwise
-for first_feature in $perceptual_features
-do
-	for second_feature in $perceptual_features
-	do
-		if [[ "$first_feature" < "$second_feature" ]]
-		then
-			python -m code.mds.preprocessing.compare_features 'data/Shapes/mds/regression/'"$first_feature"'.pickle' 'data/Shapes/mds/regression/'"$second_feature"'.pickle' 'data/Shapes/mds/analysis/features/' -f $first_feature -s $second_feature -i data/Shapes/images &> 'data/Shapes/mds/analysis/features/'"$first_feature"'-'$second_feature'.txt'
-		fi
-	done
 done
 
 

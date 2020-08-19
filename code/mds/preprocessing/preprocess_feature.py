@@ -31,7 +31,6 @@ response_mapping = {'keineAhnung': 0,
                     'vertikal': 1, 'horizontal': -1, 'diagonal1': 0, 'diagonal2': 0}
 
 item_map_id_to_english = {}
-item_map_english_to_id = {}
 item_map_german_to_english = {}
 item_names = []
 category_map = {}
@@ -50,8 +49,6 @@ with open(args.items_file, 'r') as f_in:
     for line in f_in:
         tokens = line.replace('\n','').split(',')
         item_map_id_to_english[tokens[0]] = tokens[1]
-        item_map_english_to_id[tokens[1]] = tokens[0]
-        
 
 # read in information from pre-attentive ratings
 with open(args.pre_attentive_file, 'r') as f_in:
@@ -149,12 +146,10 @@ for first_feature_type, second_feature_type in combinations(sorted(classificatio
 # creating scatter plots
 if args.plot_folder is not None:
 
-    item_ids = [item_map_english_to_id[item] for item in item_names]
-
     # first read in all the images
     images = None
     if args.image_folder != None:
-        images = load_item_images(args.image_folder, item_ids)    
+        images = load_item_images(args.image_folder, item_names)    
     
     # look at all pairs of feature types
     for first_feature_type, second_feature_type in combinations(sorted(aggregated_ratings.keys()), 2):
