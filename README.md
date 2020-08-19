@@ -141,6 +141,13 @@ python -m code.mds.preprocessing.export_feature_ratings path/to/input_folder pat
 ```
 The directory `input_folder` is searched for pickle files containing feature information. Individual ratings are written to `output_individual.csv` using the header `item;ratingType;feature;ratings` (one row per individual rating). Aggregated ratings are written to `output_aggregated.csv` using the header `item;ratingType;feature_1;[...};feature_n` where `feature_i` is replaced by the `i`th feature (one row per item).
 
+#### 2.1.6 Creating Features from Category Information
+
+The script `features_from_categories.py` uses the category structure to create candidate features based on both the `visSim` and the `artificial` information. It loads the raw data from `input.pickle` (output of `preprocess_Shapes.py`) and stores the resulting feature information in the given `output_folder` in two pickle files structured in a way analogous to `preprocess_feature.py`. The script can be executed as follows:
+```
+python -m code.mds.preprocessing.features_from_categories path/to/input.pickle path/to/output_folder
+```
+
 
 
 #### 2.1.6 Creating Average Images
@@ -168,14 +175,6 @@ The data about the first and second feature is read in from `first.pickle` and `
 - `-f` or `--first_name`: Name to use for the first feature. Defaults to `first`.
 - `-s` or `--second_name`: Name to use for the second feature. Defaults to `second`.
 
-#### 2.1.9 Creating Features from Category Information
-
-The script `features_from_categories.py` uses the category structure to create candidate features based on both the `visSim` and the `artificial` information. It loads the raw data from `input.pickle` (output of `preprocess_Shapes.py`) and stores the regression and classification information in the given `regression_folder` and `classification_folder`, respectively. The script can be executed as follows:
-```
-python -m code.mds.preprocessing.features_from_categories path/to/input.pickle path/to/regression_folder path/to/classification_folder
-```
-The script accepts the following optional arguments:
-- `-s` or `--subset`: The subset of data to use, defaults to `all`. Possible other options are `between`, `within`, and `cats` (see above).
 
 #### 2.1.11 Creating Heatmaps of the Similarity Matrices 
 

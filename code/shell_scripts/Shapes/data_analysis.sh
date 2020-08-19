@@ -76,6 +76,9 @@ done
 # dump all of them into common files
 python -m code.mds.preprocessing.export_feature_ratings data/Shapes/mds/features data/Shapes/mds/data_set/individual/features/all_features.csv data/Shapes/mds/data_set/aggregated/features/all_features.csv
 
+# create features from category structure (i.e., 'artificial' and 'visSim') for further downstream analysis
+echo '    features based on category structure'
+python -m code.mds.preprocessing.features_from_categories data/Shapes/mds/similarities/aggregator/individual_ratings.pickle data/Shapes/mds/features/
 
 
 
@@ -153,8 +156,6 @@ do
 	done
 done
 
-# create features from category structure (i.e., 'artificial' and 'visSim') for further downstream analysis
-python -m code.mds.preprocessing.features_from_categories data/Shapes/raw_data/preprocessed/data_visual.pickle data/Shapes/mds/regression/ data/Shapes/mds/classification -s between
 
 
 # RQ4: Comparing dissimilarity matrices of median aggregation and mean aggregation
