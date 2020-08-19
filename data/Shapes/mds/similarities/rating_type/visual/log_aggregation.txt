@@ -1,0 +1,63 @@
+dissimilarity matrix: 60 x 60, 3600 entries, 3600 are filled (equals 100.0%)
+apple: 60 constraints
+igloo: 60 constraints
+raspberry: 60 constraints
+bicycle: 60 constraints
+pyramid: 60 constraints
+pliers: 60 constraints
+windmill: 60 constraints
+carrot: 60 constraints
+rose: 60 constraints
+uniform: 60 constraints
+banana: 60 constraints
+tulip: 60 constraints
+palm tree: 60 constraints
+stork: 60 constraints
+pigeon: 60 constraints
+jacket: 60 constraints
+microwave: 60 constraints
+broccoli: 60 constraints
+onion: 60 constraints
+car: 60 constraints
+saw: 60 constraints
+washing machine: 60 constraints
+shirt: 60 constraints
+hammer: 60 constraints
+tractor: 60 constraints
+owl: 60 constraints
+bowl: 60 constraints
+television: 60 constraints
+dragonfly: 60 constraints
+plate: 60 constraints
+shovel: 60 constraints
+goat: 60 constraints
+butterfly: 60 constraints
+axe: 60 constraints
+horse: 60 constraints
+bus: 60 constraints
+cherry: 60 constraints
+dishwasher: 60 constraints
+lighthouse: 60 constraints
+salt shaker: 60 constraints
+ant: 60 constraints
+bell pepper: 60 constraints
+dandelion: 60 constraints
+coat: 60 constraints
+cow: 60 constraints
+stag: 60 constraints
+glass: 60 constraints
+teapot: 60 constraints
+fly: 60 constraints
+blouse: 60 constraints
+toaster: 60 constraints
+donkey: 60 constraints
+ladybug: 60 constraints
+sunflower: 60 constraints
+parrot: 60 constraints
+scooter: 60 constraints
+lemon: 60 constraints
+eagle: 60 constraints
+asparagus: 60 constraints
+church: 60 constraints
+average number of constraints per item: 60.0
+number of ties (off diagonal, ignoring symmetry) in the matrix: 630121.0 (9.726791392670805% of the pairs, 9 distinct values)
