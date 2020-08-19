@@ -141,6 +141,7 @@ python -m code.mds.preprocessing.export_feature_ratings path/to/input_folder pat
 ```
 The directory `input_folder` is searched for pickle files containing feature information. Individual ratings are written to `output_individual.csv` using the header `item;ratingType;feature;ratings` (one row per individual rating). Aggregated ratings are written to `output_aggregated.csv` using the header `item;ratingType;feature_1;[...};feature_n` where `feature_i` is replaced by the `i`th feature (one row per item).
 
+
 #### 2.1.6 Creating Features from Category Information
 
 The script `features_from_categories.py` uses the category structure to create candidate features based on both the `visSim` and the `artificial` information. It loads the raw data from `input.pickle` (output of `preprocess_Shapes.py`) and stores the resulting feature information in the given `output_folder` in two pickle files structured in a way analogous to `preprocess_feature.py`. The script can be executed as follows:
@@ -148,6 +149,19 @@ The script `features_from_categories.py` uses the category structure to create c
 python -m code.mds.preprocessing.features_from_categories path/to/input.pickle path/to/output_folder
 ```
 
+### 2.2 Analysis of the Data
+
+#### 2.2.1 Correlations between Psychological Features
+
+The script `compare_features.py` compares the scales of two different psychological features to each other, based on each of the scale types. It can be invoked as follows:
+```
+python -m code.mds.preprocessing.compare_features path/to/first.pickle path/to/second.pickle path/to/output_folder
+```
+The data about the first and second feature is read in from `first.pickle` and `second.pickle`, respectively. Both files are the output files of the `preprocess_feature.py` script. Scatter plots of the two features are stored in the given `output_folder`. The script takes the following optional arguments:
+- `-i` or `--image_folder`: Path to the folder containing the images for the items. If given, it will use the item images to create scatter plots. If not given, an ordinary scatter plot will be used.
+- `-z` or `--zoom`: Determines the size of the item images in the scatter plot. Defaults to 0.15.
+- `-f` or `--first_name`: Name to use for the first feature. Defaults to `first`.
+- `-s` or `--second_name`: Name to use for the second feature. Defaults to `second`.
 
 
 #### 2.1.6 Creating Average Images
@@ -163,17 +177,6 @@ Here, `input_file.pickle` corresponds to the output file of `preprocess_Shapes.p
 - `-a` or `--aggregator`: The aggregator to use for downscaling the images. Defaults to `mean`. Other possible values are `min`, `max`, and `median`.
 
 
-#### 2.1.8 Correlations between Psychological Features
-
-The script `compare_features.py` compares the scales of two different psychological features to each other, based on each of the scale types. It can be invoked as follows:
-```
-python -m code.mds.preprocessing.compare_features path/to/first.pickle path/to/second.pickle path/to/output_folder
-```
-The data about the first and second feature is read in from `first.pickle` and `second.pickle`, respectively. Both files are the `regression.pickle` output files of the `analyze_feature.py` script. Scatter plots of the two features are stored in the given `output_folder`. The script takes the following optional arguments:
-- `-i` or `--image_folder`: Path to the folder containing the images for the items. If given, it will use the item images to create scatter plots. If not given, an ordinary scatter plot will be used.
-- `-z` or `--zoom`: Determines the size of the item images in the scatter plot. Defaults to 0.15.
-- `-f` or `--first_name`: Name to use for the first feature. Defaults to `first`.
-- `-s` or `--second_name`: Name to use for the second feature. Defaults to `second`.
 
 
 #### 2.1.11 Creating Heatmaps of the Similarity Matrices 
