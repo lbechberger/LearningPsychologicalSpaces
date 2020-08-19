@@ -68,6 +68,7 @@ do
 	python -m code.mds.preprocessing.preprocess_feature 'data/Shapes/raw_data/'"$feature"'_pre-attentive.csv' 'data/Shapes/raw_data/'"$feature"'_attentive.csv' data/Shapes/raw_data/category_names.csv data/Shapes/raw_data/item_names.csv 'data/Shapes/mds/features/'"$feature"'.pickle' 'data/Shapes/mds/data_set/individual/features/'"$feature"'.csv' 'data/Shapes/mds/data_set/aggregated/features/'"$feature"'.csv' -p 'data/Shapes/mds/visualizations/features/'"$feature"'/' -i data/Shapes/images &> 'data/Shapes/mds/features/log_'"$feature"'.txt'
 done
 
+python -m code.mds.preprocessing.export_feature_ratings data/Shapes/mds/features data/Shapes/mds/data_set/individual/features/all_features.csv data/Shapes/mds/data_set/aggregated/features/all_features.csv
 # TODO continue here
 	
 	

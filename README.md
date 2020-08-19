@@ -112,6 +112,16 @@ The script accepts the following optional parameters:
 - `-i` or `--image_folder`: Path to the folder containing the images for the items. If given, it will use the item images to create scatter plots. If not given, an ordinary scatter plot will be used.
 - `-z` or `--zoom`: Determines the size of the item images in the scatter plot. Defaults to 0.15.
 
+
+#### 2.1.4 Exporting Feature Data to CSV
+
+In order to allow for an easier analysis in R, one can export all feature ratings into two overall csv files (one for the aggregated and one for the raw ratings) using the script `export_feature_ratings.csv`:
+```
+python -m code.mds.preprocessing.export_feature_ratings path/to/input_folder path/to/output_individual.csv path/to/output_aggregated.csv
+```
+The directory `input_folder` is searched for pickle files containing feature information. Individual ratings are written to `output_individual.csv` using the header `item;ratingType;feature;ratings` (one row per individual rating). Aggregated ratings are written to `output_aggregated.csv` using the header `item;ratingType;feature_1;[...};feature_n` where `feature_i` is replaced by the `i`th feature (one row per item).
+
+
 #### 2.1.4 Aggregating Similarity Ratings
 
 The next step in the preprocessing pipeline is to extract similarity ratings from the overall data set. This can be done with the script `compute_similarities.py`. You can execute it as follows from the project's root directory:

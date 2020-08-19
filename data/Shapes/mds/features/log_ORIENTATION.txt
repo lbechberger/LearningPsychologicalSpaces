@@ -3,7 +3,7 @@ windmill,tulip,bell pepper,dandelion,shirt,broccoli,coat,uniform,rose,jacket,lig
 Negative examples for attentive
 car,microwave,cow,plate,goat,horse,ant,donkey,stag,tractor,bicycle,fly,church,bowl,bus
 Positive examples for pre-attentive
-rose,uniform,broccoli,shirt,tulip,sunflower,jacket,palm tree,dandelion,blouse,bell pepper,glass,coat,lighthouse,salt shaker
+rose,uniform,broccoli,shirt,tulip,sunflower,dandelion,blouse,palm tree,jacket,bell pepper,salt shaker,lighthouse,glass,coat
 Negative examples for pre-attentive
-car,bowl,goat,microwave,donkey,plate,bicycle,igloo,horse,cow,bus,ant,tractor,butterfly,toaster
+car,goat,microwave,bowl,donkey,plate,bicycle,horse,igloo,cow,bus,ant,butterfly,tractor,television
 Comparing classification of attentive to pre-attentive: Intersection Pos 14, Intersection Neg 12
