@@ -93,9 +93,9 @@ for index1, item1 in enumerate(items):
         # add to category matrix
         cat_idx1 = categories.index(data_set['items'][item1]['category']) 
         cat_idx2 = categories.index(data_set['items'][item2]['category'])
-        category_matrix_raw[cat_idx1][cat_idx2].append(overall_similarity)
+        category_matrix_raw[cat_idx1][cat_idx2] += similarity_ratings
         if cat_idx1 != cat_idx2:
-            category_matrix_raw[cat_idx2][cat_idx1].append(overall_similarity)
+            category_matrix_raw[cat_idx2][cat_idx1] += similarity_ratings
         
         # keep track of statistics
         number_of_filled_entries += 2
