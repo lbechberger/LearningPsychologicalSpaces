@@ -318,8 +318,8 @@ def load_mds_vectors(vector_file, item_ids = None):
     result_dict = {}
     result_list = []    
     
-    with open(vector_file, 'r') as f:
-        for line in f:
+    with open(vector_file, 'r') as f_in:
+        for line in f_in:
             tokens = line.replace('\n','').split(',')
             item = tokens[0]
             vector = list(map(lambda x: float(x), tokens[1:]))
