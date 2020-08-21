@@ -45,6 +45,9 @@ with open(args.input_file, 'rb') as f_in:
 categories = sorted(data['categories'].keys())
 vectors = data[args.n_dims]
 
+if args.seed is not None:
+    np.random.seed(args.seed)
+
 # prepare the dictionaries for collecting the violation counts
 def get_internal_dict():
     return {'MDS':0, 'uniform':0, 'normal':0, 'shuffled':0}
@@ -62,9 +65,6 @@ for this_type in ['art', 'nat']:
     art_violations[this_type] = {}
     for other_type in ['art', 'nat']:
         art_violations[this_type][other_type] = get_internal_dict()
-
-if args.seed is not None:
-    np.random.seed(args.seed)
 
 # iterate over all categories
 for category_1 in categories:
@@ -142,8 +142,8 @@ for category_1 in categories:
 
 # write headline if necessary
 if not os.path.exists(args.output_file):
-    with open(args.output_file, 'w') as f:
-        fcntl.flock(f, fcntl.LOCK_EX)
+    with open(args.output_file, 'w') as f_out:
+        fcntl.flock(f_out, fcntl.LOCK_EX)
         
         headline_items = ['dims']
         
@@ -169,13 +169,13 @@ if not os.path.exists(args.output_file):
                     for distr in ['u', 'n', 's']:
                         headline_items.append('_'.join(['art', art_1, art_2, distr]))
     
-        f.write("{0}\n".format(','.join(headline_items)))
-        fcntl.flock(f, fcntl.LOCK_UN)
+        f_out.write("{0}\n".format(','.join(headline_items)))
+        fcntl.flock(f_out, fcntl.LOCK_UN)
         
 
 # write content
-with open(args.output_file, 'a') as f:
-    fcntl.flock(f, fcntl.LOCK_EX)
+with open(args.output_file, 'a') as f_out:
+    fcntl.flock(f_out, fcntl.LOCK_EX)
         
     # total
     total = []
@@ -203,7 +203,7 @@ with open(args.output_file, 'a') as f:
                     art.append(art_violations[art_1][art_2][distribution])
     
     list_of_all_results = [args.n_dims] + total + sim + art  
-    f.write(','.join(map(lambda x: str(x), list_of_all_results)))
-    f.write('\n')
-    fcntl.flock(f, fcntl.LOCK_UN)
+    f_out.write(','.join(map(lambda x: str(x), list_of_all_results)))
+    f_out.write('\n')
+    fcntl.flock(f_out, fcntl.LOCK_UN)
             

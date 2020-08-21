@@ -96,8 +96,8 @@ for category in categories:
 
 # write headline if necessary
 if not os.path.exists(args.output_file):
-    with open(args.output_file, 'w') as f:
-        fcntl.flock(f, fcntl.LOCK_EX)
+    with open(args.output_file, 'w') as f_out:
+        fcntl.flock(f_out, fcntl.LOCK_EX)
         
         headline_items = ['dims']
         
@@ -107,13 +107,13 @@ if not os.path.exists(args.output_file):
                 for distr in ['u', 'n', 's']:
                     headline_items.append('_'.join([category_type, distr]))
                
-        f.write("{0}\n".format(','.join(headline_items)))
-        fcntl.flock(f, fcntl.LOCK_UN)
+        f_out.write("{0}\n".format(','.join(headline_items)))
+        fcntl.flock(f_out, fcntl.LOCK_UN)
         
 
 # write content
-with open(args.output_file, 'a') as f:
-    fcntl.flock(f, fcntl.LOCK_EX)
+with open(args.output_file, 'a') as f_out:
+    fcntl.flock(f_out, fcntl.LOCK_EX)
     
     output_line = [args.n_dims]
     for category_type in ['all', 'VC', 'VV']:
@@ -122,7 +122,7 @@ with open(args.output_file, 'a') as f:
             for distribution in ['uniform', 'normal', 'shuffled']:
                 output_line.append(np.mean(average_distances[category_type][distribution]))
 
-    f.write(','.join(map(lambda x: str(x), output_line)))
-    f.write('\n')
-    fcntl.flock(f, fcntl.LOCK_UN)
+    f_out.write(','.join(map(lambda x: str(x), output_line)))
+    f_out.write('\n')
+    fcntl.flock(f_out, fcntl.LOCK_UN)
         
