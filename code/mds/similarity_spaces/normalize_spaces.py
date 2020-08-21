@@ -64,7 +64,7 @@ for file_name in os.listdir(args.input_folder):
         
         # add to output for pickle file
         normalized_vector_dict = {}
-        for item, vector in zip(items, vector):
+        for item, vector in zip(items, normalized_vectors):
             normalized_vector_dict[item] = vector
         output[n_dims] = normalized_vector_dict
 
