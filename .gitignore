@@ -106,9 +106,5 @@ data/NOUN/ml/dataset/features*
 
 # Shapes data
 data/Shapes/images/
-data/Shapes/mds/vectors/
-data/Shapes/mds/visualizations/
-data/Shapes/mds/analysis/
-data/Shapes/mds/classification/
-data/Shapes/mds/regression/
+data/Shapes/visualizations/spaces_old/
 

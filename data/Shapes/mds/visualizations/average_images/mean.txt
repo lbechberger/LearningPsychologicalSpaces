@@ -1,0 +1,12 @@
+C21_Vögel 5
+C10_Landtiere 5
+C25_Werkzeug 5
+C19_Straßenfahrzeuge 5
+C03_Elektrogeräte 5
+C13_Obst 5
+C05_Gemüse 5
+C06_Geschirr 5
+C04_Gebäude 5
+C14_Pflanzen 5
+C07_Insekten 5
+C12_Oberkörperbekleidung 5
