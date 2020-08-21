@@ -37,7 +37,8 @@ do
 	mkdir -p 'data/Shapes/mds/analysis/directions/'"$aggregator"'/aggregated/'
 done
 
-
+# create and normalize similarity spaces
+# --------------------------------------
 echo 'creating similarity spaces'
 echo '    running MDS'
 for aggregator in $aggregators
@@ -46,7 +47,6 @@ do
 done
 wait
 
-# normalize MDS spaces
 echo '    normalizing MDS spaces'
 for aggregator in $aggregators
 do
@@ -54,7 +54,35 @@ do
 done
 wait
 
-# TODO continue here
+# analyzing correlation between distances and dissimilarities
+# -----------------------------------------------------------
+
+# TODO code
+
+
+# analyzing conceptual regions
+# ----------------------------
+
+echo 'analyzing conceptual regions'
+echo '    overlap of convex hulls'
+for aggregator in $aggregators
+do
+	for i in `seq 1 $convexity_limit`
+	do
+		python -m code.mds.regions.analyze_overlap 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/vectors.pickle' $i 'data/Shapes/mds/analysis/regions/'"$aggregator"'/overlap.csv' -b -r 100 -s 42 &
+	done
+done
+wait
+
+echo '    size'
+
+# TODO code
+
+
+# analyzing interpretable directions
+# ----------------------------------
+
+# TODO code
 
 
 # RQ5: How good are the baselines (pixel, ANN, features)?
@@ -182,26 +210,7 @@ do
 	done
 done
 
-# RQ7: How well-shaped are the conceptual regions?
-# ------------------------------------------------
 
-echo 'RQ7: How well-shaped are the conceptual regions?'
-
-for aggregator in $aggregators
-do
-	for i in `seq 1 $convexity_limit`
-	do
-		# check whether regions overlap
-		python -m code.mds.similarity_spaces.analyze_overlap 'data/Shapes/mds/vectors/'"$aggregator"'/'"$i"'D-vectors.csv' data/Shapes/raw_data/preprocessed/data_visual.pickle $i -o 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/regions/overlaps.csv' -b -r 100 -s 42 > 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/regions/'"$i"'D-overlap.txt' &
-	done
-
-	for i in `seq 1 $dimension_limit`
-	do	
-		# check how large the regions are
-		python -m code.mds.similarity_spaces.analyze_concept_size 'data/Shapes/mds/vectors/'"$aggregator"'/'"$i"'D-vectors.csv'  data/Shapes/raw_data/preprocessed/data_visual.pickle $i -o 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/regions/sizes.csv' -b -r 100 -s 42 > 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/regions/'"$i"'D-size.txt' &
-	done
-done
-wait
 
 # RQ8: Are the (psychological) features reflected as interpretable directions in the similarity spaces?
 # -----------------------------------------------------------------------------------------------------

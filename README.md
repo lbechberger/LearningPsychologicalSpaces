@@ -51,7 +51,7 @@ The folder `code/mds` contains all scripts necessary for the first part of our s
 
 The folder `code/mds/preprocessing` contains various scripts for preprocessing the data set in order to prepare it for multidimensional scaling. Depending on the data set (NOUN vs. Shapes), the first preprocessing step differs (see below), but results in the same output data structure, namely a dictionary with the following elements:
 - `'categories'`: A dictionary using category names as keys and containing dictionaries as values. These dictionaries have the following elements:
-  - `'visSim'`: Is the category visually homogeneous? 'VC' means 'Visually Coherent', 'Dis' means 'Visually Variable', and 'x' means unclear. 
+  - `'visSim'`: Is the category visually homogeneous? 'VC' means 'Visually Coherent', 'VV' means 'Visually Variable', and 'x' means unclear. 
   - `'artificial'`: Does the category consist of natural ('nat') or artificial ('art') items? 
   - `'items'`: A list of all items that belong into this category. 
 - `'items'`: A dictionary using item names as keys and containing dictionaries as values. These dictionaries have the following elements:
@@ -231,7 +231,7 @@ python -m code.mds.similarity_spaces.normalize_spaces path/to/input_folder path/
 ```
 The script **overrides** the original CSV files. Moreover, it creates an `output.pickle` based on the normalized vectors and the catgeory structure from `input.pickle` (). This `output.pickle` file contains a dictioanry with the following structure:
 - `'categories'`: A dictionary using category names as keys and containing dictionaries as values. These dictionaries have the following elements:
-  - `'visSim'`: Is the category visually homogeneous? 'VC' means 'Visually Coherent', 'Dis' means 'Visually Variable', and 'x' means unclear. 
+  - `'visSim'`: Is the category visually homogeneous? 'VC' means 'Visually Coherent', 'VV' means 'Visually Variable', and 'x' means unclear. 
   - `'artificial'`: Does the category consist of natural ('nat') or artificial ('art') items? 
   - `'items'`: A list of all items that belong into this category. 
 - `n` (for an integer `n` corresponding to the number of dimensions): Dictionary mapping from item names to vectors in the `n`-dimensional similarity space
@@ -271,6 +271,23 @@ The folder `code/mds/correlations` contains various scripts for correlating dist
 
 The folder `code/mds/regions` contains two scripts for analyzing the well-formedness of conceptual regions.
 
+#### 2.2.4 Checking for Overlap
+
+The script `analyze_overlap.py` can be used to check whether the categories within the space are non-overlapping. *This is only applicable to the Shapes data set, as there are no categories in NOUN.*
+
+The script iterates over all categories, builds a convex hull of the items belonging to this category and counts how many points from other categories lie within this convex hull. Each point that lies in the convex hull of a different concept is counted as one violation. The script outputs the number of violations for each category, together with an estimate of how many violations would be expected if points are randomly sampled from a uniform distribution, a normal distribution, or the overall set of given points.
+
+The script finally outputs the total number of violations as well as the group-wise number of violations for visual similarity and for natrualness. For the latter two, all four possible combination of classes are analyzed. An output for the pair `Sim`-`Dis` gives the number of violations observed where items from a category which is visually dissimilar was found to lie within the convex hull of another category which is visually similar, i.e., the first element of the tuple gives the type of category used for building the convex hull, whereas the second element gives the type of category of the "intruder" items.
+
+The script can be exectued as follows (where `vectors.pickle` is the output of `normalize_vectors.py`, `n_dims` is the dimensionality of the space to consider, and `output_file.csv` serves as storage location for the analysis results):
+```
+python -m code.mds.similarity_spaces.analyze_overlap path/to/vectors.pickle n_dims path/to/output_file.csv
+```
+It takes the following optional arguments:
+- `-b` or `--baseline`: Ony if this flag is set, the script will also estimate the expected values of randomly drawn points.
+- `-r` or `--repetitions`: Determines the number of repetitions used when sampling from the baselines. Defaults to 20. More samples means more accurate estimation, but longer runtime.
+- `-s` or `--seed`: Specify a seed for the random number generator in order to make the results deterministic. If no seed is given, then the random number generator is not seeded.
+
 
 **TODO**
 
@@ -282,23 +299,7 @@ The folder `code/mds/directions` contains various scripts for extracting interpr
 **TODO**
 
 
-#### 2.2.4 Checking for Overlap
 
-The script `analyze_overlap.py` can be used to check whether the categories within the space are non-overlapping. *This is only applicable to the Shapes data set, as there are no categories in NOUN.*
-
-The script iterates over all categories, builds a convex hull of the items belonging to this category and counts how many points from other categories lie within this convex hull. Each point that lies in the convex hull of a different concept is counted as one violation. The script outputs the number of violations for each category, together with an estimate of how many violations would be expected if points are randomly sampled from a uniform distribution, a normal distribution, or the overall set of given points.
-
-The script finally outputs the total number of violations as well as the group-wise number of violations for visual similarity and for natrualness. For the latter two, all four possible combination of classes are analyzed. An output for the pair `Sim`-`Dis` gives the number of violations observed where items from a category which is visually dissimilar was found to lie within the convex hull of another category which is visually similar, i.e., the first element of the tuple gives the type of category used for building the convex hull, whereas the second element gives the type of category of the "intruder" items.
-
-The script can be exectued as follows (where `n_dims` is the number of dimension of this specific similarity space):
-```
-python -m code.mds.similarity_spaces.analyze_overlap path/to/vectors.csv path/to/data.pickle n_dims
-```
-It takes the following optional arguments:
-- `-o` or `--output_file`: If an output file is given, the results are appended to this file in CSV style.
-- `-b` or `--baseline`: Ony if this flag is set, the script will also estimate the expected values of randomly drawn points.
-- `-r` or `--repetitions`: Determines the number of repetitions used when sampling from the baselines. Defaults to 20. More samples means more accurate estimation, but longer runtime.
-- `-s` or `--seed`: Specify a seed for the random number generator in order to make the results deterministic. If no seed is given, then the random number generator is not seeded.
 
 #### 2.2.5 Analyzing Category Size
 
