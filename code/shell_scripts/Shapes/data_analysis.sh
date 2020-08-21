@@ -109,57 +109,10 @@ done
 echo '    comparing visual and conceptual similarity'
 python -m  code.mds.data_analysis.find_item_pair_differences data/Shapes/mds/similarities/rating_type/visual/aggregated_ratings.pickle data/Shapes/mds/similarities/rating_type/conceptual/aggregated_ratings.pickle  &> data/Shapes/mds/similarities/rating_type/differences.txt
 
-echo '    visualization'
-python -m code.mds.data_analysis.plot_similarity_matrices data/Shapes/mds/similarities/rating_type/visual/aggregated_ratings.pickle data/Shapes/mds/similarities/rating_type/conceptual/aggregated_ratings.pickle data/Shapes/mds/visualizations/similarities/
+echo '    visualization of visual vs. conceptual similarity'
+python -m code.mds.data_analysis.plot_similarity_matrices data/Shapes/mds/similarities/rating_type/conceptual/aggregated_ratings.pickle data/Shapes/mds/similarities/rating_type/visual/aggregated_ratings.pickle  data/Shapes/mds/visualizations/similarities/ -f Conceptual -s Visual
 
-# TODO continue here
+echo '    visualization of mean vs. median similarity'
+python -m code.mds.data_analysis.plot_similarity_matrices data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle data/Shapes/mds/similarities/aggregator/median/aggregated_ratings.pickle  data/Shapes/mds/visualizations/similarities/ -f Mean -s Median
 
-	
-# RQ1: Comparing conceptual to visual similarity
-# ----------------------------------------------
-
-#echo 'RQ1: comparing conceptual and visual similarity matrices (median only)'
-#echo '    aggregating rating_types'
-#for rating_type in $rating_types
-#do
-	# use a limit of 10, because conceptual similarity has only 10 rating_types per pair
-#	python -m code.mds.preprocessing.compute_similarities 'data/Shapes/raw_data/preprocessed/data_'"$rating_type"'.pickle' 'data/Shapes/mds/similarities/dataset/'"$rating_type"'/sim.pickle' -s between -l -v 10 -p --median &> 'data/Shapes/mds/similarities/dataset/'"$rating_type"'/log.txt'
-
-	# output the matrices in csv style for easier inspection
-#	python -m code.mds.preprocessing.pickle_to_csv 'data/Shapes/mds/similarities/dataset/'"$rating_type"'/sim.pickle' 'data/Shapes/mds/similarities/dataset/'"$rating_type"'/'
-#done
-
-
-#echo '    correlations'
-# full matrices
-#python -m code.mds.correlations.similarity_correlations 'data/Shapes/mds/similarities/dataset/visual/sim.pickle' 'data/Shapes/mds/similarities/dataset/conceptual/sim.pickle' -o 'data/Shapes/mds/analysis/dataset/' -p -f 'Visual' -s 'Conceptual' &> 'data/Shapes/mds/analysis/dataset/correlations.txt'
-# only 'Sim' categories
-#python -m code.mds.correlations.similarity_correlations 'data/Shapes/mds/similarities/dataset/visual/sim.pickle' 'data/Shapes/mds/similarities/dataset/conceptual/sim.pickle' -f 'Visual (Sim)' -s 'Conceptual (Sim)' --sim_only 'data/Shapes/raw_data/preprocessed/data_visual.pickle' &> 'data/Shapes/mds/analysis/dataset/correlations(Sim).txt'
-
-	
-
-
-
-
-
-
-# RQ4: Comparing dissimilarity matrices of median aggregation and mean aggregation
-# --------------------------------------------------------------------------------
-
-#echo 'RQ4: aggregation with median vs aggregation with mean'
-#echo '    aggregating similarities'
-#for aggregator in $aggregators
-#do
-#	echo '        computing average similarities with '"$aggregator"
-#	[ "$aggregator" == "median" ] && aggregator_flag='--median' || aggregator_flag=''
-
-	# use a limit of 15 because we have more data for the visual similarities
-#	python -m code.mds.preprocessing.compute_similarities 'data/Shapes/raw_data/preprocessed/data_visual.pickle' 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/sim.pickle' -s between -l -v 15 -p $aggregator_flag &> 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/log.txt'
-
-#	echo '        creating CSV files for MDS'
-#	python -m code.mds.preprocessing.pickle_to_csv 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/sim.pickle' 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/'
-#done
-
-#echo '    computing correlation of the aggregated similarity rating_types'
-#python -m code.mds.correlations.similarity_correlations 'data/Shapes/mds/similarities/aggregator/median/sim.pickle' 'data/Shapes/mds/similarities/aggregator/mean/sim.pickle' -o 'data/Shapes/mds/analysis/aggregator/' -p -f 'Median' -s 'Mean' &> 'data/Shapes/mds/analysis/aggregator/correlations.txt'
 

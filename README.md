@@ -149,9 +149,11 @@ The script `features_from_categories.py` uses the category structure to create c
 python -m code.mds.preprocessing.features_from_categories path/to/input.pickle path/to/output_folder
 ```
 
+
 ### 2.2 Analysis of the Data Set
 
 The folder `code/mds/data_analysis` contains some scripts for visualizing and analyzing the (preprocessed) data set. While the statistical analyses are done with specialized R scripts, other functionality is provided by python scripts.
+
 
 #### 2.2.1 Correlations between Psychological Features
 
@@ -177,6 +179,7 @@ Here, `input_file.pickle` corresponds to the output file of `preprocess_Shapes.p
 - `-r` or `--resolution`: The desired size (width and height) of the output images, defaults to 283 (i.e, the size of the original images from the Shapes data set).
 - `-a` or `--aggregator`: The aggregator to use for downscaling the images. Defaults to `mean`. Other possible values are `min`, `max`, and `median`.
 
+
 #### 2.2.3 Comparing Visual and Conceptual Similarity Ratings
 
 You can use the script `find_item_pair_differences.py` to compare the visual and the conceptual similarity ratings and to find item pairs which have identical or very different ratings:
@@ -186,13 +189,15 @@ python -m code.mds.data_analysis.find_item_pair_differences path/to/visual.pickl
 Here, `conceptual.pickle` and `visual.pickle` are the corresponding output files of `aggregate_similarities.py`.
 
 
-#### 2.2.4 Creating Heatmaps of the Similarity Matrices 
+#### 2.2.4 Creating Visualizations of the Similarity Matrices
 
-In order to visualize the similarity matrices, one can use the script `plot_similarity_matrices.py`. It also directly compares visual to conceptual ratings, given as `visual.pickle` and `conceptual.pickle` (output of `aggregate_similarities.py`). It creates one item-based heatmap (above diagonal: visual similarity, below diagonal: conceptual similarity) and one category-based heatmap (same structure), and stores them as a single image `output_file.png`.
-
+In order to visualize the similarity matrices, one can use the script `plot_similarity_matrices.py`. This script compares two sets of aggregated similarity ratings, given as `first.pickle` and `second.pickle` (output of `aggregate_similarities.py`). It creates one item-based heatmap (below diagonal: first set of similarities, above diagonal: second set of similarities) and two category-based heatmaps (same structure), and stores them as a single image `output_folder/heatmap_First_Second.png`. Moreover, it creates a scatter plot of the values in the two matrices and stores them as `output_folder/scatter_First_Second.png`. The script can be invoked as follows:
 ```
-python -m code.mds.preprocessing.plot_similarity_matrices path/to/visual.pickle path/to/conceptual.pickle path/to/output_file.png
+python -m code.mds.preprocessing.plot_similarity_matrices path/to/first.pickle path/to/second.pickle path/to/output_folder/
 ```
+It takes the following optional arguments:
+- `-f` or `--first_name`: Descriptive name for the first set of similarities (defaults to 'First').
+- `-s` or `--second_name`: Descriptive name for the second set of similarities (defaults to 'Second').
 
 
 ### 2.2 Multidimensional Scaling
