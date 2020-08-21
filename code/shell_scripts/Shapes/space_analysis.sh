@@ -75,8 +75,13 @@ done
 wait
 
 echo '    size'
-
-# TODO code
+for aggregator in $aggregators
+do
+	for i in `seq 1 $dimension_limit`
+	do	
+		python -m code.mds.regions.analyze_concept_size 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/vectors.pickle' $i 'data/Shapes/mds/analysis/regions/'"$aggregator"'/size.csv' -b -r 100 -s 42
+	done
+done
 
 
 # analyzing interpretable directions

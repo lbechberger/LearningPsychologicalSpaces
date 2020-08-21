@@ -271,7 +271,7 @@ The folder `code/mds/correlations` contains various scripts for correlating dist
 
 The folder `code/mds/regions` contains two scripts for analyzing the well-formedness of conceptual regions.
 
-#### 2.2.4 Checking for Overlap
+#### 2.5.1 Checking for Overlap
 
 The script `analyze_overlap.py` can be used to check whether the categories within the space are non-overlapping. *This is only applicable to the Shapes data set, as there are no categories in NOUN.*
 
@@ -289,7 +289,17 @@ It takes the following optional arguments:
 - `-s` or `--seed`: Specify a seed for the random number generator in order to make the results deterministic. If no seed is given, then the random number generator is not seeded.
 
 
-**TODO**
+#### 2.5.2 Analyzing Concept Size
+
+The script `analyze_concept_size.py` evaluates category size by computing the average distance to the category prototype for all categories. *This is only applicable to the Shapes data set, as there are no categories in NOUN.* The script can be invoked as follows (where `vectors.pickle` is the output of `normalize_vectors.py`, `n_dims` is the dimensionality of the space to consider, and `output_file.csv` serves as storage location for the analysis results):
+```
+python -m code.mds.similarity_spaces.analyze_concept_size path/to/vectors.pickle n_dims path/to/output_file.csv
+```
+The script takes the following optional parameters:
+- `-b` or `--baseline`: Ony if this flag is set, the script will also estimate the expected values of randomly drawn points.
+- `-r` or `--repetitions`: Determines the number of repetitions used when sampling from the baselines. Defaults to 20. More samples means more accurate estimation, but longer runtime.
+- `-s` or `--seed`: Specify a seed for the random number generator in order to make the results deterministic. If no seed is given, then the random number generator is not seeded.
+
 
 ### 2.4 Analyzing Interpretable Directions
 
@@ -301,17 +311,6 @@ The folder `code/mds/directions` contains various scripts for extracting interpr
 
 
 
-#### 2.2.5 Analyzing Category Size
-
-The script `analyze_concept_size.py` evaluates category size by computing the average distance to the category prototype for all categories. *This is only applicable to the Shapes data set, as there are no categories in NOUN.* The script can be invoked as follows:
-```
-python -m code.mds.similarity_spaces.analyze_concept_size path/to/vectors.csv path/to/data.pickle n_dims
-```
-Here, `vectors.csv` contains MDS vectors of dimensionality `n_dims` and `data.pickle` is the data set file created by `preprocess_Shapes.py`. The script takes the following optional parameters:
-- `-o` or `--output_file`: If an output file is given, the results are appended to this file in CSV style.
-- `-b` or `--baseline`: Ony if this flag is set, the script will also estimate the expected values of randomly drawn points.
-- `-r` or `--repetitions`: Determines the number of repetitions used when sampling from the baselines. Defaults to 20. More samples means more accurate estimation, but longer runtime.
-- `-s` or `--seed`: Specify a seed for the random number generator in order to make the results deterministic. If no seed is given, then the random number generator is not seeded.
 
 
 #### 2.2.6 Searching for Interpretable Directions
