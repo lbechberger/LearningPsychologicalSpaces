@@ -200,17 +200,17 @@ It takes the following optional arguments:
 - `-s` or `--second_name`: Descriptive name for the second set of similarities (defaults to 'Second').
 
 
-### 2.2 Multidimensional Scaling
+### 2.3 Creating Similarity Spaces
 
-The folder `code/mds/similarity_spaces` contains various scripts for transforming the given data set from pairwise similarity ratings into a conceptual space and for analyzing the resulting space.
+The folder `code/mds/similarity_spaces` contains scripts for transforming the given data set from pairwise similarity ratings into a conceptual space.
 
-#### 2.2.1 Applying MDS
+#### 2.3.1 Applying MDS
 
 The script `mds.r` runs four different versions of multidimensional scaling based on the implementations in R. More specifically, it uses the Eigenvalue-based classical MDS ([cmdscale](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/cmdscale.html)), Kruskal's nonmetric MDS ([isoMDS](https://stat.ethz.ch/R-manual/R-devel/library/MASS/html/isoMDS.html)), and both metric and nonmetric SMACOF ([smacofSym](https://cran.r-project.org/web/packages/smacof/smacof.pdf#page.55)). For Kruskal's algorithm and for SMACOF, multiple random starts are used and the best result is kept. You can execute the script as follows from the project's root directory:
 ```
 Rscript code/mds/similarity_spaces/mds.r -d path/to/distance_matrix.csv -i path/to/item_names.csv -o path/to/output/directory
 ```
-Here, `distance_matrix.csv` is a CSV file which contains the matrix of pairwise dissimilarities and `item_names.csv` contains the item names (one name per row, same order as in the distance matrix). These two files have ideally been created by `pickle_to_csv.py`. The resulting vectors are stored in the given output directory. All three of these arguments are mandatory. Moreover, a CSV file is created in the output directory, which stores bthe stress values (metric stress and three variants of nonmetric stress) for each of the generated spaces. 
+Here, `distance_matrix.csv` is a CSV file which contains the matrix of pairwise dissimilarities and `item_names.csv` contains the item names (one name per row, same order as in the distance matrix). These two files have ideally been created by `aggregate_similarities.py`. The resulting vectors are stored in the given output directory. All three of these arguments are mandatory. Moreover, a CSV file is created in the output directory, which stores the stress values (metric stress and three variants of nonmetric stress) for each of the generated spaces. 
 
 In order to specify which MDS algorithm to use, one must set exactly one of the following flags: `--classical`, `--Kruskal`, `--metric_SMACOF`, `--nonmetric_SMACOF`.
 
@@ -223,19 +223,29 @@ The script takes the following optional arguments:
 
 We implemented the MDS step in R and not in Python because R offers a greater variety of MDS algorithms. Moreover, nonmetric SMACOF with Python's `sklearn` library produced poor results which might be due to a programming bug.
 
-#### 2.2.2 Normalizing the Similarity Spaces
+#### 2.3.2 Normalizing the Similarity Spaces
 
 In order to make the individual MDS solutions more comparable, we normalize them by moving their centroid to the origin and by making sure that their mean squared distance to the origin equals one. This is done by the script `normalize_spaces.py`, which can be invoked by simply giving it the path to the directory containing all the vector files:
 ```
-python -m code.mds.similarity_spaces.normalize_spaces path/to/input_folder
+python -m code.mds.similarity_spaces.normalize_spaces path/to/input_folder path/to/input.pickle path/to/output.pickle
 ```
-The script **overrides** the original files. It can take the following optional arguments:
+The script **overrides** the original CSV files. Moreover, it creates an `output.pickle` based on the normalized vectors and the catgeory structure from `input.pickle` (). This `output.pickle` file contains a dictioanry with the following structure:
+- `'categories'`: A dictionary using category names as keys and containing dictionaries as values. These dictionaries have the following elements:
+  - `'visSim'`: Is the category visually homogeneous? 'VC' means 'Visually Coherent', 'Dis' means 'Visually Variable', and 'x' means unclear. 
+  - `'artificial'`: Does the category consist of natural ('nat') or artificial ('art') items? 
+  - `'items'`: A list of all items that belong into this category. 
+- `n` (for an integer `n` corresponding to the number of dimensions): Dictionary mapping from item names to vectors in the `n`-dimensional similarity space
+
+The script furthermore accepts the following optional arguments:
 - `-b` or `--backup`: Create a backup of the original files. Will be stored in the same folder as the original files, file name is identical, but 'backup' is appended before the file extension.
 - `-v` or `--verbose`: Prints some debug information during processing (old centroid, old root mean squared distance to origin, new centroid, new root mean squared distance to origin).
 
 **It is important to run this script before using the MDS spaces for the machine learning task -- only by normalizing the spaces, we can make sure that the MSE values are comparable across spaces!**
 
-#### 2.2.3 Visualizing the Similarity Spaces
+
+#### 2.3.3 Visualizing the Similarity Spaces
+
+**TODO**
 
 The script `visualize_spaces.py` can be used to create two-dimensional plots of the similarity spaces. You can execute it as follows from the project's root directory:
 ```
@@ -249,6 +259,28 @@ The script takes the following optional arguments:
 - `-m` or `--max`: Determines the dimensionality of the largest space to be visualized. Defaults to 10.
 - `-d` or `--directions_file`: If a path to a directions file (output of `filter_directions.py`) is given, then the given directions are also included into the plots.
 - `-c` or `--criterion`: If directions are plotted, the given criterion decides which ones are used. Defaults to `kappa`. Can also be set to `spearman`.
+
+
+### 2.4 Analyzing Correlations between Distances and Dissimilarities
+
+The folder `code/mds/correlations` contains various scripts for correlating distances and dissimilarities for the MDS solutions and various baselines.
+
+**TODO**
+
+### 2.5 Analyzing Conceptual Regions
+
+The folder `code/mds/regions` contains two scripts for analyzing the well-formedness of conceptual regions.
+
+
+**TODO**
+
+### 2.4 Analyzing Interpretable Directions
+
+The folder `code/mds/directions` contains various scripts for extracting interpretable directions in the similarity space based on the given features.
+
+
+**TODO**
+
 
 #### 2.2.4 Checking for Overlap
 
@@ -381,18 +413,6 @@ The script takes the following optional arguments:
 - `-n` or `--n_folds`: The number of folds to use in the cross-validation process of optimizing dimension weights (defaults to 5).
 - `-s` or `--seed`: Specify a seed for the random number generator in order to make the folds and thus the overall results deterministic. If no seed is given, then the random number generator is not seeded.
 
-#### 2.3.4 Similarities from Different Datasets/Aggregations
-
-The script `similarity_correlations.py` compares the aggregated dissimilarity ratings from two pickle files (output of `compute_similarities.py`) by using the correlation metrics listed above. It can be invoked as follows:
-```
-python -m code.mds.correlations.similarity_correlations path/to/first_similarity_file.pickle path/to/second_similarity_file.pickle
-```
-The script accepts the following optional parameters:
-- `-f` or `--first_name`: Descriptive name for the first set of dissimilarities. Used for output and plotting.
-- `-s` or `--second_name`: Descriptive name for the second set of dissimilarities. Used for output and plotting.
-- `-p` or `--plot`: If this flag is set, a scatter plot is created and stored.
-- `-o` or `--output_folder`: Path to the folder where the scatter plot shall be saved. Defaults to `.`, i.e., the current working directory.
-- `--sim_only`: Only consider items from categories based on visual similarity. If this argument is given, it needs to point to a pickle file produced by `preprocess_Shapes.py`.
 
 #### 2.3.5. Feature-Based Similarities
 

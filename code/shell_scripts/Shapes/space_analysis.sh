@@ -23,7 +23,7 @@ criteria="${criteria:-$default_criteria}"
 echo 'setting up directory structure'
 for aggregator in $aggregators
 do
-	mkdir -p 'data/Shapes/mds/vectors/'"$aggregator"'/'
+	mkdir -p 'data/Shapes/mds/data_set/spaces/coordinates/'"$aggregator"'/'
 	mkdir -p 'data/Shapes/mds/visualizations/spaces/'"$aggregator"'/clean/'
 	for criterion in $criteria
 	do
@@ -31,12 +31,30 @@ do
 	done
 	mkdir -p 'data/Shapes/mds/visualizations/correlations/'"$aggregator"'/scatter/'
 	mkdir -p 'data/Shapes/mds/visualizations/average_images/'"$aggregator"'/'
-	mkdir -p 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/'
-	mkdir -p 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/regions/'
-	mkdir -p 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/raw/'
-	mkdir -p 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/aggregated/'
+	mkdir -p 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/'
+	mkdir -p 'data/Shapes/mds/analysis/regions/'"$aggregator"'/'
+	mkdir -p 'data/Shapes/mds/analysis/directions/'"$aggregator"'/raw/'
+	mkdir -p 'data/Shapes/mds/analysis/directions/'"$aggregator"'/aggregated/'
 done
 
+
+echo 'creating similarity spaces'
+echo '    running MDS'
+for aggregator in $aggregators
+do
+	Rscript code/mds/similarity_spaces/mds.r -d 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/distance_matrix.csv' -i 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/item_names.csv' -o 'data/Shapes/mds/data_set/spaces/coordinates/'"$aggregator"'/' -n 256 -m 1000 -k $dimension_limit -s 42 --nonmetric_SMACOF -t primary &> 'data/Shapes/mds/vectors/'"$aggregator"'/mds.txt' &
+done
+wait
+
+# normalize MDS spaces
+echo '    normalizing MDS spaces'
+for aggregator in $aggregators
+do
+	python -m code.mds.similarity_spaces.normalize_spaces 'data/Shapes/mds/data_set/spaces/coordinates/'"$aggregator"'/' data/Shapes/mds/similarities/aggregator/individual_ratings.pickle 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/vectors.pickle' &
+done
+wait
+
+# TODO continue here
 
 
 # RQ5: How good are the baselines (pixel, ANN, features)?
