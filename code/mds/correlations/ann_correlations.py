@@ -27,8 +27,8 @@ args = parser.parse_args()
 correlation_metrics = get_correlation_metrics_from_args(args)
 
 # load the real similarity data
-with open(args.similarity_file, 'rb') as f:
-    input_data = pickle.load(f)
+with open(args.similarity_file, 'rb') as f_in:
+    input_data = pickle.load(f_in)
 
 items = input_data['items']
 target_dissimilarities = input_data['dissimilarities']
@@ -45,9 +45,9 @@ else:
 
 print('extracted features')
 
-with open(args.output_file, 'w', buffering=1) as f:
+with open(args.output_file, 'w', buffering=1) as f_out:
 
-    f.write("scoring,weights,{0}\n".format(','.join(correlation_metrics)))
+    f_out.write("scoring,weights,{0}\n".format(','.join(correlation_metrics)))
            
     for distance_function in sorted(distance_functions.keys()):
         
@@ -61,11 +61,11 @@ with open(args.output_file, 'w', buffering=1) as f:
         
         # raw correlation
         correlation_results = compute_correlations(precomputed_distances, precomputed_targets, distance_function)
-        f.write("{0},fixed,{1}\n".format(distance_function, ','.join(map(lambda x: str(correlation_results[x]), correlation_metrics))))
+        f_out.write("{0},fixed,{1}\n".format(distance_function, ','.join(map(lambda x: str(correlation_results[x]), correlation_metrics))))
 
         # correlation with optimized weights
         correlation_results = compute_correlations(precomputed_distances, precomputed_targets, distance_function, args.n_folds, args.seed)
-        f.write("{0},optimized,{1}\n".format(distance_function, ','.join(map(lambda x: str(correlation_results[x]), correlation_metrics))))
+        f_out.write("{0},optimized,{1}\n".format(distance_function, ','.join(map(lambda x: str(correlation_results[x]), correlation_metrics))))
 
         print('done with {0}; weights: {1}'.format(distance_function, correlation_results['weights']))
 

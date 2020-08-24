@@ -81,6 +81,16 @@ do
 done
 
 
+echo '    feature baseline'
+for aggregator in $aggregators
+do
+	echo '        '"$aggregator"
+
+	python -m code.mds.correlations.feature_correlations 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/aggregated_ratings.pickle' 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/features.pickle' 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/features.csv' -f data/Shapes/features/ --kendall -s 42 &> 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/features_log.txt' 
+
+done
+
+
 
 # TODO code
 

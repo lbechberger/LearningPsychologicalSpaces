@@ -9,14 +9,15 @@ Created on Wed Jan 29 09:51:03 2020
 
 import pickle, argparse, os
 import numpy as np
-from code.util import compute_correlations, distance_functions
 from itertools import chain, combinations
+from code.util import precompute_distances, compute_correlations, distance_functions
 from code.util import add_correlation_metrics_to_parser, get_correlation_metrics_from_args
    
 parser = argparse.ArgumentParser(description='Correlating the scales of two features')
 parser.add_argument('similarity_file', help = 'the input file containing the target similarity ratings')
-parser.add_argument('feature_folder', help = 'folder containing the pickle files for all the features')
-parser.add_argument('-o', '--output_file', help = 'the csv file to which the output should be saved', default='features.csv')
+parser.add_argument('distance_file', help = 'the pickle file containing the pre-computed distances')
+parser.add_argument('output_file', help = 'the csv file to which the output should be saved')
+parser.add_argument('-f', '--feature_folder', help = 'folder containing the pickle files for all the features', default = None)
 parser.add_argument('-n', '--n_folds', type = int, help = 'number of folds to use for cross-validation when optimizing weights', default = 5)
 parser.add_argument('-s', '--seed', type = int, help = 'fixed seed to use for creating the folds', default = None)
 add_correlation_metrics_to_parser(parser)
@@ -31,13 +32,19 @@ with open(args.similarity_file, 'rb') as f_in:
 item_ids = input_data['items']
 target_dissimilarities = input_data['dissimilarities']
 
-# load feature data
-feature_data = {}
-for file_name in os.listdir(args.feature_folder):
-    if file_name.endswith('.pickle'):
-        feature_name = file_name.split('.')[0]
-        with open(os.path.join(args.feature_folder, file_name), 'rb') as f_in:
-            feature_data[feature_name] = pickle.load(f_in)
+if args.feature_folder is not None:
+    # load feature data
+    feature_data = {}
+    for file_name in os.listdir(args.feature_folder):
+        if file_name.endswith('.pickle'):
+            feature_name = file_name.split('.')[0]
+            with open(os.path.join(args.feature_folder, file_name), 'rb') as f_in:
+                feature_data[feature_name] = pickle.load(f_in)
+    distances = {}
+else:
+    # load pre-computed distances
+    with open(args.distance_file, 'rb') as f_in:
+        distances = pickle.load(f_in)
 
 # see https://docs.python.org/3/library/itertools.html
 def powerset(iterable):
@@ -66,35 +73,50 @@ with open(args.output_file, 'w', buffering=1) as f_out:
         
         for scale_type in largest_set_of_scale_types:       
         
-            # populate the vectors
-            vectors = []
-            
-            for item_id in item_ids:
+            if args.feature_folder is not None:
+                # populate the vectors
+                vectors = []
                 
-                item_vec = []
-                for feature_name in space:
-                    if scale_type in feature_data[feature_name]:
-                        item_vec.append(feature_data[feature_name][scale_type][item_id])
-                    else:
-                        # features extracted from categories: only have one constant scale type
-                        item_vec.append(feature_data[feature_name]['metadata'][item_id])
-                item_vec = np.array(item_vec)
-                vectors.append(item_vec.reshape(1,-1))
+                for item_id in item_ids:
+                    
+                    item_vec = []
+                    for feature_name in space:
+                        if scale_type in feature_data[feature_name]:
+                            item_vec.append(feature_data[feature_name]['aggregated'][scale_type][item_id])
+                        else:
+                            # features extracted from categories: only have one constant scale type
+                            item_vec.append(feature_data[feature_name]['aggregated']['metadata'][item_id])
+                    item_vec = np.array(item_vec)
+                    vectors.append(item_vec.reshape(1,-1))
                
             # compute correlations
             for distance_function in sorted(distance_functions.keys()):
 
+                if args.feature_folder is not None:
+                   # precompute distances and targets based on the feature values
+                    precomputed_distances, precomputed_targets = precompute_distances(vectors, target_dissimilarities, distance_function)
+                    if space not in distances:
+                        distances[space] = {}
+                    distances[space][scale_type] = (precomputed_distances, precomputed_targets)
+                else:
+                    # simply grab them from the loaded dictionary
+                    precomputed_distances, precomputed_targets = distances[space][scale_type]
+                    
                 # raw correlation
-                correlation_results = compute_correlations(vectors, target_dissimilarities, distance_function)
+                correlation_results = compute_correlations(precomputed_distances, precomputed_targets, distance_function)
                 f_out.write("{0},{1},{2},{3},fixed,{4}\n".format(number_of_dimensions, scale_type,
                                                             '-'.join(space), distance_function,
                                                             ','.join(map(lambda x: str(correlation_results[x]), correlation_metrics))))
 
                 # correlation with optimized weights
-                correlation_results = compute_correlations(vectors, target_dissimilarities, distance_function, args.n_folds, args.seed)
+                correlation_results = compute_correlations(precomputed_distances, precomputed_targets, distance_function, args.n_folds, args.seed)
                 f_out.write("{0},{1},{2},{3},optimized,{4}\n".format(number_of_dimensions, scale_type,
                                                             '-'.join(space), distance_function,
                                                             ','.join(map(lambda x: str(correlation_results[x]), correlation_metrics))))
 
                 print('\tdone with {0}-{1}; weights: {2}'.format(scale_type, distance_function, correlation_results['weights']))
-                                                            
+
+# output the collected distances if necessary
+if args.feature_folder is not None:
+    with open(args.distance_file, 'wb') as f_out:
+        pickle.dump(distances, f_out)
