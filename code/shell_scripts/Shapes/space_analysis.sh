@@ -57,6 +57,19 @@ wait
 # analyzing correlation between distances and dissimilarities
 # -----------------------------------------------------------
 
+echo 'analyzing correlation between distances and dissimilarities'
+
+echo '    pixel baseline'
+for aggregator in $aggregators
+do
+	echo '        '"$aggregator"
+
+	python -m code.mds.correlations.pixel_correlations 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/aggregated_ratings.pickle' 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/pixel.pickle' 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/pixel.csv' -i data/Shapes/images/ -w 283 -g --kendall -s 42 &> 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/pixel-_log.txt' 
+
+	python -m code.mds.correlations.visualize_pixel_correlations 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/pixel.csv' 'data/Shapes/mds/visualizations/correlations/'"$aggregator"'/' --kendall &> 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/pixel_best.txt'
+
+done
+
 # TODO code
 
 
@@ -88,6 +101,13 @@ done
 # ----------------------------------
 
 # TODO code
+
+
+# visualizing spaces
+# ------------------
+
+# TODO code
+
 
 
 # RQ5: How good are the baselines (pixel, ANN, features)?

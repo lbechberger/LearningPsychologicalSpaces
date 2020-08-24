@@ -263,7 +263,47 @@ The script takes the following optional arguments:
 
 ### 2.4 Analyzing Correlations between Distances and Dissimilarities
 
-The folder `code/mds/correlations` contains various scripts for correlating distances and dissimilarities for the MDS solutions and various baselines.
+The folder `code/mds/correlations` contains various scripts for correlating distances and dissimilarities for the MDS solutions and various baselines. In all cases, we consider three distance measures (Euclidean, Manhattan, inner product) and five correlation metrics (Pearson's r, Spearman's rho, Kendall's tau, and the coefficient of determination R²).
+
+#### 2.4.1 Pixel Baseline
+
+The script `pixel_correlations.py` loads the images and downscales them using scipy's `block_reduce` function (see [here](https://scikit-image.org/docs/dev/api/skimage.measure.html#skimage.measure.block_reduce)). Here, all pixels within a block of size `k` times `k` are aggregated via one of the following aggregation functions: maximum, minimum, arithmetic mean, median. The script automatically iterates over all possible combinations of `k` and the aggregation function.
+
+The pixels of the resulting downscaled images are interpreted as one-dimensional feature vectors. All of the distance measures are used to build distance matrices, which are then in turn correlated with the original dissimilarity ratings (both using the raw distances and using a weighted version where dimension weights are estimated in a cross-validation). The script can be executed as follows, where `aggregated_ratings.pickle` is the output file of `aggregate_similarities.py`, `distances.pickle` is a pickle file with precomputed distances, and `output_file.csv` is the destination CSV file which where the results will be stored:
+```
+python -m code.mds.correlations.pixel_correlations path/to/aggregated_ratings.pickle path/to/distances.pickle path/to/output_file.csv
+```
+
+By default, the pre-computed distances from `distances.pickle` are used to compute the correlations. If however the optional parameter `-i` or `--image_folder` is specified, the images are loaded from that given folder, the distances are computed manually, and are stored in `distances.pickle` for future use.
+
+Please note that one or more of the following flags must be set in order to specify the correlation metric(s) to use in the analysis:
+- `--pearson`: Compute Pearson's correlation coefficient (linear correlation).
+- `--spearman`: Compute Spearman's correlation coefficient (monotone correlation).
+- `--kendall`: Compute Kendall's correlation coefficient (monotone correlation).
+- `--r2_linear`: Compute the coefficient of determination R² for a linear regression (linear correlation).
+- `--r2_isotonic`: Compute the coefficient of determination R² for an isotonic regression (monotone correlation).
+
+The script takes the following additional optional parameters:
+- `-w` or `--width`: The width (and also height) of the full images, i.e., the maximal number of `k` to use (default: 300, i.e. the image size of the NOUN data set).
+- `-g` or `--greyscale`: If this flag is set, the three color channels are collapsed into a single greyscale channel when loading the images. If not, full RGB information is used.
+- `-n` or `--n_folds`: The number of folds to use in the cross-validation process of optimizing dimension weights (defaults to 5).
+- `-s` or `--seed`: Specify a seed for the random number generator in order to make the folds and thus the overall results deterministic. If no seed is given, then the random number generator is not seeded.
+
+#### 2.4.2 Visualizing the Correlations of the Pixel Baseline
+
+The script `visualize_pixel_correlations.py` can be used to visualize the results of the pixel baseline as a function of block size. It can be invoked as follows:
+```
+python -m code.mds.correlations.visualize_correlations path/to/pixel_file.csv path/to/output_folder
+```
+Here, `pixel_file.csv` is the output file of `pixel_correlations.py` and `output_folder` determines where the resulting plots are stored.
+
+Please note that one or more of the following flags must be set in order to specify the correlation metric(s) to use for visualization:
+- `--pearson`: Compute Pearson's correlation coefficient (linear correlation).
+- `--spearman`: Compute Spearman's correlation coefficient (monotone correlation).
+- `--kendall`: Compute Kendall's correlation coefficient (monotone correlation).
+- `--r2_linear`: Compute the coefficient of determination R² for a linear regression (linear correlation).
+- `--r2_isotonic`: Compute the coefficient of determination R² for an isotonic regression (monotone correlation).
+
 
 **TODO**
 
@@ -346,30 +386,9 @@ python -m code.mds.similarity_spaces.aggregate_direction_results path/to/input_f
 
 ### 2.3 Correlations to Similarity Ratings
 
-The folder `mds/correlations` contains scripts for estimating how well the MDS spaces represent the underlying similarity ratings. As a baseline, pixel-based similarities of the corresponding images as well as the similarities of an ANN's activation vectors are used. In all cases, we consider three distance measures (Euclidean, Manhattan, inner product) and five correlation metrics (Pearson's r, Spearman's rho, Kendall's tau, and the coefficient of determination R²).
 
-#### 2.3.1 Pixel-Based Similarities
 
-The script `pixel_correlations.py` loads the images and downscales them using scipy's `block_reduce` function (see [here](https://scikit-image.org/docs/dev/api/skimage.measure.html#skimage.measure.block_reduce)). Here, all pixels within a block of size `k` times `k` are aggregated via one of the following aggregation functions: maximum, minimum, arithmetic mean, median. The script automatically iterates over all possible combinations of `k` and the aggregation function.
 
-The pixels of the resulting downscaled images are interpreted as one-dimensional feature vectors. All of the distance measures are used to build distance matrices, which are then in turn correlated with the original dissimilarity ratings (both using the raw distances and using a weighted version where dimension weights are estimated in a cross-validation). The script can be executed as follows, where `similarity_file.pickle` is the output file of the overall preprocessing and where `image_folder` is the directory containing all images:
-```
-python -m code.mds.correlations.pixel_correlations path/to/similarity_file.pickle path/to/image_folder
-```
-
-Please note that one or more of the following flags must be set in order to specify the correlation metric(s) to use in the analysis:
-- `--pearson`: Compute Pearson's correlation coefficient (linear correlation).
-- `--spearman`: Compute Spearman's correlation coefficient (monotone correlation).
-- `--kendall`: Compute Kendall's correlation coefficient (monotone correlation).
-- `--r2_linear`: Compute the coefficient of determination R² for a linear regression (linear correlation).
-- `--r2_isotonic`: Compute the coefficient of determination R² for an isotonic regression (monotone correlation).
-
-The script takes the following optional parameters:
-- `-o` or `--output_file`: Path to the output csv file where the resulting correlation values are stored (default: `pixel.csv`).
-- `-w` or `--width`: The width (and also height) of the full images, i.e., the maximal number of `k` to use (default: 300, i.e. the image size of the NOUN data set).
-- `-g` or `--greyscale`: If this flag is set, the three color channels are collapsed into a single greyscale channel when loading the images. If not, full RGB information is used.
-- `-n` or `--n_folds`: The number of folds to use in the cross-validation process of optimizing dimension weights (defaults to 5).
-- `-s` or `--seed`: Specify a seed for the random number generator in order to make the folds and thus the overall results deterministic. If no seed is given, then the random number generator is not seeded.
 
 #### 2.3.2 ANN-Based Similarities
 
@@ -434,24 +453,6 @@ The script takes the following optional arguments:
 - `-n` or `--n_folds`: The number of folds to use in the cross-validation process of optimizing dimension weights (defaults to 5).
 - `-s` or `--seed`: Specify a seed for the random number generator in order to make the folds and thus the overall results deterministic. If no seed is given, then the random number generator is not seeded.
 
-
-#### 2.3.6 Visualizing The Correlations
-
-The script `visualize_correlations.py` can be used to visualize the results of both the pixel-based correlations and the MDS-based correlations as a function of block size and number of dimensions, respectively. It can be invoked as follows:
-```
-python -m code.mds.correlations.visualize_correlations path/to/pixel_file.csv path/to/mds_file.csv
-```
-Here, `pixel_file.csv` and `mds_file.csv` are the output files of `pixel_correlations.py` and `mds_correlations.py`, respectively. 
-
-Please note that one or more of the following flags must be set in order to specify the correlation metric(s) to use for visualization:
-- `--pearson`: Compute Pearson's correlation coefficient (linear correlation).
-- `--spearman`: Compute Spearman's correlation coefficient (monotone correlation).
-- `--kendall`: Compute Kendall's correlation coefficient (monotone correlation).
-- `--r2_linear`: Compute the coefficient of determination R² for a linear regression (linear correlation).
-- `--r2_isotonic`: Compute the coefficient of determination R² for an isotonic regression (monotone correlation).
-
-The script takes the following additional optional arguments:
-- `-o` or `--output`: The output folder where the resulting visualizations are stored (default: `.`, i.e., the current working directory).
 
 #### 2.3.7 Creating Scatter Plots
 

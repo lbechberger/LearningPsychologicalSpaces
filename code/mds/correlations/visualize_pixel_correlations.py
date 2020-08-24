@@ -14,7 +14,7 @@ from code.util import add_correlation_metrics_to_parser, get_correlation_metrics
 
 parser = argparse.ArgumentParser(description='Visualizing correlations')
 parser.add_argument('pixel_file', help = 'the input file containing the results of the pixel-wise similarities')
-parser.add_argument('-o', '--output_folder', help = 'the folder to which the output should be saved', default='.')
+parser.add_argument('output_folder', help = 'the folder to which the output should be saved')
 add_correlation_metrics_to_parser(parser)
 args = parser.parse_args()
 
@@ -28,8 +28,8 @@ metric_display = {'pearson': r"Pearson's $r$", 'spearman': r"Spearman's $\rho$",
                       'r2_linear': r"$R^2$ based on a Linear Regression", 'r2_isotonic': r"$R^2$ based on a Isotonic Regression"}
 
 # read in pixel-based information
-with open(args.pixel_file, 'r') as f:
-    reader = csv.DictReader(f)
+with open(args.pixel_file, 'r') as f_in:
+    reader = csv.DictReader(f_in)
     for row in reader:
         for metric, metric_dict in pixel_data.items():
             

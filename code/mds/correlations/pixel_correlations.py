@@ -10,13 +10,15 @@ Created on Tue Dec  4 09:27:06 2018
 
 import pickle, argparse
 import numpy as np
-from code.util import compute_correlations, distance_functions, downscale_image, aggregator_functions, load_image_files_pixel
+from code.util import precompute_distances, compute_correlations, distance_functions
+from code.util import downscale_image, aggregator_functions, load_image_files_pixel
 from code.util import add_correlation_metrics_to_parser, get_correlation_metrics_from_args
 
 parser = argparse.ArgumentParser(description='Pixel-based similarity baseline')
 parser.add_argument('similarity_file', help = 'the input file containing the target similarity ratings')
-parser.add_argument('image_folder', help = 'the folder containing the original images')
-parser.add_argument('-o', '--output_file', help = 'the csv file to which the output should be saved', default='pixel.csv')
+parser.add_argument('distance_file', help = 'the pickle file containing the pre-computed distances')
+parser.add_argument('output_file', help = 'the csv file to which the output should be saved')
+parser.add_argument('-i', '--image_folder', help = 'the folder containing the original images', default = None)
 parser.add_argument('-w', '--width', type = int, default = 300, help = 'the width of the image, used to determine the maximal block size')
 parser.add_argument('-g', '--greyscale', action = 'store_true', help = 'only consider greyscale information (i.e., collapse color channels)')
 parser.add_argument('-n', '--n_folds', type = int, help = 'number of folds to use for cross-validation when optimizing weights', default = 5)
@@ -27,17 +29,24 @@ args = parser.parse_args()
 correlation_metrics = get_correlation_metrics_from_args(args)
 
 # load the real similarity data
-with open(args.similarity_file, 'rb') as f:
-    input_data = pickle.load(f)
+with open(args.similarity_file, 'rb') as f_in:
+    input_data = pickle.load(f_in)
 
-item_ids = input_data['items']
+items = input_data['items']
 target_dissimilarities = input_data['dissimilarities']
 
-images = load_image_files_pixel(item_ids, args.image_folder)
+if args.image_folder is not None:
+    # load images and compute distances from scratch
+    images = load_image_files_pixel(items, args.image_folder)
+    distances = {}
+else:
+    # just load distances from file
+    with open(args.distance_file, 'rb') as f_in:
+        distances = pickle.load(f_in)
 
-with open(args.output_file, 'w', buffering=1) as f:
+with open(args.output_file, 'w', buffering=1) as f_out:
 
-    f.write("aggregator,block_size,image_size,scoring,weights,{0}\n".format(','.join(correlation_metrics)))
+    f_out.write("aggregator,block_size,image_size,scoring,weights,{0}\n".format(','.join(correlation_metrics)))
     last_image_size = 9999
     for block_size in range(1, args.width + 1):
         
@@ -55,21 +64,41 @@ with open(args.output_file, 'w', buffering=1) as f:
                 # value for all others is identical to max, so only compute once
                 continue
             
-            transformed_images = []
-            for img in images:
-                transformed_img, image_size = downscale_image(img, aggregator_function, block_size, args.greyscale, (1,-1))
-                transformed_images.append(transformed_img)
+            if args.image_folder is not None:
+                # transform images for distance computation
+                transformed_images = []
+                for img in images:
+                    transformed_img, image_size = downscale_image(img, aggregator_function, block_size, args.greyscale, (1,-1))
+                    transformed_images.append(transformed_img)
+                
     
             for distance_function in sorted(distance_functions.keys()):
 
+                if args.image_folder is not None:
+                    # precompute distances based on transformed images and store them for later output
+                    precomputed_distances, precomputed_targets = precompute_distances(transformed_images, target_dissimilarities, distance_function)
+                    if block_size not in distances:
+                        distances[block_size] = {}
+                    if aggregator_name not in distances[block_size]:
+                        distances[block_size][aggregator_name] = {}
+                    distances[block_size][aggregator_name][distance_function] = precomputed_distances
+                else:
+                    # simply grab them from the loaded dictionary
+                    precomputed_distances, precomputed_targets = distances[block_size][aggregator_name][distance_function]
+
                 # raw correlations
-                correlation_results = compute_correlations(transformed_images, target_dissimilarities, distance_function)    
-                f.write("{0},{1},{2},{3},fixed,{4}\n".format(aggregator_name, block_size, image_size, distance_function, 
+                correlation_results = compute_correlations(precomputed_distances, precomputed_targets, distance_function)    
+                f_out.write("{0},{1},{2},{3},fixed,{4}\n".format(aggregator_name, block_size, image_size, distance_function, 
                                                                     ','.join(map(lambda x: str(correlation_results[x]), correlation_metrics))))
                 # correlation with optimized weights
             
-                correlation_results = compute_correlations(transformed_images, target_dissimilarities, distance_function, args.n_folds, args.seed)    
-                f.write("{0},{1},{2},{3},optimized,{4}\n".format(aggregator_name, block_size, image_size, distance_function, 
+                correlation_results = compute_correlations(precomputed_distances, precomputed_targets, distance_function, args.n_folds, args.seed)    
+                f_out.write("{0},{1},{2},{3},optimized,{4}\n".format(aggregator_name, block_size, image_size, distance_function, 
                                                                     ','.join(map(lambda x: str(correlation_results[x]), correlation_metrics))))
                 
                 print('done with {0}-{1}-{2}; weights: {3}'.format(block_size, aggregator_name, distance_function, correlation_results['weights']))
+
+# output the collected distances if necessary
+if args.image_folder is not None:
+    with open(args.distance_file, 'wb') as f_out:
+        pickle.dump(distances, f_out)

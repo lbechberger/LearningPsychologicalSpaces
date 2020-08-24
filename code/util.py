@@ -57,22 +57,18 @@ def evaluate_fold(distances, dissimilarities):
                 'r2_linear': r2_linear, 'r2_isotonic': r2_isotonic,
                 'targets': target_vector, 'predictions': distance_vector}
    
-    
 
-def compute_correlations(vectors, dissimilarities, distance_function, n_folds = None, seed = None):
+def precompute_distances(vectors, dissimilarities, distance_function):
     """
-    Computes the correlation between vector distances and actual dissimilarities,
-    using the given distance function between the vectors. If n_folds is not None, then
-    dimension weights are estimated based on a linear regression in an 'n_folds'-fold cross validation
-    (using the given seed to create the folds).
+    Pre-computes distance information for later correlation analysis, using the given
+    vectors and the given matrix of target dissimilarities.
     
-    Returns a dictionary from correlation metric to its corresponding value. 
-    For convenience, this dictionary also contains both the vector of target dissimilarities
-    and the vector of predicted distances as well as the (average) weights for the individual dimensions.
-    """  
-    
+    Returns a tuple (precomputed_distances, target_dissimilarities) of two vectors
+    which can be used for computing correlations.
+    """    
+
     import numpy as np
-    
+
     precomputed_distances = []
     target_dissimilarities = []
     # only look at upper triangle of matrix (as it is symmetric and the diagonal is not interesting)
@@ -88,6 +84,22 @@ def compute_correlations(vectors, dissimilarities, distance_function, n_folds = 
     
     precomputed_distances = np.array(precomputed_distances)
     target_dissimilarities = np.array(target_dissimilarities)
+
+    return precomputed_distances, target_dissimilarities
+
+def compute_correlations(precomputed_distances, target_dissimilarities, distance_function, n_folds = None, seed = None):
+    """
+    Computes the correlation between vector distances and actual dissimilarities,
+    using the given distance function and the precomputed distances and dissimilarities. 
+    If n_folds is not None, then dimension weights are estimated based on a linear regression 
+    in an 'n_folds'-fold cross validation (using the given seed to create the folds).
+    
+    Returns a dictionary from correlation metric to its corresponding value. 
+    For convenience, this dictionary also contains both the vector of target dissimilarities
+    and the vector of predicted distances as well as the (average) weights for the individual dimensions.
+    """  
+    
+    import numpy as np
     
     if n_folds is None:
         # use fixed weights and evaluate once
