@@ -97,10 +97,12 @@ with open(args.output_file, 'w', buffering=1) as f_out:
                     precomputed_distances, precomputed_targets = precompute_distances(vectors, target_dissimilarities, distance_function)
                     if space not in distances:
                         distances[space] = {}
-                    distances[space][scale_type] = (precomputed_distances, precomputed_targets)
+                    if scale_type not in distances[space]:
+                        distances[space][scale_type] = {}
+                    distances[space][scale_type][distance_function] = (precomputed_distances, precomputed_targets)
                 else:
                     # simply grab them from the loaded dictionary
-                    precomputed_distances, precomputed_targets = distances[space][scale_type]
+                    precomputed_distances, precomputed_targets = distances[space][scale_type][distance_function]
                     
                 # raw correlation
                 correlation_results = compute_correlations(precomputed_distances, precomputed_targets, distance_function)

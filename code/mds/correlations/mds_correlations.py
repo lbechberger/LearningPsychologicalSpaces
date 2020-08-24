@@ -57,10 +57,12 @@ with open(args.output_file, 'w', buffering=1) as f_out:
             if args.vector_file is not None:
                 # pre-compute distances and store them
                 precomputed_distances, precomputed_targets = precompute_distances(vector_list, target_dissimilarities, distance_function)
-                distances[number_of_dimensions] = (precomputed_distances, precomputed_targets)
+                if number_of_dimensions not in distances:
+                    distances[number_of_dimensions] = {}
+                distances[number_of_dimensions][distance_function] = (precomputed_distances, precomputed_targets)
             else:
                 # use pre-computed distances
-                precomputed_distances, precomputed_targets = distances[number_of_dimensions]
+                precomputed_distances, precomputed_targets = distances[number_of_dimensions][distance_function]
 
             # raw correlation
             correlation_results = compute_correlations(precomputed_distances, precomputed_targets, distance_function)
