@@ -90,7 +90,15 @@ do
 
 done
 
-
+# do correlation analysis
+echo '    similarity spaces'
+for source_aggregator in $aggregators
+do
+	for target_aggregator in $aggregators
+	do
+		python -m code.mds.correlations.mds_correlations 'data/Shapes/mds/similarities/aggregator/'"$target_aggregator"'/aggregated_ratings.pickle' 'data/Shapes/mds/analysis/correlations/'"$target_aggregator"'/mds_from_'"$source_aggregator"'.pickle' 'data/Shapes/mds/analysis/correlations/'"$target_aggregator"'/mds_from_'"$source_aggregator"'.csv' -v 'data/Shapes/mds/similarities/aggregator/'"$source_aggregator"'/vectors.pickle' --n_max $dimension_limit --kendall -s 42 &> 'data/Shapes/mds/analysis/correlations/'"$target_aggregator"'/correlations/mds_from_'"$source_aggregator"'_log.txt'
+	done
+done
 
 # TODO code
 
