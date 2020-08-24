@@ -19,7 +19,6 @@ parser.add_argument('similarity_file', help = 'the input file containing the tar
 parser.add_argument('distance_file', help = 'the pickle file containing the pre-computed distances')
 parser.add_argument('output_file', help = 'the csv file to which the output should be saved')
 parser.add_argument('-i', '--image_folder', help = 'the folder containing the original images', default = None)
-parser.add_argument('-o', '--output_file', help = 'the csv file to which the output should be saved', default='ann.csv')
 parser.add_argument('-n', '--n_folds', type = int, help = 'number of folds to use for cross-validation when optimizing weights', default = 5)
 parser.add_argument('-s', '--seed', type = int, help = 'fixed seed to use for creating the folds', default = None)
 add_correlation_metrics_to_parser(parser)
