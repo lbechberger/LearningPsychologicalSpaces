@@ -304,6 +304,25 @@ Please note that one or more of the following flags must be set in order to spec
 - `--r2_linear`: Compute the coefficient of determination R² for a linear regression (linear correlation).
 - `--r2_isotonic`: Compute the coefficient of determination R² for an isotonic regression (monotone correlation).
 
+#### 2.3.2 ANN Baseline
+
+As a second baseline, we use the features extracted by the a neural network (more specifically, the [Inception-v3 network](https://arxiv.org/abs/1512.00567)) to predict the similarities between images from the data set. The corresponding script is called `ann_correlations.py` and is invoked as follows:
+```
+python -m code.mds.correlations.ann_correlations path/to/model_folder path/to/aggregated_ratings.pickle path/to/distances.pickle path/to/output_file.csv 
+```
+
+By default, the pre-computed distances from `distances.pickle` are used to compute the correlations. If however the optional parameter `-i` or `--image_folder` is specified, the images are loaded from that given folder, the distances are computed manually, and are stored in `distances.pickle` for future use. In the latter case, the script downloads the inception network into the given `model_folder`, takes all images from the `image_folder`, and computes the activation of the second-to-last layer of the ANN. This activation vector is then used as a feature vectors. All of the distance measures are used to build distance matrices, which are then in turn correlated with the original dissimilarity ratings from `aggregated_ratings.pickle` (both using the raw distances and using a weighted version where dimension weights are estimated in a cross-validation). 
+
+Please note that one or more of the following flags must be set in order to specify the correlation metric(s) to use in the analysis:
+- `--pearson`: Compute Pearson's correlation coefficient (linear correlation).
+- `--spearman`: Compute Spearman's correlation coefficient (monotone correlation).
+- `--kendall`: Compute Kendall's correlation coefficient (monotone correlation).
+- `--r2_linear`: Compute the coefficient of determination R² for a linear regression (linear correlation).
+- `--r2_isotonic`: Compute the coefficient of determination R² for an isotonic regression (monotone correlation).
+
+The script takes the following optional arguments:
+- `-n` or `--n_folds`: The number of folds to use in the cross-validation process of optimizing dimension weights (defaults to 5).
+- `-s` or `--seed`: Specify a seed for the random number generator in order to make the folds and thus the overall results deterministic. If no seed is given, then the random number generator is not seeded.
 
 **TODO**
 
@@ -341,7 +360,7 @@ The script takes the following optional parameters:
 - `-s` or `--seed`: Specify a seed for the random number generator in order to make the results deterministic. If no seed is given, then the random number generator is not seeded.
 
 
-### 2.4 Analyzing Interpretable Directions
+### 2.6 Analyzing Interpretable Directions
 
 The folder `code/mds/directions` contains various scripts for extracting interpretable directions in the similarity space based on the given features.
 
@@ -390,25 +409,6 @@ python -m code.mds.similarity_spaces.aggregate_direction_results path/to/input_f
 
 
 
-#### 2.3.2 ANN-Based Similarities
-
-As a second baseline, we use the features extracted by the a neural network (more specifically, the [Inception-v3 network](https://arxiv.org/abs/1512.00567)) to predict the similarities between images from the data set. The corresponding script is called `ann_correlations.py` and is invoked as follows:
-```
-python -m code.mds.correlations.ann_correlations path/to/model_folder path/to/similarity_file.pickle path/to/image_folder
-```
-The script downloads the inception network into the given `model_folder`, takes all images from the `image_folder`, and computes the activation of the second-to-last layer of the ANN. This activation vector is then used as a feature vectors. All of the distance measures are used to build distance matrices, which are then in turn correlated with the original dissimilarity ratings from `similarity_file.pickle` (both using the raw distances and using a weighted version where dimension weights are estimated in a cross-validation). 
-
-Please note that one or more of the following flags must be set in order to specify the correlation metric(s) to use in the analysis:
-- `--pearson`: Compute Pearson's correlation coefficient (linear correlation).
-- `--spearman`: Compute Spearman's correlation coefficient (monotone correlation).
-- `--kendall`: Compute Kendall's correlation coefficient (monotone correlation).
-- `--r2_linear`: Compute the coefficient of determination R² for a linear regression (linear correlation).
-- `--r2_isotonic`: Compute the coefficient of determination R² for an isotonic regression (monotone correlation).
-
-The script takes the following optional arguments:
-- `-o` or `--output_file`: Path to the output csv file where the resulting correlation values are stored (default: `ann.csv`).
-- `-n` or `--n_folds`: The number of folds to use in the cross-validation process of optimizing dimension weights (defaults to 5).
-- `-s` or `--seed`: Specify a seed for the random number generator in order to make the folds and thus the overall results deterministic. If no seed is given, then the random number generator is not seeded.
 
 #### 2.3.3 MDS-Based Similarities
 
