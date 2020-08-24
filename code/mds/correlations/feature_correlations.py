@@ -29,7 +29,7 @@ correlation_metrics = get_correlation_metrics_from_args(args)
 with open(args.similarity_file, 'rb') as f_in:
     input_data = pickle.load(f_in)
 
-item_ids = input_data['items']
+items = input_data['items']
 target_dissimilarities = input_data['dissimilarities']
 
 if args.feature_folder is not None:
@@ -77,15 +77,15 @@ with open(args.output_file, 'w', buffering=1) as f_out:
                 # populate the vectors
                 vectors = []
                 
-                for item_id in item_ids:
+                for item in items:
                     
                     item_vec = []
                     for feature_name in space:
                         if scale_type in feature_data[feature_name]:
-                            item_vec.append(feature_data[feature_name]['aggregated'][scale_type][item_id])
+                            item_vec.append(feature_data[feature_name]['aggregated'][scale_type][item])
                         else:
                             # features extracted from categories: only have one constant scale type
-                            item_vec.append(feature_data[feature_name]['aggregated']['metadata'][item_id])
+                            item_vec.append(feature_data[feature_name]['aggregated']['metadata'][item])
                     item_vec = np.array(item_vec)
                     vectors.append(item_vec.reshape(1,-1))
                

@@ -29,7 +29,7 @@ correlation_metrics = get_correlation_metrics_from_args(args)
 with open(args.similarity_file, 'rb') as f_in:
     input_data = pickle.load(f_in)
 
-item_ids = input_data['items']
+items = input_data['items']
 target_dissimilarities = input_data['dissimilarities']
 
 if args.vector_file is not None:
@@ -48,11 +48,15 @@ with open(args.output_file, 'w', buffering=1) as f_out:
 
     for number_of_dimensions in range(args.n_min, args.n_max + 1):
         
+        vector_list = []
+        for item in items:
+            vector_list.append(vectors[number_of_dimensions][item])
+        
         for distance_function in sorted(distance_functions.keys()):
 
             if args.vector_file is not None:
                 # pre-compute distances and store them
-                precomputed_distances, precomputed_targets = precompute_distances(vectors[number_of_dimensions], target_dissimilarities, distance_function)
+                precomputed_distances, precomputed_targets = precompute_distances(vector_list, target_dissimilarities, distance_function)
                 distances[number_of_dimensions] = (precomputed_distances, precomputed_targets)
             else:
                 # use pre-computed distances
