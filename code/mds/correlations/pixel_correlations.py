@@ -81,7 +81,7 @@ with open(args.output_file, 'w', buffering=1) as f_out:
                         distances[block_size] = {}
                     if aggregator_name not in distances[block_size]:
                         distances[block_size][aggregator_name] = {}
-                    distances[block_size][aggregator_name][distance_function] = precomputed_distances
+                    distances[block_size][aggregator_name][distance_function] = (precomputed_distances, precomputed_targets)
                 else:
                     # simply grab them from the loaded dictionary
                     precomputed_distances, precomputed_targets = distances[block_size][aggregator_name][distance_function]
