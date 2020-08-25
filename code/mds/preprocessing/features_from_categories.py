@@ -18,7 +18,7 @@ args = parser.parse_args()
 with open(args.input_file, "rb") as f_in:
     data_set = pickle.load(f_in)
 
-candidate_features = [('visSim', 'Sim', 'Dis'), ('artificial', 'nat', 'art')]
+candidate_features = [('visSim', 'VC', 'VV'), ('artificial', 'nat', 'art')]
 
 for feature_name, neg_name, pos_name in candidate_features:
     pos_examples = []
@@ -45,5 +45,5 @@ for feature_name, neg_name, pos_name in candidate_features:
     overall_output = {'aggregated': regression_output, 'classification': classification_output}
 
     with open(os.path.join(args.output_folder, '{0}.pickle'.format(feature_name)), 'wb') as f_out:
-        pickle.dump(classification_output, f_out)
+        pickle.dump(overall_output, f_out)
    

@@ -76,6 +76,6 @@ with open(args.output_file, 'w', buffering=1) as f_out:
             print('done with {0}-{1}; weights: {2}'.format(number_of_dimensions, distance_function, correlation_results['weights']))
 
 # output the collected distances if necessary
-if args.feature_folder is not None:
+if args.vector_file is not None:
     with open(args.distance_file, 'wb') as f_out:
         pickle.dump(distances, f_out)

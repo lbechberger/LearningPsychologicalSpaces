@@ -68,8 +68,8 @@ with open(args.output_file, 'w', buffering=1) as f_out:
         
         largest_set_of_scale_types = []
         for feature_name in space:
-            if len(feature_data[feature_name].keys()) > len(largest_set_of_scale_types):
-                largest_set_of_scale_types = sorted(feature_data[feature_name].keys())
+            if len(feature_data[feature_name]['aggregated'].keys()) > len(largest_set_of_scale_types):
+                largest_set_of_scale_types = sorted(feature_data[feature_name]['aggregated'].keys())
         
         for scale_type in largest_set_of_scale_types:       
         
@@ -81,7 +81,7 @@ with open(args.output_file, 'w', buffering=1) as f_out:
                     
                     item_vec = []
                     for feature_name in space:
-                        if scale_type in feature_data[feature_name]:
+                        if scale_type in feature_data[feature_name]['aggregated']:
                             item_vec.append(feature_data[feature_name]['aggregated'][scale_type][item])
                         else:
                             # features extracted from categories: only have one constant scale type
