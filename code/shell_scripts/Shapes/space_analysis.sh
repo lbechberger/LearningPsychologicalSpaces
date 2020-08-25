@@ -71,8 +71,8 @@ do
 done
 
 # create average category images for best pixel result
-python -m code.mds.preprocessing.average_images data/Shapes/mds/similarities/aggregator/individual_ratings.pickle data/Shapes/images/ -o 'data/Shapes/mds/visualizations/average_images/mean/' -r 12 -a min &> 'data/Shapes/mds/visualizations/average_images/mean.txt'
-python -m code.mds.preprocessing.average_images data/Shapes/mds/similarities/aggregator/individual_ratings.pickle data/Shapes/images/ -o 'data/Shapes/mds/visualizations/average_images/median/' -r 12 -a min &> 'data/Shapes/mds/visualizations/average_images/median.txt'
+python -m code.mds.data_analysis.average_images data/Shapes/mds/similarities/aggregator/individual_ratings.pickle data/Shapes/images/ -o 'data/Shapes/mds/visualizations/average_images/mean/' -r 12 -a min &> 'data/Shapes/mds/visualizations/average_images/mean.txt'
+python -m code.mds.data_analysis.average_images data/Shapes/mds/similarities/aggregator/individual_ratings.pickle data/Shapes/images/ -o 'data/Shapes/mds/visualizations/average_images/median/' -r 12 -a min &> 'data/Shapes/mds/visualizations/average_images/median.txt'
 
 
 
@@ -91,7 +91,7 @@ for aggregator in $aggregators
 do
 	echo '        '"$aggregator"
 
-	python -m code.mds.correlations.feature_correlations 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/aggregated_ratings.pickle' 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/features.pickle' 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/features.csv' -f data/Shapes/features/ --kendall -s 42 &> 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/features_log.txt' 
+	python -m code.mds.correlations.feature_correlations 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/aggregated_ratings.pickle' 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/features.pickle' 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/features.csv' -f data/Shapes/mds/features/ --kendall -s 42 &> 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/features_log.txt' 
 
 done
 
@@ -100,7 +100,7 @@ for source_aggregator in $aggregators
 do
 	for target_aggregator in $aggregators
 	do
-		python -m code.mds.correlations.mds_correlations 'data/Shapes/mds/similarities/aggregator/'"$target_aggregator"'/aggregated_ratings.pickle' 'data/Shapes/mds/analysis/correlations/'"$target_aggregator"'/mds_from_'"$source_aggregator"'.pickle' 'data/Shapes/mds/analysis/correlations/'"$target_aggregator"'/mds_from_'"$source_aggregator"'.csv' -v 'data/Shapes/mds/similarities/aggregator/'"$source_aggregator"'/vectors.pickle' --n_max $dimension_limit --kendall -s 42 &> 'data/Shapes/mds/analysis/correlations/'"$target_aggregator"'/correlations/mds_from_'"$source_aggregator"'_log.txt'
+		python -m code.mds.correlations.mds_correlations 'data/Shapes/mds/similarities/aggregator/'"$target_aggregator"'/aggregated_ratings.pickle' 'data/Shapes/mds/analysis/correlations/'"$target_aggregator"'/mds_from_'"$source_aggregator"'.pickle' 'data/Shapes/mds/analysis/correlations/'"$target_aggregator"'/mds_from_'"$source_aggregator"'.csv' -v 'data/Shapes/mds/similarities/aggregator/'"$source_aggregator"'/vectors.pickle' --n_max $dimension_limit --kendall -s 42 &> 'data/Shapes/mds/analysis/correlations/'"$target_aggregator"'/mds_from_'"$source_aggregator"'_log.txt'
 	done
 done
 

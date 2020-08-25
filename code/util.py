@@ -58,19 +58,14 @@ def evaluate_fold(distances, dissimilarities):
                 'targets': target_vector, 'predictions': distance_vector}
    
 
-def precompute_distances(vectors, dissimilarities, distance_function):
+def precompute_distances(vectors, distance_function):
     """
-    Pre-computes distance information for later correlation analysis, using the given
-    vectors and the given matrix of target dissimilarities.
-    
-    Returns a tuple (precomputed_distances, target_dissimilarities) of two vectors
-    which can be used for computing correlations.
+    Pre-computes distance information for later correlation analysis.
     """    
 
     import numpy as np
 
     precomputed_distances = []
-    target_dissimilarities = []
     # only look at upper triangle of matrix (as it is symmetric and the diagonal is not interesting)
     for i in range(len(vectors)):
         for j in range(i + 1, len(vectors)):
@@ -80,14 +75,11 @@ def precompute_distances(vectors, dissimilarities, distance_function):
             precomputed = distance_functions[distance_function]['precompute'](vec_i, vec_j)
             precomputed_distances.append(precomputed)
             
-            target_dissimilarities.append(dissimilarities[i][j])
-    
     precomputed_distances = np.array(precomputed_distances)
-    target_dissimilarities = np.array(target_dissimilarities)
 
-    return precomputed_distances, target_dissimilarities
+    return precomputed_distances
 
-def compute_correlations(precomputed_distances, target_dissimilarities, distance_function, n_folds = None, seed = None):
+def compute_correlations(precomputed_distances, dissimilarities, distance_function, n_folds = None, seed = None):
     """
     Computes the correlation between vector distances and actual dissimilarities,
     using the given distance function and the precomputed distances and dissimilarities. 
@@ -100,6 +92,14 @@ def compute_correlations(precomputed_distances, target_dissimilarities, distance
     """  
     
     import numpy as np
+    
+    # prepare dissimilarities
+    target_dissimilarities = []
+    for i in range(dissimilarities.shape[0]):
+        for j in range(i + 1, dissimilarities.shape[1]):
+            target_dissimilarities.append(dissimilarities[i][j])
+    target_dissimilarities = np.array(target_dissimilarities)
+    
     
     if n_folds is None:
         # use fixed weights and evaluate once

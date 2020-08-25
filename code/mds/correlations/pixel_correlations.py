@@ -76,23 +76,23 @@ with open(args.output_file, 'w', buffering=1) as f_out:
 
                 if args.image_folder is not None:
                     # precompute distances based on transformed images and store them for later output
-                    precomputed_distances, precomputed_targets = precompute_distances(transformed_images, target_dissimilarities, distance_function)
+                    precomputed_distances = precompute_distances(transformed_images, distance_function)
                     if block_size not in distances:
                         distances[block_size] = {}
                     if aggregator_name not in distances[block_size]:
                         distances[block_size][aggregator_name] = {}
-                    distances[block_size][aggregator_name][distance_function] = (precomputed_distances, precomputed_targets)
+                    distances[block_size][aggregator_name][distance_function] = precomputed_distances
                 else:
                     # simply grab them from the loaded dictionary
-                    precomputed_distances, precomputed_targets = distances[block_size][aggregator_name][distance_function]
+                    precomputed_distances = distances[block_size][aggregator_name][distance_function]
 
                 # raw correlations
-                correlation_results = compute_correlations(precomputed_distances, precomputed_targets, distance_function)    
+                correlation_results = compute_correlations(precomputed_distances, target_dissimilarities, distance_function)    
                 f_out.write("{0},{1},{2},{3},fixed,{4}\n".format(aggregator_name, block_size, image_size, distance_function, 
                                                                     ','.join(map(lambda x: str(correlation_results[x]), correlation_metrics))))
                 # correlation with optimized weights
             
-                correlation_results = compute_correlations(precomputed_distances, precomputed_targets, distance_function, args.n_folds, args.seed)    
+                correlation_results = compute_correlations(precomputed_distances, target_dissimilarities, distance_function, args.n_folds, args.seed)    
                 f_out.write("{0},{1},{2},{3},optimized,{4}\n".format(aggregator_name, block_size, image_size, distance_function, 
                                                                     ','.join(map(lambda x: str(correlation_results[x]), correlation_metrics))))
                 

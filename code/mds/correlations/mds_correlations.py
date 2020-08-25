@@ -56,21 +56,21 @@ with open(args.output_file, 'w', buffering=1) as f_out:
 
             if args.vector_file is not None:
                 # pre-compute distances and store them
-                precomputed_distances, precomputed_targets = precompute_distances(vector_list, target_dissimilarities, distance_function)
+                precomputed_distances = precompute_distances(vector_list, distance_function)
                 if number_of_dimensions not in distances:
                     distances[number_of_dimensions] = {}
-                distances[number_of_dimensions][distance_function] = (precomputed_distances, precomputed_targets)
+                distances[number_of_dimensions][distance_function] = precomputed_distances
             else:
                 # use pre-computed distances
-                precomputed_distances, precomputed_targets = distances[number_of_dimensions][distance_function]
+                precomputed_distances = distances[number_of_dimensions][distance_function]
 
             # raw correlation
-            correlation_results = compute_correlations(precomputed_distances, precomputed_targets, distance_function)
+            correlation_results = compute_correlations(precomputed_distances, target_dissimilarities, distance_function)
             f_out.write("{0},{1},fixed,{2}\n".format(number_of_dimensions, distance_function,
                                                                     ','.join(map(lambda x: str(correlation_results[x]), correlation_metrics))))
 
             # correlation with optimized weights
-            correlation_results = compute_correlations(precomputed_distances, precomputed_targets, distance_function, args.n_folds, args.seed)
+            correlation_results = compute_correlations(precomputed_distances, target_dissimilarities, distance_function, args.n_folds, args.seed)
             f_out.write("{0},{1},optimized,{2}\n".format(number_of_dimensions, distance_function,
                                                                     ','.join(map(lambda x: str(correlation_results[x]), correlation_metrics))))
             print('done with {0}-{1}; weights: {2}'.format(number_of_dimensions, distance_function, correlation_results['weights']))

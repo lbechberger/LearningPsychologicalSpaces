@@ -53,18 +53,18 @@ with open(args.output_file, 'w', buffering=1) as f_out:
         
         if args.image_folder is not None:
             # precompute distances and targets based on the ann features
-            precomputed_distances, precomputed_targets = precompute_distances(inception_features, target_dissimilarities, distance_function)
-            distances[distance_function] = (precomputed_distances, precomputed_targets)
+            precomputed_distances = precompute_distances(inception_features, distance_function)
+            distances[distance_function] = precomputed_distances
         else:
             # simply grab them from the loaded dictionary
-            precomputed_distances, precomputed_targets = distances[distance_function]
+            precomputed_distances = distances[distance_function]
         
         # raw correlation
-        correlation_results = compute_correlations(precomputed_distances, precomputed_targets, distance_function)
+        correlation_results = compute_correlations(precomputed_distances, target_dissimilarities, distance_function)
         f_out.write("{0},fixed,{1}\n".format(distance_function, ','.join(map(lambda x: str(correlation_results[x]), correlation_metrics))))
 
         # correlation with optimized weights
-        correlation_results = compute_correlations(precomputed_distances, precomputed_targets, distance_function, args.n_folds, args.seed)
+        correlation_results = compute_correlations(precomputed_distances, target_dissimilarities, distance_function, args.n_folds, args.seed)
         f_out.write("{0},optimized,{1}\n".format(distance_function, ','.join(map(lambda x: str(correlation_results[x]), correlation_metrics))))
 
         print('done with {0}; weights: {1}'.format(distance_function, correlation_results['weights']))
