@@ -8,7 +8,7 @@ Created on Tue Dec  4 09:27:06 2018
 @author: lbechberger
 """
 
-import pickle, argparse
+import pickle, argparse, os
 import numpy as np
 from code.util import precompute_distances, compute_correlations, distance_functions
 from code.util import downscale_image, aggregator_functions, load_image_files_pixel
@@ -16,7 +16,7 @@ from code.util import add_correlation_metrics_to_parser, get_correlation_metrics
 
 parser = argparse.ArgumentParser(description='Pixel-based similarity baseline')
 parser.add_argument('similarity_file', help = 'the input file containing the target similarity ratings')
-parser.add_argument('distance_file', help = 'the pickle file containing the pre-computed distances')
+parser.add_argument('distance_folder', help = 'the folder containing the pickle files with pre-computed distances')
 parser.add_argument('output_file', help = 'the csv file to which the output should be saved')
 parser.add_argument('-i', '--image_folder', help = 'the folder containing the original images', default = None)
 parser.add_argument('-w', '--width', type = int, default = 300, help = 'the width of the image, used to determine the maximal block size')
@@ -38,11 +38,6 @@ target_dissimilarities = input_data['dissimilarities']
 if args.image_folder is not None:
     # load images and compute distances from scratch
     images = load_image_files_pixel(items, args.image_folder)
-    distances = {}
-else:
-    # just load distances from file
-    with open(args.distance_file, 'rb') as f_in:
-        distances = pickle.load(f_in)
 
 with open(args.output_file, 'w', buffering=1) as f_out:
 
@@ -74,20 +69,24 @@ with open(args.output_file, 'w', buffering=1) as f_out:
     
             for distance_function in sorted(distance_functions.keys()):
 
+                distance_file_name = '{0}-{1}-{2}.pickle'.format(block_size, aggregator_name, distance_function)
+                distance_file_path = os.path.join(args.distance_folder, distance_file_name)
+
                 if args.image_folder is not None:
-                    # precompute distances based on transformed images and store them for later output
+                    # precompute distances based on transformed images and store them
                     precomputed_distances = precompute_distances(transformed_images, distance_function)
-                    if block_size not in distances:
-                        distances[block_size] = {}
-                    if aggregator_name not in distances[block_size]:
-                        distances[block_size][aggregator_name] = {}
-                    distances[block_size][aggregator_name][distance_function] = precomputed_distances
+                    with open(distance_file_path, 'wb') as f_out_distance:
+                        pickle.dump(precomputed_distances, f_out_distance)
                 else:
-                    # simply grab them from the loaded dictionary
-                    precomputed_distances = distances[block_size][aggregator_name][distance_function]
+                    # simply load them from the respective pickle file (if present - skip if not)
+                    if os.path.exists(distance_file_path):
+                        with open(distance_file_path, 'rb') as f_in:
+                            precomputed_distances = pickle.load(f_in)
+                    else:
+                        continue
 
                 # raw correlations
-                correlation_results = compute_correlations(precomputed_distances, target_dissimilarities, distance_function)    
+                correlation_results = compute_correlations(precomputed_distances, target_dissimilarities, distance_function) 
                 f_out.write("{0},{1},{2},{3},fixed,{4}\n".format(aggregator_name, block_size, image_size, distance_function, 
                                                                     ','.join(map(lambda x: str(correlation_results[x]), correlation_metrics))))
                 # correlation with optimized weights
@@ -97,8 +96,3 @@ with open(args.output_file, 'w', buffering=1) as f_out:
                                                                     ','.join(map(lambda x: str(correlation_results[x]), correlation_metrics))))
                 
                 print('done with {0}-{1}-{2}; weights: {3}'.format(block_size, aggregator_name, distance_function, correlation_results['weights']))
-
-# output the collected distances if necessary
-if args.image_folder is not None:
-    with open(args.distance_file, 'wb') as f_out:
-        pickle.dump(distances, f_out)

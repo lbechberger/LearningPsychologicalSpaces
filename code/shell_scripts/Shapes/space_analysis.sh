@@ -36,6 +36,7 @@ do
 	mkdir -p 'data/Shapes/mds/analysis/regions/'"$aggregator"'/'
 	mkdir -p 'data/Shapes/mds/analysis/directions/'"$aggregator"'/aggregated/'
 done
+mkdir -p 'data/Shapes/mds/analysis/correlations/pixel_distances/'
 
 # create and normalize similarity spaces
 # --------------------------------------
@@ -63,8 +64,10 @@ echo '    pixel baseline'
 for aggregator in $aggregators
 do
 	echo '        '"$aggregator"
-
-	python -m code.mds.correlations.pixel_correlations 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/aggregated_ratings.pickle' 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/pixel.pickle' 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/pixel.csv' -i data/Shapes/images/ -w 283 -g --kendall -s 42 &> 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/pixel_log.txt' 
+	# if precomputed distances exist: use them; if not: re-compute them
+	[ -f 'data/Shapes/mds/analysis/correlations/pixel_distances/283-max-Euclidean.pickle' ] && image_flag='' || image_flag='-i data/Shapes/images/'
+	echo "            $image_flag"
+	python -u -m code.mds.correlations.pixel_correlations 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/aggregated_ratings.pickle' 'data/Shapes/mds/analysis/correlations/pixel_distances/' 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/pixel.csv' $image_flag -w 283 -g --kendall -s 42 &> 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/pixel_log.txt' 
 
 	python -m code.mds.correlations.visualize_pixel_correlations 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/pixel.csv' 'data/Shapes/mds/visualizations/correlations/'"$aggregator"'/' --kendall &> 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/pixel_best.txt'
 
@@ -80,8 +83,10 @@ echo '    ANN baseline'
 for aggregator in $aggregators
 do
 	echo '        '"$aggregator"
-
-	python -m code.mds.correlations.ann_correlations /tmp/inception 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/aggregated_ratings.pickle' 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/ann.pickle' 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/ann.csv' -i data/Shapes/images/ --kendall -s 42 &> 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/ann_log.txt'
+	# if precomputed distances exist: use them; if not: re-compute them
+	[ -f 'data/Shapes/mds/analysis/correlations/ann_distances.pickle' ] && image_flag='' || image_flag='-i data/Shapes/images/'
+	echo "            $image_flag"
+	python -m code.mds.correlations.ann_correlations /tmp/inception 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/aggregated_ratings.pickle' 'data/Shapes/mds/analysis/correlations/ann_distances.pickle' 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/ann.csv' $image_flag --kendall -s 42 &> 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/ann_log.txt'
 
 done
 
@@ -90,17 +95,24 @@ echo '    feature baseline'
 for aggregator in $aggregators
 do
 	echo '        '"$aggregator"
-
-	python -m code.mds.correlations.feature_correlations 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/aggregated_ratings.pickle' 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/features.pickle' 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/features.csv' -f data/Shapes/mds/features/ --kendall -s 42 &> 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/features_log.txt' 
-
+	# if precomputed distances exist: use them; if not: re-compute them
+	[ -f 'data/Shapes/mds/analysis/correlations/feature_distances.pickle' ] && features_flag='' || features_flag='-f data/Shapes/mds/features/'
+	echo "            $features_flag"
+	python -m code.mds.correlations.feature_correlations 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/aggregated_ratings.pickle' 'data/Shapes/mds/analysis/correlations/features.pickle' 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/features.csv' $features_flag --kendall -s 42 &> 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/features_log.txt' 
+ 
 done
 
 echo '    similarity spaces'
 for source_aggregator in $aggregators
 do
+	# if precomputed distances exist: use them; if not: re-compute them
+	[ -f 'data/Shapes/mds/analysis/correlations/mds_from_'"$source_aggregator"'_distances.pickle' ] && vectors_flag='' || vectors_flag='-v data/Shapes/mds/similarities/aggregator/'"$source_aggregator"'/vectors.pickle'
+	echo "            $vectors_flag"
+	
 	for target_aggregator in $aggregators
 	do
-		python -m code.mds.correlations.mds_correlations 'data/Shapes/mds/similarities/aggregator/'"$target_aggregator"'/aggregated_ratings.pickle' 'data/Shapes/mds/analysis/correlations/'"$target_aggregator"'/mds_from_'"$source_aggregator"'.pickle' 'data/Shapes/mds/analysis/correlations/'"$target_aggregator"'/mds_from_'"$source_aggregator"'.csv' -v 'data/Shapes/mds/similarities/aggregator/'"$source_aggregator"'/vectors.pickle' --n_max $dimension_limit --kendall -s 42 &> 'data/Shapes/mds/analysis/correlations/'"$target_aggregator"'/mds_from_'"$source_aggregator"'_log.txt'
+		python -m code.mds.correlations.mds_correlations 'data/Shapes/mds/similarities/aggregator/'"$target_aggregator"'/aggregated_ratings.pickle' 'data/Shapes/mds/analysis/correlations/mds_from_'"$source_aggregator"'_distances.pickle' 'data/Shapes/mds/analysis/correlations/'"$target_aggregator"'/mds_from_'"$source_aggregator"'.csv' $vectors_flag --n_max $dimension_limit --kendall -s 42 &> 'data/Shapes/mds/analysis/correlations/'"$target_aggregator"'/mds_from_'"$source_aggregator"'_log.txt'
+
 	done
 done
 
@@ -108,41 +120,41 @@ done
 echo '    creating Shepard plots'
 # prepare setup for MEAN
 # best pixel (fixed)
-echo 'data/Shapes/mds/analysis/correlations/mean/pixel.pickle data/Shapes/mds/visualizations/correlations/mean/scatter/best_pixel_fixed.png -p min -b 24 -d Euclidean -g' > data/Shapes/mds/analysis/correlations/mean/scatter.config
-echo 'data/Shapes/mds/analysis/correlations/mean/pixel.pickle data/Shapes/mds/visualizations/correlations/mean/scatter/best_pixel_fixed_optimized.png -p min -b 24 -d Euclidean -g -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/mean/scatter.config
+echo 'data/Shapes/mds/analysis/correlations/mean/pixel.pickle data/Shapes/mds/visualizations/correlations/mean/scatter/best_pixel_fixed.png -p min -b 24 -d Euclidean -g' > data/Shapes/mds/analysis/correlations/mean/shepard.config
+echo 'data/Shapes/mds/analysis/correlations/mean/pixel.pickle data/Shapes/mds/visualizations/correlations/mean/scatter/best_pixel_fixed_optimized.png -p min -b 24 -d Euclidean -g -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
 # best pixel (optimized)
-echo 'data/Shapes/mds/analysis/correlations/mean/pixel.pickle data/Shapes/mds/visualizations/correlations/mean/scatter/best_pixel_optimized.png -p min/ -b 2 -d Euclidean -g -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/mean/scatter.config
+echo 'data/Shapes/mds/analysis/correlations/mean/pixel.pickle data/Shapes/mds/visualizations/correlations/mean/scatter/best_pixel_optimized.png -p min/ -b 2 -d Euclidean -g -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
 # best ANN (fixed)
-echo 'data/Shapes/mds/analysis/correlations/mean/ann.pickle data/Shapes/mds/visualizations/correlations/mean/scatter/best_ann_fixed.png -a -d Manhattan' >> data/Shapes/mds/analysis/correlations/mean/scatter.config
+echo 'data/Shapes/mds/analysis/correlations/mean/ann.pickle data/Shapes/mds/visualizations/correlations/mean/scatter/best_ann_fixed.png -a -d Manhattan' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
 # best ANN (optimized)
-echo 'data/Shapes/mds/analysis/correlations/mean/ann.pickle data/Shapes/mds/visualizations/correlations/mean/scatter/best_ann_optimized.png -a -d Euclidean -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/mean/scatter.config
+echo 'data/Shapes/mds/analysis/correlations/mean/ann.pickle data/Shapes/mds/visualizations/correlations/mean/scatter/best_ann_optimized.png -a -d Euclidean -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
 # best feature (preattentive, fixed)
-echo 'data/Shapes/mds/analysis/correlations/mean/features.pickle data/Shapes/mds/visualizations/correlations/mean/scatter/best_feature_preattentive_fixed.png -f FORM-LINES-ORIENTATION -t pre-attentive -d InnerProduct' >> data/Shapes/mds/analysis/correlations/mean/scatter.config
+echo 'data/Shapes/mds/analysis/correlations/mean/features.pickle data/Shapes/mds/visualizations/correlations/mean/scatter/best_feature_preattentive_fixed.png -f FORM-LINES-ORIENTATION -t pre-attentive -d InnerProduct' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
 # best feature (preattentive, optimimzed)
-echo 'data/Shapes/mds/analysis/correlations/mean/features.pickle data/Shapes/mds/visualizations/correlations/mean/scatter/best_feature_preattentive_optimized.png -f FORM-LINES-ORIENTATION-artificial -t pre-attentive -d InnerProduct -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/mean/scatter.config
+echo 'data/Shapes/mds/analysis/correlations/mean/features.pickle data/Shapes/mds/visualizations/correlations/mean/scatter/best_feature_preattentive_optimized.png -f FORM-LINES-ORIENTATION-artificial -t pre-attentive -d InnerProduct -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
 # best feature (attentive, fixed)
-echo 'data/Shapes/mds/analysis/correlations/mean/features.pickle data/Shapes/mds/visualizations/correlations/mean/scatter/best_feature_attentive_fixed.png -f FORM-LINES-ORIENTATION -t attentive -d Manhattan' >> data/Shapes/mds/analysis/correlations/mean/scatter.config
+echo 'data/Shapes/mds/analysis/correlations/mean/features.pickle data/Shapes/mds/visualizations/correlations/mean/scatter/best_feature_attentive_fixed.png -f FORM-LINES-ORIENTATION -t attentive -d Manhattan' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
 # best feature (attentive, optimized)
-echo 'data/Shapes/mds/analysis/correlations/mean/features.pickle data/Shapes/mds/visualizations/correlations/mean/scatter/best_feature_attentive_optimized.png -f FORM-LINES-ORIENTATION-artificial -t attentive -d Manhattan -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/mean/scatter.config
+echo 'data/Shapes/mds/analysis/correlations/mean/features.pickle data/Shapes/mds/visualizations/correlations/mean/scatter/best_feature_attentive_optimized.png -f FORM-LINES-ORIENTATION-artificial -t attentive -d Manhattan -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
 
 # prepare setup for MEDIAN
 # best pixel (fixed)
-echo 'data/Shapes/mds/analysis/correlations/mean/pixel.pickle data/Shapes/mds/visualizations/correlations/median/scatter/best_pixel_fixed.png -p min -b 24 -d Euclidean -g' > data/Shapes/mds/analysis/correlations/median/scatter.config
-echo 'data/Shapes/mds/analysis/correlations/mean/pixel.pickle data/Shapes/mds/visualizations/correlations/median/scatter/best_pixel_fixed_optimized.png -p min -b 24 -d Euclidean -g -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/median/scatter.config
+echo 'data/Shapes/mds/analysis/correlations/mean/pixel.pickle data/Shapes/mds/visualizations/correlations/median/scatter/best_pixel_fixed.png -p min -b 24 -d Euclidean -g' > data/Shapes/mds/analysis/correlations/median/shepard.config
+echo 'data/Shapes/mds/analysis/correlations/mean/pixel.pickle data/Shapes/mds/visualizations/correlations/median/scatter/best_pixel_fixed_optimized.png -p min -b 24 -d Euclidean -g -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/median/shepard.config
 # best pixel (optimized)
-echo 'data/Shapes/mds/analysis/correlations/mean/pixel.pickle data/Shapes/mds/visualizations/correlations/median/scatter/best_pixel_optimized.png -p min -b 26 -d Euclidean -g -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/median/scatter.config
+echo 'data/Shapes/mds/analysis/correlations/mean/pixel.pickle data/Shapes/mds/visualizations/correlations/median/scatter/best_pixel_optimized.png -p min -b 26 -d Euclidean -g -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/median/shepard.config
 # best ANN (fixed)
-echo 'data/Shapes/mds/analysis/correlations/mean/ann.pickle data/Shapes/mds/visualizations/correlations/median/scatter/best_ann_fixed.png -a /tmp/inception -d Manhattan' >> data/Shapes/mds/analysis/correlations/median/scatter.config
+echo 'data/Shapes/mds/analysis/correlations/mean/ann.pickle data/Shapes/mds/visualizations/correlations/median/scatter/best_ann_fixed.png -a /tmp/inception -d Manhattan' >> data/Shapes/mds/analysis/correlations/median/shepard.config
 # best ANN (optimized)
-echo 'data/Shapes/mds/analysis/correlations/mean/ann.pickle data/Shapes/mds/visualizations/correlations/median/scatter/best_ann_optimized.png -a /tmp/inception -d Euclidean -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/median/scatter.config
+echo 'data/Shapes/mds/analysis/correlations/mean/ann.pickle data/Shapes/mds/visualizations/correlations/median/scatter/best_ann_optimized.png -a /tmp/inception -d Euclidean -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/median/shepard.config
 # best feature (preattentive, fixed)
-echo 'data/Shapes/mds/analysis/correlations/mean/features.pickle data/Shapes/mds/visualizations/correlations/median/scatter/best_feature_preattentive_fixed.png -f FORM-LINES-ORIENTATION -t pre-attentive -d InnerProduct' >> data/Shapes/mds/analysis/correlations/median/scatter.config
+echo 'data/Shapes/mds/analysis/correlations/mean/features.pickle data/Shapes/mds/visualizations/correlations/median/scatter/best_feature_preattentive_fixed.png -f FORM-LINES-ORIENTATION -t pre-attentive -d InnerProduct' >> data/Shapes/mds/analysis/correlations/median/shepard.config
 # best feature (preattentive, optimimzed)
-echo 'data/Shapes/mds/analysis/correlations/mean/features.pickle data/Shapes/mds/visualizations/correlations/median/scatter/best_feature_preattentive_optimized.png -f FORM-LINES-ORIENTATION-artificial -t pre-attentive -d InnerProduct -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/median/scatter.config
+echo 'data/Shapes/mds/analysis/correlations/mean/features.pickle data/Shapes/mds/visualizations/correlations/median/scatter/best_feature_preattentive_optimized.png -f FORM-LINES-ORIENTATION-artificial -t pre-attentive -d InnerProduct -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/median/shepard.config
 # best feature (attentive, fixed)
-echo 'data/Shapes/mds/analysis/correlations/mean/features.pickle data/Shapes/mds/visualizations/correlations/median/scatter/best_feature_attentive_fixed.png -f FORM-LINES-ORIENTATION -t attentive -d Manhattan' >> data/Shapes/mds/analysis/correlations/median/scatter.config
+echo 'data/Shapes/mds/analysis/correlations/mean/features.pickle data/Shapes/mds/visualizations/correlations/median/scatter/best_feature_attentive_fixed.png -f FORM-LINES-ORIENTATION -t attentive -d Manhattan' >> data/Shapes/mds/analysis/correlations/median/shepard.config
 # best feature (attentive, optimized)
-echo 'data/Shapes/mds/analysis/correlations/mean/features.pickle data/Shapes/mds/visualizations/correlations/median/scatter/best_feature_attentive_optimized.png -f FORM-LINES-ORIENTATION-artificial -t attentive -d Manhattan -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/median/scatter.config
+echo 'data/Shapes/mds/analysis/correlations/mean/features.pickle data/Shapes/mds/visualizations/correlations/median/scatter/best_feature_attentive_optimized.png -f FORM-LINES-ORIENTATION-artificial -t attentive -d Manhattan -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/median/shepard.config
 
 # add all MDS spaces
 for aggregator in $aggregators
@@ -158,10 +170,9 @@ for aggregator in $aggregators
 do
 	while IFS= read -r line
 	do
-		python -m code.mds.correlations.shepard_diagram $line
-	done < 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/correlations/scatter.config'
+		python -m code.mds.correlations.shepard_diagram 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/aggregated_ratings.pickle' $line
+	done < 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/shepard.config'
 done
-
 
 
 
@@ -217,7 +228,7 @@ wait
 echo '    aggregating results for analysis'
 for aggregator in $aggregators
 do
-	python -m code.mds.similarity_spaces.aggregate_direction_results 'data/Shapes/mds/data_set/spaces/directions/'"$aggregator"'/' $dimension_limit 'data/Shapes/mds/analysis/directions/'"$aggregator"'/aggregated/' &
+	python -m code.mds.directions.aggregate_direction_results 'data/Shapes/mds/data_set/spaces/directions/'"$aggregator"'/' $dimension_limit 'data/Shapes/mds/analysis/directions/'"$aggregator"'/aggregated/' &
 
 done
 wait
