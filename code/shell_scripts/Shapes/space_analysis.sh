@@ -34,7 +34,6 @@ do
 	mkdir -p 'data/Shapes/mds/visualizations/average_images/'"$aggregator"'/'
 	mkdir -p 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/'
 	mkdir -p 'data/Shapes/mds/analysis/regions/'"$aggregator"'/'
-	mkdir -p 'data/Shapes/mds/analysis/directions/'"$aggregator"'/raw/'
 	mkdir -p 'data/Shapes/mds/analysis/directions/'"$aggregator"'/aggregated/'
 done
 
@@ -215,6 +214,13 @@ do
 done
 wait
 
+echo '    aggregating results for analysis'
+for aggregator in $aggregators
+do
+	python -m code.mds.similarity_spaces.aggregate_direction_results 'data/Shapes/mds/data_set/spaces/directions/'"$aggregator"'/' $dimension_limit 'data/Shapes/mds/analysis/directions/'"$aggregator"'/aggregated/' &
+
+done
+wait
 
 echo '    filtering directions for visualization'
 for aggregator in $aggregators
@@ -225,8 +231,6 @@ do
 	done
 done
 wait
-
-# TODO code
 
 
 
@@ -249,17 +253,7 @@ wait
 
 
 
-echo '    filtering and aggregating directions'
-for aggregator in $aggregators
-do
-	for direction in $directions
-	do
-		python -m code.mds.similarity_spaces.aggregate_direction_results 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/raw/' $dimension_limit 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/aggregated/'
 
-		python -m code.mds.similarity_spaces.filter_directions 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/raw/'"$direction"'.csv' $direction $dimension_limit 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/filtered.csv' -k 0.8 -s 0.7 &
-	done
-done
-wait
 
 
 # Visualize MDS spaces with interpretable directions

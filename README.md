@@ -440,7 +440,7 @@ The script can be executed as follows:
 python -m code.mds.directions.compare_directions path/to/input_folder/ n_dims path/to/output.csv
 ```
 
-#### 2.2.8 Filtering Interpretable Directions
+#### 2.6.3 Filtering Interpretable Directions
 In order to aggregate the different candidate directions for each feature, one can use the script `filter_directions.py`. It can be invoked as follows:
 ```
 python -m code.mds.directions.filter_directions path/to/input_file.csv direction_name n_dims path/to/output.csv
@@ -450,30 +450,12 @@ The script takes the following optional parameters:
 - `-k` or `--kappa_threshold`: Minimal value of Cohen's kappa required to pass the filter. Defaults to 0.
 - `-s` or `--spearman_threshold`: Minimal value of the Spearman correlation required to pass the filter. Defaults to 0.
 
-**TODO**
 
-
-
-
-
-
-
-
-
-
-
-#### 2.2.9 Aggregating Evaluation Results for Interpretable Directions
-In order to make the subsequent analysis easier, the script `aggregate_direction_results.py` can be used to aggregate the evaluation results created by `find_directions.py` based on direction name, scale type, and ML model (by averaging over the two other conditions). It is executed as follows, where `input_folder`contains the csv files created by `find_directions.py` (and no additional files!), `n_dims` is the maximal dimensionality of the similarity space to consider. The results will be stored as separate csv files inside the `output_folder`.
+#### 2.6.4 Aggregating Evaluation Results for Interpretable Directions
+In order to make the subsequent analysis easier, the script `aggregate_direction_results.py` can be used to aggregate the evaluation results created by `find_directions.py` based on direction name, scale type, and ML model (by averaging over the two other conditions). It is executed as follows, where `input_folder` contains the csv files created by `find_directions.py` (and no additional files!), `n_dims` is the maximal dimensionality of the similarity space to consider. The results will be stored as separate csv files inside the `output_folder`.
 ```
 python -m code.mds.directions.aggregate_direction_results path/to/input_folder/ n_dims path/to/output/folder
 ```
-
-
-
-
-
-
-
 
 
 ## 3 Machine Learning
