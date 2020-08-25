@@ -24,6 +24,7 @@ echo 'setting up directory structure'
 for aggregator in $aggregators
 do
 	mkdir -p 'data/Shapes/mds/data_set/spaces/coordinates/'"$aggregator"'/'
+	mkdir -p 'data/Shapes/mds/data_set/spaces/directions/'"$aggregator"'/'
 	mkdir -p 'data/Shapes/mds/visualizations/spaces/'"$aggregator"'/clean/'
 	for criterion in $criteria
 	do
@@ -201,9 +202,16 @@ do
 	do
 		for i in `seq 1 $dimension_limit`
 		do
-			python -m code.mds.directions.find_directions 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/vectors.pickle' $i 'data/Shapes/mds/features/'"$direction"'.pickle' 'data/Shapes/mds/analysis/directions/'"$aggregator"'/raw/'"$direction"'.csv' &
+			python -m code.mds.directions.find_directions 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/vectors.pickle' $i 'data/Shapes/mds/features/'"$direction"'.pickle' 'data/Shapes/mds/data_set/spaces/directions/'"$aggregator"'/'"$direction"'.csv' &
 		done
 	done
+done
+wait
+
+echo '    comparing directions'
+for aggregator in $aggregators
+do
+	python -m code.mds.directions.compare_directions 'data/Shapes/mds/data_set/spaces/directions/'"$aggregator"'/' $dimension_limit 'data/Shapes/mds/analysis/directions/'"$aggregator"'/similarities.csv' &
 done
 wait
 
@@ -225,20 +233,8 @@ wait
 # RQ8: Are the (psychological) features reflected as interpretable directions in the similarity spaces?
 # -----------------------------------------------------------------------------------------------------
 
-echo 'RQ8: Are the (psychological) features reflected as interpretable directions in the similarity spaces?'
 
-echo '    finding directions'
-for aggregator in $aggregators
-do
-	for direction in $directions
-	do
-		for i in `seq 1 $dimension_limit`
-		do
-			python -m code.mds.similarity_spaces.find_directions 'data/Shapes/mds/vectors/'"$aggregator"'/'"$i"'D-vectors.csv' $i 'data/Shapes/mds/classification/'"$direction"'.pickle' 'data/Shapes/mds/regression/'"$direction"'.pickle' 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/raw/'"$direction"'.csv' &
-		done
-	done
-done
-wait
+
 
 echo '    comparing directions'
 for aggregator in $aggregators
