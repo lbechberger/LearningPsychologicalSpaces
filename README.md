@@ -425,6 +425,13 @@ The script takes the following optional parameters:
 
 The folder `code/mds/directions` contains various scripts for extracting interpretable directions in the similarity space based on the given features.
 
+#### 2.6.1 Finding  Interpretable Directions
+The script `find_directions.py` tries to find interpretable directions in a given similarity space based on a regression or classification task. *This is only applicable to the Shapes data set, as there are no categories in NOUN.*
+It can be invoked as follows (where `n_dims` is the number of dimensions of the underlying space to consider):
+```
+python -m code.mds.directions.find_directions path/to/vectors.pickle n_dims path/to/feature.pickle path/to/output.csv
+```
+Here, `vectors.pickle` is the output of `normalize_spaces.py`. Based on the feature information from `feature.pickle` (output of `preprocess_feature.py` or `features_from_categories.py`) the script constructs a classification and a regression problem and trains a linear SVM and a linear regression on them, respectively. The quality of the model fit is evaluated by extracting the normal vector of the separating hyperplane and by projecting all points onto this normal vector. Then, we use Cohen's kappa to measure how well a simple threshold classifier on the resulting values performs. Moreover, we compute the Spearman correlation of the projected vectors to the scale values from the regression problem. The resulting numbers are stored in `output.csv`, along with the extracted direction.
 
 **TODO**
 
@@ -433,13 +440,7 @@ The folder `code/mds/directions` contains various scripts for extracting interpr
 
 
 
-#### 2.2.6 Searching for Interpretable Directions
-The script `find_directions.py` tries to find interpretable directions in a given similarity space based on a regression or classification task. *This is only applicable to the Shapes data set, as there are no categories in NOUN.*
-It can be invoked as follows (where `n_dims` is the number of dimensions of the underlying space):
-```
-python -m code.mds.similarity_spaces.find_directions path/to/vectors.csv n_dims path/to/classification.pickle path/to/regression.pickle path/to/output.csv
-```
-Here, `vectors.csv` contains the vectors in an `n_dims`-dimensional similarity space (produced by `mds.r`). Based on the classification and regression information (`classification.pickle` and `regression.pickle`, respectively - both outputs of `analyze_dimension.py`) the script constructs a classification and a regression problem and trains a linear SVM on them. The quality of the model fit is evaluated by extracting the normal vector of the separating hyperplane and by projecting all points onto this normal vector. Then, we use Cohen's kappa to measure how well a simple threshold classifier on the resulting values performs. Moreover, we compute the Spearman correlation of the projected vectors to the scale values from the regression problem. The resulting numbers are stored in `output.csv`, along with the extracted direction.
+
 
 #### 2.2.7 Comparing Interpretable Directions
 The script `compare_directions.py` compares the interpretable directions found by `find_directions.py` by using the cosine similarity. More specifically, the script iterates through all spaces with a dimenionality of maximally `n_dims`. For each space, it computes the average cosine similarity of all the interpretable directions for the same feature (which were however constructed based on different scales and different ML algorithms). Moreover, it computes the average cosine similarity for each pair of features (by comparing all pairs of directions). The results are stored in `output.csv`. The script furthermore requires an `input_folder`, which contains all csv files created by `find_directions.py` (and no additional files!).

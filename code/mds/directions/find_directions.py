@@ -12,14 +12,13 @@ from sklearn.svm import LinearSVC
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import cohen_kappa_score
 import numpy as np
-from code.util import load_mds_vectors, normalize_direction
+from code.util import normalize_direction
 from scipy.stats import spearmanr
 
 parser = argparse.ArgumentParser(description='Finding interpretable directions')
-parser.add_argument('vector_file', help = 'the input csv file containing the vectors')
-parser.add_argument('n_dims', type = int, help = 'the number of dimensions in the underlying space')
-parser.add_argument('classification_file', help = 'the pickle file containing the classification information')
-parser.add_argument('regression_file', help = 'the pickle file containing the regression information')
+parser.add_argument('vector_file', help = 'the input pickle file containing the vectors')
+parser.add_argument('n_dims', type = int, help = 'the number of dimensions of the underlying space to consider')
+parser.add_argument('feature_file', help = 'the pickle file containing the feature information')
 parser.add_argument('output_file', help = 'output csv file for collecting the results')
 args = parser.parse_args()
 
@@ -31,19 +30,23 @@ def project_vectors_onto_direction(vectors, direction):
     for vector in vectors:
         np_vec = np.array(vector)
         np_vec.reshape(-1, 1)
-        projected.append(np.inner(vector, direction))#cosine_similarity(vector,direction))
+        projected.append(np.inner(vector, direction))
     return projected
         
 
 # read the vectors
-vectors_dict = load_mds_vectors(args.vector_file)
+with open(args.vector_file, 'rb') as f_in:
+    vector_data = pickle.load(f_in)
 
-# load classification data and transform it into sklearn compatible structure
-with open(args.classification_file, 'rb') as f_in:
-    raw_data = pickle.load(f_in)
+vectors_dict = vector_data[args.n_dims]
 
+# load the feature data
+with open(args.feature_file, 'rb') as f_in:
+    feature_data = pickle.load(f_in)
+
+# transform classification information into sklearn compatible structure
 classification_data = {}
-for feature_type, dataset in raw_data.items():
+for feature_type, dataset in feature_data['classification'].items():
     
     positive_examples = [vectors_dict[item] for item in dataset['positive']]
     negative_examples = [vectors_dict[item] for item in dataset['negative']]
@@ -52,12 +55,9 @@ for feature_type, dataset in raw_data.items():
     
     classification_data[feature_type] = {'vectors': vectors, 'targets': targets}
     
-# load regression data and transform it into sklearn compatible structure
-with open(args.regression_file, 'rb') as f_in:
-    raw_data = pickle.load(f_in)
-
+# transform regression data into sklearn compatible structure
 regression_data = {}
-for feature_type, dataset in raw_data.items():
+for feature_type, dataset in feature_data['aggregated'].items():
 
     vectors = []
     targets = []        
@@ -95,7 +95,7 @@ for feature_type in classification_data.keys():
     evaluation_kappa = {}
     evaluation_spearman = {}
     
-    # classificationo
+    # classification
     for direction_name, vectors in projected_vectors_classification.items():
         # simple threshold classifier
         sorted_vectors = sorted(vectors)
@@ -126,16 +126,16 @@ for feature_type in classification_data.keys():
         # construct headline
         headline = 'dims,feature_type,model,kappa,spearman,{0}\n'.format(','.join(['d{0}'.format(i) for i in range(20)]))
         
-        with open(args.output_file, 'w') as f:
-            fcntl.flock(f, fcntl.LOCK_EX)
-            f.write(headline)
-            fcntl.flock(f, fcntl.LOCK_UN)
+        with open(args.output_file, 'w') as f_out:
+            fcntl.flock(f_out, fcntl.LOCK_EX)
+            f_out.write(headline)
+            fcntl.flock(f_out, fcntl.LOCK_UN)
     
     # write content
-    with open(args.output_file, 'a') as f:
-        fcntl.flock(f, fcntl.LOCK_EX)           
+    with open(args.output_file, 'a') as f_out:
+        fcntl.flock(f_out, fcntl.LOCK_EX)           
         for direction_name in evaluation_kappa.keys():
             line_items = [args.n_dims, feature_type, direction_name, evaluation_kappa[direction_name], evaluation_spearman[direction_name]] + [i for i in candidate_directions[direction_name]]
-            f.write(",".join(map(lambda x: str(x), line_items)))
-            f.write("\n")
-        fcntl.flock(f, fcntl.LOCK_UN)
+            f_out.write(",".join(map(lambda x: str(x), line_items)))
+            f_out.write("\n")
+        fcntl.flock(f_out, fcntl.LOCK_UN)

@@ -192,6 +192,20 @@ done
 
 # analyzing interpretable directions
 # ----------------------------------
+echo 'analyzing interpretable directions'
+
+echo '    finding directions'
+for aggregator in $aggregators
+do
+	for direction in $directions
+	do
+		for i in `seq 1 $dimension_limit`
+		do
+			python -m code.mds.directions.find_directions 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/vectors.pickle' $i 'data/Shapes/mds/features/'"$direction"'.pickle' 'data/Shapes/mds/analysis/directions/'"$aggregator"'/raw/'"$direction"'.csv' &
+		done
+	done
+done
+wait
 
 # TODO code
 
