@@ -215,6 +215,17 @@ do
 done
 wait
 
+
+echo '    filtering directions for visualization'
+for aggregator in $aggregators
+do
+	for direction in $directions
+	do
+		python -m code.mds.directions.filter_directions 'data/Shapes/mds/data_set/spaces/directions/'"$aggregator"'/'"$direction"'.csv' $direction $dimension_limit 'data/Shapes/mds/analysis/directions/'"$aggregator"'/filtered.csv' -k 0.8 -s 0.7 &
+	done
+done
+wait
+
 # TODO code
 
 
@@ -236,12 +247,7 @@ wait
 
 
 
-echo '    comparing directions'
-for aggregator in $aggregators
-do
-	python -m code.mds.similarity_spaces.compare_directions 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/raw/' $dimension_limit 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/similarities.csv' &
-done
-wait
+
 
 echo '    filtering and aggregating directions'
 for aggregator in $aggregators

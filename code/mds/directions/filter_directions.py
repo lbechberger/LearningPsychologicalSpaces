@@ -42,10 +42,10 @@ with open(args.input_file, 'r') as f_in:
 # create file and headline if necessary
 if not os.path.exists(args.output_file):
     headline = 'dims,direction_name,criterion,constructed_from,{0}\n'.format(','.join(['d{0}'.format(i) for i in range(20)]))
-    with open(args.output_file, 'w') as f:
-        fcntl.flock(f, fcntl.LOCK_EX)
-        f.write(headline)
-        fcntl.flock(f, fcntl.LOCK_UN)
+    with open(args.output_file, 'w') as f_out:
+        fcntl.flock(f_out, fcntl.LOCK_EX)
+        f_out.write(headline)
+        fcntl.flock(f_out, fcntl.LOCK_UN)
 
 # helper function to aggregate direction based on the given criterion
 def aggregate_direction(tuples, criterion, criterion_idx):
