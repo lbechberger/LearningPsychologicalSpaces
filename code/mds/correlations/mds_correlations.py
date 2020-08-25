@@ -48,9 +48,10 @@ with open(args.output_file, 'w', buffering=1) as f_out:
 
     for number_of_dimensions in range(args.n_min, args.n_max + 1):
         
-        vector_list = []
-        for item in items:
-            vector_list.append(vectors[number_of_dimensions][item])
+        if args.vector_file is not None:
+            vector_list = []
+            for item in items:
+                vector_list.append(vectors[number_of_dimensions][item])
         
         for distance_function in sorted(distance_functions.keys()):
 
