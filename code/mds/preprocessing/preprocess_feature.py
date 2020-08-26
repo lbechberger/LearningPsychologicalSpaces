@@ -37,6 +37,8 @@ category_map = {}
 individual_ratings = {'pre-attentive':{}, 'attentive':{}}
 aggregated_ratings = {'pre-attentive':{}, 'attentive':{}}
 
+feature_types = ['pre-attentive', 'attentive']
+
 # read in the category names
 with open(args.categories_file, 'r') as f_in:
     for line in f_in:
@@ -92,7 +94,8 @@ for feature_type, feature_data in individual_ratings.items():
 
 # now binarize the scales by taking the top 25% and bottom 25% as positive and negative examples, respectively
 classification_output = {}
-for feature_type, feature_data in aggregated_ratings.items():
+for feature_type in feature_types:
+    feature_data = aggregated_ratings[feature_type]
     list_of_tuples = []
     for item, value in feature_data.items():
         list_of_tuples.append((item, value))
@@ -119,21 +122,21 @@ with open(args.output_pickle_file, 'wb') as f_out:
 # output to csv
 # ... first: individual ratings
 with open(args.output_csv_file_individual, 'w') as f_out:
-    f_out.write('item;ratingType;ratings\n')
-    for feature_type, feature_data in individual_ratings.items():
-        for item, ratings in feature_data.items():
-            for rating in ratings:
-                f_out.write('{0};{1};{2}\n'.format(item, feature_type, rating))
+    f_out.write('item,ratingType,ratings\n')
+    for feature_type in feature_types:
+        for item in item_names:
+            for rating in individual_ratings[feature_type][item]:
+                f_out.write('{0},{1},{2}\n'.format(item, feature_type, rating))
 
 # ... then: aggregated ratings
 with open(args.output_csv_file_aggregated, 'w') as f_out:
-    f_out.write('item;ratingType;ratings\n')
-    for feature_type, feature_data in aggregated_ratings.items():
-        for item, rating in feature_data.items():
-            f_out.write('{0};{1};{2}\n'.format(item, feature_type, rating))
+    f_out.write('item,ratingType,ratings\n')
+    for feature_type in feature_types:
+        for item in item_names:
+            f_out.write('{0},{1},{2}\n'.format(item, feature_type, individual_ratings[feature_type][item]))
 
 # compute intersection of positive and negative scale end
-for first_feature_type, second_feature_type in combinations(sorted(classification_output.keys()), 2):
+for first_feature_type, second_feature_type in combinations(feature_types, 2):
 
     first_data = classification_output[first_feature_type]
     second_data = classification_output[second_feature_type]
@@ -152,7 +155,7 @@ if args.plot_folder is not None:
         images = load_item_images(args.image_folder, item_names)    
     
     # look at all pairs of feature types
-    for first_feature_type, second_feature_type in combinations(sorted(aggregated_ratings.keys()), 2):
+    for first_feature_type, second_feature_type in combinations(feature_types, 2):
         
         # collect the data
         first_vector = []

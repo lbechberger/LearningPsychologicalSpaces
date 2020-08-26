@@ -11,6 +11,7 @@ Created on Mon Oct 22 13:39:05 2018
 
 import pickle, argparse
 import numpy as np
+from util import list_to_string
 
 parser = argparse.ArgumentParser(description='Preprocessing similarity data of the Shapes study')
 parser.add_argument('within_file', help = 'CSV file containing data from the within-study (study 1)')
@@ -59,7 +60,7 @@ def select_data_subset(subset, data_set):
                 if idx2 <= idx1:
                     continue
                 
-                tuple_id = str(sorted([item1, item2]))
+                tuple_id = list_to_string([item1, item2])
                 if tuple_id in data_set['similarities']:
                     border = data_set['similarities'][tuple_id]['border']
                     between_ratings = data_set['similarities'][tuple_id]['values'][border:]
@@ -81,7 +82,7 @@ def select_data_subset(subset, data_set):
                 if idx2 <= idx1:
                     continue
                 
-                tuple_id = str(sorted([item1, item2]))
+                tuple_id = list_to_string([item1, item2])
                 if tuple_id in data_set['similarities']:
                     border = data_set['similarities'][tuple_id]['border']
                     between_ratings = data_set['similarities'][tuple_id]['values'][:border]
@@ -125,7 +126,7 @@ def find_limit(subset, data_set, items_of_interest):
             if idx2 <= idx1:
                 continue
             
-            tuple_id = str(sorted([item1, item2]))
+            tuple_id = list_to_string([item1, item2])
             if tuple_id in data_set['similarities']:
                 similarity_ratings = data_set['similarities'][tuple_id]['values']
                 if subset == "between":
@@ -224,7 +225,7 @@ with open(args.within_between_file, 'r') as f_in:
         item1 = item_map[tokens[4]]
         item2 = item_map[tokens[8]]
 
-        item_tuple_id = str(sorted([item1, item2]))
+        item_tuple_id = list_to_string([item1, item2])
         
         for item in [item1, item2]:
             # check whether the items are already known (they should be by now!)
@@ -286,7 +287,7 @@ for index1, item1 in enumerate(items_of_interest):
         
         if index2 <= index1:
             continue
-        tuple_id = str(sorted([item1, item2]))
+        tuple_id = list_to_string([item1, item2])
         
         si = similarity_info[tuple_id]
         ratings = si['values']
@@ -315,16 +316,16 @@ with open(args.output_pickle_file, "wb") as f_out:
     
 # ... and also into a csv file
 with open(args.output_csv_file, 'w') as f_out:
-    f_out.write('pairID;pairType;visualType;ratingType;ratings\n')
+    f_out.write('pairID,pairType,visualType,ratingType,ratings\n')
     for index1, item1 in enumerate(items_of_interest):
         for index2, item2 in enumerate(items_of_interest):
             
             if index2 <= index1:
                 continue
-            tuple_id = str(sorted([item1, item2]))
+            tuple_id = list_to_string([item1, item2])
             pair_type = filtered_similarity_info[tuple_id]['relation']
             visual_type = filtered_similarity_info[tuple_id]['category_type']
             
             for rating in filtered_similarity_info[tuple_id]['values']:
-                f_out.write("{0};{1};{2};{3};{4}\n".format(tuple_id, pair_type, visual_type, args.rating_type, rating))
+                f_out.write("{0},{1},{2},{3},{4}\n".format(tuple_id, pair_type, visual_type, args.rating_type, rating))
 

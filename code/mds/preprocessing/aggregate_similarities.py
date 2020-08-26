@@ -9,6 +9,7 @@ Created on Tue Dec  4 09:02:18 2018
 
 import pickle, argparse, os
 import numpy as np
+from util import list_to_string
 
 parser = argparse.ArgumentParser(description='Computing aggregated similarity values')
 parser.add_argument('input_file', help = 'pickle file containing the preprocessed data')
@@ -66,7 +67,7 @@ for index1, item1 in enumerate(items):
                 similarity_matrix[index1][index2] = 5 # manually set self-similarity to max
             continue
         
-        tuple_id = str(sorted([item1, item2]))
+        tuple_id = list_to_string([item1, item2])
         if tuple_id not in data_set['similarities'].keys():
             # unknown similarities: simply leave zeroes in there (are treated as "unknown" by MDS algorithm)
             # see https://github.com/scikit-learn/scikit-learn/blob/bac89c2/sklearn/manifold/mds.py#L100
@@ -123,17 +124,17 @@ with open(args.output_pickle_file, 'wb') as f_out:
 # write csv output for R analysis
 aggregator_name = 'median' if args.median else 'mean'
 with open(args.output_csv_file, 'w') as f_out:
-    f_out.write('pairID;pairType;visualType;ratingType;aggregator;ratings\n')
+    f_out.write('pairID,pairType,visualType,ratingType,aggregator,ratings\n')
     for index1, item1 in enumerate(items):
         for index2, item2 in enumerate(items):
             
             if index2 <= index1:
                 continue
-            tuple_id = str(sorted([item1, item2]))
+            tuple_id = list_to_string([item1, item2])
             rating = similarity_matrix[index1,index2]
             pair_type = data_set['similarities'][tuple_id]['relation']
             visual_type = data_set['similarities'][tuple_id]['category_type']
-            f_out.write("{0};{1};{2};{3};{4};{5}\n".format(tuple_id, pair_type, visual_type, args.rating_type, aggregator_name, rating))
+            f_out.write("{0},{1},{2},{3},{4},{5}\n".format(tuple_id, pair_type, visual_type, args.rating_type, aggregator_name, rating))
        
 
 # write dissimilarity matrix output

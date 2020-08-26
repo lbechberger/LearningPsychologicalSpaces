@@ -8,6 +8,7 @@ Created on Wed Jan 30 14:15:16 2019
 """
 
 import pickle, argparse, csv
+from util import list_to_string
 
 parser = argparse.ArgumentParser(description='Preprocessing similarity data of the NOUN study')
 parser.add_argument('distance_table', help = 'CSV file containing the distance data of the NOUN study')
@@ -60,7 +61,7 @@ with open(args.distance_table, 'r') as f_in:
             distance = float(row[item2])
             similarity = 5 - (distance / 300)            
             
-            item_tuple_id = str(sorted([item1, item2]))
+            item_tuple_id = list_to_string([item1, item2])
     
             if item_tuple_id in similarity_info:
                 # if we already have similarity information from the previous study: append

@@ -10,7 +10,7 @@ Created on Wed Jan 29 09:51:03 2020
 import pickle, argparse, os
 import numpy as np
 from itertools import chain, combinations
-from code.util import precompute_distances, compute_correlations, distance_functions
+from code.util import precompute_distances, compute_correlations, distance_functions, list_to_string
 from code.util import add_correlation_metrics_to_parser, get_correlation_metrics_from_args
    
 parser = argparse.ArgumentParser(description='Correlating the scales of two features')
@@ -60,7 +60,7 @@ with open(args.output_file, 'w', buffering=1) as f_out:
     spaces = powerset(sorted(feature_data.keys()))
     for space in spaces:
         
-        space_name = '-'.join(space)
+        space_name = list_to_string(space)
         print(space_name)
         number_of_dimensions = len(space)        
         if number_of_dimensions == 0:

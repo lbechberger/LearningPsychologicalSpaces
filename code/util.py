@@ -412,7 +412,7 @@ def create_labeled_scatter_plot(x, y, output_file_name, x_label = "x-axis", y_la
         for region, color, linestyle in regions:
             hull = ConvexHull(region)
             for simplex in hull.simplices:
-                ax.plot(region[simplex,0], region[simplex,1], color = color, linestyle = linestyle)#'{0}--'.format(color))
+                ax.plot(region[simplex,0], region[simplex,1], color = color, linestyle = linestyle)
         
 
     fig.savefig(output_file_name, bbox_inches='tight', dpi=200)
@@ -472,3 +472,9 @@ def get_correlation_metrics_from_args(args):
     if args.r2_isotonic:
         correlation_metrics.append('r2_isotonic')
     return correlation_metrics
+
+def list_to_string(list_of_elements):
+    """
+    Converts the given list of elements into a canonical string representation for the whole list.
+    """
+    return '-'.join(map(lambda x: str(x), sorted(list_of_elements)))
