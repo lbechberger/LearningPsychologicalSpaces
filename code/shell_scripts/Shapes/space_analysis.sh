@@ -30,7 +30,7 @@ do
 	do
 		mkdir -p 'data/Shapes/mds/visualizations/spaces/'"$aggregator"'/'"$criterion"'/'
 	done
-	mkdir -p 'data/Shapes/mds/visualizations/correlations/'"$aggregator"'/scatter/'
+	mkdir -p 'data/Shapes/mds/visualizations/correlations/'"$aggregator"'/shepard/'
 	mkdir -p 'data/Shapes/mds/visualizations/average_images/'"$aggregator"'/'
 	mkdir -p 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/'
 	mkdir -p 'data/Shapes/mds/analysis/regions/'"$aggregator"'/'
@@ -98,7 +98,7 @@ do
 	# if precomputed distances exist: use them; if not: re-compute them
 	[ -f 'data/Shapes/mds/analysis/correlations/feature_distances.pickle' ] && features_flag='' || features_flag='-f data/Shapes/mds/features/'
 	echo "            $features_flag"
-	python -m code.mds.correlations.feature_correlations 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/aggregated_ratings.pickle' 'data/Shapes/mds/analysis/correlations/features.pickle' 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/features.csv' $features_flag --kendall -s 42 &> 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/features_log.txt' 
+	python -m code.mds.correlations.feature_correlations 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/aggregated_ratings.pickle' 'data/Shapes/mds/analysis/correlations/feature_distances.pickle' 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/features.csv' $features_flag --kendall -s 42 &> 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/features_log.txt' 
  
 done
 
@@ -120,48 +120,48 @@ done
 echo '    creating Shepard plots'
 # prepare setup for MEAN
 # best pixel (fixed)
-echo 'data/Shapes/mds/analysis/correlations/mean/pixel.pickle data/Shapes/mds/visualizations/correlations/mean/scatter/best_pixel_fixed.png -p min -b 24 -d Euclidean -g' > data/Shapes/mds/analysis/correlations/mean/shepard.config
-echo 'data/Shapes/mds/analysis/correlations/mean/pixel.pickle data/Shapes/mds/visualizations/correlations/mean/scatter/best_pixel_fixed_optimized.png -p min -b 24 -d Euclidean -g -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
+echo 'data/Shapes/mds/analysis/correlations/pixel_distances/ data/Shapes/mds/visualizations/correlations/mean/shepard/best_pixel_fixed.png -p min -b 24 -d Euclidean' > data/Shapes/mds/analysis/correlations/mean/shepard.config
+echo 'data/Shapes/mds/analysis/correlations/pixel_distances/ data/Shapes/mds/visualizations/correlations/mean/shepard/best_pixel_fixed_optimized.png -p min -b 24 -d Euclidean -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
 # best pixel (optimized)
-echo 'data/Shapes/mds/analysis/correlations/mean/pixel.pickle data/Shapes/mds/visualizations/correlations/mean/scatter/best_pixel_optimized.png -p min/ -b 2 -d Euclidean -g -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
+echo 'data/Shapes/mds/analysis/correlations/pixel_distances/ data/Shapes/mds/visualizations/correlations/mean/shepard/best_pixel_optimized.png -p min -b 2 -d Euclidean -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
 # best ANN (fixed)
-echo 'data/Shapes/mds/analysis/correlations/mean/ann.pickle data/Shapes/mds/visualizations/correlations/mean/scatter/best_ann_fixed.png -a -d Manhattan' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
+echo 'data/Shapes/mds/analysis/correlations/ann_distances.pickle data/Shapes/mds/visualizations/correlations/mean/shepard/best_ann_fixed.png -a -d Manhattan' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
 # best ANN (optimized)
-echo 'data/Shapes/mds/analysis/correlations/mean/ann.pickle data/Shapes/mds/visualizations/correlations/mean/scatter/best_ann_optimized.png -a -d Euclidean -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
+echo 'data/Shapes/mds/analysis/correlations/ann_distances.pickle data/Shapes/mds/visualizations/correlations/mean/shepard/best_ann_optimized.png -a -d Euclidean -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
 # best feature (preattentive, fixed)
-echo 'data/Shapes/mds/analysis/correlations/mean/features.pickle data/Shapes/mds/visualizations/correlations/mean/scatter/best_feature_preattentive_fixed.png -f FORM-LINES-ORIENTATION -t pre-attentive -d InnerProduct' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
+echo 'data/Shapes/mds/analysis/correlations/feature_distances.pickle data/Shapes/mds/visualizations/correlations/mean/shepard/best_feature_preattentive_fixed.png -f FORM-LINES-ORIENTATION -t pre-attentive -d InnerProduct' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
 # best feature (preattentive, optimimzed)
-echo 'data/Shapes/mds/analysis/correlations/mean/features.pickle data/Shapes/mds/visualizations/correlations/mean/scatter/best_feature_preattentive_optimized.png -f FORM-LINES-ORIENTATION-artificial -t pre-attentive -d InnerProduct -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
+echo 'data/Shapes/mds/analysis/correlations/feature_distances.pickle data/Shapes/mds/visualizations/correlations/mean/shepard/best_feature_preattentive_optimized.png -f FORM-LINES-ORIENTATION-artificial -t pre-attentive -d InnerProduct -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
 # best feature (attentive, fixed)
-echo 'data/Shapes/mds/analysis/correlations/mean/features.pickle data/Shapes/mds/visualizations/correlations/mean/scatter/best_feature_attentive_fixed.png -f FORM-LINES-ORIENTATION -t attentive -d Manhattan' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
+echo 'data/Shapes/mds/analysis/correlations/feature_distances.pickle data/Shapes/mds/visualizations/correlations/mean/shepard/best_feature_attentive_fixed.png -f FORM-LINES-ORIENTATION -t attentive -d Manhattan' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
 # best feature (attentive, optimized)
-echo 'data/Shapes/mds/analysis/correlations/mean/features.pickle data/Shapes/mds/visualizations/correlations/mean/scatter/best_feature_attentive_optimized.png -f FORM-LINES-ORIENTATION-artificial -t attentive -d Manhattan -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
+echo 'data/Shapes/mds/analysis/correlations/feature_distances.pickle data/Shapes/mds/visualizations/correlations/mean/shepard/best_feature_attentive_optimized.png -f FORM-LINES-ORIENTATION-artificial -t attentive -d Manhattan -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
 
 # prepare setup for MEDIAN
 # best pixel (fixed)
-echo 'data/Shapes/mds/analysis/correlations/mean/pixel.pickle data/Shapes/mds/visualizations/correlations/median/scatter/best_pixel_fixed.png -p min -b 24 -d Euclidean -g' > data/Shapes/mds/analysis/correlations/median/shepard.config
-echo 'data/Shapes/mds/analysis/correlations/mean/pixel.pickle data/Shapes/mds/visualizations/correlations/median/scatter/best_pixel_fixed_optimized.png -p min -b 24 -d Euclidean -g -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/median/shepard.config
+echo 'data/Shapes/mds/analysis/correlations/pixel_distances/ data/Shapes/mds/visualizations/correlations/median/shepard/best_pixel_fixed.png -p min -b 24 -d Euclidean' > data/Shapes/mds/analysis/correlations/median/shepard.config
+echo 'data/Shapes/mds/analysis/correlations/pixel_distances/ data/Shapes/mds/visualizations/correlations/median/shepard/best_pixel_fixed_optimized.png -p min -b 24 -d Euclidean -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/median/shepard.config
 # best pixel (optimized)
-echo 'data/Shapes/mds/analysis/correlations/mean/pixel.pickle data/Shapes/mds/visualizations/correlations/median/scatter/best_pixel_optimized.png -p min -b 26 -d Euclidean -g -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/median/shepard.config
+echo 'data/Shapes/mds/analysis/correlations/pixel_distances/ data/Shapes/mds/visualizations/correlations/median/shepard/best_pixel_optimized.png -p min -b 26 -d Euclidean -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/median/shepard.config
 # best ANN (fixed)
-echo 'data/Shapes/mds/analysis/correlations/mean/ann.pickle data/Shapes/mds/visualizations/correlations/median/scatter/best_ann_fixed.png -a /tmp/inception -d Manhattan' >> data/Shapes/mds/analysis/correlations/median/shepard.config
+echo 'data/Shapes/mds/analysis/correlations/ann_distances.pickle data/Shapes/mds/visualizations/correlations/median/shepard/best_ann_fixed.png -a -d Manhattan' >> data/Shapes/mds/analysis/correlations/median/shepard.config
 # best ANN (optimized)
-echo 'data/Shapes/mds/analysis/correlations/mean/ann.pickle data/Shapes/mds/visualizations/correlations/median/scatter/best_ann_optimized.png -a /tmp/inception -d Euclidean -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/median/shepard.config
+echo 'data/Shapes/mds/analysis/correlations/ann_distances.pickle data/Shapes/mds/visualizations/correlations/median/shepard/best_ann_optimized.png -a -d Euclidean -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/median/shepard.config
 # best feature (preattentive, fixed)
-echo 'data/Shapes/mds/analysis/correlations/mean/features.pickle data/Shapes/mds/visualizations/correlations/median/scatter/best_feature_preattentive_fixed.png -f FORM-LINES-ORIENTATION -t pre-attentive -d InnerProduct' >> data/Shapes/mds/analysis/correlations/median/shepard.config
+echo 'data/Shapes/mds/analysis/correlations/feature_distances.pickle data/Shapes/mds/visualizations/correlations/median/shepard/best_feature_preattentive_fixed.png -f FORM-LINES-ORIENTATION -t pre-attentive -d InnerProduct' >> data/Shapes/mds/analysis/correlations/median/shepard.config
 # best feature (preattentive, optimimzed)
-echo 'data/Shapes/mds/analysis/correlations/mean/features.pickle data/Shapes/mds/visualizations/correlations/median/scatter/best_feature_preattentive_optimized.png -f FORM-LINES-ORIENTATION-artificial -t pre-attentive -d InnerProduct -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/median/shepard.config
+echo 'data/Shapes/mds/analysis/correlations/feature_distances.pickle data/Shapes/mds/visualizations/correlations/median/shepard/best_feature_preattentive_optimized.png -f FORM-LINES-ORIENTATION-artificial -t pre-attentive -d InnerProduct -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/median/shepard.config
 # best feature (attentive, fixed)
-echo 'data/Shapes/mds/analysis/correlations/mean/features.pickle data/Shapes/mds/visualizations/correlations/median/scatter/best_feature_attentive_fixed.png -f FORM-LINES-ORIENTATION -t attentive -d Manhattan' >> data/Shapes/mds/analysis/correlations/median/shepard.config
+echo 'data/Shapes/mds/analysis/correlations/feature_distances.pickle data/Shapes/mds/visualizations/correlations/median/shepard/best_feature_attentive_fixed.png -f FORM-LINES-ORIENTATION -t attentive -d Manhattan' >> data/Shapes/mds/analysis/correlations/median/shepard.config
 # best feature (attentive, optimized)
-echo 'data/Shapes/mds/analysis/correlations/mean/features.pickle data/Shapes/mds/visualizations/correlations/median/scatter/best_feature_attentive_optimized.png -f FORM-LINES-ORIENTATION-artificial -t attentive -d Manhattan -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/median/shepard.config
+echo 'data/Shapes/mds/analysis/correlations/feature_distances.pickle data/Shapes/mds/visualizations/correlations/median/shepard/best_feature_attentive_optimized.png -f FORM-LINES-ORIENTATION-artificial -t attentive -d Manhattan -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/median/shepard.config
 
 # add all MDS spaces
 for aggregator in $aggregators
 do
 	for i in  `seq 1 $visualization_limit`
 	do
-		echo 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/mds_from_'"$aggregator"'.pickle data/Shapes/mds/visualizations/correlations/'"$aggregator"'/scatter/mds_'"$i"'.png -m $i -d Euclidean' >> 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/scatter.config'
+		echo 'data/Shapes/mds/analysis/correlations/mds_from_'"$aggregator"'.pickle data/Shapes/mds/visualizations/correlations/'"$aggregator"'/shepard/mds_'"$i"'.png -m '"$i"' -d Euclidean' >> 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/shepard.config'
 	done
 done
 
@@ -170,11 +170,10 @@ for aggregator in $aggregators
 do
 	while IFS= read -r line
 	do
-		python -m code.mds.correlations.shepard_diagram 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/aggregated_ratings.pickle' $line
+		python -m code.mds.correlations.shepard_diagram 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/aggregated_ratings.pickle' $line &
 	done < 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/shepard.config'
 done
-
-
+wait
 
 # analyzing conceptual regions
 # ----------------------------

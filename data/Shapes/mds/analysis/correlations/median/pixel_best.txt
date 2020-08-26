@@ -1,0 +1,1 @@
+	 best pixel result for kendall: ['None', -1000]

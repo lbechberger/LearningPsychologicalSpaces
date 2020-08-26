@@ -1,0 +1,7 @@
+scoring,weights,kendall
+Euclidean,fixed,0.1760929303425307
+Euclidean,optimized,0.3773276493153958
+InnerProduct,fixed,0.09611759732926312
+InnerProduct,optimized,0.3083764513681187
+Manhattan,fixed,0.18722493637445317
+Manhattan,optimized,0.35414649118028013

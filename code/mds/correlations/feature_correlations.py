@@ -60,7 +60,8 @@ with open(args.output_file, 'w', buffering=1) as f_out:
     spaces = powerset(sorted(feature_data.keys()))
     for space in spaces:
         
-        print('-'.join(space))
+        space_name = '-'.join(space)
+        print(space_name)
         number_of_dimensions = len(space)        
         if number_of_dimensions == 0:
             # ignore empty set
@@ -95,25 +96,25 @@ with open(args.output_file, 'w', buffering=1) as f_out:
                 if args.feature_folder is not None:
                    # precompute distances and targets based on the feature values
                     precomputed_distances = precompute_distances(vectors, distance_function)
-                    if space not in distances:
-                        distances[space] = {}
-                    if scale_type not in distances[space]:
-                        distances[space][scale_type] = {}
-                    distances[space][scale_type][distance_function] = precomputed_distances
+                    if space_name not in distances:
+                        distances[space_name] = {}
+                    if scale_type not in distances[space_name]:
+                        distances[space_name][scale_type] = {}
+                    distances[space_name][scale_type][distance_function] = precomputed_distances
                 else:
                     # simply grab them from the loaded dictionary
-                    precomputed_distances = distances[space][scale_type][distance_function]
+                    precomputed_distances = distances[space_name][scale_type][distance_function]
                     
                 # raw correlation
                 correlation_results = compute_correlations(precomputed_distances, target_dissimilarities, distance_function)
                 f_out.write("{0},{1},{2},{3},fixed,{4}\n".format(number_of_dimensions, scale_type,
-                                                            '-'.join(space), distance_function,
+                                                            space_name, distance_function,
                                                             ','.join(map(lambda x: str(correlation_results[x]), correlation_metrics))))
 
                 # correlation with optimized weights
                 correlation_results = compute_correlations(precomputed_distances, target_dissimilarities, distance_function, args.n_folds, args.seed)
                 f_out.write("{0},{1},{2},{3},optimized,{4}\n".format(number_of_dimensions, scale_type,
-                                                            '-'.join(space), distance_function,
+                                                            space_name, distance_function,
                                                             ','.join(map(lambda x: str(correlation_results[x]), correlation_metrics))))
 
                 print('\tdone with {0}-{1}; weights: {2}'.format(scale_type, distance_function, correlation_results['weights']))

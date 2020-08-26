@@ -1,0 +1,6 @@
+2020-08-25 18:12:24.777231: I tensorflow/core/platform/cpu_feature_guard.cc:137] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2020-08-25 18:12:25.246981: W tensorflow/core/framework/op_def_util.cc:334] Op BatchNormWithGlobalNormalization is deprecated. It will cease to work in GraphDef version 9. Use tf.nn.batch_normalization().
+extracted features
+done with Euclidean; weights: [0.         0.         0.46213843 ... 0.         0.14365113 0.58013069]
+done with InnerProduct; weights: [0.         0.         1.30313306 ... 0.         0.40225102 0.73873752]
+done with Manhattan; weights: [0.         0.         0.37184429 ... 0.00937448 0.04567532 0.0350056 ]

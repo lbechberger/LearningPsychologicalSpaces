@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/lbechberger/miniconda/envs/tensorflow-CS/lib/python3.5/runpy.py", line 193, in _run_module_as_main
+    "__main__", mod_spec)
+  File "/home/lbechberger/miniconda/envs/tensorflow-CS/lib/python3.5/runpy.py", line 85, in _run_code
+    exec(code, run_globals)
+  File "/work/lbechberger/GitHub/LearningPsychologicalSpaces/code/mds/correlations/pixel_correlations.py", line 90, in <module>
+    f_out.write("{0},{1},{2},{3},fixed,{4}\n".format(aggregator_name, block_size, image_size, distance_function, 
+NameError: name 'image_size' is not defined

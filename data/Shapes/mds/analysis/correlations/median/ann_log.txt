@@ -1,0 +1,4 @@
+extracted features
+done with Euclidean; weights: [0.         0.         0.68346171 ... 0.         0.14062729 0.        ]
+done with InnerProduct; weights: [0.15327126 0.         1.57892866 ... 0.         0.48178105 0.51141383]
+done with Manhattan; weights: [0.         0.         0.19036165 ... 0.01131683 0.03589908 0.00280079]

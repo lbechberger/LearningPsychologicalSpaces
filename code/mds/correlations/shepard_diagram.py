@@ -8,7 +8,7 @@ Created on Wed Jun 19 00:38:28 2019
 """
 
 import matplotlib.pyplot as plt
-import argparse, pickle
+import argparse, pickle, os
 from sklearn.isotonic import IsotonicRegression
 from code.util import compute_correlations
 
@@ -24,7 +24,6 @@ parser.add_argument('--features', '-f', help = 'name of feature space to use', d
 parser.add_argument('--type', '-t', help = 'feature type to use', default = 'attentive')
 parser.add_argument('--pixel', '-p', help = 'aggregator for pixel baseline', default = None)
 parser.add_argument('--block_size', '-b', type = int, help = 'block size for pixel baseline', default = 1)
-parser.add_argument('--type', '-t', help = 'feature type to use', default = 'attentive')
 parser.add_argument('--optimized', '-o', action = 'store_true', help = 'if this flag is set, weights are optimized in cross-validation')
 parser.add_argument('-n', '--n_folds', type = int, help = 'number of folds to use for cross-validation when optimizing weights', default = 5)
 parser.add_argument('-s', '--seed', type = int, help = 'fixed seed to use for creating the folds', default = None)
@@ -36,21 +35,26 @@ if sum([args.mds is not None, args.ann, args.pixel is not None, args.features is
 with open(args.similarity_file, 'rb') as f_in:
     input_data = pickle.load(f_in)
 
-with open(args.distance_file, 'rb') as f_in:
-    distances = pickle.load(f_in)
-
-if args.mds is not None:
-    precomputed_distances = distances[args.mds][args.distance]
-    x_label = '{0} Distance in {1}-dimensional MDS Space'.format(args.distance, args.mds)
-elif args.ann:
-    precomputed_distances = distances[args.distance]
-    x_label = '{0} Distance of ANN Activation Vectors'.format(args.distance)
-elif args.features is not None:
-    precomputed_distances = distances[args.features][args.type][args.distance]
-    x_label = '{0} Distance based on {1} Shape Features: {2}'.format(args.distance, args.type, args.features)
-else: # args.pixel is not None:
-    precomputed_distances = distances[args.block_size][args.pixel][args.distance]
-    x_label = '{0} Distance of Downscaled Images (Block Size {1}, Aggregation with {2})'.format(args.distance. args.block_size, args.pixel)
+# special treatment for pixel baseline since we have folder of individual files
+if args.pixel is not None:
+    input_file_name = os.path.join(args.distance_file, '{0}-{1}-{2}.pickle'.format(args.block_size, args.pixel, args.distance))
+    with open(input_file_name, 'rb') as f_in:
+        precomputed_distances = pickle.load(f_in)
+    x_label = '{0} Distance of Downscaled Images (Block Size {1}, Aggregation with {2})'.format(args.distance, args.block_size, args.pixel)
+else:
+    with open(args.distance_file, 'rb') as f_in:
+        distances = pickle.load(f_in)
+    if args.mds is not None:
+        precomputed_distances = distances[args.mds][args.distance]
+        x_label = '{0} Distance in {1}-dimensional MDS Space'.format(args.distance, args.mds)
+    elif args.ann:
+        precomputed_distances = distances[args.distance]
+        x_label = '{0} Distance of ANN Activation Vectors'.format(args.distance)
+    elif args.features is not None:
+        precomputed_distances = distances[args.features][args.type][args.distance]
+        x_label = '{0} Distance based on {1} Shape Features: {2}'.format(args.distance, args.type, args.features)
+    else: # args.pixel is not None:
+        raise(Exception('This should not happen!'))
 
 target_dissimilarities = input_data['dissimilarities']
 
@@ -66,13 +70,20 @@ corr_dict = compute_correlations(precomputed_distances, target_dissimilarities, 
 fig, ax = plt.subplots(figsize=(12,12))
 ax.tick_params(axis="x", labelsize=16)
 ax.tick_params(axis="y", labelsize=16)
-ax.scatter(corr_dict['predictions'], corr_dict['targets'])
+
+x = corr_dict['predictions'].reshape(-1)
+y = corr_dict['targets'].reshape(-1)
+
+ax.scatter(x, y)
 plt.xlabel(x_label, fontsize = 20)
 plt.ylabel('Dissimilarity from Psychological Study', fontsize = 20)
 
 ir = IsotonicRegression()
-best_fit = ir.fit_transfrom(corr_dict['predictions'], corr_dict['targets'])
-ax.plot(corr_dict['predictions'], best_fit, 'g.-', markersize = 12)
+ir.fit(x, y)
+best_fit = ir.predict(x)
+xy_sorted = sorted(zip(x,best_fit), key = lambda x: x[0])
+x_new, y_new = ([i for i, j in xy_sorted],[j for i,j in xy_sorted])
+ax.plot(x_new, y_new, 'g--', linewidth = 4)
 
 fig.savefig(args.output_file, bbox_inches='tight', dpi=200)
 plt.close()
