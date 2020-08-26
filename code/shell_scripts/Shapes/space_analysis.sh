@@ -45,7 +45,7 @@ echo 'creating similarity spaces'
 echo '    running MDS'
 for aggregator in $aggregators
 do
-	Rscript code/mds/similarity_spaces/mds.r -d 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/distance_matrix.csv' -i 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/item_names.csv' -o 'data/Shapes/mds/data_set/spaces/coordinates/'"$aggregator"'/' -n 256 -m 1000 -k $dimension_limit -s 42 --nonmetric_SMACOF -t primary &> 'data/Shapes/mds/vectors/'"$aggregator"'/mds.txt' &
+	Rscript code/mds/similarity_spaces/mds.r -d 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/distance_matrix.csv' -i 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/item_names.csv' -o 'data/Shapes/mds/data_set/spaces/coordinates/'"$aggregator"'/' -n 256 -m 1000 -k $dimension_limit -s 42 --nonmetric_SMACOF -t primary &> 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/mds.txt' &
 done
 wait
 
@@ -67,7 +67,6 @@ do
 	echo '        '"$aggregator"
 	# if precomputed distances exist: use them; if not: re-compute them
 	[ -f 'data/Shapes/mds/analysis/correlations/pixel_distances/283-max-Euclidean.pickle' ] && image_flag='' || image_flag='-i data/Shapes/images/'
-	echo "            $image_flag"
 	python -u -m code.mds.correlations.pixel_correlations 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/aggregated_ratings.pickle' 'data/Shapes/mds/analysis/correlations/pixel_distances/' 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/pixel.csv' $image_flag -w 283 -g --kendall -s 42 &> 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/pixel_log.txt' 
 
 	python -m code.mds.correlations.visualize_pixel_correlations 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/pixel.csv' 'data/Shapes/mds/visualizations/correlations/'"$aggregator"'/' --kendall &> 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/pixel_best.txt'
@@ -86,7 +85,6 @@ do
 	echo '        '"$aggregator"
 	# if precomputed distances exist: use them; if not: re-compute them
 	[ -f 'data/Shapes/mds/analysis/correlations/ann_distances.pickle' ] && image_flag='' || image_flag='-i data/Shapes/images/'
-	echo "            $image_flag"
 	python -m code.mds.correlations.ann_correlations /tmp/inception 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/aggregated_ratings.pickle' 'data/Shapes/mds/analysis/correlations/ann_distances.pickle' 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/ann.csv' $image_flag --kendall -s 42 &> 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/ann_log.txt'
 
 done
@@ -98,7 +96,6 @@ do
 	echo '        '"$aggregator"
 	# if precomputed distances exist: use them; if not: re-compute them
 	[ -f 'data/Shapes/mds/analysis/correlations/feature_distances.pickle' ] && features_flag='' || features_flag='-f data/Shapes/mds/features/'
-	echo "            $features_flag"
 	python -m code.mds.correlations.feature_correlations 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/aggregated_ratings.pickle' 'data/Shapes/mds/analysis/correlations/feature_distances.pickle' 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/features.csv' $features_flag --kendall -s 42 &> 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/features_log.txt' 
  
 done
@@ -108,8 +105,6 @@ for source_aggregator in $aggregators
 do
 	# if precomputed distances exist: use them; if not: re-compute them
 	[ -f 'data/Shapes/mds/analysis/correlations/mds_from_'"$source_aggregator"'_distances.pickle' ] && vectors_flag='' || vectors_flag='-v data/Shapes/mds/similarities/aggregator/'"$source_aggregator"'/vectors.pickle'
-	echo "            $vectors_flag"
-	
 	for target_aggregator in $aggregators
 	do
 		python -m code.mds.correlations.mds_correlations 'data/Shapes/mds/similarities/aggregator/'"$target_aggregator"'/aggregated_ratings.pickle' 'data/Shapes/mds/analysis/correlations/mds_from_'"$source_aggregator"'_distances.pickle' 'data/Shapes/mds/analysis/correlations/'"$target_aggregator"'/mds_from_'"$source_aggregator"'.csv' $vectors_flag --n_max $dimension_limit --kendall -s 42 &> 'data/Shapes/mds/analysis/correlations/'"$target_aggregator"'/mds_from_'"$source_aggregator"'_log.txt'
@@ -162,7 +157,7 @@ for aggregator in $aggregators
 do
 	for i in  `seq 1 $visualization_limit`
 	do
-		echo 'data/Shapes/mds/analysis/correlations/mds_from_'"$aggregator"'.pickle data/Shapes/mds/visualizations/correlations/'"$aggregator"'/shepard/mds_'"$i"'.png -m '"$i"' -d Euclidean' >> 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/shepard.config'
+		echo 'data/Shapes/mds/analysis/correlations/mds_from_'"$aggregator"'_distances.pickle data/Shapes/mds/visualizations/correlations/'"$aggregator"'/shepard/mds_'"$i"'.png -m '"$i"' -d Euclidean' >> 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/shepard.config'
 	done
 done
 

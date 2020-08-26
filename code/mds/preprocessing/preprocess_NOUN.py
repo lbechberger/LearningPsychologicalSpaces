@@ -8,7 +8,7 @@ Created on Wed Jan 30 14:15:16 2019
 """
 
 import pickle, argparse, csv
-from util import list_to_string
+from code.util import list_to_string
 
 parser = argparse.ArgumentParser(description='Preprocessing similarity data of the NOUN study')
 parser.add_argument('distance_table', help = 'CSV file containing the distance data of the NOUN study')

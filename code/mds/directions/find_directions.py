@@ -119,7 +119,7 @@ for feature_type in classification_data.keys():
         evaluation_spearman[direction_name], _ = spearmanr(vectors, regression_data[feature_type]['targets'])
         
     # finally: output results
-        
+    
     # write headline if necessary
     if not os.path.exists(args.output_file):
 

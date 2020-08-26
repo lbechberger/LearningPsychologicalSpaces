@@ -11,7 +11,7 @@ Created on Mon Oct 22 13:39:05 2018
 
 import pickle, argparse
 import numpy as np
-from util import list_to_string
+from code.util import list_to_string
 
 parser = argparse.ArgumentParser(description='Preprocessing similarity data of the Shapes study')
 parser.add_argument('within_file', help = 'CSV file containing data from the within-study (study 1)')

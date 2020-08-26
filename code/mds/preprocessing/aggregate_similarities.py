@@ -9,7 +9,7 @@ Created on Tue Dec  4 09:02:18 2018
 
 import pickle, argparse, os
 import numpy as np
-from util import list_to_string
+from code.util import list_to_string
 
 parser = argparse.ArgumentParser(description='Computing aggregated similarity values')
 parser.add_argument('input_file', help = 'pickle file containing the preprocessed data')
@@ -152,13 +152,15 @@ print("dissimilarity matrix: {0} x {0}, {1} entries, {2} are filled (equals {3}%
           matrix_size, number_of_filled_entries, 100*(number_of_filled_entries / matrix_size)))
 
 average_num_constraints = 0
-for item, num_constraints in constraints_per_item.items():
+for item in items:
+    num_constraints = constraints_per_item[item]
     print("{0}: {1} constraints".format(item, num_constraints))
     average_num_constraints += num_constraints
 print("average number of constraints per item: {0}".format(average_num_constraints / len(items)))
 
 number_of_ties = 0
-for value, count in pairwise_similarities.items():
+for value in sorted(pairwise_similarities.keys()):
+    count = pairwise_similarities[value]
     number_of_ties += (count * (count - 1)) / 2
 print("number of ties (off diagonal, ignoring symmetry) in the matrix: {0} ({1}% of the pairs, {2} distinct values)".format(number_of_ties, 
           100 * (number_of_ties / ((matrix_size * (matrix_size - 1)) / 2)), len(pairwise_similarities.keys())))

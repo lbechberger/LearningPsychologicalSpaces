@@ -103,8 +103,8 @@ for feature_type in feature_types:
     
     negative_cutoff = int(len(list_of_tuples) / 4)
     positive_cutoff = len(list_of_tuples) - negative_cutoff
-    positive = list(map(lambda x: x[0], list_of_tuples[positive_cutoff:]))
-    negative = list(map(lambda x: x[0], list_of_tuples[:negative_cutoff]))    
+    positive = sorted(map(lambda x: x[0], list_of_tuples[positive_cutoff:]))
+    negative = sorted(map(lambda x: x[0], list_of_tuples[:negative_cutoff]))
     
     classification_output[feature_type] = {'positive': positive, 'negative': negative}
     
@@ -133,7 +133,7 @@ with open(args.output_csv_file_aggregated, 'w') as f_out:
     f_out.write('item,ratingType,ratings\n')
     for feature_type in feature_types:
         for item in item_names:
-            f_out.write('{0},{1},{2}\n'.format(item, feature_type, individual_ratings[feature_type][item]))
+            f_out.write('{0},{1},{2}\n'.format(item, feature_type, aggregated_ratings[feature_type][item]))
 
 # compute intersection of positive and negative scale end
 for first_feature_type, second_feature_type in combinations(feature_types, 2):
