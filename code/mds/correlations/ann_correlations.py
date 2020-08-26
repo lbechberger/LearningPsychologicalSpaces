@@ -10,7 +10,7 @@ Created on Sun May 12 07:56:40 2019
 
 import pickle, argparse
 from code.util import precompute_distances, compute_correlations, distance_functions
-from code.util import extract_inception_features, load_image_files_ann
+from code.util import extract_inception_features
 from code.util import add_correlation_metrics_to_parser, get_correlation_metrics_from_args
 
 parser = argparse.ArgumentParser(description='ANN-based similarity baseline')
@@ -25,6 +25,27 @@ add_correlation_metrics_to_parser(parser)
 args = parser.parse_args()
 
 correlation_metrics = get_correlation_metrics_from_args(args)
+
+def load_image_files_ann(item_ids, image_folder):
+    """
+    Loads all image files in the format needed for the ANN baseline.
+    """
+
+    import os
+    from tensorflow.python.platform import gfile
+
+    images = []
+    for item_id in item_ids:
+        for file_name in os.listdir(image_folder):
+            if os.path.isfile(os.path.join(image_folder, file_name)) and item_id in file_name:
+                # found the corresponding image: load it
+                image_data = gfile.FastGFile(os.path.join(image_folder, file_name), 'rb').read()            
+                images.append(image_data)
+
+                # don't need to look at other files for this item_id, so can break out of inner loop
+                break
+
+    return images
 
 # load the real similarity data
 with open(args.similarity_file, 'rb') as f_in:

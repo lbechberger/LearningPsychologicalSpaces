@@ -7,6 +7,7 @@ Created on Tue Jun 18 23:09:08 2019
 @author: lbechberger
 """
 
+
 from math import sqrt
 
 # distance functions to use in compute_correlations
@@ -267,17 +268,6 @@ def downscale_image(image, aggregator_function, block_size, greyscale, output_sh
     return result, image_size
 
 
-def downscale_images(images, aggregator_function, block_size, greyscale, output_shape):
-    """
-    Downscales all of the given images via block_reduce using the given aggregator and block size.
-    """
-    
-    result = []
-    for image in images:
-        downscaled_image, _ = downscale_image(image, aggregator_function, block_size, greyscale, output_shape)
-        result.append(downscaled_image)  
-    return result
-
 def load_image_files_pixel(item_ids, image_folder):
     """
     Loads all image files in the format needed for the pixel baseline.
@@ -298,26 +288,6 @@ def load_image_files_pixel(item_ids, image_folder):
 
     return images
 
-def load_image_files_ann(item_ids, image_folder):
-    """
-    Loads all image files in the format needed for the ANN baseline.
-    """
-
-    import os
-    from tensorflow.python.platform import gfile
-
-    images = []
-    for item_id in item_ids:
-        for file_name in os.listdir(image_folder):
-            if os.path.isfile(os.path.join(image_folder, file_name)) and item_id in file_name:
-                # found the corresponding image: load it
-                image_data = gfile.FastGFile(os.path.join(image_folder, file_name), 'rb').read()            
-                images.append(image_data)
-
-                # don't need to look at other files for this item_id, so can break out of inner loop
-                break
-
-    return images
 
 def load_mds_vectors(vector_file, item_ids = None):
     """
@@ -345,122 +315,6 @@ def load_mds_vectors(vector_file, item_ids = None):
         
     return result_dict
 
-
-def select_data_subset(subset, data_set):
-    """
-    Select a subset of the given data set.
-    
-    The parameter 'subset' can have the following values: 'all', 'between', 'within', 'cats'.
-    Returns a triple of lists: items_of_interest, item_names, and categories_of_interest.
-    """
-    
-    category_names = data_set['category_names']
-    
-    # sort item IDs based on categories
-    item_ids = []
-    for category in category_names:
-        item_ids += data_set['categories'][category]['items']
-    
-    if subset == "all":
-        # use all the similarity ratings that we have    
-        
-        items_of_interest = list(item_ids)
-        categories_of_interest = list(category_names)
-    
-    elif subset == "between":
-        # only use the similarity ratings from the 'between' file
-    
-        items_of_interest = []   
-        
-        for idx1, item1 in enumerate(item_ids):
-            for idx2, item2 in enumerate(item_ids):
-                
-                if idx2 <= idx1:
-                    continue
-                
-                tuple_id = str(sorted([item1, item2]))
-                if tuple_id in data_set['similarities']:
-                    border = data_set['similarities'][tuple_id]['border']
-                    between_ratings = data_set['similarities'][tuple_id]['values'][border:]
-                    if len(between_ratings) > 0:
-                        items_of_interest.append(item1)
-                        items_of_interest.append(item2)
-        
-        items_of_interest = list(set(items_of_interest)) # remove duplicates
-        cats = list(set(map(lambda x: data_set['items'][x]['category'], items_of_interest)))
-        categories_of_interest = [cat for cat in category_names if cat in cats]
-    
-    elif subset == "within":
-        # only use the similarity ratings from the 'within' file
-        items_of_interest = []   
-        
-        for idx1, item1 in enumerate(item_ids):
-            for idx2, item2 in enumerate(item_ids):
-                
-                if idx2 <= idx1:
-                    continue
-                
-                tuple_id = str(sorted([item1, item2]))
-                if tuple_id in data_set['similarities']:
-                    border = data_set['similarities'][tuple_id]['border']
-                    between_ratings = data_set['similarities'][tuple_id]['values'][:border]
-                    if len(between_ratings) > 0:
-                        items_of_interest.append(item1)
-                        items_of_interest.append(item2)
-        
-        items_of_interest = list(set(items_of_interest)) # remove duplicates
-        cats = list(set(map(lambda x: data_set['items'][x]['category'], items_of_interest)))
-        categories_of_interest = [cat for cat in category_names if cat in cats]
-        
-    elif subset == "cats":
-        # consider only the categories from the second study, but use all items within them
-        categories_of_interest = ["buildings", "vegetables", "dishes", "insects", "street vehicles", 
-                                      "fruits", "electrical appliances", "animals", 
-                                      "upper body clothing", "plants", "birds", "tools"]
-        items_of_interest = []
-        for item in item_ids:
-            if data_set['items'][item]['category'] in categories_of_interest:
-                items_of_interest.append(item)
-    
-    # no matter which subset was used: sort the idem IDs and create a corresponding list of item names
-    items = list(items_of_interest)
-    items_of_interest = []
-    for category in categories_of_interest:
-        for item in data_set['categories'][category]['items']:
-            if item in items:
-                items_of_interest.append(item)
-    
-    return items_of_interest, categories_of_interest
-
-
-def find_limit(subset, data_set, items_of_interest):
-    """
-    Find the minimum number of similarity ratings to use as a limit.
-    Look only at the given subset of the given data_set concerning the given set of items_of_interest.
-    """    
-    
-    limit = 1000
-    for idx1, item1 in enumerate(items_of_interest):
-        for idx2, item2 in enumerate(items_of_interest):
-            if idx2 <= idx1:
-                continue
-            
-            tuple_id = str(sorted([item1, item2]))
-            if tuple_id in data_set['similarities']:
-                similarity_ratings = data_set['similarities'][tuple_id]['values']
-                if subset == "between":
-                    # remove everything from first study
-                    border = data_set['similarities'][tuple_id]['border']
-                    similarity_ratings = similarity_ratings[border:]
-                elif subset == "within":
-                    # remove everything from second study
-                    border = data_set['similarities'][tuple_id]['border']
-                    similarity_ratings = similarity_ratings[:border]
-                
-                if len(similarity_ratings) > 0:
-                    # only adapt the limit if there are any ratings left
-                    limit = min(limit, len(similarity_ratings))
-    return limit
 
 def load_item_images(image_folder, item_ids):
     """
