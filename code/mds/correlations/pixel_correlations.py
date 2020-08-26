@@ -65,7 +65,8 @@ with open(args.output_file, 'w', buffering=1) as f_out:
                 for img in images:
                     transformed_img, image_size = downscale_image(img, aggregator_function, block_size, args.greyscale, (1,-1))
                     transformed_images.append(transformed_img)
-                
+            else:
+                image_size = current_image_size
     
             for distance_function in sorted(distance_functions.keys()):
 

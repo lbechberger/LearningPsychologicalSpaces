@@ -56,8 +56,11 @@ with open(args.output_file, 'w', buffering=1) as f_out:
 
     f_out.write("n_dims,type,dims,scoring,weights,{0}\n".format(','.join(correlation_metrics)))
 
-    # look at the power set of all spaces
-    spaces = powerset(sorted(feature_data.keys()))
+    if args.feature_folder is not None:
+        # look at the power set of all spaces
+        spaces = powerset(sorted(feature_data.keys()))
+    else:
+        spaces = sorted(map(lambda x: x.split('-'), distances.keys()))
     for space in spaces:
         
         space_name = list_to_string(space)
