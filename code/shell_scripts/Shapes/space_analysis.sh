@@ -25,10 +25,11 @@ for aggregator in $aggregators
 do
 	mkdir -p 'data/Shapes/mds/data_set/spaces/coordinates/'"$aggregator"'/'
 	mkdir -p 'data/Shapes/mds/data_set/spaces/directions/'"$aggregator"'/'
-	mkdir -p 'data/Shapes/mds/visualizations/spaces/'"$aggregator"'/clean/'
+	mkdir -p 'data/Shapes/mds/visualizations/spaces/'"$aggregator"'/clean/' 'data/Shapes/mds/visualizations/spaces/'"$aggregator"'/regions/'
 	for criterion in $criteria
 	do
-		mkdir -p 'data/Shapes/mds/visualizations/spaces/'"$aggregator"'/'"$criterion"'/'
+		mkdir -p 'data/Shapes/mds/visualizations/spaces/'"$aggregator"'/directions/'"$criterion"'/'
+		mkdir -p 'data/Shapes/mds/visualizations/spaces/'"$aggregator"'/full/'"$criterion"'/'
 	done
 	mkdir -p 'data/Shapes/mds/visualizations/correlations/'"$aggregator"'/shepard/'
 	mkdir -p 'data/Shapes/mds/visualizations/average_images/'"$aggregator"'/'
@@ -247,38 +248,23 @@ wait
 # visualizing spaces
 # ------------------
 
-# TODO code
-
-
-
-
-
-
-
-# RQ8: Are the (psychological) features reflected as interpretable directions in the similarity spaces?
-# -----------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-# Visualize MDS spaces with interpretable directions
-# --------------------------------------------------
-
 echo 'visualizing MDS spaces'
 for aggregator in $aggregators
 do
-	# without directions
-	python -m code.mds.similarity_spaces.visualize_spaces 'data/Shapes/mds/vectors/'"$aggregator"'/' 'data/Shapes/mds/visualizations/spaces/'"$aggregator"'/clean/' -i data/Shapes/images/ -m $visualization_limit &
+	# clean
+	python -m code.mds.similarity_spaces.visualize_spaces 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/vectors.pickle' 'data/Shapes/mds/visualizations/spaces/'"$aggregator"'/clean/' -i data/Shapes/images/ -m $visualization_limit &
 	
-	# for each evaluation criterion also with the corresponding directions
+	# only regions
+	python -m code.mds.similarity_spaces.visualize_spaces 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/vectors.pickle' 'data/Shapes/mds/visualizations/spaces/'"$aggregator"'/regions/' -i data/Shapes/images/ -m $visualization_limit -r &
+	
 	for criterion in $criteria
 	do
-		python -m code.mds.similarity_spaces.visualize_spaces 'data/Shapes/mds/vectors/'"$aggregator"'/' 'data/Shapes/mds/visualizations/spaces/'"$aggregator"'/'"$criterion"'/' -i data/Shapes/images/ -m $visualization_limit -d 'data/Shapes/mds/analysis/aggregator/'"$aggregator"'/directions/filtered.csv' -c $criterion &
+		# only directions
+		python -m code.mds.similarity_spaces.visualize_spaces 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/vectors.pickle' 'data/Shapes/mds/visualizations/spaces/'"$aggregator"'/directions/'"$criterion"'/' -i data/Shapes/images/ -m $visualization_limit -d 'data/Shapes/mds/analysis/directions/'"$aggregator"'/filtered.csv' -c $criterion &
+
+		# regions and directions
+		python -m code.mds.similarity_spaces.visualize_spaces 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/vectors.pickle' 'data/Shapes/mds/visualizations/spaces/'"$aggregator"'/full/'"$criterion"'/' -i data/Shapes/images/ -m $visualization_limit -d 'data/Shapes/mds/analysis/directions/'"$aggregator"'/filtered.csv' -c $criterion -r &
 	done
 done
 wait
+

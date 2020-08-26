@@ -245,13 +245,11 @@ The script furthermore accepts the following optional arguments:
 
 #### 2.3.3 Visualizing the Similarity Spaces
 
-**TODO**
-
 The script `visualize_spaces.py` can be used to create two-dimensional plots of the similarity spaces. You can execute it as follows from the project's root directory:
 ```
-python -m code.mds.similarity_spaces.visualize_spaces path/to/vector_folder path/to/output_folder/
+python -m code.mds.similarity_spaces.visualize_spaces path/to/vectors.pickle path/to/output_folder/
 ```
-The script reads in the vectors from all csv files in the `vector_folder`, creates two-dimensional plots for all pairs of dimensions, and stores them in the given `output_folder`. 
+The script reads in the vectors from `vectors.pickle` (output of `normalize_spaces.py`), creates two-dimensional plots for all pairs of dimensions, and stores them in the given `output_folder`. 
 
 The script takes the following optional arguments:
 - `-i` or `--image_folder`: Path to a folder where the images of the items are stored. If this is given, then the images from this folder are used in the visualization. If no image folder is given, then data points are labeled with their item ID.
@@ -259,6 +257,7 @@ The script takes the following optional arguments:
 - `-m` or `--max`: Determines the dimensionality of the largest space to be visualized. Defaults to 10.
 - `-d` or `--directions_file`: If a path to a directions file (output of `filter_directions.py`) is given, then the given directions are also included into the plots.
 - `-c` or `--criterion`: If directions are plotted, the given criterion decides which ones are used. Defaults to `kappa`. Can also be set to `spearman`.
+- `-r` or `--region`: If this flag is set, 
 
 
 ### 2.4 Analyzing Correlations between Distances and Dissimilarities

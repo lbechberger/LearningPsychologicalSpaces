@@ -493,7 +493,7 @@ def load_item_images(image_folder, item_ids):
                 break
     return images
 
-def create_labeled_scatter_plot(x, y, output_file_name, x_label = "x-axis", y_label = "y-axis", images = None, zoom = 0.15, item_ids = None, directions = None):
+def create_labeled_scatter_plot(x, y, output_file_name, x_label = "x-axis", y_label = "y-axis", images = None, zoom = 0.15, item_ids = None, directions = None, regions = None):
     """
     Creates a  labeled scatter plot of the given lists x and y.
     
@@ -552,6 +552,14 @@ def create_labeled_scatter_plot(x, y, output_file_name, x_label = "x-axis", y_la
             ax.text(text_pos_x, text_pos_y, direction_name, size=16, ha='center', va='center', color='k', zorder=5)
             # https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.arrow.html
             # https://matplotlib.org/3.1.1/gallery/text_labels_and_annotations/arrow_demo.html#sphx-glr-gallery-text-labels-and-annotations-arrow-demo-py
+
+    if regions is not None:
+        from scipy.spatial import ConvexHull
+        for region, color, linestyle in regions:
+            hull = ConvexHull(region)
+            for simplex in hull.simplices:
+                ax.plot(region[simplex,0], region[simplex,1], color = color, linestyle = linestyle)#'{0}--'.format(color))
+        
 
     fig.savefig(output_file_name, bbox_inches='tight', dpi=200)
     plt.close()
