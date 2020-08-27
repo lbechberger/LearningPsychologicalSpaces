@@ -1,0 +1,14 @@
+Loading required package: optparse
+Loading required package: smacof
+Loading required package: plotrix
+
+Attaching package: ‘smacof’
+
+The following object is masked from ‘package:base’:
+
+    transform
+
+Loading required package: MASS
+Warning message:
+In smacofSym(dissimilarities, ndim = num_dims, init = initial_config,  :
+  Iteration limit reached! You may want to increase the itmax argument!

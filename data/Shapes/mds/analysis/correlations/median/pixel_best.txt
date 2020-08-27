@@ -1,1 +1,7 @@
-	 best pixel result for kendall: ['None', -1000]
+best pixel result for kendall-Euclidean-fixed: ['min-24', 0.2204393945695351]
+best pixel result for kendall-Euclidean-optimized: ['min-18', 0.3309249371547962]
+best pixel result for kendall-InnerProduct-fixed: ['min-71', 0.16879193041790438]
+best pixel result for kendall-InnerProduct-optimized: ['min-3', 0.26352900593367334]
+best pixel result for kendall-Manhattan-fixed: ['min-24', 0.21998813673958179]
+best pixel result for kendall-Manhattan-optimized: ['min-18', 0.3125354176139727]
+	 best pixel result for kendall: ['Euclidean-optimized-min-18', 0.3309249371547962]
