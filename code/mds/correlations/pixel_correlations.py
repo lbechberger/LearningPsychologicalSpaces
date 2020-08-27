@@ -52,7 +52,9 @@ with open(args.output_file, 'w', buffering=1) as f_out:
         else:
             last_image_size = current_image_size
 
-        for aggregator_name, aggregator_function in aggregator_functions.items():
+        for aggregator_name in sorted(aggregator_functions.keys()):
+
+            aggregator_function = aggregator_functions[aggregator_name]        
         
             if block_size == 1 and aggregator_name in ['std', 'var', 'mean', 'min', 'median', 'product']:
                 # can't compute std or var on a single element

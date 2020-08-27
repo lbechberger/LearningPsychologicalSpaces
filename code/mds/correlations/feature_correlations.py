@@ -58,7 +58,7 @@ with open(args.output_file, 'w', buffering=1) as f_out:
 
     if args.feature_folder is not None:
         # look at the power set of all spaces
-        spaces = powerset(sorted(feature_data.keys()))
+        spaces = sorted(powerset(sorted(feature_data.keys())))
     else:
         spaces = sorted(map(lambda x: x.split('-'), distances.keys()))
     for space in spaces:
@@ -70,11 +70,14 @@ with open(args.output_file, 'w', buffering=1) as f_out:
             # ignore empty set
             continue
         
-        largest_set_of_scale_types = []
-        for feature_name in space:
-            if len(feature_data[feature_name]['aggregated'].keys()) > len(largest_set_of_scale_types):
-                largest_set_of_scale_types = sorted(feature_data[feature_name]['aggregated'].keys())
-        
+        if args.feature_folder is not None:
+            largest_set_of_scale_types = []
+            for feature_name in space:
+                if len(feature_data[feature_name]['aggregated'].keys()) > len(largest_set_of_scale_types):
+                    largest_set_of_scale_types = sorted(feature_data[feature_name]['aggregated'].keys())
+        else:
+            largest_set_of_scale_types = sorted(distances[list_to_string(space)].keys())
+            
         for scale_type in largest_set_of_scale_types:       
         
             if args.feature_folder is not None:
