@@ -41,7 +41,26 @@ The only files necessary to run all of these experiments are `data/NOUN/mds/raw_
 
 ### 1.2 The Shapes study
 
-**Future work**
+Our second study focuses on a single conceptual domain, namely the domain of shapes. The approach taken in this study is an extension of our work on the NOUN data set. So far, we only consider the extraction and analysis of similarity spaces. The machine learning part is left for future work and will be filled in eventually.
+
+The script `code/shell_scripts/pipeline_Shapes.py` automatically executes all scripts necessary to reproduce our results. It requires one argument which can either be `paper` (in order to reproduce the results from our paper) or `dissertation` (in order to reproduce a more comprehensive set of results). The script then sets up some shell variables accordingly and calls the following shell scripts which make up the processing steps in our setup:
+- `code/shell_scripts/Shapes/data_analysis.sh`: Preprocesses the input data about conceptual and visual similarity and about three psychological features. Also does some simple analyses of the data set and produces some helpful visualizations.
+- `code/shell_scripts/Shapes/space_analysis.sh`: Extracts similarity spaces from the data set and analyzes them with respect to three criteria: Do the distances accurately reflect dissimilarities (compares the MDS spaces to the pixel baseline, the ANN baseline, and a baseline using the psychological features)? Are conceptual regions well-formed (i.e., non-overlapping, small, and convex)? Can the psychological features be identified as directions in the similarity spaces?
+
+All files are stored in `data/Shapes` which has the following structure:
+- `raw_data`: Contains the original input csv files with all ratings. Must be present to execute our pipeline.
+- `images`: Contains the images of our stimuli. Unfortunatley, due to copyright restrictions, we are not allowed to publish the original images online. Our scripts can be run without using the original images, though some results (e.g., the pixel baseline) can then not be reproduced. Please contact us if you are interested in using the images for your own studies!
+- `mds`: All the (intermediate) results from our analysis.
+  - `similarities`: Contains the pre-processed individual and aggregated similarity ratings as well as the vectors produced by MDS, all as pickle files. Distinguishes between visual and conceptual similarity (aggregated by median, subfolder `rating_type`) and between mean and median aggregation (only visual similarity, subfolder `aggregator`).
+  - `features`: Contains the pre-processed individual and aggregated ratings with respect to the psychological features as well as two category-based features.
+  - `data_set`: Contains the most important information extracted in our analysis in the form of CSV files for easier reuse by other researchers.
+    - `individual`: Individual ratings with respect to both `features` and `similarities`.
+    - `aggregated`: Aggregated ratings with respect to both `features` and `similarities`.
+    - `spaces`: Information about our similarity spaces, containing the `coordinates` of the individual stimuli as well as the `directions` corresponding to the psychological features. In both cases, we make a further distinction into `mean` and `median` aggregation.
+  - `analysis`: Contains our analysis results with respect to the similarity spaces: `correlations` to dissimilarities (including the baselines), well-formedness of conceptual `regions`, and the presence of interpretable `directions`. In each case, we make a further distinction into `mean` and `median` aggregation.
+  - `dvisualizations`: Contains various visualizations created by our scripts (`average_images` of the categories, `correlations` between distances and dissimilarities, psychological `features`, the `similarity_matrices`, and of course the similarity `spaces` themselves).
+
+As for the NOUN study, the script `code/shell_scripts/clean_Shapes.sh` removes everything but `data/Shapes/raw_data` and `data/Shapes/images`.
 
 ## 2 Multidimensional Scaling
 
