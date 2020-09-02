@@ -219,7 +219,7 @@ with open(args.within_between_file, 'r') as f_in:
         if line.startswith("Relation"):
             continue
         
-        tokens = line.replace('\n', '').split(',')
+        tokens = list(map(lambda x: x.replace(' ', ''), line.replace('\n', '').split(',')))
         
         # convert into readable name
         item1 = item_map[tokens[4]]

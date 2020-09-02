@@ -1,44 +1,44 @@
 pairID,pairType,visualType,ratingType,ratings
-bowl-glass,within ,Mix,visual,5
-bowl-glass,within ,Mix,visual,3
-bowl-glass,within ,Mix,visual,3
-bowl-glass,within ,Mix,visual,4
-bowl-glass,within ,Mix,visual,1
-bowl-glass,within ,Mix,visual,2
-bowl-glass,within ,Mix,visual,1
-bowl-glass,within ,Mix,visual,1
-bowl-glass,within ,Mix,visual,4
-bowl-glass,within ,Mix,visual,4
-bowl-plate,within ,Mix,visual,2
-bowl-plate,within ,Mix,visual,5
-bowl-plate,within ,Mix,visual,5
-bowl-plate,within ,Mix,visual,4
-bowl-plate,within ,Mix,visual,4
-bowl-plate,within ,Mix,visual,5
-bowl-plate,within ,Mix,visual,4
-bowl-plate,within ,Mix,visual,2
-bowl-plate,within ,Mix,visual,4
-bowl-plate,within ,Mix,visual,4
-bowl-salt shaker,within ,Mix,visual,4
-bowl-salt shaker,within ,Mix,visual,4
-bowl-salt shaker,within ,Mix,visual,2
-bowl-salt shaker,within ,Mix,visual,1
-bowl-salt shaker,within ,Mix,visual,1
-bowl-salt shaker,within ,Mix,visual,4
-bowl-salt shaker,within ,Mix,visual,1
-bowl-salt shaker,within ,Mix,visual,1
-bowl-salt shaker,within ,Mix,visual,1
-bowl-salt shaker,within ,Mix,visual,1
-bowl-teapot,within ,Mix,visual,1
-bowl-teapot,within ,Mix,visual,4
-bowl-teapot,within ,Mix,visual,1
-bowl-teapot,within ,Mix,visual,3
-bowl-teapot,within ,Mix,visual,4
-bowl-teapot,within ,Mix,visual,1
-bowl-teapot,within ,Mix,visual,2
-bowl-teapot,within ,Mix,visual,4
-bowl-teapot,within ,Mix,visual,1
-bowl-teapot,within ,Mix,visual,5
+bowl-glass,within,VV,visual,5
+bowl-glass,within,VV,visual,3
+bowl-glass,within,VV,visual,3
+bowl-glass,within,VV,visual,4
+bowl-glass,within,VV,visual,1
+bowl-glass,within,VV,visual,2
+bowl-glass,within,VV,visual,1
+bowl-glass,within,VV,visual,1
+bowl-glass,within,VV,visual,4
+bowl-glass,within,VV,visual,4
+bowl-plate,within,VV,visual,2
+bowl-plate,within,VV,visual,5
+bowl-plate,within,VV,visual,5
+bowl-plate,within,VV,visual,4
+bowl-plate,within,VV,visual,4
+bowl-plate,within,VV,visual,5
+bowl-plate,within,VV,visual,4
+bowl-plate,within,VV,visual,2
+bowl-plate,within,VV,visual,4
+bowl-plate,within,VV,visual,4
+bowl-salt shaker,within,VV,visual,4
+bowl-salt shaker,within,VV,visual,4
+bowl-salt shaker,within,VV,visual,2
+bowl-salt shaker,within,VV,visual,1
+bowl-salt shaker,within,VV,visual,1
+bowl-salt shaker,within,VV,visual,4
+bowl-salt shaker,within,VV,visual,1
+bowl-salt shaker,within,VV,visual,1
+bowl-salt shaker,within,VV,visual,1
+bowl-salt shaker,within,VV,visual,1
+bowl-teapot,within,VV,visual,1
+bowl-teapot,within,VV,visual,4
+bowl-teapot,within,VV,visual,1
+bowl-teapot,within,VV,visual,3
+bowl-teapot,within,VV,visual,4
+bowl-teapot,within,VV,visual,1
+bowl-teapot,within,VV,visual,2
+bowl-teapot,within,VV,visual,4
+bowl-teapot,within,VV,visual,1
+bowl-teapot,within,VV,visual,5
 bowl-church,between,Mix,visual,1
 bowl-church,between,Mix,visual,2
 bowl-church,between,Mix,visual,2
@@ -589,36 +589,36 @@ bowl-uniform,between,Mix,visual,1
 bowl-uniform,between,Mix,visual,1
 bowl-uniform,between,Mix,visual,2
 bowl-uniform,between,Mix,visual,1
-glass-plate,within ,Mix,visual,1
-glass-plate,within ,Mix,visual,2
-glass-plate,within ,Mix,visual,1
-glass-plate,within ,Mix,visual,1
-glass-plate,within ,Mix,visual,1
-glass-plate,within ,Mix,visual,1
-glass-plate,within ,Mix,visual,1
-glass-plate,within ,Mix,visual,2
-glass-plate,within ,Mix,visual,3
-glass-plate,within ,Mix,visual,1
-glass-salt shaker,within ,Mix,visual,1
-glass-salt shaker,within ,Mix,visual,5
-glass-salt shaker,within ,Mix,visual,3
-glass-salt shaker,within ,Mix,visual,5
-glass-salt shaker,within ,Mix,visual,1
-glass-salt shaker,within ,Mix,visual,4
-glass-salt shaker,within ,Mix,visual,4
-glass-salt shaker,within ,Mix,visual,4
-glass-salt shaker,within ,Mix,visual,4
-glass-salt shaker,within ,Mix,visual,3
-glass-teapot,within ,Mix,visual,2
-glass-teapot,within ,Mix,visual,1
-glass-teapot,within ,Mix,visual,2
-glass-teapot,within ,Mix,visual,1
-glass-teapot,within ,Mix,visual,3
-glass-teapot,within ,Mix,visual,3
-glass-teapot,within ,Mix,visual,4
-glass-teapot,within ,Mix,visual,3
-glass-teapot,within ,Mix,visual,4
-glass-teapot,within ,Mix,visual,2
+glass-plate,within,VV,visual,1
+glass-plate,within,VV,visual,2
+glass-plate,within,VV,visual,1
+glass-plate,within,VV,visual,1
+glass-plate,within,VV,visual,1
+glass-plate,within,VV,visual,1
+glass-plate,within,VV,visual,1
+glass-plate,within,VV,visual,2
+glass-plate,within,VV,visual,3
+glass-plate,within,VV,visual,1
+glass-salt shaker,within,VV,visual,1
+glass-salt shaker,within,VV,visual,5
+glass-salt shaker,within,VV,visual,3
+glass-salt shaker,within,VV,visual,5
+glass-salt shaker,within,VV,visual,1
+glass-salt shaker,within,VV,visual,4
+glass-salt shaker,within,VV,visual,4
+glass-salt shaker,within,VV,visual,4
+glass-salt shaker,within,VV,visual,4
+glass-salt shaker,within,VV,visual,3
+glass-teapot,within,VV,visual,2
+glass-teapot,within,VV,visual,1
+glass-teapot,within,VV,visual,2
+glass-teapot,within,VV,visual,1
+glass-teapot,within,VV,visual,3
+glass-teapot,within,VV,visual,3
+glass-teapot,within,VV,visual,4
+glass-teapot,within,VV,visual,3
+glass-teapot,within,VV,visual,4
+glass-teapot,within,VV,visual,2
 church-glass,between,Mix,visual,1
 church-glass,between,Mix,visual,1
 church-glass,between,Mix,visual,2
@@ -1169,26 +1169,26 @@ glass-uniform,between,Mix,visual,4
 glass-uniform,between,Mix,visual,1
 glass-uniform,between,Mix,visual,1
 glass-uniform,between,Mix,visual,3
-plate-salt shaker,within ,Mix,visual,4
-plate-salt shaker,within ,Mix,visual,1
-plate-salt shaker,within ,Mix,visual,1
-plate-salt shaker,within ,Mix,visual,2
-plate-salt shaker,within ,Mix,visual,1
-plate-salt shaker,within ,Mix,visual,1
-plate-salt shaker,within ,Mix,visual,1
-plate-salt shaker,within ,Mix,visual,1
-plate-salt shaker,within ,Mix,visual,3
-plate-salt shaker,within ,Mix,visual,1
-plate-teapot,within ,Mix,visual,1
-plate-teapot,within ,Mix,visual,1
-plate-teapot,within ,Mix,visual,1
-plate-teapot,within ,Mix,visual,1
-plate-teapot,within ,Mix,visual,2
-plate-teapot,within ,Mix,visual,3
-plate-teapot,within ,Mix,visual,4
-plate-teapot,within ,Mix,visual,5
-plate-teapot,within ,Mix,visual,3
-plate-teapot,within ,Mix,visual,1
+plate-salt shaker,within,VV,visual,4
+plate-salt shaker,within,VV,visual,1
+plate-salt shaker,within,VV,visual,1
+plate-salt shaker,within,VV,visual,2
+plate-salt shaker,within,VV,visual,1
+plate-salt shaker,within,VV,visual,1
+plate-salt shaker,within,VV,visual,1
+plate-salt shaker,within,VV,visual,1
+plate-salt shaker,within,VV,visual,3
+plate-salt shaker,within,VV,visual,1
+plate-teapot,within,VV,visual,1
+plate-teapot,within,VV,visual,1
+plate-teapot,within,VV,visual,1
+plate-teapot,within,VV,visual,1
+plate-teapot,within,VV,visual,2
+plate-teapot,within,VV,visual,3
+plate-teapot,within,VV,visual,4
+plate-teapot,within,VV,visual,5
+plate-teapot,within,VV,visual,3
+plate-teapot,within,VV,visual,1
 church-plate,between,Mix,visual,1
 church-plate,between,Mix,visual,1
 church-plate,between,Mix,visual,2
@@ -1739,16 +1739,16 @@ plate-uniform,between,Mix,visual,3
 plate-uniform,between,Mix,visual,1
 plate-uniform,between,Mix,visual,1
 plate-uniform,between,Mix,visual,1
-salt shaker-teapot,within ,Mix,visual,2
-salt shaker-teapot,within ,Mix,visual,1
-salt shaker-teapot,within ,Mix,visual,1
-salt shaker-teapot,within ,Mix,visual,1
-salt shaker-teapot,within ,Mix,visual,1
-salt shaker-teapot,within ,Mix,visual,4
-salt shaker-teapot,within ,Mix,visual,2
-salt shaker-teapot,within ,Mix,visual,1
-salt shaker-teapot,within ,Mix,visual,2
-salt shaker-teapot,within ,Mix,visual,4
+salt shaker-teapot,within,VV,visual,2
+salt shaker-teapot,within,VV,visual,1
+salt shaker-teapot,within,VV,visual,1
+salt shaker-teapot,within,VV,visual,1
+salt shaker-teapot,within,VV,visual,1
+salt shaker-teapot,within,VV,visual,4
+salt shaker-teapot,within,VV,visual,2
+salt shaker-teapot,within,VV,visual,1
+salt shaker-teapot,within,VV,visual,2
+salt shaker-teapot,within,VV,visual,4
 church-salt shaker,between,Mix,visual,3
 church-salt shaker,between,Mix,visual,3
 church-salt shaker,between,Mix,visual,1
@@ -2849,46 +2849,46 @@ teapot-uniform,between,Mix,visual,3
 teapot-uniform,between,Mix,visual,1
 teapot-uniform,between,Mix,visual,1
 teapot-uniform,between,Mix,visual,1
-church-igloo,within ,Mix,visual,1
-church-igloo,within ,Mix,visual,1
-church-igloo,within ,Mix,visual,1
-church-igloo,within ,Mix,visual,1
-church-igloo,within ,Mix,visual,1
-church-igloo,within ,Mix,visual,3
-church-igloo,within ,Mix,visual,1
-church-igloo,within ,Mix,visual,4
-church-igloo,within ,Mix,visual,3
-church-igloo,within ,Mix,visual,2
-church-lighthouse,within ,Mix,visual,4
-church-lighthouse,within ,Mix,visual,1
-church-lighthouse,within ,Mix,visual,4
-church-lighthouse,within ,Mix,visual,4
-church-lighthouse,within ,Mix,visual,4
-church-lighthouse,within ,Mix,visual,1
-church-lighthouse,within ,Mix,visual,1
-church-lighthouse,within ,Mix,visual,1
-church-lighthouse,within ,Mix,visual,5
-church-lighthouse,within ,Mix,visual,3
-church-pyramid,within ,Mix,visual,3
-church-pyramid,within ,Mix,visual,2
-church-pyramid,within ,Mix,visual,2
-church-pyramid,within ,Mix,visual,1
-church-pyramid,within ,Mix,visual,2
-church-pyramid,within ,Mix,visual,1
-church-pyramid,within ,Mix,visual,1
-church-pyramid,within ,Mix,visual,4
-church-pyramid,within ,Mix,visual,2
-church-pyramid,within ,Mix,visual,1
-church-windmill,within ,Mix,visual,1
-church-windmill,within ,Mix,visual,3
-church-windmill,within ,Mix,visual,2
-church-windmill,within ,Mix,visual,2
-church-windmill,within ,Mix,visual,2
-church-windmill,within ,Mix,visual,3
-church-windmill,within ,Mix,visual,1
-church-windmill,within ,Mix,visual,4
-church-windmill,within ,Mix,visual,1
-church-windmill,within ,Mix,visual,1
+church-igloo,within,VV,visual,1
+church-igloo,within,VV,visual,1
+church-igloo,within,VV,visual,1
+church-igloo,within,VV,visual,1
+church-igloo,within,VV,visual,1
+church-igloo,within,VV,visual,3
+church-igloo,within,VV,visual,1
+church-igloo,within,VV,visual,4
+church-igloo,within,VV,visual,3
+church-igloo,within,VV,visual,2
+church-lighthouse,within,VV,visual,4
+church-lighthouse,within,VV,visual,1
+church-lighthouse,within,VV,visual,4
+church-lighthouse,within,VV,visual,4
+church-lighthouse,within,VV,visual,4
+church-lighthouse,within,VV,visual,1
+church-lighthouse,within,VV,visual,1
+church-lighthouse,within,VV,visual,1
+church-lighthouse,within,VV,visual,5
+church-lighthouse,within,VV,visual,3
+church-pyramid,within,VV,visual,3
+church-pyramid,within,VV,visual,2
+church-pyramid,within,VV,visual,2
+church-pyramid,within,VV,visual,1
+church-pyramid,within,VV,visual,2
+church-pyramid,within,VV,visual,1
+church-pyramid,within,VV,visual,1
+church-pyramid,within,VV,visual,4
+church-pyramid,within,VV,visual,2
+church-pyramid,within,VV,visual,1
+church-windmill,within,VV,visual,1
+church-windmill,within,VV,visual,3
+church-windmill,within,VV,visual,2
+church-windmill,within,VV,visual,2
+church-windmill,within,VV,visual,2
+church-windmill,within,VV,visual,3
+church-windmill,within,VV,visual,1
+church-windmill,within,VV,visual,4
+church-windmill,within,VV,visual,1
+church-windmill,within,VV,visual,1
 bicycle-church,between,Mix,visual,1
 bicycle-church,between,Mix,visual,2
 bicycle-church,between,Mix,visual,1
@@ -3389,36 +3389,36 @@ church-uniform,between,Mix,visual,2
 church-uniform,between,Mix,visual,1
 church-uniform,between,Mix,visual,1
 church-uniform,between,Mix,visual,1
-igloo-lighthouse,within ,Mix,visual,1
-igloo-lighthouse,within ,Mix,visual,1
-igloo-lighthouse,within ,Mix,visual,2
-igloo-lighthouse,within ,Mix,visual,1
-igloo-lighthouse,within ,Mix,visual,1
-igloo-lighthouse,within ,Mix,visual,1
-igloo-lighthouse,within ,Mix,visual,2
-igloo-lighthouse,within ,Mix,visual,1
-igloo-lighthouse,within ,Mix,visual,1
-igloo-lighthouse,within ,Mix,visual,3
-igloo-pyramid,within ,Mix,visual,1
-igloo-pyramid,within ,Mix,visual,5
-igloo-pyramid,within ,Mix,visual,3
-igloo-pyramid,within ,Mix,visual,1
-igloo-pyramid,within ,Mix,visual,3
-igloo-pyramid,within ,Mix,visual,3
-igloo-pyramid,within ,Mix,visual,1
-igloo-pyramid,within ,Mix,visual,1
-igloo-pyramid,within ,Mix,visual,1
-igloo-pyramid,within ,Mix,visual,2
-igloo-windmill,within ,Mix,visual,1
-igloo-windmill,within ,Mix,visual,3
-igloo-windmill,within ,Mix,visual,1
-igloo-windmill,within ,Mix,visual,1
-igloo-windmill,within ,Mix,visual,4
-igloo-windmill,within ,Mix,visual,3
-igloo-windmill,within ,Mix,visual,2
-igloo-windmill,within ,Mix,visual,3
-igloo-windmill,within ,Mix,visual,1
-igloo-windmill,within ,Mix,visual,1
+igloo-lighthouse,within,VV,visual,1
+igloo-lighthouse,within,VV,visual,1
+igloo-lighthouse,within,VV,visual,2
+igloo-lighthouse,within,VV,visual,1
+igloo-lighthouse,within,VV,visual,1
+igloo-lighthouse,within,VV,visual,1
+igloo-lighthouse,within,VV,visual,2
+igloo-lighthouse,within,VV,visual,1
+igloo-lighthouse,within,VV,visual,1
+igloo-lighthouse,within,VV,visual,3
+igloo-pyramid,within,VV,visual,1
+igloo-pyramid,within,VV,visual,5
+igloo-pyramid,within,VV,visual,3
+igloo-pyramid,within,VV,visual,1
+igloo-pyramid,within,VV,visual,3
+igloo-pyramid,within,VV,visual,3
+igloo-pyramid,within,VV,visual,1
+igloo-pyramid,within,VV,visual,1
+igloo-pyramid,within,VV,visual,1
+igloo-pyramid,within,VV,visual,2
+igloo-windmill,within,VV,visual,1
+igloo-windmill,within,VV,visual,3
+igloo-windmill,within,VV,visual,1
+igloo-windmill,within,VV,visual,1
+igloo-windmill,within,VV,visual,4
+igloo-windmill,within,VV,visual,3
+igloo-windmill,within,VV,visual,2
+igloo-windmill,within,VV,visual,3
+igloo-windmill,within,VV,visual,1
+igloo-windmill,within,VV,visual,1
 bicycle-igloo,between,Mix,visual,1
 bicycle-igloo,between,Mix,visual,1
 bicycle-igloo,between,Mix,visual,3
@@ -3919,26 +3919,26 @@ igloo-uniform,between,Mix,visual,1
 igloo-uniform,between,Mix,visual,1
 igloo-uniform,between,Mix,visual,1
 igloo-uniform,between,Mix,visual,1
-lighthouse-pyramid,within ,Mix,visual,1
-lighthouse-pyramid,within ,Mix,visual,2
-lighthouse-pyramid,within ,Mix,visual,2
-lighthouse-pyramid,within ,Mix,visual,1
-lighthouse-pyramid,within ,Mix,visual,3
-lighthouse-pyramid,within ,Mix,visual,3
-lighthouse-pyramid,within ,Mix,visual,3
-lighthouse-pyramid,within ,Mix,visual,1
-lighthouse-pyramid,within ,Mix,visual,3
-lighthouse-pyramid,within ,Mix,visual,1
-lighthouse-windmill,within ,Mix,visual,4
-lighthouse-windmill,within ,Mix,visual,4
-lighthouse-windmill,within ,Mix,visual,5
-lighthouse-windmill,within ,Mix,visual,1
-lighthouse-windmill,within ,Mix,visual,1
-lighthouse-windmill,within ,Mix,visual,1
-lighthouse-windmill,within ,Mix,visual,5
-lighthouse-windmill,within ,Mix,visual,5
-lighthouse-windmill,within ,Mix,visual,3
-lighthouse-windmill,within ,Mix,visual,3
+lighthouse-pyramid,within,VV,visual,1
+lighthouse-pyramid,within,VV,visual,2
+lighthouse-pyramid,within,VV,visual,2
+lighthouse-pyramid,within,VV,visual,1
+lighthouse-pyramid,within,VV,visual,3
+lighthouse-pyramid,within,VV,visual,3
+lighthouse-pyramid,within,VV,visual,3
+lighthouse-pyramid,within,VV,visual,1
+lighthouse-pyramid,within,VV,visual,3
+lighthouse-pyramid,within,VV,visual,1
+lighthouse-windmill,within,VV,visual,4
+lighthouse-windmill,within,VV,visual,4
+lighthouse-windmill,within,VV,visual,5
+lighthouse-windmill,within,VV,visual,1
+lighthouse-windmill,within,VV,visual,1
+lighthouse-windmill,within,VV,visual,1
+lighthouse-windmill,within,VV,visual,5
+lighthouse-windmill,within,VV,visual,5
+lighthouse-windmill,within,VV,visual,3
+lighthouse-windmill,within,VV,visual,3
 bicycle-lighthouse,between,Mix,visual,1
 bicycle-lighthouse,between,Mix,visual,1
 bicycle-lighthouse,between,Mix,visual,2
@@ -4439,16 +4439,16 @@ lighthouse-uniform,between,Mix,visual,3
 lighthouse-uniform,between,Mix,visual,2
 lighthouse-uniform,between,Mix,visual,2
 lighthouse-uniform,between,Mix,visual,1
-pyramid-windmill,within ,Mix,visual,1
-pyramid-windmill,within ,Mix,visual,5
-pyramid-windmill,within ,Mix,visual,3
-pyramid-windmill,within ,Mix,visual,1
-pyramid-windmill,within ,Mix,visual,4
-pyramid-windmill,within ,Mix,visual,3
-pyramid-windmill,within ,Mix,visual,2
-pyramid-windmill,within ,Mix,visual,4
-pyramid-windmill,within ,Mix,visual,3
-pyramid-windmill,within ,Mix,visual,2
+pyramid-windmill,within,VV,visual,1
+pyramid-windmill,within,VV,visual,5
+pyramid-windmill,within,VV,visual,3
+pyramid-windmill,within,VV,visual,1
+pyramid-windmill,within,VV,visual,4
+pyramid-windmill,within,VV,visual,3
+pyramid-windmill,within,VV,visual,2
+pyramid-windmill,within,VV,visual,4
+pyramid-windmill,within,VV,visual,3
+pyramid-windmill,within,VV,visual,2
 bicycle-pyramid,between,Mix,visual,2
 bicycle-pyramid,between,Mix,visual,1
 bicycle-pyramid,between,Mix,visual,1
@@ -5449,46 +5449,46 @@ uniform-windmill,between,Mix,visual,1
 uniform-windmill,between,Mix,visual,1
 uniform-windmill,between,Mix,visual,2
 uniform-windmill,between,Mix,visual,2
-bicycle-bus,within ,Mix,visual,1
-bicycle-bus,within ,Mix,visual,3
-bicycle-bus,within ,Mix,visual,4
-bicycle-bus,within ,Mix,visual,1
-bicycle-bus,within ,Mix,visual,3
-bicycle-bus,within ,Mix,visual,3
-bicycle-bus,within ,Mix,visual,4
-bicycle-bus,within ,Mix,visual,3
-bicycle-bus,within ,Mix,visual,1
-bicycle-bus,within ,Mix,visual,2
-bicycle-car,within ,Mix,visual,2
-bicycle-car,within ,Mix,visual,1
-bicycle-car,within ,Mix,visual,1
-bicycle-car,within ,Mix,visual,1
-bicycle-car,within ,Mix,visual,1
-bicycle-car,within ,Mix,visual,3
-bicycle-car,within ,Mix,visual,1
-bicycle-car,within ,Mix,visual,5
-bicycle-car,within ,Mix,visual,1
-bicycle-car,within ,Mix,visual,1
-bicycle-scooter,within ,Mix,visual,4
-bicycle-scooter,within ,Mix,visual,5
-bicycle-scooter,within ,Mix,visual,5
-bicycle-scooter,within ,Mix,visual,3
-bicycle-scooter,within ,Mix,visual,5
-bicycle-scooter,within ,Mix,visual,1
-bicycle-scooter,within ,Mix,visual,1
-bicycle-scooter,within ,Mix,visual,4
-bicycle-scooter,within ,Mix,visual,1
-bicycle-scooter,within ,Mix,visual,4
-bicycle-tractor,within ,Mix,visual,5
-bicycle-tractor,within ,Mix,visual,3
-bicycle-tractor,within ,Mix,visual,5
-bicycle-tractor,within ,Mix,visual,4
-bicycle-tractor,within ,Mix,visual,2
-bicycle-tractor,within ,Mix,visual,4
-bicycle-tractor,within ,Mix,visual,3
-bicycle-tractor,within ,Mix,visual,2
-bicycle-tractor,within ,Mix,visual,3
-bicycle-tractor,within ,Mix,visual,4
+bicycle-bus,within,VV,visual,1
+bicycle-bus,within,VV,visual,3
+bicycle-bus,within,VV,visual,4
+bicycle-bus,within,VV,visual,1
+bicycle-bus,within,VV,visual,3
+bicycle-bus,within,VV,visual,3
+bicycle-bus,within,VV,visual,4
+bicycle-bus,within,VV,visual,3
+bicycle-bus,within,VV,visual,1
+bicycle-bus,within,VV,visual,2
+bicycle-car,within,VV,visual,2
+bicycle-car,within,VV,visual,1
+bicycle-car,within,VV,visual,1
+bicycle-car,within,VV,visual,1
+bicycle-car,within,VV,visual,1
+bicycle-car,within,VV,visual,3
+bicycle-car,within,VV,visual,1
+bicycle-car,within,VV,visual,5
+bicycle-car,within,VV,visual,1
+bicycle-car,within,VV,visual,1
+bicycle-scooter,within,VV,visual,4
+bicycle-scooter,within,VV,visual,5
+bicycle-scooter,within,VV,visual,5
+bicycle-scooter,within,VV,visual,3
+bicycle-scooter,within,VV,visual,5
+bicycle-scooter,within,VV,visual,1
+bicycle-scooter,within,VV,visual,1
+bicycle-scooter,within,VV,visual,4
+bicycle-scooter,within,VV,visual,1
+bicycle-scooter,within,VV,visual,4
+bicycle-tractor,within,VV,visual,5
+bicycle-tractor,within,VV,visual,3
+bicycle-tractor,within,VV,visual,5
+bicycle-tractor,within,VV,visual,4
+bicycle-tractor,within,VV,visual,2
+bicycle-tractor,within,VV,visual,4
+bicycle-tractor,within,VV,visual,3
+bicycle-tractor,within,VV,visual,2
+bicycle-tractor,within,VV,visual,3
+bicycle-tractor,within,VV,visual,4
 ant-bicycle,between,Mix,visual,1
 ant-bicycle,between,Mix,visual,1
 ant-bicycle,between,Mix,visual,4
@@ -5939,36 +5939,36 @@ bicycle-uniform,between,Mix,visual,4
 bicycle-uniform,between,Mix,visual,1
 bicycle-uniform,between,Mix,visual,2
 bicycle-uniform,between,Mix,visual,1
-bus-car,within ,Mix,visual,5
-bus-car,within ,Mix,visual,4
-bus-car,within ,Mix,visual,3
-bus-car,within ,Mix,visual,2
-bus-car,within ,Mix,visual,1
-bus-car,within ,Mix,visual,1
-bus-car,within ,Mix,visual,3
-bus-car,within ,Mix,visual,4
-bus-car,within ,Mix,visual,5
-bus-car,within ,Mix,visual,5
-bus-scooter,within ,Mix,visual,1
-bus-scooter,within ,Mix,visual,5
-bus-scooter,within ,Mix,visual,2
-bus-scooter,within ,Mix,visual,1
-bus-scooter,within ,Mix,visual,2
-bus-scooter,within ,Mix,visual,1
-bus-scooter,within ,Mix,visual,1
-bus-scooter,within ,Mix,visual,3
-bus-scooter,within ,Mix,visual,1
-bus-scooter,within ,Mix,visual,3
-bus-tractor,within ,Mix,visual,3
-bus-tractor,within ,Mix,visual,1
-bus-tractor,within ,Mix,visual,1
-bus-tractor,within ,Mix,visual,1
-bus-tractor,within ,Mix,visual,3
-bus-tractor,within ,Mix,visual,1
-bus-tractor,within ,Mix,visual,2
-bus-tractor,within ,Mix,visual,3
-bus-tractor,within ,Mix,visual,1
-bus-tractor,within ,Mix,visual,4
+bus-car,within,VV,visual,5
+bus-car,within,VV,visual,4
+bus-car,within,VV,visual,3
+bus-car,within,VV,visual,2
+bus-car,within,VV,visual,1
+bus-car,within,VV,visual,1
+bus-car,within,VV,visual,3
+bus-car,within,VV,visual,4
+bus-car,within,VV,visual,5
+bus-car,within,VV,visual,5
+bus-scooter,within,VV,visual,1
+bus-scooter,within,VV,visual,5
+bus-scooter,within,VV,visual,2
+bus-scooter,within,VV,visual,1
+bus-scooter,within,VV,visual,2
+bus-scooter,within,VV,visual,1
+bus-scooter,within,VV,visual,1
+bus-scooter,within,VV,visual,3
+bus-scooter,within,VV,visual,1
+bus-scooter,within,VV,visual,3
+bus-tractor,within,VV,visual,3
+bus-tractor,within,VV,visual,1
+bus-tractor,within,VV,visual,1
+bus-tractor,within,VV,visual,1
+bus-tractor,within,VV,visual,3
+bus-tractor,within,VV,visual,1
+bus-tractor,within,VV,visual,2
+bus-tractor,within,VV,visual,3
+bus-tractor,within,VV,visual,1
+bus-tractor,within,VV,visual,4
 ant-bus,between,Mix,visual,4
 ant-bus,between,Mix,visual,2
 ant-bus,between,Mix,visual,1
@@ -6419,26 +6419,26 @@ bus-uniform,between,Mix,visual,2
 bus-uniform,between,Mix,visual,3
 bus-uniform,between,Mix,visual,1
 bus-uniform,between,Mix,visual,1
-car-scooter,within ,Mix,visual,2
-car-scooter,within ,Mix,visual,1
-car-scooter,within ,Mix,visual,1
-car-scooter,within ,Mix,visual,3
-car-scooter,within ,Mix,visual,2
-car-scooter,within ,Mix,visual,2
-car-scooter,within ,Mix,visual,1
-car-scooter,within ,Mix,visual,5
-car-scooter,within ,Mix,visual,1
-car-scooter,within ,Mix,visual,3
-car-tractor,within ,Mix,visual,3
-car-tractor,within ,Mix,visual,5
-car-tractor,within ,Mix,visual,5
-car-tractor,within ,Mix,visual,5
-car-tractor,within ,Mix,visual,4
-car-tractor,within ,Mix,visual,3
-car-tractor,within ,Mix,visual,4
-car-tractor,within ,Mix,visual,4
-car-tractor,within ,Mix,visual,5
-car-tractor,within ,Mix,visual,2
+car-scooter,within,VV,visual,2
+car-scooter,within,VV,visual,1
+car-scooter,within,VV,visual,1
+car-scooter,within,VV,visual,3
+car-scooter,within,VV,visual,2
+car-scooter,within,VV,visual,2
+car-scooter,within,VV,visual,1
+car-scooter,within,VV,visual,5
+car-scooter,within,VV,visual,1
+car-scooter,within,VV,visual,3
+car-tractor,within,VV,visual,3
+car-tractor,within,VV,visual,5
+car-tractor,within,VV,visual,5
+car-tractor,within,VV,visual,5
+car-tractor,within,VV,visual,4
+car-tractor,within,VV,visual,3
+car-tractor,within,VV,visual,4
+car-tractor,within,VV,visual,4
+car-tractor,within,VV,visual,5
+car-tractor,within,VV,visual,2
 ant-car,between,Mix,visual,2
 ant-car,between,Mix,visual,2
 ant-car,between,Mix,visual,1
@@ -6889,16 +6889,16 @@ car-uniform,between,Mix,visual,1
 car-uniform,between,Mix,visual,1
 car-uniform,between,Mix,visual,1
 car-uniform,between,Mix,visual,3
-scooter-tractor,within ,Mix,visual,3
-scooter-tractor,within ,Mix,visual,1
-scooter-tractor,within ,Mix,visual,3
-scooter-tractor,within ,Mix,visual,1
-scooter-tractor,within ,Mix,visual,3
-scooter-tractor,within ,Mix,visual,4
-scooter-tractor,within ,Mix,visual,3
-scooter-tractor,within ,Mix,visual,3
-scooter-tractor,within ,Mix,visual,4
-scooter-tractor,within ,Mix,visual,5
+scooter-tractor,within,VV,visual,3
+scooter-tractor,within,VV,visual,1
+scooter-tractor,within,VV,visual,3
+scooter-tractor,within,VV,visual,1
+scooter-tractor,within,VV,visual,3
+scooter-tractor,within,VV,visual,4
+scooter-tractor,within,VV,visual,3
+scooter-tractor,within,VV,visual,3
+scooter-tractor,within,VV,visual,4
+scooter-tractor,within,VV,visual,5
 ant-scooter,between,Mix,visual,2
 ant-scooter,between,Mix,visual,1
 ant-scooter,between,Mix,visual,1
@@ -7799,46 +7799,46 @@ tractor-uniform,between,Mix,visual,1
 tractor-uniform,between,Mix,visual,1
 tractor-uniform,between,Mix,visual,5
 tractor-uniform,between,Mix,visual,2
-ant-butterfly,within ,Mix,visual,2
-ant-butterfly,within ,Mix,visual,1
-ant-butterfly,within ,Mix,visual,1
-ant-butterfly,within ,Mix,visual,1
-ant-butterfly,within ,Mix,visual,5
-ant-butterfly,within ,Mix,visual,5
-ant-butterfly,within ,Mix,visual,2
-ant-butterfly,within ,Mix,visual,1
-ant-butterfly,within ,Mix,visual,2
-ant-butterfly,within ,Mix,visual,1
-ant-dragonfly,within ,Mix,visual,4
-ant-dragonfly,within ,Mix,visual,2
-ant-dragonfly,within ,Mix,visual,3
-ant-dragonfly,within ,Mix,visual,2
-ant-dragonfly,within ,Mix,visual,1
-ant-dragonfly,within ,Mix,visual,5
-ant-dragonfly,within ,Mix,visual,5
-ant-dragonfly,within ,Mix,visual,1
-ant-dragonfly,within ,Mix,visual,3
-ant-dragonfly,within ,Mix,visual,5
-ant-fly,within ,Mix,visual,3
-ant-fly,within ,Mix,visual,5
-ant-fly,within ,Mix,visual,2
-ant-fly,within ,Mix,visual,5
-ant-fly,within ,Mix,visual,1
-ant-fly,within ,Mix,visual,5
-ant-fly,within ,Mix,visual,5
-ant-fly,within ,Mix,visual,5
-ant-fly,within ,Mix,visual,4
-ant-fly,within ,Mix,visual,5
-ant-ladybug,within ,Mix,visual,3
-ant-ladybug,within ,Mix,visual,5
-ant-ladybug,within ,Mix,visual,4
-ant-ladybug,within ,Mix,visual,3
-ant-ladybug,within ,Mix,visual,1
-ant-ladybug,within ,Mix,visual,3
-ant-ladybug,within ,Mix,visual,5
-ant-ladybug,within ,Mix,visual,2
-ant-ladybug,within ,Mix,visual,3
-ant-ladybug,within ,Mix,visual,1
+ant-butterfly,within,VV,visual,2
+ant-butterfly,within,VV,visual,1
+ant-butterfly,within,VV,visual,1
+ant-butterfly,within,VV,visual,1
+ant-butterfly,within,VV,visual,5
+ant-butterfly,within,VV,visual,5
+ant-butterfly,within,VV,visual,2
+ant-butterfly,within,VV,visual,1
+ant-butterfly,within,VV,visual,2
+ant-butterfly,within,VV,visual,1
+ant-dragonfly,within,VV,visual,4
+ant-dragonfly,within,VV,visual,2
+ant-dragonfly,within,VV,visual,3
+ant-dragonfly,within,VV,visual,2
+ant-dragonfly,within,VV,visual,1
+ant-dragonfly,within,VV,visual,5
+ant-dragonfly,within,VV,visual,5
+ant-dragonfly,within,VV,visual,1
+ant-dragonfly,within,VV,visual,3
+ant-dragonfly,within,VV,visual,5
+ant-fly,within,VV,visual,3
+ant-fly,within,VV,visual,5
+ant-fly,within,VV,visual,2
+ant-fly,within,VV,visual,5
+ant-fly,within,VV,visual,1
+ant-fly,within,VV,visual,5
+ant-fly,within,VV,visual,5
+ant-fly,within,VV,visual,5
+ant-fly,within,VV,visual,4
+ant-fly,within,VV,visual,5
+ant-ladybug,within,VV,visual,3
+ant-ladybug,within,VV,visual,5
+ant-ladybug,within,VV,visual,4
+ant-ladybug,within,VV,visual,3
+ant-ladybug,within,VV,visual,1
+ant-ladybug,within,VV,visual,3
+ant-ladybug,within,VV,visual,5
+ant-ladybug,within,VV,visual,2
+ant-ladybug,within,VV,visual,3
+ant-ladybug,within,VV,visual,1
 ant-apple,between,Mix,visual,1
 ant-apple,between,Mix,visual,1
 ant-apple,between,Mix,visual,2
@@ -8239,36 +8239,36 @@ ant-uniform,between,Mix,visual,1
 ant-uniform,between,Mix,visual,1
 ant-uniform,between,Mix,visual,1
 ant-uniform,between,Mix,visual,1
-butterfly-dragonfly,within ,Mix,visual,1
-butterfly-dragonfly,within ,Mix,visual,2
-butterfly-dragonfly,within ,Mix,visual,1
-butterfly-dragonfly,within ,Mix,visual,5
-butterfly-dragonfly,within ,Mix,visual,4
-butterfly-dragonfly,within ,Mix,visual,2
-butterfly-dragonfly,within ,Mix,visual,5
-butterfly-dragonfly,within ,Mix,visual,1
-butterfly-dragonfly,within ,Mix,visual,5
-butterfly-dragonfly,within ,Mix,visual,3
-butterfly-fly,within ,Mix,visual,4
-butterfly-fly,within ,Mix,visual,2
-butterfly-fly,within ,Mix,visual,5
-butterfly-fly,within ,Mix,visual,3
-butterfly-fly,within ,Mix,visual,4
-butterfly-fly,within ,Mix,visual,1
-butterfly-fly,within ,Mix,visual,5
-butterfly-fly,within ,Mix,visual,4
-butterfly-fly,within ,Mix,visual,1
-butterfly-fly,within ,Mix,visual,4
-butterfly-ladybug,within ,Mix,visual,5
-butterfly-ladybug,within ,Mix,visual,1
-butterfly-ladybug,within ,Mix,visual,2
-butterfly-ladybug,within ,Mix,visual,4
-butterfly-ladybug,within ,Mix,visual,2
-butterfly-ladybug,within ,Mix,visual,2
-butterfly-ladybug,within ,Mix,visual,5
-butterfly-ladybug,within ,Mix,visual,2
-butterfly-ladybug,within ,Mix,visual,4
-butterfly-ladybug,within ,Mix,visual,3
+butterfly-dragonfly,within,VV,visual,1
+butterfly-dragonfly,within,VV,visual,2
+butterfly-dragonfly,within,VV,visual,1
+butterfly-dragonfly,within,VV,visual,5
+butterfly-dragonfly,within,VV,visual,4
+butterfly-dragonfly,within,VV,visual,2
+butterfly-dragonfly,within,VV,visual,5
+butterfly-dragonfly,within,VV,visual,1
+butterfly-dragonfly,within,VV,visual,5
+butterfly-dragonfly,within,VV,visual,3
+butterfly-fly,within,VV,visual,4
+butterfly-fly,within,VV,visual,2
+butterfly-fly,within,VV,visual,5
+butterfly-fly,within,VV,visual,3
+butterfly-fly,within,VV,visual,4
+butterfly-fly,within,VV,visual,1
+butterfly-fly,within,VV,visual,5
+butterfly-fly,within,VV,visual,4
+butterfly-fly,within,VV,visual,1
+butterfly-fly,within,VV,visual,4
+butterfly-ladybug,within,VV,visual,5
+butterfly-ladybug,within,VV,visual,1
+butterfly-ladybug,within,VV,visual,2
+butterfly-ladybug,within,VV,visual,4
+butterfly-ladybug,within,VV,visual,2
+butterfly-ladybug,within,VV,visual,2
+butterfly-ladybug,within,VV,visual,5
+butterfly-ladybug,within,VV,visual,2
+butterfly-ladybug,within,VV,visual,4
+butterfly-ladybug,within,VV,visual,3
 apple-butterfly,between,Mix,visual,3
 apple-butterfly,between,Mix,visual,2
 apple-butterfly,between,Mix,visual,2
@@ -8669,26 +8669,26 @@ butterfly-uniform,between,Mix,visual,1
 butterfly-uniform,between,Mix,visual,1
 butterfly-uniform,between,Mix,visual,1
 butterfly-uniform,between,Mix,visual,1
-dragonfly-fly,within ,Mix,visual,2
-dragonfly-fly,within ,Mix,visual,4
-dragonfly-fly,within ,Mix,visual,1
-dragonfly-fly,within ,Mix,visual,3
-dragonfly-fly,within ,Mix,visual,5
-dragonfly-fly,within ,Mix,visual,1
-dragonfly-fly,within ,Mix,visual,3
-dragonfly-fly,within ,Mix,visual,1
-dragonfly-fly,within ,Mix,visual,1
-dragonfly-fly,within ,Mix,visual,3
-dragonfly-ladybug,within ,Mix,visual,5
-dragonfly-ladybug,within ,Mix,visual,3
-dragonfly-ladybug,within ,Mix,visual,3
-dragonfly-ladybug,within ,Mix,visual,4
-dragonfly-ladybug,within ,Mix,visual,4
-dragonfly-ladybug,within ,Mix,visual,1
-dragonfly-ladybug,within ,Mix,visual,5
-dragonfly-ladybug,within ,Mix,visual,2
-dragonfly-ladybug,within ,Mix,visual,1
-dragonfly-ladybug,within ,Mix,visual,4
+dragonfly-fly,within,VV,visual,2
+dragonfly-fly,within,VV,visual,4
+dragonfly-fly,within,VV,visual,1
+dragonfly-fly,within,VV,visual,3
+dragonfly-fly,within,VV,visual,5
+dragonfly-fly,within,VV,visual,1
+dragonfly-fly,within,VV,visual,3
+dragonfly-fly,within,VV,visual,1
+dragonfly-fly,within,VV,visual,1
+dragonfly-fly,within,VV,visual,3
+dragonfly-ladybug,within,VV,visual,5
+dragonfly-ladybug,within,VV,visual,3
+dragonfly-ladybug,within,VV,visual,3
+dragonfly-ladybug,within,VV,visual,4
+dragonfly-ladybug,within,VV,visual,4
+dragonfly-ladybug,within,VV,visual,1
+dragonfly-ladybug,within,VV,visual,5
+dragonfly-ladybug,within,VV,visual,2
+dragonfly-ladybug,within,VV,visual,1
+dragonfly-ladybug,within,VV,visual,4
 apple-dragonfly,between,Mix,visual,2
 apple-dragonfly,between,Mix,visual,1
 apple-dragonfly,between,Mix,visual,1
@@ -9089,16 +9089,16 @@ dragonfly-uniform,between,Mix,visual,1
 dragonfly-uniform,between,Mix,visual,1
 dragonfly-uniform,between,Mix,visual,1
 dragonfly-uniform,between,Mix,visual,2
-fly-ladybug,within ,Mix,visual,3
-fly-ladybug,within ,Mix,visual,3
-fly-ladybug,within ,Mix,visual,1
-fly-ladybug,within ,Mix,visual,1
-fly-ladybug,within ,Mix,visual,3
-fly-ladybug,within ,Mix,visual,5
-fly-ladybug,within ,Mix,visual,5
-fly-ladybug,within ,Mix,visual,4
-fly-ladybug,within ,Mix,visual,4
-fly-ladybug,within ,Mix,visual,3
+fly-ladybug,within,VV,visual,3
+fly-ladybug,within,VV,visual,3
+fly-ladybug,within,VV,visual,1
+fly-ladybug,within,VV,visual,1
+fly-ladybug,within,VV,visual,3
+fly-ladybug,within,VV,visual,5
+fly-ladybug,within,VV,visual,5
+fly-ladybug,within,VV,visual,4
+fly-ladybug,within,VV,visual,4
+fly-ladybug,within,VV,visual,3
 apple-fly,between,Mix,visual,2
 apple-fly,between,Mix,visual,1
 apple-fly,between,Mix,visual,2
@@ -9899,46 +9899,46 @@ ladybug-uniform,between,Mix,visual,1
 ladybug-uniform,between,Mix,visual,1
 ladybug-uniform,between,Mix,visual,1
 ladybug-uniform,between,Mix,visual,1
-apple-banana,within ,Mix,visual,1
-apple-banana,within ,Mix,visual,5
-apple-banana,within ,Mix,visual,1
-apple-banana,within ,Mix,visual,1
-apple-banana,within ,Mix,visual,2
-apple-banana,within ,Mix,visual,1
-apple-banana,within ,Mix,visual,1
-apple-banana,within ,Mix,visual,2
-apple-banana,within ,Mix,visual,1
-apple-banana,within ,Mix,visual,1
-apple-cherry,within ,Mix,visual,1
-apple-cherry,within ,Mix,visual,2
-apple-cherry,within ,Mix,visual,3
-apple-cherry,within ,Mix,visual,4
-apple-cherry,within ,Mix,visual,1
-apple-cherry,within ,Mix,visual,3
-apple-cherry,within ,Mix,visual,5
-apple-cherry,within ,Mix,visual,3
-apple-cherry,within ,Mix,visual,4
-apple-cherry,within ,Mix,visual,3
-apple-lemon,within ,Mix,visual,5
-apple-lemon,within ,Mix,visual,1
-apple-lemon,within ,Mix,visual,4
-apple-lemon,within ,Mix,visual,5
-apple-lemon,within ,Mix,visual,5
-apple-lemon,within ,Mix,visual,4
-apple-lemon,within ,Mix,visual,5
-apple-lemon,within ,Mix,visual,4
-apple-lemon,within ,Mix,visual,3
-apple-lemon,within ,Mix,visual,5
-apple-raspberry,within ,Mix,visual,4
-apple-raspberry,within ,Mix,visual,4
-apple-raspberry,within ,Mix,visual,5
-apple-raspberry,within ,Mix,visual,2
-apple-raspberry,within ,Mix,visual,4
-apple-raspberry,within ,Mix,visual,5
-apple-raspberry,within ,Mix,visual,4
-apple-raspberry,within ,Mix,visual,4
-apple-raspberry,within ,Mix,visual,5
-apple-raspberry,within ,Mix,visual,5
+apple-banana,within,VV,visual,1
+apple-banana,within,VV,visual,5
+apple-banana,within,VV,visual,1
+apple-banana,within,VV,visual,1
+apple-banana,within,VV,visual,2
+apple-banana,within,VV,visual,1
+apple-banana,within,VV,visual,1
+apple-banana,within,VV,visual,2
+apple-banana,within,VV,visual,1
+apple-banana,within,VV,visual,1
+apple-cherry,within,VV,visual,1
+apple-cherry,within,VV,visual,2
+apple-cherry,within,VV,visual,3
+apple-cherry,within,VV,visual,4
+apple-cherry,within,VV,visual,1
+apple-cherry,within,VV,visual,3
+apple-cherry,within,VV,visual,5
+apple-cherry,within,VV,visual,3
+apple-cherry,within,VV,visual,4
+apple-cherry,within,VV,visual,3
+apple-lemon,within,VV,visual,5
+apple-lemon,within,VV,visual,1
+apple-lemon,within,VV,visual,4
+apple-lemon,within,VV,visual,5
+apple-lemon,within,VV,visual,5
+apple-lemon,within,VV,visual,4
+apple-lemon,within,VV,visual,5
+apple-lemon,within,VV,visual,4
+apple-lemon,within,VV,visual,3
+apple-lemon,within,VV,visual,5
+apple-raspberry,within,VV,visual,4
+apple-raspberry,within,VV,visual,4
+apple-raspberry,within,VV,visual,5
+apple-raspberry,within,VV,visual,2
+apple-raspberry,within,VV,visual,4
+apple-raspberry,within,VV,visual,5
+apple-raspberry,within,VV,visual,4
+apple-raspberry,within,VV,visual,4
+apple-raspberry,within,VV,visual,5
+apple-raspberry,within,VV,visual,5
 apple-asparagus,between,Mix,visual,1
 apple-asparagus,between,Mix,visual,1
 apple-asparagus,between,Mix,visual,1
@@ -10289,36 +10289,36 @@ apple-uniform,between,Mix,visual,1
 apple-uniform,between,Mix,visual,2
 apple-uniform,between,Mix,visual,1
 apple-uniform,between,Mix,visual,2
-banana-cherry,within ,Mix,visual,2
-banana-cherry,within ,Mix,visual,1
-banana-cherry,within ,Mix,visual,1
-banana-cherry,within ,Mix,visual,2
-banana-cherry,within ,Mix,visual,1
-banana-cherry,within ,Mix,visual,1
-banana-cherry,within ,Mix,visual,1
-banana-cherry,within ,Mix,visual,4
-banana-cherry,within ,Mix,visual,1
-banana-cherry,within ,Mix,visual,1
-banana-lemon,within ,Mix,visual,3
-banana-lemon,within ,Mix,visual,1
-banana-lemon,within ,Mix,visual,3
-banana-lemon,within ,Mix,visual,2
-banana-lemon,within ,Mix,visual,4
-banana-lemon,within ,Mix,visual,2
-banana-lemon,within ,Mix,visual,1
-banana-lemon,within ,Mix,visual,4
-banana-lemon,within ,Mix,visual,1
-banana-lemon,within ,Mix,visual,4
-banana-raspberry,within ,Mix,visual,3
-banana-raspberry,within ,Mix,visual,2
-banana-raspberry,within ,Mix,visual,1
-banana-raspberry,within ,Mix,visual,3
-banana-raspberry,within ,Mix,visual,1
-banana-raspberry,within ,Mix,visual,2
-banana-raspberry,within ,Mix,visual,1
-banana-raspberry,within ,Mix,visual,1
-banana-raspberry,within ,Mix,visual,1
-banana-raspberry,within ,Mix,visual,5
+banana-cherry,within,VV,visual,2
+banana-cherry,within,VV,visual,1
+banana-cherry,within,VV,visual,1
+banana-cherry,within,VV,visual,2
+banana-cherry,within,VV,visual,1
+banana-cherry,within,VV,visual,1
+banana-cherry,within,VV,visual,1
+banana-cherry,within,VV,visual,4
+banana-cherry,within,VV,visual,1
+banana-cherry,within,VV,visual,1
+banana-lemon,within,VV,visual,3
+banana-lemon,within,VV,visual,1
+banana-lemon,within,VV,visual,3
+banana-lemon,within,VV,visual,2
+banana-lemon,within,VV,visual,4
+banana-lemon,within,VV,visual,2
+banana-lemon,within,VV,visual,1
+banana-lemon,within,VV,visual,4
+banana-lemon,within,VV,visual,1
+banana-lemon,within,VV,visual,4
+banana-raspberry,within,VV,visual,3
+banana-raspberry,within,VV,visual,2
+banana-raspberry,within,VV,visual,1
+banana-raspberry,within,VV,visual,3
+banana-raspberry,within,VV,visual,1
+banana-raspberry,within,VV,visual,2
+banana-raspberry,within,VV,visual,1
+banana-raspberry,within,VV,visual,1
+banana-raspberry,within,VV,visual,1
+banana-raspberry,within,VV,visual,5
 asparagus-banana,between,Mix,visual,3
 asparagus-banana,between,Mix,visual,2
 asparagus-banana,between,Mix,visual,5
@@ -10669,26 +10669,26 @@ banana-uniform,between,Mix,visual,1
 banana-uniform,between,Mix,visual,1
 banana-uniform,between,Mix,visual,1
 banana-uniform,between,Mix,visual,1
-cherry-lemon,within ,Mix,visual,3
-cherry-lemon,within ,Mix,visual,2
-cherry-lemon,within ,Mix,visual,1
-cherry-lemon,within ,Mix,visual,1
-cherry-lemon,within ,Mix,visual,3
-cherry-lemon,within ,Mix,visual,3
-cherry-lemon,within ,Mix,visual,5
-cherry-lemon,within ,Mix,visual,4
-cherry-lemon,within ,Mix,visual,4
-cherry-lemon,within ,Mix,visual,2
-cherry-raspberry,within ,Mix,visual,3
-cherry-raspberry,within ,Mix,visual,2
-cherry-raspberry,within ,Mix,visual,3
-cherry-raspberry,within ,Mix,visual,1
-cherry-raspberry,within ,Mix,visual,2
-cherry-raspberry,within ,Mix,visual,1
-cherry-raspberry,within ,Mix,visual,2
-cherry-raspberry,within ,Mix,visual,1
-cherry-raspberry,within ,Mix,visual,2
-cherry-raspberry,within ,Mix,visual,2
+cherry-lemon,within,VV,visual,3
+cherry-lemon,within,VV,visual,2
+cherry-lemon,within,VV,visual,1
+cherry-lemon,within,VV,visual,1
+cherry-lemon,within,VV,visual,3
+cherry-lemon,within,VV,visual,3
+cherry-lemon,within,VV,visual,5
+cherry-lemon,within,VV,visual,4
+cherry-lemon,within,VV,visual,4
+cherry-lemon,within,VV,visual,2
+cherry-raspberry,within,VV,visual,3
+cherry-raspberry,within,VV,visual,2
+cherry-raspberry,within,VV,visual,3
+cherry-raspberry,within,VV,visual,1
+cherry-raspberry,within,VV,visual,2
+cherry-raspberry,within,VV,visual,1
+cherry-raspberry,within,VV,visual,2
+cherry-raspberry,within,VV,visual,1
+cherry-raspberry,within,VV,visual,2
+cherry-raspberry,within,VV,visual,2
 asparagus-cherry,between,Mix,visual,1
 asparagus-cherry,between,Mix,visual,1
 asparagus-cherry,between,Mix,visual,3
@@ -11039,16 +11039,16 @@ cherry-uniform,between,Mix,visual,1
 cherry-uniform,between,Mix,visual,2
 cherry-uniform,between,Mix,visual,2
 cherry-uniform,between,Mix,visual,1
-lemon-raspberry,within ,Mix,visual,1
-lemon-raspberry,within ,Mix,visual,5
-lemon-raspberry,within ,Mix,visual,3
-lemon-raspberry,within ,Mix,visual,1
-lemon-raspberry,within ,Mix,visual,4
-lemon-raspberry,within ,Mix,visual,4
-lemon-raspberry,within ,Mix,visual,4
-lemon-raspberry,within ,Mix,visual,4
-lemon-raspberry,within ,Mix,visual,5
-lemon-raspberry,within ,Mix,visual,3
+lemon-raspberry,within,VV,visual,1
+lemon-raspberry,within,VV,visual,5
+lemon-raspberry,within,VV,visual,3
+lemon-raspberry,within,VV,visual,1
+lemon-raspberry,within,VV,visual,4
+lemon-raspberry,within,VV,visual,4
+lemon-raspberry,within,VV,visual,4
+lemon-raspberry,within,VV,visual,4
+lemon-raspberry,within,VV,visual,5
+lemon-raspberry,within,VV,visual,3
 asparagus-lemon,between,Mix,visual,4
 asparagus-lemon,between,Mix,visual,1
 asparagus-lemon,between,Mix,visual,2
@@ -11749,46 +11749,46 @@ raspberry-uniform,between,Mix,visual,1
 raspberry-uniform,between,Mix,visual,1
 raspberry-uniform,between,Mix,visual,2
 raspberry-uniform,between,Mix,visual,1
-asparagus-bell pepper,within ,Mix,visual,2
-asparagus-bell pepper,within ,Mix,visual,3
-asparagus-bell pepper,within ,Mix,visual,2
-asparagus-bell pepper,within ,Mix,visual,1
-asparagus-bell pepper,within ,Mix,visual,2
-asparagus-bell pepper,within ,Mix,visual,2
-asparagus-bell pepper,within ,Mix,visual,1
-asparagus-bell pepper,within ,Mix,visual,1
-asparagus-bell pepper,within ,Mix,visual,1
-asparagus-bell pepper,within ,Mix,visual,2
-asparagus-broccoli,within ,Mix,visual,3
-asparagus-broccoli,within ,Mix,visual,3
-asparagus-broccoli,within ,Mix,visual,2
-asparagus-broccoli,within ,Mix,visual,1
-asparagus-broccoli,within ,Mix,visual,3
-asparagus-broccoli,within ,Mix,visual,4
-asparagus-broccoli,within ,Mix,visual,4
-asparagus-broccoli,within ,Mix,visual,1
-asparagus-broccoli,within ,Mix,visual,4
-asparagus-broccoli,within ,Mix,visual,2
-asparagus-carrot,within ,Mix,visual,4
-asparagus-carrot,within ,Mix,visual,4
-asparagus-carrot,within ,Mix,visual,5
-asparagus-carrot,within ,Mix,visual,5
-asparagus-carrot,within ,Mix,visual,4
-asparagus-carrot,within ,Mix,visual,3
-asparagus-carrot,within ,Mix,visual,4
-asparagus-carrot,within ,Mix,visual,5
-asparagus-carrot,within ,Mix,visual,4
-asparagus-carrot,within ,Mix,visual,1
-asparagus-onion,within ,Mix,visual,1
-asparagus-onion,within ,Mix,visual,1
-asparagus-onion,within ,Mix,visual,2
-asparagus-onion,within ,Mix,visual,1
-asparagus-onion,within ,Mix,visual,2
-asparagus-onion,within ,Mix,visual,4
-asparagus-onion,within ,Mix,visual,1
-asparagus-onion,within ,Mix,visual,3
-asparagus-onion,within ,Mix,visual,4
-asparagus-onion,within ,Mix,visual,4
+asparagus-bell pepper,within,VV,visual,2
+asparagus-bell pepper,within,VV,visual,3
+asparagus-bell pepper,within,VV,visual,2
+asparagus-bell pepper,within,VV,visual,1
+asparagus-bell pepper,within,VV,visual,2
+asparagus-bell pepper,within,VV,visual,2
+asparagus-bell pepper,within,VV,visual,1
+asparagus-bell pepper,within,VV,visual,1
+asparagus-bell pepper,within,VV,visual,1
+asparagus-bell pepper,within,VV,visual,2
+asparagus-broccoli,within,VV,visual,3
+asparagus-broccoli,within,VV,visual,3
+asparagus-broccoli,within,VV,visual,2
+asparagus-broccoli,within,VV,visual,1
+asparagus-broccoli,within,VV,visual,3
+asparagus-broccoli,within,VV,visual,4
+asparagus-broccoli,within,VV,visual,4
+asparagus-broccoli,within,VV,visual,1
+asparagus-broccoli,within,VV,visual,4
+asparagus-broccoli,within,VV,visual,2
+asparagus-carrot,within,VV,visual,4
+asparagus-carrot,within,VV,visual,4
+asparagus-carrot,within,VV,visual,5
+asparagus-carrot,within,VV,visual,5
+asparagus-carrot,within,VV,visual,4
+asparagus-carrot,within,VV,visual,3
+asparagus-carrot,within,VV,visual,4
+asparagus-carrot,within,VV,visual,5
+asparagus-carrot,within,VV,visual,4
+asparagus-carrot,within,VV,visual,1
+asparagus-onion,within,VV,visual,1
+asparagus-onion,within,VV,visual,1
+asparagus-onion,within,VV,visual,2
+asparagus-onion,within,VV,visual,1
+asparagus-onion,within,VV,visual,2
+asparagus-onion,within,VV,visual,4
+asparagus-onion,within,VV,visual,1
+asparagus-onion,within,VV,visual,3
+asparagus-onion,within,VV,visual,4
+asparagus-onion,within,VV,visual,4
 asparagus-dandelion,between,Mix,visual,1
 asparagus-dandelion,between,Mix,visual,1
 asparagus-dandelion,between,Mix,visual,1
@@ -12089,36 +12089,36 @@ asparagus-uniform,between,Mix,visual,3
 asparagus-uniform,between,Mix,visual,1
 asparagus-uniform,between,Mix,visual,1
 asparagus-uniform,between,Mix,visual,1
-bell pepper-broccoli,within ,Mix,visual,2
-bell pepper-broccoli,within ,Mix,visual,3
-bell pepper-broccoli,within ,Mix,visual,5
-bell pepper-broccoli,within ,Mix,visual,3
-bell pepper-broccoli,within ,Mix,visual,5
-bell pepper-broccoli,within ,Mix,visual,3
-bell pepper-broccoli,within ,Mix,visual,1
-bell pepper-broccoli,within ,Mix,visual,1
-bell pepper-broccoli,within ,Mix,visual,4
-bell pepper-broccoli,within ,Mix,visual,4
-bell pepper-carrot,within ,Mix,visual,1
-bell pepper-carrot,within ,Mix,visual,1
-bell pepper-carrot,within ,Mix,visual,1
-bell pepper-carrot,within ,Mix,visual,1
-bell pepper-carrot,within ,Mix,visual,2
-bell pepper-carrot,within ,Mix,visual,5
-bell pepper-carrot,within ,Mix,visual,2
-bell pepper-carrot,within ,Mix,visual,1
-bell pepper-carrot,within ,Mix,visual,1
-bell pepper-carrot,within ,Mix,visual,3
-bell pepper-onion,within ,Mix,visual,5
-bell pepper-onion,within ,Mix,visual,5
-bell pepper-onion,within ,Mix,visual,4
-bell pepper-onion,within ,Mix,visual,4
-bell pepper-onion,within ,Mix,visual,1
-bell pepper-onion,within ,Mix,visual,5
-bell pepper-onion,within ,Mix,visual,1
-bell pepper-onion,within ,Mix,visual,2
-bell pepper-onion,within ,Mix,visual,2
-bell pepper-onion,within ,Mix,visual,4
+bell pepper-broccoli,within,VV,visual,2
+bell pepper-broccoli,within,VV,visual,3
+bell pepper-broccoli,within,VV,visual,5
+bell pepper-broccoli,within,VV,visual,3
+bell pepper-broccoli,within,VV,visual,5
+bell pepper-broccoli,within,VV,visual,3
+bell pepper-broccoli,within,VV,visual,1
+bell pepper-broccoli,within,VV,visual,1
+bell pepper-broccoli,within,VV,visual,4
+bell pepper-broccoli,within,VV,visual,4
+bell pepper-carrot,within,VV,visual,1
+bell pepper-carrot,within,VV,visual,1
+bell pepper-carrot,within,VV,visual,1
+bell pepper-carrot,within,VV,visual,1
+bell pepper-carrot,within,VV,visual,2
+bell pepper-carrot,within,VV,visual,5
+bell pepper-carrot,within,VV,visual,2
+bell pepper-carrot,within,VV,visual,1
+bell pepper-carrot,within,VV,visual,1
+bell pepper-carrot,within,VV,visual,3
+bell pepper-onion,within,VV,visual,5
+bell pepper-onion,within,VV,visual,5
+bell pepper-onion,within,VV,visual,4
+bell pepper-onion,within,VV,visual,4
+bell pepper-onion,within,VV,visual,1
+bell pepper-onion,within,VV,visual,5
+bell pepper-onion,within,VV,visual,1
+bell pepper-onion,within,VV,visual,2
+bell pepper-onion,within,VV,visual,2
+bell pepper-onion,within,VV,visual,4
 bell pepper-dandelion,between,Mix,visual,1
 bell pepper-dandelion,between,Mix,visual,2
 bell pepper-dandelion,between,Mix,visual,2
@@ -12419,26 +12419,26 @@ bell pepper-uniform,between,Mix,visual,1
 bell pepper-uniform,between,Mix,visual,3
 bell pepper-uniform,between,Mix,visual,3
 bell pepper-uniform,between,Mix,visual,1
-broccoli-carrot,within ,Mix,visual,4
-broccoli-carrot,within ,Mix,visual,3
-broccoli-carrot,within ,Mix,visual,1
-broccoli-carrot,within ,Mix,visual,1
-broccoli-carrot,within ,Mix,visual,3
-broccoli-carrot,within ,Mix,visual,1
-broccoli-carrot,within ,Mix,visual,3
-broccoli-carrot,within ,Mix,visual,1
-broccoli-carrot,within ,Mix,visual,5
-broccoli-carrot,within ,Mix,visual,2
-broccoli-onion,within ,Mix,visual,3
-broccoli-onion,within ,Mix,visual,2
-broccoli-onion,within ,Mix,visual,1
-broccoli-onion,within ,Mix,visual,4
-broccoli-onion,within ,Mix,visual,4
-broccoli-onion,within ,Mix,visual,2
-broccoli-onion,within ,Mix,visual,1
-broccoli-onion,within ,Mix,visual,2
-broccoli-onion,within ,Mix,visual,3
-broccoli-onion,within ,Mix,visual,2
+broccoli-carrot,within,VV,visual,4
+broccoli-carrot,within,VV,visual,3
+broccoli-carrot,within,VV,visual,1
+broccoli-carrot,within,VV,visual,1
+broccoli-carrot,within,VV,visual,3
+broccoli-carrot,within,VV,visual,1
+broccoli-carrot,within,VV,visual,3
+broccoli-carrot,within,VV,visual,1
+broccoli-carrot,within,VV,visual,5
+broccoli-carrot,within,VV,visual,2
+broccoli-onion,within,VV,visual,3
+broccoli-onion,within,VV,visual,2
+broccoli-onion,within,VV,visual,1
+broccoli-onion,within,VV,visual,4
+broccoli-onion,within,VV,visual,4
+broccoli-onion,within,VV,visual,2
+broccoli-onion,within,VV,visual,1
+broccoli-onion,within,VV,visual,2
+broccoli-onion,within,VV,visual,3
+broccoli-onion,within,VV,visual,2
 broccoli-dandelion,between,Mix,visual,2
 broccoli-dandelion,between,Mix,visual,1
 broccoli-dandelion,between,Mix,visual,2
@@ -12739,16 +12739,16 @@ broccoli-uniform,between,Mix,visual,5
 broccoli-uniform,between,Mix,visual,2
 broccoli-uniform,between,Mix,visual,4
 broccoli-uniform,between,Mix,visual,1
-carrot-onion,within ,Mix,visual,5
-carrot-onion,within ,Mix,visual,3
-carrot-onion,within ,Mix,visual,1
-carrot-onion,within ,Mix,visual,1
-carrot-onion,within ,Mix,visual,1
-carrot-onion,within ,Mix,visual,1
-carrot-onion,within ,Mix,visual,1
-carrot-onion,within ,Mix,visual,1
-carrot-onion,within ,Mix,visual,3
-carrot-onion,within ,Mix,visual,1
+carrot-onion,within,VV,visual,5
+carrot-onion,within,VV,visual,3
+carrot-onion,within,VV,visual,1
+carrot-onion,within,VV,visual,1
+carrot-onion,within,VV,visual,1
+carrot-onion,within,VV,visual,1
+carrot-onion,within,VV,visual,1
+carrot-onion,within,VV,visual,1
+carrot-onion,within,VV,visual,3
+carrot-onion,within,VV,visual,1
 carrot-dandelion,between,Mix,visual,1
 carrot-dandelion,between,Mix,visual,1
 carrot-dandelion,between,Mix,visual,3
@@ -13349,46 +13349,46 @@ onion-uniform,between,Mix,visual,1
 onion-uniform,between,Mix,visual,1
 onion-uniform,between,Mix,visual,2
 onion-uniform,between,Mix,visual,2
-dandelion-palm tree,within ,Mix,visual,1
-dandelion-palm tree,within ,Mix,visual,4
-dandelion-palm tree,within ,Mix,visual,3
-dandelion-palm tree,within ,Mix,visual,5
-dandelion-palm tree,within ,Mix,visual,5
-dandelion-palm tree,within ,Mix,visual,3
-dandelion-palm tree,within ,Mix,visual,4
-dandelion-palm tree,within ,Mix,visual,4
-dandelion-palm tree,within ,Mix,visual,1
-dandelion-palm tree,within ,Mix,visual,3
-dandelion-rose,within ,Mix,visual,5
-dandelion-rose,within ,Mix,visual,1
-dandelion-rose,within ,Mix,visual,5
-dandelion-rose,within ,Mix,visual,4
-dandelion-rose,within ,Mix,visual,1
-dandelion-rose,within ,Mix,visual,5
-dandelion-rose,within ,Mix,visual,5
-dandelion-rose,within ,Mix,visual,4
-dandelion-rose,within ,Mix,visual,5
-dandelion-rose,within ,Mix,visual,4
-dandelion-sunflower,within ,Mix,visual,4
-dandelion-sunflower,within ,Mix,visual,5
-dandelion-sunflower,within ,Mix,visual,1
-dandelion-sunflower,within ,Mix,visual,5
-dandelion-sunflower,within ,Mix,visual,5
-dandelion-sunflower,within ,Mix,visual,5
-dandelion-sunflower,within ,Mix,visual,4
-dandelion-sunflower,within ,Mix,visual,5
-dandelion-sunflower,within ,Mix,visual,5
-dandelion-sunflower,within ,Mix,visual,4
-dandelion-tulip,within ,Mix,visual,5
-dandelion-tulip,within ,Mix,visual,5
-dandelion-tulip,within ,Mix,visual,5
-dandelion-tulip,within ,Mix,visual,5
-dandelion-tulip,within ,Mix,visual,4
-dandelion-tulip,within ,Mix,visual,5
-dandelion-tulip,within ,Mix,visual,4
-dandelion-tulip,within ,Mix,visual,5
-dandelion-tulip,within ,Mix,visual,4
-dandelion-tulip,within ,Mix,visual,5
+dandelion-palm tree,within,VC,visual,1
+dandelion-palm tree,within,VC,visual,4
+dandelion-palm tree,within,VC,visual,3
+dandelion-palm tree,within,VC,visual,5
+dandelion-palm tree,within,VC,visual,5
+dandelion-palm tree,within,VC,visual,3
+dandelion-palm tree,within,VC,visual,4
+dandelion-palm tree,within,VC,visual,4
+dandelion-palm tree,within,VC,visual,1
+dandelion-palm tree,within,VC,visual,3
+dandelion-rose,within,VC,visual,5
+dandelion-rose,within,VC,visual,1
+dandelion-rose,within,VC,visual,5
+dandelion-rose,within,VC,visual,4
+dandelion-rose,within,VC,visual,1
+dandelion-rose,within,VC,visual,5
+dandelion-rose,within,VC,visual,5
+dandelion-rose,within,VC,visual,4
+dandelion-rose,within,VC,visual,5
+dandelion-rose,within,VC,visual,4
+dandelion-sunflower,within,VC,visual,4
+dandelion-sunflower,within,VC,visual,5
+dandelion-sunflower,within,VC,visual,1
+dandelion-sunflower,within,VC,visual,5
+dandelion-sunflower,within,VC,visual,5
+dandelion-sunflower,within,VC,visual,5
+dandelion-sunflower,within,VC,visual,4
+dandelion-sunflower,within,VC,visual,5
+dandelion-sunflower,within,VC,visual,5
+dandelion-sunflower,within,VC,visual,4
+dandelion-tulip,within,VC,visual,5
+dandelion-tulip,within,VC,visual,5
+dandelion-tulip,within,VC,visual,5
+dandelion-tulip,within,VC,visual,5
+dandelion-tulip,within,VC,visual,4
+dandelion-tulip,within,VC,visual,5
+dandelion-tulip,within,VC,visual,4
+dandelion-tulip,within,VC,visual,5
+dandelion-tulip,within,VC,visual,4
+dandelion-tulip,within,VC,visual,5
 cow-dandelion,between,Mix,visual,1
 cow-dandelion,between,Mix,visual,1
 cow-dandelion,between,Mix,visual,1
@@ -13639,36 +13639,36 @@ dandelion-uniform,between,Mix,visual,1
 dandelion-uniform,between,Mix,visual,1
 dandelion-uniform,between,Mix,visual,1
 dandelion-uniform,between,Mix,visual,1
-palm tree-rose,within ,Mix,visual,5
-palm tree-rose,within ,Mix,visual,1
-palm tree-rose,within ,Mix,visual,5
-palm tree-rose,within ,Mix,visual,5
-palm tree-rose,within ,Mix,visual,4
-palm tree-rose,within ,Mix,visual,5
-palm tree-rose,within ,Mix,visual,5
-palm tree-rose,within ,Mix,visual,5
-palm tree-rose,within ,Mix,visual,2
-palm tree-rose,within ,Mix,visual,5
-palm tree-sunflower,within ,Mix,visual,3
-palm tree-sunflower,within ,Mix,visual,3
-palm tree-sunflower,within ,Mix,visual,3
-palm tree-sunflower,within ,Mix,visual,4
-palm tree-sunflower,within ,Mix,visual,4
-palm tree-sunflower,within ,Mix,visual,5
-palm tree-sunflower,within ,Mix,visual,1
-palm tree-sunflower,within ,Mix,visual,3
-palm tree-sunflower,within ,Mix,visual,5
-palm tree-sunflower,within ,Mix,visual,5
-palm tree-tulip,within ,Mix,visual,3
-palm tree-tulip,within ,Mix,visual,2
-palm tree-tulip,within ,Mix,visual,5
-palm tree-tulip,within ,Mix,visual,1
-palm tree-tulip,within ,Mix,visual,1
-palm tree-tulip,within ,Mix,visual,5
-palm tree-tulip,within ,Mix,visual,3
-palm tree-tulip,within ,Mix,visual,4
-palm tree-tulip,within ,Mix,visual,4
-palm tree-tulip,within ,Mix,visual,4
+palm tree-rose,within,VC,visual,5
+palm tree-rose,within,VC,visual,1
+palm tree-rose,within,VC,visual,5
+palm tree-rose,within,VC,visual,5
+palm tree-rose,within,VC,visual,4
+palm tree-rose,within,VC,visual,5
+palm tree-rose,within,VC,visual,5
+palm tree-rose,within,VC,visual,5
+palm tree-rose,within,VC,visual,2
+palm tree-rose,within,VC,visual,5
+palm tree-sunflower,within,VC,visual,3
+palm tree-sunflower,within,VC,visual,3
+palm tree-sunflower,within,VC,visual,3
+palm tree-sunflower,within,VC,visual,4
+palm tree-sunflower,within,VC,visual,4
+palm tree-sunflower,within,VC,visual,5
+palm tree-sunflower,within,VC,visual,1
+palm tree-sunflower,within,VC,visual,3
+palm tree-sunflower,within,VC,visual,5
+palm tree-sunflower,within,VC,visual,5
+palm tree-tulip,within,VC,visual,3
+palm tree-tulip,within,VC,visual,2
+palm tree-tulip,within,VC,visual,5
+palm tree-tulip,within,VC,visual,1
+palm tree-tulip,within,VC,visual,1
+palm tree-tulip,within,VC,visual,5
+palm tree-tulip,within,VC,visual,3
+palm tree-tulip,within,VC,visual,4
+palm tree-tulip,within,VC,visual,4
+palm tree-tulip,within,VC,visual,4
 cow-palm tree,between,Mix,visual,1
 cow-palm tree,between,Mix,visual,1
 cow-palm tree,between,Mix,visual,1
@@ -13919,26 +13919,26 @@ palm tree-uniform,between,Mix,visual,1
 palm tree-uniform,between,Mix,visual,1
 palm tree-uniform,between,Mix,visual,1
 palm tree-uniform,between,Mix,visual,1
-rose-sunflower,within ,Mix,visual,3
-rose-sunflower,within ,Mix,visual,4
-rose-sunflower,within ,Mix,visual,5
-rose-sunflower,within ,Mix,visual,5
-rose-sunflower,within ,Mix,visual,5
-rose-sunflower,within ,Mix,visual,4
-rose-sunflower,within ,Mix,visual,5
-rose-sunflower,within ,Mix,visual,4
-rose-sunflower,within ,Mix,visual,5
-rose-sunflower,within ,Mix,visual,5
-rose-tulip,within ,Mix,visual,5
-rose-tulip,within ,Mix,visual,5
-rose-tulip,within ,Mix,visual,5
-rose-tulip,within ,Mix,visual,5
-rose-tulip,within ,Mix,visual,5
-rose-tulip,within ,Mix,visual,5
-rose-tulip,within ,Mix,visual,5
-rose-tulip,within ,Mix,visual,5
-rose-tulip,within ,Mix,visual,5
-rose-tulip,within ,Mix,visual,5
+rose-sunflower,within,VC,visual,3
+rose-sunflower,within,VC,visual,4
+rose-sunflower,within,VC,visual,5
+rose-sunflower,within,VC,visual,5
+rose-sunflower,within,VC,visual,5
+rose-sunflower,within,VC,visual,4
+rose-sunflower,within,VC,visual,5
+rose-sunflower,within,VC,visual,4
+rose-sunflower,within,VC,visual,5
+rose-sunflower,within,VC,visual,5
+rose-tulip,within,VC,visual,5
+rose-tulip,within,VC,visual,5
+rose-tulip,within,VC,visual,5
+rose-tulip,within,VC,visual,5
+rose-tulip,within,VC,visual,5
+rose-tulip,within,VC,visual,5
+rose-tulip,within,VC,visual,5
+rose-tulip,within,VC,visual,5
+rose-tulip,within,VC,visual,5
+rose-tulip,within,VC,visual,5
 cow-rose,between,Mix,visual,1
 cow-rose,between,Mix,visual,1
 cow-rose,between,Mix,visual,1
@@ -14189,16 +14189,16 @@ rose-uniform,between,Mix,visual,5
 rose-uniform,between,Mix,visual,1
 rose-uniform,between,Mix,visual,2
 rose-uniform,between,Mix,visual,1
-sunflower-tulip,within ,Mix,visual,5
-sunflower-tulip,within ,Mix,visual,4
-sunflower-tulip,within ,Mix,visual,5
-sunflower-tulip,within ,Mix,visual,5
-sunflower-tulip,within ,Mix,visual,5
-sunflower-tulip,within ,Mix,visual,3
-sunflower-tulip,within ,Mix,visual,5
-sunflower-tulip,within ,Mix,visual,5
-sunflower-tulip,within ,Mix,visual,5
-sunflower-tulip,within ,Mix,visual,2
+sunflower-tulip,within,VC,visual,5
+sunflower-tulip,within,VC,visual,4
+sunflower-tulip,within,VC,visual,5
+sunflower-tulip,within,VC,visual,5
+sunflower-tulip,within,VC,visual,5
+sunflower-tulip,within,VC,visual,3
+sunflower-tulip,within,VC,visual,5
+sunflower-tulip,within,VC,visual,5
+sunflower-tulip,within,VC,visual,5
+sunflower-tulip,within,VC,visual,2
 cow-sunflower,between,Mix,visual,2
 cow-sunflower,between,Mix,visual,1
 cow-sunflower,between,Mix,visual,1
@@ -14699,46 +14699,46 @@ tulip-uniform,between,Mix,visual,2
 tulip-uniform,between,Mix,visual,1
 tulip-uniform,between,Mix,visual,1
 tulip-uniform,between,Mix,visual,3
-cow-donkey,within ,Mix,visual,1
-cow-donkey,within ,Mix,visual,5
-cow-donkey,within ,Mix,visual,5
-cow-donkey,within ,Mix,visual,4
-cow-donkey,within ,Mix,visual,5
-cow-donkey,within ,Mix,visual,4
-cow-donkey,within ,Mix,visual,4
-cow-donkey,within ,Mix,visual,4
-cow-donkey,within ,Mix,visual,4
-cow-donkey,within ,Mix,visual,5
-cow-goat,within ,Mix,visual,4
-cow-goat,within ,Mix,visual,5
-cow-goat,within ,Mix,visual,4
-cow-goat,within ,Mix,visual,5
-cow-goat,within ,Mix,visual,5
-cow-goat,within ,Mix,visual,5
-cow-goat,within ,Mix,visual,5
-cow-goat,within ,Mix,visual,5
-cow-goat,within ,Mix,visual,5
-cow-goat,within ,Mix,visual,3
-cow-horse,within ,Mix,visual,3
-cow-horse,within ,Mix,visual,5
-cow-horse,within ,Mix,visual,5
-cow-horse,within ,Mix,visual,5
-cow-horse,within ,Mix,visual,4
-cow-horse,within ,Mix,visual,5
-cow-horse,within ,Mix,visual,5
-cow-horse,within ,Mix,visual,2
-cow-horse,within ,Mix,visual,3
-cow-horse,within ,Mix,visual,5
-cow-stag,within ,Mix,visual,4
-cow-stag,within ,Mix,visual,5
-cow-stag,within ,Mix,visual,5
-cow-stag,within ,Mix,visual,4
-cow-stag,within ,Mix,visual,5
-cow-stag,within ,Mix,visual,4
-cow-stag,within ,Mix,visual,5
-cow-stag,within ,Mix,visual,1
-cow-stag,within ,Mix,visual,3
-cow-stag,within ,Mix,visual,5
+cow-donkey,within,VC,visual,1
+cow-donkey,within,VC,visual,5
+cow-donkey,within,VC,visual,5
+cow-donkey,within,VC,visual,4
+cow-donkey,within,VC,visual,5
+cow-donkey,within,VC,visual,4
+cow-donkey,within,VC,visual,4
+cow-donkey,within,VC,visual,4
+cow-donkey,within,VC,visual,4
+cow-donkey,within,VC,visual,5
+cow-goat,within,VC,visual,4
+cow-goat,within,VC,visual,5
+cow-goat,within,VC,visual,4
+cow-goat,within,VC,visual,5
+cow-goat,within,VC,visual,5
+cow-goat,within,VC,visual,5
+cow-goat,within,VC,visual,5
+cow-goat,within,VC,visual,5
+cow-goat,within,VC,visual,5
+cow-goat,within,VC,visual,3
+cow-horse,within,VC,visual,3
+cow-horse,within,VC,visual,5
+cow-horse,within,VC,visual,5
+cow-horse,within,VC,visual,5
+cow-horse,within,VC,visual,4
+cow-horse,within,VC,visual,5
+cow-horse,within,VC,visual,5
+cow-horse,within,VC,visual,2
+cow-horse,within,VC,visual,3
+cow-horse,within,VC,visual,5
+cow-stag,within,VC,visual,4
+cow-stag,within,VC,visual,5
+cow-stag,within,VC,visual,5
+cow-stag,within,VC,visual,4
+cow-stag,within,VC,visual,5
+cow-stag,within,VC,visual,4
+cow-stag,within,VC,visual,5
+cow-stag,within,VC,visual,1
+cow-stag,within,VC,visual,3
+cow-stag,within,VC,visual,5
 cow-eagle,between,Mix,visual,2
 cow-eagle,between,Mix,visual,2
 cow-eagle,between,Mix,visual,3
@@ -14939,36 +14939,36 @@ cow-uniform,between,Mix,visual,2
 cow-uniform,between,Mix,visual,1
 cow-uniform,between,Mix,visual,1
 cow-uniform,between,Mix,visual,1
-donkey-goat,within ,Mix,visual,5
-donkey-goat,within ,Mix,visual,5
-donkey-goat,within ,Mix,visual,5
-donkey-goat,within ,Mix,visual,5
-donkey-goat,within ,Mix,visual,5
-donkey-goat,within ,Mix,visual,5
-donkey-goat,within ,Mix,visual,5
-donkey-goat,within ,Mix,visual,5
-donkey-goat,within ,Mix,visual,5
-donkey-goat,within ,Mix,visual,5
-donkey-horse,within ,Mix,visual,5
-donkey-horse,within ,Mix,visual,5
-donkey-horse,within ,Mix,visual,5
-donkey-horse,within ,Mix,visual,1
-donkey-horse,within ,Mix,visual,5
-donkey-horse,within ,Mix,visual,5
-donkey-horse,within ,Mix,visual,5
-donkey-horse,within ,Mix,visual,5
-donkey-horse,within ,Mix,visual,5
-donkey-horse,within ,Mix,visual,5
-donkey-stag,within ,Mix,visual,5
-donkey-stag,within ,Mix,visual,4
-donkey-stag,within ,Mix,visual,5
-donkey-stag,within ,Mix,visual,4
-donkey-stag,within ,Mix,visual,4
-donkey-stag,within ,Mix,visual,5
-donkey-stag,within ,Mix,visual,4
-donkey-stag,within ,Mix,visual,3
-donkey-stag,within ,Mix,visual,5
-donkey-stag,within ,Mix,visual,4
+donkey-goat,within,VC,visual,5
+donkey-goat,within,VC,visual,5
+donkey-goat,within,VC,visual,5
+donkey-goat,within,VC,visual,5
+donkey-goat,within,VC,visual,5
+donkey-goat,within,VC,visual,5
+donkey-goat,within,VC,visual,5
+donkey-goat,within,VC,visual,5
+donkey-goat,within,VC,visual,5
+donkey-goat,within,VC,visual,5
+donkey-horse,within,VC,visual,5
+donkey-horse,within,VC,visual,5
+donkey-horse,within,VC,visual,5
+donkey-horse,within,VC,visual,1
+donkey-horse,within,VC,visual,5
+donkey-horse,within,VC,visual,5
+donkey-horse,within,VC,visual,5
+donkey-horse,within,VC,visual,5
+donkey-horse,within,VC,visual,5
+donkey-horse,within,VC,visual,5
+donkey-stag,within,VC,visual,5
+donkey-stag,within,VC,visual,4
+donkey-stag,within,VC,visual,5
+donkey-stag,within,VC,visual,4
+donkey-stag,within,VC,visual,4
+donkey-stag,within,VC,visual,5
+donkey-stag,within,VC,visual,4
+donkey-stag,within,VC,visual,3
+donkey-stag,within,VC,visual,5
+donkey-stag,within,VC,visual,4
 donkey-eagle,between,Mix,visual,3
 donkey-eagle,between,Mix,visual,1
 donkey-eagle,between,Mix,visual,3
@@ -15169,26 +15169,26 @@ donkey-uniform,between,Mix,visual,4
 donkey-uniform,between,Mix,visual,1
 donkey-uniform,between,Mix,visual,1
 donkey-uniform,between,Mix,visual,1
-goat-horse,within ,Mix,visual,4
-goat-horse,within ,Mix,visual,4
-goat-horse,within ,Mix,visual,4
-goat-horse,within ,Mix,visual,5
-goat-horse,within ,Mix,visual,5
-goat-horse,within ,Mix,visual,4
-goat-horse,within ,Mix,visual,5
-goat-horse,within ,Mix,visual,5
-goat-horse,within ,Mix,visual,5
-goat-horse,within ,Mix,visual,4
-goat-stag,within ,Mix,visual,5
-goat-stag,within ,Mix,visual,1
-goat-stag,within ,Mix,visual,2
-goat-stag,within ,Mix,visual,5
-goat-stag,within ,Mix,visual,3
-goat-stag,within ,Mix,visual,1
-goat-stag,within ,Mix,visual,3
-goat-stag,within ,Mix,visual,5
-goat-stag,within ,Mix,visual,5
-goat-stag,within ,Mix,visual,5
+goat-horse,within,VC,visual,4
+goat-horse,within,VC,visual,4
+goat-horse,within,VC,visual,4
+goat-horse,within,VC,visual,5
+goat-horse,within,VC,visual,5
+goat-horse,within,VC,visual,4
+goat-horse,within,VC,visual,5
+goat-horse,within,VC,visual,5
+goat-horse,within,VC,visual,5
+goat-horse,within,VC,visual,4
+goat-stag,within,VC,visual,5
+goat-stag,within,VC,visual,1
+goat-stag,within,VC,visual,2
+goat-stag,within,VC,visual,5
+goat-stag,within,VC,visual,3
+goat-stag,within,VC,visual,1
+goat-stag,within,VC,visual,3
+goat-stag,within,VC,visual,5
+goat-stag,within,VC,visual,5
+goat-stag,within,VC,visual,5
 eagle-goat,between,Mix,visual,3
 eagle-goat,between,Mix,visual,2
 eagle-goat,between,Mix,visual,1
@@ -15389,16 +15389,16 @@ goat-uniform,between,Mix,visual,1
 goat-uniform,between,Mix,visual,1
 goat-uniform,between,Mix,visual,2
 goat-uniform,between,Mix,visual,1
-horse-stag,within ,Mix,visual,5
-horse-stag,within ,Mix,visual,4
-horse-stag,within ,Mix,visual,4
-horse-stag,within ,Mix,visual,5
-horse-stag,within ,Mix,visual,4
-horse-stag,within ,Mix,visual,5
-horse-stag,within ,Mix,visual,4
-horse-stag,within ,Mix,visual,1
-horse-stag,within ,Mix,visual,5
-horse-stag,within ,Mix,visual,5
+horse-stag,within,VC,visual,5
+horse-stag,within,VC,visual,4
+horse-stag,within,VC,visual,4
+horse-stag,within,VC,visual,5
+horse-stag,within,VC,visual,4
+horse-stag,within,VC,visual,5
+horse-stag,within,VC,visual,4
+horse-stag,within,VC,visual,1
+horse-stag,within,VC,visual,5
+horse-stag,within,VC,visual,5
 eagle-horse,between,Mix,visual,3
 eagle-horse,between,Mix,visual,2
 eagle-horse,between,Mix,visual,3
@@ -15799,46 +15799,46 @@ stag-uniform,between,Mix,visual,1
 stag-uniform,between,Mix,visual,1
 stag-uniform,between,Mix,visual,1
 stag-uniform,between,Mix,visual,1
-eagle-owl,within ,Mix,visual,5
-eagle-owl,within ,Mix,visual,5
-eagle-owl,within ,Mix,visual,5
-eagle-owl,within ,Mix,visual,5
-eagle-owl,within ,Mix,visual,4
-eagle-owl,within ,Mix,visual,3
-eagle-owl,within ,Mix,visual,5
-eagle-owl,within ,Mix,visual,5
-eagle-owl,within ,Mix,visual,3
-eagle-owl,within ,Mix,visual,5
-eagle-parrot,within ,Mix,visual,5
-eagle-parrot,within ,Mix,visual,5
-eagle-parrot,within ,Mix,visual,5
-eagle-parrot,within ,Mix,visual,5
-eagle-parrot,within ,Mix,visual,5
-eagle-parrot,within ,Mix,visual,3
-eagle-parrot,within ,Mix,visual,5
-eagle-parrot,within ,Mix,visual,5
-eagle-parrot,within ,Mix,visual,5
-eagle-parrot,within ,Mix,visual,1
-eagle-pigeon,within ,Mix,visual,5
-eagle-pigeon,within ,Mix,visual,5
-eagle-pigeon,within ,Mix,visual,5
-eagle-pigeon,within ,Mix,visual,5
-eagle-pigeon,within ,Mix,visual,5
-eagle-pigeon,within ,Mix,visual,1
-eagle-pigeon,within ,Mix,visual,5
-eagle-pigeon,within ,Mix,visual,3
-eagle-pigeon,within ,Mix,visual,5
-eagle-pigeon,within ,Mix,visual,5
-eagle-stork,within ,Mix,visual,1
-eagle-stork,within ,Mix,visual,5
-eagle-stork,within ,Mix,visual,5
-eagle-stork,within ,Mix,visual,5
-eagle-stork,within ,Mix,visual,3
-eagle-stork,within ,Mix,visual,2
-eagle-stork,within ,Mix,visual,5
-eagle-stork,within ,Mix,visual,3
-eagle-stork,within ,Mix,visual,2
-eagle-stork,within ,Mix,visual,5
+eagle-owl,within,VC,visual,5
+eagle-owl,within,VC,visual,5
+eagle-owl,within,VC,visual,5
+eagle-owl,within,VC,visual,5
+eagle-owl,within,VC,visual,4
+eagle-owl,within,VC,visual,3
+eagle-owl,within,VC,visual,5
+eagle-owl,within,VC,visual,5
+eagle-owl,within,VC,visual,3
+eagle-owl,within,VC,visual,5
+eagle-parrot,within,VC,visual,5
+eagle-parrot,within,VC,visual,5
+eagle-parrot,within,VC,visual,5
+eagle-parrot,within,VC,visual,5
+eagle-parrot,within,VC,visual,5
+eagle-parrot,within,VC,visual,3
+eagle-parrot,within,VC,visual,5
+eagle-parrot,within,VC,visual,5
+eagle-parrot,within,VC,visual,5
+eagle-parrot,within,VC,visual,1
+eagle-pigeon,within,VC,visual,5
+eagle-pigeon,within,VC,visual,5
+eagle-pigeon,within,VC,visual,5
+eagle-pigeon,within,VC,visual,5
+eagle-pigeon,within,VC,visual,5
+eagle-pigeon,within,VC,visual,1
+eagle-pigeon,within,VC,visual,5
+eagle-pigeon,within,VC,visual,3
+eagle-pigeon,within,VC,visual,5
+eagle-pigeon,within,VC,visual,5
+eagle-stork,within,VC,visual,1
+eagle-stork,within,VC,visual,5
+eagle-stork,within,VC,visual,5
+eagle-stork,within,VC,visual,5
+eagle-stork,within,VC,visual,3
+eagle-stork,within,VC,visual,2
+eagle-stork,within,VC,visual,5
+eagle-stork,within,VC,visual,3
+eagle-stork,within,VC,visual,2
+eagle-stork,within,VC,visual,5
 axe-eagle,between,Mix,visual,3
 axe-eagle,between,Mix,visual,1
 axe-eagle,between,Mix,visual,2
@@ -15989,36 +15989,36 @@ eagle-uniform,between,Mix,visual,2
 eagle-uniform,between,Mix,visual,1
 eagle-uniform,between,Mix,visual,1
 eagle-uniform,between,Mix,visual,1
-owl-parrot,within ,Mix,visual,5
-owl-parrot,within ,Mix,visual,5
-owl-parrot,within ,Mix,visual,1
-owl-parrot,within ,Mix,visual,5
-owl-parrot,within ,Mix,visual,5
-owl-parrot,within ,Mix,visual,5
-owl-parrot,within ,Mix,visual,5
-owl-parrot,within ,Mix,visual,5
-owl-parrot,within ,Mix,visual,5
-owl-parrot,within ,Mix,visual,5
-owl-pigeon,within ,Mix,visual,5
-owl-pigeon,within ,Mix,visual,5
-owl-pigeon,within ,Mix,visual,5
-owl-pigeon,within ,Mix,visual,5
-owl-pigeon,within ,Mix,visual,5
-owl-pigeon,within ,Mix,visual,5
-owl-pigeon,within ,Mix,visual,5
-owl-pigeon,within ,Mix,visual,5
-owl-pigeon,within ,Mix,visual,5
-owl-pigeon,within ,Mix,visual,4
-owl-stork,within ,Mix,visual,3
-owl-stork,within ,Mix,visual,4
-owl-stork,within ,Mix,visual,4
-owl-stork,within ,Mix,visual,5
-owl-stork,within ,Mix,visual,2
-owl-stork,within ,Mix,visual,5
-owl-stork,within ,Mix,visual,5
-owl-stork,within ,Mix,visual,5
-owl-stork,within ,Mix,visual,4
-owl-stork,within ,Mix,visual,1
+owl-parrot,within,VC,visual,5
+owl-parrot,within,VC,visual,5
+owl-parrot,within,VC,visual,1
+owl-parrot,within,VC,visual,5
+owl-parrot,within,VC,visual,5
+owl-parrot,within,VC,visual,5
+owl-parrot,within,VC,visual,5
+owl-parrot,within,VC,visual,5
+owl-parrot,within,VC,visual,5
+owl-parrot,within,VC,visual,5
+owl-pigeon,within,VC,visual,5
+owl-pigeon,within,VC,visual,5
+owl-pigeon,within,VC,visual,5
+owl-pigeon,within,VC,visual,5
+owl-pigeon,within,VC,visual,5
+owl-pigeon,within,VC,visual,5
+owl-pigeon,within,VC,visual,5
+owl-pigeon,within,VC,visual,5
+owl-pigeon,within,VC,visual,5
+owl-pigeon,within,VC,visual,4
+owl-stork,within,VC,visual,3
+owl-stork,within,VC,visual,4
+owl-stork,within,VC,visual,4
+owl-stork,within,VC,visual,5
+owl-stork,within,VC,visual,2
+owl-stork,within,VC,visual,5
+owl-stork,within,VC,visual,5
+owl-stork,within,VC,visual,5
+owl-stork,within,VC,visual,4
+owl-stork,within,VC,visual,1
 axe-owl,between,Mix,visual,2
 axe-owl,between,Mix,visual,4
 axe-owl,between,Mix,visual,1
@@ -16169,26 +16169,26 @@ owl-uniform,between,Mix,visual,1
 owl-uniform,between,Mix,visual,1
 owl-uniform,between,Mix,visual,1
 owl-uniform,between,Mix,visual,2
-parrot-pigeon,within ,Mix,visual,5
-parrot-pigeon,within ,Mix,visual,1
-parrot-pigeon,within ,Mix,visual,5
-parrot-pigeon,within ,Mix,visual,3
-parrot-pigeon,within ,Mix,visual,5
-parrot-pigeon,within ,Mix,visual,5
-parrot-pigeon,within ,Mix,visual,5
-parrot-pigeon,within ,Mix,visual,1
-parrot-pigeon,within ,Mix,visual,5
-parrot-pigeon,within ,Mix,visual,4
-parrot-stork,within ,Mix,visual,4
-parrot-stork,within ,Mix,visual,4
-parrot-stork,within ,Mix,visual,5
-parrot-stork,within ,Mix,visual,5
-parrot-stork,within ,Mix,visual,5
-parrot-stork,within ,Mix,visual,4
-parrot-stork,within ,Mix,visual,4
-parrot-stork,within ,Mix,visual,5
-parrot-stork,within ,Mix,visual,5
-parrot-stork,within ,Mix,visual,4
+parrot-pigeon,within,VC,visual,5
+parrot-pigeon,within,VC,visual,1
+parrot-pigeon,within,VC,visual,5
+parrot-pigeon,within,VC,visual,3
+parrot-pigeon,within,VC,visual,5
+parrot-pigeon,within,VC,visual,5
+parrot-pigeon,within,VC,visual,5
+parrot-pigeon,within,VC,visual,1
+parrot-pigeon,within,VC,visual,5
+parrot-pigeon,within,VC,visual,4
+parrot-stork,within,VC,visual,4
+parrot-stork,within,VC,visual,4
+parrot-stork,within,VC,visual,5
+parrot-stork,within,VC,visual,5
+parrot-stork,within,VC,visual,5
+parrot-stork,within,VC,visual,4
+parrot-stork,within,VC,visual,4
+parrot-stork,within,VC,visual,5
+parrot-stork,within,VC,visual,5
+parrot-stork,within,VC,visual,4
 axe-parrot,between,Mix,visual,4
 axe-parrot,between,Mix,visual,5
 axe-parrot,between,Mix,visual,2
@@ -16339,16 +16339,16 @@ parrot-uniform,between,Mix,visual,1
 parrot-uniform,between,Mix,visual,1
 parrot-uniform,between,Mix,visual,2
 parrot-uniform,between,Mix,visual,2
-pigeon-stork,within ,Mix,visual,4
-pigeon-stork,within ,Mix,visual,5
-pigeon-stork,within ,Mix,visual,5
-pigeon-stork,within ,Mix,visual,5
-pigeon-stork,within ,Mix,visual,5
-pigeon-stork,within ,Mix,visual,5
-pigeon-stork,within ,Mix,visual,5
-pigeon-stork,within ,Mix,visual,4
-pigeon-stork,within ,Mix,visual,5
-pigeon-stork,within ,Mix,visual,3
+pigeon-stork,within,VC,visual,4
+pigeon-stork,within,VC,visual,5
+pigeon-stork,within,VC,visual,5
+pigeon-stork,within,VC,visual,5
+pigeon-stork,within,VC,visual,5
+pigeon-stork,within,VC,visual,5
+pigeon-stork,within,VC,visual,5
+pigeon-stork,within,VC,visual,4
+pigeon-stork,within,VC,visual,5
+pigeon-stork,within,VC,visual,3
 axe-pigeon,between,Mix,visual,2
 axe-pigeon,between,Mix,visual,2
 axe-pigeon,between,Mix,visual,4
@@ -16649,46 +16649,46 @@ stork-uniform,between,Mix,visual,3
 stork-uniform,between,Mix,visual,3
 stork-uniform,between,Mix,visual,1
 stork-uniform,between,Mix,visual,1
-axe-hammer,within ,Mix,visual,5
-axe-hammer,within ,Mix,visual,1
-axe-hammer,within ,Mix,visual,5
-axe-hammer,within ,Mix,visual,4
-axe-hammer,within ,Mix,visual,5
-axe-hammer,within ,Mix,visual,5
-axe-hammer,within ,Mix,visual,5
-axe-hammer,within ,Mix,visual,5
-axe-hammer,within ,Mix,visual,3
-axe-hammer,within ,Mix,visual,4
-axe-pliers,within ,Mix,visual,5
-axe-pliers,within ,Mix,visual,3
-axe-pliers,within ,Mix,visual,5
-axe-pliers,within ,Mix,visual,5
-axe-pliers,within ,Mix,visual,4
-axe-pliers,within ,Mix,visual,5
-axe-pliers,within ,Mix,visual,4
-axe-pliers,within ,Mix,visual,4
-axe-pliers,within ,Mix,visual,5
-axe-pliers,within ,Mix,visual,4
-axe-saw,within ,Mix,visual,4
-axe-saw,within ,Mix,visual,3
-axe-saw,within ,Mix,visual,1
-axe-saw,within ,Mix,visual,5
-axe-saw,within ,Mix,visual,5
-axe-saw,within ,Mix,visual,1
-axe-saw,within ,Mix,visual,5
-axe-saw,within ,Mix,visual,4
-axe-saw,within ,Mix,visual,5
-axe-saw,within ,Mix,visual,4
-axe-shovel,within ,Mix,visual,5
-axe-shovel,within ,Mix,visual,5
-axe-shovel,within ,Mix,visual,4
-axe-shovel,within ,Mix,visual,5
-axe-shovel,within ,Mix,visual,5
-axe-shovel,within ,Mix,visual,5
-axe-shovel,within ,Mix,visual,3
-axe-shovel,within ,Mix,visual,5
-axe-shovel,within ,Mix,visual,5
-axe-shovel,within ,Mix,visual,5
+axe-hammer,within,VC,visual,5
+axe-hammer,within,VC,visual,1
+axe-hammer,within,VC,visual,5
+axe-hammer,within,VC,visual,4
+axe-hammer,within,VC,visual,5
+axe-hammer,within,VC,visual,5
+axe-hammer,within,VC,visual,5
+axe-hammer,within,VC,visual,5
+axe-hammer,within,VC,visual,3
+axe-hammer,within,VC,visual,4
+axe-pliers,within,VC,visual,5
+axe-pliers,within,VC,visual,3
+axe-pliers,within,VC,visual,5
+axe-pliers,within,VC,visual,5
+axe-pliers,within,VC,visual,4
+axe-pliers,within,VC,visual,5
+axe-pliers,within,VC,visual,4
+axe-pliers,within,VC,visual,4
+axe-pliers,within,VC,visual,5
+axe-pliers,within,VC,visual,4
+axe-saw,within,VC,visual,4
+axe-saw,within,VC,visual,3
+axe-saw,within,VC,visual,1
+axe-saw,within,VC,visual,5
+axe-saw,within,VC,visual,5
+axe-saw,within,VC,visual,1
+axe-saw,within,VC,visual,5
+axe-saw,within,VC,visual,4
+axe-saw,within,VC,visual,5
+axe-saw,within,VC,visual,4
+axe-shovel,within,VC,visual,5
+axe-shovel,within,VC,visual,5
+axe-shovel,within,VC,visual,4
+axe-shovel,within,VC,visual,5
+axe-shovel,within,VC,visual,5
+axe-shovel,within,VC,visual,5
+axe-shovel,within,VC,visual,3
+axe-shovel,within,VC,visual,5
+axe-shovel,within,VC,visual,5
+axe-shovel,within,VC,visual,5
 axe-dishwasher,between,Mix,visual,1
 axe-dishwasher,between,Mix,visual,1
 axe-dishwasher,between,Mix,visual,2
@@ -16789,36 +16789,36 @@ axe-uniform,between,Mix,visual,1
 axe-uniform,between,Mix,visual,1
 axe-uniform,between,Mix,visual,1
 axe-uniform,between,Mix,visual,1
-hammer-pliers,within ,Mix,visual,5
-hammer-pliers,within ,Mix,visual,4
-hammer-pliers,within ,Mix,visual,5
-hammer-pliers,within ,Mix,visual,5
-hammer-pliers,within ,Mix,visual,1
-hammer-pliers,within ,Mix,visual,5
-hammer-pliers,within ,Mix,visual,3
-hammer-pliers,within ,Mix,visual,3
-hammer-pliers,within ,Mix,visual,2
-hammer-pliers,within ,Mix,visual,4
-hammer-saw,within ,Mix,visual,4
-hammer-saw,within ,Mix,visual,4
-hammer-saw,within ,Mix,visual,3
-hammer-saw,within ,Mix,visual,5
-hammer-saw,within ,Mix,visual,5
-hammer-saw,within ,Mix,visual,5
-hammer-saw,within ,Mix,visual,5
-hammer-saw,within ,Mix,visual,3
-hammer-saw,within ,Mix,visual,5
-hammer-saw,within ,Mix,visual,5
-hammer-shovel,within ,Mix,visual,4
-hammer-shovel,within ,Mix,visual,4
-hammer-shovel,within ,Mix,visual,4
-hammer-shovel,within ,Mix,visual,5
-hammer-shovel,within ,Mix,visual,5
-hammer-shovel,within ,Mix,visual,5
-hammer-shovel,within ,Mix,visual,5
-hammer-shovel,within ,Mix,visual,4
-hammer-shovel,within ,Mix,visual,5
-hammer-shovel,within ,Mix,visual,1
+hammer-pliers,within,VC,visual,5
+hammer-pliers,within,VC,visual,4
+hammer-pliers,within,VC,visual,5
+hammer-pliers,within,VC,visual,5
+hammer-pliers,within,VC,visual,1
+hammer-pliers,within,VC,visual,5
+hammer-pliers,within,VC,visual,3
+hammer-pliers,within,VC,visual,3
+hammer-pliers,within,VC,visual,2
+hammer-pliers,within,VC,visual,4
+hammer-saw,within,VC,visual,4
+hammer-saw,within,VC,visual,4
+hammer-saw,within,VC,visual,3
+hammer-saw,within,VC,visual,5
+hammer-saw,within,VC,visual,5
+hammer-saw,within,VC,visual,5
+hammer-saw,within,VC,visual,5
+hammer-saw,within,VC,visual,3
+hammer-saw,within,VC,visual,5
+hammer-saw,within,VC,visual,5
+hammer-shovel,within,VC,visual,4
+hammer-shovel,within,VC,visual,4
+hammer-shovel,within,VC,visual,4
+hammer-shovel,within,VC,visual,5
+hammer-shovel,within,VC,visual,5
+hammer-shovel,within,VC,visual,5
+hammer-shovel,within,VC,visual,5
+hammer-shovel,within,VC,visual,4
+hammer-shovel,within,VC,visual,5
+hammer-shovel,within,VC,visual,1
 dishwasher-hammer,between,Mix,visual,1
 dishwasher-hammer,between,Mix,visual,2
 dishwasher-hammer,between,Mix,visual,1
@@ -16919,26 +16919,26 @@ hammer-uniform,between,Mix,visual,1
 hammer-uniform,between,Mix,visual,1
 hammer-uniform,between,Mix,visual,1
 hammer-uniform,between,Mix,visual,1
-pliers-saw,within ,Mix,visual,4
-pliers-saw,within ,Mix,visual,4
-pliers-saw,within ,Mix,visual,4
-pliers-saw,within ,Mix,visual,2
-pliers-saw,within ,Mix,visual,5
-pliers-saw,within ,Mix,visual,2
-pliers-saw,within ,Mix,visual,4
-pliers-saw,within ,Mix,visual,5
-pliers-saw,within ,Mix,visual,5
-pliers-saw,within ,Mix,visual,4
-pliers-shovel,within ,Mix,visual,5
-pliers-shovel,within ,Mix,visual,5
-pliers-shovel,within ,Mix,visual,4
-pliers-shovel,within ,Mix,visual,4
-pliers-shovel,within ,Mix,visual,5
-pliers-shovel,within ,Mix,visual,5
-pliers-shovel,within ,Mix,visual,5
-pliers-shovel,within ,Mix,visual,1
-pliers-shovel,within ,Mix,visual,2
-pliers-shovel,within ,Mix,visual,4
+pliers-saw,within,VC,visual,4
+pliers-saw,within,VC,visual,4
+pliers-saw,within,VC,visual,4
+pliers-saw,within,VC,visual,2
+pliers-saw,within,VC,visual,5
+pliers-saw,within,VC,visual,2
+pliers-saw,within,VC,visual,4
+pliers-saw,within,VC,visual,5
+pliers-saw,within,VC,visual,5
+pliers-saw,within,VC,visual,4
+pliers-shovel,within,VC,visual,5
+pliers-shovel,within,VC,visual,5
+pliers-shovel,within,VC,visual,4
+pliers-shovel,within,VC,visual,4
+pliers-shovel,within,VC,visual,5
+pliers-shovel,within,VC,visual,5
+pliers-shovel,within,VC,visual,5
+pliers-shovel,within,VC,visual,1
+pliers-shovel,within,VC,visual,2
+pliers-shovel,within,VC,visual,4
 dishwasher-pliers,between,Mix,visual,1
 dishwasher-pliers,between,Mix,visual,3
 dishwasher-pliers,between,Mix,visual,1
@@ -17039,16 +17039,16 @@ pliers-uniform,between,Mix,visual,1
 pliers-uniform,between,Mix,visual,1
 pliers-uniform,between,Mix,visual,1
 pliers-uniform,between,Mix,visual,1
-saw-shovel,within ,Mix,visual,3
-saw-shovel,within ,Mix,visual,2
-saw-shovel,within ,Mix,visual,4
-saw-shovel,within ,Mix,visual,5
-saw-shovel,within ,Mix,visual,5
-saw-shovel,within ,Mix,visual,1
-saw-shovel,within ,Mix,visual,4
-saw-shovel,within ,Mix,visual,5
-saw-shovel,within ,Mix,visual,2
-saw-shovel,within ,Mix,visual,5
+saw-shovel,within,VC,visual,3
+saw-shovel,within,VC,visual,2
+saw-shovel,within,VC,visual,4
+saw-shovel,within,VC,visual,5
+saw-shovel,within,VC,visual,5
+saw-shovel,within,VC,visual,1
+saw-shovel,within,VC,visual,4
+saw-shovel,within,VC,visual,5
+saw-shovel,within,VC,visual,2
+saw-shovel,within,VC,visual,5
 dishwasher-saw,between,Mix,visual,1
 dishwasher-saw,between,Mix,visual,1
 dishwasher-saw,between,Mix,visual,2
@@ -17249,46 +17249,46 @@ shovel-uniform,between,Mix,visual,1
 shovel-uniform,between,Mix,visual,1
 shovel-uniform,between,Mix,visual,1
 shovel-uniform,between,Mix,visual,1
-dishwasher-microwave,within ,Mix,visual,2
-dishwasher-microwave,within ,Mix,visual,5
-dishwasher-microwave,within ,Mix,visual,5
-dishwasher-microwave,within ,Mix,visual,2
-dishwasher-microwave,within ,Mix,visual,4
-dishwasher-microwave,within ,Mix,visual,5
-dishwasher-microwave,within ,Mix,visual,1
-dishwasher-microwave,within ,Mix,visual,4
-dishwasher-microwave,within ,Mix,visual,5
-dishwasher-microwave,within ,Mix,visual,5
-dishwasher-television,within ,Mix,visual,1
-dishwasher-television,within ,Mix,visual,1
-dishwasher-television,within ,Mix,visual,4
-dishwasher-television,within ,Mix,visual,3
-dishwasher-television,within ,Mix,visual,4
-dishwasher-television,within ,Mix,visual,3
-dishwasher-television,within ,Mix,visual,5
-dishwasher-television,within ,Mix,visual,4
-dishwasher-television,within ,Mix,visual,5
-dishwasher-television,within ,Mix,visual,1
-dishwasher-toaster,within ,Mix,visual,5
-dishwasher-toaster,within ,Mix,visual,5
-dishwasher-toaster,within ,Mix,visual,4
-dishwasher-toaster,within ,Mix,visual,1
-dishwasher-toaster,within ,Mix,visual,5
-dishwasher-toaster,within ,Mix,visual,5
-dishwasher-toaster,within ,Mix,visual,5
-dishwasher-toaster,within ,Mix,visual,2
-dishwasher-toaster,within ,Mix,visual,4
-dishwasher-toaster,within ,Mix,visual,3
-dishwasher-washing machine,within ,Mix,visual,5
-dishwasher-washing machine,within ,Mix,visual,1
-dishwasher-washing machine,within ,Mix,visual,5
-dishwasher-washing machine,within ,Mix,visual,3
-dishwasher-washing machine,within ,Mix,visual,5
-dishwasher-washing machine,within ,Mix,visual,4
-dishwasher-washing machine,within ,Mix,visual,5
-dishwasher-washing machine,within ,Mix,visual,5
-dishwasher-washing machine,within ,Mix,visual,5
-dishwasher-washing machine,within ,Mix,visual,5
+dishwasher-microwave,within,VC,visual,2
+dishwasher-microwave,within,VC,visual,5
+dishwasher-microwave,within,VC,visual,5
+dishwasher-microwave,within,VC,visual,2
+dishwasher-microwave,within,VC,visual,4
+dishwasher-microwave,within,VC,visual,5
+dishwasher-microwave,within,VC,visual,1
+dishwasher-microwave,within,VC,visual,4
+dishwasher-microwave,within,VC,visual,5
+dishwasher-microwave,within,VC,visual,5
+dishwasher-television,within,VC,visual,1
+dishwasher-television,within,VC,visual,1
+dishwasher-television,within,VC,visual,4
+dishwasher-television,within,VC,visual,3
+dishwasher-television,within,VC,visual,4
+dishwasher-television,within,VC,visual,3
+dishwasher-television,within,VC,visual,5
+dishwasher-television,within,VC,visual,4
+dishwasher-television,within,VC,visual,5
+dishwasher-television,within,VC,visual,1
+dishwasher-toaster,within,VC,visual,5
+dishwasher-toaster,within,VC,visual,5
+dishwasher-toaster,within,VC,visual,4
+dishwasher-toaster,within,VC,visual,1
+dishwasher-toaster,within,VC,visual,5
+dishwasher-toaster,within,VC,visual,5
+dishwasher-toaster,within,VC,visual,5
+dishwasher-toaster,within,VC,visual,2
+dishwasher-toaster,within,VC,visual,4
+dishwasher-toaster,within,VC,visual,3
+dishwasher-washing machine,within,VC,visual,5
+dishwasher-washing machine,within,VC,visual,1
+dishwasher-washing machine,within,VC,visual,5
+dishwasher-washing machine,within,VC,visual,3
+dishwasher-washing machine,within,VC,visual,5
+dishwasher-washing machine,within,VC,visual,4
+dishwasher-washing machine,within,VC,visual,5
+dishwasher-washing machine,within,VC,visual,5
+dishwasher-washing machine,within,VC,visual,5
+dishwasher-washing machine,within,VC,visual,5
 blouse-dishwasher,between,Mix,visual,4
 blouse-dishwasher,between,Mix,visual,1
 blouse-dishwasher,between,Mix,visual,4
@@ -17339,36 +17339,36 @@ dishwasher-uniform,between,Mix,visual,1
 dishwasher-uniform,between,Mix,visual,4
 dishwasher-uniform,between,Mix,visual,5
 dishwasher-uniform,between,Mix,visual,1
-microwave-television,within ,Mix,visual,1
-microwave-television,within ,Mix,visual,5
-microwave-television,within ,Mix,visual,1
-microwave-television,within ,Mix,visual,4
-microwave-television,within ,Mix,visual,4
-microwave-television,within ,Mix,visual,5
-microwave-television,within ,Mix,visual,3
-microwave-television,within ,Mix,visual,5
-microwave-television,within ,Mix,visual,1
-microwave-television,within ,Mix,visual,4
-microwave-toaster,within ,Mix,visual,4
-microwave-toaster,within ,Mix,visual,4
-microwave-toaster,within ,Mix,visual,5
-microwave-toaster,within ,Mix,visual,5
-microwave-toaster,within ,Mix,visual,3
-microwave-toaster,within ,Mix,visual,5
-microwave-toaster,within ,Mix,visual,4
-microwave-toaster,within ,Mix,visual,4
-microwave-toaster,within ,Mix,visual,2
-microwave-toaster,within ,Mix,visual,4
-microwave-washing machine,within ,Mix,visual,4
-microwave-washing machine,within ,Mix,visual,5
-microwave-washing machine,within ,Mix,visual,2
-microwave-washing machine,within ,Mix,visual,1
-microwave-washing machine,within ,Mix,visual,5
-microwave-washing machine,within ,Mix,visual,5
-microwave-washing machine,within ,Mix,visual,4
-microwave-washing machine,within ,Mix,visual,1
-microwave-washing machine,within ,Mix,visual,4
-microwave-washing machine,within ,Mix,visual,4
+microwave-television,within,VC,visual,1
+microwave-television,within,VC,visual,5
+microwave-television,within,VC,visual,1
+microwave-television,within,VC,visual,4
+microwave-television,within,VC,visual,4
+microwave-television,within,VC,visual,5
+microwave-television,within,VC,visual,3
+microwave-television,within,VC,visual,5
+microwave-television,within,VC,visual,1
+microwave-television,within,VC,visual,4
+microwave-toaster,within,VC,visual,4
+microwave-toaster,within,VC,visual,4
+microwave-toaster,within,VC,visual,5
+microwave-toaster,within,VC,visual,5
+microwave-toaster,within,VC,visual,3
+microwave-toaster,within,VC,visual,5
+microwave-toaster,within,VC,visual,4
+microwave-toaster,within,VC,visual,4
+microwave-toaster,within,VC,visual,2
+microwave-toaster,within,VC,visual,4
+microwave-washing machine,within,VC,visual,4
+microwave-washing machine,within,VC,visual,5
+microwave-washing machine,within,VC,visual,2
+microwave-washing machine,within,VC,visual,1
+microwave-washing machine,within,VC,visual,5
+microwave-washing machine,within,VC,visual,5
+microwave-washing machine,within,VC,visual,4
+microwave-washing machine,within,VC,visual,1
+microwave-washing machine,within,VC,visual,4
+microwave-washing machine,within,VC,visual,4
 blouse-microwave,between,Mix,visual,1
 blouse-microwave,between,Mix,visual,1
 blouse-microwave,between,Mix,visual,1
@@ -17419,26 +17419,26 @@ microwave-uniform,between,Mix,visual,1
 microwave-uniform,between,Mix,visual,1
 microwave-uniform,between,Mix,visual,1
 microwave-uniform,between,Mix,visual,1
-television-toaster,within ,Mix,visual,5
-television-toaster,within ,Mix,visual,2
-television-toaster,within ,Mix,visual,5
-television-toaster,within ,Mix,visual,4
-television-toaster,within ,Mix,visual,5
-television-toaster,within ,Mix,visual,5
-television-toaster,within ,Mix,visual,5
-television-toaster,within ,Mix,visual,3
-television-toaster,within ,Mix,visual,5
-television-toaster,within ,Mix,visual,5
-television-washing machine,within ,Mix,visual,5
-television-washing machine,within ,Mix,visual,5
-television-washing machine,within ,Mix,visual,5
-television-washing machine,within ,Mix,visual,5
-television-washing machine,within ,Mix,visual,5
-television-washing machine,within ,Mix,visual,5
-television-washing machine,within ,Mix,visual,5
-television-washing machine,within ,Mix,visual,5
-television-washing machine,within ,Mix,visual,4
-television-washing machine,within ,Mix,visual,5
+television-toaster,within,VC,visual,5
+television-toaster,within,VC,visual,2
+television-toaster,within,VC,visual,5
+television-toaster,within,VC,visual,4
+television-toaster,within,VC,visual,5
+television-toaster,within,VC,visual,5
+television-toaster,within,VC,visual,5
+television-toaster,within,VC,visual,3
+television-toaster,within,VC,visual,5
+television-toaster,within,VC,visual,5
+television-washing machine,within,VC,visual,5
+television-washing machine,within,VC,visual,5
+television-washing machine,within,VC,visual,5
+television-washing machine,within,VC,visual,5
+television-washing machine,within,VC,visual,5
+television-washing machine,within,VC,visual,5
+television-washing machine,within,VC,visual,5
+television-washing machine,within,VC,visual,5
+television-washing machine,within,VC,visual,4
+television-washing machine,within,VC,visual,5
 blouse-television,between,Mix,visual,1
 blouse-television,between,Mix,visual,3
 blouse-television,between,Mix,visual,1
@@ -17489,16 +17489,16 @@ television-uniform,between,Mix,visual,3
 television-uniform,between,Mix,visual,1
 television-uniform,between,Mix,visual,2
 television-uniform,between,Mix,visual,1
-toaster-washing machine,within ,Mix,visual,5
-toaster-washing machine,within ,Mix,visual,5
-toaster-washing machine,within ,Mix,visual,4
-toaster-washing machine,within ,Mix,visual,5
-toaster-washing machine,within ,Mix,visual,5
-toaster-washing machine,within ,Mix,visual,5
-toaster-washing machine,within ,Mix,visual,5
-toaster-washing machine,within ,Mix,visual,5
-toaster-washing machine,within ,Mix,visual,4
-toaster-washing machine,within ,Mix,visual,5
+toaster-washing machine,within,VC,visual,5
+toaster-washing machine,within,VC,visual,5
+toaster-washing machine,within,VC,visual,4
+toaster-washing machine,within,VC,visual,5
+toaster-washing machine,within,VC,visual,5
+toaster-washing machine,within,VC,visual,5
+toaster-washing machine,within,VC,visual,5
+toaster-washing machine,within,VC,visual,5
+toaster-washing machine,within,VC,visual,4
+toaster-washing machine,within,VC,visual,5
 blouse-toaster,between,Mix,visual,2
 blouse-toaster,between,Mix,visual,2
 blouse-toaster,between,Mix,visual,1
@@ -17599,103 +17599,103 @@ uniform-washing machine,between,Mix,visual,1
 uniform-washing machine,between,Mix,visual,2
 uniform-washing machine,between,Mix,visual,3
 uniform-washing machine,between,Mix,visual,2
-blouse-coat,within ,Mix,visual,4
-blouse-coat,within ,Mix,visual,5
-blouse-coat,within ,Mix,visual,5
-blouse-coat,within ,Mix,visual,5
-blouse-coat,within ,Mix,visual,5
-blouse-coat,within ,Mix,visual,4
-blouse-coat,within ,Mix,visual,5
-blouse-coat,within ,Mix,visual,3
-blouse-coat,within ,Mix,visual,5
-blouse-coat,within ,Mix,visual,5
-blouse-jacket,within ,Mix,visual,5
-blouse-jacket,within ,Mix,visual,5
-blouse-jacket,within ,Mix,visual,4
-blouse-jacket,within ,Mix,visual,5
-blouse-jacket,within ,Mix,visual,5
-blouse-jacket,within ,Mix,visual,1
-blouse-jacket,within ,Mix,visual,5
-blouse-jacket,within ,Mix,visual,5
-blouse-jacket,within ,Mix,visual,5
-blouse-jacket,within ,Mix,visual,5
-blouse-shirt,within ,Mix,visual,1
-blouse-shirt,within ,Mix,visual,3
-blouse-shirt,within ,Mix,visual,5
-blouse-shirt,within ,Mix,visual,5
-blouse-shirt,within ,Mix,visual,5
-blouse-shirt,within ,Mix,visual,5
-blouse-shirt,within ,Mix,visual,4
-blouse-shirt,within ,Mix,visual,5
-blouse-shirt,within ,Mix,visual,4
-blouse-shirt,within ,Mix,visual,5
-blouse-uniform,within ,Mix,visual,5
-blouse-uniform,within ,Mix,visual,5
-blouse-uniform,within ,Mix,visual,5
-blouse-uniform,within ,Mix,visual,1
-blouse-uniform,within ,Mix,visual,5
-blouse-uniform,within ,Mix,visual,5
-blouse-uniform,within ,Mix,visual,2
-blouse-uniform,within ,Mix,visual,5
-blouse-uniform,within ,Mix,visual,3
-blouse-uniform,within ,Mix,visual,5
-coat-jacket,within ,Mix,visual,5
-coat-jacket,within ,Mix,visual,5
-coat-jacket,within ,Mix,visual,5
-coat-jacket,within ,Mix,visual,3
-coat-jacket,within ,Mix,visual,5
-coat-jacket,within ,Mix,visual,5
-coat-jacket,within ,Mix,visual,4
-coat-jacket,within ,Mix,visual,5
-coat-jacket,within ,Mix,visual,5
-coat-jacket,within ,Mix,visual,5
-coat-shirt,within ,Mix,visual,5
-coat-shirt,within ,Mix,visual,5
-coat-shirt,within ,Mix,visual,4
-coat-shirt,within ,Mix,visual,5
-coat-shirt,within ,Mix,visual,3
-coat-shirt,within ,Mix,visual,5
-coat-shirt,within ,Mix,visual,3
-coat-shirt,within ,Mix,visual,5
-coat-shirt,within ,Mix,visual,3
-coat-shirt,within ,Mix,visual,1
-coat-uniform,within ,Mix,visual,5
-coat-uniform,within ,Mix,visual,4
-coat-uniform,within ,Mix,visual,5
-coat-uniform,within ,Mix,visual,1
-coat-uniform,within ,Mix,visual,5
-coat-uniform,within ,Mix,visual,5
-coat-uniform,within ,Mix,visual,5
-coat-uniform,within ,Mix,visual,3
-coat-uniform,within ,Mix,visual,3
-coat-uniform,within ,Mix,visual,5
-jacket-shirt,within ,Mix,visual,5
-jacket-shirt,within ,Mix,visual,1
-jacket-shirt,within ,Mix,visual,5
-jacket-shirt,within ,Mix,visual,5
-jacket-shirt,within ,Mix,visual,5
-jacket-shirt,within ,Mix,visual,5
-jacket-shirt,within ,Mix,visual,5
-jacket-shirt,within ,Mix,visual,5
-jacket-shirt,within ,Mix,visual,5
-jacket-shirt,within ,Mix,visual,5
-jacket-uniform,within ,Mix,visual,1
-jacket-uniform,within ,Mix,visual,5
-jacket-uniform,within ,Mix,visual,4
-jacket-uniform,within ,Mix,visual,4
-jacket-uniform,within ,Mix,visual,1
-jacket-uniform,within ,Mix,visual,5
-jacket-uniform,within ,Mix,visual,5
-jacket-uniform,within ,Mix,visual,5
-jacket-uniform,within ,Mix,visual,4
-jacket-uniform,within ,Mix,visual,5
-shirt-uniform,within ,Mix,visual,5
-shirt-uniform,within ,Mix,visual,5
-shirt-uniform,within ,Mix,visual,5
-shirt-uniform,within ,Mix,visual,5
-shirt-uniform,within ,Mix,visual,5
-shirt-uniform,within ,Mix,visual,5
-shirt-uniform,within ,Mix,visual,5
-shirt-uniform,within ,Mix,visual,2
-shirt-uniform,within ,Mix,visual,5
-shirt-uniform,within ,Mix,visual,4
+blouse-coat,within,VC,visual,4
+blouse-coat,within,VC,visual,5
+blouse-coat,within,VC,visual,5
+blouse-coat,within,VC,visual,5
+blouse-coat,within,VC,visual,5
+blouse-coat,within,VC,visual,4
+blouse-coat,within,VC,visual,5
+blouse-coat,within,VC,visual,3
+blouse-coat,within,VC,visual,5
+blouse-coat,within,VC,visual,5
+blouse-jacket,within,VC,visual,5
+blouse-jacket,within,VC,visual,5
+blouse-jacket,within,VC,visual,4
+blouse-jacket,within,VC,visual,5
+blouse-jacket,within,VC,visual,5
+blouse-jacket,within,VC,visual,1
+blouse-jacket,within,VC,visual,5
+blouse-jacket,within,VC,visual,5
+blouse-jacket,within,VC,visual,5
+blouse-jacket,within,VC,visual,5
+blouse-shirt,within,VC,visual,1
+blouse-shirt,within,VC,visual,3
+blouse-shirt,within,VC,visual,5
+blouse-shirt,within,VC,visual,5
+blouse-shirt,within,VC,visual,5
+blouse-shirt,within,VC,visual,5
+blouse-shirt,within,VC,visual,4
+blouse-shirt,within,VC,visual,5
+blouse-shirt,within,VC,visual,4
+blouse-shirt,within,VC,visual,5
+blouse-uniform,within,VC,visual,5
+blouse-uniform,within,VC,visual,5
+blouse-uniform,within,VC,visual,5
+blouse-uniform,within,VC,visual,1
+blouse-uniform,within,VC,visual,5
+blouse-uniform,within,VC,visual,5
+blouse-uniform,within,VC,visual,2
+blouse-uniform,within,VC,visual,5
+blouse-uniform,within,VC,visual,3
+blouse-uniform,within,VC,visual,5
+coat-jacket,within,VC,visual,5
+coat-jacket,within,VC,visual,5
+coat-jacket,within,VC,visual,5
+coat-jacket,within,VC,visual,3
+coat-jacket,within,VC,visual,5
+coat-jacket,within,VC,visual,5
+coat-jacket,within,VC,visual,4
+coat-jacket,within,VC,visual,5
+coat-jacket,within,VC,visual,5
+coat-jacket,within,VC,visual,5
+coat-shirt,within,VC,visual,5
+coat-shirt,within,VC,visual,5
+coat-shirt,within,VC,visual,4
+coat-shirt,within,VC,visual,5
+coat-shirt,within,VC,visual,3
+coat-shirt,within,VC,visual,5
+coat-shirt,within,VC,visual,3
+coat-shirt,within,VC,visual,5
+coat-shirt,within,VC,visual,3
+coat-shirt,within,VC,visual,1
+coat-uniform,within,VC,visual,5
+coat-uniform,within,VC,visual,4
+coat-uniform,within,VC,visual,5
+coat-uniform,within,VC,visual,1
+coat-uniform,within,VC,visual,5
+coat-uniform,within,VC,visual,5
+coat-uniform,within,VC,visual,5
+coat-uniform,within,VC,visual,3
+coat-uniform,within,VC,visual,3
+coat-uniform,within,VC,visual,5
+jacket-shirt,within,VC,visual,5
+jacket-shirt,within,VC,visual,1
+jacket-shirt,within,VC,visual,5
+jacket-shirt,within,VC,visual,5
+jacket-shirt,within,VC,visual,5
+jacket-shirt,within,VC,visual,5
+jacket-shirt,within,VC,visual,5
+jacket-shirt,within,VC,visual,5
+jacket-shirt,within,VC,visual,5
+jacket-shirt,within,VC,visual,5
+jacket-uniform,within,VC,visual,1
+jacket-uniform,within,VC,visual,5
+jacket-uniform,within,VC,visual,4
+jacket-uniform,within,VC,visual,4
+jacket-uniform,within,VC,visual,1
+jacket-uniform,within,VC,visual,5
+jacket-uniform,within,VC,visual,5
+jacket-uniform,within,VC,visual,5
+jacket-uniform,within,VC,visual,4
+jacket-uniform,within,VC,visual,5
+shirt-uniform,within,VC,visual,5
+shirt-uniform,within,VC,visual,5
+shirt-uniform,within,VC,visual,5
+shirt-uniform,within,VC,visual,5
+shirt-uniform,within,VC,visual,5
+shirt-uniform,within,VC,visual,5
+shirt-uniform,within,VC,visual,5
+shirt-uniform,within,VC,visual,2
+shirt-uniform,within,VC,visual,5
+shirt-uniform,within,VC,visual,4

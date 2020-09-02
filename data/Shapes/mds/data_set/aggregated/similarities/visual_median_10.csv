@@ -1,8 +1,8 @@
 pairID,pairType,visualType,ratingType,aggregator,ratings
-bowl-glass,within ,Mix,visual,median,3.0
-bowl-plate,within ,Mix,visual,median,4.0
-bowl-salt shaker,within ,Mix,visual,median,1.0
-bowl-teapot,within ,Mix,visual,median,2.5
+bowl-glass,within,VV,visual,median,3.0
+bowl-plate,within,VV,visual,median,4.0
+bowl-salt shaker,within,VV,visual,median,1.0
+bowl-teapot,within,VV,visual,median,2.5
 bowl-church,between,Mix,visual,median,1.0
 bowl-igloo,between,Mix,visual,median,4.0
 bowl-lighthouse,between,Mix,visual,median,1.0
@@ -58,9 +58,9 @@ bowl-coat,between,Mix,visual,median,1.0
 bowl-jacket,between,Mix,visual,median,1.0
 bowl-shirt,between,Mix,visual,median,1.0
 bowl-uniform,between,Mix,visual,median,1.0
-glass-plate,within ,Mix,visual,median,1.0
-glass-salt shaker,within ,Mix,visual,median,4.0
-glass-teapot,within ,Mix,visual,median,2.5
+glass-plate,within,VV,visual,median,1.0
+glass-salt shaker,within,VV,visual,median,4.0
+glass-teapot,within,VV,visual,median,2.5
 church-glass,between,Mix,visual,median,1.0
 glass-igloo,between,Mix,visual,median,1.0
 glass-lighthouse,between,Mix,visual,median,3.0
@@ -116,8 +116,8 @@ coat-glass,between,Mix,visual,median,1.0
 glass-jacket,between,Mix,visual,median,1.0
 glass-shirt,between,Mix,visual,median,1.0
 glass-uniform,between,Mix,visual,median,1.0
-plate-salt shaker,within ,Mix,visual,median,1.0
-plate-teapot,within ,Mix,visual,median,1.5
+plate-salt shaker,within,VV,visual,median,1.0
+plate-teapot,within,VV,visual,median,1.5
 church-plate,between,Mix,visual,median,1.0
 igloo-plate,between,Mix,visual,median,2.0
 lighthouse-plate,between,Mix,visual,median,1.0
@@ -173,7 +173,7 @@ coat-plate,between,Mix,visual,median,1.0
 jacket-plate,between,Mix,visual,median,1.0
 plate-shirt,between,Mix,visual,median,1.0
 plate-uniform,between,Mix,visual,median,1.0
-salt shaker-teapot,within ,Mix,visual,median,1.5
+salt shaker-teapot,within,VV,visual,median,1.5
 church-salt shaker,between,Mix,visual,median,2.0
 igloo-salt shaker,between,Mix,visual,median,1.0
 lighthouse-salt shaker,between,Mix,visual,median,1.5
@@ -284,10 +284,10 @@ coat-teapot,between,Mix,visual,median,2.0
 jacket-teapot,between,Mix,visual,median,2.0
 shirt-teapot,between,Mix,visual,median,2.0
 teapot-uniform,between,Mix,visual,median,1.5
-church-igloo,within ,Mix,visual,median,1.0
-church-lighthouse,within ,Mix,visual,median,3.5
-church-pyramid,within ,Mix,visual,median,2.0
-church-windmill,within ,Mix,visual,median,2.0
+church-igloo,within,VV,visual,median,1.0
+church-lighthouse,within,VV,visual,median,3.5
+church-pyramid,within,VV,visual,median,2.0
+church-windmill,within,VV,visual,median,2.0
 bicycle-church,between,Mix,visual,median,1.0
 bus-church,between,Mix,visual,median,1.5
 car-church,between,Mix,visual,median,1.0
@@ -338,9 +338,9 @@ church-coat,between,Mix,visual,median,1.0
 church-jacket,between,Mix,visual,median,1.0
 church-shirt,between,Mix,visual,median,1.0
 church-uniform,between,Mix,visual,median,1.0
-igloo-lighthouse,within ,Mix,visual,median,1.0
-igloo-pyramid,within ,Mix,visual,median,1.5
-igloo-windmill,within ,Mix,visual,median,1.5
+igloo-lighthouse,within,VV,visual,median,1.0
+igloo-pyramid,within,VV,visual,median,1.5
+igloo-windmill,within,VV,visual,median,1.5
 bicycle-igloo,between,Mix,visual,median,1.0
 bus-igloo,between,Mix,visual,median,1.5
 car-igloo,between,Mix,visual,median,1.5
@@ -391,8 +391,8 @@ coat-igloo,between,Mix,visual,median,1.5
 igloo-jacket,between,Mix,visual,median,2.0
 igloo-shirt,between,Mix,visual,median,1.0
 igloo-uniform,between,Mix,visual,median,1.0
-lighthouse-pyramid,within ,Mix,visual,median,2.0
-lighthouse-windmill,within ,Mix,visual,median,3.5
+lighthouse-pyramid,within,VV,visual,median,2.0
+lighthouse-windmill,within,VV,visual,median,3.5
 bicycle-lighthouse,between,Mix,visual,median,1.0
 bus-lighthouse,between,Mix,visual,median,1.0
 car-lighthouse,between,Mix,visual,median,1.0
@@ -443,7 +443,7 @@ coat-lighthouse,between,Mix,visual,median,2.5
 jacket-lighthouse,between,Mix,visual,median,2.0
 lighthouse-shirt,between,Mix,visual,median,1.0
 lighthouse-uniform,between,Mix,visual,median,2.0
-pyramid-windmill,within ,Mix,visual,median,3.0
+pyramid-windmill,within,VV,visual,median,3.0
 bicycle-pyramid,between,Mix,visual,median,1.0
 bus-pyramid,between,Mix,visual,median,1.0
 car-pyramid,between,Mix,visual,median,1.0
@@ -544,10 +544,10 @@ coat-windmill,between,Mix,visual,median,1.0
 jacket-windmill,between,Mix,visual,median,1.5
 shirt-windmill,between,Mix,visual,median,2.0
 uniform-windmill,between,Mix,visual,median,1.5
-bicycle-bus,within ,Mix,visual,median,3.0
-bicycle-car,within ,Mix,visual,median,1.0
-bicycle-scooter,within ,Mix,visual,median,4.0
-bicycle-tractor,within ,Mix,visual,median,3.5
+bicycle-bus,within,VV,visual,median,3.0
+bicycle-car,within,VV,visual,median,1.0
+bicycle-scooter,within,VV,visual,median,4.0
+bicycle-tractor,within,VV,visual,median,3.5
 ant-bicycle,between,Mix,visual,median,1.5
 bicycle-butterfly,between,Mix,visual,median,1.5
 bicycle-dragonfly,between,Mix,visual,median,2.0
@@ -593,9 +593,9 @@ bicycle-coat,between,Mix,visual,median,1.0
 bicycle-jacket,between,Mix,visual,median,1.0
 bicycle-shirt,between,Mix,visual,median,1.0
 bicycle-uniform,between,Mix,visual,median,1.0
-bus-car,within ,Mix,visual,median,3.5
-bus-scooter,within ,Mix,visual,median,1.5
-bus-tractor,within ,Mix,visual,median,1.5
+bus-car,within,VV,visual,median,3.5
+bus-scooter,within,VV,visual,median,1.5
+bus-tractor,within,VV,visual,median,1.5
 ant-bus,between,Mix,visual,median,1.5
 bus-butterfly,between,Mix,visual,median,1.0
 bus-dragonfly,between,Mix,visual,median,1.0
@@ -641,8 +641,8 @@ bus-coat,between,Mix,visual,median,1.0
 bus-jacket,between,Mix,visual,median,1.5
 bus-shirt,between,Mix,visual,median,1.0
 bus-uniform,between,Mix,visual,median,1.0
-car-scooter,within ,Mix,visual,median,2.0
-car-tractor,within ,Mix,visual,median,4.0
+car-scooter,within,VV,visual,median,2.0
+car-tractor,within,VV,visual,median,4.0
 ant-car,between,Mix,visual,median,2.0
 butterfly-car,between,Mix,visual,median,1.0
 car-dragonfly,between,Mix,visual,median,1.0
@@ -688,7 +688,7 @@ car-coat,between,Mix,visual,median,1.0
 car-jacket,between,Mix,visual,median,1.0
 car-shirt,between,Mix,visual,median,1.0
 car-uniform,between,Mix,visual,median,1.0
-scooter-tractor,within ,Mix,visual,median,3.0
+scooter-tractor,within,VV,visual,median,3.0
 ant-scooter,between,Mix,visual,median,1.0
 butterfly-scooter,between,Mix,visual,median,1.0
 dragonfly-scooter,between,Mix,visual,median,1.5
@@ -779,10 +779,10 @@ coat-tractor,between,Mix,visual,median,1.0
 jacket-tractor,between,Mix,visual,median,1.0
 shirt-tractor,between,Mix,visual,median,1.0
 tractor-uniform,between,Mix,visual,median,1.5
-ant-butterfly,within ,Mix,visual,median,1.5
-ant-dragonfly,within ,Mix,visual,median,3.0
-ant-fly,within ,Mix,visual,median,5.0
-ant-ladybug,within ,Mix,visual,median,3.0
+ant-butterfly,within,VV,visual,median,1.5
+ant-dragonfly,within,VV,visual,median,3.0
+ant-fly,within,VV,visual,median,5.0
+ant-ladybug,within,VV,visual,median,3.0
 ant-apple,between,Mix,visual,median,1.0
 ant-banana,between,Mix,visual,median,1.0
 ant-cherry,between,Mix,visual,median,2.0
@@ -823,9 +823,9 @@ ant-coat,between,Mix,visual,median,1.0
 ant-jacket,between,Mix,visual,median,1.0
 ant-shirt,between,Mix,visual,median,1.0
 ant-uniform,between,Mix,visual,median,1.0
-butterfly-dragonfly,within ,Mix,visual,median,2.5
-butterfly-fly,within ,Mix,visual,median,4.0
-butterfly-ladybug,within ,Mix,visual,median,2.5
+butterfly-dragonfly,within,VV,visual,median,2.5
+butterfly-fly,within,VV,visual,median,4.0
+butterfly-ladybug,within,VV,visual,median,2.5
 apple-butterfly,between,Mix,visual,median,2.0
 banana-butterfly,between,Mix,visual,median,1.0
 butterfly-cherry,between,Mix,visual,median,2.5
@@ -866,8 +866,8 @@ butterfly-coat,between,Mix,visual,median,1.0
 butterfly-jacket,between,Mix,visual,median,1.5
 butterfly-shirt,between,Mix,visual,median,1.0
 butterfly-uniform,between,Mix,visual,median,1.0
-dragonfly-fly,within ,Mix,visual,median,2.5
-dragonfly-ladybug,within ,Mix,visual,median,3.5
+dragonfly-fly,within,VV,visual,median,2.5
+dragonfly-ladybug,within,VV,visual,median,3.5
 apple-dragonfly,between,Mix,visual,median,1.0
 banana-dragonfly,between,Mix,visual,median,2.0
 cherry-dragonfly,between,Mix,visual,median,1.0
@@ -908,7 +908,7 @@ coat-dragonfly,between,Mix,visual,median,1.0
 dragonfly-jacket,between,Mix,visual,median,1.5
 dragonfly-shirt,between,Mix,visual,median,1.0
 dragonfly-uniform,between,Mix,visual,median,1.0
-fly-ladybug,within ,Mix,visual,median,3.0
+fly-ladybug,within,VV,visual,median,3.0
 apple-fly,between,Mix,visual,median,1.0
 banana-fly,between,Mix,visual,median,1.0
 cherry-fly,between,Mix,visual,median,1.0
@@ -989,10 +989,10 @@ coat-ladybug,between,Mix,visual,median,1.0
 jacket-ladybug,between,Mix,visual,median,1.0
 ladybug-shirt,between,Mix,visual,median,1.5
 ladybug-uniform,between,Mix,visual,median,1.0
-apple-banana,within ,Mix,visual,median,1.0
-apple-cherry,within ,Mix,visual,median,3.0
-apple-lemon,within ,Mix,visual,median,4.5
-apple-raspberry,within ,Mix,visual,median,4.0
+apple-banana,within,VV,visual,median,1.0
+apple-cherry,within,VV,visual,median,3.0
+apple-lemon,within,VV,visual,median,4.5
+apple-raspberry,within,VV,visual,median,4.0
 apple-asparagus,between,Mix,visual,median,1.0
 apple-bell pepper,between,Mix,visual,median,4.0
 apple-broccoli,between,Mix,visual,median,3.0
@@ -1028,9 +1028,9 @@ apple-coat,between,Mix,visual,median,1.0
 apple-jacket,between,Mix,visual,median,2.0
 apple-shirt,between,Mix,visual,median,1.0
 apple-uniform,between,Mix,visual,median,1.0
-banana-cherry,within ,Mix,visual,median,1.0
-banana-lemon,within ,Mix,visual,median,2.5
-banana-raspberry,within ,Mix,visual,median,1.5
+banana-cherry,within,VV,visual,median,1.0
+banana-lemon,within,VV,visual,median,2.5
+banana-raspberry,within,VV,visual,median,1.5
 asparagus-banana,between,Mix,visual,median,3.0
 banana-bell pepper,between,Mix,visual,median,1.0
 banana-broccoli,between,Mix,visual,median,2.0
@@ -1066,8 +1066,8 @@ banana-coat,between,Mix,visual,median,1.5
 banana-jacket,between,Mix,visual,median,1.0
 banana-shirt,between,Mix,visual,median,1.0
 banana-uniform,between,Mix,visual,median,1.0
-cherry-lemon,within ,Mix,visual,median,3.0
-cherry-raspberry,within ,Mix,visual,median,2.0
+cherry-lemon,within,VV,visual,median,3.0
+cherry-raspberry,within,VV,visual,median,2.0
 asparagus-cherry,between,Mix,visual,median,1.0
 bell pepper-cherry,between,Mix,visual,median,2.0
 broccoli-cherry,between,Mix,visual,median,2.5
@@ -1103,7 +1103,7 @@ cherry-coat,between,Mix,visual,median,1.0
 cherry-jacket,between,Mix,visual,median,1.0
 cherry-shirt,between,Mix,visual,median,1.0
 cherry-uniform,between,Mix,visual,median,1.0
-lemon-raspberry,within ,Mix,visual,median,4.0
+lemon-raspberry,within,VV,visual,median,4.0
 asparagus-lemon,between,Mix,visual,median,2.5
 bell pepper-lemon,between,Mix,visual,median,4.0
 broccoli-lemon,between,Mix,visual,median,1.5
@@ -1174,10 +1174,10 @@ coat-raspberry,between,Mix,visual,median,1.0
 jacket-raspberry,between,Mix,visual,median,1.0
 raspberry-shirt,between,Mix,visual,median,1.0
 raspberry-uniform,between,Mix,visual,median,1.0
-asparagus-bell pepper,within ,Mix,visual,median,2.0
-asparagus-broccoli,within ,Mix,visual,median,3.0
-asparagus-carrot,within ,Mix,visual,median,4.0
-asparagus-onion,within ,Mix,visual,median,2.0
+asparagus-bell pepper,within,VV,visual,median,2.0
+asparagus-broccoli,within,VV,visual,median,3.0
+asparagus-carrot,within,VV,visual,median,4.0
+asparagus-onion,within,VV,visual,median,2.0
 asparagus-dandelion,between,Mix,visual,median,1.0
 asparagus-palm tree,between,Mix,visual,median,2.0
 asparagus-rose,between,Mix,visual,median,1.5
@@ -1208,9 +1208,9 @@ asparagus-coat,between,Mix,visual,median,3.0
 asparagus-jacket,between,Mix,visual,median,1.0
 asparagus-shirt,between,Mix,visual,median,1.0
 asparagus-uniform,between,Mix,visual,median,1.0
-bell pepper-broccoli,within ,Mix,visual,median,3.0
-bell pepper-carrot,within ,Mix,visual,median,1.0
-bell pepper-onion,within ,Mix,visual,median,4.0
+bell pepper-broccoli,within,VV,visual,median,3.0
+bell pepper-carrot,within,VV,visual,median,1.0
+bell pepper-onion,within,VV,visual,median,4.0
 bell pepper-dandelion,between,Mix,visual,median,1.0
 bell pepper-palm tree,between,Mix,visual,median,1.0
 bell pepper-rose,between,Mix,visual,median,2.0
@@ -1241,8 +1241,8 @@ bell pepper-coat,between,Mix,visual,median,1.0
 bell pepper-jacket,between,Mix,visual,median,1.0
 bell pepper-shirt,between,Mix,visual,median,2.5
 bell pepper-uniform,between,Mix,visual,median,1.5
-broccoli-carrot,within ,Mix,visual,median,2.5
-broccoli-onion,within ,Mix,visual,median,2.0
+broccoli-carrot,within,VV,visual,median,2.5
+broccoli-onion,within,VV,visual,median,2.0
 broccoli-dandelion,between,Mix,visual,median,2.0
 broccoli-palm tree,between,Mix,visual,median,5.0
 broccoli-rose,between,Mix,visual,median,3.5
@@ -1273,7 +1273,7 @@ broccoli-coat,between,Mix,visual,median,1.0
 broccoli-jacket,between,Mix,visual,median,2.0
 broccoli-shirt,between,Mix,visual,median,1.5
 broccoli-uniform,between,Mix,visual,median,2.5
-carrot-onion,within ,Mix,visual,median,1.0
+carrot-onion,within,VV,visual,median,1.0
 carrot-dandelion,between,Mix,visual,median,2.5
 carrot-palm tree,between,Mix,visual,median,3.0
 carrot-rose,between,Mix,visual,median,2.0
@@ -1334,10 +1334,10 @@ coat-onion,between,Mix,visual,median,1.0
 jacket-onion,between,Mix,visual,median,1.0
 onion-shirt,between,Mix,visual,median,1.0
 onion-uniform,between,Mix,visual,median,1.0
-dandelion-palm tree,within ,Mix,visual,median,3.5
-dandelion-rose,within ,Mix,visual,median,4.5
-dandelion-sunflower,within ,Mix,visual,median,5.0
-dandelion-tulip,within ,Mix,visual,median,5.0
+dandelion-palm tree,within,VC,visual,median,3.5
+dandelion-rose,within,VC,visual,median,4.5
+dandelion-sunflower,within,VC,visual,median,5.0
+dandelion-tulip,within,VC,visual,median,5.0
 cow-dandelion,between,Mix,visual,median,1.0
 dandelion-donkey,between,Mix,visual,median,1.0
 dandelion-goat,between,Mix,visual,median,1.0
@@ -1363,9 +1363,9 @@ coat-dandelion,between,Mix,visual,median,1.0
 dandelion-jacket,between,Mix,visual,median,1.0
 dandelion-shirt,between,Mix,visual,median,1.0
 dandelion-uniform,between,Mix,visual,median,1.0
-palm tree-rose,within ,Mix,visual,median,5.0
-palm tree-sunflower,within ,Mix,visual,median,3.5
-palm tree-tulip,within ,Mix,visual,median,3.5
+palm tree-rose,within,VC,visual,median,5.0
+palm tree-sunflower,within,VC,visual,median,3.5
+palm tree-tulip,within,VC,visual,median,3.5
 cow-palm tree,between,Mix,visual,median,1.0
 donkey-palm tree,between,Mix,visual,median,1.0
 goat-palm tree,between,Mix,visual,median,1.0
@@ -1391,8 +1391,8 @@ coat-palm tree,between,Mix,visual,median,1.0
 jacket-palm tree,between,Mix,visual,median,2.0
 palm tree-shirt,between,Mix,visual,median,1.0
 palm tree-uniform,between,Mix,visual,median,1.0
-rose-sunflower,within ,Mix,visual,median,5.0
-rose-tulip,within ,Mix,visual,median,5.0
+rose-sunflower,within,VC,visual,median,5.0
+rose-tulip,within,VC,visual,median,5.0
 cow-rose,between,Mix,visual,median,1.0
 donkey-rose,between,Mix,visual,median,1.0
 goat-rose,between,Mix,visual,median,1.0
@@ -1418,7 +1418,7 @@ coat-rose,between,Mix,visual,median,1.0
 jacket-rose,between,Mix,visual,median,2.5
 rose-shirt,between,Mix,visual,median,2.0
 rose-uniform,between,Mix,visual,median,1.0
-sunflower-tulip,within ,Mix,visual,median,5.0
+sunflower-tulip,within,VC,visual,median,5.0
 cow-sunflower,between,Mix,visual,median,1.0
 donkey-sunflower,between,Mix,visual,median,1.0
 goat-sunflower,between,Mix,visual,median,1.0
@@ -1469,10 +1469,10 @@ coat-tulip,between,Mix,visual,median,3.0
 jacket-tulip,between,Mix,visual,median,1.0
 shirt-tulip,between,Mix,visual,median,1.0
 tulip-uniform,between,Mix,visual,median,2.5
-cow-donkey,within ,Mix,visual,median,4.0
-cow-goat,within ,Mix,visual,median,5.0
-cow-horse,within ,Mix,visual,median,5.0
-cow-stag,within ,Mix,visual,median,4.5
+cow-donkey,within,VC,visual,median,4.0
+cow-goat,within,VC,visual,median,5.0
+cow-horse,within,VC,visual,median,5.0
+cow-stag,within,VC,visual,median,4.5
 cow-eagle,between,Mix,visual,median,1.5
 cow-owl,between,Mix,visual,median,1.5
 cow-parrot,between,Mix,visual,median,2.0
@@ -1493,9 +1493,9 @@ coat-cow,between,Mix,visual,median,1.0
 cow-jacket,between,Mix,visual,median,2.0
 cow-shirt,between,Mix,visual,median,1.0
 cow-uniform,between,Mix,visual,median,1.0
-donkey-goat,within ,Mix,visual,median,5.0
-donkey-horse,within ,Mix,visual,median,5.0
-donkey-stag,within ,Mix,visual,median,4.0
+donkey-goat,within,VC,visual,median,5.0
+donkey-horse,within,VC,visual,median,5.0
+donkey-stag,within,VC,visual,median,4.0
 donkey-eagle,between,Mix,visual,median,2.0
 donkey-owl,between,Mix,visual,median,2.5
 donkey-parrot,between,Mix,visual,median,2.5
@@ -1516,8 +1516,8 @@ coat-donkey,between,Mix,visual,median,1.0
 donkey-jacket,between,Mix,visual,median,1.0
 donkey-shirt,between,Mix,visual,median,1.0
 donkey-uniform,between,Mix,visual,median,1.0
-goat-horse,within ,Mix,visual,median,4.5
-goat-stag,within ,Mix,visual,median,4.0
+goat-horse,within,VC,visual,median,4.5
+goat-stag,within,VC,visual,median,4.0
 eagle-goat,between,Mix,visual,median,2.0
 goat-owl,between,Mix,visual,median,2.0
 goat-parrot,between,Mix,visual,median,2.5
@@ -1538,7 +1538,7 @@ coat-goat,between,Mix,visual,median,1.0
 goat-jacket,between,Mix,visual,median,1.0
 goat-shirt,between,Mix,visual,median,1.0
 goat-uniform,between,Mix,visual,median,1.0
-horse-stag,within ,Mix,visual,median,4.5
+horse-stag,within,VC,visual,median,4.5
 eagle-horse,between,Mix,visual,median,2.0
 horse-owl,between,Mix,visual,median,1.5
 horse-parrot,between,Mix,visual,median,2.0
@@ -1579,10 +1579,10 @@ coat-stag,between,Mix,visual,median,2.0
 jacket-stag,between,Mix,visual,median,1.0
 shirt-stag,between,Mix,visual,median,1.5
 stag-uniform,between,Mix,visual,median,1.0
-eagle-owl,within ,Mix,visual,median,5.0
-eagle-parrot,within ,Mix,visual,median,5.0
-eagle-pigeon,within ,Mix,visual,median,5.0
-eagle-stork,within ,Mix,visual,median,4.0
+eagle-owl,within,VC,visual,median,5.0
+eagle-parrot,within,VC,visual,median,5.0
+eagle-pigeon,within,VC,visual,median,5.0
+eagle-stork,within,VC,visual,median,4.0
 axe-eagle,between,Mix,visual,median,1.5
 eagle-hammer,between,Mix,visual,median,1.0
 eagle-pliers,between,Mix,visual,median,2.0
@@ -1598,9 +1598,9 @@ coat-eagle,between,Mix,visual,median,1.0
 eagle-jacket,between,Mix,visual,median,1.5
 eagle-shirt,between,Mix,visual,median,1.0
 eagle-uniform,between,Mix,visual,median,1.0
-owl-parrot,within ,Mix,visual,median,5.0
-owl-pigeon,within ,Mix,visual,median,5.0
-owl-stork,within ,Mix,visual,median,4.0
+owl-parrot,within,VC,visual,median,5.0
+owl-pigeon,within,VC,visual,median,5.0
+owl-stork,within,VC,visual,median,4.0
 axe-owl,between,Mix,visual,median,1.0
 hammer-owl,between,Mix,visual,median,3.5
 owl-pliers,between,Mix,visual,median,1.5
@@ -1616,8 +1616,8 @@ coat-owl,between,Mix,visual,median,2.5
 jacket-owl,between,Mix,visual,median,1.0
 owl-shirt,between,Mix,visual,median,1.0
 owl-uniform,between,Mix,visual,median,1.5
-parrot-pigeon,within ,Mix,visual,median,5.0
-parrot-stork,within ,Mix,visual,median,4.5
+parrot-pigeon,within,VC,visual,median,5.0
+parrot-stork,within,VC,visual,median,4.5
 axe-parrot,between,Mix,visual,median,3.0
 hammer-parrot,between,Mix,visual,median,3.0
 parrot-pliers,between,Mix,visual,median,3.5
@@ -1633,7 +1633,7 @@ coat-parrot,between,Mix,visual,median,1.5
 jacket-parrot,between,Mix,visual,median,1.0
 parrot-shirt,between,Mix,visual,median,1.0
 parrot-uniform,between,Mix,visual,median,1.5
-pigeon-stork,within ,Mix,visual,median,5.0
+pigeon-stork,within,VC,visual,median,5.0
 axe-pigeon,between,Mix,visual,median,2.5
 hammer-pigeon,between,Mix,visual,median,2.0
 pigeon-pliers,between,Mix,visual,median,1.0
@@ -1664,10 +1664,10 @@ coat-stork,between,Mix,visual,median,1.0
 jacket-stork,between,Mix,visual,median,1.0
 shirt-stork,between,Mix,visual,median,1.0
 stork-uniform,between,Mix,visual,median,1.0
-axe-hammer,within ,Mix,visual,median,5.0
-axe-pliers,within ,Mix,visual,median,4.5
-axe-saw,within ,Mix,visual,median,4.0
-axe-shovel,within ,Mix,visual,median,5.0
+axe-hammer,within,VC,visual,median,5.0
+axe-pliers,within,VC,visual,median,4.5
+axe-saw,within,VC,visual,median,4.0
+axe-shovel,within,VC,visual,median,5.0
 axe-dishwasher,between,Mix,visual,median,1.0
 axe-microwave,between,Mix,visual,median,1.0
 axe-television,between,Mix,visual,median,1.0
@@ -1678,9 +1678,9 @@ axe-coat,between,Mix,visual,median,1.0
 axe-jacket,between,Mix,visual,median,1.0
 axe-shirt,between,Mix,visual,median,1.0
 axe-uniform,between,Mix,visual,median,1.0
-hammer-pliers,within ,Mix,visual,median,4.0
-hammer-saw,within ,Mix,visual,median,5.0
-hammer-shovel,within ,Mix,visual,median,4.5
+hammer-pliers,within,VC,visual,median,4.0
+hammer-saw,within,VC,visual,median,5.0
+hammer-shovel,within,VC,visual,median,4.5
 dishwasher-hammer,between,Mix,visual,median,1.0
 hammer-microwave,between,Mix,visual,median,1.0
 hammer-television,between,Mix,visual,median,1.0
@@ -1691,8 +1691,8 @@ coat-hammer,between,Mix,visual,median,2.0
 hammer-jacket,between,Mix,visual,median,1.0
 hammer-shirt,between,Mix,visual,median,1.0
 hammer-uniform,between,Mix,visual,median,1.0
-pliers-saw,within ,Mix,visual,median,4.0
-pliers-shovel,within ,Mix,visual,median,4.5
+pliers-saw,within,VC,visual,median,4.0
+pliers-shovel,within,VC,visual,median,4.5
 dishwasher-pliers,between,Mix,visual,median,1.0
 microwave-pliers,between,Mix,visual,median,1.0
 pliers-television,between,Mix,visual,median,1.0
@@ -1703,7 +1703,7 @@ coat-pliers,between,Mix,visual,median,2.5
 jacket-pliers,between,Mix,visual,median,1.0
 pliers-shirt,between,Mix,visual,median,1.0
 pliers-uniform,between,Mix,visual,median,1.0
-saw-shovel,within ,Mix,visual,median,4.0
+saw-shovel,within,VC,visual,median,4.0
 dishwasher-saw,between,Mix,visual,median,1.0
 microwave-saw,between,Mix,visual,median,1.0
 saw-television,between,Mix,visual,median,1.0
@@ -1724,31 +1724,31 @@ coat-shovel,between,Mix,visual,median,1.5
 jacket-shovel,between,Mix,visual,median,1.0
 shirt-shovel,between,Mix,visual,median,1.0
 shovel-uniform,between,Mix,visual,median,1.0
-dishwasher-microwave,within ,Mix,visual,median,4.5
-dishwasher-television,within ,Mix,visual,median,3.5
-dishwasher-toaster,within ,Mix,visual,median,4.5
-dishwasher-washing machine,within ,Mix,visual,median,5.0
+dishwasher-microwave,within,VC,visual,median,4.5
+dishwasher-television,within,VC,visual,median,3.5
+dishwasher-toaster,within,VC,visual,median,4.5
+dishwasher-washing machine,within,VC,visual,median,5.0
 blouse-dishwasher,between,Mix,visual,median,1.5
 coat-dishwasher,between,Mix,visual,median,1.5
 dishwasher-jacket,between,Mix,visual,median,1.5
 dishwasher-shirt,between,Mix,visual,median,2.0
 dishwasher-uniform,between,Mix,visual,median,2.5
-microwave-television,within ,Mix,visual,median,4.0
-microwave-toaster,within ,Mix,visual,median,4.0
-microwave-washing machine,within ,Mix,visual,median,4.0
+microwave-television,within,VC,visual,median,4.0
+microwave-toaster,within,VC,visual,median,4.0
+microwave-washing machine,within,VC,visual,median,4.0
 blouse-microwave,between,Mix,visual,median,2.0
 coat-microwave,between,Mix,visual,median,1.0
 jacket-microwave,between,Mix,visual,median,1.5
 microwave-shirt,between,Mix,visual,median,2.0
 microwave-uniform,between,Mix,visual,median,1.0
-television-toaster,within ,Mix,visual,median,5.0
-television-washing machine,within ,Mix,visual,median,5.0
+television-toaster,within,VC,visual,median,5.0
+television-washing machine,within,VC,visual,median,5.0
 blouse-television,between,Mix,visual,median,3.0
 coat-television,between,Mix,visual,median,1.0
 jacket-television,between,Mix,visual,median,2.0
 shirt-television,between,Mix,visual,median,1.0
 television-uniform,between,Mix,visual,median,2.5
-toaster-washing machine,within ,Mix,visual,median,5.0
+toaster-washing machine,within,VC,visual,median,5.0
 blouse-toaster,between,Mix,visual,median,1.5
 coat-toaster,between,Mix,visual,median,1.0
 jacket-toaster,between,Mix,visual,median,1.0
@@ -1759,13 +1759,13 @@ coat-washing machine,between,Mix,visual,median,1.5
 jacket-washing machine,between,Mix,visual,median,1.5
 shirt-washing machine,between,Mix,visual,median,2.0
 uniform-washing machine,between,Mix,visual,median,2.0
-blouse-coat,within ,Mix,visual,median,5.0
-blouse-jacket,within ,Mix,visual,median,5.0
-blouse-shirt,within ,Mix,visual,median,5.0
-blouse-uniform,within ,Mix,visual,median,5.0
-coat-jacket,within ,Mix,visual,median,5.0
-coat-shirt,within ,Mix,visual,median,4.5
-coat-uniform,within ,Mix,visual,median,5.0
-jacket-shirt,within ,Mix,visual,median,5.0
-jacket-uniform,within ,Mix,visual,median,4.5
-shirt-uniform,within ,Mix,visual,median,5.0
+blouse-coat,within,VC,visual,median,5.0
+blouse-jacket,within,VC,visual,median,5.0
+blouse-shirt,within,VC,visual,median,5.0
+blouse-uniform,within,VC,visual,median,5.0
+coat-jacket,within,VC,visual,median,5.0
+coat-shirt,within,VC,visual,median,4.5
+coat-uniform,within,VC,visual,median,5.0
+jacket-shirt,within,VC,visual,median,5.0
+jacket-uniform,within,VC,visual,median,4.5
+shirt-uniform,within,VC,visual,median,5.0

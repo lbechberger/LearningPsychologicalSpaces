@@ -1,44 +1,44 @@
 pairID,pairType,visualType,ratingType,ratings
-bowl-glass,within ,Mix,conceptual,5
-bowl-glass,within ,Mix,conceptual,5
-bowl-glass,within ,Mix,conceptual,5
-bowl-glass,within ,Mix,conceptual,5
-bowl-glass,within ,Mix,conceptual,5
-bowl-glass,within ,Mix,conceptual,1
-bowl-glass,within ,Mix,conceptual,5
-bowl-glass,within ,Mix,conceptual,5
-bowl-glass,within ,Mix,conceptual,5
-bowl-glass,within ,Mix,conceptual,4
-bowl-plate,within ,Mix,conceptual,5
-bowl-plate,within ,Mix,conceptual,5
-bowl-plate,within ,Mix,conceptual,1
-bowl-plate,within ,Mix,conceptual,5
-bowl-plate,within ,Mix,conceptual,5
-bowl-plate,within ,Mix,conceptual,5
-bowl-plate,within ,Mix,conceptual,5
-bowl-plate,within ,Mix,conceptual,5
-bowl-plate,within ,Mix,conceptual,5
-bowl-plate,within ,Mix,conceptual,5
-bowl-salt shaker,within ,Mix,conceptual,1
-bowl-salt shaker,within ,Mix,conceptual,4
-bowl-salt shaker,within ,Mix,conceptual,5
-bowl-salt shaker,within ,Mix,conceptual,5
-bowl-salt shaker,within ,Mix,conceptual,5
-bowl-salt shaker,within ,Mix,conceptual,1
-bowl-salt shaker,within ,Mix,conceptual,5
-bowl-salt shaker,within ,Mix,conceptual,1
-bowl-salt shaker,within ,Mix,conceptual,1
-bowl-salt shaker,within ,Mix,conceptual,4
-bowl-teapot,within ,Mix,conceptual,5
-bowl-teapot,within ,Mix,conceptual,3
-bowl-teapot,within ,Mix,conceptual,4
-bowl-teapot,within ,Mix,conceptual,1
-bowl-teapot,within ,Mix,conceptual,5
-bowl-teapot,within ,Mix,conceptual,5
-bowl-teapot,within ,Mix,conceptual,1
-bowl-teapot,within ,Mix,conceptual,3
-bowl-teapot,within ,Mix,conceptual,1
-bowl-teapot,within ,Mix,conceptual,5
+bowl-glass,within,VV,conceptual,5
+bowl-glass,within,VV,conceptual,5
+bowl-glass,within,VV,conceptual,5
+bowl-glass,within,VV,conceptual,5
+bowl-glass,within,VV,conceptual,5
+bowl-glass,within,VV,conceptual,1
+bowl-glass,within,VV,conceptual,5
+bowl-glass,within,VV,conceptual,5
+bowl-glass,within,VV,conceptual,5
+bowl-glass,within,VV,conceptual,4
+bowl-plate,within,VV,conceptual,5
+bowl-plate,within,VV,conceptual,5
+bowl-plate,within,VV,conceptual,1
+bowl-plate,within,VV,conceptual,5
+bowl-plate,within,VV,conceptual,5
+bowl-plate,within,VV,conceptual,5
+bowl-plate,within,VV,conceptual,5
+bowl-plate,within,VV,conceptual,5
+bowl-plate,within,VV,conceptual,5
+bowl-plate,within,VV,conceptual,5
+bowl-salt shaker,within,VV,conceptual,1
+bowl-salt shaker,within,VV,conceptual,4
+bowl-salt shaker,within,VV,conceptual,5
+bowl-salt shaker,within,VV,conceptual,5
+bowl-salt shaker,within,VV,conceptual,5
+bowl-salt shaker,within,VV,conceptual,1
+bowl-salt shaker,within,VV,conceptual,5
+bowl-salt shaker,within,VV,conceptual,1
+bowl-salt shaker,within,VV,conceptual,1
+bowl-salt shaker,within,VV,conceptual,4
+bowl-teapot,within,VV,conceptual,5
+bowl-teapot,within,VV,conceptual,3
+bowl-teapot,within,VV,conceptual,4
+bowl-teapot,within,VV,conceptual,1
+bowl-teapot,within,VV,conceptual,5
+bowl-teapot,within,VV,conceptual,5
+bowl-teapot,within,VV,conceptual,1
+bowl-teapot,within,VV,conceptual,3
+bowl-teapot,within,VV,conceptual,1
+bowl-teapot,within,VV,conceptual,5
 bowl-church,between,Mix,conceptual,1
 bowl-church,between,Mix,conceptual,1
 bowl-church,between,Mix,conceptual,1
@@ -589,36 +589,36 @@ bowl-uniform,between,Mix,conceptual,1
 bowl-uniform,between,Mix,conceptual,1
 bowl-uniform,between,Mix,conceptual,1
 bowl-uniform,between,Mix,conceptual,1
-glass-plate,within ,Mix,conceptual,5
-glass-plate,within ,Mix,conceptual,5
-glass-plate,within ,Mix,conceptual,5
-glass-plate,within ,Mix,conceptual,3
-glass-plate,within ,Mix,conceptual,5
-glass-plate,within ,Mix,conceptual,4
-glass-plate,within ,Mix,conceptual,5
-glass-plate,within ,Mix,conceptual,5
-glass-plate,within ,Mix,conceptual,5
-glass-plate,within ,Mix,conceptual,1
-glass-salt shaker,within ,Mix,conceptual,5
-glass-salt shaker,within ,Mix,conceptual,3
-glass-salt shaker,within ,Mix,conceptual,2
-glass-salt shaker,within ,Mix,conceptual,4
-glass-salt shaker,within ,Mix,conceptual,1
-glass-salt shaker,within ,Mix,conceptual,3
-glass-salt shaker,within ,Mix,conceptual,5
-glass-salt shaker,within ,Mix,conceptual,3
-glass-salt shaker,within ,Mix,conceptual,1
-glass-salt shaker,within ,Mix,conceptual,5
-glass-teapot,within ,Mix,conceptual,5
-glass-teapot,within ,Mix,conceptual,1
-glass-teapot,within ,Mix,conceptual,5
-glass-teapot,within ,Mix,conceptual,5
-glass-teapot,within ,Mix,conceptual,1
-glass-teapot,within ,Mix,conceptual,5
-glass-teapot,within ,Mix,conceptual,1
-glass-teapot,within ,Mix,conceptual,3
-glass-teapot,within ,Mix,conceptual,4
-glass-teapot,within ,Mix,conceptual,1
+glass-plate,within,VV,conceptual,5
+glass-plate,within,VV,conceptual,5
+glass-plate,within,VV,conceptual,5
+glass-plate,within,VV,conceptual,3
+glass-plate,within,VV,conceptual,5
+glass-plate,within,VV,conceptual,4
+glass-plate,within,VV,conceptual,5
+glass-plate,within,VV,conceptual,5
+glass-plate,within,VV,conceptual,5
+glass-plate,within,VV,conceptual,1
+glass-salt shaker,within,VV,conceptual,5
+glass-salt shaker,within,VV,conceptual,3
+glass-salt shaker,within,VV,conceptual,2
+glass-salt shaker,within,VV,conceptual,4
+glass-salt shaker,within,VV,conceptual,1
+glass-salt shaker,within,VV,conceptual,3
+glass-salt shaker,within,VV,conceptual,5
+glass-salt shaker,within,VV,conceptual,3
+glass-salt shaker,within,VV,conceptual,1
+glass-salt shaker,within,VV,conceptual,5
+glass-teapot,within,VV,conceptual,5
+glass-teapot,within,VV,conceptual,1
+glass-teapot,within,VV,conceptual,5
+glass-teapot,within,VV,conceptual,5
+glass-teapot,within,VV,conceptual,1
+glass-teapot,within,VV,conceptual,5
+glass-teapot,within,VV,conceptual,1
+glass-teapot,within,VV,conceptual,3
+glass-teapot,within,VV,conceptual,4
+glass-teapot,within,VV,conceptual,1
 church-glass,between,Mix,conceptual,1
 church-glass,between,Mix,conceptual,1
 church-glass,between,Mix,conceptual,1
@@ -1169,26 +1169,26 @@ glass-uniform,between,Mix,conceptual,3
 glass-uniform,between,Mix,conceptual,1
 glass-uniform,between,Mix,conceptual,1
 glass-uniform,between,Mix,conceptual,1
-plate-salt shaker,within ,Mix,conceptual,5
-plate-salt shaker,within ,Mix,conceptual,5
-plate-salt shaker,within ,Mix,conceptual,4
-plate-salt shaker,within ,Mix,conceptual,1
-plate-salt shaker,within ,Mix,conceptual,5
-plate-salt shaker,within ,Mix,conceptual,3
-plate-salt shaker,within ,Mix,conceptual,4
-plate-salt shaker,within ,Mix,conceptual,4
-plate-salt shaker,within ,Mix,conceptual,4
-plate-salt shaker,within ,Mix,conceptual,4
-plate-teapot,within ,Mix,conceptual,5
-plate-teapot,within ,Mix,conceptual,4
-plate-teapot,within ,Mix,conceptual,3
-plate-teapot,within ,Mix,conceptual,1
-plate-teapot,within ,Mix,conceptual,1
-plate-teapot,within ,Mix,conceptual,1
-plate-teapot,within ,Mix,conceptual,5
-plate-teapot,within ,Mix,conceptual,4
-plate-teapot,within ,Mix,conceptual,1
-plate-teapot,within ,Mix,conceptual,5
+plate-salt shaker,within,VV,conceptual,5
+plate-salt shaker,within,VV,conceptual,5
+plate-salt shaker,within,VV,conceptual,4
+plate-salt shaker,within,VV,conceptual,1
+plate-salt shaker,within,VV,conceptual,5
+plate-salt shaker,within,VV,conceptual,3
+plate-salt shaker,within,VV,conceptual,4
+plate-salt shaker,within,VV,conceptual,4
+plate-salt shaker,within,VV,conceptual,4
+plate-salt shaker,within,VV,conceptual,4
+plate-teapot,within,VV,conceptual,5
+plate-teapot,within,VV,conceptual,4
+plate-teapot,within,VV,conceptual,3
+plate-teapot,within,VV,conceptual,1
+plate-teapot,within,VV,conceptual,1
+plate-teapot,within,VV,conceptual,1
+plate-teapot,within,VV,conceptual,5
+plate-teapot,within,VV,conceptual,4
+plate-teapot,within,VV,conceptual,1
+plate-teapot,within,VV,conceptual,5
 church-plate,between,Mix,conceptual,1
 church-plate,between,Mix,conceptual,1
 church-plate,between,Mix,conceptual,1
@@ -1739,16 +1739,16 @@ plate-uniform,between,Mix,conceptual,1
 plate-uniform,between,Mix,conceptual,1
 plate-uniform,between,Mix,conceptual,3
 plate-uniform,between,Mix,conceptual,1
-salt shaker-teapot,within ,Mix,conceptual,1
-salt shaker-teapot,within ,Mix,conceptual,5
-salt shaker-teapot,within ,Mix,conceptual,5
-salt shaker-teapot,within ,Mix,conceptual,4
-salt shaker-teapot,within ,Mix,conceptual,5
-salt shaker-teapot,within ,Mix,conceptual,4
-salt shaker-teapot,within ,Mix,conceptual,3
-salt shaker-teapot,within ,Mix,conceptual,4
-salt shaker-teapot,within ,Mix,conceptual,5
-salt shaker-teapot,within ,Mix,conceptual,5
+salt shaker-teapot,within,VV,conceptual,1
+salt shaker-teapot,within,VV,conceptual,5
+salt shaker-teapot,within,VV,conceptual,5
+salt shaker-teapot,within,VV,conceptual,4
+salt shaker-teapot,within,VV,conceptual,5
+salt shaker-teapot,within,VV,conceptual,4
+salt shaker-teapot,within,VV,conceptual,3
+salt shaker-teapot,within,VV,conceptual,4
+salt shaker-teapot,within,VV,conceptual,5
+salt shaker-teapot,within,VV,conceptual,5
 church-salt shaker,between,Mix,conceptual,1
 church-salt shaker,between,Mix,conceptual,1
 church-salt shaker,between,Mix,conceptual,1
@@ -2849,46 +2849,46 @@ teapot-uniform,between,Mix,conceptual,1
 teapot-uniform,between,Mix,conceptual,2
 teapot-uniform,between,Mix,conceptual,1
 teapot-uniform,between,Mix,conceptual,1
-church-igloo,within ,Mix,conceptual,1
-church-igloo,within ,Mix,conceptual,1
-church-igloo,within ,Mix,conceptual,1
-church-igloo,within ,Mix,conceptual,1
-church-igloo,within ,Mix,conceptual,3
-church-igloo,within ,Mix,conceptual,1
-church-igloo,within ,Mix,conceptual,1
-church-igloo,within ,Mix,conceptual,5
-church-igloo,within ,Mix,conceptual,4
-church-igloo,within ,Mix,conceptual,1
-church-lighthouse,within ,Mix,conceptual,1
-church-lighthouse,within ,Mix,conceptual,5
-church-lighthouse,within ,Mix,conceptual,1
-church-lighthouse,within ,Mix,conceptual,3
-church-lighthouse,within ,Mix,conceptual,5
-church-lighthouse,within ,Mix,conceptual,5
-church-lighthouse,within ,Mix,conceptual,5
-church-lighthouse,within ,Mix,conceptual,1
-church-lighthouse,within ,Mix,conceptual,4
-church-lighthouse,within ,Mix,conceptual,1
-church-pyramid,within ,Mix,conceptual,1
-church-pyramid,within ,Mix,conceptual,5
-church-pyramid,within ,Mix,conceptual,5
-church-pyramid,within ,Mix,conceptual,5
-church-pyramid,within ,Mix,conceptual,5
-church-pyramid,within ,Mix,conceptual,4
-church-pyramid,within ,Mix,conceptual,5
-church-pyramid,within ,Mix,conceptual,3
-church-pyramid,within ,Mix,conceptual,4
-church-pyramid,within ,Mix,conceptual,4
-church-windmill,within ,Mix,conceptual,4
-church-windmill,within ,Mix,conceptual,5
-church-windmill,within ,Mix,conceptual,4
-church-windmill,within ,Mix,conceptual,5
-church-windmill,within ,Mix,conceptual,5
-church-windmill,within ,Mix,conceptual,4
-church-windmill,within ,Mix,conceptual,5
-church-windmill,within ,Mix,conceptual,4
-church-windmill,within ,Mix,conceptual,5
-church-windmill,within ,Mix,conceptual,5
+church-igloo,within,VV,conceptual,1
+church-igloo,within,VV,conceptual,1
+church-igloo,within,VV,conceptual,1
+church-igloo,within,VV,conceptual,1
+church-igloo,within,VV,conceptual,3
+church-igloo,within,VV,conceptual,1
+church-igloo,within,VV,conceptual,1
+church-igloo,within,VV,conceptual,5
+church-igloo,within,VV,conceptual,4
+church-igloo,within,VV,conceptual,1
+church-lighthouse,within,VV,conceptual,1
+church-lighthouse,within,VV,conceptual,5
+church-lighthouse,within,VV,conceptual,1
+church-lighthouse,within,VV,conceptual,3
+church-lighthouse,within,VV,conceptual,5
+church-lighthouse,within,VV,conceptual,5
+church-lighthouse,within,VV,conceptual,5
+church-lighthouse,within,VV,conceptual,1
+church-lighthouse,within,VV,conceptual,4
+church-lighthouse,within,VV,conceptual,1
+church-pyramid,within,VV,conceptual,1
+church-pyramid,within,VV,conceptual,5
+church-pyramid,within,VV,conceptual,5
+church-pyramid,within,VV,conceptual,5
+church-pyramid,within,VV,conceptual,5
+church-pyramid,within,VV,conceptual,4
+church-pyramid,within,VV,conceptual,5
+church-pyramid,within,VV,conceptual,3
+church-pyramid,within,VV,conceptual,4
+church-pyramid,within,VV,conceptual,4
+church-windmill,within,VV,conceptual,4
+church-windmill,within,VV,conceptual,5
+church-windmill,within,VV,conceptual,4
+church-windmill,within,VV,conceptual,5
+church-windmill,within,VV,conceptual,5
+church-windmill,within,VV,conceptual,4
+church-windmill,within,VV,conceptual,5
+church-windmill,within,VV,conceptual,4
+church-windmill,within,VV,conceptual,5
+church-windmill,within,VV,conceptual,5
 bicycle-church,between,Mix,conceptual,1
 bicycle-church,between,Mix,conceptual,1
 bicycle-church,between,Mix,conceptual,2
@@ -3389,36 +3389,36 @@ church-uniform,between,Mix,conceptual,1
 church-uniform,between,Mix,conceptual,1
 church-uniform,between,Mix,conceptual,1
 church-uniform,between,Mix,conceptual,1
-igloo-lighthouse,within ,Mix,conceptual,1
-igloo-lighthouse,within ,Mix,conceptual,1
-igloo-lighthouse,within ,Mix,conceptual,1
-igloo-lighthouse,within ,Mix,conceptual,3
-igloo-lighthouse,within ,Mix,conceptual,5
-igloo-lighthouse,within ,Mix,conceptual,2
-igloo-lighthouse,within ,Mix,conceptual,1
-igloo-lighthouse,within ,Mix,conceptual,1
-igloo-lighthouse,within ,Mix,conceptual,4
-igloo-lighthouse,within ,Mix,conceptual,4
-igloo-pyramid,within ,Mix,conceptual,5
-igloo-pyramid,within ,Mix,conceptual,5
-igloo-pyramid,within ,Mix,conceptual,3
-igloo-pyramid,within ,Mix,conceptual,5
-igloo-pyramid,within ,Mix,conceptual,3
-igloo-pyramid,within ,Mix,conceptual,5
-igloo-pyramid,within ,Mix,conceptual,5
-igloo-pyramid,within ,Mix,conceptual,3
-igloo-pyramid,within ,Mix,conceptual,5
-igloo-pyramid,within ,Mix,conceptual,5
-igloo-windmill,within ,Mix,conceptual,3
-igloo-windmill,within ,Mix,conceptual,5
-igloo-windmill,within ,Mix,conceptual,4
-igloo-windmill,within ,Mix,conceptual,1
-igloo-windmill,within ,Mix,conceptual,4
-igloo-windmill,within ,Mix,conceptual,5
-igloo-windmill,within ,Mix,conceptual,1
-igloo-windmill,within ,Mix,conceptual,5
-igloo-windmill,within ,Mix,conceptual,5
-igloo-windmill,within ,Mix,conceptual,4
+igloo-lighthouse,within,VV,conceptual,1
+igloo-lighthouse,within,VV,conceptual,1
+igloo-lighthouse,within,VV,conceptual,1
+igloo-lighthouse,within,VV,conceptual,3
+igloo-lighthouse,within,VV,conceptual,5
+igloo-lighthouse,within,VV,conceptual,2
+igloo-lighthouse,within,VV,conceptual,1
+igloo-lighthouse,within,VV,conceptual,1
+igloo-lighthouse,within,VV,conceptual,4
+igloo-lighthouse,within,VV,conceptual,4
+igloo-pyramid,within,VV,conceptual,5
+igloo-pyramid,within,VV,conceptual,5
+igloo-pyramid,within,VV,conceptual,3
+igloo-pyramid,within,VV,conceptual,5
+igloo-pyramid,within,VV,conceptual,3
+igloo-pyramid,within,VV,conceptual,5
+igloo-pyramid,within,VV,conceptual,5
+igloo-pyramid,within,VV,conceptual,3
+igloo-pyramid,within,VV,conceptual,5
+igloo-pyramid,within,VV,conceptual,5
+igloo-windmill,within,VV,conceptual,3
+igloo-windmill,within,VV,conceptual,5
+igloo-windmill,within,VV,conceptual,4
+igloo-windmill,within,VV,conceptual,1
+igloo-windmill,within,VV,conceptual,4
+igloo-windmill,within,VV,conceptual,5
+igloo-windmill,within,VV,conceptual,1
+igloo-windmill,within,VV,conceptual,5
+igloo-windmill,within,VV,conceptual,5
+igloo-windmill,within,VV,conceptual,4
 bicycle-igloo,between,Mix,conceptual,1
 bicycle-igloo,between,Mix,conceptual,1
 bicycle-igloo,between,Mix,conceptual,1
@@ -3919,26 +3919,26 @@ igloo-uniform,between,Mix,conceptual,1
 igloo-uniform,between,Mix,conceptual,1
 igloo-uniform,between,Mix,conceptual,1
 igloo-uniform,between,Mix,conceptual,1
-lighthouse-pyramid,within ,Mix,conceptual,5
-lighthouse-pyramid,within ,Mix,conceptual,5
-lighthouse-pyramid,within ,Mix,conceptual,5
-lighthouse-pyramid,within ,Mix,conceptual,4
-lighthouse-pyramid,within ,Mix,conceptual,5
-lighthouse-pyramid,within ,Mix,conceptual,4
-lighthouse-pyramid,within ,Mix,conceptual,5
-lighthouse-pyramid,within ,Mix,conceptual,5
-lighthouse-pyramid,within ,Mix,conceptual,4
-lighthouse-pyramid,within ,Mix,conceptual,4
-lighthouse-windmill,within ,Mix,conceptual,5
-lighthouse-windmill,within ,Mix,conceptual,4
-lighthouse-windmill,within ,Mix,conceptual,5
-lighthouse-windmill,within ,Mix,conceptual,5
-lighthouse-windmill,within ,Mix,conceptual,5
-lighthouse-windmill,within ,Mix,conceptual,5
-lighthouse-windmill,within ,Mix,conceptual,5
-lighthouse-windmill,within ,Mix,conceptual,5
-lighthouse-windmill,within ,Mix,conceptual,5
-lighthouse-windmill,within ,Mix,conceptual,5
+lighthouse-pyramid,within,VV,conceptual,5
+lighthouse-pyramid,within,VV,conceptual,5
+lighthouse-pyramid,within,VV,conceptual,5
+lighthouse-pyramid,within,VV,conceptual,4
+lighthouse-pyramid,within,VV,conceptual,5
+lighthouse-pyramid,within,VV,conceptual,4
+lighthouse-pyramid,within,VV,conceptual,5
+lighthouse-pyramid,within,VV,conceptual,5
+lighthouse-pyramid,within,VV,conceptual,4
+lighthouse-pyramid,within,VV,conceptual,4
+lighthouse-windmill,within,VV,conceptual,5
+lighthouse-windmill,within,VV,conceptual,4
+lighthouse-windmill,within,VV,conceptual,5
+lighthouse-windmill,within,VV,conceptual,5
+lighthouse-windmill,within,VV,conceptual,5
+lighthouse-windmill,within,VV,conceptual,5
+lighthouse-windmill,within,VV,conceptual,5
+lighthouse-windmill,within,VV,conceptual,5
+lighthouse-windmill,within,VV,conceptual,5
+lighthouse-windmill,within,VV,conceptual,5
 bicycle-lighthouse,between,Mix,conceptual,1
 bicycle-lighthouse,between,Mix,conceptual,1
 bicycle-lighthouse,between,Mix,conceptual,1
@@ -4439,16 +4439,16 @@ lighthouse-uniform,between,Mix,conceptual,1
 lighthouse-uniform,between,Mix,conceptual,1
 lighthouse-uniform,between,Mix,conceptual,1
 lighthouse-uniform,between,Mix,conceptual,1
-pyramid-windmill,within ,Mix,conceptual,4
-pyramid-windmill,within ,Mix,conceptual,5
-pyramid-windmill,within ,Mix,conceptual,4
-pyramid-windmill,within ,Mix,conceptual,4
-pyramid-windmill,within ,Mix,conceptual,4
-pyramid-windmill,within ,Mix,conceptual,2
-pyramid-windmill,within ,Mix,conceptual,4
-pyramid-windmill,within ,Mix,conceptual,5
-pyramid-windmill,within ,Mix,conceptual,4
-pyramid-windmill,within ,Mix,conceptual,4
+pyramid-windmill,within,VV,conceptual,4
+pyramid-windmill,within,VV,conceptual,5
+pyramid-windmill,within,VV,conceptual,4
+pyramid-windmill,within,VV,conceptual,4
+pyramid-windmill,within,VV,conceptual,4
+pyramid-windmill,within,VV,conceptual,2
+pyramid-windmill,within,VV,conceptual,4
+pyramid-windmill,within,VV,conceptual,5
+pyramid-windmill,within,VV,conceptual,4
+pyramid-windmill,within,VV,conceptual,4
 bicycle-pyramid,between,Mix,conceptual,1
 bicycle-pyramid,between,Mix,conceptual,1
 bicycle-pyramid,between,Mix,conceptual,1
@@ -5449,46 +5449,46 @@ uniform-windmill,between,Mix,conceptual,2
 uniform-windmill,between,Mix,conceptual,1
 uniform-windmill,between,Mix,conceptual,1
 uniform-windmill,between,Mix,conceptual,1
-bicycle-bus,within ,Mix,conceptual,5
-bicycle-bus,within ,Mix,conceptual,5
-bicycle-bus,within ,Mix,conceptual,1
-bicycle-bus,within ,Mix,conceptual,4
-bicycle-bus,within ,Mix,conceptual,5
-bicycle-bus,within ,Mix,conceptual,1
-bicycle-bus,within ,Mix,conceptual,5
-bicycle-bus,within ,Mix,conceptual,5
-bicycle-bus,within ,Mix,conceptual,5
-bicycle-bus,within ,Mix,conceptual,1
-bicycle-car,within ,Mix,conceptual,5
-bicycle-car,within ,Mix,conceptual,4
-bicycle-car,within ,Mix,conceptual,5
-bicycle-car,within ,Mix,conceptual,5
-bicycle-car,within ,Mix,conceptual,5
-bicycle-car,within ,Mix,conceptual,5
-bicycle-car,within ,Mix,conceptual,1
-bicycle-car,within ,Mix,conceptual,1
-bicycle-car,within ,Mix,conceptual,3
-bicycle-car,within ,Mix,conceptual,5
-bicycle-scooter,within ,Mix,conceptual,5
-bicycle-scooter,within ,Mix,conceptual,5
-bicycle-scooter,within ,Mix,conceptual,5
-bicycle-scooter,within ,Mix,conceptual,5
-bicycle-scooter,within ,Mix,conceptual,5
-bicycle-scooter,within ,Mix,conceptual,5
-bicycle-scooter,within ,Mix,conceptual,4
-bicycle-scooter,within ,Mix,conceptual,5
-bicycle-scooter,within ,Mix,conceptual,5
-bicycle-scooter,within ,Mix,conceptual,1
-bicycle-tractor,within ,Mix,conceptual,4
-bicycle-tractor,within ,Mix,conceptual,4
-bicycle-tractor,within ,Mix,conceptual,1
-bicycle-tractor,within ,Mix,conceptual,3
-bicycle-tractor,within ,Mix,conceptual,5
-bicycle-tractor,within ,Mix,conceptual,5
-bicycle-tractor,within ,Mix,conceptual,5
-bicycle-tractor,within ,Mix,conceptual,4
-bicycle-tractor,within ,Mix,conceptual,5
-bicycle-tractor,within ,Mix,conceptual,4
+bicycle-bus,within,VV,conceptual,5
+bicycle-bus,within,VV,conceptual,5
+bicycle-bus,within,VV,conceptual,1
+bicycle-bus,within,VV,conceptual,4
+bicycle-bus,within,VV,conceptual,5
+bicycle-bus,within,VV,conceptual,1
+bicycle-bus,within,VV,conceptual,5
+bicycle-bus,within,VV,conceptual,5
+bicycle-bus,within,VV,conceptual,5
+bicycle-bus,within,VV,conceptual,1
+bicycle-car,within,VV,conceptual,5
+bicycle-car,within,VV,conceptual,4
+bicycle-car,within,VV,conceptual,5
+bicycle-car,within,VV,conceptual,5
+bicycle-car,within,VV,conceptual,5
+bicycle-car,within,VV,conceptual,5
+bicycle-car,within,VV,conceptual,1
+bicycle-car,within,VV,conceptual,1
+bicycle-car,within,VV,conceptual,3
+bicycle-car,within,VV,conceptual,5
+bicycle-scooter,within,VV,conceptual,5
+bicycle-scooter,within,VV,conceptual,5
+bicycle-scooter,within,VV,conceptual,5
+bicycle-scooter,within,VV,conceptual,5
+bicycle-scooter,within,VV,conceptual,5
+bicycle-scooter,within,VV,conceptual,5
+bicycle-scooter,within,VV,conceptual,4
+bicycle-scooter,within,VV,conceptual,5
+bicycle-scooter,within,VV,conceptual,5
+bicycle-scooter,within,VV,conceptual,1
+bicycle-tractor,within,VV,conceptual,4
+bicycle-tractor,within,VV,conceptual,4
+bicycle-tractor,within,VV,conceptual,1
+bicycle-tractor,within,VV,conceptual,3
+bicycle-tractor,within,VV,conceptual,5
+bicycle-tractor,within,VV,conceptual,5
+bicycle-tractor,within,VV,conceptual,5
+bicycle-tractor,within,VV,conceptual,4
+bicycle-tractor,within,VV,conceptual,5
+bicycle-tractor,within,VV,conceptual,4
 ant-bicycle,between,Mix,conceptual,1
 ant-bicycle,between,Mix,conceptual,1
 ant-bicycle,between,Mix,conceptual,1
@@ -5939,36 +5939,36 @@ bicycle-uniform,between,Mix,conceptual,2
 bicycle-uniform,between,Mix,conceptual,1
 bicycle-uniform,between,Mix,conceptual,1
 bicycle-uniform,between,Mix,conceptual,1
-bus-car,within ,Mix,conceptual,5
-bus-car,within ,Mix,conceptual,5
-bus-car,within ,Mix,conceptual,5
-bus-car,within ,Mix,conceptual,5
-bus-car,within ,Mix,conceptual,5
-bus-car,within ,Mix,conceptual,5
-bus-car,within ,Mix,conceptual,5
-bus-car,within ,Mix,conceptual,5
-bus-car,within ,Mix,conceptual,5
-bus-car,within ,Mix,conceptual,4
-bus-scooter,within ,Mix,conceptual,4
-bus-scooter,within ,Mix,conceptual,4
-bus-scooter,within ,Mix,conceptual,5
-bus-scooter,within ,Mix,conceptual,5
-bus-scooter,within ,Mix,conceptual,5
-bus-scooter,within ,Mix,conceptual,4
-bus-scooter,within ,Mix,conceptual,5
-bus-scooter,within ,Mix,conceptual,5
-bus-scooter,within ,Mix,conceptual,5
-bus-scooter,within ,Mix,conceptual,5
-bus-tractor,within ,Mix,conceptual,5
-bus-tractor,within ,Mix,conceptual,5
-bus-tractor,within ,Mix,conceptual,3
-bus-tractor,within ,Mix,conceptual,5
-bus-tractor,within ,Mix,conceptual,5
-bus-tractor,within ,Mix,conceptual,5
-bus-tractor,within ,Mix,conceptual,5
-bus-tractor,within ,Mix,conceptual,4
-bus-tractor,within ,Mix,conceptual,4
-bus-tractor,within ,Mix,conceptual,5
+bus-car,within,VV,conceptual,5
+bus-car,within,VV,conceptual,5
+bus-car,within,VV,conceptual,5
+bus-car,within,VV,conceptual,5
+bus-car,within,VV,conceptual,5
+bus-car,within,VV,conceptual,5
+bus-car,within,VV,conceptual,5
+bus-car,within,VV,conceptual,5
+bus-car,within,VV,conceptual,5
+bus-car,within,VV,conceptual,4
+bus-scooter,within,VV,conceptual,4
+bus-scooter,within,VV,conceptual,4
+bus-scooter,within,VV,conceptual,5
+bus-scooter,within,VV,conceptual,5
+bus-scooter,within,VV,conceptual,5
+bus-scooter,within,VV,conceptual,4
+bus-scooter,within,VV,conceptual,5
+bus-scooter,within,VV,conceptual,5
+bus-scooter,within,VV,conceptual,5
+bus-scooter,within,VV,conceptual,5
+bus-tractor,within,VV,conceptual,5
+bus-tractor,within,VV,conceptual,5
+bus-tractor,within,VV,conceptual,3
+bus-tractor,within,VV,conceptual,5
+bus-tractor,within,VV,conceptual,5
+bus-tractor,within,VV,conceptual,5
+bus-tractor,within,VV,conceptual,5
+bus-tractor,within,VV,conceptual,4
+bus-tractor,within,VV,conceptual,4
+bus-tractor,within,VV,conceptual,5
 ant-bus,between,Mix,conceptual,1
 ant-bus,between,Mix,conceptual,1
 ant-bus,between,Mix,conceptual,1
@@ -6419,26 +6419,26 @@ bus-uniform,between,Mix,conceptual,1
 bus-uniform,between,Mix,conceptual,1
 bus-uniform,between,Mix,conceptual,1
 bus-uniform,between,Mix,conceptual,1
-car-scooter,within ,Mix,conceptual,1
-car-scooter,within ,Mix,conceptual,5
-car-scooter,within ,Mix,conceptual,5
-car-scooter,within ,Mix,conceptual,4
-car-scooter,within ,Mix,conceptual,5
-car-scooter,within ,Mix,conceptual,1
-car-scooter,within ,Mix,conceptual,5
-car-scooter,within ,Mix,conceptual,1
-car-scooter,within ,Mix,conceptual,5
-car-scooter,within ,Mix,conceptual,5
-car-tractor,within ,Mix,conceptual,4
-car-tractor,within ,Mix,conceptual,5
-car-tractor,within ,Mix,conceptual,5
-car-tractor,within ,Mix,conceptual,5
-car-tractor,within ,Mix,conceptual,5
-car-tractor,within ,Mix,conceptual,5
-car-tractor,within ,Mix,conceptual,5
-car-tractor,within ,Mix,conceptual,5
-car-tractor,within ,Mix,conceptual,5
-car-tractor,within ,Mix,conceptual,1
+car-scooter,within,VV,conceptual,1
+car-scooter,within,VV,conceptual,5
+car-scooter,within,VV,conceptual,5
+car-scooter,within,VV,conceptual,4
+car-scooter,within,VV,conceptual,5
+car-scooter,within,VV,conceptual,1
+car-scooter,within,VV,conceptual,5
+car-scooter,within,VV,conceptual,1
+car-scooter,within,VV,conceptual,5
+car-scooter,within,VV,conceptual,5
+car-tractor,within,VV,conceptual,4
+car-tractor,within,VV,conceptual,5
+car-tractor,within,VV,conceptual,5
+car-tractor,within,VV,conceptual,5
+car-tractor,within,VV,conceptual,5
+car-tractor,within,VV,conceptual,5
+car-tractor,within,VV,conceptual,5
+car-tractor,within,VV,conceptual,5
+car-tractor,within,VV,conceptual,5
+car-tractor,within,VV,conceptual,1
 ant-car,between,Mix,conceptual,1
 ant-car,between,Mix,conceptual,1
 ant-car,between,Mix,conceptual,1
@@ -6889,16 +6889,16 @@ car-uniform,between,Mix,conceptual,1
 car-uniform,between,Mix,conceptual,1
 car-uniform,between,Mix,conceptual,1
 car-uniform,between,Mix,conceptual,1
-scooter-tractor,within ,Mix,conceptual,5
-scooter-tractor,within ,Mix,conceptual,3
-scooter-tractor,within ,Mix,conceptual,5
-scooter-tractor,within ,Mix,conceptual,5
-scooter-tractor,within ,Mix,conceptual,4
-scooter-tractor,within ,Mix,conceptual,5
-scooter-tractor,within ,Mix,conceptual,5
-scooter-tractor,within ,Mix,conceptual,4
-scooter-tractor,within ,Mix,conceptual,5
-scooter-tractor,within ,Mix,conceptual,4
+scooter-tractor,within,VV,conceptual,5
+scooter-tractor,within,VV,conceptual,3
+scooter-tractor,within,VV,conceptual,5
+scooter-tractor,within,VV,conceptual,5
+scooter-tractor,within,VV,conceptual,4
+scooter-tractor,within,VV,conceptual,5
+scooter-tractor,within,VV,conceptual,5
+scooter-tractor,within,VV,conceptual,4
+scooter-tractor,within,VV,conceptual,5
+scooter-tractor,within,VV,conceptual,4
 ant-scooter,between,Mix,conceptual,1
 ant-scooter,between,Mix,conceptual,1
 ant-scooter,between,Mix,conceptual,1
@@ -7799,46 +7799,46 @@ tractor-uniform,between,Mix,conceptual,1
 tractor-uniform,between,Mix,conceptual,1
 tractor-uniform,between,Mix,conceptual,1
 tractor-uniform,between,Mix,conceptual,1
-ant-butterfly,within ,Mix,conceptual,5
-ant-butterfly,within ,Mix,conceptual,5
-ant-butterfly,within ,Mix,conceptual,1
-ant-butterfly,within ,Mix,conceptual,5
-ant-butterfly,within ,Mix,conceptual,2
-ant-butterfly,within ,Mix,conceptual,5
-ant-butterfly,within ,Mix,conceptual,5
-ant-butterfly,within ,Mix,conceptual,5
-ant-butterfly,within ,Mix,conceptual,5
-ant-butterfly,within ,Mix,conceptual,5
-ant-dragonfly,within ,Mix,conceptual,4
-ant-dragonfly,within ,Mix,conceptual,5
-ant-dragonfly,within ,Mix,conceptual,5
-ant-dragonfly,within ,Mix,conceptual,5
-ant-dragonfly,within ,Mix,conceptual,5
-ant-dragonfly,within ,Mix,conceptual,5
-ant-dragonfly,within ,Mix,conceptual,5
-ant-dragonfly,within ,Mix,conceptual,5
-ant-dragonfly,within ,Mix,conceptual,5
-ant-dragonfly,within ,Mix,conceptual,5
-ant-fly,within ,Mix,conceptual,5
-ant-fly,within ,Mix,conceptual,1
-ant-fly,within ,Mix,conceptual,5
-ant-fly,within ,Mix,conceptual,5
-ant-fly,within ,Mix,conceptual,4
-ant-fly,within ,Mix,conceptual,5
-ant-fly,within ,Mix,conceptual,4
-ant-fly,within ,Mix,conceptual,5
-ant-fly,within ,Mix,conceptual,5
-ant-fly,within ,Mix,conceptual,5
-ant-ladybug,within ,Mix,conceptual,5
-ant-ladybug,within ,Mix,conceptual,4
-ant-ladybug,within ,Mix,conceptual,5
-ant-ladybug,within ,Mix,conceptual,5
-ant-ladybug,within ,Mix,conceptual,5
-ant-ladybug,within ,Mix,conceptual,5
-ant-ladybug,within ,Mix,conceptual,5
-ant-ladybug,within ,Mix,conceptual,5
-ant-ladybug,within ,Mix,conceptual,5
-ant-ladybug,within ,Mix,conceptual,5
+ant-butterfly,within,VV,conceptual,5
+ant-butterfly,within,VV,conceptual,5
+ant-butterfly,within,VV,conceptual,1
+ant-butterfly,within,VV,conceptual,5
+ant-butterfly,within,VV,conceptual,2
+ant-butterfly,within,VV,conceptual,5
+ant-butterfly,within,VV,conceptual,5
+ant-butterfly,within,VV,conceptual,5
+ant-butterfly,within,VV,conceptual,5
+ant-butterfly,within,VV,conceptual,5
+ant-dragonfly,within,VV,conceptual,4
+ant-dragonfly,within,VV,conceptual,5
+ant-dragonfly,within,VV,conceptual,5
+ant-dragonfly,within,VV,conceptual,5
+ant-dragonfly,within,VV,conceptual,5
+ant-dragonfly,within,VV,conceptual,5
+ant-dragonfly,within,VV,conceptual,5
+ant-dragonfly,within,VV,conceptual,5
+ant-dragonfly,within,VV,conceptual,5
+ant-dragonfly,within,VV,conceptual,5
+ant-fly,within,VV,conceptual,5
+ant-fly,within,VV,conceptual,1
+ant-fly,within,VV,conceptual,5
+ant-fly,within,VV,conceptual,5
+ant-fly,within,VV,conceptual,4
+ant-fly,within,VV,conceptual,5
+ant-fly,within,VV,conceptual,4
+ant-fly,within,VV,conceptual,5
+ant-fly,within,VV,conceptual,5
+ant-fly,within,VV,conceptual,5
+ant-ladybug,within,VV,conceptual,5
+ant-ladybug,within,VV,conceptual,4
+ant-ladybug,within,VV,conceptual,5
+ant-ladybug,within,VV,conceptual,5
+ant-ladybug,within,VV,conceptual,5
+ant-ladybug,within,VV,conceptual,5
+ant-ladybug,within,VV,conceptual,5
+ant-ladybug,within,VV,conceptual,5
+ant-ladybug,within,VV,conceptual,5
+ant-ladybug,within,VV,conceptual,5
 ant-apple,between,Mix,conceptual,1
 ant-apple,between,Mix,conceptual,3
 ant-apple,between,Mix,conceptual,2
@@ -8239,36 +8239,36 @@ ant-uniform,between,Mix,conceptual,1
 ant-uniform,between,Mix,conceptual,2
 ant-uniform,between,Mix,conceptual,1
 ant-uniform,between,Mix,conceptual,1
-butterfly-dragonfly,within ,Mix,conceptual,5
-butterfly-dragonfly,within ,Mix,conceptual,5
-butterfly-dragonfly,within ,Mix,conceptual,5
-butterfly-dragonfly,within ,Mix,conceptual,4
-butterfly-dragonfly,within ,Mix,conceptual,5
-butterfly-dragonfly,within ,Mix,conceptual,5
-butterfly-dragonfly,within ,Mix,conceptual,5
-butterfly-dragonfly,within ,Mix,conceptual,5
-butterfly-dragonfly,within ,Mix,conceptual,5
-butterfly-dragonfly,within ,Mix,conceptual,5
-butterfly-fly,within ,Mix,conceptual,5
-butterfly-fly,within ,Mix,conceptual,5
-butterfly-fly,within ,Mix,conceptual,5
-butterfly-fly,within ,Mix,conceptual,1
-butterfly-fly,within ,Mix,conceptual,5
-butterfly-fly,within ,Mix,conceptual,5
-butterfly-fly,within ,Mix,conceptual,5
-butterfly-fly,within ,Mix,conceptual,5
-butterfly-fly,within ,Mix,conceptual,5
-butterfly-fly,within ,Mix,conceptual,5
-butterfly-ladybug,within ,Mix,conceptual,5
-butterfly-ladybug,within ,Mix,conceptual,4
-butterfly-ladybug,within ,Mix,conceptual,5
-butterfly-ladybug,within ,Mix,conceptual,5
-butterfly-ladybug,within ,Mix,conceptual,5
-butterfly-ladybug,within ,Mix,conceptual,5
-butterfly-ladybug,within ,Mix,conceptual,5
-butterfly-ladybug,within ,Mix,conceptual,5
-butterfly-ladybug,within ,Mix,conceptual,5
-butterfly-ladybug,within ,Mix,conceptual,5
+butterfly-dragonfly,within,VV,conceptual,5
+butterfly-dragonfly,within,VV,conceptual,5
+butterfly-dragonfly,within,VV,conceptual,5
+butterfly-dragonfly,within,VV,conceptual,4
+butterfly-dragonfly,within,VV,conceptual,5
+butterfly-dragonfly,within,VV,conceptual,5
+butterfly-dragonfly,within,VV,conceptual,5
+butterfly-dragonfly,within,VV,conceptual,5
+butterfly-dragonfly,within,VV,conceptual,5
+butterfly-dragonfly,within,VV,conceptual,5
+butterfly-fly,within,VV,conceptual,5
+butterfly-fly,within,VV,conceptual,5
+butterfly-fly,within,VV,conceptual,5
+butterfly-fly,within,VV,conceptual,1
+butterfly-fly,within,VV,conceptual,5
+butterfly-fly,within,VV,conceptual,5
+butterfly-fly,within,VV,conceptual,5
+butterfly-fly,within,VV,conceptual,5
+butterfly-fly,within,VV,conceptual,5
+butterfly-fly,within,VV,conceptual,5
+butterfly-ladybug,within,VV,conceptual,5
+butterfly-ladybug,within,VV,conceptual,4
+butterfly-ladybug,within,VV,conceptual,5
+butterfly-ladybug,within,VV,conceptual,5
+butterfly-ladybug,within,VV,conceptual,5
+butterfly-ladybug,within,VV,conceptual,5
+butterfly-ladybug,within,VV,conceptual,5
+butterfly-ladybug,within,VV,conceptual,5
+butterfly-ladybug,within,VV,conceptual,5
+butterfly-ladybug,within,VV,conceptual,5
 apple-butterfly,between,Mix,conceptual,3
 apple-butterfly,between,Mix,conceptual,3
 apple-butterfly,between,Mix,conceptual,1
@@ -8669,26 +8669,26 @@ butterfly-uniform,between,Mix,conceptual,2
 butterfly-uniform,between,Mix,conceptual,1
 butterfly-uniform,between,Mix,conceptual,1
 butterfly-uniform,between,Mix,conceptual,1
-dragonfly-fly,within ,Mix,conceptual,5
-dragonfly-fly,within ,Mix,conceptual,5
-dragonfly-fly,within ,Mix,conceptual,5
-dragonfly-fly,within ,Mix,conceptual,5
-dragonfly-fly,within ,Mix,conceptual,4
-dragonfly-fly,within ,Mix,conceptual,5
-dragonfly-fly,within ,Mix,conceptual,5
-dragonfly-fly,within ,Mix,conceptual,5
-dragonfly-fly,within ,Mix,conceptual,5
-dragonfly-fly,within ,Mix,conceptual,5
-dragonfly-ladybug,within ,Mix,conceptual,5
-dragonfly-ladybug,within ,Mix,conceptual,5
-dragonfly-ladybug,within ,Mix,conceptual,1
-dragonfly-ladybug,within ,Mix,conceptual,4
-dragonfly-ladybug,within ,Mix,conceptual,4
-dragonfly-ladybug,within ,Mix,conceptual,5
-dragonfly-ladybug,within ,Mix,conceptual,5
-dragonfly-ladybug,within ,Mix,conceptual,5
-dragonfly-ladybug,within ,Mix,conceptual,5
-dragonfly-ladybug,within ,Mix,conceptual,5
+dragonfly-fly,within,VV,conceptual,5
+dragonfly-fly,within,VV,conceptual,5
+dragonfly-fly,within,VV,conceptual,5
+dragonfly-fly,within,VV,conceptual,5
+dragonfly-fly,within,VV,conceptual,4
+dragonfly-fly,within,VV,conceptual,5
+dragonfly-fly,within,VV,conceptual,5
+dragonfly-fly,within,VV,conceptual,5
+dragonfly-fly,within,VV,conceptual,5
+dragonfly-fly,within,VV,conceptual,5
+dragonfly-ladybug,within,VV,conceptual,5
+dragonfly-ladybug,within,VV,conceptual,5
+dragonfly-ladybug,within,VV,conceptual,1
+dragonfly-ladybug,within,VV,conceptual,4
+dragonfly-ladybug,within,VV,conceptual,4
+dragonfly-ladybug,within,VV,conceptual,5
+dragonfly-ladybug,within,VV,conceptual,5
+dragonfly-ladybug,within,VV,conceptual,5
+dragonfly-ladybug,within,VV,conceptual,5
+dragonfly-ladybug,within,VV,conceptual,5
 apple-dragonfly,between,Mix,conceptual,1
 apple-dragonfly,between,Mix,conceptual,1
 apple-dragonfly,between,Mix,conceptual,3
@@ -9089,16 +9089,16 @@ dragonfly-uniform,between,Mix,conceptual,1
 dragonfly-uniform,between,Mix,conceptual,1
 dragonfly-uniform,between,Mix,conceptual,1
 dragonfly-uniform,between,Mix,conceptual,1
-fly-ladybug,within ,Mix,conceptual,5
-fly-ladybug,within ,Mix,conceptual,4
-fly-ladybug,within ,Mix,conceptual,5
-fly-ladybug,within ,Mix,conceptual,3
-fly-ladybug,within ,Mix,conceptual,5
-fly-ladybug,within ,Mix,conceptual,5
-fly-ladybug,within ,Mix,conceptual,1
-fly-ladybug,within ,Mix,conceptual,1
-fly-ladybug,within ,Mix,conceptual,5
-fly-ladybug,within ,Mix,conceptual,4
+fly-ladybug,within,VV,conceptual,5
+fly-ladybug,within,VV,conceptual,4
+fly-ladybug,within,VV,conceptual,5
+fly-ladybug,within,VV,conceptual,3
+fly-ladybug,within,VV,conceptual,5
+fly-ladybug,within,VV,conceptual,5
+fly-ladybug,within,VV,conceptual,1
+fly-ladybug,within,VV,conceptual,1
+fly-ladybug,within,VV,conceptual,5
+fly-ladybug,within,VV,conceptual,4
 apple-fly,between,Mix,conceptual,3
 apple-fly,between,Mix,conceptual,1
 apple-fly,between,Mix,conceptual,3
@@ -9899,46 +9899,46 @@ ladybug-uniform,between,Mix,conceptual,1
 ladybug-uniform,between,Mix,conceptual,1
 ladybug-uniform,between,Mix,conceptual,1
 ladybug-uniform,between,Mix,conceptual,1
-apple-banana,within ,Mix,conceptual,5
-apple-banana,within ,Mix,conceptual,2
-apple-banana,within ,Mix,conceptual,5
-apple-banana,within ,Mix,conceptual,5
-apple-banana,within ,Mix,conceptual,2
-apple-banana,within ,Mix,conceptual,5
-apple-banana,within ,Mix,conceptual,3
-apple-banana,within ,Mix,conceptual,4
-apple-banana,within ,Mix,conceptual,5
-apple-banana,within ,Mix,conceptual,4
-apple-cherry,within ,Mix,conceptual,5
-apple-cherry,within ,Mix,conceptual,5
-apple-cherry,within ,Mix,conceptual,5
-apple-cherry,within ,Mix,conceptual,1
-apple-cherry,within ,Mix,conceptual,5
-apple-cherry,within ,Mix,conceptual,4
-apple-cherry,within ,Mix,conceptual,5
-apple-cherry,within ,Mix,conceptual,5
-apple-cherry,within ,Mix,conceptual,5
-apple-cherry,within ,Mix,conceptual,5
-apple-lemon,within ,Mix,conceptual,5
-apple-lemon,within ,Mix,conceptual,5
-apple-lemon,within ,Mix,conceptual,5
-apple-lemon,within ,Mix,conceptual,5
-apple-lemon,within ,Mix,conceptual,4
-apple-lemon,within ,Mix,conceptual,5
-apple-lemon,within ,Mix,conceptual,5
-apple-lemon,within ,Mix,conceptual,5
-apple-lemon,within ,Mix,conceptual,5
-apple-lemon,within ,Mix,conceptual,5
-apple-raspberry,within ,Mix,conceptual,4
-apple-raspberry,within ,Mix,conceptual,5
-apple-raspberry,within ,Mix,conceptual,5
-apple-raspberry,within ,Mix,conceptual,5
-apple-raspberry,within ,Mix,conceptual,5
-apple-raspberry,within ,Mix,conceptual,5
-apple-raspberry,within ,Mix,conceptual,5
-apple-raspberry,within ,Mix,conceptual,5
-apple-raspberry,within ,Mix,conceptual,1
-apple-raspberry,within ,Mix,conceptual,5
+apple-banana,within,VV,conceptual,5
+apple-banana,within,VV,conceptual,2
+apple-banana,within,VV,conceptual,5
+apple-banana,within,VV,conceptual,5
+apple-banana,within,VV,conceptual,2
+apple-banana,within,VV,conceptual,5
+apple-banana,within,VV,conceptual,3
+apple-banana,within,VV,conceptual,4
+apple-banana,within,VV,conceptual,5
+apple-banana,within,VV,conceptual,4
+apple-cherry,within,VV,conceptual,5
+apple-cherry,within,VV,conceptual,5
+apple-cherry,within,VV,conceptual,5
+apple-cherry,within,VV,conceptual,1
+apple-cherry,within,VV,conceptual,5
+apple-cherry,within,VV,conceptual,4
+apple-cherry,within,VV,conceptual,5
+apple-cherry,within,VV,conceptual,5
+apple-cherry,within,VV,conceptual,5
+apple-cherry,within,VV,conceptual,5
+apple-lemon,within,VV,conceptual,5
+apple-lemon,within,VV,conceptual,5
+apple-lemon,within,VV,conceptual,5
+apple-lemon,within,VV,conceptual,5
+apple-lemon,within,VV,conceptual,4
+apple-lemon,within,VV,conceptual,5
+apple-lemon,within,VV,conceptual,5
+apple-lemon,within,VV,conceptual,5
+apple-lemon,within,VV,conceptual,5
+apple-lemon,within,VV,conceptual,5
+apple-raspberry,within,VV,conceptual,4
+apple-raspberry,within,VV,conceptual,5
+apple-raspberry,within,VV,conceptual,5
+apple-raspberry,within,VV,conceptual,5
+apple-raspberry,within,VV,conceptual,5
+apple-raspberry,within,VV,conceptual,5
+apple-raspberry,within,VV,conceptual,5
+apple-raspberry,within,VV,conceptual,5
+apple-raspberry,within,VV,conceptual,1
+apple-raspberry,within,VV,conceptual,5
 apple-asparagus,between,Mix,conceptual,1
 apple-asparagus,between,Mix,conceptual,4
 apple-asparagus,between,Mix,conceptual,4
@@ -10289,36 +10289,36 @@ apple-uniform,between,Mix,conceptual,1
 apple-uniform,between,Mix,conceptual,1
 apple-uniform,between,Mix,conceptual,3
 apple-uniform,between,Mix,conceptual,1
-banana-cherry,within ,Mix,conceptual,4
-banana-cherry,within ,Mix,conceptual,3
-banana-cherry,within ,Mix,conceptual,5
-banana-cherry,within ,Mix,conceptual,1
-banana-cherry,within ,Mix,conceptual,5
-banana-cherry,within ,Mix,conceptual,5
-banana-cherry,within ,Mix,conceptual,5
-banana-cherry,within ,Mix,conceptual,5
-banana-cherry,within ,Mix,conceptual,5
-banana-cherry,within ,Mix,conceptual,5
-banana-lemon,within ,Mix,conceptual,5
-banana-lemon,within ,Mix,conceptual,5
-banana-lemon,within ,Mix,conceptual,5
-banana-lemon,within ,Mix,conceptual,5
-banana-lemon,within ,Mix,conceptual,5
-banana-lemon,within ,Mix,conceptual,5
-banana-lemon,within ,Mix,conceptual,5
-banana-lemon,within ,Mix,conceptual,5
-banana-lemon,within ,Mix,conceptual,1
-banana-lemon,within ,Mix,conceptual,5
-banana-raspberry,within ,Mix,conceptual,5
-banana-raspberry,within ,Mix,conceptual,5
-banana-raspberry,within ,Mix,conceptual,4
-banana-raspberry,within ,Mix,conceptual,5
-banana-raspberry,within ,Mix,conceptual,5
-banana-raspberry,within ,Mix,conceptual,5
-banana-raspberry,within ,Mix,conceptual,5
-banana-raspberry,within ,Mix,conceptual,2
-banana-raspberry,within ,Mix,conceptual,1
-banana-raspberry,within ,Mix,conceptual,5
+banana-cherry,within,VV,conceptual,4
+banana-cherry,within,VV,conceptual,3
+banana-cherry,within,VV,conceptual,5
+banana-cherry,within,VV,conceptual,1
+banana-cherry,within,VV,conceptual,5
+banana-cherry,within,VV,conceptual,5
+banana-cherry,within,VV,conceptual,5
+banana-cherry,within,VV,conceptual,5
+banana-cherry,within,VV,conceptual,5
+banana-cherry,within,VV,conceptual,5
+banana-lemon,within,VV,conceptual,5
+banana-lemon,within,VV,conceptual,5
+banana-lemon,within,VV,conceptual,5
+banana-lemon,within,VV,conceptual,5
+banana-lemon,within,VV,conceptual,5
+banana-lemon,within,VV,conceptual,5
+banana-lemon,within,VV,conceptual,5
+banana-lemon,within,VV,conceptual,5
+banana-lemon,within,VV,conceptual,1
+banana-lemon,within,VV,conceptual,5
+banana-raspberry,within,VV,conceptual,5
+banana-raspberry,within,VV,conceptual,5
+banana-raspberry,within,VV,conceptual,4
+banana-raspberry,within,VV,conceptual,5
+banana-raspberry,within,VV,conceptual,5
+banana-raspberry,within,VV,conceptual,5
+banana-raspberry,within,VV,conceptual,5
+banana-raspberry,within,VV,conceptual,2
+banana-raspberry,within,VV,conceptual,1
+banana-raspberry,within,VV,conceptual,5
 asparagus-banana,between,Mix,conceptual,5
 asparagus-banana,between,Mix,conceptual,4
 asparagus-banana,between,Mix,conceptual,1
@@ -10669,26 +10669,26 @@ banana-uniform,between,Mix,conceptual,1
 banana-uniform,between,Mix,conceptual,1
 banana-uniform,between,Mix,conceptual,1
 banana-uniform,between,Mix,conceptual,1
-cherry-lemon,within ,Mix,conceptual,5
-cherry-lemon,within ,Mix,conceptual,5
-cherry-lemon,within ,Mix,conceptual,5
-cherry-lemon,within ,Mix,conceptual,5
-cherry-lemon,within ,Mix,conceptual,2
-cherry-lemon,within ,Mix,conceptual,5
-cherry-lemon,within ,Mix,conceptual,5
-cherry-lemon,within ,Mix,conceptual,5
-cherry-lemon,within ,Mix,conceptual,1
-cherry-lemon,within ,Mix,conceptual,5
-cherry-raspberry,within ,Mix,conceptual,5
-cherry-raspberry,within ,Mix,conceptual,1
-cherry-raspberry,within ,Mix,conceptual,5
-cherry-raspberry,within ,Mix,conceptual,5
-cherry-raspberry,within ,Mix,conceptual,5
-cherry-raspberry,within ,Mix,conceptual,5
-cherry-raspberry,within ,Mix,conceptual,3
-cherry-raspberry,within ,Mix,conceptual,5
-cherry-raspberry,within ,Mix,conceptual,5
-cherry-raspberry,within ,Mix,conceptual,5
+cherry-lemon,within,VV,conceptual,5
+cherry-lemon,within,VV,conceptual,5
+cherry-lemon,within,VV,conceptual,5
+cherry-lemon,within,VV,conceptual,5
+cherry-lemon,within,VV,conceptual,2
+cherry-lemon,within,VV,conceptual,5
+cherry-lemon,within,VV,conceptual,5
+cherry-lemon,within,VV,conceptual,5
+cherry-lemon,within,VV,conceptual,1
+cherry-lemon,within,VV,conceptual,5
+cherry-raspberry,within,VV,conceptual,5
+cherry-raspberry,within,VV,conceptual,1
+cherry-raspberry,within,VV,conceptual,5
+cherry-raspberry,within,VV,conceptual,5
+cherry-raspberry,within,VV,conceptual,5
+cherry-raspberry,within,VV,conceptual,5
+cherry-raspberry,within,VV,conceptual,3
+cherry-raspberry,within,VV,conceptual,5
+cherry-raspberry,within,VV,conceptual,5
+cherry-raspberry,within,VV,conceptual,5
 asparagus-cherry,between,Mix,conceptual,3
 asparagus-cherry,between,Mix,conceptual,4
 asparagus-cherry,between,Mix,conceptual,5
@@ -11039,16 +11039,16 @@ cherry-uniform,between,Mix,conceptual,1
 cherry-uniform,between,Mix,conceptual,1
 cherry-uniform,between,Mix,conceptual,1
 cherry-uniform,between,Mix,conceptual,1
-lemon-raspberry,within ,Mix,conceptual,5
-lemon-raspberry,within ,Mix,conceptual,5
-lemon-raspberry,within ,Mix,conceptual,5
-lemon-raspberry,within ,Mix,conceptual,5
-lemon-raspberry,within ,Mix,conceptual,4
-lemon-raspberry,within ,Mix,conceptual,5
-lemon-raspberry,within ,Mix,conceptual,5
-lemon-raspberry,within ,Mix,conceptual,1
-lemon-raspberry,within ,Mix,conceptual,5
-lemon-raspberry,within ,Mix,conceptual,5
+lemon-raspberry,within,VV,conceptual,5
+lemon-raspberry,within,VV,conceptual,5
+lemon-raspberry,within,VV,conceptual,5
+lemon-raspberry,within,VV,conceptual,5
+lemon-raspberry,within,VV,conceptual,4
+lemon-raspberry,within,VV,conceptual,5
+lemon-raspberry,within,VV,conceptual,5
+lemon-raspberry,within,VV,conceptual,1
+lemon-raspberry,within,VV,conceptual,5
+lemon-raspberry,within,VV,conceptual,5
 asparagus-lemon,between,Mix,conceptual,4
 asparagus-lemon,between,Mix,conceptual,1
 asparagus-lemon,between,Mix,conceptual,1
@@ -11749,46 +11749,46 @@ raspberry-uniform,between,Mix,conceptual,1
 raspberry-uniform,between,Mix,conceptual,1
 raspberry-uniform,between,Mix,conceptual,1
 raspberry-uniform,between,Mix,conceptual,1
-asparagus-bell pepper,within ,Mix,conceptual,1
-asparagus-bell pepper,within ,Mix,conceptual,4
-asparagus-bell pepper,within ,Mix,conceptual,5
-asparagus-bell pepper,within ,Mix,conceptual,5
-asparagus-bell pepper,within ,Mix,conceptual,1
-asparagus-bell pepper,within ,Mix,conceptual,4
-asparagus-bell pepper,within ,Mix,conceptual,5
-asparagus-bell pepper,within ,Mix,conceptual,5
-asparagus-bell pepper,within ,Mix,conceptual,5
-asparagus-bell pepper,within ,Mix,conceptual,5
-asparagus-broccoli,within ,Mix,conceptual,4
-asparagus-broccoli,within ,Mix,conceptual,5
-asparagus-broccoli,within ,Mix,conceptual,5
-asparagus-broccoli,within ,Mix,conceptual,5
-asparagus-broccoli,within ,Mix,conceptual,5
-asparagus-broccoli,within ,Mix,conceptual,5
-asparagus-broccoli,within ,Mix,conceptual,4
-asparagus-broccoli,within ,Mix,conceptual,5
-asparagus-broccoli,within ,Mix,conceptual,5
-asparagus-broccoli,within ,Mix,conceptual,5
-asparagus-carrot,within ,Mix,conceptual,5
-asparagus-carrot,within ,Mix,conceptual,5
-asparagus-carrot,within ,Mix,conceptual,5
-asparagus-carrot,within ,Mix,conceptual,4
-asparagus-carrot,within ,Mix,conceptual,1
-asparagus-carrot,within ,Mix,conceptual,5
-asparagus-carrot,within ,Mix,conceptual,5
-asparagus-carrot,within ,Mix,conceptual,4
-asparagus-carrot,within ,Mix,conceptual,5
-asparagus-carrot,within ,Mix,conceptual,5
-asparagus-onion,within ,Mix,conceptual,4
-asparagus-onion,within ,Mix,conceptual,5
-asparagus-onion,within ,Mix,conceptual,5
-asparagus-onion,within ,Mix,conceptual,3
-asparagus-onion,within ,Mix,conceptual,5
-asparagus-onion,within ,Mix,conceptual,5
-asparagus-onion,within ,Mix,conceptual,1
-asparagus-onion,within ,Mix,conceptual,5
-asparagus-onion,within ,Mix,conceptual,5
-asparagus-onion,within ,Mix,conceptual,4
+asparagus-bell pepper,within,VV,conceptual,1
+asparagus-bell pepper,within,VV,conceptual,4
+asparagus-bell pepper,within,VV,conceptual,5
+asparagus-bell pepper,within,VV,conceptual,5
+asparagus-bell pepper,within,VV,conceptual,1
+asparagus-bell pepper,within,VV,conceptual,4
+asparagus-bell pepper,within,VV,conceptual,5
+asparagus-bell pepper,within,VV,conceptual,5
+asparagus-bell pepper,within,VV,conceptual,5
+asparagus-bell pepper,within,VV,conceptual,5
+asparagus-broccoli,within,VV,conceptual,4
+asparagus-broccoli,within,VV,conceptual,5
+asparagus-broccoli,within,VV,conceptual,5
+asparagus-broccoli,within,VV,conceptual,5
+asparagus-broccoli,within,VV,conceptual,5
+asparagus-broccoli,within,VV,conceptual,5
+asparagus-broccoli,within,VV,conceptual,4
+asparagus-broccoli,within,VV,conceptual,5
+asparagus-broccoli,within,VV,conceptual,5
+asparagus-broccoli,within,VV,conceptual,5
+asparagus-carrot,within,VV,conceptual,5
+asparagus-carrot,within,VV,conceptual,5
+asparagus-carrot,within,VV,conceptual,5
+asparagus-carrot,within,VV,conceptual,4
+asparagus-carrot,within,VV,conceptual,1
+asparagus-carrot,within,VV,conceptual,5
+asparagus-carrot,within,VV,conceptual,5
+asparagus-carrot,within,VV,conceptual,4
+asparagus-carrot,within,VV,conceptual,5
+asparagus-carrot,within,VV,conceptual,5
+asparagus-onion,within,VV,conceptual,4
+asparagus-onion,within,VV,conceptual,5
+asparagus-onion,within,VV,conceptual,5
+asparagus-onion,within,VV,conceptual,3
+asparagus-onion,within,VV,conceptual,5
+asparagus-onion,within,VV,conceptual,5
+asparagus-onion,within,VV,conceptual,1
+asparagus-onion,within,VV,conceptual,5
+asparagus-onion,within,VV,conceptual,5
+asparagus-onion,within,VV,conceptual,4
 asparagus-dandelion,between,Mix,conceptual,4
 asparagus-dandelion,between,Mix,conceptual,4
 asparagus-dandelion,between,Mix,conceptual,1
@@ -12089,36 +12089,36 @@ asparagus-uniform,between,Mix,conceptual,1
 asparagus-uniform,between,Mix,conceptual,1
 asparagus-uniform,between,Mix,conceptual,1
 asparagus-uniform,between,Mix,conceptual,1
-bell pepper-broccoli,within ,Mix,conceptual,5
-bell pepper-broccoli,within ,Mix,conceptual,5
-bell pepper-broccoli,within ,Mix,conceptual,5
-bell pepper-broccoli,within ,Mix,conceptual,5
-bell pepper-broccoli,within ,Mix,conceptual,5
-bell pepper-broccoli,within ,Mix,conceptual,1
-bell pepper-broccoli,within ,Mix,conceptual,5
-bell pepper-broccoli,within ,Mix,conceptual,1
-bell pepper-broccoli,within ,Mix,conceptual,5
-bell pepper-broccoli,within ,Mix,conceptual,5
-bell pepper-carrot,within ,Mix,conceptual,5
-bell pepper-carrot,within ,Mix,conceptual,1
-bell pepper-carrot,within ,Mix,conceptual,5
-bell pepper-carrot,within ,Mix,conceptual,5
-bell pepper-carrot,within ,Mix,conceptual,5
-bell pepper-carrot,within ,Mix,conceptual,5
-bell pepper-carrot,within ,Mix,conceptual,5
-bell pepper-carrot,within ,Mix,conceptual,5
-bell pepper-carrot,within ,Mix,conceptual,5
-bell pepper-carrot,within ,Mix,conceptual,5
-bell pepper-onion,within ,Mix,conceptual,5
-bell pepper-onion,within ,Mix,conceptual,4
-bell pepper-onion,within ,Mix,conceptual,5
-bell pepper-onion,within ,Mix,conceptual,5
-bell pepper-onion,within ,Mix,conceptual,3
-bell pepper-onion,within ,Mix,conceptual,4
-bell pepper-onion,within ,Mix,conceptual,5
-bell pepper-onion,within ,Mix,conceptual,5
-bell pepper-onion,within ,Mix,conceptual,5
-bell pepper-onion,within ,Mix,conceptual,5
+bell pepper-broccoli,within,VV,conceptual,5
+bell pepper-broccoli,within,VV,conceptual,5
+bell pepper-broccoli,within,VV,conceptual,5
+bell pepper-broccoli,within,VV,conceptual,5
+bell pepper-broccoli,within,VV,conceptual,5
+bell pepper-broccoli,within,VV,conceptual,1
+bell pepper-broccoli,within,VV,conceptual,5
+bell pepper-broccoli,within,VV,conceptual,1
+bell pepper-broccoli,within,VV,conceptual,5
+bell pepper-broccoli,within,VV,conceptual,5
+bell pepper-carrot,within,VV,conceptual,5
+bell pepper-carrot,within,VV,conceptual,1
+bell pepper-carrot,within,VV,conceptual,5
+bell pepper-carrot,within,VV,conceptual,5
+bell pepper-carrot,within,VV,conceptual,5
+bell pepper-carrot,within,VV,conceptual,5
+bell pepper-carrot,within,VV,conceptual,5
+bell pepper-carrot,within,VV,conceptual,5
+bell pepper-carrot,within,VV,conceptual,5
+bell pepper-carrot,within,VV,conceptual,5
+bell pepper-onion,within,VV,conceptual,5
+bell pepper-onion,within,VV,conceptual,4
+bell pepper-onion,within,VV,conceptual,5
+bell pepper-onion,within,VV,conceptual,5
+bell pepper-onion,within,VV,conceptual,3
+bell pepper-onion,within,VV,conceptual,4
+bell pepper-onion,within,VV,conceptual,5
+bell pepper-onion,within,VV,conceptual,5
+bell pepper-onion,within,VV,conceptual,5
+bell pepper-onion,within,VV,conceptual,5
 bell pepper-dandelion,between,Mix,conceptual,3
 bell pepper-dandelion,between,Mix,conceptual,3
 bell pepper-dandelion,between,Mix,conceptual,4
@@ -12419,26 +12419,26 @@ bell pepper-uniform,between,Mix,conceptual,1
 bell pepper-uniform,between,Mix,conceptual,1
 bell pepper-uniform,between,Mix,conceptual,1
 bell pepper-uniform,between,Mix,conceptual,2
-broccoli-carrot,within ,Mix,conceptual,5
-broccoli-carrot,within ,Mix,conceptual,5
-broccoli-carrot,within ,Mix,conceptual,5
-broccoli-carrot,within ,Mix,conceptual,3
-broccoli-carrot,within ,Mix,conceptual,5
-broccoli-carrot,within ,Mix,conceptual,5
-broccoli-carrot,within ,Mix,conceptual,1
-broccoli-carrot,within ,Mix,conceptual,5
-broccoli-carrot,within ,Mix,conceptual,5
-broccoli-carrot,within ,Mix,conceptual,5
-broccoli-onion,within ,Mix,conceptual,5
-broccoli-onion,within ,Mix,conceptual,5
-broccoli-onion,within ,Mix,conceptual,5
-broccoli-onion,within ,Mix,conceptual,4
-broccoli-onion,within ,Mix,conceptual,5
-broccoli-onion,within ,Mix,conceptual,5
-broccoli-onion,within ,Mix,conceptual,1
-broccoli-onion,within ,Mix,conceptual,4
-broccoli-onion,within ,Mix,conceptual,1
-broccoli-onion,within ,Mix,conceptual,5
+broccoli-carrot,within,VV,conceptual,5
+broccoli-carrot,within,VV,conceptual,5
+broccoli-carrot,within,VV,conceptual,5
+broccoli-carrot,within,VV,conceptual,3
+broccoli-carrot,within,VV,conceptual,5
+broccoli-carrot,within,VV,conceptual,5
+broccoli-carrot,within,VV,conceptual,1
+broccoli-carrot,within,VV,conceptual,5
+broccoli-carrot,within,VV,conceptual,5
+broccoli-carrot,within,VV,conceptual,5
+broccoli-onion,within,VV,conceptual,5
+broccoli-onion,within,VV,conceptual,5
+broccoli-onion,within,VV,conceptual,5
+broccoli-onion,within,VV,conceptual,4
+broccoli-onion,within,VV,conceptual,5
+broccoli-onion,within,VV,conceptual,5
+broccoli-onion,within,VV,conceptual,1
+broccoli-onion,within,VV,conceptual,4
+broccoli-onion,within,VV,conceptual,1
+broccoli-onion,within,VV,conceptual,5
 broccoli-dandelion,between,Mix,conceptual,4
 broccoli-dandelion,between,Mix,conceptual,3
 broccoli-dandelion,between,Mix,conceptual,4
@@ -12739,16 +12739,16 @@ broccoli-uniform,between,Mix,conceptual,1
 broccoli-uniform,between,Mix,conceptual,1
 broccoli-uniform,between,Mix,conceptual,1
 broccoli-uniform,between,Mix,conceptual,1
-carrot-onion,within ,Mix,conceptual,5
-carrot-onion,within ,Mix,conceptual,5
-carrot-onion,within ,Mix,conceptual,5
-carrot-onion,within ,Mix,conceptual,5
-carrot-onion,within ,Mix,conceptual,5
-carrot-onion,within ,Mix,conceptual,1
-carrot-onion,within ,Mix,conceptual,5
-carrot-onion,within ,Mix,conceptual,2
-carrot-onion,within ,Mix,conceptual,5
-carrot-onion,within ,Mix,conceptual,5
+carrot-onion,within,VV,conceptual,5
+carrot-onion,within,VV,conceptual,5
+carrot-onion,within,VV,conceptual,5
+carrot-onion,within,VV,conceptual,5
+carrot-onion,within,VV,conceptual,5
+carrot-onion,within,VV,conceptual,1
+carrot-onion,within,VV,conceptual,5
+carrot-onion,within,VV,conceptual,2
+carrot-onion,within,VV,conceptual,5
+carrot-onion,within,VV,conceptual,5
 carrot-dandelion,between,Mix,conceptual,4
 carrot-dandelion,between,Mix,conceptual,1
 carrot-dandelion,between,Mix,conceptual,4
@@ -13349,46 +13349,46 @@ onion-uniform,between,Mix,conceptual,1
 onion-uniform,between,Mix,conceptual,1
 onion-uniform,between,Mix,conceptual,1
 onion-uniform,between,Mix,conceptual,1
-dandelion-palm tree,within ,Mix,conceptual,5
-dandelion-palm tree,within ,Mix,conceptual,5
-dandelion-palm tree,within ,Mix,conceptual,4
-dandelion-palm tree,within ,Mix,conceptual,5
-dandelion-palm tree,within ,Mix,conceptual,4
-dandelion-palm tree,within ,Mix,conceptual,3
-dandelion-palm tree,within ,Mix,conceptual,4
-dandelion-palm tree,within ,Mix,conceptual,4
-dandelion-palm tree,within ,Mix,conceptual,2
-dandelion-palm tree,within ,Mix,conceptual,1
-dandelion-rose,within ,Mix,conceptual,5
-dandelion-rose,within ,Mix,conceptual,5
-dandelion-rose,within ,Mix,conceptual,5
-dandelion-rose,within ,Mix,conceptual,5
-dandelion-rose,within ,Mix,conceptual,5
-dandelion-rose,within ,Mix,conceptual,5
-dandelion-rose,within ,Mix,conceptual,5
-dandelion-rose,within ,Mix,conceptual,5
-dandelion-rose,within ,Mix,conceptual,5
-dandelion-rose,within ,Mix,conceptual,5
-dandelion-sunflower,within ,Mix,conceptual,5
-dandelion-sunflower,within ,Mix,conceptual,5
-dandelion-sunflower,within ,Mix,conceptual,5
-dandelion-sunflower,within ,Mix,conceptual,5
-dandelion-sunflower,within ,Mix,conceptual,5
-dandelion-sunflower,within ,Mix,conceptual,5
-dandelion-sunflower,within ,Mix,conceptual,5
-dandelion-sunflower,within ,Mix,conceptual,5
-dandelion-sunflower,within ,Mix,conceptual,5
-dandelion-sunflower,within ,Mix,conceptual,5
-dandelion-tulip,within ,Mix,conceptual,5
-dandelion-tulip,within ,Mix,conceptual,5
-dandelion-tulip,within ,Mix,conceptual,5
-dandelion-tulip,within ,Mix,conceptual,5
-dandelion-tulip,within ,Mix,conceptual,5
-dandelion-tulip,within ,Mix,conceptual,5
-dandelion-tulip,within ,Mix,conceptual,5
-dandelion-tulip,within ,Mix,conceptual,5
-dandelion-tulip,within ,Mix,conceptual,5
-dandelion-tulip,within ,Mix,conceptual,1
+dandelion-palm tree,within,VC,conceptual,5
+dandelion-palm tree,within,VC,conceptual,5
+dandelion-palm tree,within,VC,conceptual,4
+dandelion-palm tree,within,VC,conceptual,5
+dandelion-palm tree,within,VC,conceptual,4
+dandelion-palm tree,within,VC,conceptual,3
+dandelion-palm tree,within,VC,conceptual,4
+dandelion-palm tree,within,VC,conceptual,4
+dandelion-palm tree,within,VC,conceptual,2
+dandelion-palm tree,within,VC,conceptual,1
+dandelion-rose,within,VC,conceptual,5
+dandelion-rose,within,VC,conceptual,5
+dandelion-rose,within,VC,conceptual,5
+dandelion-rose,within,VC,conceptual,5
+dandelion-rose,within,VC,conceptual,5
+dandelion-rose,within,VC,conceptual,5
+dandelion-rose,within,VC,conceptual,5
+dandelion-rose,within,VC,conceptual,5
+dandelion-rose,within,VC,conceptual,5
+dandelion-rose,within,VC,conceptual,5
+dandelion-sunflower,within,VC,conceptual,5
+dandelion-sunflower,within,VC,conceptual,5
+dandelion-sunflower,within,VC,conceptual,5
+dandelion-sunflower,within,VC,conceptual,5
+dandelion-sunflower,within,VC,conceptual,5
+dandelion-sunflower,within,VC,conceptual,5
+dandelion-sunflower,within,VC,conceptual,5
+dandelion-sunflower,within,VC,conceptual,5
+dandelion-sunflower,within,VC,conceptual,5
+dandelion-sunflower,within,VC,conceptual,5
+dandelion-tulip,within,VC,conceptual,5
+dandelion-tulip,within,VC,conceptual,5
+dandelion-tulip,within,VC,conceptual,5
+dandelion-tulip,within,VC,conceptual,5
+dandelion-tulip,within,VC,conceptual,5
+dandelion-tulip,within,VC,conceptual,5
+dandelion-tulip,within,VC,conceptual,5
+dandelion-tulip,within,VC,conceptual,5
+dandelion-tulip,within,VC,conceptual,5
+dandelion-tulip,within,VC,conceptual,1
 cow-dandelion,between,Mix,conceptual,1
 cow-dandelion,between,Mix,conceptual,1
 cow-dandelion,between,Mix,conceptual,4
@@ -13639,36 +13639,36 @@ dandelion-uniform,between,Mix,conceptual,1
 dandelion-uniform,between,Mix,conceptual,1
 dandelion-uniform,between,Mix,conceptual,1
 dandelion-uniform,between,Mix,conceptual,1
-palm tree-rose,within ,Mix,conceptual,5
-palm tree-rose,within ,Mix,conceptual,5
-palm tree-rose,within ,Mix,conceptual,4
-palm tree-rose,within ,Mix,conceptual,5
-palm tree-rose,within ,Mix,conceptual,4
-palm tree-rose,within ,Mix,conceptual,5
-palm tree-rose,within ,Mix,conceptual,1
-palm tree-rose,within ,Mix,conceptual,5
-palm tree-rose,within ,Mix,conceptual,5
-palm tree-rose,within ,Mix,conceptual,5
-palm tree-sunflower,within ,Mix,conceptual,5
-palm tree-sunflower,within ,Mix,conceptual,5
-palm tree-sunflower,within ,Mix,conceptual,4
-palm tree-sunflower,within ,Mix,conceptual,5
-palm tree-sunflower,within ,Mix,conceptual,5
-palm tree-sunflower,within ,Mix,conceptual,1
-palm tree-sunflower,within ,Mix,conceptual,1
-palm tree-sunflower,within ,Mix,conceptual,5
-palm tree-sunflower,within ,Mix,conceptual,4
-palm tree-sunflower,within ,Mix,conceptual,5
-palm tree-tulip,within ,Mix,conceptual,5
-palm tree-tulip,within ,Mix,conceptual,4
-palm tree-tulip,within ,Mix,conceptual,4
-palm tree-tulip,within ,Mix,conceptual,5
-palm tree-tulip,within ,Mix,conceptual,3
-palm tree-tulip,within ,Mix,conceptual,4
-palm tree-tulip,within ,Mix,conceptual,3
-palm tree-tulip,within ,Mix,conceptual,4
-palm tree-tulip,within ,Mix,conceptual,4
-palm tree-tulip,within ,Mix,conceptual,4
+palm tree-rose,within,VC,conceptual,5
+palm tree-rose,within,VC,conceptual,5
+palm tree-rose,within,VC,conceptual,4
+palm tree-rose,within,VC,conceptual,5
+palm tree-rose,within,VC,conceptual,4
+palm tree-rose,within,VC,conceptual,5
+palm tree-rose,within,VC,conceptual,1
+palm tree-rose,within,VC,conceptual,5
+palm tree-rose,within,VC,conceptual,5
+palm tree-rose,within,VC,conceptual,5
+palm tree-sunflower,within,VC,conceptual,5
+palm tree-sunflower,within,VC,conceptual,5
+palm tree-sunflower,within,VC,conceptual,4
+palm tree-sunflower,within,VC,conceptual,5
+palm tree-sunflower,within,VC,conceptual,5
+palm tree-sunflower,within,VC,conceptual,1
+palm tree-sunflower,within,VC,conceptual,1
+palm tree-sunflower,within,VC,conceptual,5
+palm tree-sunflower,within,VC,conceptual,4
+palm tree-sunflower,within,VC,conceptual,5
+palm tree-tulip,within,VC,conceptual,5
+palm tree-tulip,within,VC,conceptual,4
+palm tree-tulip,within,VC,conceptual,4
+palm tree-tulip,within,VC,conceptual,5
+palm tree-tulip,within,VC,conceptual,3
+palm tree-tulip,within,VC,conceptual,4
+palm tree-tulip,within,VC,conceptual,3
+palm tree-tulip,within,VC,conceptual,4
+palm tree-tulip,within,VC,conceptual,4
+palm tree-tulip,within,VC,conceptual,4
 cow-palm tree,between,Mix,conceptual,1
 cow-palm tree,between,Mix,conceptual,1
 cow-palm tree,between,Mix,conceptual,3
@@ -13919,26 +13919,26 @@ palm tree-uniform,between,Mix,conceptual,1
 palm tree-uniform,between,Mix,conceptual,1
 palm tree-uniform,between,Mix,conceptual,1
 palm tree-uniform,between,Mix,conceptual,1
-rose-sunflower,within ,Mix,conceptual,1
-rose-sunflower,within ,Mix,conceptual,5
-rose-sunflower,within ,Mix,conceptual,5
-rose-sunflower,within ,Mix,conceptual,5
-rose-sunflower,within ,Mix,conceptual,5
-rose-sunflower,within ,Mix,conceptual,5
-rose-sunflower,within ,Mix,conceptual,5
-rose-sunflower,within ,Mix,conceptual,5
-rose-sunflower,within ,Mix,conceptual,4
-rose-sunflower,within ,Mix,conceptual,5
-rose-tulip,within ,Mix,conceptual,5
-rose-tulip,within ,Mix,conceptual,1
-rose-tulip,within ,Mix,conceptual,5
-rose-tulip,within ,Mix,conceptual,1
-rose-tulip,within ,Mix,conceptual,5
-rose-tulip,within ,Mix,conceptual,5
-rose-tulip,within ,Mix,conceptual,5
-rose-tulip,within ,Mix,conceptual,5
-rose-tulip,within ,Mix,conceptual,3
-rose-tulip,within ,Mix,conceptual,5
+rose-sunflower,within,VC,conceptual,1
+rose-sunflower,within,VC,conceptual,5
+rose-sunflower,within,VC,conceptual,5
+rose-sunflower,within,VC,conceptual,5
+rose-sunflower,within,VC,conceptual,5
+rose-sunflower,within,VC,conceptual,5
+rose-sunflower,within,VC,conceptual,5
+rose-sunflower,within,VC,conceptual,5
+rose-sunflower,within,VC,conceptual,4
+rose-sunflower,within,VC,conceptual,5
+rose-tulip,within,VC,conceptual,5
+rose-tulip,within,VC,conceptual,1
+rose-tulip,within,VC,conceptual,5
+rose-tulip,within,VC,conceptual,1
+rose-tulip,within,VC,conceptual,5
+rose-tulip,within,VC,conceptual,5
+rose-tulip,within,VC,conceptual,5
+rose-tulip,within,VC,conceptual,5
+rose-tulip,within,VC,conceptual,3
+rose-tulip,within,VC,conceptual,5
 cow-rose,between,Mix,conceptual,3
 cow-rose,between,Mix,conceptual,3
 cow-rose,between,Mix,conceptual,1
@@ -14189,16 +14189,16 @@ rose-uniform,between,Mix,conceptual,3
 rose-uniform,between,Mix,conceptual,1
 rose-uniform,between,Mix,conceptual,1
 rose-uniform,between,Mix,conceptual,1
-sunflower-tulip,within ,Mix,conceptual,5
-sunflower-tulip,within ,Mix,conceptual,5
-sunflower-tulip,within ,Mix,conceptual,5
-sunflower-tulip,within ,Mix,conceptual,5
-sunflower-tulip,within ,Mix,conceptual,5
-sunflower-tulip,within ,Mix,conceptual,5
-sunflower-tulip,within ,Mix,conceptual,5
-sunflower-tulip,within ,Mix,conceptual,5
-sunflower-tulip,within ,Mix,conceptual,5
-sunflower-tulip,within ,Mix,conceptual,5
+sunflower-tulip,within,VC,conceptual,5
+sunflower-tulip,within,VC,conceptual,5
+sunflower-tulip,within,VC,conceptual,5
+sunflower-tulip,within,VC,conceptual,5
+sunflower-tulip,within,VC,conceptual,5
+sunflower-tulip,within,VC,conceptual,5
+sunflower-tulip,within,VC,conceptual,5
+sunflower-tulip,within,VC,conceptual,5
+sunflower-tulip,within,VC,conceptual,5
+sunflower-tulip,within,VC,conceptual,5
 cow-sunflower,between,Mix,conceptual,4
 cow-sunflower,between,Mix,conceptual,2
 cow-sunflower,between,Mix,conceptual,2
@@ -14699,46 +14699,46 @@ tulip-uniform,between,Mix,conceptual,1
 tulip-uniform,between,Mix,conceptual,1
 tulip-uniform,between,Mix,conceptual,1
 tulip-uniform,between,Mix,conceptual,1
-cow-donkey,within ,Mix,conceptual,5
-cow-donkey,within ,Mix,conceptual,5
-cow-donkey,within ,Mix,conceptual,5
-cow-donkey,within ,Mix,conceptual,1
-cow-donkey,within ,Mix,conceptual,5
-cow-donkey,within ,Mix,conceptual,5
-cow-donkey,within ,Mix,conceptual,5
-cow-donkey,within ,Mix,conceptual,5
-cow-donkey,within ,Mix,conceptual,5
-cow-donkey,within ,Mix,conceptual,5
-cow-goat,within ,Mix,conceptual,1
-cow-goat,within ,Mix,conceptual,5
-cow-goat,within ,Mix,conceptual,5
-cow-goat,within ,Mix,conceptual,4
-cow-goat,within ,Mix,conceptual,5
-cow-goat,within ,Mix,conceptual,5
-cow-goat,within ,Mix,conceptual,5
-cow-goat,within ,Mix,conceptual,4
-cow-goat,within ,Mix,conceptual,5
-cow-goat,within ,Mix,conceptual,5
-cow-horse,within ,Mix,conceptual,1
-cow-horse,within ,Mix,conceptual,5
-cow-horse,within ,Mix,conceptual,5
-cow-horse,within ,Mix,conceptual,5
-cow-horse,within ,Mix,conceptual,5
-cow-horse,within ,Mix,conceptual,5
-cow-horse,within ,Mix,conceptual,5
-cow-horse,within ,Mix,conceptual,5
-cow-horse,within ,Mix,conceptual,5
-cow-horse,within ,Mix,conceptual,5
-cow-stag,within ,Mix,conceptual,5
-cow-stag,within ,Mix,conceptual,4
-cow-stag,within ,Mix,conceptual,5
-cow-stag,within ,Mix,conceptual,5
-cow-stag,within ,Mix,conceptual,5
-cow-stag,within ,Mix,conceptual,5
-cow-stag,within ,Mix,conceptual,4
-cow-stag,within ,Mix,conceptual,5
-cow-stag,within ,Mix,conceptual,5
-cow-stag,within ,Mix,conceptual,5
+cow-donkey,within,VC,conceptual,5
+cow-donkey,within,VC,conceptual,5
+cow-donkey,within,VC,conceptual,5
+cow-donkey,within,VC,conceptual,1
+cow-donkey,within,VC,conceptual,5
+cow-donkey,within,VC,conceptual,5
+cow-donkey,within,VC,conceptual,5
+cow-donkey,within,VC,conceptual,5
+cow-donkey,within,VC,conceptual,5
+cow-donkey,within,VC,conceptual,5
+cow-goat,within,VC,conceptual,1
+cow-goat,within,VC,conceptual,5
+cow-goat,within,VC,conceptual,5
+cow-goat,within,VC,conceptual,4
+cow-goat,within,VC,conceptual,5
+cow-goat,within,VC,conceptual,5
+cow-goat,within,VC,conceptual,5
+cow-goat,within,VC,conceptual,4
+cow-goat,within,VC,conceptual,5
+cow-goat,within,VC,conceptual,5
+cow-horse,within,VC,conceptual,1
+cow-horse,within,VC,conceptual,5
+cow-horse,within,VC,conceptual,5
+cow-horse,within,VC,conceptual,5
+cow-horse,within,VC,conceptual,5
+cow-horse,within,VC,conceptual,5
+cow-horse,within,VC,conceptual,5
+cow-horse,within,VC,conceptual,5
+cow-horse,within,VC,conceptual,5
+cow-horse,within,VC,conceptual,5
+cow-stag,within,VC,conceptual,5
+cow-stag,within,VC,conceptual,4
+cow-stag,within,VC,conceptual,5
+cow-stag,within,VC,conceptual,5
+cow-stag,within,VC,conceptual,5
+cow-stag,within,VC,conceptual,5
+cow-stag,within,VC,conceptual,4
+cow-stag,within,VC,conceptual,5
+cow-stag,within,VC,conceptual,5
+cow-stag,within,VC,conceptual,5
 cow-eagle,between,Mix,conceptual,3
 cow-eagle,between,Mix,conceptual,4
 cow-eagle,between,Mix,conceptual,4
@@ -14939,36 +14939,36 @@ cow-uniform,between,Mix,conceptual,1
 cow-uniform,between,Mix,conceptual,1
 cow-uniform,between,Mix,conceptual,1
 cow-uniform,between,Mix,conceptual,1
-donkey-goat,within ,Mix,conceptual,5
-donkey-goat,within ,Mix,conceptual,5
-donkey-goat,within ,Mix,conceptual,1
-donkey-goat,within ,Mix,conceptual,5
-donkey-goat,within ,Mix,conceptual,4
-donkey-goat,within ,Mix,conceptual,1
-donkey-goat,within ,Mix,conceptual,5
-donkey-goat,within ,Mix,conceptual,5
-donkey-goat,within ,Mix,conceptual,5
-donkey-goat,within ,Mix,conceptual,5
-donkey-horse,within ,Mix,conceptual,5
-donkey-horse,within ,Mix,conceptual,5
-donkey-horse,within ,Mix,conceptual,5
-donkey-horse,within ,Mix,conceptual,5
-donkey-horse,within ,Mix,conceptual,5
-donkey-horse,within ,Mix,conceptual,5
-donkey-horse,within ,Mix,conceptual,5
-donkey-horse,within ,Mix,conceptual,5
-donkey-horse,within ,Mix,conceptual,5
-donkey-horse,within ,Mix,conceptual,5
-donkey-stag,within ,Mix,conceptual,5
-donkey-stag,within ,Mix,conceptual,5
-donkey-stag,within ,Mix,conceptual,1
-donkey-stag,within ,Mix,conceptual,5
-donkey-stag,within ,Mix,conceptual,5
-donkey-stag,within ,Mix,conceptual,5
-donkey-stag,within ,Mix,conceptual,5
-donkey-stag,within ,Mix,conceptual,4
-donkey-stag,within ,Mix,conceptual,5
-donkey-stag,within ,Mix,conceptual,5
+donkey-goat,within,VC,conceptual,5
+donkey-goat,within,VC,conceptual,5
+donkey-goat,within,VC,conceptual,1
+donkey-goat,within,VC,conceptual,5
+donkey-goat,within,VC,conceptual,4
+donkey-goat,within,VC,conceptual,1
+donkey-goat,within,VC,conceptual,5
+donkey-goat,within,VC,conceptual,5
+donkey-goat,within,VC,conceptual,5
+donkey-goat,within,VC,conceptual,5
+donkey-horse,within,VC,conceptual,5
+donkey-horse,within,VC,conceptual,5
+donkey-horse,within,VC,conceptual,5
+donkey-horse,within,VC,conceptual,5
+donkey-horse,within,VC,conceptual,5
+donkey-horse,within,VC,conceptual,5
+donkey-horse,within,VC,conceptual,5
+donkey-horse,within,VC,conceptual,5
+donkey-horse,within,VC,conceptual,5
+donkey-horse,within,VC,conceptual,5
+donkey-stag,within,VC,conceptual,5
+donkey-stag,within,VC,conceptual,5
+donkey-stag,within,VC,conceptual,1
+donkey-stag,within,VC,conceptual,5
+donkey-stag,within,VC,conceptual,5
+donkey-stag,within,VC,conceptual,5
+donkey-stag,within,VC,conceptual,5
+donkey-stag,within,VC,conceptual,4
+donkey-stag,within,VC,conceptual,5
+donkey-stag,within,VC,conceptual,5
 donkey-eagle,between,Mix,conceptual,1
 donkey-eagle,between,Mix,conceptual,4
 donkey-eagle,between,Mix,conceptual,1
@@ -15169,26 +15169,26 @@ donkey-uniform,between,Mix,conceptual,1
 donkey-uniform,between,Mix,conceptual,1
 donkey-uniform,between,Mix,conceptual,1
 donkey-uniform,between,Mix,conceptual,1
-goat-horse,within ,Mix,conceptual,5
-goat-horse,within ,Mix,conceptual,5
-goat-horse,within ,Mix,conceptual,4
-goat-horse,within ,Mix,conceptual,1
-goat-horse,within ,Mix,conceptual,5
-goat-horse,within ,Mix,conceptual,1
-goat-horse,within ,Mix,conceptual,5
-goat-horse,within ,Mix,conceptual,5
-goat-horse,within ,Mix,conceptual,1
-goat-horse,within ,Mix,conceptual,5
-goat-stag,within ,Mix,conceptual,5
-goat-stag,within ,Mix,conceptual,5
-goat-stag,within ,Mix,conceptual,5
-goat-stag,within ,Mix,conceptual,5
-goat-stag,within ,Mix,conceptual,5
-goat-stag,within ,Mix,conceptual,5
-goat-stag,within ,Mix,conceptual,5
-goat-stag,within ,Mix,conceptual,4
-goat-stag,within ,Mix,conceptual,5
-goat-stag,within ,Mix,conceptual,1
+goat-horse,within,VC,conceptual,5
+goat-horse,within,VC,conceptual,5
+goat-horse,within,VC,conceptual,4
+goat-horse,within,VC,conceptual,1
+goat-horse,within,VC,conceptual,5
+goat-horse,within,VC,conceptual,1
+goat-horse,within,VC,conceptual,5
+goat-horse,within,VC,conceptual,5
+goat-horse,within,VC,conceptual,1
+goat-horse,within,VC,conceptual,5
+goat-stag,within,VC,conceptual,5
+goat-stag,within,VC,conceptual,5
+goat-stag,within,VC,conceptual,5
+goat-stag,within,VC,conceptual,5
+goat-stag,within,VC,conceptual,5
+goat-stag,within,VC,conceptual,5
+goat-stag,within,VC,conceptual,5
+goat-stag,within,VC,conceptual,4
+goat-stag,within,VC,conceptual,5
+goat-stag,within,VC,conceptual,1
 eagle-goat,between,Mix,conceptual,3
 eagle-goat,between,Mix,conceptual,4
 eagle-goat,between,Mix,conceptual,1
@@ -15389,16 +15389,16 @@ goat-uniform,between,Mix,conceptual,1
 goat-uniform,between,Mix,conceptual,1
 goat-uniform,between,Mix,conceptual,1
 goat-uniform,between,Mix,conceptual,2
-horse-stag,within ,Mix,conceptual,5
-horse-stag,within ,Mix,conceptual,5
-horse-stag,within ,Mix,conceptual,5
-horse-stag,within ,Mix,conceptual,5
-horse-stag,within ,Mix,conceptual,5
-horse-stag,within ,Mix,conceptual,2
-horse-stag,within ,Mix,conceptual,4
-horse-stag,within ,Mix,conceptual,5
-horse-stag,within ,Mix,conceptual,4
-horse-stag,within ,Mix,conceptual,5
+horse-stag,within,VC,conceptual,5
+horse-stag,within,VC,conceptual,5
+horse-stag,within,VC,conceptual,5
+horse-stag,within,VC,conceptual,5
+horse-stag,within,VC,conceptual,5
+horse-stag,within,VC,conceptual,2
+horse-stag,within,VC,conceptual,4
+horse-stag,within,VC,conceptual,5
+horse-stag,within,VC,conceptual,4
+horse-stag,within,VC,conceptual,5
 eagle-horse,between,Mix,conceptual,3
 eagle-horse,between,Mix,conceptual,3
 eagle-horse,between,Mix,conceptual,1
@@ -15799,46 +15799,46 @@ stag-uniform,between,Mix,conceptual,1
 stag-uniform,between,Mix,conceptual,1
 stag-uniform,between,Mix,conceptual,1
 stag-uniform,between,Mix,conceptual,1
-eagle-owl,within ,Mix,conceptual,5
-eagle-owl,within ,Mix,conceptual,5
-eagle-owl,within ,Mix,conceptual,5
-eagle-owl,within ,Mix,conceptual,5
-eagle-owl,within ,Mix,conceptual,5
-eagle-owl,within ,Mix,conceptual,5
-eagle-owl,within ,Mix,conceptual,5
-eagle-owl,within ,Mix,conceptual,5
-eagle-owl,within ,Mix,conceptual,5
-eagle-owl,within ,Mix,conceptual,5
-eagle-parrot,within ,Mix,conceptual,5
-eagle-parrot,within ,Mix,conceptual,1
-eagle-parrot,within ,Mix,conceptual,5
-eagle-parrot,within ,Mix,conceptual,5
-eagle-parrot,within ,Mix,conceptual,5
-eagle-parrot,within ,Mix,conceptual,5
-eagle-parrot,within ,Mix,conceptual,1
-eagle-parrot,within ,Mix,conceptual,5
-eagle-parrot,within ,Mix,conceptual,5
-eagle-parrot,within ,Mix,conceptual,5
-eagle-pigeon,within ,Mix,conceptual,2
-eagle-pigeon,within ,Mix,conceptual,5
-eagle-pigeon,within ,Mix,conceptual,5
-eagle-pigeon,within ,Mix,conceptual,5
-eagle-pigeon,within ,Mix,conceptual,5
-eagle-pigeon,within ,Mix,conceptual,5
-eagle-pigeon,within ,Mix,conceptual,5
-eagle-pigeon,within ,Mix,conceptual,5
-eagle-pigeon,within ,Mix,conceptual,1
-eagle-pigeon,within ,Mix,conceptual,5
-eagle-stork,within ,Mix,conceptual,5
-eagle-stork,within ,Mix,conceptual,5
-eagle-stork,within ,Mix,conceptual,5
-eagle-stork,within ,Mix,conceptual,4
-eagle-stork,within ,Mix,conceptual,1
-eagle-stork,within ,Mix,conceptual,5
-eagle-stork,within ,Mix,conceptual,5
-eagle-stork,within ,Mix,conceptual,5
-eagle-stork,within ,Mix,conceptual,5
-eagle-stork,within ,Mix,conceptual,5
+eagle-owl,within,VC,conceptual,5
+eagle-owl,within,VC,conceptual,5
+eagle-owl,within,VC,conceptual,5
+eagle-owl,within,VC,conceptual,5
+eagle-owl,within,VC,conceptual,5
+eagle-owl,within,VC,conceptual,5
+eagle-owl,within,VC,conceptual,5
+eagle-owl,within,VC,conceptual,5
+eagle-owl,within,VC,conceptual,5
+eagle-owl,within,VC,conceptual,5
+eagle-parrot,within,VC,conceptual,5
+eagle-parrot,within,VC,conceptual,1
+eagle-parrot,within,VC,conceptual,5
+eagle-parrot,within,VC,conceptual,5
+eagle-parrot,within,VC,conceptual,5
+eagle-parrot,within,VC,conceptual,5
+eagle-parrot,within,VC,conceptual,1
+eagle-parrot,within,VC,conceptual,5
+eagle-parrot,within,VC,conceptual,5
+eagle-parrot,within,VC,conceptual,5
+eagle-pigeon,within,VC,conceptual,2
+eagle-pigeon,within,VC,conceptual,5
+eagle-pigeon,within,VC,conceptual,5
+eagle-pigeon,within,VC,conceptual,5
+eagle-pigeon,within,VC,conceptual,5
+eagle-pigeon,within,VC,conceptual,5
+eagle-pigeon,within,VC,conceptual,5
+eagle-pigeon,within,VC,conceptual,5
+eagle-pigeon,within,VC,conceptual,1
+eagle-pigeon,within,VC,conceptual,5
+eagle-stork,within,VC,conceptual,5
+eagle-stork,within,VC,conceptual,5
+eagle-stork,within,VC,conceptual,5
+eagle-stork,within,VC,conceptual,4
+eagle-stork,within,VC,conceptual,1
+eagle-stork,within,VC,conceptual,5
+eagle-stork,within,VC,conceptual,5
+eagle-stork,within,VC,conceptual,5
+eagle-stork,within,VC,conceptual,5
+eagle-stork,within,VC,conceptual,5
 axe-eagle,between,Mix,conceptual,1
 axe-eagle,between,Mix,conceptual,1
 axe-eagle,between,Mix,conceptual,1
@@ -15989,36 +15989,36 @@ eagle-uniform,between,Mix,conceptual,1
 eagle-uniform,between,Mix,conceptual,1
 eagle-uniform,between,Mix,conceptual,1
 eagle-uniform,between,Mix,conceptual,1
-owl-parrot,within ,Mix,conceptual,5
-owl-parrot,within ,Mix,conceptual,5
-owl-parrot,within ,Mix,conceptual,5
-owl-parrot,within ,Mix,conceptual,5
-owl-parrot,within ,Mix,conceptual,5
-owl-parrot,within ,Mix,conceptual,5
-owl-parrot,within ,Mix,conceptual,5
-owl-parrot,within ,Mix,conceptual,5
-owl-parrot,within ,Mix,conceptual,1
-owl-parrot,within ,Mix,conceptual,5
-owl-pigeon,within ,Mix,conceptual,5
-owl-pigeon,within ,Mix,conceptual,2
-owl-pigeon,within ,Mix,conceptual,5
-owl-pigeon,within ,Mix,conceptual,5
-owl-pigeon,within ,Mix,conceptual,5
-owl-pigeon,within ,Mix,conceptual,5
-owl-pigeon,within ,Mix,conceptual,5
-owl-pigeon,within ,Mix,conceptual,5
-owl-pigeon,within ,Mix,conceptual,5
-owl-pigeon,within ,Mix,conceptual,5
-owl-stork,within ,Mix,conceptual,4
-owl-stork,within ,Mix,conceptual,5
-owl-stork,within ,Mix,conceptual,5
-owl-stork,within ,Mix,conceptual,5
-owl-stork,within ,Mix,conceptual,5
-owl-stork,within ,Mix,conceptual,5
-owl-stork,within ,Mix,conceptual,5
-owl-stork,within ,Mix,conceptual,5
-owl-stork,within ,Mix,conceptual,3
-owl-stork,within ,Mix,conceptual,5
+owl-parrot,within,VC,conceptual,5
+owl-parrot,within,VC,conceptual,5
+owl-parrot,within,VC,conceptual,5
+owl-parrot,within,VC,conceptual,5
+owl-parrot,within,VC,conceptual,5
+owl-parrot,within,VC,conceptual,5
+owl-parrot,within,VC,conceptual,5
+owl-parrot,within,VC,conceptual,5
+owl-parrot,within,VC,conceptual,1
+owl-parrot,within,VC,conceptual,5
+owl-pigeon,within,VC,conceptual,5
+owl-pigeon,within,VC,conceptual,2
+owl-pigeon,within,VC,conceptual,5
+owl-pigeon,within,VC,conceptual,5
+owl-pigeon,within,VC,conceptual,5
+owl-pigeon,within,VC,conceptual,5
+owl-pigeon,within,VC,conceptual,5
+owl-pigeon,within,VC,conceptual,5
+owl-pigeon,within,VC,conceptual,5
+owl-pigeon,within,VC,conceptual,5
+owl-stork,within,VC,conceptual,4
+owl-stork,within,VC,conceptual,5
+owl-stork,within,VC,conceptual,5
+owl-stork,within,VC,conceptual,5
+owl-stork,within,VC,conceptual,5
+owl-stork,within,VC,conceptual,5
+owl-stork,within,VC,conceptual,5
+owl-stork,within,VC,conceptual,5
+owl-stork,within,VC,conceptual,3
+owl-stork,within,VC,conceptual,5
 axe-owl,between,Mix,conceptual,1
 axe-owl,between,Mix,conceptual,1
 axe-owl,between,Mix,conceptual,1
@@ -16169,26 +16169,26 @@ owl-uniform,between,Mix,conceptual,2
 owl-uniform,between,Mix,conceptual,1
 owl-uniform,between,Mix,conceptual,1
 owl-uniform,between,Mix,conceptual,1
-parrot-pigeon,within ,Mix,conceptual,1
-parrot-pigeon,within ,Mix,conceptual,5
-parrot-pigeon,within ,Mix,conceptual,5
-parrot-pigeon,within ,Mix,conceptual,1
-parrot-pigeon,within ,Mix,conceptual,4
-parrot-pigeon,within ,Mix,conceptual,5
-parrot-pigeon,within ,Mix,conceptual,5
-parrot-pigeon,within ,Mix,conceptual,5
-parrot-pigeon,within ,Mix,conceptual,5
-parrot-pigeon,within ,Mix,conceptual,5
-parrot-stork,within ,Mix,conceptual,5
-parrot-stork,within ,Mix,conceptual,5
-parrot-stork,within ,Mix,conceptual,5
-parrot-stork,within ,Mix,conceptual,5
-parrot-stork,within ,Mix,conceptual,1
-parrot-stork,within ,Mix,conceptual,5
-parrot-stork,within ,Mix,conceptual,5
-parrot-stork,within ,Mix,conceptual,5
-parrot-stork,within ,Mix,conceptual,5
-parrot-stork,within ,Mix,conceptual,5
+parrot-pigeon,within,VC,conceptual,1
+parrot-pigeon,within,VC,conceptual,5
+parrot-pigeon,within,VC,conceptual,5
+parrot-pigeon,within,VC,conceptual,1
+parrot-pigeon,within,VC,conceptual,4
+parrot-pigeon,within,VC,conceptual,5
+parrot-pigeon,within,VC,conceptual,5
+parrot-pigeon,within,VC,conceptual,5
+parrot-pigeon,within,VC,conceptual,5
+parrot-pigeon,within,VC,conceptual,5
+parrot-stork,within,VC,conceptual,5
+parrot-stork,within,VC,conceptual,5
+parrot-stork,within,VC,conceptual,5
+parrot-stork,within,VC,conceptual,5
+parrot-stork,within,VC,conceptual,1
+parrot-stork,within,VC,conceptual,5
+parrot-stork,within,VC,conceptual,5
+parrot-stork,within,VC,conceptual,5
+parrot-stork,within,VC,conceptual,5
+parrot-stork,within,VC,conceptual,5
 axe-parrot,between,Mix,conceptual,1
 axe-parrot,between,Mix,conceptual,1
 axe-parrot,between,Mix,conceptual,1
@@ -16339,16 +16339,16 @@ parrot-uniform,between,Mix,conceptual,1
 parrot-uniform,between,Mix,conceptual,2
 parrot-uniform,between,Mix,conceptual,1
 parrot-uniform,between,Mix,conceptual,1
-pigeon-stork,within ,Mix,conceptual,5
-pigeon-stork,within ,Mix,conceptual,5
-pigeon-stork,within ,Mix,conceptual,5
-pigeon-stork,within ,Mix,conceptual,5
-pigeon-stork,within ,Mix,conceptual,5
-pigeon-stork,within ,Mix,conceptual,5
-pigeon-stork,within ,Mix,conceptual,5
-pigeon-stork,within ,Mix,conceptual,4
-pigeon-stork,within ,Mix,conceptual,5
-pigeon-stork,within ,Mix,conceptual,5
+pigeon-stork,within,VC,conceptual,5
+pigeon-stork,within,VC,conceptual,5
+pigeon-stork,within,VC,conceptual,5
+pigeon-stork,within,VC,conceptual,5
+pigeon-stork,within,VC,conceptual,5
+pigeon-stork,within,VC,conceptual,5
+pigeon-stork,within,VC,conceptual,5
+pigeon-stork,within,VC,conceptual,4
+pigeon-stork,within,VC,conceptual,5
+pigeon-stork,within,VC,conceptual,5
 axe-pigeon,between,Mix,conceptual,1
 axe-pigeon,between,Mix,conceptual,1
 axe-pigeon,between,Mix,conceptual,1
@@ -16649,46 +16649,46 @@ stork-uniform,between,Mix,conceptual,1
 stork-uniform,between,Mix,conceptual,1
 stork-uniform,between,Mix,conceptual,1
 stork-uniform,between,Mix,conceptual,1
-axe-hammer,within ,Mix,conceptual,4
-axe-hammer,within ,Mix,conceptual,5
-axe-hammer,within ,Mix,conceptual,5
-axe-hammer,within ,Mix,conceptual,5
-axe-hammer,within ,Mix,conceptual,5
-axe-hammer,within ,Mix,conceptual,5
-axe-hammer,within ,Mix,conceptual,5
-axe-hammer,within ,Mix,conceptual,5
-axe-hammer,within ,Mix,conceptual,5
-axe-hammer,within ,Mix,conceptual,1
-axe-pliers,within ,Mix,conceptual,4
-axe-pliers,within ,Mix,conceptual,5
-axe-pliers,within ,Mix,conceptual,1
-axe-pliers,within ,Mix,conceptual,5
-axe-pliers,within ,Mix,conceptual,1
-axe-pliers,within ,Mix,conceptual,5
-axe-pliers,within ,Mix,conceptual,1
-axe-pliers,within ,Mix,conceptual,5
-axe-pliers,within ,Mix,conceptual,5
-axe-pliers,within ,Mix,conceptual,5
-axe-saw,within ,Mix,conceptual,5
-axe-saw,within ,Mix,conceptual,5
-axe-saw,within ,Mix,conceptual,5
-axe-saw,within ,Mix,conceptual,5
-axe-saw,within ,Mix,conceptual,5
-axe-saw,within ,Mix,conceptual,5
-axe-saw,within ,Mix,conceptual,5
-axe-saw,within ,Mix,conceptual,5
-axe-saw,within ,Mix,conceptual,5
-axe-saw,within ,Mix,conceptual,5
-axe-shovel,within ,Mix,conceptual,4
-axe-shovel,within ,Mix,conceptual,5
-axe-shovel,within ,Mix,conceptual,5
-axe-shovel,within ,Mix,conceptual,5
-axe-shovel,within ,Mix,conceptual,5
-axe-shovel,within ,Mix,conceptual,5
-axe-shovel,within ,Mix,conceptual,5
-axe-shovel,within ,Mix,conceptual,5
-axe-shovel,within ,Mix,conceptual,5
-axe-shovel,within ,Mix,conceptual,5
+axe-hammer,within,VC,conceptual,4
+axe-hammer,within,VC,conceptual,5
+axe-hammer,within,VC,conceptual,5
+axe-hammer,within,VC,conceptual,5
+axe-hammer,within,VC,conceptual,5
+axe-hammer,within,VC,conceptual,5
+axe-hammer,within,VC,conceptual,5
+axe-hammer,within,VC,conceptual,5
+axe-hammer,within,VC,conceptual,5
+axe-hammer,within,VC,conceptual,1
+axe-pliers,within,VC,conceptual,4
+axe-pliers,within,VC,conceptual,5
+axe-pliers,within,VC,conceptual,1
+axe-pliers,within,VC,conceptual,5
+axe-pliers,within,VC,conceptual,1
+axe-pliers,within,VC,conceptual,5
+axe-pliers,within,VC,conceptual,1
+axe-pliers,within,VC,conceptual,5
+axe-pliers,within,VC,conceptual,5
+axe-pliers,within,VC,conceptual,5
+axe-saw,within,VC,conceptual,5
+axe-saw,within,VC,conceptual,5
+axe-saw,within,VC,conceptual,5
+axe-saw,within,VC,conceptual,5
+axe-saw,within,VC,conceptual,5
+axe-saw,within,VC,conceptual,5
+axe-saw,within,VC,conceptual,5
+axe-saw,within,VC,conceptual,5
+axe-saw,within,VC,conceptual,5
+axe-saw,within,VC,conceptual,5
+axe-shovel,within,VC,conceptual,4
+axe-shovel,within,VC,conceptual,5
+axe-shovel,within,VC,conceptual,5
+axe-shovel,within,VC,conceptual,5
+axe-shovel,within,VC,conceptual,5
+axe-shovel,within,VC,conceptual,5
+axe-shovel,within,VC,conceptual,5
+axe-shovel,within,VC,conceptual,5
+axe-shovel,within,VC,conceptual,5
+axe-shovel,within,VC,conceptual,5
 axe-dishwasher,between,Mix,conceptual,1
 axe-dishwasher,between,Mix,conceptual,2
 axe-dishwasher,between,Mix,conceptual,4
@@ -16789,36 +16789,36 @@ axe-uniform,between,Mix,conceptual,3
 axe-uniform,between,Mix,conceptual,1
 axe-uniform,between,Mix,conceptual,1
 axe-uniform,between,Mix,conceptual,1
-hammer-pliers,within ,Mix,conceptual,5
-hammer-pliers,within ,Mix,conceptual,1
-hammer-pliers,within ,Mix,conceptual,5
-hammer-pliers,within ,Mix,conceptual,5
-hammer-pliers,within ,Mix,conceptual,5
-hammer-pliers,within ,Mix,conceptual,5
-hammer-pliers,within ,Mix,conceptual,5
-hammer-pliers,within ,Mix,conceptual,5
-hammer-pliers,within ,Mix,conceptual,5
-hammer-pliers,within ,Mix,conceptual,5
-hammer-saw,within ,Mix,conceptual,5
-hammer-saw,within ,Mix,conceptual,5
-hammer-saw,within ,Mix,conceptual,5
-hammer-saw,within ,Mix,conceptual,1
-hammer-saw,within ,Mix,conceptual,1
-hammer-saw,within ,Mix,conceptual,5
-hammer-saw,within ,Mix,conceptual,5
-hammer-saw,within ,Mix,conceptual,5
-hammer-saw,within ,Mix,conceptual,5
-hammer-saw,within ,Mix,conceptual,5
-hammer-shovel,within ,Mix,conceptual,5
-hammer-shovel,within ,Mix,conceptual,5
-hammer-shovel,within ,Mix,conceptual,5
-hammer-shovel,within ,Mix,conceptual,5
-hammer-shovel,within ,Mix,conceptual,5
-hammer-shovel,within ,Mix,conceptual,5
-hammer-shovel,within ,Mix,conceptual,5
-hammer-shovel,within ,Mix,conceptual,5
-hammer-shovel,within ,Mix,conceptual,5
-hammer-shovel,within ,Mix,conceptual,5
+hammer-pliers,within,VC,conceptual,5
+hammer-pliers,within,VC,conceptual,1
+hammer-pliers,within,VC,conceptual,5
+hammer-pliers,within,VC,conceptual,5
+hammer-pliers,within,VC,conceptual,5
+hammer-pliers,within,VC,conceptual,5
+hammer-pliers,within,VC,conceptual,5
+hammer-pliers,within,VC,conceptual,5
+hammer-pliers,within,VC,conceptual,5
+hammer-pliers,within,VC,conceptual,5
+hammer-saw,within,VC,conceptual,5
+hammer-saw,within,VC,conceptual,5
+hammer-saw,within,VC,conceptual,5
+hammer-saw,within,VC,conceptual,1
+hammer-saw,within,VC,conceptual,1
+hammer-saw,within,VC,conceptual,5
+hammer-saw,within,VC,conceptual,5
+hammer-saw,within,VC,conceptual,5
+hammer-saw,within,VC,conceptual,5
+hammer-saw,within,VC,conceptual,5
+hammer-shovel,within,VC,conceptual,5
+hammer-shovel,within,VC,conceptual,5
+hammer-shovel,within,VC,conceptual,5
+hammer-shovel,within,VC,conceptual,5
+hammer-shovel,within,VC,conceptual,5
+hammer-shovel,within,VC,conceptual,5
+hammer-shovel,within,VC,conceptual,5
+hammer-shovel,within,VC,conceptual,5
+hammer-shovel,within,VC,conceptual,5
+hammer-shovel,within,VC,conceptual,5
 dishwasher-hammer,between,Mix,conceptual,1
 dishwasher-hammer,between,Mix,conceptual,1
 dishwasher-hammer,between,Mix,conceptual,3
@@ -16919,26 +16919,26 @@ hammer-uniform,between,Mix,conceptual,1
 hammer-uniform,between,Mix,conceptual,1
 hammer-uniform,between,Mix,conceptual,1
 hammer-uniform,between,Mix,conceptual,1
-pliers-saw,within ,Mix,conceptual,5
-pliers-saw,within ,Mix,conceptual,5
-pliers-saw,within ,Mix,conceptual,5
-pliers-saw,within ,Mix,conceptual,4
-pliers-saw,within ,Mix,conceptual,5
-pliers-saw,within ,Mix,conceptual,5
-pliers-saw,within ,Mix,conceptual,5
-pliers-saw,within ,Mix,conceptual,4
-pliers-saw,within ,Mix,conceptual,5
-pliers-saw,within ,Mix,conceptual,5
-pliers-shovel,within ,Mix,conceptual,5
-pliers-shovel,within ,Mix,conceptual,5
-pliers-shovel,within ,Mix,conceptual,5
-pliers-shovel,within ,Mix,conceptual,5
-pliers-shovel,within ,Mix,conceptual,4
-pliers-shovel,within ,Mix,conceptual,5
-pliers-shovel,within ,Mix,conceptual,5
-pliers-shovel,within ,Mix,conceptual,5
-pliers-shovel,within ,Mix,conceptual,4
-pliers-shovel,within ,Mix,conceptual,5
+pliers-saw,within,VC,conceptual,5
+pliers-saw,within,VC,conceptual,5
+pliers-saw,within,VC,conceptual,5
+pliers-saw,within,VC,conceptual,4
+pliers-saw,within,VC,conceptual,5
+pliers-saw,within,VC,conceptual,5
+pliers-saw,within,VC,conceptual,5
+pliers-saw,within,VC,conceptual,4
+pliers-saw,within,VC,conceptual,5
+pliers-saw,within,VC,conceptual,5
+pliers-shovel,within,VC,conceptual,5
+pliers-shovel,within,VC,conceptual,5
+pliers-shovel,within,VC,conceptual,5
+pliers-shovel,within,VC,conceptual,5
+pliers-shovel,within,VC,conceptual,4
+pliers-shovel,within,VC,conceptual,5
+pliers-shovel,within,VC,conceptual,5
+pliers-shovel,within,VC,conceptual,5
+pliers-shovel,within,VC,conceptual,4
+pliers-shovel,within,VC,conceptual,5
 dishwasher-pliers,between,Mix,conceptual,4
 dishwasher-pliers,between,Mix,conceptual,2
 dishwasher-pliers,between,Mix,conceptual,2
@@ -17039,16 +17039,16 @@ pliers-uniform,between,Mix,conceptual,2
 pliers-uniform,between,Mix,conceptual,1
 pliers-uniform,between,Mix,conceptual,3
 pliers-uniform,between,Mix,conceptual,1
-saw-shovel,within ,Mix,conceptual,5
-saw-shovel,within ,Mix,conceptual,1
-saw-shovel,within ,Mix,conceptual,5
-saw-shovel,within ,Mix,conceptual,5
-saw-shovel,within ,Mix,conceptual,5
-saw-shovel,within ,Mix,conceptual,5
-saw-shovel,within ,Mix,conceptual,5
-saw-shovel,within ,Mix,conceptual,5
-saw-shovel,within ,Mix,conceptual,3
-saw-shovel,within ,Mix,conceptual,5
+saw-shovel,within,VC,conceptual,5
+saw-shovel,within,VC,conceptual,1
+saw-shovel,within,VC,conceptual,5
+saw-shovel,within,VC,conceptual,5
+saw-shovel,within,VC,conceptual,5
+saw-shovel,within,VC,conceptual,5
+saw-shovel,within,VC,conceptual,5
+saw-shovel,within,VC,conceptual,5
+saw-shovel,within,VC,conceptual,3
+saw-shovel,within,VC,conceptual,5
 dishwasher-saw,between,Mix,conceptual,1
 dishwasher-saw,between,Mix,conceptual,1
 dishwasher-saw,between,Mix,conceptual,1
@@ -17249,46 +17249,46 @@ shovel-uniform,between,Mix,conceptual,2
 shovel-uniform,between,Mix,conceptual,1
 shovel-uniform,between,Mix,conceptual,1
 shovel-uniform,between,Mix,conceptual,1
-dishwasher-microwave,within ,Mix,conceptual,5
-dishwasher-microwave,within ,Mix,conceptual,5
-dishwasher-microwave,within ,Mix,conceptual,5
-dishwasher-microwave,within ,Mix,conceptual,5
-dishwasher-microwave,within ,Mix,conceptual,5
-dishwasher-microwave,within ,Mix,conceptual,5
-dishwasher-microwave,within ,Mix,conceptual,5
-dishwasher-microwave,within ,Mix,conceptual,5
-dishwasher-microwave,within ,Mix,conceptual,5
-dishwasher-microwave,within ,Mix,conceptual,1
-dishwasher-television,within ,Mix,conceptual,5
-dishwasher-television,within ,Mix,conceptual,5
-dishwasher-television,within ,Mix,conceptual,5
-dishwasher-television,within ,Mix,conceptual,4
-dishwasher-television,within ,Mix,conceptual,2
-dishwasher-television,within ,Mix,conceptual,5
-dishwasher-television,within ,Mix,conceptual,4
-dishwasher-television,within ,Mix,conceptual,5
-dishwasher-television,within ,Mix,conceptual,3
-dishwasher-television,within ,Mix,conceptual,4
-dishwasher-toaster,within ,Mix,conceptual,5
-dishwasher-toaster,within ,Mix,conceptual,5
-dishwasher-toaster,within ,Mix,conceptual,3
-dishwasher-toaster,within ,Mix,conceptual,5
-dishwasher-toaster,within ,Mix,conceptual,3
-dishwasher-toaster,within ,Mix,conceptual,1
-dishwasher-toaster,within ,Mix,conceptual,4
-dishwasher-toaster,within ,Mix,conceptual,4
-dishwasher-toaster,within ,Mix,conceptual,5
-dishwasher-toaster,within ,Mix,conceptual,5
-dishwasher-washing machine,within ,Mix,conceptual,5
-dishwasher-washing machine,within ,Mix,conceptual,5
-dishwasher-washing machine,within ,Mix,conceptual,5
-dishwasher-washing machine,within ,Mix,conceptual,5
-dishwasher-washing machine,within ,Mix,conceptual,5
-dishwasher-washing machine,within ,Mix,conceptual,5
-dishwasher-washing machine,within ,Mix,conceptual,5
-dishwasher-washing machine,within ,Mix,conceptual,5
-dishwasher-washing machine,within ,Mix,conceptual,5
-dishwasher-washing machine,within ,Mix,conceptual,5
+dishwasher-microwave,within,VC,conceptual,5
+dishwasher-microwave,within,VC,conceptual,5
+dishwasher-microwave,within,VC,conceptual,5
+dishwasher-microwave,within,VC,conceptual,5
+dishwasher-microwave,within,VC,conceptual,5
+dishwasher-microwave,within,VC,conceptual,5
+dishwasher-microwave,within,VC,conceptual,5
+dishwasher-microwave,within,VC,conceptual,5
+dishwasher-microwave,within,VC,conceptual,5
+dishwasher-microwave,within,VC,conceptual,1
+dishwasher-television,within,VC,conceptual,5
+dishwasher-television,within,VC,conceptual,5
+dishwasher-television,within,VC,conceptual,5
+dishwasher-television,within,VC,conceptual,4
+dishwasher-television,within,VC,conceptual,2
+dishwasher-television,within,VC,conceptual,5
+dishwasher-television,within,VC,conceptual,4
+dishwasher-television,within,VC,conceptual,5
+dishwasher-television,within,VC,conceptual,3
+dishwasher-television,within,VC,conceptual,4
+dishwasher-toaster,within,VC,conceptual,5
+dishwasher-toaster,within,VC,conceptual,5
+dishwasher-toaster,within,VC,conceptual,3
+dishwasher-toaster,within,VC,conceptual,5
+dishwasher-toaster,within,VC,conceptual,3
+dishwasher-toaster,within,VC,conceptual,1
+dishwasher-toaster,within,VC,conceptual,4
+dishwasher-toaster,within,VC,conceptual,4
+dishwasher-toaster,within,VC,conceptual,5
+dishwasher-toaster,within,VC,conceptual,5
+dishwasher-washing machine,within,VC,conceptual,5
+dishwasher-washing machine,within,VC,conceptual,5
+dishwasher-washing machine,within,VC,conceptual,5
+dishwasher-washing machine,within,VC,conceptual,5
+dishwasher-washing machine,within,VC,conceptual,5
+dishwasher-washing machine,within,VC,conceptual,5
+dishwasher-washing machine,within,VC,conceptual,5
+dishwasher-washing machine,within,VC,conceptual,5
+dishwasher-washing machine,within,VC,conceptual,5
+dishwasher-washing machine,within,VC,conceptual,5
 blouse-dishwasher,between,Mix,conceptual,3
 blouse-dishwasher,between,Mix,conceptual,1
 blouse-dishwasher,between,Mix,conceptual,2
@@ -17339,36 +17339,36 @@ dishwasher-uniform,between,Mix,conceptual,1
 dishwasher-uniform,between,Mix,conceptual,1
 dishwasher-uniform,between,Mix,conceptual,1
 dishwasher-uniform,between,Mix,conceptual,1
-microwave-television,within ,Mix,conceptual,4
-microwave-television,within ,Mix,conceptual,5
-microwave-television,within ,Mix,conceptual,4
-microwave-television,within ,Mix,conceptual,4
-microwave-television,within ,Mix,conceptual,4
-microwave-television,within ,Mix,conceptual,5
-microwave-television,within ,Mix,conceptual,4
-microwave-television,within ,Mix,conceptual,5
-microwave-television,within ,Mix,conceptual,5
-microwave-television,within ,Mix,conceptual,5
-microwave-toaster,within ,Mix,conceptual,5
-microwave-toaster,within ,Mix,conceptual,5
-microwave-toaster,within ,Mix,conceptual,5
-microwave-toaster,within ,Mix,conceptual,5
-microwave-toaster,within ,Mix,conceptual,5
-microwave-toaster,within ,Mix,conceptual,5
-microwave-toaster,within ,Mix,conceptual,5
-microwave-toaster,within ,Mix,conceptual,5
-microwave-toaster,within ,Mix,conceptual,5
-microwave-toaster,within ,Mix,conceptual,5
-microwave-washing machine,within ,Mix,conceptual,5
-microwave-washing machine,within ,Mix,conceptual,5
-microwave-washing machine,within ,Mix,conceptual,3
-microwave-washing machine,within ,Mix,conceptual,5
-microwave-washing machine,within ,Mix,conceptual,5
-microwave-washing machine,within ,Mix,conceptual,5
-microwave-washing machine,within ,Mix,conceptual,5
-microwave-washing machine,within ,Mix,conceptual,5
-microwave-washing machine,within ,Mix,conceptual,5
-microwave-washing machine,within ,Mix,conceptual,5
+microwave-television,within,VC,conceptual,4
+microwave-television,within,VC,conceptual,5
+microwave-television,within,VC,conceptual,4
+microwave-television,within,VC,conceptual,4
+microwave-television,within,VC,conceptual,4
+microwave-television,within,VC,conceptual,5
+microwave-television,within,VC,conceptual,4
+microwave-television,within,VC,conceptual,5
+microwave-television,within,VC,conceptual,5
+microwave-television,within,VC,conceptual,5
+microwave-toaster,within,VC,conceptual,5
+microwave-toaster,within,VC,conceptual,5
+microwave-toaster,within,VC,conceptual,5
+microwave-toaster,within,VC,conceptual,5
+microwave-toaster,within,VC,conceptual,5
+microwave-toaster,within,VC,conceptual,5
+microwave-toaster,within,VC,conceptual,5
+microwave-toaster,within,VC,conceptual,5
+microwave-toaster,within,VC,conceptual,5
+microwave-toaster,within,VC,conceptual,5
+microwave-washing machine,within,VC,conceptual,5
+microwave-washing machine,within,VC,conceptual,5
+microwave-washing machine,within,VC,conceptual,3
+microwave-washing machine,within,VC,conceptual,5
+microwave-washing machine,within,VC,conceptual,5
+microwave-washing machine,within,VC,conceptual,5
+microwave-washing machine,within,VC,conceptual,5
+microwave-washing machine,within,VC,conceptual,5
+microwave-washing machine,within,VC,conceptual,5
+microwave-washing machine,within,VC,conceptual,5
 blouse-microwave,between,Mix,conceptual,1
 blouse-microwave,between,Mix,conceptual,1
 blouse-microwave,between,Mix,conceptual,1
@@ -17419,26 +17419,26 @@ microwave-uniform,between,Mix,conceptual,1
 microwave-uniform,between,Mix,conceptual,1
 microwave-uniform,between,Mix,conceptual,1
 microwave-uniform,between,Mix,conceptual,1
-television-toaster,within ,Mix,conceptual,5
-television-toaster,within ,Mix,conceptual,5
-television-toaster,within ,Mix,conceptual,5
-television-toaster,within ,Mix,conceptual,5
-television-toaster,within ,Mix,conceptual,5
-television-toaster,within ,Mix,conceptual,5
-television-toaster,within ,Mix,conceptual,4
-television-toaster,within ,Mix,conceptual,5
-television-toaster,within ,Mix,conceptual,1
-television-toaster,within ,Mix,conceptual,3
-television-washing machine,within ,Mix,conceptual,5
-television-washing machine,within ,Mix,conceptual,2
-television-washing machine,within ,Mix,conceptual,5
-television-washing machine,within ,Mix,conceptual,5
-television-washing machine,within ,Mix,conceptual,1
-television-washing machine,within ,Mix,conceptual,5
-television-washing machine,within ,Mix,conceptual,4
-television-washing machine,within ,Mix,conceptual,5
-television-washing machine,within ,Mix,conceptual,2
-television-washing machine,within ,Mix,conceptual,1
+television-toaster,within,VC,conceptual,5
+television-toaster,within,VC,conceptual,5
+television-toaster,within,VC,conceptual,5
+television-toaster,within,VC,conceptual,5
+television-toaster,within,VC,conceptual,5
+television-toaster,within,VC,conceptual,5
+television-toaster,within,VC,conceptual,4
+television-toaster,within,VC,conceptual,5
+television-toaster,within,VC,conceptual,1
+television-toaster,within,VC,conceptual,3
+television-washing machine,within,VC,conceptual,5
+television-washing machine,within,VC,conceptual,2
+television-washing machine,within,VC,conceptual,5
+television-washing machine,within,VC,conceptual,5
+television-washing machine,within,VC,conceptual,1
+television-washing machine,within,VC,conceptual,5
+television-washing machine,within,VC,conceptual,4
+television-washing machine,within,VC,conceptual,5
+television-washing machine,within,VC,conceptual,2
+television-washing machine,within,VC,conceptual,1
 blouse-television,between,Mix,conceptual,1
 blouse-television,between,Mix,conceptual,1
 blouse-television,between,Mix,conceptual,1
@@ -17489,16 +17489,16 @@ television-uniform,between,Mix,conceptual,3
 television-uniform,between,Mix,conceptual,1
 television-uniform,between,Mix,conceptual,2
 television-uniform,between,Mix,conceptual,4
-toaster-washing machine,within ,Mix,conceptual,2
-toaster-washing machine,within ,Mix,conceptual,5
-toaster-washing machine,within ,Mix,conceptual,5
-toaster-washing machine,within ,Mix,conceptual,4
-toaster-washing machine,within ,Mix,conceptual,5
-toaster-washing machine,within ,Mix,conceptual,5
-toaster-washing machine,within ,Mix,conceptual,5
-toaster-washing machine,within ,Mix,conceptual,1
-toaster-washing machine,within ,Mix,conceptual,5
-toaster-washing machine,within ,Mix,conceptual,5
+toaster-washing machine,within,VC,conceptual,2
+toaster-washing machine,within,VC,conceptual,5
+toaster-washing machine,within,VC,conceptual,5
+toaster-washing machine,within,VC,conceptual,4
+toaster-washing machine,within,VC,conceptual,5
+toaster-washing machine,within,VC,conceptual,5
+toaster-washing machine,within,VC,conceptual,5
+toaster-washing machine,within,VC,conceptual,1
+toaster-washing machine,within,VC,conceptual,5
+toaster-washing machine,within,VC,conceptual,5
 blouse-toaster,between,Mix,conceptual,2
 blouse-toaster,between,Mix,conceptual,1
 blouse-toaster,between,Mix,conceptual,1
@@ -17599,103 +17599,103 @@ uniform-washing machine,between,Mix,conceptual,1
 uniform-washing machine,between,Mix,conceptual,1
 uniform-washing machine,between,Mix,conceptual,1
 uniform-washing machine,between,Mix,conceptual,1
-blouse-coat,within ,Mix,conceptual,5
-blouse-coat,within ,Mix,conceptual,5
-blouse-coat,within ,Mix,conceptual,5
-blouse-coat,within ,Mix,conceptual,5
-blouse-coat,within ,Mix,conceptual,1
-blouse-coat,within ,Mix,conceptual,5
-blouse-coat,within ,Mix,conceptual,1
-blouse-coat,within ,Mix,conceptual,5
-blouse-coat,within ,Mix,conceptual,5
-blouse-coat,within ,Mix,conceptual,2
-blouse-jacket,within ,Mix,conceptual,5
-blouse-jacket,within ,Mix,conceptual,5
-blouse-jacket,within ,Mix,conceptual,5
-blouse-jacket,within ,Mix,conceptual,1
-blouse-jacket,within ,Mix,conceptual,5
-blouse-jacket,within ,Mix,conceptual,5
-blouse-jacket,within ,Mix,conceptual,4
-blouse-jacket,within ,Mix,conceptual,5
-blouse-jacket,within ,Mix,conceptual,5
-blouse-jacket,within ,Mix,conceptual,5
-blouse-shirt,within ,Mix,conceptual,1
-blouse-shirt,within ,Mix,conceptual,5
-blouse-shirt,within ,Mix,conceptual,5
-blouse-shirt,within ,Mix,conceptual,2
-blouse-shirt,within ,Mix,conceptual,5
-blouse-shirt,within ,Mix,conceptual,5
-blouse-shirt,within ,Mix,conceptual,5
-blouse-shirt,within ,Mix,conceptual,5
-blouse-shirt,within ,Mix,conceptual,5
-blouse-shirt,within ,Mix,conceptual,5
-blouse-uniform,within ,Mix,conceptual,5
-blouse-uniform,within ,Mix,conceptual,5
-blouse-uniform,within ,Mix,conceptual,5
-blouse-uniform,within ,Mix,conceptual,5
-blouse-uniform,within ,Mix,conceptual,5
-blouse-uniform,within ,Mix,conceptual,1
-blouse-uniform,within ,Mix,conceptual,5
-blouse-uniform,within ,Mix,conceptual,5
-blouse-uniform,within ,Mix,conceptual,5
-blouse-uniform,within ,Mix,conceptual,4
-coat-jacket,within ,Mix,conceptual,5
-coat-jacket,within ,Mix,conceptual,5
-coat-jacket,within ,Mix,conceptual,4
-coat-jacket,within ,Mix,conceptual,5
-coat-jacket,within ,Mix,conceptual,5
-coat-jacket,within ,Mix,conceptual,5
-coat-jacket,within ,Mix,conceptual,5
-coat-jacket,within ,Mix,conceptual,4
-coat-jacket,within ,Mix,conceptual,5
-coat-jacket,within ,Mix,conceptual,5
-coat-shirt,within ,Mix,conceptual,5
-coat-shirt,within ,Mix,conceptual,5
-coat-shirt,within ,Mix,conceptual,1
-coat-shirt,within ,Mix,conceptual,5
-coat-shirt,within ,Mix,conceptual,5
-coat-shirt,within ,Mix,conceptual,5
-coat-shirt,within ,Mix,conceptual,5
-coat-shirt,within ,Mix,conceptual,2
-coat-shirt,within ,Mix,conceptual,5
-coat-shirt,within ,Mix,conceptual,5
-coat-uniform,within ,Mix,conceptual,5
-coat-uniform,within ,Mix,conceptual,1
-coat-uniform,within ,Mix,conceptual,5
-coat-uniform,within ,Mix,conceptual,5
-coat-uniform,within ,Mix,conceptual,5
-coat-uniform,within ,Mix,conceptual,5
-coat-uniform,within ,Mix,conceptual,3
-coat-uniform,within ,Mix,conceptual,5
-coat-uniform,within ,Mix,conceptual,5
-coat-uniform,within ,Mix,conceptual,5
-jacket-shirt,within ,Mix,conceptual,5
-jacket-shirt,within ,Mix,conceptual,5
-jacket-shirt,within ,Mix,conceptual,5
-jacket-shirt,within ,Mix,conceptual,5
-jacket-shirt,within ,Mix,conceptual,5
-jacket-shirt,within ,Mix,conceptual,5
-jacket-shirt,within ,Mix,conceptual,5
-jacket-shirt,within ,Mix,conceptual,5
-jacket-shirt,within ,Mix,conceptual,5
-jacket-shirt,within ,Mix,conceptual,5
-jacket-uniform,within ,Mix,conceptual,5
-jacket-uniform,within ,Mix,conceptual,5
-jacket-uniform,within ,Mix,conceptual,5
-jacket-uniform,within ,Mix,conceptual,5
-jacket-uniform,within ,Mix,conceptual,1
-jacket-uniform,within ,Mix,conceptual,5
-jacket-uniform,within ,Mix,conceptual,1
-jacket-uniform,within ,Mix,conceptual,5
-jacket-uniform,within ,Mix,conceptual,5
-jacket-uniform,within ,Mix,conceptual,5
-shirt-uniform,within ,Mix,conceptual,5
-shirt-uniform,within ,Mix,conceptual,5
-shirt-uniform,within ,Mix,conceptual,5
-shirt-uniform,within ,Mix,conceptual,4
-shirt-uniform,within ,Mix,conceptual,4
-shirt-uniform,within ,Mix,conceptual,5
-shirt-uniform,within ,Mix,conceptual,5
-shirt-uniform,within ,Mix,conceptual,1
-shirt-uniform,within ,Mix,conceptual,5
-shirt-uniform,within ,Mix,conceptual,5
+blouse-coat,within,VC,conceptual,5
+blouse-coat,within,VC,conceptual,5
+blouse-coat,within,VC,conceptual,5
+blouse-coat,within,VC,conceptual,5
+blouse-coat,within,VC,conceptual,1
+blouse-coat,within,VC,conceptual,5
+blouse-coat,within,VC,conceptual,1
+blouse-coat,within,VC,conceptual,5
+blouse-coat,within,VC,conceptual,5
+blouse-coat,within,VC,conceptual,2
+blouse-jacket,within,VC,conceptual,5
+blouse-jacket,within,VC,conceptual,5
+blouse-jacket,within,VC,conceptual,5
+blouse-jacket,within,VC,conceptual,1
+blouse-jacket,within,VC,conceptual,5
+blouse-jacket,within,VC,conceptual,5
+blouse-jacket,within,VC,conceptual,4
+blouse-jacket,within,VC,conceptual,5
+blouse-jacket,within,VC,conceptual,5
+blouse-jacket,within,VC,conceptual,5
+blouse-shirt,within,VC,conceptual,1
+blouse-shirt,within,VC,conceptual,5
+blouse-shirt,within,VC,conceptual,5
+blouse-shirt,within,VC,conceptual,2
+blouse-shirt,within,VC,conceptual,5
+blouse-shirt,within,VC,conceptual,5
+blouse-shirt,within,VC,conceptual,5
+blouse-shirt,within,VC,conceptual,5
+blouse-shirt,within,VC,conceptual,5
+blouse-shirt,within,VC,conceptual,5
+blouse-uniform,within,VC,conceptual,5
+blouse-uniform,within,VC,conceptual,5
+blouse-uniform,within,VC,conceptual,5
+blouse-uniform,within,VC,conceptual,5
+blouse-uniform,within,VC,conceptual,5
+blouse-uniform,within,VC,conceptual,1
+blouse-uniform,within,VC,conceptual,5
+blouse-uniform,within,VC,conceptual,5
+blouse-uniform,within,VC,conceptual,5
+blouse-uniform,within,VC,conceptual,4
+coat-jacket,within,VC,conceptual,5
+coat-jacket,within,VC,conceptual,5
+coat-jacket,within,VC,conceptual,4
+coat-jacket,within,VC,conceptual,5
+coat-jacket,within,VC,conceptual,5
+coat-jacket,within,VC,conceptual,5
+coat-jacket,within,VC,conceptual,5
+coat-jacket,within,VC,conceptual,4
+coat-jacket,within,VC,conceptual,5
+coat-jacket,within,VC,conceptual,5
+coat-shirt,within,VC,conceptual,5
+coat-shirt,within,VC,conceptual,5
+coat-shirt,within,VC,conceptual,1
+coat-shirt,within,VC,conceptual,5
+coat-shirt,within,VC,conceptual,5
+coat-shirt,within,VC,conceptual,5
+coat-shirt,within,VC,conceptual,5
+coat-shirt,within,VC,conceptual,2
+coat-shirt,within,VC,conceptual,5
+coat-shirt,within,VC,conceptual,5
+coat-uniform,within,VC,conceptual,5
+coat-uniform,within,VC,conceptual,1
+coat-uniform,within,VC,conceptual,5
+coat-uniform,within,VC,conceptual,5
+coat-uniform,within,VC,conceptual,5
+coat-uniform,within,VC,conceptual,5
+coat-uniform,within,VC,conceptual,3
+coat-uniform,within,VC,conceptual,5
+coat-uniform,within,VC,conceptual,5
+coat-uniform,within,VC,conceptual,5
+jacket-shirt,within,VC,conceptual,5
+jacket-shirt,within,VC,conceptual,5
+jacket-shirt,within,VC,conceptual,5
+jacket-shirt,within,VC,conceptual,5
+jacket-shirt,within,VC,conceptual,5
+jacket-shirt,within,VC,conceptual,5
+jacket-shirt,within,VC,conceptual,5
+jacket-shirt,within,VC,conceptual,5
+jacket-shirt,within,VC,conceptual,5
+jacket-shirt,within,VC,conceptual,5
+jacket-uniform,within,VC,conceptual,5
+jacket-uniform,within,VC,conceptual,5
+jacket-uniform,within,VC,conceptual,5
+jacket-uniform,within,VC,conceptual,5
+jacket-uniform,within,VC,conceptual,1
+jacket-uniform,within,VC,conceptual,5
+jacket-uniform,within,VC,conceptual,1
+jacket-uniform,within,VC,conceptual,5
+jacket-uniform,within,VC,conceptual,5
+jacket-uniform,within,VC,conceptual,5
+shirt-uniform,within,VC,conceptual,5
+shirt-uniform,within,VC,conceptual,5
+shirt-uniform,within,VC,conceptual,5
+shirt-uniform,within,VC,conceptual,4
+shirt-uniform,within,VC,conceptual,4
+shirt-uniform,within,VC,conceptual,5
+shirt-uniform,within,VC,conceptual,5
+shirt-uniform,within,VC,conceptual,1
+shirt-uniform,within,VC,conceptual,5
+shirt-uniform,within,VC,conceptual,5
