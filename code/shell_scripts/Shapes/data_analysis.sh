@@ -58,10 +58,11 @@ do
 
 done
 
+python -m code.mds.preprocessing.preprocess_Shapes data/Shapes/raw_data/visual_similarities_within.csv 'data/Shapes/raw_data/visual_similarities.csv' data/Shapes/raw_data/category_names.csv data/Shapes/raw_data/item_names.csv 'data/Shapes/mds/similarities/aggregator/individual_ratings.pickle' 'data/Shapes/mds/data_set/individual/similarities/visual_15.csv' visual -s between -l -v 15  --seed 42 &> 'data/Shapes/mds/similarities/aggregator/log_preprocessing.txt'
+
 for aggregator in $aggregators
 do
 	echo '    visual similarity ('"$aggregator"' aggregation, 15 ratings)'
-	python -m code.mds.preprocessing.preprocess_Shapes data/Shapes/raw_data/visual_similarities_within.csv 'data/Shapes/raw_data/visual_similarities.csv' data/Shapes/raw_data/category_names.csv data/Shapes/raw_data/item_names.csv 'data/Shapes/mds/similarities/aggregator/individual_ratings.pickle' 'data/Shapes/mds/data_set/individual/similarities/visual_15.csv' visual -s between -l -v 15  --seed 42 &> 'data/Shapes/mds/similarities/aggregator/log_preprocessing.txt'
 
 	[ "$aggregator" == "median" ] && aggregator_flag='--median' || aggregator_flag=''
 	python -m code.mds.preprocessing.aggregate_similarities 'data/Shapes/mds/similarities/aggregator/individual_ratings.pickle' 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/aggregated_ratings.pickle' 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/' 'data/Shapes/mds/data_set/aggregated/similarities/visual_'"$aggregator"'_15.csv' visual $aggregator_flag &> 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/log_aggregation.txt'
@@ -74,7 +75,7 @@ do
 	python -m code.mds.preprocessing.preprocess_feature 'data/Shapes/raw_data/'"$feature"'_pre-attentive.csv' 'data/Shapes/raw_data/'"$feature"'_attentive.csv' data/Shapes/raw_data/category_names.csv data/Shapes/raw_data/item_names.csv 'data/Shapes/mds/features/'"$feature"'.pickle' 'data/Shapes/mds/data_set/individual/features/'"$feature"'.csv' 'data/Shapes/mds/data_set/aggregated/features/'"$feature"'.csv' -p 'data/Shapes/mds/visualizations/features/'"$feature"'/' -i data/Shapes/images &> 'data/Shapes/mds/features/log_'"$feature"'.txt'
 done
 # dump all of them into common files
-python -m code.mds.preprocessing.export_feature_ratings data/Shapes/mds/features data/Shapes/mds/similarities/rating_type/visual/individual_ratings.pickle visual data/Shapes/mds/data_set/individual/features/all_features.csv data/Shapes/mds/data_set/aggregated/features/all_features.csv data/Shapes/mds/data_set/individual/similarities/visual_15_plus_features.csv
+python -m code.mds.preprocessing.export_feature_ratings data/Shapes/mds/features data/Shapes/mds/similarities/aggregator/individual_ratings.pickle visual data/Shapes/mds/data_set/individual/features/all_features.csv data/Shapes/mds/data_set/aggregated/features/all_features.csv data/Shapes/mds/data_set/individual/similarities/visual_15_plus_features.csv
 
 # create features from category structure (i.e., 'artificial' and 'visSim') for further downstream analysis
 echo '    features based on category structure'
