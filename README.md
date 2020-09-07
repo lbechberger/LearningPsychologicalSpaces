@@ -142,14 +142,15 @@ python -m code.mds.preprocessing.preprocess_feature path/to/pre_attentive_rating
   - `pre-attentive`: A dictionary mapping from item names to a single pre-attentive rating, obtained by computing the average across all individual ratings.
   - `attentive`: A dictionary mapping from item names to a single attentive rating, obtained by computing the average across all individual ratings.
 - `classification`:
-  - `pre-attentive`: A dictionary mapping with the keys `positive` and `negative` and lists of item names as values. Contains the 15 example with the highest and lowest aggregated value, respectively.
-  - `attentive`: A dictionary mapping with the keys `positive` and `negative` and lists of item names as values. Contains the 15 example with the highest and lowest aggregated value, respectively.
+  - `pre-attentive`: A dictionary mapping with the keys `positive` and `negative` and lists of item names as values. Contains the examples with the highest and lowest aggregated value, respectively.
+  - `attentive`: A dictionary mapping with the keys `positive` and `negative` and lists of item names as values. Contains the examples with the highest and lowest aggregated value, respectively.
 
 
 The script accepts the following optional parameters:
 - `-p`or `--plot_folder`: If a plot folder is given, the script creates a scatter plot of attentive vs. pre-attentive ratings and stores it in the given location.
 - `-i` or `--image_folder`: Path to the folder containing the images for the items. If given, it will use the item images to create scatter plots. If not given, an ordinary scatter plot will be used.
 - `-z` or `--zoom`: Determines the size of the item images in the scatter plot. Defaults to 0.15.
+- `-q` or `--quantile`: The quantile to use for determining the set of positive and negative classification examples. Defaults to 0.25 (i.e., top quartile and bottom quartile).
 
 
 #### 2.1.5 Exporting Feature Data to CSV
