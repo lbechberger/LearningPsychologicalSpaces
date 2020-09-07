@@ -1,9 +1,9 @@
 Positive examples for pre-attentive
-bell pepper,blouse,broccoli,coat,dandelion,glass,jacket,lighthouse,palm tree,rose,salt shaker,shirt,sunflower,tulip,uniform
+apple,bell pepper,blouse,broccoli,cherry,coat,dandelion,dishwasher,glass,jacket,lighthouse,palm tree,pyramid,rose,salt shaker,shirt,sunflower,teapot,tulip,uniform,windmill
 Negative examples for pre-attentive
-ant,bicycle,bowl,bus,butterfly,car,cow,donkey,goat,horse,igloo,microwave,plate,television,tractor
+ant,bicycle,bowl,bus,butterfly,car,church,cow,donkey,fly,goat,horse,igloo,lemon,microwave,plate,stag,stork,television,toaster,tractor
 Positive examples for attentive
-bell pepper,broccoli,coat,dandelion,glass,jacket,lighthouse,palm tree,rose,salt shaker,shirt,sunflower,tulip,uniform,windmill
+bell pepper,blouse,broccoli,coat,dandelion,dishwasher,glass,jacket,lighthouse,owl,palm tree,pyramid,rose,salt shaker,shirt,sunflower,tulip,uniform,washing machine,windmill
 Negative examples for attentive
-ant,bicycle,bowl,bus,car,church,cow,donkey,fly,goat,horse,microwave,plate,stag,tractor
-Comparing classification of pre-attentive to attentive: Intersection Pos 14, Intersection Neg 12
+ant,bicycle,bowl,bus,car,cherry,church,cow,donkey,fly,goat,horse,igloo,microwave,plate,stag,stork,television,toaster,tractor
+Comparing classification of pre-attentive to attentive: Intersection Pos 18, Intersection Neg 19
