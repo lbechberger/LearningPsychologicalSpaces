@@ -1,9 +1,9 @@
 Positive examples for pre-attentive
 apple,blouse,dishwasher,igloo,jacket,ladybug,lemon,onion,plate,pyramid,raspberry,shirt,teapot,television,washing machine
 Negative examples for pre-attentive
-asparagus,axe,banana,car,carrot,glass,goat,hammer,lighthouse,palm tree,parrot,pigeon,pliers,salt shaker,shovel
+asparagus,axe,banana,bus,car,carrot,glass,goat,hammer,lighthouse,palm tree,parrot,pigeon,pliers,salt shaker,shovel
 Positive examples for attentive
 apple,bowl,butterfly,cherry,igloo,ladybug,lemon,onion,plate,pyramid,raspberry,shirt,television,tractor,washing machine
 Negative examples for attentive
 axe,banana,bus,car,carrot,glass,hammer,lighthouse,palm tree,parrot,pliers,salt shaker,saw,shovel,sunflower
-Comparing classification of pre-attentive to attentive: Intersection Pos 11, Intersection Neg 12
+Comparing classification of pre-attentive to attentive: Intersection Pos 11, Intersection Neg 13

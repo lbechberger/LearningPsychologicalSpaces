@@ -7,7 +7,7 @@ Created on Thu Jan  9 11:48:19 2020
 @author: lbechberger
 """
 
-import pickle, argparse, csv, os
+import pickle, argparse, csv, os, math
 import numpy as np
 from itertools import combinations
 from code.util import load_item_images, create_labeled_scatter_plot
@@ -23,6 +23,7 @@ parser.add_argument('output_csv_file_aggregated', help = 'path to the output csv
 parser.add_argument('-p', '--plot_folder', help = 'folder where the plots shall be stored', default = None)
 parser.add_argument('-i', '--image_folder', help = 'the folder containing images of the items', default = None)
 parser.add_argument('-z', '--zoom', type = float, help = 'the factor to which the images are scaled', default = 0.15)
+parser.add_argument('-q', '--quantile', type = float, help = 'quantile to use for creating the classification problem', default = 0.25)
 args = parser.parse_args()
 
 response_mapping = {'keineAhnung': 0,
@@ -100,11 +101,18 @@ for feature_type in feature_types:
     for item, value in feature_data.items():
         list_of_tuples.append((item, value))
     list_of_tuples = sorted(list_of_tuples, key = lambda x: x[1])
+
+    negative_cutoff = math.ceil(len(list_of_tuples) * args.quantile)
+    positive_cutoff = math.floor(len(list_of_tuples) * (1 - args.quantile))
     
-    negative_cutoff = int(len(list_of_tuples) / 4)
-    positive_cutoff = len(list_of_tuples) - negative_cutoff
-    positive = sorted(map(lambda x: x[0], list_of_tuples[positive_cutoff:]))
+    while list_of_tuples[negative_cutoff + 1][1] == list_of_tuples[negative_cutoff][1]:
+        negative_cutoff += 1
+    
+    while list_of_tuples[positive_cutoff - 1][1] == list_of_tuples[positive_cutoff][1]:
+        positive_cutoff -= 1
+    
     negative = sorted(map(lambda x: x[0], list_of_tuples[:negative_cutoff]))
+    positive = sorted(map(lambda x: x[0], list_of_tuples[positive_cutoff:]))
     
     classification_output[feature_type] = {'positive': positive, 'negative': negative}
     
