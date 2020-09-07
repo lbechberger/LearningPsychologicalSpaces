@@ -238,7 +238,7 @@ The script takes the following optional arguments:
 - `-k` or `--dims`: Specifies the maximal number of dimensions to investigate. Default value is 20, which means that the script will run the MDS algorithm 20 times, obtaining spaces of dimensionality 1 to 20.
 - `-n` or `--n_init`: Specifies how often the nondeterministic MDS algorithms are restarted with a new random initialization. Of all of these runs, only the best result (i.e., the one with the lowest resulting stress) is kept. Default value here is 64.
 - `m` or `--max_iter`: Specifies the maximum number of iterations computed within the nondeterministic MDS algorithms. Default values is 1000.
-- `-s` or `--seed`: Specify a seed for the random number generator in order to make the results deterministic. If no seed is given, then the random number generator is not seeded.
+- `-s` or `--seed`: Specifies a seed for the random number generator in order to make the results deterministic. If no seed is given, then the random number generator is not seeded.
 - `-t` or `--tiebreaker`: Specifies the type of tie breaking used in the SMACOF algorithm (possible values: `primary`, `secondary`, `tertiary`, default: `primary`).
 
 We implemented the MDS step in R and not in Python because R offers a greater variety of MDS algorithms. Moreover, nonmetric SMACOF with Python's `sklearn` library produced poor results which might be due to a programming bug.
@@ -277,7 +277,21 @@ The script takes the following optional arguments:
 - `-m` or `--max`: Determines the dimensionality of the largest space to be visualized. Defaults to 10.
 - `-d` or `--directions_file`: If a path to a directions file (output of `filter_directions.py`) is given, then the given directions are also included into the plots.
 - `-c` or `--criterion`: If directions are plotted, the given criterion decides which ones are used. Defaults to `kappa`. Can also be set to `spearman`.
-- `-r` or `--region`: If this flag is set, 
+- `-r` or `--region`: If this flag is set, convex hulls of the different categories are included in the plots.
+
+#### 2.3.4 Creating Random Baseline Spaces
+
+For our later analysis, we will need random configurations of points to serve as a simple baseline. The script `create_baseline_spaces.py` can be used to create such random configurations. It can be invoked as follows:
+```
+python -m code.mds.similarity_spaces.create_baseline_spaces path/to/individual_ratings.pickle path/to/output.pickle n_spaces max_dims
+```
+Here, `individual_ratings.pickle` is the output created by `preprocess_NOUN.py` or `preprocess_Shapes.py` and is only used to get a list of all item names. The parameter `n_spaces` gives the number of example spaces to generate for each dimensionality and `max_dims` specifies the maximal number of dimensions to consider. The script takes the following optional arguments:
+- `-n` or `--normal`: If this flag is set, normally distributed configurations will be generated.
+- `-u` or `--uniform`: If this flag is set, uniformly distributed configurations will be generated.
+- `-m` or `--shuffled`: This flag is followed by a list in the form `name_1 path_1 name_2 path_2 ...`, giving paths to vector pickle files (output of `normalize_spaces.py`) and their corresponding human-readable name that are shuffled in order to obtain baseline spaces.
+- `-s` or `--seed`: Specifies a seed for the random number generator in order to make the results deterministic. If no seed is given, then the random number generator is not seeded.
+
+Please note that at least one of the distribution types `-u`, `-n`, `-m` must be set. The resulting pickle file contains a hierarchical dictionary mapping using the baseline type, the number of dimensions, and the item as keys on the different hierarchy levels. Please note that for each number of dimensions a list of spaces is stored (of length `n_spaces`).
 
 
 ### 2.4 Analyzing Correlations between Distances and Dissimilarities

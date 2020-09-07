@@ -56,6 +56,10 @@ do
 done
 wait
 
+echo '    creating baseline spaces'
+python -m code.mds.similarity_spaces.create_baseline_spaces data/Shapes/mds/similarities/aggregator/individual_ratings.pickle data/shapes/mds/analysis/baseline_vectors.pickle 100 $dimension_limit -n -u -m mean data/Shapes/mds/similarities/aggregator/mean/vectors.pickle median data/Shapes/mds/similarities/aggregator/median/vectors.pickle -s 42
+
+
 # analyzing correlation between distances and dissimilarities
 # -----------------------------------------------------------
 
