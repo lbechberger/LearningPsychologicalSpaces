@@ -94,7 +94,7 @@ do
 	do
 		if [[ "$first_feature" < "$second_feature" ]]
 		then
-			python -m code.mds.data_analysis.compare_features 'data/Shapes/mds/features/'"$first_feature"'.pickle' 'data/Shapes/mds/features/'"$second_feature"'.pickle' 'data/Shapes/mds/visualizations/features/'"$feature"'/' -f $first_feature -s $second_feature -i data/Shapes/images
+			python -m code.mds.data_analysis.compare_features 'data/Shapes/mds/features/'"$first_feature"'.pickle' 'data/Shapes/mds/features/'"$second_feature"'.pickle' 'data/Shapes/mds/visualizations/features/' -f $first_feature -s $second_feature -i data/Shapes/images
 		fi
 	done
 done
