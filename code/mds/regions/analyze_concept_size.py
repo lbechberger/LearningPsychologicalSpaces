@@ -38,8 +38,8 @@ if args.baseline_file is not None:
 all_distances = {}
 for category_type in ['VC', 'VV', 'all']:
     all_distances[category_type] = {}
-    for key in all_vectors.keys():
-        all_distances[category_type][key] = []
+    for data_source in all_vectors.keys():
+        all_distances[category_type][data_source] = []
 
 # iterate over all categories
 for category in categories:
