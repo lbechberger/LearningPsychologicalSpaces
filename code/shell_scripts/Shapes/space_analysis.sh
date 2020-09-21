@@ -108,7 +108,7 @@ echo '    similarity spaces'
 for source_aggregator in $aggregators
 do
 	# if precomputed distances exist: use them; if not: re-compute them
-	[ -f 'data/Shapes/mds/analysis/correlations/mds_from_'"$source_aggregator"'_distances.pickle' ] && vectors_flag='' || vectors_flag='-v data/Shapes/mds/similarities/aggregator/'"$source_aggregator"'/vectors.pickle'
+	[ -f 'data/Shapes/mds/analysis/correlations/mds_from_'"$source_aggregator"'_distances.pickle' ] && vectors_flag='' || vectors_flag='-v data/Shapes/mds/similarities/aggregator/'"$source_aggregator"'/vectors.pickle -b data/Shapes/mds/analysis/baseline_vectors.pickle'
 	for target_aggregator in $aggregators
 	do
 		python -m code.mds.correlations.mds_correlations 'data/Shapes/mds/similarities/aggregator/'"$target_aggregator"'/aggregated_ratings.pickle' 'data/Shapes/mds/analysis/correlations/mds_from_'"$source_aggregator"'_distances.pickle' 'data/Shapes/mds/analysis/correlations/'"$target_aggregator"'/mds_from_'"$source_aggregator"'.csv' $vectors_flag --n_max $dimension_limit --kendall -s 42 &> 'data/Shapes/mds/analysis/correlations/'"$target_aggregator"'/mds_from_'"$source_aggregator"'_log.txt'

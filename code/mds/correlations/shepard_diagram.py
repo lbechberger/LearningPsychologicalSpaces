@@ -24,12 +24,14 @@ parser.add_argument('--features', '-f', help = 'name of feature space to use', d
 parser.add_argument('--type', '-t', help = 'feature type to use', default = 'attentive')
 parser.add_argument('--pixel', '-p', help = 'aggregator for pixel baseline', default = None)
 parser.add_argument('--block_size', '-b', type = int, help = 'block size for pixel baseline', default = 1)
+parser.add_argument('--random', '-r', type = int, help = 'dimensionality of the random baseline space', default = None)
+parser.add_argument('--distribution', help = 'distribution type to use', default = 'normal')
 parser.add_argument('--optimized', '-o', action = 'store_true', help = 'if this flag is set, weights are optimized in cross-validation')
 parser.add_argument('-n', '--n_folds', type = int, help = 'number of folds to use for cross-validation when optimizing weights', default = 5)
 parser.add_argument('-s', '--seed', type = int, help = 'fixed seed to use for creating the folds', default = None)
 args = parser.parse_args()
 
-if sum([args.mds is not None, args.ann, args.pixel is not None, args.features is not None]) != 1:
+if sum([args.mds is not None, args.ann, args.pixel is not None, args.features is not None, args.random is not None]) != 1:
     raise Exception('Must use exactly one prediction type!')
 
 with open(args.similarity_file, 'rb') as f_in:
@@ -45,7 +47,7 @@ else:
     with open(args.distance_file, 'rb') as f_in:
         distances = pickle.load(f_in)
     if args.mds is not None:
-        precomputed_distances = distances[args.mds][args.distance]
+        precomputed_distances = distances['MDS'][args.mds][0][args.distance]
         x_label = '{0} Distance in {1}-dimensional MDS Space'.format(args.distance, args.mds)
     elif args.ann:
         precomputed_distances = distances[args.distance]
@@ -53,6 +55,9 @@ else:
     elif args.features is not None:
         precomputed_distances = distances[args.features][args.type][args.distance]
         x_label = '{0} Distance based on {1} Shape Features: {2}'.format(args.distance, args.type, args.features)
+    elif args.random is not None:
+        precomputed_distances = distances[args.distribution][args.random][0][args.distance]
+        x_label = '{0} Distance in a random {1}-dimensional Space with {2} Distribution'.format(args.distance, args.random, args.distribution)
     else: # args.pixel is not None:
         raise(Exception('This should not happen!'))
 
