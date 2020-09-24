@@ -16,37 +16,42 @@ mkdir -p data/NOUN/mds/correlations/ data/NOUN/mds/visualizations/correlations/s
 
 # run pixel-based correlation
 echo 'pixel-based correlation'
-python -m code.mds.correlations.pixel_correlations data/NOUN/mds/similarities/sim.pickle data/NOUN/images/ -o data/NOUN/mds/correlations/pixel.csv -w 300 $correlation_metrics -s 42 &> data/NOUN/mds/correlations/pixel-log.txt
+[ -f 'data/NOUN/correlations/pixel_distances/283-max-Euclidean.pickle' ] && image_flag='' || image_flag='-i data/Shapes/images/'
+python -m code.mds.correlations.pixel_correlations data/NOUN/mds/similarities/sim.pickle data/NOUN/correlations/pixel_distances/ data/NOUN/mds/correlations/pixel.csv $image_flag -w 300 $correlation_metrics -s 42 &> data/NOUN/mds/correlations/pixel-log.txt
 
 # run ANN-based correlation
 echo 'ANN-based correlation'
-python -m code.mds.correlations.ann_correlations /tmp/inception data/NOUN/mds/similarities/sim.pickle data/NOUN/images/ -o data/NOUN/mds/correlations/ann.csv $correlation_metrics -s 42 &> data/NOUN/mds/correlations/ann-log.txt
+[ -f 'data/NOUN/correlations/ann_distances.pickle' ] && image_flag='' || image_flag='-i data/Shapes/images/'
+python -m code.mds.correlations.ann_correlations /tmp/inception data/NOUN/mds/similarities/sim.pickle data/NOUN/correlations/ann-distances.pickle data/NOUN/mds/correlations/ann.csv $image_flag $correlation_metrics -s 42 &> data/NOUN/mds/correlations/ann-log.txt
 
-# run MDS correlations
+# run MDS correlations along with baselines
 echo 'MDS correlation'
+python -m code.mds.similarity_spaces.create_baseline_spaces data/NOUN/mds/raw_data/data.pickle data/NOUN/mds/correlations/baseline_vectors.pickle 100 $dims -n -u -s 42
 for space in $spaces
 do
 	echo '    '"$space"
-	python -m code.mds.correlations.mds_correlations data/NOUN/mds/similarities/sim.pickle 'data/NOUN/mds/vectors/'"$space"'/' -o 'data/NOUN/mds/correlations/'"$space"'.csv' --n_max $dims $correlation_metrics -s 42 &> 'data/NOUN/mds/correlations/'"$space"'-log.txt' &
+	# if precomputed distances exist: use them; if not: re-compute them
+	[ -f 'data/NOUN/mds/correlations/'"$space"'_distances.pickle' ] && vectors_flag='' || vectors_flag='-v data/NOUN/mds/vectors/'"$space"'/vectors.pickle -b data/NOUN/mds/correlations/baseline_vectors.pickle'
+	python -m code.mds.correlations.mds_correlations data/NOUN/mds/similarities/sim.pickle 'data/NOUN/mds/correlations/'"$space"'_distances.pickle' 'data/NOUN/mds/correlations/'"$space"'.csv' --n_max $dims $correlation_metrics -s 42 $vectors_flag &> 'data/NOUN/mds/correlations/'"$space"'-log.txt' &
 done
-python -m code.mds.correlations.mds_correlations data/NOUN/mds/similarities/sim.pickle data/NOUN/mds/vectors/HorstHout/ -o data/NOUN/mds/correlations/HorstHout.csv --n_min 4 --n_max 4 $correlation_metrics -s 42 &> data/NOUN/mds/correlations/HorstHout-log.txt &
+python -m code.mds.correlations.mds_correlations data/NOUN/mds/similarities/sim.pickle 'data/NOUN/mds/correlations/HorstHout_distances.pickle' data/NOUN/mds/correlations/HorstHout.csv --n_min 4 --n_max 4 -v 'data/NOUN/mds/vectors/HorstHout/vectors.pickle' $correlation_metrics -s 42 &> data/NOUN/mds/correlations/HorstHout-log.txt &
 wait
 
 # visualize correlation results
 echo 'visualizing correlation results'
 # overview graphs
-python -m code.mds.correlations.visualize_pixel_correlations -o data/NOUN/mds/visualizations/correlations/ data/NOUN/mds/correlations/pixel.csv $correlation_metrics &> data/NOUN/mds/correlations/best_pixel.txt &
+python -m code.mds.correlations.visualize_pixel_correlations data/NOUN/mds/correlations/pixel.csv data/NOUN/mds/visualizations/correlations/ &> data/NOUN/mds/correlations/best_pixel.txt &
 # scatter plots for nonmetric SMACOF
 for i in `seq 1 $max`
 do
-	python -m code.mds.correlations.scatter_plot data/NOUN/mds/similarities/sim.pickle 'data/NOUN/mds/visualizations/correlations/scatter/nonmetric_SMACOF_'"$i"'D.png' --mds 'data/NOUN/mds/vectors/nonmetric_SMACOF/'"$i"'D-vectors.csv' -d Euclidean &	
+	python -m code.mds.correlations.shepard_diagram data/NOUN/mds/similarities/sim.pickle 'data/NOUN/mds/correlations/nonmetric_SMACOF_distances.pickle' 'data/NOUN/mds/visualizations/correlations/scatter/nonmetric_SMACOF_'"$i"'D.png' --mds $i -d Euclidean &	
 done
-# scatter plot for ANN baseline
-python -m code.mds.correlations.scatter_plot data/NOUN/mds/similarities/sim.pickle data/NOUN/mds/visualizations/correlations/scatter/ANN_fixed.png --ann /tmp/inception -d Manhattan -i data/NOUN/images/ &
-python -m code.mds.correlations.scatter_plot data/NOUN/mds/similarities/sim.pickle data/NOUN/mds/visualizations/correlations/scatter/ANN_optimized.png --ann /tmp/inception -d Euclidean -i data/NOUN/images/ -o -s 42 &
-# scatter plot for best pixel baseline
-python -m code.mds.correlations.scatter_plot data/NOUN/mds/similarities/sim.pickle data/NOUN/mds/visualizations/correlations/scatter/pixel_fixed.png --pixel min -b 18 -d Manhattan -i data/NOUN/images/ &
-python -m code.mds.correlations.scatter_plot data/NOUN/mds/similarities/sim.pickle data/NOUN/mds/visualizations/correlations/scatter/pixel_optimized.png --pixel min -b 2 -d Euclidean -i data/NOUN/images/ -o -s 42 &
+# Shepard plot for ANN baseline
+python -m code.mds.correlations.shepard_diagram data/NOUN/mds/similarities/sim.pickle data/NOUN/mds/correlations/ann_distances.pickle data/NOUN/mds/visualizations/correlations/scatter/ANN_fixed.png --ann -d Manhattan  &
+python -m code.mds.correlations.shepard_diagram data/NOUN/mds/similarities/sim.pickle data/NOUN/mds/correlations/ann_distances.pickle data/NOUN/mds/visualizations/correlations/scatter/ANN_optimized.png --ann  -d Euclidean -n 5 -s 42 &
+# Shepard plot for best pixel baseline
+python -m code.mds.correlations.shepard_diagram data/NOUN/mds/similarities/sim.pickle data/NOUN/mds/correlations/pixel_distances/ data/NOUN/mds/visualizations/correlations/scatter/pixel_fixed.png --pixel min -b 18 -d Manhattan  &
+python -m code.mds.correlations.shepard_diagram data/NOUN/mds/similarities/sim.pickle data/NOUN/mds/correlations/pixel_distances/ data/NOUN/mds/visualizations/correlations/scatter/pixel_optimized.png --pixel min -b 2 -d Euclidean -n 5 -s 42 &
 wait
 
 

@@ -26,9 +26,7 @@ echo 'preprocessing data'
 echo '    reading CSV file'
 python -m code.mds.preprocessing.preprocess_NOUN data/NOUN/mds/raw_data/raw_distances.csv data/NOUN/mds/raw_data/data.pickle
 echo '    computing similarities'
-python -m code.mds.preprocessing.compute_similarities data/NOUN/mds/raw_data/data.pickle data/NOUN/mds/similarities/sim.pickle -s within -l -p &> data/NOUN/mds/similarities/log.txt
-echo '    creating CSV files'
-python -m code.mds.preprocessing.pickle_to_csv data/NOUN/mds/similarities/sim.pickle data/NOUN/mds/similarities/
+python -m code.mds.preprocessing.aggregate_similarities data/NOUN/mds/raw_data/data.pickle data/NOUN/mds/similarities/sim.pickle data/NOUN/mds/similarities/ data/NOUN/mds/similarities/table.csv SpAM &> data/NOUN/mds/similarities/log.txt
 
 
 # run MDS
@@ -45,7 +43,7 @@ echo 'normalizing MDS spaces'
 for space in $spaces
 do
 	echo '    '"$space"
-	python -m code.mds.similarity_spaces.normalize_spaces 'data/NOUN/mds/vectors/'"$space"'/' &
+	python -m code.mds.similarity_spaces.normalize_spaces 'data/NOUN/mds/vectors/'"$space"'/' data/NOUN/mds/rw_data/data.pickle 'data/NOUN/mds/vectors/'"$space"'/vectors.pickle' &
 done
 wait
 
@@ -54,6 +52,6 @@ echo 'visualizing MDS spaces'
 for space in $spaces
 do
 	echo '    '"$space"
-	python -m code.mds.similarity_spaces.visualize_spaces 'data/NOUN/mds/vectors/'"$space"'/' 'data/NOUN/mds/visualizations/spaces/'"$space"'/' -i data/NOUN/images/ -m $max &
+	python -m code.mds.similarity_spaces.visualize_spaces 'data/NOUN/mds/vectors/'"$space"'/vectors.pickle' 'data/NOUN/mds/visualizations/spaces/'"$space"'/' -i data/NOUN/images/ -m $max &
 done
 wait
