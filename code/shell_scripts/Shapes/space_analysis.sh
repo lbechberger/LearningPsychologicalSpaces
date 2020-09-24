@@ -212,11 +212,11 @@ do
 	do
 		for i in `seq 1 $dimension_limit`
 		do
-			python -m code.mds.directions.find_directions 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/vectors.pickle' $i 'data/Shapes/mds/features/'"$direction"'.pickle' 'data/Shapes/mds/data_set/spaces/directions/'"$aggregator"'/'"$direction"'.csv' &
+			python -m code.mds.directions.find_directions 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/vectors.pickle' $i 'data/Shapes/mds/features/'"$direction"'.pickle' 'data/Shapes/mds/data_set/spaces/directions/'"$aggregator"'/'"$direction"'.csv' -b data/Shapes/mds/analysis/baseline_vectors.pickle &
 		done
+		wait
 	done
 done
-wait
 
 echo '    comparing directions'
 for aggregator in $aggregators
