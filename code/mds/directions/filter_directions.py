@@ -29,6 +29,10 @@ for i in range(1, args.n_dims + 1):
 with open(args.input_file, 'r') as f_in:            
     reader = csv.DictReader(f_in)
     for row in reader:
+        # ignore baseline results
+        if row['data_source'] != 'MDS':
+            continue
+        
         dims = int(row['dims'])
         feature_type = row['feature_type']
         model = row['model']
