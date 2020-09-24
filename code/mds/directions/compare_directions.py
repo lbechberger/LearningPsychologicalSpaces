@@ -112,6 +112,6 @@ with open(args.output_file, 'w') as f_out:
     
     for dims in range(1, args.n_dims + 1):
         for data_source in sorted(output_dict[dims].keys()):
-            line_items = [dims, data_source] + [np.mean(output_dict[dims][data_source][category_name]) for category_name in categories]
+            line_items = [dims, data_source] + [np.mean(output_dict[dims][data_source][category_name]) for category_name in sorted(categories)]
             f_out.write(','.join(map(lambda x: str(x), line_items)))
             f_out.write('\n')
