@@ -12,7 +12,7 @@ rm /tmp/* -R -f 2> /dev/null
 
 date
 source activate tensorflow-CS
-python -u -m code.mds.correlations.pixel_correlations data/NOUN/mds/similarities/sim.pickle data/NOUN/images/ -o data/NOUN/mds/correlations/pixel.csv -w 300 --pearson --spearman --kendall --r2_linear --r2_isotonic -s 42 &> data/NOUN/mds/correlations/pixel-log.txt
+python -u -m code.mds.correlations.pixel_correlations data/NOUN/mds/similarities/sim.pickle data/NOUN/mds/correlations/pixel_distances/ data/NOUN/mds/correlations/pixel.csv -i data/NOUN/images/ -w 300 --pearson --spearman --kendall --r2_linear --r2_isotonic -s 42 &> data/NOUN/mds/correlations/pixel-log.txt
 source deactivate tensorflow-CS
 date
 
