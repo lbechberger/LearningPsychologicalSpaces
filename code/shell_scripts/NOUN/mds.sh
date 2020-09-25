@@ -43,7 +43,7 @@ echo 'normalizing MDS spaces'
 for space in $spaces
 do
 	echo '    '"$space"
-	python -m code.mds.similarity_spaces.normalize_spaces 'data/NOUN/mds/vectors/'"$space"'/' data/NOUN/mds/rw_data/data.pickle 'data/NOUN/mds/vectors/'"$space"'/vectors.pickle' &
+	python -m code.mds.similarity_spaces.normalize_spaces 'data/NOUN/mds/vectors/'"$space"'/' data/NOUN/mds/raw_data/data.pickle 'data/NOUN/mds/vectors/'"$space"'/vectors.pickle' &
 done
 wait
 
