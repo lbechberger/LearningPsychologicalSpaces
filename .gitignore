@@ -101,6 +101,7 @@ ENV/
 .mypy_cache/
 
 # NOUN data
+data/NOUN/correlations/*distance*
 data/NOUN/ml/dataset/augmented/
 data/NOUN/ml/dataset/features*
 
