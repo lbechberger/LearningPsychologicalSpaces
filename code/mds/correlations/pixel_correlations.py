@@ -79,7 +79,7 @@ with open(args.output_file, 'w', buffering=1) as f_out:
                     # precompute distances based on transformed images and store them
                     precomputed_distances = precompute_distances(transformed_images, distance_function)
                     with open(distance_file_path, 'wb') as f_out_distance:
-                        pickle.dump(precomputed_distances, f_out_distance)
+                        pickle.dump(precomputed_distances, f_out_distance, protocol = pickle.HIGHEST_PROTOCOL)
                 else:
                     # simply load them from the respective pickle file (if present - skip if not)
                     if os.path.exists(distance_file_path):
