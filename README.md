@@ -322,6 +322,8 @@ The script takes the following additional optional parameters:
 - `-n` or `--n_folds`: The number of folds to use in the cross-validation process of optimizing dimension weights (defaults to 5).
 - `-s` or `--seed`: Specify a seed for the random number generator in order to make the folds and thus the overall results deterministic. If no seed is given, then the random number generator is not seeded.
 
+**IMPORTANT! For non-greyscale images, this script takes a lot of memory. Use code/shell_scripts/NOUN/pixel_job.sge to run it on the grid instead of locally.**
+
 #### 2.4.2 Visualizing the Correlations of the Pixel Baseline
 
 The script `visualize_pixel_correlations.py` can be used to visualize the results of the pixel baseline as a function of block size. It can be invoked as follows:
