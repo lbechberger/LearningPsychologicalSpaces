@@ -52,6 +52,11 @@ if args.directions_file is not None:
     
 # iterate over all spaces
 for dim in range(1, args.max + 1):
+
+    # skip dimensionalities for which we have no spaces
+    if dim not in vector_map:
+        continue
+    
     mapping = vector_map[dim]
     items = list(sorted(mapping.keys()))
     
