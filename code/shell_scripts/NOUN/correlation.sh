@@ -12,17 +12,17 @@ spaces="${algorithms:-$default_algorithms}"
 
 # set up the directory structure
 echo 'setting up directory structure'
-mkdir -p data/NOUN/mds/correlations/ data/NOUN/mds/visualizations/correlations/scatter
+mkdir -p data/NOUN/mds/correlations/pixel_distances/ data/NOUN/mds/visualizations/correlations/scatter
 
 # run pixel-based correlation
 echo 'pixel-based correlation'
-[ -f 'data/NOUN/correlations/pixel_distances/283-max-Euclidean.pickle' ] && image_flag='' || image_flag='-i data/Shapes/images/'
-python -m code.mds.correlations.pixel_correlations data/NOUN/mds/similarities/sim.pickle data/NOUN/correlations/pixel_distances/ data/NOUN/mds/correlations/pixel.csv $image_flag -w 300 $correlation_metrics -s 42 &> data/NOUN/mds/correlations/pixel-log.txt
+[ -f 'data/NOUN/mds/correlations/pixel_distances/283-max-Euclidean.pickle' ] && image_flag='' || image_flag='-i data/NOUN/images/'
+python -m code.mds.correlations.pixel_correlations data/NOUN/mds/similarities/sim.pickle data/NOUN/mds/correlations/pixel_distances/ data/NOUN/mds/correlations/pixel.csv $image_flag -w 300 $correlation_metrics -s 42 &> data/NOUN/mds/correlations/pixel-log.txt
 
 # run ANN-based correlation
 echo 'ANN-based correlation'
-[ -f 'data/NOUN/correlations/ann_distances.pickle' ] && image_flag='' || image_flag='-i data/Shapes/images/'
-python -m code.mds.correlations.ann_correlations /tmp/inception data/NOUN/mds/similarities/sim.pickle data/NOUN/correlations/ann-distances.pickle data/NOUN/mds/correlations/ann.csv $image_flag $correlation_metrics -s 42 &> data/NOUN/mds/correlations/ann-log.txt
+[ -f 'data/NOUN/mds/correlations/ann_distances.pickle' ] && image_flag='' || image_flag='-i data/NOUN/images/'
+python -m code.mds.correlations.ann_correlations /tmp/inception data/NOUN/mds/similarities/sim.pickle data/NOUN/mds/correlations/ann-distances.pickle data/NOUN/mds/correlations/ann.csv $image_flag $correlation_metrics -s 42 &> data/NOUN/mds/correlations/ann-log.txt
 
 # run MDS correlations along with baselines
 echo 'MDS correlation'
