@@ -103,7 +103,7 @@ ENV/
 # NOUN data
 data/NOUN/mds/correlations/*distance*
 data/NOUN/ml/dataset/augmented/
-data/NOUN/ml/dataset/features*
+data/NOUN/ml/dataset/features*.pickle
 
 # Shapes data
 data/Shapes/images/
