@@ -88,7 +88,7 @@ ir.fit(x, y)
 best_fit = ir.predict(x)
 xy_sorted = sorted(zip(x,best_fit), key = lambda x: x[0])
 x_new, y_new = ([i for i, j in xy_sorted],[j for i,j in xy_sorted])
-ax.plot(x_new, y_new, 'g--', linewidth = 4)
+ax.plot(x_new, y_new, 'r--', linewidth = 4)
 
 fig.savefig(args.output_file, bbox_inches='tight', dpi=200)
 plt.close()
