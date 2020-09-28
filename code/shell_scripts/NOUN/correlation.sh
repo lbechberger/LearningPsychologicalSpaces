@@ -22,7 +22,7 @@ python -m code.mds.correlations.pixel_correlations data/NOUN/mds/similarities/si
 # run ANN-based correlation
 echo 'ANN-based correlation'
 [ -f 'data/NOUN/mds/correlations/ann_distances.pickle' ] && image_flag='' || image_flag='-i data/NOUN/images/'
-python -m code.mds.correlations.ann_correlations /tmp/inception data/NOUN/mds/similarities/sim.pickle data/NOUN/mds/correlations/ann-distances.pickle data/NOUN/mds/correlations/ann.csv $image_flag $correlation_metrics -s 42 &> data/NOUN/mds/correlations/ann-log.txt
+python -m code.mds.correlations.ann_correlations /tmp/inception data/NOUN/mds/similarities/sim.pickle data/NOUN/mds/correlations/ann_distances.pickle data/NOUN/mds/correlations/ann.csv $image_flag $correlation_metrics -s 42 &> data/NOUN/mds/correlations/ann-log.txt
 
 # run MDS correlations along with baselines
 echo 'MDS correlation'
@@ -41,7 +41,7 @@ wait
 # visualize correlation results
 echo 'visualizing correlation results'
 # overview graphs
-python -m code.mds.correlations.visualize_pixel_correlations data/NOUN/mds/correlations/pixel.csv data/NOUN/mds/visualizations/correlations/ &> data/NOUN/mds/correlations/best_pixel.txt &
+python -m code.mds.correlations.visualize_pixel_correlations data/NOUN/mds/correlations/pixel.csv data/NOUN/mds/visualizations/correlations/ $correlation_metrics &> data/NOUN/mds/correlations/best_pixel.txt &
 # Shepard plots for nonmetric SMACOF
 for i in `seq 1 $max`
 do
