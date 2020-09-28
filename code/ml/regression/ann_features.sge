@@ -9,7 +9,7 @@
 #$ -o $HOME/store/sge-logs
 #$ -e $HOME/store/sge-logs
 
-export PATH="/net/projects/scratch/winter/valid_until_31_July_2019/lbechberger/miniconda/bin:$PATH"
+export PATH="$HOME/miniconda/bin:$PATH"
 source activate tensorflow-CS
 
 python -u -m code.ml.regression.ann_features $*
