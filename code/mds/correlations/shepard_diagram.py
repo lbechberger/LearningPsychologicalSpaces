@@ -47,7 +47,7 @@ else:
     with open(args.distance_file, 'rb') as f_in:
         distances = pickle.load(f_in)
     if args.mds is not None:
-        precomputed_distances = distances['MDS'][args.mds][0][args.distance]
+        precomputed_distances = distances['MDS'][args.mds][args.distance][0]
         x_label = '{0} Distance in {1}-dimensional MDS Space'.format(args.distance, args.mds)
     elif args.ann:
         precomputed_distances = distances[args.distance]
@@ -56,7 +56,7 @@ else:
         precomputed_distances = distances[args.features][args.type][args.distance]
         x_label = '{0} Distance based on {1} Shape Features: {2}'.format(args.distance, args.type, args.features)
     elif args.random is not None:
-        precomputed_distances = distances[args.distribution][args.random][0][args.distance]
+        precomputed_distances = distances[args.distribution][args.random][args.distance][0]
         x_label = '{0} Distance in a random {1}-dimensional Space with {2} Distribution'.format(args.distance, args.random, args.distribution)
     else: # args.pixel is not None:
         raise(Exception('This should not happen!'))
