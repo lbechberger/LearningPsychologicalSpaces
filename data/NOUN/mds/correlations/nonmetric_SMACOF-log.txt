@@ -1,42 +1,197 @@
-done with 1-Euclidean; weights: [0.65716689]
-done with 1-Manhattan; weights: [0.81595326]
-done with 1-inner product; weights: [0.20551907]
-done with 2-Euclidean; weights: [0.81692584 0.84422578]
-done with 2-Manhattan; weights: [0.71411351 0.73228248]
-done with 2-inner product; weights: [0.46753979 0.44013832]
-done with 3-Euclidean; weights: [0.90247614 0.88049945 0.88950213]
-done with 3-Manhattan; weights: [0.62572113 0.62964704 0.63116666]
-done with 3-inner product; weights: [0.52291189 0.54744787 0.54142421]
-done with 4-Euclidean; weights: [0.94197432 0.9104338  0.91089412 0.9438741 ]
-done with 4-Manhattan; weights: [0.55456739 0.56786556 0.58289277 0.56959242]
-done with 4-inner product; weights: [0.59074023 0.60652458 0.6358698  0.56378116]
-done with 5-Euclidean; weights: [0.94520064 0.94475449 0.93329991 0.93795743 0.950372  ]
-done with 5-Manhattan; weights: [0.49899765 0.52249034 0.51018286 0.53616047 0.50741416]
-done with 5-inner product; weights: [0.67709896 0.63796416 0.6711797  0.68904589 0.64860268]
-done with 6-Euclidean; weights: [0.95649251 0.94820444 0.95901302 0.94388686 0.9727951  0.93587223]
-done with 6-Manhattan; weights: [0.48091458 0.46481289 0.44853929 0.49738083 0.50266291 0.47196947]
-done with 6-inner product; weights: [0.71340151 0.68997673 0.7188346  0.72790069 0.75975639 0.65915152]
-done with 7-Euclidean; weights: [0.94496171 0.96944629 0.96277342 0.96602656 0.94855963 0.96679599
- 0.96002704]
-done with 7-Manhattan; weights: [0.42961354 0.49338498 0.43179233 0.4923711  0.40939411 0.42094636
- 0.44762735]
-done with 7-inner product; weights: [0.74719545 0.79554339 0.7346961  0.7773509  0.72229882 0.74230486
- 0.74863428]
-done with 8-Euclidean; weights: [0.95526389 0.97224918 0.96865403 0.96356941 0.96672435 0.9740988
- 0.96357923 0.96351513]
-done with 8-Manhattan; weights: [0.42699284 0.43160585 0.40495471 0.41777785 0.41077933 0.43306069
- 0.41539851 0.41502766]
-done with 8-inner product; weights: [0.79933502 0.80648839 0.80107416 0.77280771 0.7966347  0.80121432
- 0.76555761 0.78280715]
-done with 9-Euclidean; weights: [0.96928962 0.95331987 0.96463071 0.97481002 0.96275792 0.96477685
- 0.973424   0.98233808 0.98107078]
-done with 9-Manhattan; weights: [0.40369598 0.38947009 0.37736734 0.42491126 0.39706202 0.37865759
- 0.37654483 0.43784719 0.36981602]
-done with 9-inner product; weights: [0.82771201 0.81437686 0.81253575 0.84384178 0.80228018 0.8197277
- 0.83368969 0.83909453 0.83633186]
-done with 10-Euclidean; weights: [0.98978897 0.97703851 0.97837856 0.97534674 0.97192842 0.98442259
- 0.96110955 0.96411144 0.95625876 0.98004926]
-done with 10-Manhattan; weights: [0.36528781 0.39110646 0.39323265 0.41566402 0.36475706 0.37014951
- 0.37337494 0.37159405 0.35940962 0.35613316]
-done with 10-inner product; weights: [0.88572424 0.86839206 0.85867625 0.85397743 0.87573003 0.88273022
- 0.84232141 0.85397143 0.84770619 0.87515174]
+done with 1-MDS-Euclidean; weights: [0.65713513]
+done with 1-MDS-InnerProduct; weights: [0.20548738]
+done with 1-MDS-Manhattan; weights: [0.81595322]
+done with 2-MDS-Euclidean; weights: [0.82359785 0.8346459 ]
+done with 2-MDS-InnerProduct; weights: [0.43873573 0.47258592]
+done with 2-MDS-Manhattan; weights: [0.71970954 0.72419371]
+done with 3-MDS-Euclidean; weights: [0.90298139 0.87315944 0.89887123]
+done with 3-MDS-InnerProduct; weights: [0.53427877 0.55621252 0.51166579]
+done with 3-MDS-Manhattan; weights: [0.63027976 0.62375665 0.64064516]
+done with 4-MDS-Euclidean; weights: [0.94184827 0.91060622 0.91086506 0.94384475]
+done with 4-MDS-InnerProduct; weights: [0.59067539 0.60670928 0.63573799 0.56365574]
+done with 4-MDS-Manhattan; weights: [0.55443507 0.56793923 0.5829827  0.56960254]
+done with 5-MDS-Euclidean; weights: [0.94524388 0.94470406 0.93328896 0.93796843 0.9503892 ]
+done with 5-MDS-InnerProduct; weights: [0.67711192 0.63790051 0.67117384 0.68907165 0.64858571]
+done with 5-MDS-Manhattan; weights: [0.4991241  0.52246274 0.51013057 0.53609685 0.50739592]
+done with 6-MDS-Euclidean; weights: [0.9564788  0.94824975 0.95911851 0.94382613 0.9727671  0.93587017]
+done with 6-MDS-InnerProduct; weights: [0.7135018  0.69011765 0.71869821 0.72785749 0.75981163 0.65931991]
+done with 6-MDS-Manhattan; weights: [0.48078443 0.46538786 0.44844586 0.49731058 0.50270777 0.47213866]
+done with 7-MDS-Euclidean; weights: [0.94463356 0.96953397 0.9631197  0.9660307  0.949133   0.96649535
+ 0.95981428]
+done with 7-MDS-InnerProduct; weights: [0.74637547 0.79566166 0.73593349 0.7772653  0.72342349 0.74225549
+ 0.74833441]
+done with 7-MDS-Manhattan; weights: [0.43113377 0.49334687 0.43163833 0.49229249 0.40900582 0.42054083
+ 0.44754839]
+done with 8-MDS-Euclidean; weights: [0.95539747 0.97222807 0.96849009 0.96365144 0.96654128 0.97391583
+ 0.96391814 0.96368817]
+done with 8-MDS-InnerProduct; weights: [0.79935881 0.8066259  0.8007528  0.77285794 0.79666682 0.80112577
+ 0.76602631 0.78291305]
+done with 8-MDS-Manhattan; weights: [0.42675947 0.43151197 0.40469195 0.41794287 0.41081733 0.43312973
+ 0.41567248 0.41500456]
+done with 9-MDS-Euclidean; weights: [0.96910033 0.95331976 0.9644897  0.97480302 0.96289958 0.96468686
+ 0.97344881 0.98232446 0.98139043]
+done with 9-MDS-InnerProduct; weights: [0.82713622 0.81455365 0.81239253 0.84372202 0.80237879 0.81962047
+ 0.83374279 0.83917132 0.8364514 ]
+done with 9-MDS-Manhattan; weights: [0.40379608 0.38904713 0.37779126 0.42516232 0.39717468 0.3789744
+ 0.37669276 0.43730306 0.3696899 ]
+done with 10-MDS-Euclidean; weights: [0.98954934 0.9770826  0.97824139 0.97542723 0.97186592 0.98469044
+ 0.96146317 0.96393334 0.95604756 0.98008297]
+done with 10-MDS-InnerProduct; weights: [0.88584371 0.86792961 0.85770543 0.85421497 0.8754347  0.88322243
+ 0.84238696 0.85418817 0.84743935 0.87534499]
+done with 10-MDS-Manhattan; weights: [0.36535578 0.39169402 0.39406667 0.41525559 0.36601117 0.37059853
+ 0.37295104 0.37118312 0.35813092 0.3561654 ]
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+done with 1-normal-Euclidean; weights: [0.57898221]
+done with 1-normal-InnerProduct; weights: [0.15024917]
+done with 1-normal-Manhattan; weights: [0.78218323]
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+done with 2-normal-Euclidean; weights: [0.70259344 0.72410972]
+done with 2-normal-InnerProduct; weights: [0.19931135 0.2057444 ]
+done with 2-normal-Manhattan; weights: [0.66832302 0.6908199 ]
+done with 3-normal-Euclidean; weights: [0.77126469 0.79381744 0.777315  ]
+done with 3-normal-InnerProduct; weights: [0.23737467 0.24335085 0.240466  ]
+done with 3-normal-Manhattan; weights: [0.58815978 0.61036109 0.59590684]
+done with 4-normal-Euclidean; weights: [0.81601331 0.82830876 0.81824603 0.82415418]
+done with 4-normal-InnerProduct; weights: [0.28576635 0.28093836 0.27968458 0.2804935 ]
+done with 4-normal-Manhattan; weights: [0.5385905  0.54944546 0.53512843 0.53943626]
+done with 5-normal-Euclidean; weights: [0.84027482 0.85532578 0.84208369 0.85234859 0.85593472]
+done with 5-normal-InnerProduct; weights: [0.31081741 0.31645107 0.31578515 0.31156231 0.31215475]
+done with 5-normal-Manhattan; weights: [0.48653677 0.50249653 0.4916225  0.49436462 0.50316867]
+done with 6-normal-Euclidean; weights: [0.85984134 0.87314889 0.86816863 0.86305107 0.86405105 0.86898512]
+done with 6-normal-InnerProduct; weights: [0.34567035 0.34324934 0.34368926 0.33957233 0.35217953 0.3426153 ]
+done with 6-normal-Manhattan; weights: [0.45784762 0.46883    0.46174126 0.45573226 0.45504215 0.45901408]
+done with 7-normal-Euclidean; weights: [0.88005869 0.88600135 0.87479184 0.87885936 0.90423795 0.89339276
+ 0.88205464]
+done with 7-normal-InnerProduct; weights: [0.36667649 0.36749066 0.372269   0.37753732 0.37991455 0.37648973
+ 0.37114047]
+done with 7-normal-Manhattan; weights: [0.42520706 0.42929676 0.42589493 0.42571339 0.44370719 0.44119522
+ 0.43279046]
+done with 8-normal-Euclidean; weights: [0.90017247 0.89721252 0.8875256  0.89725813 0.90421152 0.9076476
+ 0.88982944 0.87996213]
+done with 8-normal-InnerProduct; weights: [0.3929422  0.38727511 0.39921895 0.40252684 0.40013554 0.40550724
+ 0.39222505 0.39502864]
+done with 8-normal-Manhattan; weights: [0.40851961 0.41034211 0.40657466 0.40791934 0.41296861 0.41679407
+ 0.40593978 0.39671588]
+done with 9-normal-Euclidean; weights: [0.88765492 0.91568782 0.89355957 0.90272967 0.91071645 0.92012655
+ 0.90273442 0.90080094 0.90182493]
+done with 9-normal-InnerProduct; weights: [0.42389271 0.42491711 0.42542917 0.42000553 0.42369899 0.42511157
+ 0.42390204 0.41375349 0.42697225]
+done with 9-normal-Manhattan; weights: [0.38371276 0.39107971 0.38184545 0.38238161 0.39116194 0.39246898
+ 0.3848221  0.39389442 0.38080349]
+done with 10-normal-Euclidean; weights: [0.89680412 0.89078331 0.89703568 0.90976875 0.91412222 0.91782951
+ 0.92393634 0.93287668 0.89998727 0.93075487]
+done with 10-normal-InnerProduct; weights: [0.43957492 0.44495559 0.44650527 0.44990991 0.44767854 0.45184711
+ 0.4534259  0.44496299 0.4368689  0.45866663]
+done with 10-normal-Manhattan; weights: [0.35721999 0.36161765 0.35974836 0.37183186 0.36877326 0.37441966
+ 0.37525427 0.38060847 0.36750006 0.37995528]
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+WARNING! All optimized weights are zero, skipping this fold!
+done with 1-uniform-Euclidean; weights: [0.6400989]
+done with 1-uniform-InnerProduct; weights: [0.14866936]
+done with 1-uniform-Manhattan; weights: [0.79891144]
+done with 2-uniform-Euclidean; weights: [0.75997161 0.75970088]
+done with 2-uniform-InnerProduct; weights: [0.19632875 0.1979544 ]
+done with 2-uniform-Manhattan; weights: [0.67879408 0.67774834]
+done with 3-uniform-Euclidean; weights: [0.81302699 0.81928441 0.82535412]
+done with 3-uniform-InnerProduct; weights: [0.23600031 0.24208796 0.24680037]
+done with 3-uniform-Manhattan; weights: [0.58955855 0.59286972 0.60126957]
+done with 4-uniform-Euclidean; weights: [0.85071222 0.86418804 0.85396785 0.8468258 ]
+done with 4-uniform-InnerProduct; weights: [0.26991753 0.27872414 0.28180166 0.27745093]
+done with 4-uniform-Manhattan; weights: [0.52890609 0.54386227 0.53226275 0.53020449]
+done with 5-uniform-Euclidean; weights: [0.87495529 0.87243269 0.88650421 0.87168143 0.87314607]
+done with 5-uniform-InnerProduct; weights: [0.30911834 0.30706751 0.31434496 0.31826419 0.31114877]
+done with 5-uniform-Manhattan; weights: [0.48688968 0.48399281 0.49652585 0.48485066 0.48730929]
+done with 6-uniform-Euclidean; weights: [0.88627094 0.89893691 0.89191317 0.89799502 0.89218211 0.88883394]
+done with 6-uniform-InnerProduct; weights: [0.3363955  0.34486545 0.34490113 0.34246981 0.3476046  0.34185872]
+done with 6-uniform-Manhattan; weights: [0.44669525 0.45666986 0.4552642  0.45573931 0.45308912 0.44784054]
+done with 7-uniform-Euclidean; weights: [0.90939299 0.90143057 0.90243175 0.89182693 0.90814273 0.90746066
+ 0.91282012]
+done with 7-uniform-InnerProduct; weights: [0.37322462 0.36495987 0.36506609 0.36234865 0.37313809 0.36792481
+ 0.3595073 ]
+done with 7-uniform-Manhattan; weights: [0.42707619 0.42050121 0.42385912 0.41380105 0.42535955 0.42646977
+ 0.42769968]
+done with 8-uniform-Euclidean; weights: [0.91298756 0.9214995  0.91022049 0.91252673 0.91749588 0.9023299
+ 0.90774206 0.92149738]
+done with 8-uniform-InnerProduct; weights: [0.38867384 0.40057454 0.39754605 0.38707067 0.39371243 0.38788205
+ 0.3901305  0.39859222]
+done with 8-uniform-Manhattan; weights: [0.39882559 0.40356745 0.39664526 0.40091402 0.40029816 0.39196314
+ 0.39709546 0.40679319]
+done with 9-uniform-Euclidean; weights: [0.91639376 0.90624028 0.92782752 0.93505052 0.91559751 0.92390267
+ 0.92948113 0.9162648  0.91446174]
+done with 9-uniform-InnerProduct; weights: [0.41708436 0.40966838 0.41684199 0.43041014 0.40874006 0.41428308
+ 0.41558326 0.41366322 0.41411769]
+done with 9-uniform-Manhattan; weights: [0.37561724 0.37078711 0.38428698 0.38978435 0.37527815 0.38190064
+ 0.38444545 0.37655771 0.37369244]
+done with 10-uniform-Euclidean; weights: [0.91591661 0.93168743 0.9249713  0.92538667 0.92295624 0.92360736
+ 0.93286364 0.92954407 0.93290126 0.92487685]
+done with 10-uniform-InnerProduct; weights: [0.43181217 0.43964683 0.43317041 0.43159836 0.44460736 0.42985969
+ 0.43722085 0.44270712 0.44226688 0.44666821]
+done with 10-uniform-Manhattan; weights: [0.35466466 0.36434792 0.36052474 0.36080709 0.36009554 0.35908377
+ 0.36605209 0.36551172 0.3651739  0.35832007]

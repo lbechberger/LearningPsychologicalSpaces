@@ -1,3 +1,3 @@
-done with 4-Euclidean; weights: [0.93439357 0.92286776 0.92162647 0.91999242]
-done with 4-Manhattan; weights: [0.59735178 0.56400508 0.54691432 0.54318851]
-done with 4-inner product; weights: [0.65944828 0.5982755  0.57543969 0.55287603]
+done with 4-MDS-Euclidean; weights: [0.93439357 0.92286776 0.92162647 0.91999242]
+done with 4-MDS-InnerProduct; weights: [0.65944828 0.5982755  0.57543969 0.55287603]
+done with 4-MDS-Manhattan; weights: [0.59735178 0.56400508 0.54691432 0.54318851]
