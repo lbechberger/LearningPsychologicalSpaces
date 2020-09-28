@@ -224,6 +224,7 @@ def extract_inception_features(images, model_dir, output_shape):
     tarfile.open(filepath, 'r:gz').extractall(model_dir)
     
     # load the computation graph
+    tf.reset_default_graph()
     with gfile.FastGFile(os.path.join(model_dir, 'classify_image_graph_def.pb'), 'rb') as f:
         graph_def = tf.GraphDef()
         graph_def.ParseFromString(f.read())
