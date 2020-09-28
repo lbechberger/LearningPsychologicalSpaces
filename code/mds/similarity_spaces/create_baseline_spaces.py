@@ -23,7 +23,9 @@ parser.add_argument('-m', '--shuffled', nargs = '*', help = 'list of pickle file
 parser.add_argument('-s', '--seed', type = int, help = 'seed for random number generator', default = None)
 args = parser.parse_args()
 
-if sum([args.normal, args.uniform, len(args.shuffled)]) == 0:
+b_shuffle = False if args.shuffled is None else len(args.shuffled) > 0
+
+if sum([args.normal, args.uniform, b_shuffle]) == 0:
     raise Exception("At least one distribution type must be selected!")
 
 # grab list of items
@@ -81,7 +83,7 @@ if args.uniform:
 
 
 # thirdly: shuffled versions of actual MDS vectors
-if len(args.shuffled) > 0:
+if b_shuffle:
     
     def grouper(n, iterable, fillvalue=None):
         "grouper(3, 'ABCDEFG', 'x') --> ABC DEF Gxx"
