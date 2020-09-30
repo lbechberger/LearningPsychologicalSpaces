@@ -106,7 +106,7 @@ for dims in range(1, args.n_dims + 1):
 
 with open(args.output_file, 'w') as f_out:
     # write headline
-    headline_items = ['dims,data_source'] + categories
+    headline_items = ['dims,data_source'] + sorted(categories)
     f_out.write(','.join(headline_items))
     f_out.write('\n')
     
