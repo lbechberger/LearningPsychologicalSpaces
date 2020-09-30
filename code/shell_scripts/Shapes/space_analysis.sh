@@ -108,10 +108,11 @@ echo '    similarity spaces'
 for source_aggregator in $aggregators
 do
 	# if precomputed distances exist: use them; if not: re-compute them
-	[ -f 'data/Shapes/mds/analysis/correlations/mds_from_'"$source_aggregator"'_distances.pickle' ] && vectors_flag='' || vectors_flag='-v data/Shapes/mds/similarities/aggregator/'"$source_aggregator"'/vectors.pickle -b data/Shapes/mds/analysis/baseline_vectors.pickle'
+	[ -f 'data/Shapes/mds/analysis/correlations/mds_from_'"$source_aggregator"'_distances.pickle' ] && vectors_flag='' || vectors_flag='-v data/Shapes/mds/similarities/aggregator/'"$source_aggregator"'/vectors.pickle'
 	for target_aggregator in $aggregators
 	do
-		python -m code.mds.correlations.mds_correlations 'data/Shapes/mds/similarities/aggregator/'"$target_aggregator"'/aggregated_ratings.pickle' 'data/Shapes/mds/analysis/correlations/mds_from_'"$source_aggregator"'_distances.pickle' 'data/Shapes/mds/analysis/correlations/'"$target_aggregator"'/mds_from_'"$source_aggregator"'.csv' $vectors_flag --n_max $dimension_limit --kendall -s 42 &> 'data/Shapes/mds/analysis/correlations/'"$target_aggregator"'/mds_from_'"$source_aggregator"'_log.txt'
+		[ "$source_aggregator" == "mean" ] && baseline_flag='-b data/Shapes/mds/analysis/baseline_vectors.pickle' || baseline_flag=''
+		python -m code.mds.correlations.mds_correlations 'data/Shapes/mds/similarities/aggregator/'"$target_aggregator"'/aggregated_ratings.pickle' 'data/Shapes/mds/analysis/correlations/mds_from_'"$source_aggregator"'_distances.pickle' 'data/Shapes/mds/analysis/correlations/'"$target_aggregator"'/mds_from_'"$source_aggregator"'.csv' $vectors_flag $baseline_flag --n_max $dimension_limit --kendall -s 42 &> 'data/Shapes/mds/analysis/correlations/'"$target_aggregator"'/mds_from_'"$source_aggregator"'_log.txt'
 
 	done
 done
@@ -182,9 +183,10 @@ echo 'analyzing conceptual regions'
 echo '    overlap of convex hulls'
 for aggregator in $aggregators
 do
+	[ "$aggregator" == "mean" ] && baseline_flag='-b data/Shapes/mds/analysis/baseline_vectors.pickle' || baseline_flag=''
 	for i in `seq 1 $convexity_limit`
 	do
-		python -m code.mds.regions.analyze_overlap 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/vectors.pickle' $i 'data/Shapes/mds/analysis/regions/'"$aggregator"'/overlap.csv' -b data/Shapes/mds/analysis/baseline_vectors.pickle &
+		python -m code.mds.regions.analyze_overlap 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/vectors.pickle' $i 'data/Shapes/mds/analysis/regions/'"$aggregator"'/overlap.csv' $baseline_flag &
 	done
 done
 wait
@@ -192,9 +194,10 @@ wait
 echo '    size'
 for aggregator in $aggregators
 do
+	[ "$aggregator" == "mean" ] && baseline_flag='-b data/Shapes/mds/analysis/baseline_vectors.pickle' || baseline_flag=''
 	for i in `seq 1 $dimension_limit`
 	do	
-		python -m code.mds.regions.analyze_concept_size 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/vectors.pickle' $i 'data/Shapes/mds/analysis/regions/'"$aggregator"'/size.csv' -b data/Shapes/mds/analysis/baseline_vectors.pickle &
+		python -m code.mds.regions.analyze_concept_size 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/vectors.pickle' $i 'data/Shapes/mds/analysis/regions/'"$aggregator"'/size.csv' $baseline_flag &
 	done
 done
 wait
@@ -208,11 +211,12 @@ echo 'analyzing interpretable directions'
 echo '    finding directions'
 for aggregator in $aggregators
 do
+	[ "$aggregator" == "mean" ] && baseline_flag='-b data/Shapes/mds/analysis/baseline_vectors.pickle' || baseline_flag=''
 	for direction in $directions
 	do
 		for i in `seq 1 $dimension_limit`
 		do
-			python -m code.mds.directions.find_directions 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/vectors.pickle' $i 'data/Shapes/mds/features/'"$direction"'.pickle' 'data/Shapes/mds/data_set/spaces/directions/'"$aggregator"'/'"$direction"'.csv' -b data/Shapes/mds/analysis/baseline_vectors.pickle &
+			python -m code.mds.directions.find_directions 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/vectors.pickle' $i 'data/Shapes/mds/features/'"$direction"'.pickle' 'data/Shapes/mds/data_set/spaces/directions/'"$aggregator"'/'"$direction"'.csv' $baseline_flag &
 		done
 		wait
 	done
