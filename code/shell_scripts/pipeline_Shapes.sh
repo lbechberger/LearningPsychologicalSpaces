@@ -6,10 +6,10 @@ then
 	echo '[ERROR: no argument given, exiting now!]'
 	exit 1
 
-# parameter 'paper' means execution of paper code only
-elif [ $1 = paper ]
+# parameter 'mds' means execution of similarity space analysis only
+elif [ $1 = mds ]
 then
-	echo '[configuration of paper]'
+	echo '[configuration of MDS paper]'
 
 	# data analysis setup
 	rating_types=("visual conceptual")
