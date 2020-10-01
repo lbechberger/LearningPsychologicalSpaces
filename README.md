@@ -1,16 +1,63 @@
 # LearningPsychologicalSpaces
 v0.1: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1220053.svg)](https://doi.org/10.5281/zenodo.1220053)
 v1.1: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3340766.svg)](https://doi.org/10.5281/zenodo.3340766)
+v1.2: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3712917.svg)](https://doi.org/10.5281/zenodo.3712917)
 
-The code in this repository explores learning a mapping from images to psychological similarity spaces with neural networks. 
 
-Research based on an earlier version (v0.1) of this repository has been presented at [AIC 2018](http://aic2018.pa.icar.cnr.it/): 
-
-Lucas Bechberger and Elektra Kypridemou. "Mapping Images to Psychological Similarity Spaces Using Neural Networks" [Paper](http://ceur-ws.org/Vol-2418/) [Preprint](https://arxiv.org/abs/1804.07758)
+The code in this repository explores learning a mapping from images to psychological similarity spaces with neural networks.
+It has been used as a basis for the following publications:
+- Lucas Bechberger and Elektra Kypridemou. "Mapping Images to Psychological Similarity Spaces Using Neural Networks". 6th International Workshop on Artificial Intelligence and Cognition, Palermo/Italy, July 2018. [Paper](http://ceur-ws.org/Vol-2418/) [Preprint](https://arxiv.org/abs/1804.07758) [Release v0.1](https://doi.org/10.5281/zenodo.1220053)
+- Lucas Bechberger and Kai-Uwe Kühnberger. "Generalizing Psychological Similarity Spaces to Unseen Stimuli - Combining Multidimensional Scaling with Artificial Neural Networks". In Lucas Bechberger, Kai-Uwe Kühnberger, and Mingya Liu: "Concepts in Action - Representation, Learning, and Application" Language, Cognition, and Mind (forthcoming) [Preprint](https://arxiv.org/abs/1908.09260) [Release v1.3]()
 
 ## Table of Contents
 
-- [About](#about) 
+- [1 About](#1-about) 
+  - [1.1 The NOUN study](#11-the-noun-study)
+  - [1.2 The Shapes study](#12-the-shapes-study)
+- [2 Multidimensional Scaling](#2-multidimensional-scaling)
+  - [2.1 Preprocessing](#21-preprocessing)
+    - [2.1.1 Parsing NOUN Similarity Data](#211-parsing-noun-similarity-data)
+    - [2.1.2 Parsing Shapes Similarity Data](#212-parsing-shapes-similarity-data)
+    - [2.1.3 Aggregating Similarity Ratings](#213-aggregating-similarity-ratings)
+    - [2.1.4 Parsing Shape Features Data](#214-parsing-shape-features-data)
+    - [2.1.5 Exporting Feature Data to CSV](#215-exporting-feature-data-to-csv)
+    - [2.1.6 Creating Features from Category Information](#216-creating-features-from-category-information)
+  - [2.2 Analysis of the Data Set](#22-analysis-of-the-data-set)
+    - [2.2.1 Correlations between Psychological Features](#221-correlations-between-psychological-features)
+    - [2.2.2 Creating Average Images](#222-creating-average-images)
+    - [2.2.3 Comparing Visual and Conceptual Similarity Ratings](#223-comparing-visual-and-conceptual-similarity-ratings)
+    - [2.2.4 Creating Visualizations of the Similarity Matrices](#224-creating-visualizations-of-the-similarity-matrices)
+  - [2.3 Creating Similarity Spaces](#23-creating-similarity-spaces)
+    - [2.3.1 Applying MDS](#231-applying-mds)
+    - [2.3.2 Normalizing the Similarity Spaces](#232-normalizing-the-similarity-spaces)
+    - [2.3.3 Visualizing the Similarity Spaces](#233-visualizing-the-similarity-spaces)
+    - [2.3.4 Creating Random Baseline Spaces](#234-creating-random-baseline-spaces)
+  - [2.4 Analyzing Correlations between Distances and Dissimilarities](#24-analyzing-correlations-between-distances-and-dissimilarities)
+    - [2.4.1 Pixel Baseline](#241-pixel-baseline)
+    - [2.4.2 Visualizing the Correlations of the Pixel Baseline](#242-visualizing-the-correlations-of-the-pixel-baseline)
+    - [2.4.3 ANN Baseline](#243-ann-baseline)
+    - [2.4.4 Feature Baseline](#244-feature-baseline)
+    - [2.4.5 Distances in MDS Space](#245-distances-in-mds-space)
+    - [2.4.6 Creating Shepard Diagrams](#246-creating-shepard-diagrams)
+  - [2.5 Analyzing Conceptual Regions](#25-analyzing-conceptual-regions)
+    - [2.5.1 Checking for Overlap](#251-checking-for-overlap)
+    - [2.5.2 Analyzing Concept Size](#252-analyzing-concept-size)
+  - [2.6 Analyzing Interpretable Directions](#26-analyzing-interpretable-directions)
+    - [2.6.1 Finding Interpretable Directions](#261-finding-interpretable-directions)
+    - [2.6.2 Comparing Interpretable Directions](#262-comparing-interpretable-directions)
+    - [2.6.3 Filtering Interpretable Directions](#263-filtering-interpretable-directions)
+    - [2.6.4 Aggregating Evaluation Results for Interpretable Directions](#264-aggregating-evaluation-results-for-interpretable-directions)
+- [3 Machine Learning](#3-machine-learning)
+  - [3.1 Preparing the Data Set for Machine Learning](#31-preparing-the-data-set-for-machine-learning)
+    - [3.1.1 Data Augmentation](#311-data-augmentation)
+    - [3.1.2 Visualizing Augmented Images](#312-visualizing-augmented-images)
+    - [3.1.3 Defining Regression Targets](#313-defining-regression-targets)
+  - [3.2 Linear Regression](#32-linear-regression)
+    - [3.2.1 ANN-based Feature Extraction](#321-ann-based-feature-extraction)
+    - [3.2.2 Pixel-based Feature Extraction](#322-pixel-based-feature-extraction)
+    - [3.2.3 Cluster Analysis of Feature Vectors](#323-cluster-analysis-of-feature-vectors)
+    - [3.2.4 Regression and Baselines](#324-regression-and-baselines)
+
 
 ## 1 About
 
