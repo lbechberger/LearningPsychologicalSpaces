@@ -2,12 +2,15 @@
 - v0.1: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1220053.svg)](https://doi.org/10.5281/zenodo.1220053)
 - v1.1: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3340766.svg)](https://doi.org/10.5281/zenodo.3340766)
 - v1.2: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3712917.svg)](https://doi.org/10.5281/zenodo.3712917)
+- v1.3: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4061287.svg)](https://doi.org/10.5281/zenodo.4061287)
+
+
 
 
 The code in this repository explores learning a mapping from images to psychological similarity spaces with neural networks.
 It has been used as a basis for the following publications:
 - Lucas Bechberger and Elektra Kypridemou. "Mapping Images to Psychological Similarity Spaces Using Neural Networks". 6th International Workshop on Artificial Intelligence and Cognition, Palermo/Italy, July 2018. [Paper](http://ceur-ws.org/Vol-2418/) [Preprint](https://arxiv.org/abs/1804.07758) [Release v0.1](https://doi.org/10.5281/zenodo.1220053)
-- Lucas Bechberger and Kai-Uwe Kühnberger. "Generalizing Psychological Similarity Spaces to Unseen Stimuli - Combining Multidimensional Scaling with Artificial Neural Networks". In Lucas Bechberger, Kai-Uwe Kühnberger, and Mingya Liu: "Concepts in Action: Representation, Learning, and Application" Language, Cognition, and Mind. Springer (forthcoming) [Preprint](https://arxiv.org/abs/1908.09260) [Release v1.3]()
+- Lucas Bechberger and Kai-Uwe Kühnberger. "Generalizing Psychological Similarity Spaces to Unseen Stimuli - Combining Multidimensional Scaling with Artificial Neural Networks". In Lucas Bechberger, Kai-Uwe Kühnberger, and Mingya Liu: "Concepts in Action: Representation, Learning, and Application" Language, Cognition, and Mind. Springer (forthcoming) [Preprint](https://arxiv.org/abs/1908.09260) [Release v1.3](https://doi.org/10.5281/zenodo.4061287)
 
 ## Table of Contents
 
