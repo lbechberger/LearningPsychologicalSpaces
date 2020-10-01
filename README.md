@@ -8,6 +8,10 @@ Research based on an earlier version (v0.1) of this repository has been presente
 
 Lucas Bechberger and Elektra Kypridemou. "Mapping Images to Psychological Similarity Spaces Using Neural Networks" [Paper](http://ceur-ws.org/Vol-2418/) [Preprint](https://arxiv.org/abs/1804.07758)
 
+## Table of Contents
+
+- (#about) 
+
 ## 1 About
 
 Our scripts use TensorFlow 1.10 with Python 3.5 along with scikit-learn. You can find scripts for setting up a virtual environment with anaconda in the [Utilities](https://github.com/lbechberger/Utilities) project.
