@@ -10,7 +10,7 @@ Lucas Bechberger and Elektra Kypridemou. "Mapping Images to Psychological Simila
 
 ## Table of Contents
 
-- (#about) 
+- [About](#about) 
 
 ## 1 About
 
