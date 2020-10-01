@@ -1,7 +1,7 @@
 # LearningPsychologicalSpaces
-v0.1: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1220053.svg)](https://doi.org/10.5281/zenodo.1220053)
-v1.1: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3340766.svg)](https://doi.org/10.5281/zenodo.3340766)
-v1.2: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3712917.svg)](https://doi.org/10.5281/zenodo.3712917)
+- v0.1: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1220053.svg)](https://doi.org/10.5281/zenodo.1220053)
+- v1.1: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3340766.svg)](https://doi.org/10.5281/zenodo.3340766)
+- v1.2: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3712917.svg)](https://doi.org/10.5281/zenodo.3712917)
 
 
 The code in this repository explores learning a mapping from images to psychological similarity spaces with neural networks.
