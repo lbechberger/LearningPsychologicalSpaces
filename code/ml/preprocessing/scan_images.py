@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Create histograms of Shape images.
+Create histograms of images.
 
 Created on Thu Dec  3 10:36:18 2020
 
@@ -10,13 +10,17 @@ Created on Thu Dec  3 10:36:18 2020
 import argparse, os
 import skimage.io
 import numpy as np
+import matplotlib.pyplot as plt
 
-parser = argparse.ArgumentParser(description='Scan Shape images')
+
+parser = argparse.ArgumentParser(description='Scan images')
 parser.add_argument('input_folder', help = 'folder containing the Shape images')
+parser.add_argument('image_size', type = int, help = 'width and height of the image')
 args = parser.parse_args()
 
 all_binary = True
 fill_sizes = []
+all_pixels = []
 
 for file_name in os.listdir(args.input_folder):
     image = skimage.io.imread(fname=os.path.join(args.input_folder, file_name), as_gray=True)
@@ -24,21 +28,20 @@ for file_name in os.listdir(args.input_folder):
     black_and_white = histogram[0] + histogram[255]
     is_binary = black_and_white == sum(histogram)
 
-    min_x = 282
-    min_y = 282
+    min_x = args.image_size - 1
+    min_y = args.image_size - 1
     max_x = 0
     max_y = 0
 
-    for x in range(283):
-        for y in range(283):
+    for x in range(args.image_size):
+        for y in range(args.image_size):
             img_val = image[x][y] if np.isscalar(image[x][y]) else image[x][y][0]
             if img_val < 64:
                 min_x = min(min_x, x)
                 min_y = min(min_y, y)
                 max_x = max(max_x, x)
                 max_y = max(max_y, y)
-#            elif img_val < 255:
-#                print(img_val)
+            all_pixels.append(img_val)
     
     width = max_x - min_x
     height = max_y - min_y
@@ -47,10 +50,13 @@ for file_name in os.listdir(args.input_folder):
     if height < 0:
         print(height, max_y, min_y)
     
-    fill_size = max(width,height)/283
+    fill_size = max(width,height)/args.image_size
     
     print(file_name, is_binary, fill_size)
     all_binary = all_binary and is_binary
     fill_sizes.append(fill_size)
 
 print('\n', all_binary, np.mean(fill_sizes), np.std(fill_sizes), np.min(fill_sizes), np.max(fill_sizes))
+n, _, _ = plt.hist(all_pixels, bins=256, log=True)
+plt.show()
+print('\n'.join(map(lambda x: str(x), n)))
