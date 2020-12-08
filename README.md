@@ -556,11 +556,11 @@ The folder `code/ml` contains all scripts necessary for the second part of our s
 
 ### 3.1 Preparing the Data Set for Machine Learning
 
-In order to run a regression from images to MDS coordinates, multiple preprocessing steps are necessary. Firstly, we need to augment our data set by creating a large amount of slightly distorted image variants. This is done in order to achieve a data set of reasonable size for a machine learning task. Moreover, for each of the images, the target MDS coordinates need to be prepared. All scripts for these steps can be found in the `code/ml/prprocessing` folder.
+In order to run a regression from images to MDS coordinates, multiple preprocessing steps are necessary. Firstly, we need to augment our data set by creating a large amount of slightly distorted image variants. This is done in order to achieve a data set of reasonable size for a machine learning task. Moreover, for each of the images, the target MDS coordinates need to be prepared. All scripts for these steps can be found in the `code/ml/preprocessing` folder.
 
 #### 3.1.1 Data Augmentation
 
-We used [ImgAug](https://github.com/aleju/imgaug) for augmenting our image data set. This is done with the script `data_augmentation.py`. It can be invoked as follows:
+We used [ImgAug](https://github.com/aleju/imgaug) for augmenting our image data set for the NOUN data set. This is done with the script `data_augmentation.py`. It can be invoked as follows:
 ```
 python -m code.ml.preprocessing.data_augmentation path/to/image_folder/ path/to/output_folder/ n
 ```
@@ -583,7 +583,7 @@ Augmentation is done by appling the folloing operations in random order:
 
 #### 3.1.2 Visualizing Augmented Images
 
-In order to visually check that the augmentation step worked, you can use the script `show_augmented_images.py` to display them. It can be executed as follows:
+In order to visually check that the augmentation step worked for the NOUN data, you can use the script `show_augmented_images.py` to display them. It can be executed as follows:
 ```
 python -m code.ml.preprocessing.show_augmented_images path/to/augmented.pickle
 ```
@@ -599,6 +599,16 @@ Here, `input.csv` is a csv file with two columns: In each row, the first column 
 
 The result is stored in `output.pickle` as a dictionary having the names of the target spaces as keys and further dictionaries (with the keys `correct` and `shuffled` leading to dictionaries with the corresponding image-vector mappings) as values.
 
+#### 3.1.4 Data Set Creation for Shapes study
+
+Since our Shapes study makes use of multiple data sources and a specific augmentation process, we created a separate script called `prepare_Shapes_data.py` for this preprocessing stage. It can be invoked as follows:
+```python -m code.ml.preprocessing.prepare_Shapes_data path/to/folds_file.csv path/to/output_directory/ factor```
+Here, `folds_file.csv` is a csv file that contains the columns `path` (giving the relative path of the image file from the project's root directory) and `fold` (the fold to which this image belongs). For classification data, a column `class` indicates the image class, while for data with psychological similarity ratings, the column `id` gives the stimulus ID used in the similarity space. The script will read all images listed in the `path` column of the `folds_file.csv`, create `factor` augmented copies of each image (by scaling it to a random size between 168 and 224 and by randomly translating it afterwards). The resulting augmented images will be stored as individual png files in the given `output_directory`.
+
+The script takes the following optional arguments:
+- `-p` or `--pickle_output`: If a pickle output similar to the one provided by `data_augmentation.py` is desired
+- `-n` or `--noise_prob`: A list of floats specifying the different noise levels of salt and pepper noise to be added in the pickle versions.
+- `-s` or `--seed`: Specify a seed for the random number generator in order to make the results deterministic. If no seed is given, then the random number generator is not seeded.
 
 ### 3.2 Linear Regression
 
