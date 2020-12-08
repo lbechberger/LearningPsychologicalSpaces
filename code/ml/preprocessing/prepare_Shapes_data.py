@@ -53,13 +53,20 @@ with open(args.folds_file, 'r') as f_in:
         contours = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         contours = contours[0] if len(contours) == 2 else contours[1]
         
-        largest = (0,0,0,0)
+        x_low = 243
+        y_low = 243
+        x_high = 0
+        y_high = 0
         for c in contours:
             x,y,w,h = cv2.boundingRect(c)
-            if w*h > largest[2]*largest[3]:
-                largest = (x,y,w,h)
+            x_low = min(x_low, x)
+            y_low = min(y_low, y)
+            x_high = max(x_high, x + w)
+            y_high = max(y_high, y + h)
 
-        cropped = image[y:y+h, x:x+w]
+        cropped = image[y_low:y_high, x_low:x_high]
+        w = x_high - x_low
+        h = y_high - y_low
 
         # compute sizes
         cropped_size = max(h,w)
