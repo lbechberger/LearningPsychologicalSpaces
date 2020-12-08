@@ -27,13 +27,13 @@ parser.add_argument('factor', type = int, help = 'number of augmented samples pe
 parser.add_argument('-p', '--pickle_output', help = 'prefix of pickle output files (if desired)', default = None)
 parser.add_argument('-n', '--noise_prob', nargs = '+', type = float, help = 'noise levels to use for pickle output', default = None)
 parser.add_argument('-s', '--seed', type = int, help = 'seed for random number generation', default = None)
+parser.add_argument('-o', '--output_size', type = int, help = 'size of output image', default = 224)
+parser.add_argument('-m', '--minimum_size', type = int, help = 'minimal size of output object', default = 168)
 args = parser.parse_args()
 
 pixel_histogram = [0]*256
-possible_sizes = list(range(168,225))
-size_histogram = [0]*57
-
-image_counter = 0
+possible_sizes = list(range(args.minimum_size, args.output_size + 1))
+size_histogram = [0]*(len(possible_sizes))
 
 if args.seed is not None:
     np.random.seed(args.seed)
@@ -42,6 +42,7 @@ with open(args.folds_file, 'r') as f_in:
     reader = csv.DictReader(f_in, delimiter=',')
     for row in reader:
         image_path = row['path']
+        image_name = os.path.splitext(os.path.split(image_path)[1])[0]
         fold = row['fold']
 
         # load image
@@ -53,8 +54,8 @@ with open(args.folds_file, 'r') as f_in:
         contours = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         contours = contours[0] if len(contours) == 2 else contours[1]
         
-        x_low = 243
-        y_low = 243
+        x_low = args.output_size - 1
+        y_low = args.output_size - 1
         x_high = 0
         y_high = 0
         for c in contours:
@@ -72,7 +73,7 @@ with open(args.folds_file, 'r') as f_in:
         cropped_size = max(h,w)
         cropped_aspect_ratio = min(h,w)/max(h,w)
 
-        size_combinations = [(225-i)*int(225-i*cropped_aspect_ratio) for i in possible_sizes]
+        size_combinations = [(args.output_size - i + 1)*int(args.output_size - i*cropped_aspect_ratio + 1) for i in possible_sizes]
         size_probabilities = [i/sum(size_combinations) for i in size_combinations]
         
         augmented_sizes = np.random.choice(possible_sizes, args.factor, p=size_probabilities)
@@ -88,8 +89,8 @@ with open(args.folds_file, 'r') as f_in:
         # compute translations
         augmented_translations = []
         for dim in augmented_dims:
-            x_offset = np.random.randint(225-dim[0])
-            y_offset = np.random.randint(225-dim[1])
+            x_offset = np.random.randint(args.output_size + 1 - dim[0])
+            y_offset = np.random.randint(args.output_size + 1 - dim[1])
             augmented_translations.append((x_offset, y_offset))
 
         # create images
@@ -100,23 +101,22 @@ with open(args.folds_file, 'r') as f_in:
             rescaled = cv2.resize(cropped, dim)
 
             top = translation[1]
-            bottom = (224 - translation[1] - dim[1])
+            bottom = (args.output_size - translation[1] - dim[1])
             left = translation[0]
-            right = (224 - translation[0] - dim[0])
+            right = (args.output_size - translation[0] - dim[0])
             
             padded = cv2.copyMakeBorder(rescaled, top, bottom, left, right, cv2.BORDER_CONSTANT, value=255)
 
             augmented_images.append(padded)
 
         # export images as png files
-        for img in augmented_images:
-            output_path = os.path.join(args.output_directory, fold, "{0}.png".format(image_counter))
-            image_counter += 1
+        for idx, img in enumerate(augmented_images):
+            output_path = os.path.join(args.output_directory, fold, "{0}-{1}.png".format(image_name, idx))
             cv2.imwrite(output_path, img)
 
         # store histogram and size information
         for s in augmented_sizes:
-            size_histogram[s-168] += 1
+            size_histogram[s - args.minimum_size] += 1
         
         for img in augmented_images:
             img_hist, _ = np.histogram(img, bins=256)
@@ -139,11 +139,11 @@ with open(args.folds_file, 'r') as f_in:
 # print overall histograms of sizes and pixel values
 print('SIZE')
 for idx, val in enumerate(size_histogram):
-    print('{0},{1}'.format(168+idx,val))
+    print('{0},{1}'.format(args.minimum_size + idx, val))
 
 print('\nPIXEL')
 for idx, val in enumerate(pixel_histogram):
-    print('{0},{1}'.format(idx,val))
+    print('{0},{1}'.format(idx, val))
 
 # store labels
 

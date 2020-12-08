@@ -609,6 +609,8 @@ The script takes the following optional arguments:
 - `-p` or `--pickle_output`: If a pickle output similar to the one provided by `data_augmentation.py` is desired
 - `-n` or `--noise_prob`: A list of floats specifying the different noise levels of salt and pepper noise to be added in the pickle versions.
 - `-s` or `--seed`: Specify a seed for the random number generator in order to make the results deterministic. If no seed is given, then the random number generator is not seeded.
+- `-o` or `--output_size`: Size of the output image, defaults to 224.
+- `-m` or `--minimum_size`: Minimal size of the object, defaults to 168.
 
 ### 3.2 Linear Regression
 
