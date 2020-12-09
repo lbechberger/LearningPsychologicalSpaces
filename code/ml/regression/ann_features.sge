@@ -1,6 +1,6 @@
 #!/bin/bash
 #$ -N ANN_features
-#$ -l mem=128G
+#$ -l mem=256G
 #$ -pe default 4
 #$ -l h_rt=1:30:00
 #$ -l cuda=1
