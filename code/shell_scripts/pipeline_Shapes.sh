@@ -32,6 +32,9 @@ then
 	baselines_ex1=("--zero")
 	regressors_ex1=("--linear")
 	lassos=("0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1.0 2.0 5.0 10.0")
+	noises=("0.1 0.25 0.55")
+	best_noise=0.1
+	dims=("1 2 3 5 6 7 8 9 10")
 
 
 # parameter 'dissertation' means execution of full code as used in dissertation
@@ -51,6 +54,10 @@ then
 	convexity_limit=5
 	criteria=("kappa spearman")
 	directions=("FORM LINES ORIENTATION visSim artificial")
+
+	# machine learning setup
+	lassos=("0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1.0 2.0 5.0 10.0")
+	noises=("0.1 0.25 0.55")
 
 # all other parameters are not supported
 else
