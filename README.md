@@ -692,7 +692,7 @@ The network can be regularized by using the following optional arguments:
 - `-d` or `--decoder_dropout`: If this flag is set, dropout will be used in the first two fully connected layers of the decoder.
 - `-n` or `--noise_prob`: The probability for the salt and pepper noise being applied to the inputs. Defaults to 0.1 (i.e., an expected amount of 10% of the pixels)
 
-Finally, one can seed the random number generator with the optional argument `-s` or `--seed` in order to make the results deterministic.
+Moreover, one can seed the random number generator with the optional argument `-s` or `--seed` in order to make the results deterministic. If the flag `-t` or `--test` is set, the number of iterations is drastically reduced for testing and debugging purposes.
 
 Each execution of `run_ann.py` appends one line to the given `output.csv` file, representing the average results of a five-fold cross validation. The first column of `output.csv` encodes the overall setup used with a single signature string. The following columns contain the following information: **TODO: determine and list**
 
