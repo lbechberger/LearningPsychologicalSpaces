@@ -24,6 +24,16 @@ then
 	criteria=("kappa spearman")
 	directions=("FORM LINES ORIENTATION")
 
+# parameter 'ml' means execution of machine learning experiments only
+elif [ $1 = ml ]
+then
+	echo '[configuration of ML paper]'
+
+	baselines_ex1=("--zero")
+	regressors_ex1=("--linear")
+	lassos=("0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1.0 2.0 5.0 10.0")
+
+
 # parameter 'dissertation' means execution of full code as used in dissertation
 elif [ $1 = dissertation ]
 then
@@ -49,5 +59,13 @@ else
 fi
 
 # now execute all individual scripts 
-. code/shell_scripts/Shapes/data_analysis.sh
-. code/shell_scripts/Shapes/space_analysis.sh
+if [ $1 = mds ] || [ $1 = dissertation ]
+then
+	. code/shell_scripts/Shapes/data_analysis.sh
+	. code/shell_scripts/Shapes/space_analysis.sh
+fi
+if [ $1 = ml ] || [ $1 = dissertation ]
+then
+	. code/shell_scripts/Shapes/ml_setup.sh
+	. code/shell_scripts/Shapes/experiment_1.sh
+fi
