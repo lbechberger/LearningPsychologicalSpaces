@@ -606,7 +606,7 @@ Since our Shapes study makes use of multiple data sources and a specific augment
 Here, `folds_file.csv` is a csv file that contains the columns `path` (giving the relative path of the image file from the project's root directory) and `fold` (the fold to which this image belongs). For classification data, a column `class` indicates the image class, while for data with psychological similarity ratings, the column `id` gives the stimulus ID used in the similarity space. The script will read all images listed in the `path` column of the `folds_file.csv`, create `factor` augmented copies of each image (by scaling it to a random size between 168 and 224 and by randomly translating it afterwards). The resulting augmented images will be stored as individual png files in the given `output_directory`.
 
 The script takes the following optional arguments:
-- `-p` or `--pickle_output`: If a pickle output similar to the one provided by `data_augmentation.py` is desired
+- `-p` or `--pickle_output_folder`: If a pickle output similar to the one provided by `data_augmentation.py` is desired, you can define the output folder for the augmented images here.
 - `-n` or `--noise_prob`: A list of floats specifying the different noise levels of salt and pepper noise to be added in the pickle versions.
 - `-s` or `--seed`: Specify a seed for the random number generator in order to make the results deterministic. If no seed is given, then the random number generator is not seeded.
 - `-o` or `--output_size`: Size of the output image, defaults to 224.
