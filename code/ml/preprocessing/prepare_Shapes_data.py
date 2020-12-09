@@ -15,16 +15,16 @@ Created on Thu Dec  3 10:36:18 2020
 """
 
 import argparse, os, pickle, csv
-#import skimage.io
 import numpy as np
 import cv2
+import tensorflow as tf
 
 
 parser = argparse.ArgumentParser(description='Prepare the data set for the Shapes study')
 parser.add_argument('folds_file', help = 'csv file containing fold information')
 parser.add_argument('output_directory', help = 'path to output directory')
 parser.add_argument('factor', type = int, help = 'number of augmented samples per original image')
-parser.add_argument('-p', '--pickle_output', help = 'prefix of pickle output files (if desired)', default = None)
+parser.add_argument('-p', '--pickle_output_folder', help = 'folder for pickle output files (if desired)', default = None)
 parser.add_argument('-n', '--noise_prob', nargs = '+', type = float, help = 'noise levels to use for pickle output', default = None)
 parser.add_argument('-s', '--seed', type = int, help = 'seed for random number generation', default = None)
 parser.add_argument('-o', '--output_size', type = int, help = 'size of output image', default = 224)
@@ -35,8 +35,13 @@ pixel_histogram = [0]*256
 possible_sizes = list(range(args.minimum_size, args.output_size + 1))
 size_histogram = [0]*(len(possible_sizes))
 
+pickle_output = {}
+
 if args.seed is not None:
     np.random.seed(args.seed)
+
+if args.pickle_output_folder is not None:
+    folds_info = []
 
 with open(args.folds_file, 'r') as f_in:
     reader = csv.DictReader(f_in, delimiter=',')
@@ -44,6 +49,14 @@ with open(args.folds_file, 'r') as f_in:
         image_path = row['path']
         image_name = os.path.splitext(os.path.split(image_path)[1])[0]
         fold = row['fold']
+        if fold not in pickle_output:
+            pickle_output[fold] = []
+        
+        additional_info = None
+        if 'class' in row:
+            additional_info = row['class']
+        elif 'id' in row:
+            additional_info = row['id']
 
         # load image
         image = cv2.imread(image_path)
@@ -113,6 +126,8 @@ with open(args.folds_file, 'r') as f_in:
         for idx, img in enumerate(augmented_images):
             output_path = os.path.join(args.output_directory, fold, "{0}-{1}.png".format(image_name, idx))
             cv2.imwrite(output_path, img)
+            
+            pickle_output[fold].append((output_path, additional_info))
 
         # store histogram and size information
         for s in augmented_sizes:
@@ -124,17 +139,48 @@ with open(args.folds_file, 'r') as f_in:
                 pixel_histogram[i] += img_hist[i]
 
 
-        if args.pickle_output is not None:
+        if args.pickle_output_folder is not None:
 
             if args.noise_prob is None:
                 raise(Exception("Need noise probability for pickle export!"))
 
-            for noise_prob in args.noise_prob:
-                pass
-            
-                # TODO apply salt and pepper
+            # store folds info for later
+            folds_info.append('{0},{1}\n'.format(additional_info, fold))
 
-                # TODO store pickle output
+            # define tensorflow graph: image --> string
+            tf_image = tf.placeholder(tf.uint8, shape=(args.output_size, args.output_size, 1))
+            encoder = tf.image.encode_jpeg(tf_image)
+
+            with tf.Session() as session:
+                session.run(tf.global_variables_initializer())
+            
+                for noise_prob in args.noise_prob:
+                    pass
+                
+                    # apply salt and pepper noise
+                    # based on https://www.programmersought.com/article/3363136769/
+                    corrupted_images = []
+                    for img in augmented_images:
+                        mask = np.random.choice((0,1,2), size = (args.output_size, args.output_size), p = (1 - noise_prob, 0.5 * noise_prob, 0.5 * noise_prob))
+                        noisy_img = img.copy()
+                        noisy_img[mask == 1] = 255
+                        noisy_img[mask == 2] = 0
+                        noisy_img = noisy_img.reshape((args.output_size, args.output_size, 1))
+                        encoded_image = session.run(encoder, feed_dict = {tf_image : noisy_img})
+                        corrupted_images.append(encoded_image)
+
+
+                    # store pickle output
+                    noise_output_path = os.path.join(args.pickle_output_folder, str(noise_prob), "{0}.pickle".format(additional_info))
+                    with open(noise_output_path, 'wb') as f_out:
+                        pickle.dump(corrupted_images, f_out)
+
+if args.pickle_output_folder is not None:            
+    # need different format for folds information --> create manually
+    folds_output_path = os.path.join(args.pickle_output_folder, "folds.csv")
+    with open(folds_output_path, 'w') as f_out:
+        for line in folds_info:
+            f_out.write(line)
 
 # print overall histograms of sizes and pixel values
 print('SIZE')
@@ -145,6 +191,11 @@ print('\nPIXEL')
 for idx, val in enumerate(pixel_histogram):
     print('{0},{1}'.format(idx, val))
 
-# store labels
-
+# store paths and labels (in shuffled order!)
+pickle_output_path = os.path.join(args.output_directory, "{0}.pickle".format(os.path.splitext(os.path.split(args.folds_file)[1])[0]))
+for fold in pickle_output.keys():
+    np.random.shuffle(pickle_output[fold])
+    
+with open(pickle_output_path, 'wb') as f_out:
+    pickle.dump(pickle_output, f_out)
 

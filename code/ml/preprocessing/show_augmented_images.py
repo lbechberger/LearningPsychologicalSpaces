@@ -32,6 +32,12 @@ with tf.Session() as session:
     for i in range(args.rows * args.columns):
         ax = fig.add_subplot(args.rows, args.columns, i+1)
         img = session.run(decoder, feed_dict = {tf_image_string : images[i]})
-        ax.imshow(img)
+        
+        # deal with greyscale images
+        if img.shape[2] == 1:
+            img = img.reshape((img.shape[0], img.shape[1]))
+            ax.imshow(img, cmap = "gray")
+        else:
+            ax.imshow(img)
     
 plt.show()
