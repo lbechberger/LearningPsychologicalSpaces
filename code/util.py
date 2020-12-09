@@ -232,9 +232,7 @@ def extract_inception_features(images, model_dir, output_shape):
     
     # finally extract the features        
     inception_features = []
-    config = tf.ConfigProto()
-    config.gpu_options.allow_growth = True
-    with tf.Session(config=config) as sess:
+    with tf.Session() as sess:
         second_to_last_tensor = sess.graph.get_tensor_by_name('pool_3:0')
             
         for image in images:
