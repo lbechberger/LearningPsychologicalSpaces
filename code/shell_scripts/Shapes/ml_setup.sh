@@ -19,7 +19,7 @@ python -m code.ml.preprocessing.prepare_Shapes_data data/Shapes/ml/folds/Sketchy
 
 # collect regression targets
 echo '    regression targets'
-python -m code.ml.preprocessing.prepare_targets data/Shapes/ml/target_coordinates.csv data/Shapes/ml/dataset/targets.pickle -s 42
+python -m code.ml.preprocessing.prepare_targets data/Shapes/ml/regression_targets.csv data/Shapes/ml/dataset/targets.pickle -s 42
 
 # compute features
 echo '    feature extraction'
