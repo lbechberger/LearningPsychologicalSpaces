@@ -7,7 +7,7 @@ Created on Wed Dec  9 10:53:30 2020
 @author: lbechberger
 """
 
-import argparse, pickle
+import argparse, pickle, os, fcntl
 import tensorflow as tf
 import numpy as np
 
@@ -77,6 +77,31 @@ else:
         with open(args.targets_file, 'rb') as f_in:
             shapes_targets = pickle.load(f_in)[args.space]
 
+# evaluation metrics to compute and record
+evaluation_metrics = []
+
+def add_eval_metric(metric_name):
+    for suffix in ['_train', '_val', '_test']:
+        evaluation_metrics.append(metric_name + suffix)
+
+add_eval_metric('kendall')
+if args.reconstruction_weight > 0:
+    add_eval_metric('reconstruction')
+if args.classification_weight > 0:
+    add_eval_metric('acc_Berlin')
+    add_eval_metric('acc_Sketchy')
+if args.mapping_weight > 0:
+    add_eval_metric('mse')
+    add_eval_metric('med')
+    add_eval_metric('r2')
+
+# prepare output file if necessary
+if not os.path.exists(args.output_file):
+    with open(args.output_file, 'w') as f:
+        fcntl.flock(f, fcntl.LOCK_EX)
+        f.write("configuration,{0}\n".format(','.join(evaluation_metrics)))
+        fcntl.flock(f, fcntl.LOCK_UN)
+
 
 # create batch provider: rescale images to [0,1]
 
@@ -128,6 +153,8 @@ overall_loss = (args.classification_weight * classification_loss
                 + args.mapping_weight * mapping_loss)
 
 train_step = tf.train.AdamOptimizer().minimize(overall_loss)
+
+# https://www.oreilly.com/content/building-deep-learning-neural-networks-using-tensorflow-layers/
 
 # cross-validation loop
 
