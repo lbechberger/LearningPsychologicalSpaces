@@ -103,7 +103,8 @@ if not os.path.exists(args.output_file):
         fcntl.flock(f, fcntl.LOCK_UN)
 
 
-# create batch provider: rescale images to [0,1]
+# data source provider: load images from respective sources, rescale them to [0,1], iterator returning specified number
+# overall batch provider: create data source providers as needed, iterator returns combination of their iterators 
 
 # define network structure
 
@@ -158,7 +159,16 @@ train_step = tf.train.AdamOptimizer().minimize(overall_loss)
 
 # cross-validation loop
 
-# training loop
-with tf.Session() as sess:
-    pass
-# early stopping and testing and output
+# for test_fold in range(5):
+#   valid_fold = (test_fold - 1) % 5
+#   train_folds = all others
+
+#   create a new batch provider for each data subset
+
+#   training loop:
+#   with tf.Session() as sess:
+#       initialize all variables
+#       train with Adam (early stopping: check validation set performance every epoch)
+#       when done: evaluate on train, valid, test; store results
+
+# aggregate results across folds, output them
