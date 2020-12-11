@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo 'experiment 1'
+echo 'experiment 1 - inception baseline'
 
 # declare some lists to make code below less repetitive 
 default_baselines=("--zero")

@@ -55,7 +55,8 @@ if args.reconstruction_weight > 0:
     with open(args.shapes_file, 'rb') as f_in:
         shapes_data = pickle.load(f_in)
     with open(args.targets_file, 'rb') as f_in:
-        shapes_targets = pickle.load(f_in)[args.space]
+        shapes_targets = pickle.load(f_in)[args.space]['correct']
+    space_dim = len(list(shapes_targets.values())[0])
     with open(args.additional_file, 'rb') as f_in:
         additional_data = pickle.load(f_in)
     with open(args.berlin_file, 'rb') as f_in:
@@ -75,7 +76,8 @@ else:
         with open(args.shapes_file, 'rb') as f_in:
             shapes_data = pickle.load(f_in)
         with open(args.targets_file, 'rb') as f_in:
-            shapes_targets = pickle.load(f_in)[args.space]
+            shapes_targets = pickle.load(f_in)[args.space]['correct']
+        space_dim = len(list(shapes_targets.values())[0])
 
 # evaluation metrics to compute and record
 evaluation_metrics = []
@@ -109,53 +111,50 @@ if not os.path.exists(args.output_file):
 # define network structure
 
 # encoder
-with tf.contrib.framework.arg_scope([tf.layers.dense, tf.layers.conv2d], activation = tf.nn.relu,
-                                    kernel_regularizer = tf.contrib.layers.l2_regularizer(args.weight_decay_encoder)):
-    enc_input = tf.placeholder(tf.float32, shape=(BATCH_SIZE, IMAGE_SIZE, IMAGE_SIZE, 1))
-    enc_noisy = None
-    enc_conv1 = tf.layers.conv2d(enc_input, 64, 15, strides = 3, padding = 'valid')
-    enc_mp1 = tf.layers.max_pooling2d(enc_conv1, 3, 2, padding = 'valid')
-    enc_conv2 = tf.layers.conv2d(enc_mp1, 128, 5, strides = 1, padding = 'valid')
-    enc_mp2 = tf.layers.max_pooling2d(enc_conv2, 3, 2, padding = 'valid')
-    enc_conv3 = tf.layers.conv2d(enc_mp2, 256, 3, strides = 1, padding = 'same')
-    enc_conv4 = tf.layers.conv2d(enc_conv3, 256, 3, strides = 1, padding = 'same')
-    enc_conv5 = tf.layers.conv2d(enc_conv4, 256, 3, strides = 1, padding = 'same')
-    enc_mp5 = tf.layers.max_pooling2d(enc_conv5, 3, 2, padding = 'valid')
-    enc_flat = tf.reshape(enc_mp5, [-1, 12544])
-    enc_fc1 = tf.layers.dense(enc_flat, 512)
-    enc_d1 = tf.layers.dropout(enc_fc1, rate = 0.5) if args.encoder_dropout else enc_fc1
-    bottleneck = tf.layers.dense(enc_d1, args.bottleneck_size, activation = None)
+enc_input = tf.keras.layers.Input(shape=(IMAGE_SIZE, IMAGE_SIZE, 1))
+enc_conv1 = tf.keras.layers.Conv2D(64, 15, strides = 3, activation = 'relu', padding = 'valid')(enc_input)
+enc_mp1 = tf.keras.layers.MaxPool2D(3, 2, padding = 'valid')(enc_conv1)
+enc_conv2 = tf.keras.layers.Conv2D(128, 5, strides = 1, activation = 'relu', padding = 'valid')(enc_mp1)
+enc_mp2 = tf.keras.layers.MaxPool2D(3, 2, padding = 'valid')(enc_conv2)
+enc_conv3 = tf.keras.layers.Conv2D(256, 3, strides = 1, activation = 'relu', padding = 'same')(enc_mp2)
+enc_conv4 = tf.keras.layers.Conv2D(256, 3, strides = 1, activation = 'relu', padding = 'same')(enc_conv3)
+enc_conv5 = tf.keras.layers.Conv2D(256, 3, strides = 1, activation = 'relu', padding = 'same')(enc_conv4)
+enc_mp5 = tf.keras.layers.MaxPool2D(3, 2, padding = 'same')(enc_conv5)
+enc_flat = tf.keras.layers.Flatten()(enc_mp5)
+enc_fc1 = tf.keras.layers.Dense(512, activation='relu')(enc_flat)
+enc_d1 = tf.keras.layers.Dropout(0.5)(enc_fc1) if args.encoder_dropout else enc_fc1
+enc_mapping = tf.keras.layers.Dense(space_dim, activation=None)(enc_d1)
+enc_other = tf.keras.layers.Dense(args.bottleneck_size - space_dim, activation=None)(enc_d1)
+
+bottleneck = tf.keras.layers.Concatenate(axis=1)([enc_mapping, enc_other])
 
 # classifier
-class_softmax = tf.layers.dense(bottleneck, 275, activation = tf.nn.relu)
+class_softmax = tf.keras.layers.Dense(275, activation = 'softmax')(bottleneck)
 
 # decoder
-with tf.contrib.framework.arg_scope([tf.layers.dense, tf.layers.conv2d_transpose], activation = tf.nn.relu,
-                                    kernel_regularizer = tf.contrib.layers.l2_regularizer(args.weight_decay_decoder)):
-    dec_fc1 = tf.layers.dense(bottleneck, 512)
-    dec_d1 = tf.layers.dropout(dec_fc1, rate = 0.5) if args.decoder_dropout else dec_fc1
-    dec_fc2 = tf.layers.dense(dec_d1, 4096)
-    dec_d2 = tf.layers.dropout(dec_fc2, rate = 0.5) if args.decoder_dropout else dec_fc2
-    dec_fc3 = tf.layers.dense(dec_d1, 12544)
-    dec_img = tf.reshape(dec_fc3, [-1, 7, 7, 256])
-    dec_uconv1 = tf.layers.conv2d_transpose(dec_img, 256, 5, strides = 2)
-    dec_uconv2 = tf.layers.conv2d_transpose(dec_uconv1, 128, 5, strides = 2)
-    dec_uconv3 = tf.layers.conv2d_transpose(dec_uconv2, 64, 5, strides = 2)
-    dec_uconv4 = tf.layers.conv2d_transpose(dec_uconv3, 32, 5, strides = 2)
-    dec_output = tf.layers.conv2d_transpose(dec_uconv4, 1, 5, strides = 2, activation = tf.nn.sigmoid)
+dec_fc1 = tf.keras.layers.Dense(512, activation = 'relu')(bottleneck)
+dec_d1 = tf.keras.layers.Dropout(0.5)(dec_fc1) if args.decoder_dropout else dec_fc1
+dec_fc2 = tf.keras.layers.Dense(4096)(dec_d1)
+dec_d2 = tf.keras.layers.Dropout(0.5)(dec_fc2) if args.decoder_dropout else dec_fc2
+dec_fc3 = tf.keras.layers.Dense(12544)(dec_d2)
+dec_img = tf.keras.layers.Reshape((7,7,256))(dec_fc3)
+dec_uconv1 = tf.keras.layers.Conv2DTranspose(256, 5, strides = 2, activation = 'relu', padding = 'same')(dec_img)
+dec_uconv2 = tf.keras.layers.Conv2DTranspose(128, 5, strides = 2, activation = 'relu', padding = 'same')(dec_uconv1)
+dec_uconv3 = tf.keras.layers.Conv2DTranspose(64, 5, strides = 2, activation = 'relu', padding = 'same')(dec_uconv2)
+dec_uconv4 = tf.keras.layers.Conv2DTranspose(32, 5, strides = 2, activation = 'relu', padding = 'same')(dec_uconv3)
+dec_output = tf.keras.layers.Conv2DTranspose(1, 5, strides = 2, activation = 'sigmoid', padding = 'same')(dec_uconv4)
 
-# define loss
-classification_loss = tf.losses.softmax_cross_entropy(onehot_labels, class_softmax)
-reconstruction_loss = tf.losses.sigmoid_cross_entropy(enc_input, dec_output)
-mapping_loss = tf.losses.mean_squared_error(target_coordinates, bottleneck[:,:4])
+# set up model and loss
+model = tf.keras.models.Model(inputs = enc_input, outputs = [class_softmax, enc_mapping, dec_output])
+model.compile(optimizer='adam', 
+              loss= ['categorical_crossentropy', 'mse', 'binary_crossentropy'], 
+              loss_weights = [args.classification_weight, args.mapping_weight, args.reconstruction_weight],
+              metrics=['accuracy'])
+model.summary()
 
-overall_loss = (args.classification_weight * classification_loss 
-                + args.reconstruction_weight * reconstruction_loss
-                + args.mapping_weight * mapping_loss)
-
-train_step = tf.train.AdamOptimizer().minimize(overall_loss)
-
-# https://www.oreilly.com/content/building-deep-learning-neural-networks-using-tensorflow-layers/
+early_stopping = tf.keras.callbacks.EarlyStopping(patience=5)
+history = model.fit(train_ds, epochs=50, validation_data = validation_ds, validation_freq = 1,
+                    callbacks = [early_stopping])
 
 # cross-validation loop
 
