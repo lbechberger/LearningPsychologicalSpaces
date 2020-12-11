@@ -123,13 +123,13 @@ enc_mp5 = tf.keras.layers.MaxPool2D(3, 2, padding = 'same')(enc_conv5)
 enc_flat = tf.keras.layers.Flatten()(enc_mp5)
 enc_fc1 = tf.keras.layers.Dense(512, activation='relu')(enc_flat)
 enc_d1 = tf.keras.layers.Dropout(0.5)(enc_fc1) if args.encoder_dropout else enc_fc1
-enc_mapping = tf.keras.layers.Dense(space_dim, activation=None)(enc_d1)
+enc_mapping = tf.keras.layers.Dense(space_dim, activation=None, name = 'mapping')(enc_d1)
 enc_other = tf.keras.layers.Dense(args.bottleneck_size - space_dim, activation=None)(enc_d1)
 
-bottleneck = tf.keras.layers.Concatenate(axis=1)([enc_mapping, enc_other])
+bottleneck = tf.keras.layers.Concatenate(axis=1)([enc_mapping, enc_other], name = 'bottleneck')
 
 # classifier
-class_softmax = tf.keras.layers.Dense(275, activation = 'softmax')(bottleneck)
+class_softmax = tf.keras.layers.Dense(275, activation = 'softmax', name = 'classification')(bottleneck)
 
 # decoder
 dec_fc1 = tf.keras.layers.Dense(512, activation = 'relu')(bottleneck)
@@ -142,19 +142,44 @@ dec_uconv1 = tf.keras.layers.Conv2DTranspose(256, 5, strides = 2, activation = '
 dec_uconv2 = tf.keras.layers.Conv2DTranspose(128, 5, strides = 2, activation = 'relu', padding = 'same')(dec_uconv1)
 dec_uconv3 = tf.keras.layers.Conv2DTranspose(64, 5, strides = 2, activation = 'relu', padding = 'same')(dec_uconv2)
 dec_uconv4 = tf.keras.layers.Conv2DTranspose(32, 5, strides = 2, activation = 'relu', padding = 'same')(dec_uconv3)
-dec_output = tf.keras.layers.Conv2DTranspose(1, 5, strides = 2, activation = 'sigmoid', padding = 'same')(dec_uconv4)
+dec_output = tf.keras.layers.Conv2DTranspose(1, 5, strides = 2, activation = 'sigmoid', padding = 'same', name = 'reconstruction')(dec_uconv4)
 
 # set up model and loss
 model = tf.keras.models.Model(inputs = enc_input, outputs = [class_softmax, enc_mapping, dec_output])
 model.compile(optimizer='adam', 
-              loss= ['categorical_crossentropy', 'mse', 'binary_crossentropy'], 
-              loss_weights = [args.classification_weight, args.mapping_weight, args.reconstruction_weight],
-              metrics=['accuracy'])
+              loss =  {'classification': 'categorical_crossentropy', 'mapping': 'mse', 'reconstruction': 'binary_crossentropy'}, 
+              loss_weights = {'classification': args.classification_weight, 'mapping': args.mapping_weight, 'reconstruction': args.reconstruction_weight},
+              metrics={'classification': 'accuracy'})
 model.summary()
 
-early_stopping = tf.keras.callbacks.EarlyStopping(patience=5)
-history = model.fit(train_ds, epochs=50, validation_data = validation_ds, validation_freq = 1,
-                    callbacks = [early_stopping])
+
+# https://www.pyimagesearch.com/2018/06/04/keras-multiple-outputs-and-multiple-losses/
+# https://towardsdatascience.com/implementing-alexnet-cnn-architecture-using-tensorflow-2-0-and-keras-2113e090ad98
+# https://towardsdatascience.com/a-practical-introduction-to-early-stopping-in-machine-learning-550ac88bc8fd
+# https://towardsdatascience.com/3-ways-to-create-a-machine-learning-model-with-keras-and-tensorflow-2-0-de09323af4d3
+
+X_train = np.random.uniform(size=(10*BATCH_SIZE, IMAGE_SIZE, IMAGE_SIZE, 1))
+y_train = [np.eye(275)[np.random.choice(275, 10*BATCH_SIZE)], np.random.uniform(size=(10*BATCH_SIZE, space_dim)), 
+           X_train]
+weights_train = {'classification': np.array(([1]*8+[0,0])*BATCH_SIZE), 'mapping': np.array(([0]*8+[1,1])*BATCH_SIZE), 'reconstruction': np.array([1]*10*BATCH_SIZE)}
+
+X_val = np.random.uniform(size=(1*BATCH_SIZE, IMAGE_SIZE, IMAGE_SIZE, 1))
+y_val = [np.eye(275)[np.random.choice(275, 1*BATCH_SIZE)], np.random.uniform(size=(1*BATCH_SIZE, space_dim)), 
+           X_val]
+weights_val = {'classification': np.array([1,0,1,1]*32), 'mapping': np.array(([0,1,0,0])*32), 'reconstruction': np.array([1]*BATCH_SIZE)}
+
+X_test = np.random.uniform(size=(1*BATCH_SIZE, IMAGE_SIZE, IMAGE_SIZE, 1))
+y_test = [np.eye(275)[np.random.choice(275, 1*BATCH_SIZE)], np.random.uniform(size=(1*BATCH_SIZE, space_dim)), 
+           X_test]
+           
+early_stopping = tf.keras.callbacks.EarlyStopping()
+history = model.fit(X_train, y_train, epochs = 50, batch_size = BATCH_SIZE, 
+                    validation_data = (X_val, y_val, weights_val), 
+                    callbacks = [early_stopping],
+                    sample_weight = weights_train)
+
+predictions = model.predict(X_test, batch_size = BATCH_SIZE)
+
 
 # cross-validation loop
 
