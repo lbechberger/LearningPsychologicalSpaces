@@ -1,0 +1,18 @@
+#!/bin/bash
+#$ -N ann
+#$ -l mem=32G
+#$ -pe default 8
+#$ -l h_rt=1:30:00
+#$ -l cuda=1
+#$ -l cuda_cores=384
+#$ -cwd
+#$ -o $HOME/store/sge-logs
+#$ -e $HOME/store/sge-logs
+
+export PATH="~/miniconda/bin:$PATH"
+source activate tensorflow-CS
+echo $*
+echo $* >&2
+python -u -m code.ml.ann.run_ann $*
+
+source deactivate tensorflow-CS
