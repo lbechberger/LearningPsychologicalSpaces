@@ -68,8 +68,8 @@ do
 	for baseline in $baselines
 	do
 		echo "        $baseline"	
-		$cmd $script data/Shapes/ml/dataset/targets.pickle 'mean_'"$dim" 'data/Shapes/ml/dataset/pickle/features_'"$best_noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$best_noise"'/mean_4.csv' -s 42 $baseline
-		$cmd $script data/Shapes/ml/dataset/targets.pickle 'median_'"$dim" 'data/Shapes/ml/dataset/pickle/features_'"$best_noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$best_noise"'/median_4.csv' -s 42 $baseline
+		$cmd $script data/Shapes/ml/dataset/targets.pickle 'mean_'"$dim" 'data/Shapes/ml/dataset/pickle/features_'"$best_noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$best_noise"'/mean_'"$dim"'.csv' -s 42 $baseline
+		$cmd $script data/Shapes/ml/dataset/targets.pickle 'median_'"$dim" 'data/Shapes/ml/dataset/pickle/features_'"$best_noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$best_noise"'/median_'"$dim"'.csv' -s 42 $baseline
 	done
 	
 	for regressor in $regressors
