@@ -12,6 +12,7 @@ import tensorflow as tf
 import numpy as np
 import cv2
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+from code.ml.ann.keras_utils import SaltAndPepper
 
 parser = argparse.ArgumentParser(description='Training and evaluating a hybrid ANN')
 parser.add_argument('shapes_file', help = 'pickle file containing information about the Shapes data')
@@ -42,6 +43,7 @@ BATCH_SIZE = 128
 NUM_FOLDS = 5
 NUM_CLASSES = 291
 TEST_LIMIT = 2000
+EPOCHS = 100 if not args.test else 1
 
 # apply seed
 if args.seed is not None:
@@ -86,10 +88,12 @@ else:
 
 # evaluation metrics to compute and record
 evaluation_metrics = []
+results = {}
 
 def add_eval_metric(metric_name):
     for suffix in ['_train', '_val', '_test']:
         evaluation_metrics.append(metric_name + suffix)
+        results[metric_name + suffix] = 0
 
 add_eval_metric('kendall')
 if args.reconstruction_weight > 0:
@@ -124,7 +128,7 @@ for fold in range(NUM_FOLDS):
         
         for img_path, img_id in shapes_data[str(fold)]:
             
-            if args.test and len(img_list) > TEST_LIMIT:
+            if args.test and len(img_list) >= TEST_LIMIT:
                 break
             
             img = cv2.imread(img_path)
@@ -148,7 +152,7 @@ for fold in range(NUM_FOLDS):
 
         for img_path, _ in additional_data[str(fold)]:
             
-            if args.test and len(img_list) > TEST_LIMIT:
+            if args.test and len(img_list) >= TEST_LIMIT:
                 break
 
             img = cv2.imread(img_path)
@@ -170,7 +174,7 @@ for fold in range(NUM_FOLDS):
 
         for img_path, img_class in berlin_data[str(fold)]:
             
-            if args.test and len(img_list) > TEST_LIMIT:
+            if args.test and len(img_list) >= TEST_LIMIT:
                 break
 
             img = cv2.imread(img_path)
@@ -193,7 +197,7 @@ for fold in range(NUM_FOLDS):
 
         for img_path, img_class in sketchy_data[str(fold)]:
             
-            if args.test and len(img_list) > TEST_LIMIT:
+            if args.test and len(img_list) >= TEST_LIMIT:
                 break
 
             img = cv2.imread(img_path)
@@ -293,47 +297,49 @@ for fold in range(NUM_FOLDS):
 # overall batch provider: create data source providers as needed, iterator returns combination of their iterators 
 
 # define network structure
-
-# encoder
-enc_input = tf.keras.layers.Input(shape=(IMAGE_SIZE, IMAGE_SIZE, 1))
-# TODO: make noise!
-enc_conv1 = tf.keras.layers.Conv2D(64, 15, strides = 3, activation = 'relu', padding = 'valid')(enc_input)
-enc_mp1 = tf.keras.layers.MaxPool2D(3, 2, padding = 'valid')(enc_conv1)
-enc_conv2 = tf.keras.layers.Conv2D(128, 5, strides = 1, activation = 'relu', padding = 'valid')(enc_mp1)
-enc_mp2 = tf.keras.layers.MaxPool2D(3, 2, padding = 'valid')(enc_conv2)
-enc_conv3 = tf.keras.layers.Conv2D(256, 3, strides = 1, activation = 'relu', padding = 'same')(enc_mp2)
-enc_conv4 = tf.keras.layers.Conv2D(256, 3, strides = 1, activation = 'relu', padding = 'same')(enc_conv3)
-enc_conv5 = tf.keras.layers.Conv2D(256, 3, strides = 1, activation = 'relu', padding = 'same')(enc_conv4)
-enc_mp5 = tf.keras.layers.MaxPool2D(3, 2, padding = 'same')(enc_conv5)
-enc_flat = tf.keras.layers.Flatten()(enc_mp5)
-enc_fc1 = tf.keras.layers.Dense(512, activation='relu')(enc_flat)
-enc_d1 = tf.keras.layers.Dropout(0.5)(enc_fc1) if args.encoder_dropout else enc_fc1
-enc_mapping = tf.keras.layers.Dense(space_dim, activation=None, name = 'mapping')(enc_d1)
-enc_other = tf.keras.layers.Dense(args.bottleneck_size - space_dim, activation=None)(enc_d1)
-
-bottleneck = tf.keras.layers.Concatenate(axis=1, name = 'bottleneck')([enc_mapping, enc_other])
-
-# classifier
-class_softmax = tf.keras.layers.Dense(NUM_CLASSES, activation = 'softmax', name = 'classification')(bottleneck)
-
-# decoder
-dec_fc1 = tf.keras.layers.Dense(512, activation = 'relu')(bottleneck)
-dec_d1 = tf.keras.layers.Dropout(0.5)(dec_fc1) if args.decoder_dropout else dec_fc1
-dec_fc2 = tf.keras.layers.Dense(4608)(dec_d1)
-dec_img = tf.keras.layers.Reshape((3,3,512))(dec_fc2)
-dec_uconv1 = tf.keras.layers.Conv2DTranspose(256, 5, strides = 1, activation = 'relu', padding = 'valid')(dec_img)
-dec_uconv2 = tf.keras.layers.Conv2DTranspose(256, 5, strides = 2, activation = 'relu', padding = 'same')(dec_uconv1)
-dec_uconv3 = tf.keras.layers.Conv2DTranspose(128, 5, strides = 2, activation = 'relu', padding = 'same')(dec_uconv2)
-dec_uconv4 = tf.keras.layers.Conv2DTranspose(64, 5, strides = 2, activation = 'relu', padding = 'same')(dec_uconv3)
-dec_uconv5 = tf.keras.layers.Conv2DTranspose(32, 5, strides = 2, activation = 'relu', padding = 'same')(dec_uconv4)
-dec_output = tf.keras.layers.Conv2DTranspose(1, 5, strides = 2, activation = 'sigmoid', padding = 'same', name = 'reconstruction')(dec_uconv5)
-
-# set up model and loss
-model = tf.keras.models.Model(inputs = enc_input, outputs = [class_softmax, enc_mapping, dec_output])
-model.compile(optimizer='adam', 
-              loss =  {'classification': 'categorical_crossentropy', 'mapping': 'mse', 'reconstruction': 'binary_crossentropy'}, 
-              loss_weights = {'classification': args.classification_weight, 'mapping': args.mapping_weight, 'reconstruction': args.reconstruction_weight})
-model.summary()
+def create_model():
+    # encoder
+    enc_input = tf.keras.layers.Input(shape=(IMAGE_SIZE, IMAGE_SIZE, 1))
+    enc_noise = SaltAndPepper(ratio = args.noise_prob)(enc_input)
+    enc_conv1 = tf.keras.layers.Conv2D(64, 15, strides = 3, activation = 'relu', padding = 'valid')(enc_noise)
+    enc_mp1 = tf.keras.layers.MaxPool2D(3, 2, padding = 'valid')(enc_conv1)
+    enc_conv2 = tf.keras.layers.Conv2D(128, 5, strides = 1, activation = 'relu', padding = 'valid')(enc_mp1)
+    enc_mp2 = tf.keras.layers.MaxPool2D(3, 2, padding = 'valid')(enc_conv2)
+    enc_conv3 = tf.keras.layers.Conv2D(256, 3, strides = 1, activation = 'relu', padding = 'same')(enc_mp2)
+    enc_conv4 = tf.keras.layers.Conv2D(256, 3, strides = 1, activation = 'relu', padding = 'same')(enc_conv3)
+    enc_conv5 = tf.keras.layers.Conv2D(256, 3, strides = 1, activation = 'relu', padding = 'same')(enc_conv4)
+    enc_mp5 = tf.keras.layers.MaxPool2D(3, 2, padding = 'same')(enc_conv5)
+    enc_flat = tf.keras.layers.Flatten()(enc_mp5)
+    enc_fc1 = tf.keras.layers.Dense(512, activation='relu')(enc_flat)
+    enc_d1 = tf.keras.layers.Dropout(0.5)(enc_fc1) if args.encoder_dropout else enc_fc1
+    enc_mapping = tf.keras.layers.Dense(space_dim, activation=None, name = 'mapping')(enc_d1)
+    enc_other = tf.keras.layers.Dense(args.bottleneck_size - space_dim, activation=None)(enc_d1)
+    
+    bottleneck = tf.keras.layers.Concatenate(axis=1, name = 'bottleneck')([enc_mapping, enc_other])
+    
+    # classifier
+    class_softmax = tf.keras.layers.Dense(NUM_CLASSES, activation = 'softmax', name = 'classification')(bottleneck)
+    
+    # decoder
+    dec_fc1 = tf.keras.layers.Dense(512, activation = 'relu')(bottleneck)
+    dec_d1 = tf.keras.layers.Dropout(0.5)(dec_fc1) if args.decoder_dropout else dec_fc1
+    dec_fc2 = tf.keras.layers.Dense(4608)(dec_d1)
+    dec_img = tf.keras.layers.Reshape((3,3,512))(dec_fc2)
+    dec_uconv1 = tf.keras.layers.Conv2DTranspose(256, 5, strides = 1, activation = 'relu', padding = 'valid')(dec_img)
+    dec_uconv2 = tf.keras.layers.Conv2DTranspose(256, 5, strides = 2, activation = 'relu', padding = 'same')(dec_uconv1)
+    dec_uconv3 = tf.keras.layers.Conv2DTranspose(128, 5, strides = 2, activation = 'relu', padding = 'same')(dec_uconv2)
+    dec_uconv4 = tf.keras.layers.Conv2DTranspose(64, 5, strides = 2, activation = 'relu', padding = 'same')(dec_uconv3)
+    dec_uconv5 = tf.keras.layers.Conv2DTranspose(32, 5, strides = 2, activation = 'relu', padding = 'same')(dec_uconv4)
+    dec_output = tf.keras.layers.Conv2DTranspose(1, 5, strides = 2, activation = 'sigmoid', padding = 'same', name = 'reconstruction')(dec_uconv5)
+    
+    # set up model and loss
+    model = tf.keras.models.Model(inputs = enc_input, outputs = [class_softmax, enc_mapping, dec_output])
+    model.compile(optimizer='adam', 
+                  loss =  {'classification': 'categorical_crossentropy', 'mapping': 'mse', 'reconstruction': 'binary_crossentropy'}, 
+                  loss_weights = {'classification': args.classification_weight, 'mapping': args.mapping_weight, 'reconstruction': args.reconstruction_weight})
+    model.summary()
+    
+    return model
 
 
 # https://www.pyimagesearch.com/2018/06/04/keras-multiple-outputs-and-multiple-losses/
@@ -341,58 +347,48 @@ model.summary()
 # https://towardsdatascience.com/a-practical-introduction-to-early-stopping-in-machine-learning-550ac88bc8fd
 # https://towardsdatascience.com/3-ways-to-create-a-machine-learning-model-with-keras-and-tensorflow-2-0-de09323af4d3
 
-#X_train = np.random.uniform(size=(10*BATCH_SIZE, IMAGE_SIZE, IMAGE_SIZE, 1))
-#y_train = [np.eye(NUM_CLASSES)[np.random.choice(NUM_CLASSES, 10*BATCH_SIZE)], np.random.uniform(size=(10*BATCH_SIZE, space_dim)), 
-#           X_train]
-#weights_train = {'classification': np.array(([1]*8+[0,0])*BATCH_SIZE), 'mapping': np.array(([0]*8+[1,1])*BATCH_SIZE), 'reconstruction': np.array([1]*10*BATCH_SIZE)}
-#
-#X_val = np.random.uniform(size=(1*BATCH_SIZE, IMAGE_SIZE, IMAGE_SIZE, 1))
-#y_val = [np.eye(NUM_CLASSES)[np.random.choice(NUM_CLASSES, 1*BATCH_SIZE)], np.random.uniform(size=(1*BATCH_SIZE, space_dim)), 
-#           X_val]
-#weights_val = {'classification': np.array([1,0,1,1]*32), 'mapping': np.array(([0,1,0,0])*32), 'reconstruction': np.array([1]*BATCH_SIZE)}
-#
-#X_test = np.random.uniform(size=(1*BATCH_SIZE, IMAGE_SIZE, IMAGE_SIZE, 1))
-#y_test = [np.eye(NUM_CLASSES)[np.random.choice(NUM_CLASSES, 1*BATCH_SIZE)], np.random.uniform(size=(1*BATCH_SIZE, space_dim)), 
-#           X_test]
-
-X_train = np.concatenate([folds[0]['img'], folds[1]['img'], folds[2]['img']])
-X_val = folds[3]['img']
-X_test = folds[4]['img']
-
-y_train = [np.concatenate([folds[0]['classes'], folds[1]['classes'], folds[2]['classes']]),
-           np.concatenate([folds[0]['mapping'], folds[1]['mapping'], folds[2]['mapping']]),
-           X_train]
-y_val = [folds[3]['classes'], folds[3]['mapping'], X_val]
-y_test = [folds[4]['classes'], folds[4]['mapping'], X_val]
-
-weights_train = {'classification': np.concatenate([folds[0]['weights']['classification'], folds[1]['weights']['classification'], folds[2]['weights']['classification']]),
-                 'mapping': np.concatenate([folds[0]['weights']['mapping'], folds[1]['weights']['mapping'], folds[2]['weights']['mapping']]),
-                 'reconstruction': np.concatenate([folds[0]['weights']['reconstruction'], folds[1]['weights']['reconstruction'], folds[2]['weights']['reconstruction']])}
-weights_val = folds[3]['weights']
-weights_test = folds[4]['weights']
-           
-early_stopping = tf.keras.callbacks.EarlyStopping()
-history = model.fit(X_train, y_train, epochs = 50, batch_size = BATCH_SIZE, 
-                    validation_data = (X_val, y_val, weights_val), 
-                    callbacks = [early_stopping],
-                    sample_weight = weights_train,
-                    shuffle = False)
-
-predictions = model.predict(X_test, batch_size = BATCH_SIZE)
 
 
 # cross-validation loop
+for test_fold in range(NUM_FOLDS):
 
-# for test_fold in range(5):
-#   valid_fold = (test_fold - 1) % 5
-#   train_folds = all others
+    print(test_fold)    
+    
+    val_fold = (test_fold - 1) % NUM_FOLDS
+    train_folds = [i for i in range(NUM_FOLDS) if i != test_fold and i != val_fold]
+    
+    # prepare data
+    X_train = np.concatenate([folds[i]['img'] for i in train_folds])
+    X_val = folds[val_fold]['img']
+    X_test = folds[test_fold]['img']
+    
+    y_train = [np.concatenate([folds[i]['classes'] for i in train_folds]),
+               np.concatenate([folds[i]['mapping'] for i in train_folds]),
+               X_train]
+    y_val = [folds[val_fold]['classes'], folds[val_fold]['mapping'], X_val]
+    y_test = [folds[test_fold]['classes'], folds[test_fold]['mapping'], X_val]
+    
+    weights_train = {'classification': np.concatenate([folds[i]['weights']['classification'] for i in train_folds]),
+                     'mapping': np.concatenate([folds[i]['weights']['mapping'] for i in train_folds]),
+                     'reconstruction': np.concatenate([folds[i]['weights']['reconstruction'] for i in train_folds])}
+    weights_val = folds[val_fold]['weights']
+    weights_test = folds[test_fold]['weights']
 
-#   create a new batch provider for each data subset
+    # do the training    
+    model = create_model()           
+    early_stopping = tf.keras.callbacks.EarlyStopping()
+    history = model.fit(X_train, y_train, epochs = EPOCHS, batch_size = BATCH_SIZE, 
+                        validation_data = (X_val, y_val, weights_val), 
+                        callbacks = [early_stopping],
+                        sample_weight = weights_train,
+                        shuffle = False)
+    
+    # TODO: do the evaluation
+    evaluation = model.evaluate(X_test, y_test, sample_weight = weights_test, batch_size = BATCH_SIZE)
 
-#   training loop:
-#   with tf.Session() as sess:
-#       initialize all variables
-#       train with Adam (early stopping: check validation set performance every epoch)
-#       when done: evaluate on train, valid, test; store results
+    for output, label in zip(evaluation, model.metrics_names):
+        print(label, output)
 
-# aggregate results across folds, output them
+    # TODO: append to results
+
+# TODO: aggregate results across folds, output them to csv
