@@ -12,7 +12,7 @@ import tensorflow as tf
 import numpy as np
 import cv2
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
-from code.ml.ann.keras_utils import SaltAndPepper, AutoRestart
+from code.ml.ann.keras_utils import SaltAndPepper, AutoRestart, IndividualSequence, OverallSequence
 from code.util import precompute_distances, compute_correlations, distance_functions
 
 parser = argparse.ArgumentParser(description='Training and evaluating a hybrid ANN')
@@ -118,187 +118,6 @@ original_images = np.array(original_images)
 original_images = original_images.reshape((-1, IMAGE_SIZE, IMAGE_SIZE, 1))
 target_dissimilarities = dissimilarity_data['dissimilarities']
 
-folds = {}
-
-print('loading fold data ...')
-for fold in range(NUM_FOLDS):
-    
-    print(fold)    
-    shapes_img = np.zeros((0, IMAGE_SIZE, IMAGE_SIZE, 1))
-    shapes_coords = np.zeros((0, space_dim))
-    shapes_classes = np.zeros((0, NUM_CLASSES))
-    if shapes_data is not None:
-        img_list = []
-        coords_list = []
-        
-        for img_path, img_id in shapes_data[str(fold)]:
-            
-            if args.test and len(img_list) >= TEST_LIMIT:
-                break
-            
-            img = cv2.imread(img_path)
-            img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-            img = img / 255
-            img_list.append(img)
-            
-            coordinates = shapes_targets[img_id]
-            coords_list.append(coordinates)
-            
-        shapes_img = np.array(img_list)
-        shapes_img = shapes_img.reshape((-1, IMAGE_SIZE, IMAGE_SIZE, 1))
-        shapes_coords = np.array(coords_list)
-        shapes_classes = np.zeros((shapes_img.shape[0],NUM_CLASSES))
-    
-    additional_img = np.zeros((0, IMAGE_SIZE, IMAGE_SIZE, 1))
-    additional_coords = np.zeros((0, space_dim))
-    additional_classes = np.zeros((0, NUM_CLASSES))
-    if additional_data is not None:
-        img_list = []
-
-        for img_path, _ in additional_data[str(fold)]:
-            
-            if args.test and len(img_list) >= TEST_LIMIT:
-                break
-
-            img = cv2.imread(img_path)
-            img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-            img = img / 255
-            img_list.append(img)
-        
-        additional_img = np.array(img_list)
-        additional_img = additional_img.reshape((-1, IMAGE_SIZE, IMAGE_SIZE, 1))
-        additional_coords = np.zeros((additional_img.shape[0], space_dim))
-        additional_classes = np.zeros((additional_img.shape[0], NUM_CLASSES))
-    
-    berlin_img = np.zeros((0, IMAGE_SIZE, IMAGE_SIZE, 1))
-    berlin_coords = np.zeros((0, space_dim))
-    berlin_classes = np.zeros((0, NUM_CLASSES))
-    if berlin_data is not None:
-        img_list = []
-        class_list = []
-
-        for img_path, img_class in berlin_data[str(fold)]:
-            
-            if args.test and len(img_list) >= TEST_LIMIT:
-                break
-
-            img = cv2.imread(img_path)
-            img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-            img = img / 255
-            img_list.append(img)
-            class_list.append(img_class)
-        
-        berlin_img = np.array(img_list)
-        berlin_img = berlin_img.reshape((-1, IMAGE_SIZE, IMAGE_SIZE, 1))
-        berlin_classes = class_list
-        berlin_coords = np.zeros((berlin_img.shape[0], space_dim))
-    
-    sketchy_img = np.zeros((0, IMAGE_SIZE, IMAGE_SIZE, 1))
-    sketchy_coords = np.zeros((0, space_dim))
-    sketchy_classes = np.zeros((0, NUM_CLASSES))
-    if sketchy_data is not None:
-        img_list = []
-        class_list = []
-
-        for img_path, img_class in sketchy_data[str(fold)]:
-            
-            if args.test and len(img_list) >= TEST_LIMIT:
-                break
-
-            img = cv2.imread(img_path)
-            img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-            img = img / 255
-            img_list.append(img)
-            class_list.append(img_class)
-        
-        sketchy_img = np.array(img_list)
-        sketchy_img = sketchy_img.reshape((-1, IMAGE_SIZE, IMAGE_SIZE, 1))
-        sketchy_classes = class_list
-        sketchy_coords = np.zeros((sketchy_img.shape[0], space_dim))
-    
-    label_encoder = LabelEncoder()
-    all_classes = label_encoder.fit_transform(berlin_classes + sketchy_classes)
-    one_hot_encoder = OneHotEncoder(sparse=False)
-    one_hot_encoder.fit(all_classes.reshape(-1, 1))
-    berlin_classes = one_hot_encoder.transform(label_encoder.transform(berlin_classes).reshape(-1, 1))
-    sketchy_classes = one_hot_encoder.transform(label_encoder.transform(sketchy_classes).reshape(-1, 1))
-    
-    print('shapes', shapes_img.shape, shapes_coords.shape, shapes_classes.shape)
-    print('additional', additional_img.shape, additional_coords.shape, additional_classes.shape)
-    print('berlin', berlin_img.shape, berlin_coords.shape, berlin_classes.shape)
-    print('sketchy', sketchy_img.shape, sketchy_coords.shape, sketchy_classes.shape)
-
-    if args.reconstruction_weight > 0:
-        shapes_proportion = 21
-        additional_proportion = 21
-        berlin_proportion = 43
-        sketchy_proportion = 43
-    elif args.mapping_weight > 0:
-        shapes_proportion = 26
-        additional_proportion = 0
-        berlin_proportion = 51
-        sketchy_proportion = 51
-    else:
-        shapes_proportion = 0
-        additional_proportion = 0
-        berlin_proportion = 64
-        sketchy_proportion = 64
-    
-    fold_img = []
-    fold_coords = []
-    fold_classes = []
-
-    weights_classification = []
-    weights_mapping = []
-    weights_reconstruction = []    
-    
-    counter = 0
-    while not ((counter + 1)*shapes_proportion > shapes_coords.shape[0] or (counter + 1)*additional_proportion > additional_coords.shape[0]
-            or (counter + 1)*berlin_proportion > berlin_coords.shape[0] or (counter + 1)*sketchy_proportion > sketchy_coords.shape[0]):
-
-        shapes_img_slice = shapes_img[counter * shapes_proportion:(counter + 1) * shapes_proportion]
-        shapes_coords_slice = shapes_coords[counter * shapes_proportion:(counter + 1) * shapes_proportion]
-        shapes_classes_slice = shapes_classes[counter * shapes_proportion:(counter + 1) * shapes_proportion]
-        
-        additional_img_slice = additional_img[counter * additional_proportion:(counter + 1) * additional_proportion]
-        additional_coords_slice = additional_coords[counter * additional_proportion:(counter + 1) * additional_proportion]
-        additional_classes_slice = additional_classes[counter * additional_proportion:(counter + 1) * additional_proportion]
-        
-        berlin_img_slice = berlin_img[counter * berlin_proportion:(counter + 1) * berlin_proportion]
-        berlin_coords_slice = berlin_coords[counter * berlin_proportion:(counter + 1) * berlin_proportion]
-        berlin_classes_slice = berlin_classes[counter * berlin_proportion:(counter + 1) * berlin_proportion]
-        
-        sketchy_img_slice = sketchy_img[counter * sketchy_proportion:(counter + 1) * sketchy_proportion]
-        sketchy_coords_slice = sketchy_coords[counter * sketchy_proportion:(counter + 1) * sketchy_proportion]
-        sketchy_classes_slice = sketchy_classes[counter * sketchy_proportion:(counter + 1) * sketchy_proportion]
-        
-        fold_img.append(np.concatenate([shapes_img_slice, additional_img_slice, berlin_img_slice, sketchy_img_slice]))
-        fold_coords.append(np.concatenate([shapes_coords_slice, additional_coords_slice, berlin_coords_slice, sketchy_coords_slice]))
-        fold_classes.append(np.concatenate([shapes_classes_slice, additional_classes_slice, berlin_classes_slice, sketchy_classes_slice]))
-        
-        if args.classification_weight > 0:
-            weights_classification.append([0]*shapes_coords_slice.shape[0] + [0]*additional_coords_slice.shape[0] + [1]*berlin_coords_slice.shape[0] + [1]*sketchy_coords_slice.shape[0])
-        if args.mapping_weight > 0:
-            weights_mapping.append([1]*shapes_coords_slice.shape[0] + [0]*additional_coords_slice.shape[0] + [0]*berlin_coords_slice.shape[0] + [0]*sketchy_coords_slice.shape[0])
-        if args.reconstruction_weight > 0:
-            weights_reconstruction.append([1]*shapes_coords_slice.shape[0] + [1]*additional_coords_slice.shape[0] + [1]*berlin_coords_slice.shape[0] + [1]*sketchy_coords_slice.shape[0])
-        
-        counter += 1
-    
-    fold_img = np.concatenate(fold_img)
-    fold_coords = np.concatenate(fold_coords)
-    fold_classes = np.concatenate(fold_classes)
-    weights_classification = np.concatenate(weights_classification)
-    weights_mapping = np.concatenate(weights_mapping)
-    weights_reconstruction =  np.concatenate(weights_reconstruction)
-    
-    print(fold_img.shape, fold_coords.shape, fold_classes.shape, weights_classification.shape, weights_mapping.shape, weights_reconstruction.shape)    
-    
-    folds[fold] = {'img': fold_img, 'mapping': fold_coords, 'classes': fold_classes, 'weights': {'classification': weights_classification, 'mapping': weights_mapping, 'reconstruction': weights_reconstruction}}
-    
- 
-# data source provider: load images from respective sources, rescale them to [0,1], iterator returning specified number
-# overall batch provider: create data source providers as needed, iterator returns combination of their iterators 
 
 # define network structure
 def create_model():
@@ -359,26 +178,69 @@ def create_model():
     
     return model
 
+
+# define data iterators
+def get_data_sequence(list_of_folds):
+
+    if args.reconstruction_weight > 0:
+        shapes_proportion = 21
+        additional_proportion = 21
+        berlin_proportion = 43
+        sketchy_proportion = 43
+    elif args.mapping_weight > 0:
+        shapes_proportion = 26
+        additional_proportion = 0
+        berlin_proportion = 51
+        sketchy_proportion = 51
+    else:
+        shapes_proportion = 0
+        additional_proportion = 0
+        berlin_proportion = 64
+        sketchy_proportion = 64
+
+    # defining a mapping from classes to one-hot-vectors
+    class_map = {}
+    berlin_classes = set(map(lambda x: x[1], berlin_data['0']))
+    sketchy_classes = set(map(lambda x: x[1], sketchy_data['0']))
+    all_classes = list(berlin_classes.union(sketchy_classes))
+    label_encoder = LabelEncoder()
+    binary_classes = label_encoder.fit_transform(all_classes)
+    one_hot_encoder = OneHotEncoder(sparse=False)
+    one_hot_encoder.fit(binary_classes.reshape(-1, 1))
+    for label in all_classes:
+        numeric_label = label_encoder.transform(np.array([label]))
+        class_map[label] = one_hot_encoder.transform(numeric_label.reshape(1,1)).reshape(-1)
+
+    shapes_sequence = IndividualSequence(np.concatenate([shapes_data[str(i)] for i in list_of_folds]), 
+                                                        shapes_targets, shapes_proportion, IMAGE_SIZE, shuffle = True)
+    shapes_weights = {'classification': 0, 'mapping': 1, 'reconstruction': 1}
+    
+    additional_sequence = IndividualSequence(np.concatenate([additional_data[str(i)] for i in list_of_folds]), 
+                                                            {None: 0}, additional_proportion, IMAGE_SIZE, shuffle = True)
+    additional_weights = {'classification': 0, 'mapping': 0, 'reconstruction': 1}
+    
+    berlin_sequence = IndividualSequence(np.concatenate([berlin_data[str(i)] for i in list_of_folds]), 
+                                                        class_map, berlin_proportion, IMAGE_SIZE, shuffle = True)
+    berlin_weights = {'classification': 1, 'mapping': 0, 'reconstruction': 1}
+    
+    sketchy_sequence = IndividualSequence(np.concatenate([sketchy_data[str(i)] for i in list_of_folds]), 
+                                                         class_map, sketchy_proportion, IMAGE_SIZE, shuffle = True)
+    sketchy_weights = {'classification': 1, 'mapping': 0, 'reconstruction': 1}
+    
+    seqs = [shapes_sequence, additional_sequence, berlin_sequence, sketchy_sequence]
+    weights = [shapes_weights, additional_weights, berlin_weights, sketchy_weights]
+    
+    data_sequence = OverallSequence(seqs, weights, space_dim, NUM_CLASSES)
+    return data_sequence
+
+
 test_fold = args.fold
 val_fold = (test_fold - 1) % NUM_FOLDS
 train_folds = [i for i in range(NUM_FOLDS) if i != test_fold and i != val_fold]
 
-# prepare data
-X_train = np.concatenate([folds[i]['img'] for i in train_folds])
-X_val = folds[val_fold]['img']
-X_test = folds[test_fold]['img']
-
-y_train = [np.concatenate([folds[i]['classes'] for i in train_folds]),
-           np.concatenate([folds[i]['mapping'] for i in train_folds]),
-           X_train]
-y_val = [folds[val_fold]['classes'], folds[val_fold]['mapping'], X_val]
-y_test = [folds[test_fold]['classes'], folds[test_fold]['mapping'], X_val]
-
-weights_train = {'classification': np.concatenate([folds[i]['weights']['classification'] for i in train_folds]),
-                 'mapping': np.concatenate([folds[i]['weights']['mapping'] for i in train_folds]),
-                 'reconstruction': np.concatenate([folds[i]['weights']['reconstruction'] for i in train_folds])}
-weights_val = folds[val_fold]['weights']
-weights_test = folds[test_fold]['weights']
+train_seq = get_data_sequence(train_folds)
+val_seq = get_data_sequence([val_fold])
+test_seq = get_data_sequence([test_fold])
 
 # set up the model    
 model = create_model()
@@ -392,11 +254,10 @@ if args.stopped_epoch > 0:
     model.load_weights(config_name + str(args.stopped_epoch) + '.hdf5')
 
 # train it
-history = model.fit(X_train, y_train, epochs = EPOCHS, batch_size = BATCH_SIZE, 
-                    validation_data = (X_val, y_val, weights_val), 
-                    callbacks = callbacks,
-                    sample_weight = weights_train,
-                    shuffle = False)
+history = model.fit_generator(generator = train_seq, steps_per_epoch = len(train_seq), epochs = EPOCHS, 
+                              validation_data = val_seq, validation_steps = len(val_seq),
+                              callbacks = callbacks, shuffle = True)
+
 
 if args.walltime is not None and auto_restart.reached_walltime == 1:
     # interrupted by wall time --> restart
@@ -422,9 +283,7 @@ else:
     evaluation_results = []
 
     # compute overall kendall correlation of bottleneck activation to dissimilarity ratings
-    print(original_images.shape)
     _, _, _, bottleneck_activation = model.predict(original_images)
-    print(bottleneck_activation.shape)
     for distance_function in sorted(distance_functions.keys()):
         precomputed_distances = precompute_distances(bottleneck_activation, distance_function)
         kendall_fixed  = compute_correlations(precomputed_distances, target_dissimilarities, distance_function)['kendall']
@@ -433,9 +292,9 @@ else:
         evaluation_results += [kendall_fixed, kendall_optimized]
 
     # compute standard evaluation metrics on the three tasks
-    eval_train = model.evaluate(X_train, y_train, sample_weight = weights_train, batch_size = BATCH_SIZE)
-    eval_val = model.evaluate(X_val, y_val, sample_weight = weights_val, batch_size = BATCH_SIZE)
-    eval_test = model.evaluate(X_test, y_test, sample_weight = weights_test, batch_size = BATCH_SIZE)
+    eval_train = model.evaluate_generator(train_seq, steps = len(train_seq))
+    eval_val = model.evaluate_generator(val_seq, steps = len(val_seq))
+    eval_test = model.evaluate_generator(test_seq, steps = len(test_seq))
     
     for evaluation, suffix in [(eval_train, '_train'), (eval_val, '_val'), (eval_test, '_test')]: 
         for metric_value, metric_name in zip(evaluation, model.metrics_names):
