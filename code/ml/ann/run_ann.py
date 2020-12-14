@@ -125,6 +125,7 @@ for fold in range(NUM_FOLDS):
             
             img = cv2.imread(img_path)
             img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            img = img / 255
             img_list.append(img)
             
             coordinates = shapes_targets[img_id]
@@ -145,6 +146,7 @@ for fold in range(NUM_FOLDS):
             
             img = cv2.imread(img_path)
             img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            img = img / 255
             img_list.append(img)
         
         additional_img = np.array(img_list)
@@ -163,6 +165,7 @@ for fold in range(NUM_FOLDS):
             
             img = cv2.imread(img_path)
             img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            img = img / 255
             img_list.append(img)
             class_list.append(img_class)
         
@@ -182,6 +185,7 @@ for fold in range(NUM_FOLDS):
             
             img = cv2.imread(img_path)
             img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            img = img / 255
             img_list.append(img)
             class_list.append(img_class)
         
