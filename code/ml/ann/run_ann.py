@@ -7,12 +7,12 @@ Created on Wed Dec  9 10:53:30 2020
 @author: lbechberger
 """
 
-import argparse, pickle, os, fcntl
+import argparse, pickle, os, fcntl, time
 import tensorflow as tf
 import numpy as np
 import cv2
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
-from code.ml.ann.keras_utils import SaltAndPepper
+from code.ml.ann.keras_utils import SaltAndPepper, AutoRestart
 
 parser = argparse.ArgumentParser(description='Training and evaluating a hybrid ANN')
 parser.add_argument('shapes_file', help = 'pickle file containing information about the Shapes data')
@@ -33,11 +33,16 @@ parser.add_argument('-d', '--decoder_dropout', action = 'store_true', help = 'us
 parser.add_argument('-n', '--noise_prob', type = float, help = 'probability of salt and pepper noise', default = 0.1)
 parser.add_argument('-s', '--seed', type = int, help = 'seed for random number generation', default = None)
 parser.add_argument('-t', '--test', action = 'store_true', help = 'make only short test run instead of full training cycle')
+parser.add_argument('-f', '--fold', type = int, help = 'fold to use for testing', default = 0)
+parser.add_argument('--walltime', type = int, help = 'walltime after which the job will be killed', default = None)
+parser.add_argument('--stopped_epoch', type = int, help = 'epoch where the training was interrupted', default = 0)
 args = parser.parse_args()
 
 if args.classification_weight + args.reconstruction_weight + args.mapping_weight != 1:
     raise Exception("Relative weights of objectives need to sum to one!")
 
+start_time = time.time()
+    
 IMAGE_SIZE = 224
 BATCH_SIZE = 128
 NUM_FOLDS = 5
@@ -110,7 +115,7 @@ if args.mapping_weight > 0:
 if not os.path.exists(args.output_file):
     with open(args.output_file, 'w') as f:
         fcntl.flock(f, fcntl.LOCK_EX)
-        f.write("configuration,{0}\n".format(','.join(evaluation_metrics)))
+        f.write("configuration,fold,{0}\n".format(','.join(evaluation_metrics)))
         fcntl.flock(f, fcntl.LOCK_UN)
 
 folds = {}
@@ -337,7 +342,7 @@ def create_model():
     model.compile(optimizer='adam', 
                   loss =  {'classification': 'categorical_crossentropy', 'mapping': 'mse', 'reconstruction': 'binary_crossentropy'}, 
                   loss_weights = {'classification': args.classification_weight, 'mapping': args.mapping_weight, 'reconstruction': args.reconstruction_weight})
-    model.summary()
+    #model.summary()
     
     return model
 
@@ -349,46 +354,68 @@ def create_model():
 
 
 
-# cross-validation loop
-for test_fold in range(NUM_FOLDS):
+test_fold = args.fold
+val_fold = (test_fold - 1) % NUM_FOLDS
+train_folds = [i for i in range(NUM_FOLDS) if i != test_fold and i != val_fold]
 
-    print(test_fold)    
-    
-    val_fold = (test_fold - 1) % NUM_FOLDS
-    train_folds = [i for i in range(NUM_FOLDS) if i != test_fold and i != val_fold]
-    
-    # prepare data
-    X_train = np.concatenate([folds[i]['img'] for i in train_folds])
-    X_val = folds[val_fold]['img']
-    X_test = folds[test_fold]['img']
-    
-    y_train = [np.concatenate([folds[i]['classes'] for i in train_folds]),
-               np.concatenate([folds[i]['mapping'] for i in train_folds]),
-               X_train]
-    y_val = [folds[val_fold]['classes'], folds[val_fold]['mapping'], X_val]
-    y_test = [folds[test_fold]['classes'], folds[test_fold]['mapping'], X_val]
-    
-    weights_train = {'classification': np.concatenate([folds[i]['weights']['classification'] for i in train_folds]),
-                     'mapping': np.concatenate([folds[i]['weights']['mapping'] for i in train_folds]),
-                     'reconstruction': np.concatenate([folds[i]['weights']['reconstruction'] for i in train_folds])}
-    weights_val = folds[val_fold]['weights']
-    weights_test = folds[test_fold]['weights']
+# prepare data
+X_train = np.concatenate([folds[i]['img'] for i in train_folds])
+X_val = folds[val_fold]['img']
+X_test = folds[test_fold]['img']
 
-    # do the training    
-    model = create_model()           
-    early_stopping = tf.keras.callbacks.EarlyStopping()
-    history = model.fit(X_train, y_train, epochs = EPOCHS, batch_size = BATCH_SIZE, 
-                        validation_data = (X_val, y_val, weights_val), 
-                        callbacks = [early_stopping],
-                        sample_weight = weights_train,
-                        shuffle = False)
-    
-    # TODO: do the evaluation
-    evaluation = model.evaluate(X_test, y_test, sample_weight = weights_test, batch_size = BATCH_SIZE)
+y_train = [np.concatenate([folds[i]['classes'] for i in train_folds]),
+           np.concatenate([folds[i]['mapping'] for i in train_folds]),
+           X_train]
+y_val = [folds[val_fold]['classes'], folds[val_fold]['mapping'], X_val]
+y_test = [folds[test_fold]['classes'], folds[test_fold]['mapping'], X_val]
 
-    for output, label in zip(evaluation, model.metrics_names):
+weights_train = {'classification': np.concatenate([folds[i]['weights']['classification'] for i in train_folds]),
+                 'mapping': np.concatenate([folds[i]['weights']['mapping'] for i in train_folds]),
+                 'reconstruction': np.concatenate([folds[i]['weights']['reconstruction'] for i in train_folds])}
+weights_val = folds[val_fold]['weights']
+weights_test = folds[test_fold]['weights']
+
+# set up the model    
+model = create_model()
+callbacks = [tf.keras.callbacks.EarlyStopping()]
+if args.walltime is not None:
+    auto_restart = AutoRestart(filepath='walltime_epoch', start_time=start_time, verbose = 0, walltime=args.walltime)
+    callbacks.append(auto_restart)
+
+if args.stopped_epoch > 0:
+    model.load_weights('walltime_epoch' + str(args.stopped_epoch) + '.hdf5')
+
+# train it
+history = model.fit(X_train, y_train, epochs = EPOCHS, batch_size = BATCH_SIZE, 
+                    validation_data = (X_val, y_val, weights_val), 
+                    callbacks = callbacks,
+                    sample_weight = weights_train,
+                    shuffle = False)
+
+if auto_restart.reached_walltime == 1:
+    # interrupted by wall time --> restart
+    from subprocess import call
+    recall_list = ['qsub', 'run_ann.sge', 
+                       args.shapes_file, args.additional_file, args.berlin_file, args.sketchy_file,
+                       args.targets_file, args.space, args.output_file]
+    recall_list += ['-c', str(args.classification_weight), '-r', str(args.reconstruction_weight), '-m', str(args.mapping_weight)]
+    recall_list += ['-b', str(args.bottleneck_size), '-w', str(args.weight_decay_encoder), '-v', str(args.weight_decay_decoder)]
+    if args.encoder_dropout:
+        recall_list += ['-e']
+    if args.decoder_dropout:
+        recall_list += ['-d']
+    recall_list += ['-n', str(args.noise_prob), '-s', str(args.seed)]
+    recall_list += ['--walltime', str(args.walltime), '--stopped_epoch', str(auto_restart.stopped_epoch)]
+    
+    recall_string = ' '.join(recall_list)    
+    call(recall_string, shell = True)
+else:
+    # do the evaluation
+    eval_train = model.evaluate(X_train, y_train, sample_weight = weights_train, batch_size = BATCH_SIZE)
+    eval_val = model.evaluate(X_val, y_val, sample_weight = weights_val, batch_size = BATCH_SIZE)
+    eval_test = model.evaluate(X_test, y_test, sample_weight = weights_test, batch_size = BATCH_SIZE)
+    
+    for output, label in zip(eval_test, model.metrics_names):
         print(label, output)
-
-    # TODO: append to results
-
-# TODO: aggregate results across folds, output them to csv
+    
+    # TODO: output results to csv

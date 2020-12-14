@@ -48,7 +48,7 @@ class AutoRestart(tf.keras.callbacks.Callback):
         self.epoch_start = 0
         self.epoch_average = 0
         self.stopped_epoch = 1
-        self.reachedWalltime = False
+        self.reached_walltime = False
 
     def on_train_begin(self, logs={}):
         if self.verbose > 0:
@@ -65,7 +65,7 @@ class AutoRestart(tf.keras.callbacks.Callback):
             self.epoch_average = epochtime
         if (time.time() - self.start_time + 3*self.epoch_average)>self.walltime:
             print("will run over walltime: %s s" % int(time.time() - self.start_time + 3*self.epoch_average))
-            self.reachedWalltime = True
+            self.reached_walltime = True
             self.stopped_epoch = epoch
             self.model.stop_training = True
             self.model.save_weights(self.filepath+str(epoch)+'.hdf5', overwrite=True)
