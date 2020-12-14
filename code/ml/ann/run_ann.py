@@ -319,15 +319,14 @@ class_softmax = tf.keras.layers.Dense(NUM_CLASSES, activation = 'softmax', name 
 # decoder
 dec_fc1 = tf.keras.layers.Dense(512, activation = 'relu')(bottleneck)
 dec_d1 = tf.keras.layers.Dropout(0.5)(dec_fc1) if args.decoder_dropout else dec_fc1
-dec_fc2 = tf.keras.layers.Dense(4096)(dec_d1)
-dec_d2 = tf.keras.layers.Dropout(0.5)(dec_fc2) if args.decoder_dropout else dec_fc2
-dec_fc3 = tf.keras.layers.Dense(12544)(dec_d2)
-dec_img = tf.keras.layers.Reshape((7,7,256))(dec_fc3)
-dec_uconv1 = tf.keras.layers.Conv2DTranspose(256, 5, strides = 2, activation = 'relu', padding = 'same')(dec_img)
-dec_uconv2 = tf.keras.layers.Conv2DTranspose(128, 5, strides = 2, activation = 'relu', padding = 'same')(dec_uconv1)
-dec_uconv3 = tf.keras.layers.Conv2DTranspose(64, 5, strides = 2, activation = 'relu', padding = 'same')(dec_uconv2)
-dec_uconv4 = tf.keras.layers.Conv2DTranspose(32, 5, strides = 2, activation = 'relu', padding = 'same')(dec_uconv3)
-dec_output = tf.keras.layers.Conv2DTranspose(1, 5, strides = 2, activation = 'sigmoid', padding = 'same', name = 'reconstruction')(dec_uconv4)
+dec_fc2 = tf.keras.layers.Dense(4608)(dec_d1)
+dec_img = tf.keras.layers.Reshape((3,3,512))(dec_fc2)
+dec_uconv1 = tf.keras.layers.Conv2DTranspose(256, 5, strides = 1, activation = 'relu', padding = 'valid')(dec_img)
+dec_uconv2 = tf.keras.layers.Conv2DTranspose(256, 5, strides = 2, activation = 'relu', padding = 'same')(dec_uconv1)
+dec_uconv3 = tf.keras.layers.Conv2DTranspose(128, 5, strides = 2, activation = 'relu', padding = 'same')(dec_uconv2)
+dec_uconv4 = tf.keras.layers.Conv2DTranspose(64, 5, strides = 2, activation = 'relu', padding = 'same')(dec_uconv3)
+dec_uconv5 = tf.keras.layers.Conv2DTranspose(32, 5, strides = 2, activation = 'relu', padding = 'same')(dec_uconv4)
+dec_output = tf.keras.layers.Conv2DTranspose(1, 5, strides = 2, activation = 'sigmoid', padding = 'same', name = 'reconstruction')(dec_uconv5)
 
 # set up model and loss
 model = tf.keras.models.Model(inputs = enc_input, outputs = [class_softmax, enc_mapping, dec_output])
