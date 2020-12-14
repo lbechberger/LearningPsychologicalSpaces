@@ -11,5 +11,5 @@ mkdir -p 'data/Shapes/ml/experiment_2/'
 
 for fold in $folds
 do
-	python -m code.ml.ann.run_ann data/Shapes/ml/dataset/Shapes.pickle data/Shapes/ml/dataset/Additional.pickle data/Shapes/ml/dataset/Berlin.pickle data/Shapes/ml/dataset/Sketchy.pickle data/Shapes/ml/dataset/targets.pickle mean_4 data/Shapes/ml/experiment_2/output.csv -c 0.25 -r 0.5 -m 0.25 -e -t -f $fold
+	python -m code.ml.ann.run_ann data/Shapes/ml/dataset/Shapes.pickle data/Shapes/ml/dataset/Additional.pickle data/Shapes/ml/dataset/Berlin.pickle data/Shapes/ml/dataset/Sketchy.pickle data/Shapes/ml/dataset/targets.pickle mean_4 data/Shapes/ml/experiment_2/output.csv -c 0.25 -r 0.5 -m 0.25 -e -t -f $fold -s 42
 done

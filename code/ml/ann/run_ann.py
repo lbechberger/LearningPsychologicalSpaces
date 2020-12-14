@@ -92,7 +92,7 @@ else:
         space_dim = len(list(shapes_targets.values())[0])
 
 # evaluation metrics to compute and record
-evaluation_metrics = []
+evaluation_metrics = ['kendall']
 results = {}
 
 def add_eval_metric(metric_name):
@@ -100,7 +100,6 @@ def add_eval_metric(metric_name):
         evaluation_metrics.append(metric_name + suffix)
         results[metric_name + suffix] = 0
 
-add_eval_metric('kendall')
 if args.reconstruction_weight > 0:
     add_eval_metric('reconstruction')
 if args.classification_weight > 0:
@@ -306,42 +305,56 @@ def create_model():
     # encoder
     enc_input = tf.keras.layers.Input(shape=(IMAGE_SIZE, IMAGE_SIZE, 1))
     enc_noise = SaltAndPepper(ratio = args.noise_prob)(enc_input)
-    enc_conv1 = tf.keras.layers.Conv2D(64, 15, strides = 3, activation = 'relu', padding = 'valid')(enc_noise)
+    enc_conv1 = tf.keras.layers.Conv2D(64, 15, strides = 3, activation = 'relu', padding = 'valid',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(enc_noise)
     enc_mp1 = tf.keras.layers.MaxPool2D(3, 2, padding = 'valid')(enc_conv1)
-    enc_conv2 = tf.keras.layers.Conv2D(128, 5, strides = 1, activation = 'relu', padding = 'valid')(enc_mp1)
+    enc_conv2 = tf.keras.layers.Conv2D(128, 5, strides = 1, activation = 'relu', padding = 'valid',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(enc_mp1)
     enc_mp2 = tf.keras.layers.MaxPool2D(3, 2, padding = 'valid')(enc_conv2)
-    enc_conv3 = tf.keras.layers.Conv2D(256, 3, strides = 1, activation = 'relu', padding = 'same')(enc_mp2)
-    enc_conv4 = tf.keras.layers.Conv2D(256, 3, strides = 1, activation = 'relu', padding = 'same')(enc_conv3)
-    enc_conv5 = tf.keras.layers.Conv2D(256, 3, strides = 1, activation = 'relu', padding = 'same')(enc_conv4)
+    enc_conv3 = tf.keras.layers.Conv2D(256, 3, strides = 1, activation = 'relu', padding = 'same',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(enc_mp2)
+    enc_conv4 = tf.keras.layers.Conv2D(256, 3, strides = 1, activation = 'relu', padding = 'same',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(enc_conv3)
+    enc_conv5 = tf.keras.layers.Conv2D(256, 3, strides = 1, activation = 'relu', padding = 'same',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(enc_conv4)
     enc_mp5 = tf.keras.layers.MaxPool2D(3, 2, padding = 'same')(enc_conv5)
     enc_flat = tf.keras.layers.Flatten()(enc_mp5)
-    enc_fc1 = tf.keras.layers.Dense(512, activation='relu')(enc_flat)
+    enc_fc1 = tf.keras.layers.Dense(512, activation='relu',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(enc_flat)
     enc_d1 = tf.keras.layers.Dropout(0.5)(enc_fc1) if args.encoder_dropout else enc_fc1
-    enc_mapping = tf.keras.layers.Dense(space_dim, activation=None, name = 'mapping')(enc_d1)
-    enc_other = tf.keras.layers.Dense(args.bottleneck_size - space_dim, activation=None)(enc_d1)
+    enc_mapping = tf.keras.layers.Dense(space_dim, activation = None, name = 'mapping',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(enc_d1)
+    enc_other = tf.keras.layers.Dense(args.bottleneck_size - space_dim, activation = None,  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(enc_d1)
     
     bottleneck = tf.keras.layers.Concatenate(axis=1, name = 'bottleneck')([enc_mapping, enc_other])
     
     # classifier
-    class_softmax = tf.keras.layers.Dense(NUM_CLASSES, activation = 'softmax', name = 'classification')(bottleneck)
+    class_softmax = tf.keras.layers.Dense(NUM_CLASSES, activation = 'softmax', name = 'classification',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(bottleneck)
     
     # decoder
-    dec_fc1 = tf.keras.layers.Dense(512, activation = 'relu')(bottleneck)
+    dec_fc1 = tf.keras.layers.Dense(512, activation = 'relu',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(bottleneck)
     dec_d1 = tf.keras.layers.Dropout(0.5)(dec_fc1) if args.decoder_dropout else dec_fc1
-    dec_fc2 = tf.keras.layers.Dense(4608)(dec_d1)
+    dec_fc2 = tf.keras.layers.Dense(4608,  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_d1)
     dec_img = tf.keras.layers.Reshape((3,3,512))(dec_fc2)
-    dec_uconv1 = tf.keras.layers.Conv2DTranspose(256, 5, strides = 1, activation = 'relu', padding = 'valid')(dec_img)
-    dec_uconv2 = tf.keras.layers.Conv2DTranspose(256, 5, strides = 2, activation = 'relu', padding = 'same')(dec_uconv1)
-    dec_uconv3 = tf.keras.layers.Conv2DTranspose(128, 5, strides = 2, activation = 'relu', padding = 'same')(dec_uconv2)
-    dec_uconv4 = tf.keras.layers.Conv2DTranspose(64, 5, strides = 2, activation = 'relu', padding = 'same')(dec_uconv3)
-    dec_uconv5 = tf.keras.layers.Conv2DTranspose(32, 5, strides = 2, activation = 'relu', padding = 'same')(dec_uconv4)
-    dec_output = tf.keras.layers.Conv2DTranspose(1, 5, strides = 2, activation = 'sigmoid', padding = 'same', name = 'reconstruction')(dec_uconv5)
+    dec_uconv1 = tf.keras.layers.Conv2DTranspose(256, 5, strides = 1, activation = 'relu', padding = 'valid',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_img)
+    dec_uconv2 = tf.keras.layers.Conv2DTranspose(256, 5, strides = 2, activation = 'relu', padding = 'same',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_uconv1)
+    dec_uconv3 = tf.keras.layers.Conv2DTranspose(128, 5, strides = 2, activation = 'relu', padding = 'same',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_uconv2)
+    dec_uconv4 = tf.keras.layers.Conv2DTranspose(64, 5, strides = 2, activation = 'relu', padding = 'same',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_uconv3)
+    dec_uconv5 = tf.keras.layers.Conv2DTranspose(32, 5, strides = 2, activation = 'relu', padding = 'same',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_uconv4)
+    dec_output = tf.keras.layers.Conv2DTranspose(1, 5, strides = 2, activation = 'sigmoid', padding = 'same', name = 'reconstruction',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_uconv5)
     
-    # set up model and loss
+    # set up model, loss, and evaluation metrics
     model = tf.keras.models.Model(inputs = enc_input, outputs = [class_softmax, enc_mapping, dec_output])
+
+    def r2(y_true, y_pred):
+        residual = tf.reduce_sum(tf.square(y_true - y_pred), axis = 1)
+        total = tf.reduce_sum(tf.square(y_true - tf.reduce_mean(y_true, axis = 0)), axis = 1)
+        result = (1 - residual/(total + tf.keras.backend.epsilon()))
+        return result
+    
+    def med(y_true, y_pred):
+        squared_diff = tf.square(y_true - y_pred)
+        sum_squared_diff = tf.reduce_sum(squared_diff, axis = 1)
+        eucl_dist = tf.sqrt(sum_squared_diff)
+        return eucl_dist
+    
     model.compile(optimizer='adam', 
                   loss =  {'classification': 'categorical_crossentropy', 'mapping': 'mse', 'reconstruction': 'binary_crossentropy'}, 
-                  loss_weights = {'classification': args.classification_weight, 'mapping': args.mapping_weight, 'reconstruction': args.reconstruction_weight})
+                  loss_weights = {'classification': args.classification_weight, 'mapping': args.mapping_weight, 'reconstruction': args.reconstruction_weight},
+                  weighted_metrics = {'classification': 'accuracy', 'mapping': [med,r2]})
     #model.summary()
     
     return model
@@ -392,7 +405,7 @@ history = model.fit(X_train, y_train, epochs = EPOCHS, batch_size = BATCH_SIZE,
                     sample_weight = weights_train,
                     shuffle = False)
 
-if auto_restart.reached_walltime == 1:
+if args.walltime is not None and auto_restart.reached_walltime == 1:
     # interrupted by wall time --> restart
     from subprocess import call
     recall_list = ['qsub', 'run_ann.sge', 
@@ -414,6 +427,8 @@ else:
     eval_train = model.evaluate(X_train, y_train, sample_weight = weights_train, batch_size = BATCH_SIZE)
     eval_val = model.evaluate(X_val, y_val, sample_weight = weights_val, batch_size = BATCH_SIZE)
     eval_test = model.evaluate(X_test, y_test, sample_weight = weights_test, batch_size = BATCH_SIZE)
+    
+    # TODO: overall correlation to dissimilarity ratings    
     
     for output, label in zip(eval_test, model.metrics_names):
         print(label, output)
