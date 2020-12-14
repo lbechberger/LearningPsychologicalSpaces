@@ -13,6 +13,7 @@ import numpy as np
 import cv2
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 from code.ml.ann.keras_utils import SaltAndPepper, AutoRestart
+from code.util import precompute_distances, compute_correlations, distance_functions
 
 parser = argparse.ArgumentParser(description='Training and evaluating a hybrid ANN')
 parser.add_argument('shapes_file', help = 'pickle file containing information about the Shapes data')
@@ -21,6 +22,8 @@ parser.add_argument('berlin_file', help = 'pickle file containing information ab
 parser.add_argument('sketchy_file', help = 'pickle file containing information about the Sketchy data')
 parser.add_argument('targets_file', help = 'pickle file containing the regression targets')
 parser.add_argument('space', help = 'name of the target space to use')
+parser.add_argument('image_folder', help = 'folder of original shape images (used for correlation computation)')
+parser.add_argument('dissimilarity_file', help = 'pickle file containing the target dissimilarities (used for correlation computation)')
 parser.add_argument('output_file', help = 'csv file for outputting the results')
 parser.add_argument('-c', '--classification_weight', type = float, help = 'relative weight of classification objective in overall loss function', default = 0)
 parser.add_argument('-r', '--reconstruction_weight', type = float, help = 'relative weight of reconstruction objective in overall loss function', default = 0)
@@ -54,6 +57,12 @@ EPOCHS = 100 if not args.test else 1
 if args.seed is not None:
     tf.set_random_seed(args.seed)
     np.random.seed(args.seed)
+
+# configuration string
+config_name = "c{0}_r{1}_m{2}_b{3}_w{4}_v{5}_e{6}_d{7}_n{8}_{9}".format(
+                args.classification_weight, args.reconstruction_weight, args.mapping_weight,
+                args.bottleneck_size, args.weight_decay_encoder, args.weight_decay_decoder,
+                args.encoder_dropout, args.decoder_dropout, args.noise_prob, args.space)
 
 # load data as needed
 shapes_data = None
@@ -91,31 +100,23 @@ else:
             shapes_targets = pickle.load(f_in)[args.space]['correct']
         space_dim = len(list(shapes_targets.values())[0])
 
-# evaluation metrics to compute and record
-evaluation_metrics = ['kendall']
-results = {}
+with open(args.dissimilarity_file, 'rb') as f_in:
+    dissimilarity_data = pickle.load(f_in)
 
-def add_eval_metric(metric_name):
-    for suffix in ['_train', '_val', '_test']:
-        evaluation_metrics.append(metric_name + suffix)
-        results[metric_name + suffix] = 0
-
-if args.reconstruction_weight > 0:
-    add_eval_metric('reconstruction')
-if args.classification_weight > 0:
-    add_eval_metric('acc_Berlin')
-    add_eval_metric('acc_Sketchy')
-if args.mapping_weight > 0:
-    add_eval_metric('mse')
-    add_eval_metric('med')
-    add_eval_metric('r2')
-
-# prepare output file if necessary
-if not os.path.exists(args.output_file):
-    with open(args.output_file, 'w') as f:
-        fcntl.flock(f, fcntl.LOCK_EX)
-        f.write("configuration,fold,{0}\n".format(','.join(evaluation_metrics)))
-        fcntl.flock(f, fcntl.LOCK_UN)
+# load original images for evaluation
+original_images = []
+for item_id in dissimilarity_data['items']:
+    for file_name in os.listdir(args.image_folder):
+            if os.path.isfile(os.path.join(args.image_folder, file_name)) and item_id in file_name:
+                img = cv2.imread(os.path.join(args.image_folder, file_name))
+                img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+                img = cv2.resize(img, (IMAGE_SIZE, IMAGE_SIZE))
+                img = img / 255
+                original_images.append(img)
+                break
+original_images = np.array(original_images)
+original_images = original_images.reshape((-1, IMAGE_SIZE, IMAGE_SIZE, 1))
+target_dissimilarities = dissimilarity_data['dissimilarities']
 
 folds = {}
 
@@ -295,8 +296,7 @@ for fold in range(NUM_FOLDS):
     
     folds[fold] = {'img': fold_img, 'mapping': fold_coords, 'classes': fold_classes, 'weights': {'classification': weights_classification, 'mapping': weights_mapping, 'reconstruction': weights_reconstruction}}
     
-    
-    
+ 
 # data source provider: load images from respective sources, rescale them to [0,1], iterator returning specified number
 # overall batch provider: create data source providers as needed, iterator returns combination of their iterators 
 
@@ -337,7 +337,7 @@ def create_model():
     dec_output = tf.keras.layers.Conv2DTranspose(1, 5, strides = 2, activation = 'sigmoid', padding = 'same', name = 'reconstruction',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_uconv5)
     
     # set up model, loss, and evaluation metrics
-    model = tf.keras.models.Model(inputs = enc_input, outputs = [class_softmax, enc_mapping, dec_output])
+    model = tf.keras.models.Model(inputs = enc_input, outputs = [class_softmax, enc_mapping, dec_output, bottleneck])
 
     def r2(y_true, y_pred):
         residual = tf.reduce_sum(tf.square(y_true - y_pred), axis = 1)
@@ -392,11 +392,12 @@ weights_test = folds[test_fold]['weights']
 model = create_model()
 callbacks = [tf.keras.callbacks.EarlyStopping()]
 if args.walltime is not None:
-    auto_restart = AutoRestart(filepath='walltime_epoch', start_time=start_time, verbose = 0, walltime=args.walltime)
+    storage_path = '{0}_ep'.format(config_name)
+    auto_restart = AutoRestart(filepath=storage_path, start_time=start_time, verbose = 0, walltime=args.walltime)
     callbacks.append(auto_restart)
 
 if args.stopped_epoch > 0:
-    model.load_weights('walltime_epoch' + str(args.stopped_epoch) + '.hdf5')
+    model.load_weights(config_name + str(args.stopped_epoch) + '.hdf5')
 
 # train it
 history = model.fit(X_train, y_train, epochs = EPOCHS, batch_size = BATCH_SIZE, 
@@ -423,14 +424,41 @@ if args.walltime is not None and auto_restart.reached_walltime == 1:
     recall_string = ' '.join(recall_list)    
     call(recall_string, shell = True)
 else:
+    
     # do the evaluation
+    evaluation_metrics = []
+    evaluation_results = []
+
+    # compute overall kendall correlation of bottleneck activation to dissimilarity ratings
+    print(original_images.shape)
+    _, _, _, bottleneck_activation = model.predict(original_images)
+    print(bottleneck_activation.shape)
+    for distance_function in sorted(distance_functions.keys()):
+        precomputed_distances = precompute_distances(bottleneck_activation, distance_function)
+        kendall_fixed  = compute_correlations(precomputed_distances, target_dissimilarities, distance_function)['kendall']
+        kendall_optimized = compute_correlations(precomputed_distances, target_dissimilarities, distance_function, 5, args.seed)['kendall']
+        evaluation_metrics += ['kendall_{0}_fixed'.format(distance_function), 'kendall_{0}_optimized'.format(distance_function)]
+        evaluation_results += [kendall_fixed, kendall_optimized]
+
+    # compute standard evaluation metrics on the three tasks
     eval_train = model.evaluate(X_train, y_train, sample_weight = weights_train, batch_size = BATCH_SIZE)
     eval_val = model.evaluate(X_val, y_val, sample_weight = weights_val, batch_size = BATCH_SIZE)
     eval_test = model.evaluate(X_test, y_test, sample_weight = weights_test, batch_size = BATCH_SIZE)
     
-    # TODO: overall correlation to dissimilarity ratings    
+    for evaluation, suffix in [(eval_train, '_train'), (eval_val, '_val'), (eval_test, '_test')]: 
+        for metric_value, metric_name in zip(evaluation, model.metrics_names):
+            evaluation_metrics.append(metric_name + suffix)
+            evaluation_results.append(metric_value)
+            print(metric_name + suffix, metric_value)
     
-    for output, label in zip(eval_test, model.metrics_names):
-        print(label, output)
+    # prepare output file if necessary
+    if not os.path.exists(args.output_file):
+        with open(args.output_file, 'w') as f_out:
+            fcntl.flock(f_out, fcntl.LOCK_EX)
+            f_out.write("configuration,fold,{0}\n".format(','.join(evaluation_metrics)))
+            fcntl.flock(f_out, fcntl.LOCK_UN)
     
-    # TODO: output results to csv
+    with open(args.output_file, 'a') as f_out:
+        fcntl.flock(f_out, fcntl.LOCK_EX)
+        f_out.write("{0},{1},{2}\n".format(config_name, args.fold, ','.join(map(lambda x: str(x), evaluation_results))))
+        fcntl.flock(f_out, fcntl.LOCK_UN)
