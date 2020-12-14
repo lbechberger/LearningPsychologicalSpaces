@@ -41,6 +41,7 @@ IMAGE_SIZE = 224
 BATCH_SIZE = 128
 NUM_FOLDS = 5
 NUM_CLASSES = 291
+TEST_LIMIT = 2000
 
 # apply seed
 if args.seed is not None:
@@ -123,6 +124,9 @@ for fold in range(NUM_FOLDS):
         
         for img_path, img_id in shapes_data[str(fold)]:
             
+            if args.test and len(img_list) > TEST_LIMIT:
+                break
+            
             img = cv2.imread(img_path)
             img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             img = img / 255
@@ -144,6 +148,9 @@ for fold in range(NUM_FOLDS):
 
         for img_path, _ in additional_data[str(fold)]:
             
+            if args.test and len(img_list) > TEST_LIMIT:
+                break
+
             img = cv2.imread(img_path)
             img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             img = img / 255
@@ -163,6 +170,9 @@ for fold in range(NUM_FOLDS):
 
         for img_path, img_class in berlin_data[str(fold)]:
             
+            if args.test and len(img_list) > TEST_LIMIT:
+                break
+
             img = cv2.imread(img_path)
             img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             img = img / 255
@@ -183,6 +193,9 @@ for fold in range(NUM_FOLDS):
 
         for img_path, img_class in sketchy_data[str(fold)]:
             
+            if args.test and len(img_list) > TEST_LIMIT:
+                break
+
             img = cv2.imread(img_path)
             img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             img = img / 255
