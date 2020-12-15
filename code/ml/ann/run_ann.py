@@ -64,6 +64,65 @@ config_name = "c{0}_r{1}_m{2}_b{3}_w{4}_v{5}_e{6}_d{7}_n{8}_{9}".format(
                 args.bottleneck_size, args.weight_decay_encoder, args.weight_decay_decoder,
                 args.encoder_dropout, args.decoder_dropout, args.noise_prob, args.space)
 
+
+do_c = args.classification_weight > 0   # should we do a classification?
+do_m = args.mapping_weight > 0          # should we do the mapping?
+do_r = args.reconstruction_weight > 0   # should we do the reconstruction?
+
+# loads the fold information about a datasubset from a given file
+def load_data(file):
+    with open(file, 'rb') as f_in:
+        data = pickle.load(f_in)
+    return data
+
+# loads all data relevant to the Shapes data set
+def load_shapes(shapes_file, targets_file):
+    shapes_data = load_data(shapes_file)
+    with open(targets_file, 'rb') as f_in:
+        shapes_targets = pickle.load(f_in)[args.space]['correct']
+    space_dim = len(list(shapes_targets.values())[0])
+    return shapes_data, shapes_targets, space_dim
+
+# loads data with classification information
+def load_classification(file):
+    data = load_data(file)
+    class_set = set(map(lambda x: x[1], data['0']))
+    return data, class_set
+
+# defines a mapping from classes to one-hot-vectors
+def get_class_mapping(class_set):
+    class_list = list(class_set)
+    label_encoder = LabelEncoder()
+    binary_classes = label_encoder.fit_transform(class_list)
+    one_hot_encoder = OneHotEncoder(sparse=False)
+    one_hot_encoder.fit(binary_classes.reshape(-1, 1))
+    class_map = {}
+    for label in class_list:
+        numeric_label = label_encoder.transform(np.array([label]))
+        one_hot_label = one_hot_encoder.transform(numeric_label.reshape(1,1)).reshape(-1)
+        class_map[label] = one_hot_label
+    return class_map
+
+# merges two mappings into a single one
+def merge_mappings(mappings):
+    output_mapping = {}
+    
+    sizes = []
+    for mapping in mappings:
+        sizes.append(len(mapping))
+    
+    for idx, mapping in enumerate(mappings):
+
+        prefix_length = sum([sizes[i] for i in range(idx)])
+        prefix = [0]*prefix_length
+        suffix_length = sum([sizes[i] for i in range(idx + 1, len(mappings))])
+        suffix = [0]*suffix_length
+        
+        for key, value in mapping.items():
+            output_mapping[key] = np.concatenate([prefix, value, suffix])
+    
+    return output_mapping
+
 # load data as needed
 shapes_data = None
 additional_data = None
@@ -71,6 +130,30 @@ berlin_data = None
 sketchy_data = None
 shapes_targets = None
 space_dim = 0
+
+#if do_m or do_r:
+#    # load Shapes data
+#    shapes_data, shapes_targets, space_dim = load_shapes(args.shapes_file, args.targets_file)
+#    
+#if do_c or do_r:
+#    # load classification data
+#    berlin_data, berlin_classes = load_classification(args.berlin_file)
+#    sketchy_data, sketchy_classes = load_classification(args.sketchy_file)
+#    
+#    # bulid the maps for the individual parts
+#    common_map = get_class_mapping(berlin_classes.intersection(sketchy_classes))
+#    berlin_only_map = get_class_mapping(berlin_classes.difference(sketchy_classes))
+#    sketchy_only_map = get_class_mapping(sketchy_classes.difference(berlin_classes))
+#    
+#    # merge them appropriately for the respective output layers
+#    berlin_map = merge_mappings([common_map, berlin_only_map])
+#    sketchy_map = merge_mappings([common_map, sketchy_only_map])
+#    overall_map = merge_mappings([common_map, berlin_only_map, sketchy_only_map])
+#
+#if do_r:
+#    # load additional data
+#    additional_data = load_data(args.additional_file)    
+
 
 if args.reconstruction_weight > 0:
     # load all
@@ -168,13 +251,32 @@ def create_model(do_classification, do_mapping, do_reconstruction):
     
     if do_classification or do_reconstruction:
         enc_other = tf.keras.layers.Dense(args.bottleneck_size - space_dim, activation = None,  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(enc_d1)
-        bottleneck = tf.keras.layers.Concatenate(axis=1, name = 'bottleneck')([enc_mapping, enc_other])
+        bottleneck = tf.keras.layers.Concatenate(axis = 1, name = 'bottleneck')([enc_mapping, enc_other])
         
         model_outputs.append(bottleneck)
     
     if do_classification:    
         # classifier
-        class_softmax = tf.keras.layers.Dense(NUM_CLASSES, activation = 'softmax', name = 'classification',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(bottleneck)
+
+#        class_dense_berlin = tf.keras.layers.Dense(len(berlin_only_map), activation = None, kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(bottleneck)
+#        class_dense_sketchy = tf.keras.layers.Dense(len(sketchy_only_map), activation = None, kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(bottleneck)
+#        class_dense_common = tf.keras.layers.Dense(len(common_map), activation = None, kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(bottleneck)
+#        
+#        class_berlin = tf.keras.layers.Concatenate(axis = 1)([class_dense_common, class_dense_berlin])
+#        class_sketchy = tf.keras.layers.Concatenate(axis = 1)([class_dense_common, class_dense_sketchy])
+#        class_all = tf.keras.layers.Concatenate(axis = 1)([class_dense_common, class_dense_berlin, class_dense_sketchy])
+#    
+#        class_berlin_softmax = tf.keras.layers.Activation(activation = 'softmax', name = 'berlin')(class_berlin)    
+#        class_sketchy_softmax = tf.keras.layers.Activation(activation = 'softmax', name = 'sketchy')(class_sketchy)    
+#        class_all_softmax = tf.keras.layers.Activation(activation = 'softmax', name = 'classification')(class_all)    
+#        
+#        model_outputs.append(class_berlin_softmax, class_sketchy_softmax, class_all_softmax)
+#        model_loss['classification'] = 'categorical_crossentropy'
+#        model_loss_weights['classification'] = args.classification_weight
+#        model_metrics['berlin'] = 'accuracy'
+#        model_metrics['sketchy'] = 'accuracy'
+        
+        class_softmax = tf.keras.layers.Dense(NUM_CLASSES, activation = 'softmax', name = 'classification', kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(bottleneck)
         
         model_outputs.append(class_softmax)    
         model_loss['classification'] = 'categorical_crossentropy'
@@ -281,10 +383,6 @@ test_fold = args.fold
 val_fold = (test_fold - 1) % NUM_FOLDS
 train_folds = [i for i in range(NUM_FOLDS) if i != test_fold and i != val_fold]
 
-do_c = args.classification_weight > 0
-do_m = args.mapping_weight > 0
-do_r = args.reconstruction_weight > 0
-
 train_seq = get_data_sequence(train_folds, do_c, do_m, do_r)
 val_seq = get_data_sequence([val_fold], do_c, do_m, do_r)
 test_seq = get_data_sequence([test_fold], do_c, do_m, do_r)
@@ -333,7 +431,7 @@ else:
         # compute overall kendall correlation of bottleneck activation to dissimilarity ratings
         model_outputs = model.predict(original_images)
         bottleneck_activation = model_outputs[1] if do_m else model_outputs[0]
-        print(bottleneck_activation.shape)
+        
         for distance_function in sorted(distance_functions.keys()):
             precomputed_distances = precompute_distances(bottleneck_activation, distance_function)
             kendall_fixed  = compute_correlations(precomputed_distances, target_dissimilarities, distance_function)['kendall']
