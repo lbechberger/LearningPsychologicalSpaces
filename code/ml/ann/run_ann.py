@@ -41,8 +41,8 @@ parser.add_argument('--walltime', type = int, help = 'walltime after which the j
 parser.add_argument('--stopped_epoch', type = int, help = 'epoch where the training was interrupted', default = 0)
 args = parser.parse_args()
 
-if args.classification_weight + args.reconstruction_weight + args.mapping_weight != 1:
-    raise Exception("Relative weights of objectives need to sum to one!")
+if args.classification_weight + args.reconstruction_weight + args.mapping_weight == 0:
+    raise Exception("At least one objective needs to have positive weight!")
 
 start_time = time.time()
     
@@ -70,6 +70,7 @@ additional_data = None
 berlin_data = None
 sketchy_data = None
 shapes_targets = None
+space_dim = 0
 
 if args.reconstruction_weight > 0:
     # load all
@@ -120,7 +121,13 @@ target_dissimilarities = dissimilarity_data['dissimilarities']
 
 
 # define network structure
-def create_model():
+def create_model(do_classification, do_mapping, do_reconstruction):
+    
+    model_outputs = []    
+    model_loss = {}
+    model_loss_weights = {}
+    model_metrics = {}
+    
     # encoder
     enc_input = tf.keras.layers.Input(shape=(IMAGE_SIZE, IMAGE_SIZE, 1))
     enc_noise = SaltAndPepper(ratio = args.noise_prob)(enc_input)
@@ -136,58 +143,78 @@ def create_model():
     enc_fc1 = tf.keras.layers.Dense(512, activation='relu',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(enc_flat)
     enc_d1 = tf.keras.layers.Dropout(0.5)(enc_fc1) if args.encoder_dropout else enc_fc1
     enc_mapping = tf.keras.layers.Dense(space_dim, activation = None, name = 'mapping',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(enc_d1)
-    enc_other = tf.keras.layers.Dense(args.bottleneck_size - space_dim, activation = None,  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(enc_d1)
     
-    bottleneck = tf.keras.layers.Concatenate(axis=1, name = 'bottleneck')([enc_mapping, enc_other])
-    
-    # classifier
-    class_softmax = tf.keras.layers.Dense(NUM_CLASSES, activation = 'softmax', name = 'classification',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(bottleneck)
-    
-    # decoder
-    dec_fc1 = tf.keras.layers.Dense(512, activation = 'relu',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(bottleneck)
-    dec_d1 = tf.keras.layers.Dropout(0.5)(dec_fc1) if args.decoder_dropout else dec_fc1
-    dec_fc2 = tf.keras.layers.Dense(4608,  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_d1)
-    dec_img = tf.keras.layers.Reshape((3,3,512))(dec_fc2)
-    dec_uconv1 = tf.keras.layers.Conv2DTranspose(256, 5, strides = 1, activation = 'relu', padding = 'valid',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_img)
-    dec_uconv2 = tf.keras.layers.Conv2DTranspose(256, 5, strides = 2, activation = 'relu', padding = 'same',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_uconv1)
-    dec_uconv3 = tf.keras.layers.Conv2DTranspose(128, 5, strides = 2, activation = 'relu', padding = 'same',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_uconv2)
-    dec_uconv4 = tf.keras.layers.Conv2DTranspose(64, 5, strides = 2, activation = 'relu', padding = 'same',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_uconv3)
-    dec_uconv5 = tf.keras.layers.Conv2DTranspose(32, 5, strides = 2, activation = 'relu', padding = 'same',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_uconv4)
-    dec_output = tf.keras.layers.Conv2DTranspose(1, 5, strides = 2, activation = 'sigmoid', padding = 'same', name = 'reconstruction',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_uconv5)
-    
-    # set up model, loss, and evaluation metrics
-    model = tf.keras.models.Model(inputs = enc_input, outputs = [class_softmax, enc_mapping, dec_output, bottleneck])
+    if do_mapping:
+        model_outputs.append(enc_mapping)
 
-    def r2(y_true, y_pred):
-        residual = tf.reduce_sum(tf.square(y_true - y_pred), axis = 1)
-        total = tf.reduce_sum(tf.square(y_true - tf.reduce_mean(y_true, axis = 0)), axis = 1)
-        result = (1 - residual/(total + tf.keras.backend.epsilon()))
-        return result
+        def r2(y_true, y_pred):
+            residual = tf.reduce_sum(tf.square(y_true - y_pred), axis = 1)
+            total = tf.reduce_sum(tf.square(y_true - tf.reduce_mean(y_true, axis = 0)), axis = 1)
+            result = (1 - residual/(total + tf.keras.backend.epsilon()))
+            return result
+        
+        def med(y_true, y_pred):
+            squared_diff = tf.square(y_true - y_pred)
+            sum_squared_diff = tf.reduce_sum(squared_diff, axis = 1)
+            eucl_dist = tf.sqrt(sum_squared_diff)
+            return eucl_dist
     
-    def med(y_true, y_pred):
-        squared_diff = tf.square(y_true - y_pred)
-        sum_squared_diff = tf.reduce_sum(squared_diff, axis = 1)
-        eucl_dist = tf.sqrt(sum_squared_diff)
-        return eucl_dist
+        def mse(y_true, y_pred):
+            return space_dim * tf.keras.losses.mean_squared_error(y_true, y_pred)
+
+        model_loss['mapping'] = mse
+        model_loss_weights['mapping'] = args.mapping_weight
+        model_metrics['mapping'] = [med, r2]
     
-    model.compile(optimizer='adam', 
-                  loss =  {'classification': 'categorical_crossentropy', 'mapping': 'mse', 'reconstruction': 'binary_crossentropy'}, 
-                  loss_weights = {'classification': args.classification_weight, 'mapping': args.mapping_weight, 'reconstruction': args.reconstruction_weight},
-                  weighted_metrics = {'classification': 'accuracy', 'mapping': [med,r2]})
-    #model.summary()
+    if do_classification or do_reconstruction:
+        enc_other = tf.keras.layers.Dense(args.bottleneck_size - space_dim, activation = None,  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(enc_d1)
+        bottleneck = tf.keras.layers.Concatenate(axis=1, name = 'bottleneck')([enc_mapping, enc_other])
+        
+        model_outputs.append(bottleneck)
+    
+    if do_classification:    
+        # classifier
+        class_softmax = tf.keras.layers.Dense(NUM_CLASSES, activation = 'softmax', name = 'classification',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(bottleneck)
+        
+        model_outputs.append(class_softmax)    
+        model_loss['classification'] = 'categorical_crossentropy'
+        model_loss_weights['classification'] = args.classification_weight
+        model_metrics['classification'] = 'accuracy'
+        
+    if do_reconstruction:
+        # decoder
+        dec_fc1 = tf.keras.layers.Dense(512, activation = 'relu',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(bottleneck)
+        dec_d1 = tf.keras.layers.Dropout(0.5)(dec_fc1) if args.decoder_dropout else dec_fc1
+        dec_fc2 = tf.keras.layers.Dense(4608,  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_d1)
+        dec_img = tf.keras.layers.Reshape((3,3,512))(dec_fc2)
+        dec_uconv1 = tf.keras.layers.Conv2DTranspose(256, 5, strides = 1, activation = 'relu', padding = 'valid',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_img)
+        dec_uconv2 = tf.keras.layers.Conv2DTranspose(256, 5, strides = 2, activation = 'relu', padding = 'same',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_uconv1)
+        dec_uconv3 = tf.keras.layers.Conv2DTranspose(128, 5, strides = 2, activation = 'relu', padding = 'same',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_uconv2)
+        dec_uconv4 = tf.keras.layers.Conv2DTranspose(64, 5, strides = 2, activation = 'relu', padding = 'same',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_uconv3)
+        dec_uconv5 = tf.keras.layers.Conv2DTranspose(32, 5, strides = 2, activation = 'relu', padding = 'same',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_uconv4)
+        dec_output = tf.keras.layers.Conv2DTranspose(1, 5, strides = 2, activation = 'sigmoid', padding = 'same', name = 'reconstruction',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_uconv5)
+        
+        model_outputs.append(dec_output)   
+        model_loss['reconstruction'] = 'binary_crossentropy'
+        model_loss_weights['reconstruction'] = args.reconstruction_weight
+        
+    # set up model, loss, and evaluation metrics
+    model = tf.keras.models.Model(inputs = enc_input, outputs = model_outputs)
+    model.compile(optimizer='adam', loss = model_loss, loss_weights = model_loss_weights, weighted_metrics = model_metrics)
+    model.summary()
     
     return model
 
 
 # define data iterators
-def get_data_sequence(list_of_folds):
+def get_data_sequence(list_of_folds, do_classification, do_mapping, do_reconstruction):
 
-    if args.reconstruction_weight > 0:
+    if do_reconstruction:
         shapes_proportion = 21
         additional_proportion = 21
         berlin_proportion = 43
         sketchy_proportion = 43
-    elif args.mapping_weight > 0:
+    elif do_mapping:
         shapes_proportion = 26
         additional_proportion = 0
         berlin_proportion = 51
@@ -211,26 +238,42 @@ def get_data_sequence(list_of_folds):
         numeric_label = label_encoder.transform(np.array([label]))
         class_map[label] = one_hot_encoder.transform(numeric_label.reshape(1,1)).reshape(-1)
 
-    shapes_sequence = IndividualSequence(np.concatenate([shapes_data[str(i)] for i in list_of_folds]), 
-                                                        shapes_targets, shapes_proportion, IMAGE_SIZE, shuffle = True)
-    shapes_weights = {'classification': 0, 'mapping': 1, 'reconstruction': 1}
+    seqs = []
+    weights = []
     
-    additional_sequence = IndividualSequence(np.concatenate([additional_data[str(i)] for i in list_of_folds]), 
-                                                            {None: 0}, additional_proportion, IMAGE_SIZE, shuffle = True)
-    additional_weights = {'classification': 0, 'mapping': 0, 'reconstruction': 1}
+    if shapes_proportion > 0:
+        shapes_sequence = IndividualSequence(np.concatenate([shapes_data[str(i)] for i in list_of_folds]), 
+                                             shapes_targets, shapes_proportion, IMAGE_SIZE, shuffle = True)
+        shapes_weights = {'classification': 0, 'mapping': 1, 'reconstruction': 1}
+        
+        seqs.append(shapes_sequence)
+        weights.append(shapes_weights)
     
-    berlin_sequence = IndividualSequence(np.concatenate([berlin_data[str(i)] for i in list_of_folds]), 
-                                                        class_map, berlin_proportion, IMAGE_SIZE, shuffle = True)
-    berlin_weights = {'classification': 1, 'mapping': 0, 'reconstruction': 1}
+    if additional_proportion > 0:
+        additional_sequence = IndividualSequence(np.concatenate([additional_data[str(i)] for i in list_of_folds]), 
+                                                 {None: 0}, additional_proportion, IMAGE_SIZE, shuffle = True)
+        additional_weights = {'classification': 0, 'mapping': 0, 'reconstruction': 1}
+        
+        seqs.append(additional_sequence)
+        weights.append(additional_weights)
     
-    sketchy_sequence = IndividualSequence(np.concatenate([sketchy_data[str(i)] for i in list_of_folds]), 
-                                                         class_map, sketchy_proportion, IMAGE_SIZE, shuffle = True)
-    sketchy_weights = {'classification': 1, 'mapping': 0, 'reconstruction': 1}
+    if berlin_proportion > 0:
+        berlin_sequence = IndividualSequence(np.concatenate([berlin_data[str(i)] for i in list_of_folds]), 
+                                             class_map, berlin_proportion, IMAGE_SIZE, shuffle = True)
+        berlin_weights = {'classification': 1, 'mapping': 0, 'reconstruction': 1}
+
+        seqs.append(berlin_sequence)
+        weights.append(berlin_weights)    
     
-    seqs = [shapes_sequence, additional_sequence, berlin_sequence, sketchy_sequence]
-    weights = [shapes_weights, additional_weights, berlin_weights, sketchy_weights]
-    
-    data_sequence = OverallSequence(seqs, weights, space_dim, NUM_CLASSES)
+    if sketchy_proportion > 0:
+        sketchy_sequence = IndividualSequence(np.concatenate([sketchy_data[str(i)] for i in list_of_folds]), 
+                                              class_map, sketchy_proportion, IMAGE_SIZE, shuffle = True)
+        sketchy_weights = {'classification': 1, 'mapping': 0, 'reconstruction': 1}
+        
+        seqs.append(sketchy_sequence)
+        weights.append(sketchy_weights)
+        
+    data_sequence = OverallSequence(seqs, weights, space_dim, NUM_CLASSES, do_classification, do_mapping, do_reconstruction)
     return data_sequence
 
 
@@ -238,12 +281,16 @@ test_fold = args.fold
 val_fold = (test_fold - 1) % NUM_FOLDS
 train_folds = [i for i in range(NUM_FOLDS) if i != test_fold and i != val_fold]
 
-train_seq = get_data_sequence(train_folds)
-val_seq = get_data_sequence([val_fold])
-test_seq = get_data_sequence([test_fold])
+do_c = args.classification_weight > 0
+do_m = args.mapping_weight > 0
+do_r = args.reconstruction_weight > 0
+
+train_seq = get_data_sequence(train_folds, do_c, do_m, do_r)
+val_seq = get_data_sequence([val_fold], do_c, do_m, do_r)
+test_seq = get_data_sequence([test_fold], do_c, do_m, do_r)
 
 # set up the model    
-model = create_model()
+model = create_model(do_c, do_m, do_r)
 callbacks = [tf.keras.callbacks.EarlyStopping()]
 if args.walltime is not None:
     storage_path = '{0}_ep'.format(config_name)
@@ -282,14 +329,17 @@ else:
     evaluation_metrics = []
     evaluation_results = []
 
-    # compute overall kendall correlation of bottleneck activation to dissimilarity ratings
-    _, _, _, bottleneck_activation = model.predict(original_images)
-    for distance_function in sorted(distance_functions.keys()):
-        precomputed_distances = precompute_distances(bottleneck_activation, distance_function)
-        kendall_fixed  = compute_correlations(precomputed_distances, target_dissimilarities, distance_function)['kendall']
-        kendall_optimized = compute_correlations(precomputed_distances, target_dissimilarities, distance_function, 5, args.seed)['kendall']
-        evaluation_metrics += ['kendall_{0}_fixed'.format(distance_function), 'kendall_{0}_optimized'.format(distance_function)]
-        evaluation_results += [kendall_fixed, kendall_optimized]
+    if do_c or do_r:
+        # compute overall kendall correlation of bottleneck activation to dissimilarity ratings
+        model_outputs = model.predict(original_images)
+        bottleneck_activation = model_outputs[1] if do_m else model_outputs[0]
+        print(bottleneck_activation.shape)
+        for distance_function in sorted(distance_functions.keys()):
+            precomputed_distances = precompute_distances(bottleneck_activation, distance_function)
+            kendall_fixed  = compute_correlations(precomputed_distances, target_dissimilarities, distance_function)['kendall']
+            kendall_optimized = compute_correlations(precomputed_distances, target_dissimilarities, distance_function, 5, args.seed)['kendall']
+            evaluation_metrics += ['kendall_{0}_fixed'.format(distance_function), 'kendall_{0}_optimized'.format(distance_function)]
+            evaluation_results += [kendall_fixed, kendall_optimized]
 
     # compute standard evaluation metrics on the three tasks
     eval_train = model.evaluate_generator(train_seq, steps = len(train_seq))
