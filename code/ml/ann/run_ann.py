@@ -47,10 +47,8 @@ if args.classification_weight + args.reconstruction_weight + args.mapping_weight
 start_time = time.time()
     
 IMAGE_SIZE = 224
-BATCH_SIZE = 128
 NUM_FOLDS = 5
 NUM_CLASSES = 291
-TEST_LIMIT = 2000
 EPOCHS = 100 if not args.test else 1
 
 # apply seed
