@@ -384,8 +384,11 @@ val_fold = (test_fold - 1) % NUM_FOLDS
 train_folds = [i for i in range(NUM_FOLDS) if i != test_fold and i != val_fold]
 
 train_seq = get_data_sequence(train_folds, do_c, do_m, do_r)
+train_steps = len(train_seq) if not args.test else 1
 val_seq = get_data_sequence([val_fold], do_c, do_m, do_r)
+val_steps = len(val_seq) if not args.test else 1
 test_seq = get_data_sequence([test_fold], do_c, do_m, do_r)
+test_steps = len(test_seq) if not args.test else 1
 
 # set up the model    
 model = create_model(do_c, do_m, do_r)
@@ -399,8 +402,8 @@ if args.stopped_epoch > 0:
     model.load_weights(config_name + str(args.stopped_epoch) + '.hdf5')
 
 # train it
-history = model.fit_generator(generator = train_seq, steps_per_epoch = len(train_seq), epochs = EPOCHS, 
-                              validation_data = val_seq, validation_steps = len(val_seq),
+history = model.fit_generator(generator = train_seq, steps_per_epoch = train_steps, epochs = EPOCHS, 
+                              validation_data = val_seq, validation_steps = val_steps,
                               callbacks = callbacks, shuffle = True)
 
 
@@ -440,9 +443,9 @@ else:
             evaluation_results += [kendall_fixed, kendall_optimized]
 
     # compute standard evaluation metrics on the three tasks
-    eval_train = model.evaluate_generator(train_seq, steps = len(train_seq))
-    eval_val = model.evaluate_generator(val_seq, steps = len(val_seq))
-    eval_test = model.evaluate_generator(test_seq, steps = len(test_seq))
+    eval_train = model.evaluate_generator(train_seq, steps = train_steps)
+    eval_val = model.evaluate_generator(val_seq, steps = val_steps)
+    eval_test = model.evaluate_generator(test_seq, steps = test_steps)
     
     for evaluation, suffix in [(eval_train, '_train'), (eval_val, '_val'), (eval_test, '_test')]: 
         for metric_value, metric_name in zip(evaluation, model.metrics_names):
