@@ -129,58 +129,28 @@ sketchy_data = None
 shapes_targets = None
 space_dim = 0
 
-#if do_m or do_r:
-#    # load Shapes data
-#    shapes_data, shapes_targets, space_dim = load_shapes(args.shapes_file, args.targets_file)
-#    
-#if do_c or do_r:
-#    # load classification data
-#    berlin_data, berlin_classes = load_classification(args.berlin_file)
-#    sketchy_data, sketchy_classes = load_classification(args.sketchy_file)
-#    
-#    # bulid the maps for the individual parts
-#    common_map = get_class_mapping(berlin_classes.intersection(sketchy_classes))
-#    berlin_only_map = get_class_mapping(berlin_classes.difference(sketchy_classes))
-#    sketchy_only_map = get_class_mapping(sketchy_classes.difference(berlin_classes))
-#    
-#    # merge them appropriately for the respective output layers
-#    berlin_map = merge_mappings([common_map, berlin_only_map])
-#    sketchy_map = merge_mappings([common_map, sketchy_only_map])
-#    overall_map = merge_mappings([common_map, berlin_only_map, sketchy_only_map])
-#
-#if do_r:
-#    # load additional data
-#    additional_data = load_data(args.additional_file)    
+if do_m or do_r:
+    # load Shapes data
+    shapes_data, shapes_targets, space_dim = load_shapes(args.shapes_file, args.targets_file)
+    
+if do_c or do_r:
+    # load classification data
+    berlin_data, berlin_classes = load_classification(args.berlin_file)
+    sketchy_data, sketchy_classes = load_classification(args.sketchy_file)
+    
+    # bulid the maps for the individual parts
+    common_map = get_class_mapping(berlin_classes.intersection(sketchy_classes))
+    berlin_only_map = get_class_mapping(berlin_classes.difference(sketchy_classes))
+    sketchy_only_map = get_class_mapping(sketchy_classes.difference(berlin_classes))
+    
+    # merge them appropriately for the respective output layers
+    berlin_map = merge_mappings([common_map, berlin_only_map])
+    sketchy_map = merge_mappings([common_map, sketchy_only_map])
+    overall_map = merge_mappings([common_map, berlin_only_map, sketchy_only_map])
 
-
-if args.reconstruction_weight > 0:
-    # load all
-    with open(args.shapes_file, 'rb') as f_in:
-        shapes_data = pickle.load(f_in)
-    with open(args.targets_file, 'rb') as f_in:
-        shapes_targets = pickle.load(f_in)[args.space]['correct']
-    space_dim = len(list(shapes_targets.values())[0])
-    with open(args.additional_file, 'rb') as f_in:
-        additional_data = pickle.load(f_in)
-    with open(args.berlin_file, 'rb') as f_in:
-        berlin_data = pickle.load(f_in)
-    with open(args.sketchy_file, 'rb') as f_in:
-        sketchy_data = pickle.load(f_in)
-else:
-    if args.classification_weight > 0:
-        # load berlin and sketchy
-        with open(args.berlin_file, 'rb') as f_in:
-            berlin_data = pickle.load(f_in)
-        with open(args.sketchy_file, 'rb') as f_in:
-            sketchy_data = pickle.load(f_in)
-
-    if args.mapping_weight > 0:
-        # load shapes
-        with open(args.shapes_file, 'rb') as f_in:
-            shapes_data = pickle.load(f_in)
-        with open(args.targets_file, 'rb') as f_in:
-            shapes_targets = pickle.load(f_in)[args.space]['correct']
-        space_dim = len(list(shapes_targets.values())[0])
+if do_r:
+    # load additional data
+    additional_data = load_data(args.additional_file)    
 
 with open(args.dissimilarity_file, 'rb') as f_in:
     dissimilarity_data = pickle.load(f_in)
