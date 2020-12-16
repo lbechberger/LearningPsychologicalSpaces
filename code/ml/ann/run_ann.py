@@ -300,20 +300,6 @@ def get_data_sequence(list_of_folds, do_classification, do_mapping, do_reconstru
         berlin_proportion = 64
         sketchy_proportion = 64
 
-    # defining a mapping from classes to one-hot-vectors
-    class_map = {}
-    if berlin_data is not None:#_classification:
-        berlin_classes = set(map(lambda x: x[1], berlin_data['0']))
-        sketchy_classes = set(map(lambda x: x[1], sketchy_data['0']))
-        all_classes = list(berlin_classes.union(sketchy_classes))
-        label_encoder = LabelEncoder()
-        binary_classes = label_encoder.fit_transform(all_classes)
-        one_hot_encoder = OneHotEncoder(sparse=False)
-        one_hot_encoder.fit(binary_classes.reshape(-1, 1))
-        for label in all_classes:
-            numeric_label = label_encoder.transform(np.array([label]))
-            class_map[label] = one_hot_encoder.transform(numeric_label.reshape(1,1)).reshape(-1)
-
     seqs = []
     weights = []
     
@@ -335,7 +321,7 @@ def get_data_sequence(list_of_folds, do_classification, do_mapping, do_reconstru
     
     if berlin_proportion > 0:
         berlin_sequence = IndividualSequence(np.concatenate([berlin_data[str(i)] for i in list_of_folds]), 
-                                             class_map, berlin_proportion, IMAGE_SIZE, shuffle = True)
+                                             overall_map, berlin_proportion, IMAGE_SIZE, shuffle = True)
         berlin_weights = {'classification': 1, 'mapping': 0, 'reconstruction': 1}
 
         seqs.append(berlin_sequence)
@@ -343,7 +329,7 @@ def get_data_sequence(list_of_folds, do_classification, do_mapping, do_reconstru
     
     if sketchy_proportion > 0:
         sketchy_sequence = IndividualSequence(np.concatenate([sketchy_data[str(i)] for i in list_of_folds]), 
-                                              class_map, sketchy_proportion, IMAGE_SIZE, shuffle = True)
+                                              overall_map, sketchy_proportion, IMAGE_SIZE, shuffle = True)
         sketchy_weights = {'classification': 1, 'mapping': 0, 'reconstruction': 1}
         
         seqs.append(sketchy_sequence)
