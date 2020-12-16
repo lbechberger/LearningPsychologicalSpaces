@@ -331,8 +331,8 @@ def get_data_sequence(list_of_folds, do_classification, do_mapping, do_reconstru
         sketchy_proportion = 64
 
     # defining a mapping from classes to one-hot-vectors
-    if do_classification:
-        class_map = {}
+    class_map = {}
+    if berlin_data is not None:#_classification:
         berlin_classes = set(map(lambda x: x[1], berlin_data['0']))
         sketchy_classes = set(map(lambda x: x[1], sketchy_data['0']))
         all_classes = list(berlin_classes.union(sketchy_classes))
