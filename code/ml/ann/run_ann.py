@@ -314,29 +314,35 @@ def get_data_sequence(list_of_folds, do_classification, do_mapping, do_reconstru
         additional_proportion = 21
         berlin_proportion = 43
         sketchy_proportion = 43
-    elif do_mapping:
+    elif do_mapping and do_classification:
         shapes_proportion = 26
         additional_proportion = 0
         berlin_proportion = 51
         sketchy_proportion = 51
-    else:
+    elif do_mapping:
+        shapes_proportion = 128
+        additional_proportion = 0
+        berlin_proportion = 0
+        sketchy_proportion = 0
+    else: # only classification
         shapes_proportion = 0
         additional_proportion = 0
         berlin_proportion = 64
         sketchy_proportion = 64
 
     # defining a mapping from classes to one-hot-vectors
-    class_map = {}
-    berlin_classes = set(map(lambda x: x[1], berlin_data['0']))
-    sketchy_classes = set(map(lambda x: x[1], sketchy_data['0']))
-    all_classes = list(berlin_classes.union(sketchy_classes))
-    label_encoder = LabelEncoder()
-    binary_classes = label_encoder.fit_transform(all_classes)
-    one_hot_encoder = OneHotEncoder(sparse=False)
-    one_hot_encoder.fit(binary_classes.reshape(-1, 1))
-    for label in all_classes:
-        numeric_label = label_encoder.transform(np.array([label]))
-        class_map[label] = one_hot_encoder.transform(numeric_label.reshape(1,1)).reshape(-1)
+    if do_classification:
+        class_map = {}
+        berlin_classes = set(map(lambda x: x[1], berlin_data['0']))
+        sketchy_classes = set(map(lambda x: x[1], sketchy_data['0']))
+        all_classes = list(berlin_classes.union(sketchy_classes))
+        label_encoder = LabelEncoder()
+        binary_classes = label_encoder.fit_transform(all_classes)
+        one_hot_encoder = OneHotEncoder(sparse=False)
+        one_hot_encoder.fit(binary_classes.reshape(-1, 1))
+        for label in all_classes:
+            numeric_label = label_encoder.transform(np.array([label]))
+            class_map[label] = one_hot_encoder.transform(numeric_label.reshape(1,1)).reshape(-1)
 
     seqs = []
     weights = []
