@@ -48,7 +48,6 @@ start_time = time.time()
     
 IMAGE_SIZE = 224
 NUM_FOLDS = 5
-NUM_CLASSES = 291
 EPOCHS = 100 if not args.test else 1
 
 # apply seed
@@ -238,6 +237,8 @@ def create_model(do_classification, do_mapping, do_reconstruction):
         class_sketchy_softmax = tf.keras.layers.Activation(activation = 'softmax', name = 'sketchy')(class_sketchy)
         class_all_softmax = tf.keras.layers.Activation(activation = 'softmax', name = 'classification')(class_all)
         
+        # need to give a loss to 'berlin' and 'sketchy' outputs, otherwise accuracy won't be evaluated
+        # add a loss, but fix its weight to zero to make sure it doesn't play a role in practice
         model_outputs.append(class_berlin_softmax)
         model_loss['berlin'] = 'categorical_crossentropy'
         model_loss_weights['berlin'] = 0
