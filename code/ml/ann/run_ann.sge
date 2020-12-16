@@ -5,7 +5,7 @@
 #$ -l h_rt=1:30:00
 #$ -l cuda=1
 #$ -l cuda_cores=384
-#$ -l nv_mem_free=8G
+#$ -l nv_mem_free=32G
 #$ -cwd
 #$ -o $HOME/store/sge-logs
 #$ -e $HOME/store/sge-logs
