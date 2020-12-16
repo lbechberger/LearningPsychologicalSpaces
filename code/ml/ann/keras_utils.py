@@ -170,19 +170,19 @@ class OverallSequence(tf.keras.utils.Sequence):
                 weights_reconstruction.append(np.full((seq_length), fill_value = w['reconstruction']))
         
         X = np.concatenate(X)
-        targets = []
+        targets = {}
         weights = {}
         
         if self._do_mapping:
-            targets.append(np.concatenate(coords))
+            targets['mapping'] = np.concatenate(coords)
             weights['mapping'] = np.concatenate(weights_mapping)
         if self._do_classification:
-            targets.append(np.concatenate(classes))
+            targets['classification'] = np.concatenate(classes)
             weights['classification'] = np.concatenate(weights_classification)
         if self._do_reconstruction:
-            targets.append(X)
+            targets['reconstruction'] = X
             weights['reconstruction'] = np.concatenate(weights_reconstruction)
-        
+
         return (X, targets, weights)
         
     
