@@ -89,9 +89,9 @@ class AutoRestart(tf.keras.callbacks.Callback):
 
 class IndividualSequence(tf.keras.utils.Sequence):
     
-    def __init__(self, source, info_mapper, batch_size, image_size, shuffle = True):
+    def __init__(self, source, info_mappers, batch_size, image_size, shuffle = True):
         self._source = source
-        self._info_mapper = info_mapper
+        self._info_mappers = info_mappers
         self._batch_size = batch_size
         self._image_size = image_size
         self._shuffle = shuffle
@@ -109,13 +109,18 @@ class IndividualSequence(tf.keras.utils.Sequence):
     def __getitem__(self, idx):
         current_selection = self._source[idx * self._batch_size : (idx + 1) * self._batch_size]
         X = []
-        y = []
+        ys = []
+        for info_mapper in self._info_mappers:
+            ys.append([])
+        
         for path, info in current_selection:
             X.append(self.__load_image(path))
-            y.append(self._info_mapper[info])
+            for idx, info_mapper in enumerate(self._info_mappers):
+                ys[idx].append(info_mapper[info])
         X = np.reshape(X, (-1, self._image_size, self._image_size, 1))
-        y = np.array(y)
-        return X, y
+        for i in range(len(ys)):
+            ys[i] = np.array(ys[i])
+        return X, ys
     
     def on_epoch_end(self):
         if self._shuffle == True:
@@ -127,11 +132,13 @@ class OverallSequence(tf.keras.utils.Sequence):
     '''Sequence for dynamically loading the augmented Shapes dataset and combining its different sources.
     '''
     
-    def __init__(self, source_sequences, weights, dims, classes, do_classification, do_mapping, do_reconstruction):
+    def __init__(self, source_sequences, weights, dims, all_classes, berlin_classes, sketchy_classes, do_classification, do_mapping, do_reconstruction):
         self._source_sequences = source_sequences
         self._weights = weights
         self._dims = dims
-        self._classes = classes
+        self._all_classes = all_classes
+        self._berlin_classes = berlin_classes
+        self._sketchy_classes = sketchy_classes
         self._do_classification = do_classification
         self._do_mapping = do_mapping
         self._do_reconstruction = do_reconstruction
@@ -146,25 +153,36 @@ class OverallSequence(tf.keras.utils.Sequence):
             coords = []
             weights_mapping = []
         if self._do_classification:
-            classes = []
+            all_classes = []
+            berlin_classes = []
+            sketchy_classes = []
             weights_classification = []
+            weights_berlin = []
+            weights_sketchy = []
         if self._do_reconstruction:
             weights_reconstruction = []
         
         for seq, w in zip(self._source_sequences, self._weights):
             seq_X, seq_y = seq[idx]
-            seq_length = seq_y.shape[0]
+            seq_length = seq_y[0].shape[0]
             X.append(seq_X)
             
             if self._do_mapping:
-                seq_coords = seq_y if w['mapping'] == 1 else np.zeros((seq_length, self._dims))
+                seq_coords = seq_y[0] if w['mapping'] == 1 else np.zeros((seq_length, self._dims))
                 coords.append(seq_coords)
                 weights_mapping.append(np.full((seq_length), fill_value = w['mapping']))
             
             if self._do_classification:
-                seq_classes = seq_y if w['classification'] == 1 else np.zeros((seq_length, self._classes))
-                classes.append(seq_classes)
+                seq_classes = seq_y[0] if w['classification'] == 1 else np.zeros((seq_length, self._all_classes))
+                all_classes.append(seq_classes)
+                seq_berlin = seq_y[1] if w['berlin'] == 1 else np.zeros((seq_length, self._berlin_classes))
+                berlin_classes.append(seq_berlin)
+                seq_sketchy = seq_y[1] if w['sketchy'] == 1 else np.zeros((seq_length, self._sketchy_classes))
+                sketchy_classes.append(seq_sketchy)
+    
                 weights_classification.append(np.full((seq_length), fill_value = w['classification']))
+                weights_berlin.append(np.full((seq_length), fill_value = w['berlin']))
+                weights_sketchy.append(np.full((seq_length), fill_value = w['sketchy']))
             
             if self._do_reconstruction:
                 weights_reconstruction.append(np.full((seq_length), fill_value = w['reconstruction']))
@@ -177,8 +195,12 @@ class OverallSequence(tf.keras.utils.Sequence):
             targets['mapping'] = np.concatenate(coords)
             weights['mapping'] = np.concatenate(weights_mapping)
         if self._do_classification:
-            targets['classification'] = np.concatenate(classes)
+            targets['classification'] = np.concatenate(all_classes)
             weights['classification'] = np.concatenate(weights_classification)
+            targets['berlin'] = np.concatenate(berlin_classes)
+            weights['berlin'] = np.concatenate(weights_berlin)
+            targets['sketchy'] = np.concatenate(sketchy_classes)
+            weights['sketchy'] = np.concatenate(weights_sketchy)
         if self._do_reconstruction:
             targets['reconstruction'] = X
             weights['reconstruction'] = np.concatenate(weights_reconstruction)

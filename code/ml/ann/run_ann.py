@@ -226,30 +226,31 @@ def create_model(do_classification, do_mapping, do_reconstruction):
     if do_classification:    
         # classifier
 
-#        class_dense_berlin = tf.keras.layers.Dense(len(berlin_only_map), activation = None, kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(bottleneck)
-#        class_dense_sketchy = tf.keras.layers.Dense(len(sketchy_only_map), activation = None, kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(bottleneck)
-#        class_dense_common = tf.keras.layers.Dense(len(common_map), activation = None, kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(bottleneck)
-#        
-#        class_berlin = tf.keras.layers.Concatenate(axis = 1)([class_dense_common, class_dense_berlin])
-#        class_sketchy = tf.keras.layers.Concatenate(axis = 1)([class_dense_common, class_dense_sketchy])
-#        class_all = tf.keras.layers.Concatenate(axis = 1)([class_dense_common, class_dense_berlin, class_dense_sketchy])
-#    
-#        class_berlin_softmax = tf.keras.layers.Activation(activation = 'softmax', name = 'berlin')(class_berlin)    
-#        class_sketchy_softmax = tf.keras.layers.Activation(activation = 'softmax', name = 'sketchy')(class_sketchy)    
-#        class_all_softmax = tf.keras.layers.Activation(activation = 'softmax', name = 'classification')(class_all)    
-#        
-#        model_outputs.append(class_berlin_softmax, class_sketchy_softmax, class_all_softmax)
-#        model_loss['classification'] = 'categorical_crossentropy'
-#        model_loss_weights['classification'] = args.classification_weight
-#        model_metrics['berlin'] = 'accuracy'
-#        model_metrics['sketchy'] = 'accuracy'
+        class_dense_berlin = tf.keras.layers.Dense(len(berlin_only_map), activation = None, kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(bottleneck)
+        class_dense_sketchy = tf.keras.layers.Dense(len(sketchy_only_map), activation = None, kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(bottleneck)
+        class_dense_common = tf.keras.layers.Dense(len(common_map), activation = None, kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(bottleneck)
         
-        class_softmax = tf.keras.layers.Dense(NUM_CLASSES, activation = 'softmax', name = 'classification', kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(bottleneck)
+        class_berlin = tf.keras.layers.Concatenate(axis = 1)([class_dense_common, class_dense_berlin])
+        class_sketchy = tf.keras.layers.Concatenate(axis = 1)([class_dense_common, class_dense_sketchy])
+        class_all = tf.keras.layers.Concatenate(axis = 1)([class_dense_common, class_dense_berlin, class_dense_sketchy])
+    
+        class_berlin_softmax = tf.keras.layers.Activation(activation = 'softmax', name = 'berlin')(class_berlin)
+        class_sketchy_softmax = tf.keras.layers.Activation(activation = 'softmax', name = 'sketchy')(class_sketchy)
+        class_all_softmax = tf.keras.layers.Activation(activation = 'softmax', name = 'classification')(class_all)
         
-        model_outputs.append(class_softmax)    
+        model_outputs.append(class_berlin_softmax)
+        model_loss['berlin'] = 'categorical_crossentropy'
+        model_loss_weights['berlin'] = 0
+        model_metrics['berlin'] = 'accuracy'
+
+        model_outputs.append(class_sketchy_softmax)
+        model_loss['sketchy'] = 'categorical_crossentropy'
+        model_loss_weights['berlin'] = 0
+        model_metrics['sketchy'] = 'accuracy'
+
+        model_outputs.append(class_all_softmax)
         model_loss['classification'] = 'categorical_crossentropy'
         model_loss_weights['classification'] = args.classification_weight
-        model_metrics['classification'] = 'accuracy'
         
     if do_reconstruction:
         # decoder
@@ -302,40 +303,48 @@ def get_data_sequence(list_of_folds, do_classification, do_mapping, do_reconstru
 
     seqs = []
     weights = []
+    all_classes = 0
+    berlin_classes = 0
+    sketchy_classes = 0
     
     if shapes_proportion > 0:
         shapes_sequence = IndividualSequence(np.concatenate([shapes_data[str(i)] for i in list_of_folds]), 
-                                             shapes_targets, shapes_proportion, IMAGE_SIZE, shuffle = True)
-        shapes_weights = {'classification': 0, 'mapping': 1, 'reconstruction': 1}
+                                             [shapes_targets], shapes_proportion, IMAGE_SIZE, shuffle = True)
+        shapes_weights = {'classification': 0, 'mapping': 1, 'reconstruction': 1, 'berlin': 0, 'sketchy': 0}
         
         seqs.append(shapes_sequence)
         weights.append(shapes_weights)
     
     if additional_proportion > 0:
         additional_sequence = IndividualSequence(np.concatenate([additional_data[str(i)] for i in list_of_folds]), 
-                                                 {None: 0}, additional_proportion, IMAGE_SIZE, shuffle = True)
-        additional_weights = {'classification': 0, 'mapping': 0, 'reconstruction': 1}
+                                                 [{None: 0}], additional_proportion, IMAGE_SIZE, shuffle = True)
+        additional_weights = {'classification': 0, 'mapping': 0, 'reconstruction': 1, 'berlin': 0, 'sketchy': 0}
         
         seqs.append(additional_sequence)
         weights.append(additional_weights)
     
     if berlin_proportion > 0:
         berlin_sequence = IndividualSequence(np.concatenate([berlin_data[str(i)] for i in list_of_folds]), 
-                                             overall_map, berlin_proportion, IMAGE_SIZE, shuffle = True)
-        berlin_weights = {'classification': 1, 'mapping': 0, 'reconstruction': 1}
+                                             [overall_map, berlin_map], berlin_proportion, IMAGE_SIZE, shuffle = True)
+        berlin_weights = {'classification': 1, 'mapping': 0, 'reconstruction': 1, 'berlin': 1, 'sketchy': 0}
 
         seqs.append(berlin_sequence)
-        weights.append(berlin_weights)    
+        weights.append(berlin_weights)
+        
+        all_classes = len(overall_map)
+        berlin_classes = len(berlin_map)
     
     if sketchy_proportion > 0:
         sketchy_sequence = IndividualSequence(np.concatenate([sketchy_data[str(i)] for i in list_of_folds]), 
-                                              overall_map, sketchy_proportion, IMAGE_SIZE, shuffle = True)
-        sketchy_weights = {'classification': 1, 'mapping': 0, 'reconstruction': 1}
+                                              [overall_map, sketchy_map], sketchy_proportion, IMAGE_SIZE, shuffle = True)
+        sketchy_weights = {'classification': 1, 'mapping': 0, 'reconstruction': 1, 'berlin': 0, 'sketchy': 1}
         
         seqs.append(sketchy_sequence)
         weights.append(sketchy_weights)
         
-    data_sequence = OverallSequence(seqs, weights, space_dim, NUM_CLASSES, do_classification, do_mapping, do_reconstruction)
+        sketchy_classes = len(sketchy_map)
+
+    data_sequence = OverallSequence(seqs, weights, space_dim, all_classes, berlin_classes, sketchy_classes, do_classification, do_mapping, do_reconstruction)
     return data_sequence
 
 
