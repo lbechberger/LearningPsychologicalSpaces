@@ -55,6 +55,11 @@ if args.seed is not None:
     tf.set_random_seed(args.seed)
     np.random.seed(args.seed)
 
+config = tf.ConfigProto()
+config.gpu_options.allow_growth = True
+session = tf.Session(config=config)
+tf.keras.backend.set_session(session)
+
 # configuration string
 config_name = "c{0}_r{1}_m{2}_b{3}_w{4}_v{5}_e{6}_d{7}_n{8}_{9}".format(
                 args.classification_weight, args.reconstruction_weight, args.mapping_weight,
