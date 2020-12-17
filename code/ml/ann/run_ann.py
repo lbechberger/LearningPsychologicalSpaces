@@ -379,7 +379,7 @@ if args.stopped_epoch > 0:
 # train it
 history = model.fit_generator(generator = train_seq, steps_per_epoch = train_steps, epochs = EPOCHS, 
                               validation_data = val_seq, validation_steps = val_steps,
-                              callbacks = callbacks, shuffle = True)
+                              callbacks = callbacks, shuffle = True, initial_epoch = args.stopped_epoch)
 
 
 if args.walltime is not None and auto_restart.reached_walltime == 1:
