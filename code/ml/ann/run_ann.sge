@@ -2,7 +2,7 @@
 #$ -N ann
 #$ -l mem=16G
 #$ -pe default 8
-#$ -l h_rt=12:00:00
+#$ -l h_rt=1:30:00
 #$ -l cuda=1
 #$ -l cuda_cores=384
 #$ -cwd
