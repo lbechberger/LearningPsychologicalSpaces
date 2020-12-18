@@ -12,8 +12,9 @@
 
 export PATH="$HOME/store/miniconda/bin:$PATH"
 source activate tensorflow-CS
+export CUDA_VISIBLE_DEVICES="0"
 echo $*
 echo $* >&2
 python -u -m code.ml.ann.run_ann $*
 
-source deactivate tensorflow-CS
+conda deactivate tensorflow-CS
