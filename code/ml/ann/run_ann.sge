@@ -6,6 +6,7 @@
 #$ -l cuda=1
 #$ -l cuda_cores=384
 #$ -l nv_mem_free=4G
+#$ -l h=\!beam
 #$ -cwd
 #$ -o $HOME/store/sge-logs
 #$ -e $HOME/store/sge-logs
