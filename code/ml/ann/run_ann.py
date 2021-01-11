@@ -55,10 +55,7 @@ if args.seed is not None:
     tf.set_random_seed(args.seed)
     np.random.seed(args.seed)
 
-from tensorflow.python.client import device_lib
-print(device_lib.list_local_devices())
-
-config = tf.ConfigProto(log_device_placement=True)
+config = tf.ConfigProto()
 config.gpu_options.allow_growth = True
 session = tf.Session(config=config)
 tf.keras.backend.set_session(session)
