@@ -287,10 +287,10 @@ def create_model(do_classification, do_mapping, do_reconstruction):
 def get_data_sequence(list_of_folds, do_classification, do_mapping, do_reconstruction):
 
     if do_reconstruction:
-        shapes_proportion = 11#21
-        additional_proportion = 11#21
-        berlin_proportion = 21#43
-        sketchy_proportion = 21#43
+        shapes_proportion = 21
+        additional_proportion = 21
+        berlin_proportion = 43
+        sketchy_proportion = 43
     elif do_mapping and do_classification:
         shapes_proportion = 26
         additional_proportion = 0
