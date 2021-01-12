@@ -17,4 +17,4 @@ echo $*
 echo $* >&2
 python -u -m code.ml.ann.run_ann $*
 
-conda deactivate tensorflow-CS
+conda deactivate
