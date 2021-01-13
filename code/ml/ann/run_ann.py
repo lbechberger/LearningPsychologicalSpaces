@@ -377,9 +377,10 @@ if args.stopped_epoch is not None:
     model.load_weights(storage_path + str(args.stopped_epoch) + '.hdf5')
 
 # train it
+initial_epoch = 0 if args.stopped_epoch is None else args.stopped_epoch + 1
 history = model.fit_generator(generator = train_seq, steps_per_epoch = train_steps, epochs = EPOCHS, 
                               validation_data = val_seq, validation_steps = val_steps,
-                              callbacks = callbacks, shuffle = True, initial_epoch = args.stopped_epoch + 1)
+                              callbacks = callbacks, shuffle = True, initial_epoch = initial_epoch)
 
 
 if args.walltime is not None and auto_restart.reached_walltime == 1:
@@ -442,4 +443,4 @@ else:
         
     # remove the old snapshots to free some disk space
     from subprocess import call
-    call('rm {0}*.hd5'.format(storage_path), shell = True)
+    call('rm {0}*.hdf5'.format(storage_path), shell = True)
