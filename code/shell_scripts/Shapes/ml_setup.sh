@@ -4,6 +4,7 @@
 echo 'setting up directory structure'
 mkdir -p data/Shapes/ml/dataset/0 data/Shapes/ml/dataset/1 data/Shapes/ml/dataset/2 data/Shapes/ml/dataset/3 data/Shapes/ml/dataset/4
 mkdir -p data/Shapes/ml/dataset/pickle/0.1/ data/Shapes/ml/dataset/pickle/0.25/ data/Shapes/ml/dataset/pickle/0.55/
+mkdir -p data/Shapes/ml/snapshots/
 
 
 # machine learning: preparation

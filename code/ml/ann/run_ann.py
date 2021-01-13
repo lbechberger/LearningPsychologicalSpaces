@@ -38,7 +38,7 @@ parser.add_argument('-s', '--seed', type = int, help = 'seed for random number g
 parser.add_argument('-t', '--test', action = 'store_true', help = 'make only short test run instead of full training cycle')
 parser.add_argument('-f', '--fold', type = int, help = 'fold to use for testing', default = 0)
 parser.add_argument('--walltime', type = int, help = 'walltime after which the job will be killed', default = None)
-parser.add_argument('--stopped_epoch', type = int, help = 'epoch where the training was interrupted', default = 0)
+parser.add_argument('--stopped_epoch', type = int, help = 'epoch where the training was interrupted', default = None)
 args = parser.parse_args()
 
 if args.classification_weight + args.reconstruction_weight + args.mapping_weight == 0:
@@ -48,7 +48,7 @@ start_time = time.time()
     
 IMAGE_SIZE = 224
 NUM_FOLDS = 5
-EPOCHS = 100 if not args.test else 1
+EPOCHS = 100 if not args.test else 2
 
 # apply seed
 if args.seed is not None:
@@ -368,18 +368,18 @@ test_steps = len(test_seq) if not args.test else 1
 # set up the model    
 model = create_model(do_c, do_m, do_r)
 callbacks = [tf.keras.callbacks.EarlyStopping()]
+storage_path = 'data/Shapes/ml/snapshots/{0}_f{1}_ep'.format(config_name, args.fold)
 if args.walltime is not None:
-    storage_path = '{0}_ep'.format(config_name)
     auto_restart = AutoRestart(filepath=storage_path, start_time=start_time, verbose = 0, walltime=args.walltime)
     callbacks.append(auto_restart)
 
-if args.stopped_epoch > 0:
-    model.load_weights(config_name + str(args.stopped_epoch) + '.hdf5')
+if args.stopped_epoch is not None:
+    model.load_weights(storage_path + str(args.stopped_epoch) + '.hdf5')
 
 # train it
 history = model.fit_generator(generator = train_seq, steps_per_epoch = train_steps, epochs = EPOCHS, 
                               validation_data = val_seq, validation_steps = val_steps,
-                              callbacks = callbacks, shuffle = True, initial_epoch = args.stopped_epoch)
+                              callbacks = callbacks, shuffle = True, initial_epoch = args.stopped_epoch + 1)
 
 
 if args.walltime is not None and auto_restart.reached_walltime == 1:
@@ -439,3 +439,7 @@ else:
         fcntl.flock(f_out, fcntl.LOCK_EX)
         f_out.write("{0},{1},{2}\n".format(config_name, args.fold, ','.join(map(lambda x: str(x), evaluation_results))))
         fcntl.flock(f_out, fcntl.LOCK_UN)
+        
+    # remove the old snapshots to free some disk space
+    from subprocess import call
+    call('rm {0}*.hd5'.format(storage_path), shell = True)

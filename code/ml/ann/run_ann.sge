@@ -1,11 +1,11 @@
 #!/bin/bash
 #$ -N ann
-#$ -l mem=8G
+#$ -l mem=5G
 #$ -pe default 2
 #$ -l h_rt=1:30:00
 #$ -l cuda=1
 #$ -l cuda_cores=384
-#$ -l nv_mem_free=4G
+#$ -l nv_mem_free=4500M
 #$ -cwd
 #$ -o $HOME/store/sge-logs
 #$ -e $HOME/store/sge-logs
