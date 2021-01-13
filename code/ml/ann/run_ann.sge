@@ -1,6 +1,6 @@
 #!/bin/bash
 #$ -N ann
-#$ -l mem=5G
+#$ -l mem=8G
 #$ -pe default 2
 #$ -l h_rt=1:30:00
 #$ -l cuda=1
