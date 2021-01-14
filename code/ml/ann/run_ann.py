@@ -11,7 +11,7 @@ import argparse, pickle, os, fcntl, time
 import tensorflow as tf
 import numpy as np
 import cv2
-from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+from sklearn.preprocessing import OneHotEncoder
 from code.ml.ann.keras_utils import SaltAndPepper, AutoRestart, IndividualSequence, OverallSequence
 from code.util import precompute_distances, compute_correlations, distance_functions
 
@@ -94,15 +94,12 @@ def load_classification(file):
 # defines a mapping from classes to one-hot-vectors
 def get_class_mapping(class_set):
     class_list = list(class_set)
-    label_encoder = LabelEncoder()
-    binary_classes = label_encoder.fit_transform(class_list)
     one_hot_encoder = OneHotEncoder(sparse=False)
-    one_hot_encoder.fit(binary_classes.reshape(-1, 1))
+    one_hot_encoder.fit(np.array(class_list).reshape(-1, 1))
     class_map = {}
     for label in class_list:
-        numeric_label = label_encoder.transform(np.array([label]))
-        one_hot_label = one_hot_encoder.transform(numeric_label.reshape(1,1)).reshape(-1)
-        class_map[label] = one_hot_label
+        one_hot_label = one_hot_encoder.transform(np.array([label]).reshape(-1, 1))
+        class_map[label] = one_hot_label.reshape(-1)
     return class_map
 
 # merges two mappings into a single one
