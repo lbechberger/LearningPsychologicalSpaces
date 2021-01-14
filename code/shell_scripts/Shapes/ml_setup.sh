@@ -18,14 +18,15 @@ mkdir -p data/Shapes/ml/snapshots/
 # exporting Berlin data manually
 for folder in data/Shapes/images/Berlin-svg/*
 do
+	echo $folder
+	output_folder=`echo $folder | sed -e 's/Berlin-svg/Berlin/'`
+	mkdir -p $output_folder
 	for file in $folder/*
 	do
-		path_to_file=
-		output_path=`echo $path_to_file | sed -e 's/svg$/png/'`
-		inkscape --export-png=$output_path --export-width $export_size --export-height $export_size --export-background=white $path_to_file 
+		output_path=`echo $file | sed -e 's/svg$/png/' | sed -e 's/Berlin-svg/Berlin/'`
+		inkscape --export-png=$output_path --export-width=$export_size --export-height=$export_size --export-background=white $file > /dev/null
 	done
 done
-
 
 # machine learning: preparation
 echo 'preparing data set for machine learning'
