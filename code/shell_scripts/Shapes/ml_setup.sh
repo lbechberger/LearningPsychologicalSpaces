@@ -1,10 +1,30 @@
 #!/bin/bash
 
+# set up global variables
+default_export_size=256
+default_image_size=112
+
+export_size="${export_size:-$default_export_size}"
+image_size="${image_size:-$default_image_size}"
+
+
 # set up the directory structure
 echo 'setting up directory structure'
+mkdir -p data/Shapes/images/Berlin
 mkdir -p data/Shapes/ml/dataset/0 data/Shapes/ml/dataset/1 data/Shapes/ml/dataset/2 data/Shapes/ml/dataset/3 data/Shapes/ml/dataset/4
 mkdir -p data/Shapes/ml/dataset/pickle/0.1/ data/Shapes/ml/dataset/pickle/0.25/ data/Shapes/ml/dataset/pickle/0.55/
 mkdir -p data/Shapes/ml/snapshots/
+
+# exporting Berlin data manually
+for folder in data/Shapes/images/Berlin-svg/*
+do
+	for file in $folder/*
+	do
+		path_to_file=
+		output_path=`echo $path_to_file | sed -e 's/svg$/png/'`
+		inkscape --export-png=$output_path --export-width $export_size --export-height $export_size --export-background=white $path_to_file 
+	done
+done
 
 
 # machine learning: preparation
