@@ -27,8 +27,8 @@ parser.add_argument('factor', type = int, help = 'number of augmented samples pe
 parser.add_argument('-p', '--pickle_output_folder', help = 'folder for pickle output files (if desired)', default = None)
 parser.add_argument('-n', '--noise_prob', nargs = '+', type = float, help = 'noise levels to use for pickle output', default = None)
 parser.add_argument('-s', '--seed', type = int, help = 'seed for random number generation', default = None)
-parser.add_argument('-o', '--output_size', type = int, help = 'size of output image', default = 224)
-parser.add_argument('-m', '--minimum_size', type = int, help = 'minimal size of output object', default = 168)
+parser.add_argument('-o', '--output_size', type = int, help = 'size of output image', default = 128)
+parser.add_argument('-m', '--minimum_size', type = int, help = 'minimal size of output object', default = 96)
 args = parser.parse_args()
 
 pixel_histogram = [0]*256
