@@ -382,7 +382,7 @@ history = model.fit_generator(generator = train_seq, steps_per_epoch = train_ste
 if args.walltime is not None and auto_restart.reached_walltime == 1:
     # interrupted by wall time --> restart
     from subprocess import call
-    recall_list = ['qsub', 'run_ann.sge', 
+    recall_list = ['qsub', 'code/ml/ann/run_ann.sge',
                        args.shapes_file, args.additional_file, args.berlin_file, args.sketchy_file,
                        args.targets_file, args.space, args.output_file]
     recall_list += ['-c', str(args.classification_weight), '-r', str(args.reconstruction_weight), '-m', str(args.mapping_weight)]
