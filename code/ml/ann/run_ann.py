@@ -49,11 +49,12 @@ start_time = time.time()
 IMAGE_SIZE = 128
 NUM_FOLDS = 5
 EPOCHS = 100 if not args.test else 2
+initial_epoch = 0 if args.stopped_epoch is None else args.stopped_epoch + 1
 
 # apply seed
 if args.seed is not None:
-    tf.set_random_seed(args.seed)
-    np.random.seed(args.seed)
+    tf.set_random_seed(args.seed + initial_epoch)
+    np.random.seed(args.seed + initial_epoch)
 
 config = tf.ConfigProto()
 config.gpu_options.allow_growth = True
@@ -363,7 +364,8 @@ test_steps = len(test_seq) if not args.test else 1
 
 # set up the model    
 model = create_model(do_c, do_m, do_r)
-callbacks = [tf.keras.callbacks.EarlyStopping()]
+callbacks = [tf.keras.callbacks.CSVLogger(args.output_file.replace('.csv', 'f{0}_log.csv'.format(args.fold)), append=True), 
+             tf.keras.callbacks.EarlyStopping()]
 storage_path = 'data/Shapes/ml/snapshots/{0}_f{1}_ep'.format(config_name, args.fold)
 if args.walltime is not None:
     auto_restart = AutoRestart(filepath=storage_path, start_time=start_time, verbose = 0, walltime=args.walltime)
@@ -373,7 +375,6 @@ if args.stopped_epoch is not None:
     model.load_weights(storage_path + str(args.stopped_epoch) + '.hdf5')
 
 # train it
-initial_epoch = 0 if args.stopped_epoch is None else args.stopped_epoch + 1
 history = model.fit_generator(generator = train_seq, steps_per_epoch = train_steps, epochs = EPOCHS, 
                               validation_data = val_seq, validation_steps = val_steps,
                               callbacks = callbacks, shuffle = True, initial_epoch = initial_epoch)
