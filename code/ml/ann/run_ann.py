@@ -384,7 +384,7 @@ if args.walltime is not None and auto_restart.reached_walltime == 1:
     from subprocess import call
     recall_list = ['qsub', 'code/ml/ann/run_ann.sge',
                        args.shapes_file, args.additional_file, args.berlin_file, args.sketchy_file,
-                       args.targets_file, args.space, args.output_file]
+                       args.targets_file, args.space, args.image_folder, args.dissimilarity_file, args.output_file]
     recall_list += ['-c', str(args.classification_weight), '-r', str(args.reconstruction_weight), '-m', str(args.mapping_weight)]
     recall_list += ['-b', str(args.bottleneck_size), '-w', str(args.weight_decay_encoder), '-v', str(args.weight_decay_decoder)]
     if args.encoder_dropout:
