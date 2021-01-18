@@ -39,6 +39,7 @@ parser.add_argument('-t', '--test', action = 'store_true', help = 'make only sho
 parser.add_argument('-f', '--fold', type = int, help = 'fold to use for testing', default = 0)
 parser.add_argument('--walltime', type = int, help = 'walltime after which the job will be killed', default = None)
 parser.add_argument('--stopped_epoch', type = int, help = 'epoch where the training was interrupted', default = None)
+parser.add_argument('--early_stopped', action = 'store_true', help = 'training was stopped with early stopping')
 args = parser.parse_args()
 
 if args.classification_weight + args.reconstruction_weight + args.mapping_weight == 0:
@@ -48,7 +49,7 @@ start_time = time.time()
     
 IMAGE_SIZE = 128
 NUM_FOLDS = 5
-EPOCHS = 100 if not args.test else 2
+EPOCHS = 100 if not args.test else 3
 initial_epoch = 0 if args.stopped_epoch is None else args.stopped_epoch + 1
 
 # apply seed
@@ -364,25 +365,33 @@ test_steps = len(test_seq) if not args.test else 1
 
 # set up the model    
 model = create_model(do_c, do_m, do_r)
+
+# set up the callbacks
 log_path = os.path.join(os.path.split(args.output_file)[0], 'logs', '{0}_f{1}_log.csv'.format(config_name, args.fold))
-callbacks = [tf.keras.callbacks.CSVLogger(log_path, append = True),
-             EarlyStoppingRestart(filepath = log_path, initial_epoch = initial_epoch)]
 storage_path = 'data/Shapes/ml/snapshots/{0}_f{1}_ep'.format(config_name, args.fold)
+
+callbacks = []
+csv_logger = tf.keras.callbacks.CSVLogger(log_path, append = True)
+callbacks.append(csv_logger)
+early_stopping = EarlyStoppingRestart(filepath = log_path, initial_epoch = initial_epoch, verbose = 1)
+callbacks.append(early_stopping)
 if args.walltime is not None:
     auto_restart = AutoRestart(filepath=storage_path, start_time=start_time, verbose = 0, walltime=args.walltime)
     callbacks.append(auto_restart)
 
+# load weights if necessary
 if args.stopped_epoch is not None:
     model.load_weights(storage_path + str(args.stopped_epoch) + '.hdf5')
 
-# train it
-history = model.fit_generator(generator = train_seq, steps_per_epoch = train_steps, epochs = EPOCHS, 
-                              validation_data = val_seq, validation_steps = val_steps,
-                              callbacks = callbacks, shuffle = True, initial_epoch = initial_epoch)
+if not args.early_stopped:
+    # train if not already killed by early stopping
+    history = model.fit_generator(generator = train_seq, steps_per_epoch = train_steps, epochs = EPOCHS, 
+                                  validation_data = val_seq, validation_steps = val_steps,
+                                  callbacks = callbacks, shuffle = True, initial_epoch = initial_epoch)
 
 
-if args.walltime is not None and auto_restart.reached_walltime == 1:
-    # interrupted by wall time --> restart
+if early_stopping.stopped_epoch > 0 or (args.walltime is not None and auto_restart.reached_walltime == 1):
+    # interrupted by early stopping or wall time --> restart
     from subprocess import call
     recall_list = ['qsub', 'code/ml/ann/run_ann.sge',
                        args.shapes_file, args.additional_file, args.berlin_file, args.sketchy_file,
@@ -394,9 +403,15 @@ if args.walltime is not None and auto_restart.reached_walltime == 1:
     if args.decoder_dropout:
         recall_list += ['-d']
     recall_list += ['-n', str(args.noise_prob), '-s', str(args.seed)]
-    recall_list += ['--walltime', str(args.walltime), '--stopped_epoch', str(auto_restart.stopped_epoch)]
+    if early_stopping.stopped_epoch > 0:
+        # use old weights for evaluation in next round
+        recall_list += ['--early_stopped', '--stopped_epoch', str(auto_restart.stopped_epoch - 1)]
+    else:
+        # use updated weights for continued training in next round
+        recall_list += ['--walltime', str(args.walltime), '--stopped_epoch', str(auto_restart.stopped_epoch)]
     
-    recall_string = ' '.join(recall_list)    
+    recall_string = ' '.join(recall_list)
+    print(recall_string)
     call(recall_string, shell = True)
 else:
     

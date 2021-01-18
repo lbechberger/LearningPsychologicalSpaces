@@ -41,7 +41,7 @@ class EarlyStoppingRestart(tf.keras.callbacks.EarlyStopping):
     '''Initialize EarlyStopping with output of CSVLogger.
     '''
     def __init__(self, monitor = 'val_loss', min_delta = 0, patience = 0, verbose = 0, mode = 'auto', filepath = None, initial_epoch = 0):
-        super(EarlyStoppingRestart, self).__init__()
+        super(EarlyStoppingRestart, self).__init__(monitor = monitor, min_delta = min_delta, patience = patience, verbose = verbose, mode = mode)
         self.filepath = filepath
         self.initial_epoch = initial_epoch
 
@@ -51,19 +51,25 @@ class EarlyStoppingRestart(tf.keras.callbacks.EarlyStopping):
         if self.filepath is not None and os.path.exists(self.filepath):
             old_best = self.best
             old_best_epoch = 0
-            
+            counter = 0
             # find best value from history, compute wait as difference
             with open(self.filepath, 'r') as f_in:
                 reader = csv.DictReader(f_in, delimiter=',')
+                     
                 for row in reader:
+                    counter += 1
                     if self.monitor_op(float(row[self.monitor]), old_best):
                         old_best = float(row[self.monitor])
                         old_best_epoch = int(row['epoch'])
 
-            if old_best_epoch > self.initial_epoch:
-                raise Exception('inconsistent epoch information!')
-            self.wait = self.initial_epoch - old_best_epoch
-            self.best = old_best
+            if counter > 0:
+                self.wait = self.initial_epoch - old_best_epoch - 1
+                self.best = old_best
+                if self.verbose > 0:
+                    print('Loaded best value from CSV: {0} (wait: {1})'.format(self.best, self.wait))
+ 
+            if self.wait < 0:
+                raise Exception('Inconsistent epoch information!')
 
 
 # based on grid field guide by Julius Schöning
