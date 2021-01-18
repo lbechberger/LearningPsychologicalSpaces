@@ -7,7 +7,7 @@ folds="${folds:-$default_folds}"
 
 # set up the directory structure
 echo '    setting up directory structure'
-mkdir -p 'data/Shapes/ml/experiment_2/'
+mkdir -p 'data/Shapes/ml/experiment_2/logs/'
 
 for fold in $folds
 do

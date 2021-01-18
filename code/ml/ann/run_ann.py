@@ -364,7 +364,8 @@ test_steps = len(test_seq) if not args.test else 1
 
 # set up the model    
 model = create_model(do_c, do_m, do_r)
-callbacks = [tf.keras.callbacks.CSVLogger(args.output_file.replace('.csv', 'f{0}_log.csv'.format(args.fold)), append=True), 
+log_path = os.path.join(os.path.split(args.output_file)[0], 'logs', '{0}_f{1}_log.csv'.format(config_name, args.fold))
+callbacks = [tf.keras.callbacks.CSVLogger(log_path, append=True),
              tf.keras.callbacks.EarlyStopping()]
 storage_path = 'data/Shapes/ml/snapshots/{0}_f{1}_ep'.format(config_name, args.fold)
 if args.walltime is not None:
