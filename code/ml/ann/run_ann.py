@@ -12,7 +12,7 @@ import tensorflow as tf
 import numpy as np
 import cv2
 from sklearn.preprocessing import OneHotEncoder
-from code.ml.ann.keras_utils import SaltAndPepper, AutoRestart, IndividualSequence, OverallSequence
+from code.ml.ann.keras_utils import SaltAndPepper, AutoRestart, EarlyStoppingRestart, IndividualSequence, OverallSequence
 from code.util import precompute_distances, compute_correlations, distance_functions
 
 parser = argparse.ArgumentParser(description='Training and evaluating a hybrid ANN')
@@ -365,8 +365,8 @@ test_steps = len(test_seq) if not args.test else 1
 # set up the model    
 model = create_model(do_c, do_m, do_r)
 log_path = os.path.join(os.path.split(args.output_file)[0], 'logs', '{0}_f{1}_log.csv'.format(config_name, args.fold))
-callbacks = [tf.keras.callbacks.CSVLogger(log_path, append=True),
-             tf.keras.callbacks.EarlyStopping()]
+callbacks = [tf.keras.callbacks.CSVLogger(log_path, append = True),
+             EarlyStoppingRestart(filepath = log_path, initial_epoch = initial_epoch)]
 storage_path = 'data/Shapes/ml/snapshots/{0}_f{1}_ep'.format(config_name, args.fold)
 if args.walltime is not None:
     auto_restart = AutoRestart(filepath=storage_path, start_time=start_time, verbose = 0, walltime=args.walltime)

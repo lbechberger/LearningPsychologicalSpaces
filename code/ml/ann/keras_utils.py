@@ -11,6 +11,7 @@ import tensorflow as tf
 import time
 import cv2
 import numpy as np
+import csv, os
 
 # based on https://stackoverflow.com/questions/55653940/how-do-i-implement-salt-pepper-layer-in-keras
 class SaltAndPepper(tf.keras.layers.Layer):
@@ -35,6 +36,34 @@ class SaltAndPepper(tf.keras.layers.Layer):
         base_config = super(SaltAndPepper, self).get_config()
         return dict(list(base_config.items()) + list(config.items()))        
 
+
+class EarlyStoppingRestart(tf.keras.callbacks.EarlyStopping):
+    '''Initialize EarlyStopping with output of CSVLogger.
+    '''
+    def __init__(self, monitor = 'val_loss', min_delta = 0, patience = 0, verbose = 0, mode = 'auto', filepath = None, initial_epoch = 0):
+        super(EarlyStoppingRestart, self).__init__()
+        self.filepath = filepath
+        self.initial_epoch = initial_epoch
+
+    def on_train_begin(self, logs=None):
+        super(EarlyStoppingRestart, self).on_train_begin(logs)
+        
+        if self.filepath is not None and os.path.exists(self.filepath):
+            old_best = self.best
+            old_best_epoch = 0
+            
+            # find best value from history, compute wait as difference
+            with open(self.filepath, 'r') as f_in:
+                reader = csv.DictReader(f_in, delimiter=',')
+                for row in reader:
+                    if self.monitor_op(float(row[self.monitor]), old_best):
+                        old_best = float(row[self.monitor])
+                        old_best_epoch = int(row['epoch'])
+
+            if old_best_epoch > self.initial_epoch:
+                raise Exception('inconsistent epoch information!')
+            self.wait = self.initial_epoch - old_best_epoch
+            self.best = old_best
 
 
 # based on grid field guide by Julius Schöning
