@@ -403,6 +403,7 @@ if early_stopping.stopped_epoch > 0 or (args.walltime is not None and auto_resta
     if args.decoder_dropout:
         recall_list += ['-d']
     recall_list += ['-n', str(args.noise_prob), '-s', str(args.seed)]
+    recall_list += ['-f', str(args.fold)]
     if early_stopping.stopped_epoch > 0:
         # use old weights for evaluation in next round
         recall_list += ['--early_stopped', '--stopped_epoch', str(auto_restart.stopped_epoch - 1)]
