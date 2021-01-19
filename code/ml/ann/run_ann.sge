@@ -13,8 +13,10 @@
 export PATH="$HOME/store/miniconda/bin:$PATH"
 source activate tensorflow-CS
 hostname
+qhost -h $(hostname)
+nvidia-smi
 echo $*
 echo $* >&2
 python -u -m code.ml.ann.run_ann $*
-
+echo 'DONE'
 conda deactivate
