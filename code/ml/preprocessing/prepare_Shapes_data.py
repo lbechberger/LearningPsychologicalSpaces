@@ -155,7 +155,6 @@ with open(args.folds_file, 'r') as f_in:
                 session.run(tf.global_variables_initializer())
             
                 for noise_prob in args.noise_prob:
-                    pass
                 
                     # apply salt and pepper noise
                     # based on https://www.programmersought.com/article/3363136769/
