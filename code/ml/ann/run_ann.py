@@ -451,6 +451,9 @@ else:
         fcntl.flock(f_out, fcntl.LOCK_EX)
         f_out.write("{0},{1},{2}\n".format(config_name, args.fold, ','.join(map(lambda x: str(x), evaluation_results))))
         fcntl.flock(f_out, fcntl.LOCK_UN)
+
+    # store final model: structure + weights (different extension so we don't delete it by accident)
+    model.save(storage_path + str(initial_epoch) + '_FINAL.h5', include_optimizer = False)
         
     # remove the old snapshots to free some disk space
     from subprocess import call
