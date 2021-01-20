@@ -286,14 +286,14 @@ def get_data_sequence(list_of_folds, do_classification, do_mapping, do_reconstru
 
     if do_reconstruction:
         shapes_proportion = 21
-        additional_proportion = 21
-        berlin_proportion = 43
-        sketchy_proportion = 43
+        additional_proportion = 24
+        berlin_proportion = 41
+        sketchy_proportion = 42
     elif do_mapping and do_classification:
-        shapes_proportion = 26
+        shapes_proportion = 25
         additional_proportion = 0
         berlin_proportion = 51
-        sketchy_proportion = 51
+        sketchy_proportion = 52
     elif do_mapping:
         shapes_proportion = 128
         additional_proportion = 0
@@ -302,8 +302,8 @@ def get_data_sequence(list_of_folds, do_classification, do_mapping, do_reconstru
     else: # only classification
         shapes_proportion = 0
         additional_proportion = 0
-        berlin_proportion = 64
-        sketchy_proportion = 64
+        berlin_proportion = 63
+        sketchy_proportion = 65
 
     seqs = []
     weights = []
@@ -432,16 +432,13 @@ else:
             evaluation_metrics += ['kendall_{0}_fixed'.format(distance_function), 'kendall_{0}_optimized'.format(distance_function)]
             evaluation_results += [kendall_fixed, kendall_optimized]
 
-    # compute standard evaluation metrics on the three tasks
-    eval_train = model.evaluate_generator(train_seq, steps = train_steps)
-    eval_val = model.evaluate_generator(val_seq, steps = val_steps)
+    # compute standard evaluation metrics on the test set
     eval_test = model.evaluate_generator(test_seq, steps = test_steps)
     
-    for evaluation, suffix in [(eval_train, '_train'), (eval_val, '_val'), (eval_test, '_test')]: 
-        for metric_value, metric_name in zip(evaluation, model.metrics_names):
-            evaluation_metrics.append(metric_name + suffix)
-            evaluation_results.append(metric_value)
-            print(metric_name + suffix, metric_value)
+    for metric_value, metric_name in zip(eval_test, model.metrics_names):
+        evaluation_metrics.append(metric_name)
+        evaluation_results.append(metric_value)
+        print(metric_name, metric_value)
     
     # prepare output file if necessary
     if not os.path.exists(args.output_file):
