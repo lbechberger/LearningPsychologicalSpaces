@@ -349,7 +349,7 @@ def get_data_sequence(list_of_folds, do_classification, do_mapping, do_reconstru
         sketchy_classes = len(sketchy_map)
 
     data_sequence = OverallSequence(seqs, weights, space_dim, all_classes, berlin_classes, sketchy_classes,
-                                    do_classification, do_mapping, do_reconstruction)
+                                    do_classification, do_mapping, do_reconstruction, truncate = truncate)
     return data_sequence
 
 

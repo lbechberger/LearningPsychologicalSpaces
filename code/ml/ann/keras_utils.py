@@ -172,7 +172,7 @@ class OverallSequence(tf.keras.utils.Sequence):
     '''Sequence for dynamically loading the augmented Shapes dataset and combining its different sources.
     '''
     
-    def __init__(self, source_sequences, weights, dims, all_classes, berlin_classes, sketchy_classes, do_classification, do_mapping, do_reconstruction):
+    def __init__(self, source_sequences, weights, dims, all_classes, berlin_classes, sketchy_classes, do_classification, do_mapping, do_reconstruction, truncate = True):
         self._source_sequences = source_sequences
         self._weights = weights
         self._dims = dims
@@ -182,9 +182,13 @@ class OverallSequence(tf.keras.utils.Sequence):
         self._do_classification = do_classification
         self._do_mapping = do_mapping
         self._do_reconstruction = do_reconstruction
+        self._truncate = truncate
     
     def __len__(self):
-        return min([len(seq) for seq in self._source_sequences])
+        if self._truncate:
+            return min([len(seq) for seq in self._source_sequences])
+        else:
+            return max([len(seq) for seq in self._source_sequences])
         
     def __getitem__(self, idx):
         
