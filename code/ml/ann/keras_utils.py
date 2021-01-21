@@ -124,16 +124,21 @@ class AutoRestart(tf.keras.callbacks.Callback):
 
 class IndividualSequence(tf.keras.utils.Sequence):
     
-    def __init__(self, source, info_mappers, batch_size, image_size, shuffle = True):
+    def __init__(self, source, info_mappers, batch_size, image_size, shuffle = True, truncate = True):
         self._source = source
         self._info_mappers = info_mappers
         self._batch_size = batch_size
         self._image_size = image_size
         self._shuffle = shuffle
-        self.on_epoch_end()
+        self._truncate = truncate
+        if self._shuffle:
+            self.on_epoch_end()
         
     def __len__(self):
-        return int(np.floor(self._source.shape[0] / self._batch_size))
+        if self._truncate:
+            return int(np.floor(self._source.shape[0] / self._batch_size))
+        else:
+            return int(np.ceil(self._source.shape[0] / self._batch_size))
     
     def __load_image(self, img_path):
         img = cv2.imread(img_path)
@@ -167,7 +172,7 @@ class OverallSequence(tf.keras.utils.Sequence):
     '''Sequence for dynamically loading the augmented Shapes dataset and combining its different sources.
     '''
     
-    def __init__(self, source_sequences, weights, dims, all_classes, berlin_classes, sketchy_classes, do_classification, do_mapping, do_reconstruction):
+    def __init__(self, source_sequences, weights, dims, all_classes, berlin_classes, sketchy_classes, do_classification, do_mapping, do_reconstruction, truncate = True):
         self._source_sequences = source_sequences
         self._weights = weights
         self._dims = dims
@@ -177,9 +182,13 @@ class OverallSequence(tf.keras.utils.Sequence):
         self._do_classification = do_classification
         self._do_mapping = do_mapping
         self._do_reconstruction = do_reconstruction
+        self._truncate = truncate
     
     def __len__(self):
-        return min([len(seq) for seq in self._source_sequences])
+        if self._truncate:
+            return min([len(seq) for seq in self._source_sequences])
+        else:
+            return max([len(seq) for seq in self._source_sequences])
         
     def __getitem__(self, idx):
         
@@ -203,16 +212,16 @@ class OverallSequence(tf.keras.utils.Sequence):
             X.append(seq_X)
             
             if self._do_mapping:
-                seq_coords = seq_y[0] if w['mapping'] == 1 else np.zeros((seq_length, self._dims))
+                seq_coords = seq_y[0] if w['mapping'] == 1  and len(seq_y[0]) > 0 else np.zeros((seq_length, self._dims))
                 coords.append(seq_coords)
                 weights_mapping.append(np.full((seq_length), fill_value = w['mapping']))
             
             if self._do_classification:
-                seq_classes = seq_y[0] if w['classification'] == 1 else np.zeros((seq_length, self._all_classes))
+                seq_classes = seq_y[0] if w['classification'] == 1 and len(seq_y[0]) > 0 else np.zeros((seq_length, self._all_classes))
                 all_classes.append(seq_classes)
-                seq_berlin = seq_y[1] if w['berlin'] == 1 else np.zeros((seq_length, self._berlin_classes))
+                seq_berlin = seq_y[1] if w['berlin'] == 1 and len(seq_y[0]) > 0 else np.zeros((seq_length, self._berlin_classes))
                 berlin_classes.append(seq_berlin)
-                seq_sketchy = seq_y[1] if w['sketchy'] == 1 else np.zeros((seq_length, self._sketchy_classes))
+                seq_sketchy = seq_y[1] if w['sketchy'] == 1 and len(seq_y[0]) > 0 else np.zeros((seq_length, self._sketchy_classes))
                 sketchy_classes.append(seq_sketchy)
     
                 weights_classification.append(np.full((seq_length), fill_value = w['classification']))

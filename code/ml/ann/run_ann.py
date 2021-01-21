@@ -276,13 +276,13 @@ def create_model(do_classification, do_mapping, do_reconstruction):
     # set up model, loss, and evaluation metrics
     model = tf.keras.models.Model(inputs = enc_input, outputs = model_outputs)
     model.compile(optimizer='adam', loss = model_loss, loss_weights = model_loss_weights, weighted_metrics = model_metrics)
-    model.summary()
+    #model.summary()
     
     return model
 
 
 # define data iterators
-def get_data_sequence(list_of_folds, do_classification, do_mapping, do_reconstruction):
+def get_data_sequence(list_of_folds, do_classification, do_mapping, do_reconstruction, shuffle = True, truncate = True):
 
     if do_reconstruction:
         shapes_proportion = 21
@@ -313,7 +313,7 @@ def get_data_sequence(list_of_folds, do_classification, do_mapping, do_reconstru
     
     if shapes_proportion > 0:
         shapes_sequence = IndividualSequence(np.concatenate([shapes_data[str(i)] for i in list_of_folds]), 
-                                             [shapes_targets], shapes_proportion, IMAGE_SIZE, shuffle = True)
+                                             [shapes_targets], shapes_proportion, IMAGE_SIZE, shuffle = shuffle, truncate = truncate)
         shapes_weights = {'classification': 0, 'mapping': 1, 'reconstruction': 1, 'berlin': 0, 'sketchy': 0}
         
         seqs.append(shapes_sequence)
@@ -321,7 +321,7 @@ def get_data_sequence(list_of_folds, do_classification, do_mapping, do_reconstru
     
     if additional_proportion > 0:
         additional_sequence = IndividualSequence(np.concatenate([additional_data[str(i)] for i in list_of_folds]), 
-                                                 [{None: 0}], additional_proportion, IMAGE_SIZE, shuffle = True)
+                                                 [{None: 0}], additional_proportion, IMAGE_SIZE, shuffle = shuffle, truncate = truncate)
         additional_weights = {'classification': 0, 'mapping': 0, 'reconstruction': 1, 'berlin': 0, 'sketchy': 0}
         
         seqs.append(additional_sequence)
@@ -329,7 +329,7 @@ def get_data_sequence(list_of_folds, do_classification, do_mapping, do_reconstru
     
     if berlin_proportion > 0:
         berlin_sequence = IndividualSequence(np.concatenate([berlin_data[str(i)] for i in list_of_folds]), 
-                                             [overall_map, berlin_map], berlin_proportion, IMAGE_SIZE, shuffle = True)
+                                             [overall_map, berlin_map], berlin_proportion, IMAGE_SIZE, shuffle = shuffle, truncate = truncate)
         berlin_weights = {'classification': 1, 'mapping': 0, 'reconstruction': 1, 'berlin': 1, 'sketchy': 0}
 
         seqs.append(berlin_sequence)
@@ -340,7 +340,7 @@ def get_data_sequence(list_of_folds, do_classification, do_mapping, do_reconstru
     
     if sketchy_proportion > 0:
         sketchy_sequence = IndividualSequence(np.concatenate([sketchy_data[str(i)] for i in list_of_folds]), 
-                                              [overall_map, sketchy_map], sketchy_proportion, IMAGE_SIZE, shuffle = True)
+                                              [overall_map, sketchy_map], sketchy_proportion, IMAGE_SIZE, shuffle = shuffle, truncate = truncate)
         sketchy_weights = {'classification': 1, 'mapping': 0, 'reconstruction': 1, 'berlin': 0, 'sketchy': 1}
         
         seqs.append(sketchy_sequence)
@@ -348,7 +348,8 @@ def get_data_sequence(list_of_folds, do_classification, do_mapping, do_reconstru
         
         sketchy_classes = len(sketchy_map)
 
-    data_sequence = OverallSequence(seqs, weights, space_dim, all_classes, berlin_classes, sketchy_classes, do_classification, do_mapping, do_reconstruction)
+    data_sequence = OverallSequence(seqs, weights, space_dim, all_classes, berlin_classes, sketchy_classes,
+                                    do_classification, do_mapping, do_reconstruction, truncate = truncate)
     return data_sequence
 
 
@@ -356,11 +357,11 @@ test_fold = args.fold
 val_fold = (test_fold - 1) % NUM_FOLDS
 train_folds = [i for i in range(NUM_FOLDS) if i != test_fold and i != val_fold]
 
-train_seq = get_data_sequence(train_folds, do_c, do_m, do_r)
+train_seq = get_data_sequence(train_folds, do_c, do_m, do_r, shuffle = True, truncate = True)
 train_steps = len(train_seq) if not args.test else 1
-val_seq = get_data_sequence([val_fold], do_c, do_m, do_r)
+val_seq = get_data_sequence([val_fold], do_c, do_m, do_r, shuffle = False, truncate = False)
 val_steps = len(val_seq) if not args.test else 1
-test_seq = get_data_sequence([test_fold], do_c, do_m, do_r)
+test_seq = get_data_sequence([test_fold], do_c, do_m, do_r, shuffle = False, truncate = False)
 test_steps = len(test_seq) if not args.test else 1
 
 # set up the model    
@@ -406,7 +407,7 @@ if early_stopping.stopped_epoch > 0 or (args.walltime is not None and auto_resta
     recall_list += ['-f', str(args.fold)]
     if early_stopping.stopped_epoch > 0:
         # use old weights for evaluation in next round
-        recall_list += ['--early_stopped', '--stopped_epoch', str(auto_restart.stopped_epoch - 1)]
+        recall_list += ['--early_stopped', '--stopped_epoch', str(early_stopping.stopped_epoch - 1)]
     else:
         # use updated weights for continued training in next round
         recall_list += ['--walltime', str(args.walltime), '--stopped_epoch', str(auto_restart.stopped_epoch)]
@@ -451,6 +452,9 @@ else:
         fcntl.flock(f_out, fcntl.LOCK_EX)
         f_out.write("{0},{1},{2}\n".format(config_name, args.fold, ','.join(map(lambda x: str(x), evaluation_results))))
         fcntl.flock(f_out, fcntl.LOCK_UN)
+
+    # store final model: structure + weights (different extension so we don't delete it by accident)
+    model.save(storage_path + str(initial_epoch) + '_FINAL.h5', include_optimizer = False)
         
     # remove the old snapshots to free some disk space
     from subprocess import call

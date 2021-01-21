@@ -1,0 +1,19 @@
+#!/bin/bash
+#$ -N bottleneck
+#$ -l mem=8G
+#$ -pe default 2
+#$ -l h_rt=1:30:00
+#$ -l cuda=1
+#$ -l cuda_cores=384
+#$ -l nv_mem_free=4500M
+#$ -cwd
+#$ -o $HOME/store/sge-logs
+#$ -e $HOME/store/sge-logs
+
+export PATH="$HOME/store/miniconda/bin:$PATH"
+source activate tensorflow-CS
+echo $*
+echo $* >&2
+python -u -m code.ml.ann.get_bottleneck_activations $*
+echo 'DONE'
+conda deactivate
