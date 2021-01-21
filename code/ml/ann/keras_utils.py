@@ -212,16 +212,16 @@ class OverallSequence(tf.keras.utils.Sequence):
             X.append(seq_X)
             
             if self._do_mapping:
-                seq_coords = seq_y[0] if w['mapping'] == 1 else np.zeros((seq_length, self._dims))
+                seq_coords = seq_y[0] if w['mapping'] == 1  and len(seq_y[0]) > 0 else np.zeros((seq_length, self._dims))
                 coords.append(seq_coords)
                 weights_mapping.append(np.full((seq_length), fill_value = w['mapping']))
             
             if self._do_classification:
-                seq_classes = seq_y[0] if w['classification'] == 1 else np.zeros((seq_length, self._all_classes))
+                seq_classes = seq_y[0] if w['classification'] == 1 and len(seq_y[0]) > 0 else np.zeros((seq_length, self._all_classes))
                 all_classes.append(seq_classes)
-                seq_berlin = seq_y[1] if w['berlin'] == 1 else np.zeros((seq_length, self._berlin_classes))
+                seq_berlin = seq_y[1] if w['berlin'] == 1 and len(seq_y[0]) > 0 else np.zeros((seq_length, self._berlin_classes))
                 berlin_classes.append(seq_berlin)
-                seq_sketchy = seq_y[1] if w['sketchy'] == 1 else np.zeros((seq_length, self._sketchy_classes))
+                seq_sketchy = seq_y[1] if w['sketchy'] == 1 and len(seq_y[0]) > 0 else np.zeros((seq_length, self._sketchy_classes))
                 sketchy_classes.append(seq_sketchy)
     
                 weights_classification.append(np.full((seq_length), fill_value = w['classification']))
