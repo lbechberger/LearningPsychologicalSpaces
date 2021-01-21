@@ -692,17 +692,35 @@ The network can be regularized by using the following optional arguments:
 - `-d` or `--decoder_dropout`: If this flag is set, dropout will be used in the first two fully connected layers of the decoder.
 - `-n` or `--noise_prob`: The probability for the salt and pepper noise being applied to the inputs. Defaults to 0.1 (i.e., an expected amount of 10% of the pixels)
 
-Moreover, one can seed the random number generator with the optional argument `-s` or `--seed` in order to make the results deterministic. If the flag `-t` or `--test` is set, the number of iterations is drastically reduced for testing and debugging purposes. Finally, `-f` or `--fold` is used to determine which fold to use for testing (defaults to 0).
+Moreover, one can pass the following optional arguments:
+- `-s` or `--seed`: Seeds the random number generator with the given seed in order to make the results deterministic. 
+- `-t` or `--test`: If this flag is set, the number of iterations is drastically reduced for testing and debugging purposes. 
+- `-f` or `--fold`: Determines which fold to use for testing (defaults to 0).
+- `--walltime`: Specifies the walltime in seconds before the job will be killed (relevant for grid execution). The script will try to stop its training before running over the walltime and store the current network weights in `data/Shapes/ml/snapshots/` as an hdf5 file.
+- `--stopped_epoch`: Gives the epoch in which the last training was stopped. Load the model from `data/Shapes/ml/snapshots` and continue training with the next epoch (instead of starting from zero again).
+- `--early_stopped`: If this flag is set, training was ended with early stopping. Load the model from `data/Shapes/ml/snapshots`, but do not continue training. Rather, switch to evaluation mode instead.
 
-Each execution of `run_ann.py` appends one line to the given `output.csv` file, representing the results for the given test fold. The first column of `output.csv` encodes the overall setup used with a single signature string and the second column gives the number of the test fold. The following columns contain the following information, where `DATA` refers to the data subset (train, validation, test) on which this was computed: 
+Each execution of `run_ann.py` appends one line to the given `output.csv` file, representing the results for the given test fold. The first column of `output.csv` encodes the overall setup used with a single signature string and the second column gives the number of the test fold. The remaining columns contain the following information: 
 - `kendall_DISTANCE_WEIGHTS`: In these columns, the kendall correlation between the bottleneck layer's activations and the dissimilarity ratings are reported. Here, `DISTANCE` gives the distance measure (Euclidean, Manhattan, or InnerProduct) and `WEIGHTS` indicates whether uniform or optimized weights were used.
-- `loss_DATA`: Value of the overall loss function.
-- `classification_loss_DATA`: Value of the classification objective (i.e., the categorical cross-entropy loss).
-- `mapping_loss_DATA`: Value of the mapping objective (i.e., the MSE).
-- `reconstruction_loss_DATA`: Value of the reconstruction objective (i.e., the binary cross-entropy loss).
-- `classification_weighted_acc_DATA`: The accuracy obtained with the classification output.
-- `mapping_weighted_med_DATA`: The mean Euclidean distance of the mapping task.
-- `mapping_weighted_r2_DATA`: The coefficient of determination of the mapping task.
+- `loss`: Value of the overall loss function.
+- `classification_loss`: Value of the classification objective (i.e., the categorical cross-entropy loss).
+- `berlin_loss`: Value of the classification objective (i.e., the categorical cross-entropy loss) for the subset of TU Berlin data points and classes.
+- `sketchy_loss`: Value of the classification objective (i.e., the categorical cross-entropy loss) for the subset of Sketchy data points and classes.
+- `mapping_loss`: Value of the mapping objective (i.e., the MSE).
+- `reconstruction_loss`: Value of the reconstruction objective (i.e., the binary cross-entropy loss).
+- `berlin_weighted_acc`: The accuracy obtained with the classification output wrt TU Berlin data points and classes.
+- `sketchy_weighted_acc`: The accuracy obtained with the classification output wrt Sketchy data points and classes.
+- `mapping_weighted_med`: The mean Euclidean distance of the mapping task.
+- `mapping_weighted_r2`: The coefficient of determination of the mapping task.
 
-In order to run a five-fold cross-validation, one therefore needs to execute `run_ann.py` five times, using a different test fold number for each call, and aggregating the results afterwards.
+In order to run a five-fold cross-validation, one therefore needs to execute `run_ann.py` five times, using a different test fold number for each call, and aggregating the results afterwards. The script will furthermore at the end of the evaluation create an hdf5 file in `data/Shapes/ml/snapshots` with the final configuration of the model.
+
+#### 3.3.2 Extracting Bottleneck Layer Activations
+
+You can use the script `get_bottleneck_activations.py` to obtain the activations of the bottleneck layer for a given pre-trained instance of the ANN. It can be invoked as follows:
+```
+python -m code.ml.ann.get_bottleneck_activations path/to/Shapes.pickle path/to/model.h5 path/to/output.pickle
+```
+The script loads the model from `model.h5` (output of `run_ann.py`) and passes all images from `Shapes.pickle` (output of `prepare_Shapes_data.py`) through it. It stores the bottleneck activations is the file `output.pickle` in a format analogous to the one provided by `ann_features.py` to allow for further processing by `regression.py`.
+The optional parameter `-m` or `--mapping_used` must be set if the model was trained with a mapping weight greater than zero (otherwise the bottleneck activation cannot be correctly extracted).
 

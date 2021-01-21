@@ -124,16 +124,21 @@ class AutoRestart(tf.keras.callbacks.Callback):
 
 class IndividualSequence(tf.keras.utils.Sequence):
     
-    def __init__(self, source, info_mappers, batch_size, image_size, shuffle = True):
+    def __init__(self, source, info_mappers, batch_size, image_size, shuffle = True, truncate = True):
         self._source = source
         self._info_mappers = info_mappers
         self._batch_size = batch_size
         self._image_size = image_size
         self._shuffle = shuffle
-        self.on_epoch_end()
+        self._truncate = truncate
+        if self._shuffle:
+            self.on_epoch_end()
         
     def __len__(self):
-        return int(np.floor(self._source.shape[0] / self._batch_size))
+        if self._truncate:
+            return int(np.floor(self._source.shape[0] / self._batch_size))
+        else:
+            return int(np.ceil(self._source.shape[0] / self._batch_size))
     
     def __load_image(self, img_path):
         img = cv2.imread(img_path)

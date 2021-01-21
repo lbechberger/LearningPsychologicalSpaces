@@ -276,7 +276,7 @@ def create_model(do_classification, do_mapping, do_reconstruction):
     # set up model, loss, and evaluation metrics
     model = tf.keras.models.Model(inputs = enc_input, outputs = model_outputs)
     model.compile(optimizer='adam', loss = model_loss, loss_weights = model_loss_weights, weighted_metrics = model_metrics)
-    model.summary()
+    #model.summary()
     
     return model
 
@@ -406,7 +406,7 @@ if early_stopping.stopped_epoch > 0 or (args.walltime is not None and auto_resta
     recall_list += ['-f', str(args.fold)]
     if early_stopping.stopped_epoch > 0:
         # use old weights for evaluation in next round
-        recall_list += ['--early_stopped', '--stopped_epoch', str(auto_restart.stopped_epoch - 1)]
+        recall_list += ['--early_stopped', '--stopped_epoch', str(early_stopping.stopped_epoch - 1)]
     else:
         # use updated weights for continued training in next round
         recall_list += ['--walltime', str(args.walltime), '--stopped_epoch', str(auto_restart.stopped_epoch)]
