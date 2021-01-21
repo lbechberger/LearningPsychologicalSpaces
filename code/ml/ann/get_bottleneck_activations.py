@@ -18,11 +18,18 @@ parser.add_argument('shapes_file', help = 'pickle file containing information ab
 parser.add_argument('network_file', help = 'hdf5 file containing the pre-trained network')
 parser.add_argument('output_file', help = 'pickle file for outputting the results')
 parser.add_argument('-m', '--mapping_used', action = 'store_true', help = 'has the network been trained with the mapping objective?')
+parser.add_argument('-s', '--seed', type = int, help = 'seed for random number generation', default = None)
 args = parser.parse_args()
 
 NUM_FOLDS = 5
 IMAGE_SIZE = 128
 BATCH_SIZE = 128
+
+# apply seed
+if args.seed is not None:
+    tf.set_random_seed(args.seed)
+    np.random.seed(args.seed)
+
 
 # load list of augmented shape images
 with open(args.shapes_file, 'rb') as f_in:

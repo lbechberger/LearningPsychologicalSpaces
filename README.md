@@ -693,8 +693,8 @@ The network can be regularized by using the following optional arguments:
 - `-n` or `--noise_prob`: The probability for the salt and pepper noise being applied to the inputs. Defaults to 0.1 (i.e., an expected amount of 10% of the pixels)
 
 Moreover, one can pass the following optional arguments:
-- `-s` or `--seed`: Seeds the random number generator with the given seed in order to make the results deterministic. 
-- `-t` or `--test`: If this flag is set, the number of iterations is drastically reduced for testing and debugging purposes. 
+- `-s` or `--seed`: Seeds the random number generator with the given seed in order to make the results deterministic.
+- `-t` or `--test`: If this flag is set, the number of iterations is drastically reduced for testing and debugging purposes.
 - `-f` or `--fold`: Determines which fold to use for testing (defaults to 0).
 - `--walltime`: Specifies the walltime in seconds before the job will be killed (relevant for grid execution). The script will try to stop its training before running over the walltime and store the current network weights in `data/Shapes/ml/snapshots/` as an hdf5 file.
 - `--stopped_epoch`: Gives the epoch in which the last training was stopped. Load the model from `data/Shapes/ml/snapshots` and continue training with the next epoch (instead of starting from zero again).
@@ -722,5 +722,7 @@ You can use the script `get_bottleneck_activations.py` to obtain the activations
 python -m code.ml.ann.get_bottleneck_activations path/to/Shapes.pickle path/to/model.h5 path/to/output.pickle
 ```
 The script loads the model from `model.h5` (output of `run_ann.py`) and passes all images from `Shapes.pickle` (output of `prepare_Shapes_data.py`) through it. It stores the bottleneck activations is the file `output.pickle` in a format analogous to the one provided by `ann_features.py` to allow for further processing by `regression.py`.
-The optional parameter `-m` or `--mapping_used` must be set if the model was trained with a mapping weight greater than zero (otherwise the bottleneck activation cannot be correctly extracted).
 
+The script accepts the following optional parameters:
+- `-m` or `--mapping_used`: This flag must be set if the model was trained with a mapping weight greater than zero (otherwise the bottleneck activation cannot be correctly extracted).
+- `-s` or `--seed`: Seeds the random number generator with the given seed in order to make the results deterministic.
