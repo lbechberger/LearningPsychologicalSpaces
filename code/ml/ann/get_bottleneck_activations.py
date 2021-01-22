@@ -46,9 +46,12 @@ for path, label in all_folds:
         data_by_label[label] = []
     data_by_label[label].append((path, 0))
 
+list_of_labels = sorted(data_by_label.keys())
+
 # collect the activations
 result = {}
-for label, data in data_by_label.items():
+for label in list_of_labels:
+    data = data_by_label[label]
     print(label, len(data))
     data_seq = IndividualSequence(np.array(data), [{'0': 0}], BATCH_SIZE, IMAGE_SIZE, shuffle = False, truncate = False)
     model_outputs = model.predict_generator(data_seq, steps = len(data_seq))
