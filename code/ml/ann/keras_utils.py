@@ -22,14 +22,11 @@ class SaltAndPepper(tf.keras.layers.Layer):
         self.ratio = ratio
 
     def call(self, inputs, training=None):
-        def noised():
-            shp = tf.keras.backend.shape(inputs)[1:]
-            mask_select = tf.keras.backend.random_binomial(shape=shp, p=self.ratio)
-            mask_noise = tf.keras.backend.random_binomial(shape=shp, p=0.5) # salt and pepper have the same chance
-            out = inputs * (1-mask_select) + mask_noise * mask_select
-            return out
-    
-        return tf.keras.backend.in_train_phase(noised(), inputs, training=training)
+        shp = tf.keras.backend.shape(inputs)[1:]
+        mask_select = tf.keras.backend.random_binomial(shape=shp, p=self.ratio)
+        mask_noise = tf.keras.backend.random_binomial(shape=shp, p=0.5) # salt and pepper have the same chance
+        out = inputs * (1-mask_select) + mask_noise * mask_select
+        return out
     
     def get_config(self):
         config = {'ratio': self.ratio}
