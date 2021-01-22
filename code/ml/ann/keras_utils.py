@@ -212,16 +212,16 @@ class OverallSequence(tf.keras.utils.Sequence):
             X.append(seq_X)
             
             if self._do_mapping:
-                seq_coords = seq_y[0] if w['mapping'] == 1  and len(seq_y[0]) > 0 else np.zeros((seq_length, self._dims))
+                seq_coords = seq_y[0] if w['mapping'] == 1 and seq_length > 0 else np.zeros((seq_length, self._dims))
                 coords.append(seq_coords)
                 weights_mapping.append(np.full((seq_length), fill_value = w['mapping']))
             
             if self._do_classification:
-                seq_classes = seq_y[0] if w['classification'] == 1 and len(seq_y[0]) > 0 else np.zeros((seq_length, self._all_classes))
+                seq_classes = seq_y[0] if w['classification'] == 1 and seq_length > 0 else np.zeros((seq_length, self._all_classes))
                 all_classes.append(seq_classes)
-                seq_berlin = seq_y[1] if w['berlin'] == 1 and len(seq_y[0]) > 0 else np.zeros((seq_length, self._berlin_classes))
+                seq_berlin = seq_y[1] if w['berlin'] == 1 and seq_length > 0 else np.zeros((seq_length, self._berlin_classes))
                 berlin_classes.append(seq_berlin)
-                seq_sketchy = seq_y[1] if w['sketchy'] == 1 and len(seq_y[0]) > 0 else np.zeros((seq_length, self._sketchy_classes))
+                seq_sketchy = seq_y[1] if w['sketchy'] == 1 and seq_length > 0 else np.zeros((seq_length, self._sketchy_classes))
                 sketchy_classes.append(seq_sketchy)
     
                 weights_classification.append(np.full((seq_length), fill_value = w['classification']))
@@ -234,20 +234,27 @@ class OverallSequence(tf.keras.utils.Sequence):
         X = np.concatenate(X)
         targets = {}
         weights = {}
+
+        # helper function to take care of fake targets in case of all zero weights
+        # (relevant in last batches when one of the providers runs empty and the loss
+        # for the corresponding target cannot be computed and results in NaN)
+        def concat_targets_weights(label, class_targets, class_weights):
+            t = np.concatenate(class_targets)
+            w = np.concatenate(class_weights)
+            if np.count_nonzero(t) == 0:
+                t[:,0] = 1
+                w[0] = 1e-10
+            targets[label] = t
+            weights[label] = w
         
         if self._do_mapping:
-            targets['mapping'] = np.concatenate(coords)
-            weights['mapping'] = np.concatenate(weights_mapping)
+            concat_targets_weights('mapping', coords, weights_mapping)
         if self._do_classification:
-            targets['classification'] = np.concatenate(all_classes)
-            weights['classification'] = np.concatenate(weights_classification)
-            targets['berlin'] = np.concatenate(berlin_classes)
-            weights['berlin'] = np.concatenate(weights_berlin)
-            targets['sketchy'] = np.concatenate(sketchy_classes)
-            weights['sketchy'] = np.concatenate(weights_sketchy)
+            concat_targets_weights('classification', all_classes, weights_classification)
+            concat_targets_weights('berlin', berlin_classes, weights_berlin)
+            concat_targets_weights('sketchy', sketchy_classes, weights_sketchy)
         if self._do_reconstruction:
-            targets['reconstruction'] = X
-            weights['reconstruction'] = np.concatenate(weights_reconstruction)
+            concat_targets_weights('reconstruction', [X], weights_reconstruction)
 
         return (X, targets, weights)
         

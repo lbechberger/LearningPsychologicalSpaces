@@ -314,7 +314,7 @@ def get_data_sequence(list_of_folds, do_classification, do_mapping, do_reconstru
     if shapes_proportion > 0:
         shapes_sequence = IndividualSequence(np.concatenate([shapes_data[str(i)] for i in list_of_folds]), 
                                              [shapes_targets], shapes_proportion, IMAGE_SIZE, shuffle = shuffle, truncate = truncate)
-        shapes_weights = {'classification': 0, 'mapping': 1, 'reconstruction': 1, 'berlin': 0, 'sketchy': 0}
+        shapes_weights = {'classification': 0.0, 'mapping': 1.0, 'reconstruction': 1.0, 'berlin': 0.0, 'sketchy': 0.0}
         
         seqs.append(shapes_sequence)
         weights.append(shapes_weights)
@@ -322,7 +322,7 @@ def get_data_sequence(list_of_folds, do_classification, do_mapping, do_reconstru
     if additional_proportion > 0:
         additional_sequence = IndividualSequence(np.concatenate([additional_data[str(i)] for i in list_of_folds]), 
                                                  [{None: 0}], additional_proportion, IMAGE_SIZE, shuffle = shuffle, truncate = truncate)
-        additional_weights = {'classification': 0, 'mapping': 0, 'reconstruction': 1, 'berlin': 0, 'sketchy': 0}
+        additional_weights = {'classification': 0.0, 'mapping': 0.0, 'reconstruction': 1.0, 'berlin': 0.0, 'sketchy': 0.0}
         
         seqs.append(additional_sequence)
         weights.append(additional_weights)
@@ -330,7 +330,7 @@ def get_data_sequence(list_of_folds, do_classification, do_mapping, do_reconstru
     if berlin_proportion > 0:
         berlin_sequence = IndividualSequence(np.concatenate([berlin_data[str(i)] for i in list_of_folds]), 
                                              [overall_map, berlin_map], berlin_proportion, IMAGE_SIZE, shuffle = shuffle, truncate = truncate)
-        berlin_weights = {'classification': 1, 'mapping': 0, 'reconstruction': 1, 'berlin': 1, 'sketchy': 0}
+        berlin_weights = {'classification': 1.0, 'mapping': 0.0, 'reconstruction': 1.0, 'berlin': 1.0, 'sketchy': 0.0}
 
         seqs.append(berlin_sequence)
         weights.append(berlin_weights)
@@ -341,7 +341,7 @@ def get_data_sequence(list_of_folds, do_classification, do_mapping, do_reconstru
     if sketchy_proportion > 0:
         sketchy_sequence = IndividualSequence(np.concatenate([sketchy_data[str(i)] for i in list_of_folds]), 
                                               [overall_map, sketchy_map], sketchy_proportion, IMAGE_SIZE, shuffle = shuffle, truncate = truncate)
-        sketchy_weights = {'classification': 1, 'mapping': 0, 'reconstruction': 1, 'berlin': 0, 'sketchy': 1}
+        sketchy_weights = {'classification': 1.0, 'mapping': 0.0, 'reconstruction': 1.0, 'berlin': 0.0, 'sketchy': 1.0}
         
         seqs.append(sketchy_sequence)
         weights.append(sketchy_weights)
