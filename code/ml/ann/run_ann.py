@@ -374,7 +374,9 @@ storage_path = 'data/Shapes/ml/snapshots/{0}_f{1}_ep'.format(config_name, args.f
 callbacks = []
 csv_logger = tf.keras.callbacks.CSVLogger(log_path, append = True)
 callbacks.append(csv_logger)
-early_stopping = EarlyStoppingRestart(filepath = log_path, initial_epoch = initial_epoch, verbose = 1)
+early_stopping = EarlyStoppingRestart(logpath = log_path, initial_epoch = initial_epoch,
+                                      modelpath = storage_path, verbose = 1,
+                                      patience = 10)
 callbacks.append(early_stopping)
 if args.walltime is not None:
     auto_restart = AutoRestart(filepath=storage_path, start_time=start_time, verbose = 0, walltime=args.walltime)

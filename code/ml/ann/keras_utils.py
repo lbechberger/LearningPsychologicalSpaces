@@ -37,20 +37,21 @@ class SaltAndPepper(tf.keras.layers.Layer):
 class EarlyStoppingRestart(tf.keras.callbacks.EarlyStopping):
     '''Initialize EarlyStopping with output of CSVLogger.
     '''
-    def __init__(self, monitor = 'val_loss', min_delta = 0, patience = 0, verbose = 0, mode = 'auto', filepath = None, initial_epoch = 0):
+    def __init__(self, monitor = 'val_loss', min_delta = 0, patience = 0, verbose = 0, mode = 'auto', logpath = None, initial_epoch = 0, modelpath = None):
         super(EarlyStoppingRestart, self).__init__(monitor = monitor, min_delta = min_delta, patience = patience, verbose = verbose, mode = mode)
-        self.filepath = filepath
+        self.logpath = logpath
         self.initial_epoch = initial_epoch
+        self.modelpath = modelpath
 
     def on_train_begin(self, logs=None):
         super(EarlyStoppingRestart, self).on_train_begin(logs)
         
-        if self.filepath is not None and os.path.exists(self.filepath):
+        if self.logpath is not None and os.path.exists(self.logpath):
             old_best = self.best
             old_best_epoch = 0
             counter = 0
             # find best value from history, compute wait as difference
-            with open(self.filepath, 'r') as f_in:
+            with open(self.logpath, 'r') as f_in:
                 reader = csv.DictReader(f_in, delimiter=',')
                      
                 for row in reader:
@@ -67,6 +68,12 @@ class EarlyStoppingRestart(tf.keras.callbacks.EarlyStopping):
  
             if self.wait < 0:
                 raise Exception('Inconsistent epoch information!')
+
+    def on_train_end(self, logs=None):
+        super(EarlyStoppingRestart, self).on_train_end(logs)
+        
+        if self.stopped_epoch > 0 and self.modelpath is not None:
+            self.model.save_weights(self.modelpath+str(self.stopped_epoch)+'.hdf5', overwrite=True)
 
 
 # based on grid field guide by Julius Schöning
