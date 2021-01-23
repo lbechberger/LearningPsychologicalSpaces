@@ -55,25 +55,30 @@ class EarlyStoppingRestart(tf.keras.callbacks.EarlyStopping):
                 reader = csv.DictReader(f_in, delimiter=',')
                      
                 for row in reader:
-                    counter += 1
-                    if self.monitor_op(float(row[self.monitor]), old_best):
-                        old_best = float(row[self.monitor])
-                        old_best_epoch = int(row['epoch'])
+                    value = float(row[self.monitor])
+                    epoch = int(row['epoch'])
+                    # ignore all epochs later than the initial epoch - probably from failed earlier run
+                    if epoch < self.initial_epoch and self.monitor_op(value, old_best):
+                        counter += 1
+                        old_best = value
+                        old_best_epoch = epoch
 
             if counter > 0:
                 self.wait = self.initial_epoch - old_best_epoch - 1
                 self.best = old_best
+                self.best_epoch = old_best_epoch
                 if self.verbose > 0:
                     print('Loaded best value from CSV: {0} (wait: {1})'.format(self.best, self.wait))
  
             if self.wait < 0:
                 raise Exception('Inconsistent epoch information!')
 
-    def on_train_end(self, logs=None):
-        super(EarlyStoppingRestart, self).on_train_end(logs)
+    def on_epoch_end(self, epoch, logs=None):
+        super(EarlyStoppingRestart, self).on_epoch_end(epoch, logs)
         
-        if self.stopped_epoch > 0 and self.modelpath is not None:
-            self.model.save_weights(self.modelpath+str(self.stopped_epoch)+'.hdf5', overwrite=True)
+        # store currently best epoch
+        if self.wait == 0:
+            self.best_epoch = epoch
 
 
 # based on grid field guide by Julius Schöning
@@ -111,7 +116,7 @@ class AutoRestart(tf.keras.callbacks.Callback):
             self.reached_walltime = True
             self.stopped_epoch = epoch
             self.model.stop_training = True
-            self.model.save_weights(self.filepath+str(epoch)+'.hdf5', overwrite=True)
+#            self.model.save_weights(self.filepath+str(epoch)+'.hdf5', overwrite=True)
         #else:
             #print("walltime in: %s s" % int(self.walltime - (time.time() - self.start_time)))
 

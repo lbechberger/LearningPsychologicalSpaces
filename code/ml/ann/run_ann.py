@@ -374,6 +374,8 @@ storage_path = 'data/Shapes/ml/snapshots/{0}_f{1}_ep'.format(config_name, args.f
 callbacks = []
 csv_logger = tf.keras.callbacks.CSVLogger(log_path, append = True)
 callbacks.append(csv_logger)
+model_checkpoint = tf.keras.callbacks.ModelCheckpoint(storage_path + '{epoch}.hdf5', save_weights_only = True)
+callbacks.append(model_checkpoint)
 early_stopping = EarlyStoppingRestart(logpath = log_path, initial_epoch = initial_epoch,
                                       modelpath = storage_path, verbose = 1,
                                       patience = 10)
@@ -393,8 +395,7 @@ if not args.early_stopped:
                                   callbacks = callbacks, shuffle = True, initial_epoch = initial_epoch)
 
 
-if early_stopping.stopped_epoch > 0 or (args.walltime is not None and auto_restart.reached_walltime == 1):
-    # interrupted by early stopping or wall time --> restart
+    # interrupted by early stopping or wall time or ran out of epochs --> restart
     from subprocess import call
     recall_list = ['qsub', 'code/ml/ann/run_ann.sge',
                        args.shapes_file, args.additional_file, args.berlin_file, args.sketchy_file,
@@ -407,12 +408,15 @@ if early_stopping.stopped_epoch > 0 or (args.walltime is not None and auto_resta
         recall_list += ['-d']
     recall_list += ['-n', str(args.noise_prob), '-s', str(args.seed)]
     recall_list += ['-f', str(args.fold)]
-    if early_stopping.stopped_epoch > 0:
-        # use old weights for evaluation in next round
-        recall_list += ['--early_stopped', '--stopped_epoch', str(early_stopping.stopped_epoch - 1)]
-    else:
+
+    if (args.walltime is not None and auto_restart.reached_walltime == 1):
+        # stopped by walltime:
         # use updated weights for continued training in next round
         recall_list += ['--walltime', str(args.walltime), '--stopped_epoch', str(auto_restart.stopped_epoch)]
+    else:
+        # stopped by early stopping or by end of epochs:
+        # use best weights for evaluation in next round
+        recall_list += ['--early_stopped', '--stopped_epoch', str(early_stopping.best_epoch)]
     
     recall_string = ' '.join(recall_list)
     print(recall_string)
@@ -456,7 +460,7 @@ else:
         fcntl.flock(f_out, fcntl.LOCK_UN)
 
     # store final model: structure + weights (different extension so we don't delete it by accident)
-    model.save(storage_path + str(initial_epoch) + '_FINAL.h5', include_optimizer = False)
+    model.save(storage_path + str(initial_epoch - 1) + '_FINAL.h5', include_optimizer = False)
         
     # remove the old snapshots to free some disk space
     from subprocess import call
