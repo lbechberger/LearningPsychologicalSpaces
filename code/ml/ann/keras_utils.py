@@ -111,7 +111,7 @@ class AutoRestart(tf.keras.callbacks.Callback):
             self.epoch_average = (self.epoch_average + epochtime) / 2
         else:
             self.epoch_average = epochtime
-        if (time.time() - self.start_time + 5*self.epoch_average)>self.walltime:
+        if (time.time() - self.start_time + 3*self.epoch_average)>self.walltime:
             print("will run over walltime: %s s" % int(time.time() - self.start_time + 3*self.epoch_average))
             self.reached_walltime = True
             self.stopped_epoch = epoch
