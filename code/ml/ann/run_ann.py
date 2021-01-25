@@ -381,7 +381,7 @@ early_stopping = EarlyStoppingRestart(logpath = log_path, initial_epoch = initia
                                       patience = 10)
 callbacks.append(early_stopping)
 if args.walltime is not None:
-    auto_restart = AutoRestart(filepath=storage_path, start_time=start_time, verbose = 0, walltime=args.walltime)
+    auto_restart = AutoRestart(filepath=storage_path, start_time=start_time, verbose = 1, walltime=args.walltime)
     callbacks.append(auto_restart)
 
 # load weights if necessary
