@@ -275,7 +275,8 @@ def create_model(do_classification, do_mapping, do_reconstruction):
         
     # set up model, loss, and evaluation metrics
     model = tf.keras.models.Model(inputs = enc_input, outputs = model_outputs)
-    model.compile(optimizer='adam', loss = model_loss, loss_weights = model_loss_weights, weighted_metrics = model_metrics)
+    adam = tf.keras.optimizers.Adam(lr=0.01)
+    model.compile(optimizer = adam, loss = model_loss, loss_weights = model_loss_weights, weighted_metrics = model_metrics)
     #model.summary()
     
     return model
@@ -378,7 +379,7 @@ model_checkpoint = tf.keras.callbacks.ModelCheckpoint(storage_path + '{epoch}.hd
 callbacks.append(model_checkpoint)
 early_stopping = EarlyStoppingRestart(logpath = log_path, initial_epoch = initial_epoch,
                                       modelpath = storage_path, verbose = 1,
-                                      patience = 10)
+                                      patience = 50)
 callbacks.append(early_stopping)
 if args.walltime is not None:
     auto_restart = AutoRestart(filepath=storage_path, start_time=start_time, verbose = 1, walltime=args.walltime)
