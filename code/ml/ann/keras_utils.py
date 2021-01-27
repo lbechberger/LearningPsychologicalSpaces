@@ -55,13 +55,14 @@ class EarlyStoppingRestart(tf.keras.callbacks.EarlyStopping):
                 reader = csv.DictReader(f_in, delimiter=',')
                      
                 for row in reader:
-                    value = float(row[self.monitor])
-                    epoch = int(row['epoch'])
-                    # ignore all epochs later than the initial epoch - probably from failed earlier run
-                    if epoch < self.initial_epoch and self.monitor_op(value, old_best):
-                        counter += 1
-                        old_best = value
-                        old_best_epoch = epoch
+                    if row[self.monitor] is not None:
+                        value = float(row[self.monitor])
+                        epoch = int(row['epoch'])
+                        # ignore all epochs later than the initial epoch - probably from failed earlier run
+                        if epoch < self.initial_epoch and self.monitor_op(value, old_best):
+                            counter += 1
+                            old_best = value
+                            old_best_epoch = epoch
 
             if counter > 0:
                 self.wait = self.initial_epoch - old_best_epoch - 1

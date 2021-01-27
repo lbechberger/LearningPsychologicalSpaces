@@ -365,8 +365,6 @@ val_steps = len(val_seq) if not args.test else 1
 test_seq = get_data_sequence([test_fold], do_c, do_m, do_r, shuffle = False, truncate = False)
 test_steps = len(test_seq) if not args.test else 1
 
-# set up the model    
-model = create_model(do_c, do_m, do_r)
 
 # set up the callbacks
 log_path = os.path.join(os.path.split(args.output_file)[0], 'logs', '{0}_f{1}_log.csv'.format(config_name, args.fold))
@@ -375,7 +373,7 @@ storage_path = 'data/Shapes/ml/snapshots/{0}_f{1}_ep'.format(config_name, args.f
 callbacks = []
 csv_logger = tf.keras.callbacks.CSVLogger(log_path, append = True)
 callbacks.append(csv_logger)
-model_checkpoint = tf.keras.callbacks.ModelCheckpoint(storage_path + '{epoch}.hdf5', save_weights_only = True)
+model_checkpoint = tf.keras.callbacks.ModelCheckpoint(storage_path + '{epoch}.hdf5')
 callbacks.append(model_checkpoint)
 early_stopping = EarlyStoppingRestart(logpath = log_path, initial_epoch = initial_epoch,
                                       modelpath = storage_path, verbose = 1,
@@ -385,9 +383,13 @@ if args.walltime is not None:
     auto_restart = AutoRestart(filepath=storage_path, start_time=start_time, verbose = 1, walltime=args.walltime)
     callbacks.append(auto_restart)
 
-# load weights if necessary
-if args.stopped_epoch is not None:
-    model.load_weights(storage_path + str(args.stopped_epoch) + '.hdf5')
+# set up the model
+if args.stopped_epoch is None:
+    # first run: create from scratch
+    model = create_model(do_c, do_m, do_r)
+else:
+    # later run: load from file
+    model = tf.keras.models.load_model(storage_path + str(args.stopped_epoch) + '.hdf5', custom_objects={'SaltAndPepper': SaltAndPepper})
 
 if not args.early_stopped:
     # train if not already killed by early stopping
