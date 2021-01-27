@@ -397,7 +397,6 @@ if not args.early_stopped:
                                   validation_data = val_seq, validation_steps = val_steps,
                                   callbacks = callbacks, shuffle = True, initial_epoch = initial_epoch)
 
-
     # interrupted by early stopping or wall time or ran out of epochs --> restart
     from subprocess import call
     recall_list = ['qsub', 'code/ml/ann/run_ann.sge',
