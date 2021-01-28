@@ -40,6 +40,9 @@ parser.add_argument('-f', '--fold', type = int, help = 'fold to use for testing'
 parser.add_argument('--walltime', type = int, help = 'walltime after which the job will be killed', default = None)
 parser.add_argument('--stopped_epoch', type = int, help = 'epoch where the training was interrupted', default = None)
 parser.add_argument('--early_stopped', action = 'store_true', help = 'training was stopped with early stopping')
+parser.add_argument('--optimizer', help = 'optimizer to use', default = 'sgd')
+parser.add_argument('--learning_rate', type = float, help = 'learning rate for the optimizer', default = 0.01)
+parser.add_argument('--momentum', type = float, help = 'momentum for the optimizer', default = 0.9)
 args = parser.parse_args()
 
 if args.classification_weight + args.reconstruction_weight + args.mapping_weight == 0:
@@ -275,9 +278,14 @@ def create_model(do_classification, do_mapping, do_reconstruction):
         
     # set up model, loss, and evaluation metrics
     model = tf.keras.models.Model(inputs = enc_input, outputs = model_outputs)
-    adam = tf.keras.optimizers.Adam(lr = 0.0002, beta_1 = 0.5)
-    #sgd = tf.keras.optimizers.SGD(momentum=0.9)
-    model.compile(optimizer = adam, loss = model_loss, loss_weights = model_loss_weights, weighted_metrics = model_metrics)
+    
+    optimizer = None
+    if args.optimizer == 'sgd':
+        optimizer = tf.keras.optimizers.SGD(lr = args.learning_rate, momentum = args.momentum)
+    elif args.optimizer == 'adam':
+        optimizer = tf.keras.optimizers.Adam(lr = args.learning_rate, beta_1 = args.momentum)
+        
+    model.compile(optimizer = optimizer, loss = model_loss, loss_weights = model_loss_weights, weighted_metrics = model_metrics)
     #model.summary()
     
     return model
@@ -392,11 +400,6 @@ else:
     # later run: load from file
     model = tf.keras.models.load_model(storage_path + str(args.stopped_epoch) + '.hdf5', custom_objects={'SaltAndPepper': SaltAndPepper})
 
-# first layer
-print(model.get_weights()[0][:3,:3,0,0])
-# last layer
-print(model.get_weights()[-2][:10,0])
-
 if not args.early_stopped:
     # train if not already killed by early stopping
     history = model.fit_generator(generator = train_seq, steps_per_epoch = train_steps, epochs = EPOCHS, 
@@ -416,6 +419,10 @@ if not args.early_stopped:
         recall_list += ['-d']
     recall_list += ['-n', str(args.noise_prob), '-s', str(args.seed)]
     recall_list += ['-f', str(args.fold)]
+
+    recall_list += ['--optimizer', args.optimizer]
+    recall_list += ['--learning_rate', str(args.learning_rate)]
+    recall_list += ['--momentum', str(args.momentum)]
 
     if (args.walltime is not None and auto_restart.reached_walltime == 1):
         # stopped by walltime:

@@ -77,11 +77,6 @@ class EarlyStoppingRestart(tf.keras.callbacks.EarlyStopping):
     def on_epoch_end(self, epoch, logs=None):
         super(EarlyStoppingRestart, self).on_epoch_end(epoch, logs)
 
-        # first layer
-        print(self.model.get_weights()[0][:3,:3,0,0])
-        # last layer
-        print(self.model.get_weights()[-2][:10,0])
-        
         # store currently best epoch
         if self.wait == 0:
             self.best_epoch = epoch
