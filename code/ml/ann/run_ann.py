@@ -275,8 +275,9 @@ def create_model(do_classification, do_mapping, do_reconstruction):
         
     # set up model, loss, and evaluation metrics
     model = tf.keras.models.Model(inputs = enc_input, outputs = model_outputs)
-    adam = tf.keras.optimizers.Adam()
-    model.compile(optimizer = adam, loss = model_loss, loss_weights = model_loss_weights, weighted_metrics = model_metrics)
+    #adam = tf.keras.optimizers.Adam()
+    sgd = tf.keras.optimizers.SGD(momentum=0.9)
+    model.compile(optimizer = sgd, loss = model_loss, loss_weights = model_loss_weights, weighted_metrics = model_metrics)
     #model.summary()
     
     return model
