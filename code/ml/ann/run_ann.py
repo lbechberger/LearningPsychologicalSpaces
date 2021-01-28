@@ -391,6 +391,11 @@ else:
     # later run: load from file
     model = tf.keras.models.load_model(storage_path + str(args.stopped_epoch) + '.hdf5', custom_objects={'SaltAndPepper': SaltAndPepper})
 
+# first layer
+print(model.get_weights()[0][:3,:3,0,0])
+# last layer
+print(model.get_weights()[-2][:10,0])
+
 if not args.early_stopped:
     # train if not already killed by early stopping
     history = model.fit_generator(generator = train_seq, steps_per_epoch = train_steps, epochs = EPOCHS, 
