@@ -8,7 +8,7 @@ Created on Mon Dec 14 10:32:51 2020
 """
 
 import tensorflow as tf
-import time
+import time, pickle
 import cv2
 import numpy as np
 import csv, os
@@ -123,6 +123,9 @@ class AutoRestart(tf.keras.callbacks.Callback):
 
         if self.verbose > 0:
             print("-Runtime: %s s, Epoch runtime %s s, Average Epoch runtime %s s ---" % (int((time.time() - self.start_time)), int(epochtime) , int(self.epoch_average)) )
+
+        with open(self.filepath + str(epoch) + '.hdf5.opt', 'wb') as f_out:
+            pickle.dump(tf.keras.backend.batch_get_value(getattr(self.model.optimizer, 'weights')), f_out)
 
 
     def on_train_end(self, logs={}):

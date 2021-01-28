@@ -382,8 +382,9 @@ storage_path = 'data/Shapes/ml/snapshots/{0}_f{1}_ep'.format(config_name, args.f
 callbacks = []
 csv_logger = tf.keras.callbacks.CSVLogger(log_path, append = True)
 callbacks.append(csv_logger)
-model_checkpoint = tf.keras.callbacks.ModelCheckpoint(storage_path + '{epoch}.hdf5')
+model_checkpoint = tf.keras.callbacks.ModelCheckpoint(storage_path + '{epoch}.hdf5', save_weights_only = True)
 callbacks.append(model_checkpoint)
+
 early_stopping = EarlyStoppingRestart(logpath = log_path, initial_epoch = initial_epoch,
                                       modelpath = storage_path, verbose = 1,
                                       patience = 50)
@@ -393,13 +394,15 @@ if args.walltime is not None:
     callbacks.append(auto_restart)
 
 # set up the model
-if args.stopped_epoch is None:
-    # first run: create from scratch
-    model = create_model(do_c, do_m, do_r)
-else:
-    # later run: load from file
-    model = tf.keras.models.load_model(storage_path + str(args.stopped_epoch) + '.hdf5', custom_objects={'SaltAndPepper': SaltAndPepper})
-
+model = create_model(do_c, do_m, do_r)
+if args.stopped_epoch is not None:
+    # later run: load weights from file
+    model.load_weights(storage_path + str(args.stopped_epoch) + '.hdf5')
+    model._make_train_function()
+    with open(storage_path + str(args.stopped_epoch) + '.hdf5.opt', 'rb') as f_in:
+        opt_state = pickle.load(f_in)
+    model.optimizer.set_weights(opt_state)
+    
 if not args.early_stopped:
     # train if not already killed by early stopping
     history = model.fit_generator(generator = train_seq, steps_per_epoch = train_steps, epochs = EPOCHS, 
