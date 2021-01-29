@@ -387,7 +387,7 @@ callbacks.append(model_checkpoint)
 
 early_stopping = EarlyStoppingRestart(logpath = log_path, initial_epoch = initial_epoch,
                                       modelpath = storage_path, verbose = 1,
-                                      patience = 50)
+                                      patience = 10)
 callbacks.append(early_stopping)
 if args.walltime is not None:
     auto_restart = AutoRestart(filepath=storage_path, start_time=start_time, verbose = 1, walltime=args.walltime)
