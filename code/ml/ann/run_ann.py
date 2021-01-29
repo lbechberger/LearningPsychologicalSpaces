@@ -482,4 +482,4 @@ else:
         
     # remove the old snapshots to free some disk space
     from subprocess import call
-    call('rm {0}*.hdf5'.format(storage_path), shell = True)
+    call('rm {0}*.hdf5*'.format(storage_path), shell = True)
