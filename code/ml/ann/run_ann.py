@@ -40,7 +40,7 @@ parser.add_argument('-f', '--fold', type = int, help = 'fold to use for testing'
 parser.add_argument('--walltime', type = int, help = 'walltime after which the job will be killed', default = None)
 parser.add_argument('--stopped_epoch', type = int, help = 'epoch where the training was interrupted', default = None)
 parser.add_argument('--early_stopped', action = 'store_true', help = 'training was stopped with early stopping')
-parser.add_argument('--optimizer', help = 'optimizer to use', default = 'sgd')
+parser.add_argument('--optimizer', help = 'optimizer to use', default = 'adam')
 parser.add_argument('--learning_rate', type = float, help = 'learning rate for the optimizer', default = 0.01)
 parser.add_argument('--momentum', type = float, help = 'momentum for the optimizer', default = 0.9)
 args = parser.parse_args()

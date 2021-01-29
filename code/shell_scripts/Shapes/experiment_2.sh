@@ -4,7 +4,14 @@ echo 'experiment 2 - classification baseline'
 
 # setting up overall variables
 default_folds=("0 1 2 3 4")
+default_weight_decays=("0.0 0.0002 0.001")
+default_noises=("0.25 0.55")
+default_bottlenecks=("256 128 64 32 16")
+
 folds="${folds:-$default_folds}"
+weight_decays="${weight_decays:-$default_weight_decays}"
+noises="${noises:-$default_noises}"
+bottlenecks="${bottlenecks:-$default_bottlenecks}"
 
 # no parameter means local execution
 if [ "$#" -ne 1 ]
@@ -34,8 +41,41 @@ mkdir -p 'data/Shapes/ml/experiment_2/logs/'
 # vanilla setup
 for fold in $folds
 do
-	$cmd $script data/Shapes/ml/dataset/Shapes.pickle data/Shapes/ml/dataset/Additional.pickle data/Shapes/ml/dataset/Berlin.pickle data/Shapes/ml/dataset/Sketchy.pickle data/Shapes/ml/dataset/targets.pickle mean_4 data/Shapes/images/ data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle data/Shapes/ml/experiment_2/output.csv -c 1.0 -r 0.0 -m 0.0 -e -f $fold -s 42 $walltime
+	$cmd $script data/Shapes/ml/dataset/Shapes.pickle data/Shapes/ml/dataset/Additional.pickle data/Shapes/ml/dataset/Berlin.pickle data/Shapes/ml/dataset/Sketchy.pickle data/Shapes/ml/dataset/targets.pickle mean_4 data/Shapes/images/ data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle data/Shapes/ml/experiment_2/vanilla.csv -c 1.0 -r 0.0 -m 0.0 -e -f $fold -s 42 $walltime
 done
 
-# TODO explore hyperparameters
+# weight decay
+for weight_decay in $weight_decays
+do
+	for fold in $folds
+	do
+		$cmd $script data/Shapes/ml/dataset/Shapes.pickle data/Shapes/ml/dataset/Additional.pickle data/Shapes/ml/dataset/Berlin.pickle data/Shapes/ml/dataset/Sketchy.pickle data/Shapes/ml/dataset/targets.pickle mean_4 data/Shapes/images/ data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle data/Shapes/ml/experiment_2/decay.csv -c 1.0 -r 0.0 -m 0.0 -e -f $fold -s 42 $walltime -w $weight_decay
+	done
+done
+
+# no dropout
+for fold in $folds
+do
+	$cmd $script data/Shapes/ml/dataset/Shapes.pickle data/Shapes/ml/dataset/Additional.pickle data/Shapes/ml/dataset/Berlin.pickle data/Shapes/ml/dataset/Sketchy.pickle data/Shapes/ml/dataset/targets.pickle mean_4 data/Shapes/images/ data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle data/Shapes/ml/experiment_2/dropout.csv -c 1.0 -r 0.0 -m 0.0 -f $fold -s 42 $walltime
+done
+
+# noise
+for noise in $noises
+do
+	for fold in $folds
+	do
+		$cmd $script data/Shapes/ml/dataset/Shapes.pickle data/Shapes/ml/dataset/Additional.pickle data/Shapes/ml/dataset/Berlin.pickle data/Shapes/ml/dataset/Sketchy.pickle data/Shapes/ml/dataset/targets.pickle mean_4 data/Shapes/images/ data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle data/Shapes/ml/experiment_2/noise.csv -c 1.0 -r 0.0 -m 0.0 -e -f $fold -s 42 $walltime -n $noise
+	done
+done
+
+
+# bottleneck size
+for bottleneck in $bottlenecks
+do
+	for fold in $folds
+	do
+		$cmd $script data/Shapes/ml/dataset/Shapes.pickle data/Shapes/ml/dataset/Additional.pickle data/Shapes/ml/dataset/Berlin.pickle data/Shapes/ml/dataset/Sketchy.pickle data/Shapes/ml/dataset/targets.pickle mean_4 data/Shapes/images/ data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle data/Shapes/ml/experiment_2/bottleneck.csv -c 1.0 -r 0.0 -m 0.0 -e -f $fold -s 42 $walltime -b $bottleneck
+	done
+done
+
 
