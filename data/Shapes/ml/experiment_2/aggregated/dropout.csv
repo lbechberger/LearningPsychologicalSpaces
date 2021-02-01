@@ -1,0 +1,2 @@
+configuration,kendall_Euclidean_fixed,kendall_Euclidean_optimized,kendall_InnerProduct_fixed,kendall_InnerProduct_optimized,kendall_Manhattan_fixed,kendall_Manhattan_optimized,loss,berlin_loss,sketchy_loss,classification_loss,berlin_weighted_acc,sketchy_weighted_acc
+c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eFalse_dFalse_n0.1_mean_4,0.21320782726139828,0.32310198621347447,0.25413399629838784,0.23953586053741685,0.2129452173069324,0.3178393944040606,4.529888372947245,2.8202035036783615,1.5979417394343687,2.2099125889267244,0.35354142394029364,0.6300989858551294
