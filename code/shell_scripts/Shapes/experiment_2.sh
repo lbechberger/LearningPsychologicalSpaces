@@ -4,7 +4,7 @@ echo 'experiment 2 - classification baseline'
 
 # setting up overall variables
 default_folds=("0 1 2 3 4")
-default_weight_decays=("0.0 0.0002 0.001")
+default_weight_decays=("0.0 0.0002 0.001 0.002")
 default_noises=("0.25 0.55")
 default_bottlenecks=("256 128 64 32 16")
 
