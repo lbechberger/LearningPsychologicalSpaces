@@ -726,3 +726,11 @@ The script loads the model from `model.h5` (output of `run_ann.py`) and passes a
 The script accepts the following optional parameters:
 - `-m` or `--mapping_used`: This flag must be set if the model was trained with a mapping weight greater than zero (otherwise the bottleneck activation cannot be correctly extracted).
 - `-s` or `--seed`: Seeds the random number generator with the given seed in order to make the results deterministic.
+
+#### 3.3.3 Average Results over Folds
+
+The ANN script outputs one result line for each individual fold. In order to average the results across folds, you can invoke the script `average_folds.py` as follows:
+```
+python -m code.ml.ann.average_folds path/to/input.csv path/to/output.csv
+```
+The script goes through the given `input.csv` file (produced by `run_ann.py`) and averages all evaluation columns over the different folds, storing the results in the same manner in `otuput.csv` (only removing the `fold` column).

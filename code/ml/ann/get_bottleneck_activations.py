@@ -13,7 +13,7 @@ import tensorflow as tf
 import numpy as np
 from code.ml.ann.keras_utils import IndividualSequence, SaltAndPepper
 
-parser = argparse.ArgumentParser(description='Training and evaluating a hybrid ANN')
+parser = argparse.ArgumentParser(description='Extracting bottleneck activations')
 parser.add_argument('shapes_file', help = 'pickle file containing information about the Shapes data')
 parser.add_argument('network_file', help = 'hdf5 file containing the pre-trained network')
 parser.add_argument('output_file', help = 'pickle file for outputting the results')

@@ -36,7 +36,7 @@ fi
 
 # set up the directory structure
 echo '    setting up directory structure'
-mkdir -p 'data/Shapes/ml/experiment_2/logs/'
+mkdir -p 'data/Shapes/ml/experiment_2/logs/' 'data/Shapes/ml/experiment_2/aggregated'
 
 # vanilla setup
 for fold in $folds
@@ -78,4 +78,11 @@ do
 	done
 done
 
+
+# aggregate results for increased convenience
+python -m code.ml.ann.average_folds data/Shapes/ml/experiment_2/vanilla.csv data/Shapes/ml/experiment_2/aggregated/vanilla.csv
+python -m code.ml.ann.average_folds data/Shapes/ml/experiment_2/decay.csv data/Shapes/ml/experiment_2/aggregated/decay.csv
+python -m code.ml.ann.average_folds data/Shapes/ml/experiment_2/dropout.csv data/Shapes/ml/experiment_2/aggregated/dropout.csv
+python -m code.ml.ann.average_folds data/Shapes/ml/experiment_2/noise.csv data/Shapes/ml/experiment_2/aggregated/noise.csv
+python -m code.ml.ann.average_folds data/Shapes/ml/experiment_2/bottleneck.csv data/Shapes/ml/experiment_2/aggregated/bottleneck.csv
 
