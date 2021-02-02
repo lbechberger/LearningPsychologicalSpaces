@@ -94,4 +94,8 @@ do
 done
 
 
-# TODO average the results across all folds
+# average the results across all folds for increased convenience
+for feature in $features
+do
+	python -m code.ml.regression.average_folds 'data/Shapes/ml/experiment_3/'"$feature"'_f{0}.csv' 5 'data/Shapes/ml/experiment_3/aggregated/'"$feature"'.csv'
+done
