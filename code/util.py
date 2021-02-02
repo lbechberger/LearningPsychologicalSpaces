@@ -479,3 +479,52 @@ def list_to_string(list_of_elements):
     Converts the given list of elements into a canonical string representation for the whole list.
     """
     return '-'.join(map(lambda x: str(x), sorted(list_of_elements)))
+
+
+def read_csv_results_files(file_name, fillers, excluded_columns, first_column):
+    """
+    Reads a csv file with ML results and collects the numeric results for
+    all colums but the excluded ones, using the igven first_column as a key.
+    Returns an ordered list of columns (headline) and a dictionary mapping
+    from configurations to dictionaries of columns and lists of results.
+    """
+
+    import csv    
+    
+    headline = []
+    content = {}
+    for filler in fillers:
+        with open(file_name.format(filler), 'r') as f_in:
+            reader = csv.DictReader(f_in, delimiter=',')
+            headline = [col for col in reader.fieldnames if col not in excluded_columns]
+            
+            for row in reader:
+                config = row[first_column]
+                if config not in content:
+                    content[config] = {}
+                    for col in headline:
+                        content[config][col] = []
+                
+                for col in headline:
+                    content[config][col].append(float(row[col]))
+
+    return headline, content
+
+def write_csv_results_file(file_name, headline, content, first_column):
+    """
+    Writes the given content to the given csv file, using the first_column
+    and the headline.
+    """
+    
+    with open(file_name, 'w') as f_out:
+        f_out.write('{0},'.format(first_column))
+        f_out.write(','.join(headline))
+        f_out.write('\n')
+        
+        for config, conf_dict in content.items():
+            f_out.write('{0},'.format(config))
+            averages = []
+            for col in headline:
+                averages.append(str(np.mean(conf_dict[col])))
+            f_out.write(','.join(averages))
+            f_out.write('\n')
