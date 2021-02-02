@@ -25,7 +25,6 @@ then
 	cmd=qsub
 	script=code/ml/ann/run_ann.sge
 	walltime='--walltime 5400'
-	qsub ../Utilities/watch_jobs.sge $script ann ../sge-logs/
 # all other parameters are not supported
 else
 	echo '[ERROR: argument not supported, exiting now!]'
