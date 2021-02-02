@@ -4,13 +4,11 @@ echo 'experiment 3 - regression on top of sketch classification'
 
 # setting up overall variables
 default_folds=("0 1 2 3 4")
-default_baselines=("--zero")
 default_regressors=("--linear")
 default_lassos=("0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1.0 2.0 5.0 10.0")
 default_features=("default accuracy correlation")
 
 folds="${folds:-$default_folds}"
-baselines="${baselines_ex1:-$default_baselines}"
 regressors="${regressors_ex1:-$default_regressors}"
 lassos="${lassos:-$default_lassos}"
 features="${features:-$default_features}"
@@ -75,11 +73,6 @@ for feature in $features
 do
 	for fold in $folds
 	do
-		for baseline in $baselines
-		do
-			$cmd $regression_script data/Shapes/ml/dataset/targets.pickle mean_4 'data/Shapes/ml/experiment_3/features/'"$feature"'_f'"$fold"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_3/'"$feature"'_f'"$fold"'.csv' -s 42 $baseline
-		done
-
 		for regressor in $regressors
 		do
 			$cmd $regression_script data/Shapes/ml/dataset/targets.pickle mean_4 'data/Shapes/ml/experiment_3/features/'"$feature"'_f'"$fold"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_3/'"$feature"'_f'"$fold"'.csv' -s 42 $regressor
