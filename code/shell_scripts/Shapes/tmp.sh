@@ -2,52 +2,72 @@
 
 # setting up overall variables
 default_folds=("0 1 2 3 4")
-default_weight_decays=("0.0 0.0002 0.001 0.002")
-default_noises=("0.25 0.55")
-default_bottlenecks=("256 128 64 32 16")
+default_regressors=("--linear")
+default_lassos=("0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1.0 2.0 5.0 10.0")
+default_features=("default accuracy correlation small")
 
 folds="${folds:-$default_folds}"
-weight_decays="${weight_decays:-$default_weight_decays}"
-noises="${noises:-$default_noises}"
-bottlenecks="${bottlenecks:-$default_bottlenecks}"
+regressors="${regressors_ex1:-$default_regressors}"
+lassos="${lassos:-$default_lassos}"
+features="${features:-$default_features}"
 
 # no parameter means local execution
 if [ "$#" -ne 1 ]
 then
 	echo '[local execution]'
 	cmd='python -m'
-	script=code.ml.ann.run_ann
-	walltime=''
+	bottleneck_script=code.ml.ann.get_bottleneck_activations
+	regression_script=code.ml.regression.regression
 # parameter 'grid' means execution on grid
 elif [ $1 = grid ]
 then
 	echo '[grid execution]'
 	cmd=qsub
-	script=code/ml/ann/run_ann.sge
-	walltime='--walltime 5400'
+	bottleneck_script=code/ml/ann/get_bottleneck_activations.sge
+	regression_script=code/ml/regression/regression.sge
 # all other parameters are not supported
 else
 	echo '[ERROR: argument not supported, exiting now!]'
 	exit 1
 fi
 
-# grid search on most promising candidates
-echo '-w 0.0005 -e -n 0.25 -b 64' > data/Shapes/ml/experiment_2/grid_search.config
-echo '-w 0.0005 -n 0.1 -b 64' >> data/Shapes/ml/experiment_2/grid_search.config
-echo '-w 0.0005 -n 0.25 -b 512' >> data/Shapes/ml/experiment_2/grid_search.config
-echo '-w 0.0005 -n 0.25 -b 64' >> data/Shapes/ml/experiment_2/grid_search.config
-echo '-w 0.001 -e -n 0.1 -b 64' >> data/Shapes/ml/experiment_2/grid_search.config
-echo '-w 0.001 -e -n 0.25 -b 512' >> data/Shapes/ml/experiment_2/grid_search.config
-echo '-w 0.001 -e -n 0.25 -b 64' >> data/Shapes/ml/experiment_2/grid_search.config
-echo '-w 0.001 -n 0.1 -b 512' >> data/Shapes/ml/experiment_2/grid_search.config
-echo '-w 0.001 -n 0.1 -b 64' >> data/Shapes/ml/experiment_2/grid_search.config
-echo '-w 0.001 -n 0.25 -b 512' >> data/Shapes/ml/experiment_2/grid_search.config
-echo '-w 0.001 -n 0.25 -b 64' >> data/Shapes/ml/experiment_2/grid_search.config
+# set up the directory structure
+echo '    setting up directory structure'
+mkdir -p 'data/Shapes/ml/experiment_3/features' 'data/Shapes/ml/experiment_3/aggregated'
 
-while IFS= read -r params
+
+# define snapshots of default classifier
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f0_ep25_FINAL.h5 data/Shapes/ml/experiment_3/features/default_f0.pickle' > data/Shapes/ml/experiment_3/snapshots.config
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f1_ep21_FINAL.h5 data/Shapes/ml/experiment_3/features/default_f1.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f2_ep55_FINAL.h5 data/Shapes/ml/experiment_3/features/default_f2.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f3_ep28_FINAL.h5 data/Shapes/ml/experiment_3/features/default_f3.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f4_ep31_FINAL.h5 data/Shapes/ml/experiment_3/features/default_f4.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+
+# define snapshots of classifier with highest accuracy
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eTrue_dFalse_n0.1_mean_4_f0_ep51_FINAL.h5 data/Shapes/ml/experiment_3/features/accuracy_f0.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eTrue_dFalse_n0.1_mean_4_f1_ep71_FINAL.h5 data/Shapes/ml/experiment_3/features/accuracy_f1.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eTrue_dFalse_n0.1_mean_4_f2_ep47_FINAL.h5 data/Shapes/ml/experiment_3/features/accuracy_f2.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eTrue_dFalse_n0.1_mean_4_f3_ep92_FINAL.h5 data/Shapes/ml/experiment_3/features/accuracy_f3.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eTrue_dFalse_n0.1_mean_4_f4_ep51_FINAL.h5 data/Shapes/ml/experiment_3/features/accuracy_f4.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+
+# define snapshots of classifier with highest correlation
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eTrue_dFalse_n0.25_mean_4_f0_ep90_FINAL.h5 data/Shapes/ml/experiment_3/features/correlation_f0.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eTrue_dFalse_n0.25_mean_4_f1_ep85_FINAL.h5 data/Shapes/ml/experiment_3/features/correlation_f1.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eTrue_dFalse_n0.25_mean_4_f2_ep86_FINAL.h5 data/Shapes/ml/experiment_3/features/correlation_f2.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eTrue_dFalse_n0.25_mean_4_f3_ep95_FINAL.h5 data/Shapes/ml/experiment_3/features/correlation_f3.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eTrue_dFalse_n0.25_mean_4_f4_ep83_FINAL.h5 data/Shapes/ml/experiment_3/features/correlation_f4.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+
+# define snapshots of classifier with best results for small bottleneck
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b64_w0.001_v0.0_eTrue_dFalse_n0.1_mean_4_f0_ep96_FINAL.h5 data/Shapes/ml/experiment_3/features/small_f0.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b64_w0.001_v0.0_eTrue_dFalse_n0.1_mean_4_f1_ep88_FINAL.h5 data/Shapes/ml/experiment_3/features/small_f1.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b64_w0.001_v0.0_eTrue_dFalse_n0.1_mean_4_f2_ep96_FINAL.h5 data/Shapes/ml/experiment_3/features/small_f2.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b64_w0.001_v0.0_eTrue_dFalse_n0.1_mean_4_f3_ep93_FINAL.h5 data/Shapes/ml/experiment_3/features/small_f3.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b64_w0.001_v0.0_eTrue_dFalse_n0.1_mean_4_f4_ep95_FINAL.h5 data/Shapes/ml/experiment_3/features/small_f4.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+
+# extract all the features
+while IFS= read -r config 
 do
-	for fold in $folds
-	do
-		$cmd $script data/Shapes/ml/dataset/Shapes.pickle data/Shapes/ml/dataset/Additional.pickle data/Shapes/ml/dataset/Berlin.pickle data/Shapes/ml/dataset/Sketchy.pickle data/Shapes/ml/dataset/targets.pickle mean_4 data/Shapes/images/ data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle data/Shapes/ml/experiment_2/grid_search.csv -c 1.0 -r 0.0 -m 0.0 -f $fold -s 42 $walltime $params
+	$cmd $bottleneck_script data/Shapes/ml/dataset/Shapes.pickle $config
 	done
-done < 'data/Shapes/ml/experiment_2/grid_search.config'
+done < 'data/Shapes/ml/experiment_3/snapshots.config'
+

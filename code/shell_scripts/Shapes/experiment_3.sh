@@ -6,7 +6,7 @@ echo 'experiment 3 - regression on top of sketch classification'
 default_folds=("0 1 2 3 4")
 default_regressors=("--linear")
 default_lassos=("0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1.0 2.0 5.0 10.0")
-default_features=("default accuracy correlation")
+default_features=("default accuracy correlation small")
 
 folds="${folds:-$default_folds}"
 regressors="${regressors_ex1:-$default_regressors}"
@@ -46,18 +46,25 @@ echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.
 echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f4_ep31_FINAL.h5 data/Shapes/ml/experiment_3/features/default_f4.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
 
 # define snapshots of classifier with highest accuracy
-echo 'data/Shapes/ml/snapshots/TODO.h5 data/Shapes/ml/experiment_3/features/accuracy_f0.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
-echo 'data/Shapes/ml/snapshots/TODO.h5 data/Shapes/ml/experiment_3/features/accuracy_f1.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
-echo 'data/Shapes/ml/snapshots/TODO.h5 data/Shapes/ml/experiment_3/features/accuracy_f2.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
-echo 'data/Shapes/ml/snapshots/TODO.h5 data/Shapes/ml/experiment_3/features/accuracy_f3.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
-echo 'data/Shapes/ml/snapshots/TODO.h5 data/Shapes/ml/experiment_3/features/accuracy_f4.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eTrue_dFalse_n0.1_mean_4_f0_ep51_FINAL.h5 data/Shapes/ml/experiment_3/features/accuracy_f0.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eTrue_dFalse_n0.1_mean_4_f1_ep71_FINAL.h5 data/Shapes/ml/experiment_3/features/accuracy_f1.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eTrue_dFalse_n0.1_mean_4_f2_ep47_FINAL.h5 data/Shapes/ml/experiment_3/features/accuracy_f2.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eTrue_dFalse_n0.1_mean_4_f3_ep92_FINAL.h5 data/Shapes/ml/experiment_3/features/accuracy_f3.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eTrue_dFalse_n0.1_mean_4_f4_ep51_FINAL.h5 data/Shapes/ml/experiment_3/features/accuracy_f4.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
 
 # define snapshots of classifier with highest correlation
-echo 'data/Shapes/ml/snapshots/TODO.h5 data/Shapes/ml/experiment_3/features/correlation_f0.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
-echo 'data/Shapes/ml/snapshots/TODO.h5 data/Shapes/ml/experiment_3/features/correlation_f1.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
-echo 'data/Shapes/ml/snapshots/TODO.h5 data/Shapes/ml/experiment_3/features/correlation_f2.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
-echo 'data/Shapes/ml/snapshots/TODO.h5 data/Shapes/ml/experiment_3/features/correlation_f3.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
-echo 'data/Shapes/ml/snapshots/TODO.h5 data/Shapes/ml/experiment_3/features/correlation_f4.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eTrue_dFalse_n0.25_mean_4_f0_ep90_FINAL.h5 data/Shapes/ml/experiment_3/features/correlation_f0.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eTrue_dFalse_n0.25_mean_4_f1_ep85_FINAL.h5 data/Shapes/ml/experiment_3/features/correlation_f1.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eTrue_dFalse_n0.25_mean_4_f2_ep86_FINAL.h5 data/Shapes/ml/experiment_3/features/correlation_f2.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eTrue_dFalse_n0.25_mean_4_f3_ep95_FINAL.h5 data/Shapes/ml/experiment_3/features/correlation_f3.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eTrue_dFalse_n0.25_mean_4_f4_ep83_FINAL.h5 data/Shapes/ml/experiment_3/features/correlation_f4.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+
+# define snapshots of classifier with best results for small bottleneck
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b64_w0.001_v0.0_eTrue_dFalse_n0.1_mean_4_f0_ep96_FINAL.h5 data/Shapes/ml/experiment_3/features/small_f0.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b64_w0.001_v0.0_eTrue_dFalse_n0.1_mean_4_f1_ep88_FINAL.h5 data/Shapes/ml/experiment_3/features/small_f1.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b64_w0.001_v0.0_eTrue_dFalse_n0.1_mean_4_f2_ep96_FINAL.h5 data/Shapes/ml/experiment_3/features/small_f2.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b64_w0.001_v0.0_eTrue_dFalse_n0.1_mean_4_f3_ep93_FINAL.h5 data/Shapes/ml/experiment_3/features/small_f3.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
+echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b64_w0.001_v0.0_eTrue_dFalse_n0.1_mean_4_f4_ep95_FINAL.h5 data/Shapes/ml/experiment_3/features/small_f4.pickle' >> data/Shapes/ml/experiment_3/snapshots.config
 
 
 # extract all the features
