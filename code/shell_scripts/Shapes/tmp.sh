@@ -68,6 +68,5 @@ echo 'data/Shapes/ml/snapshots/c1.0_r0.0_m0.0_b64_w0.001_v0.0_eTrue_dFalse_n0.1_
 while IFS= read -r config 
 do
 	$cmd $bottleneck_script data/Shapes/ml/dataset/Shapes.pickle $config
-	done
 done < 'data/Shapes/ml/experiment_3/snapshots.config'
 
