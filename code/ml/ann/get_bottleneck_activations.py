@@ -57,7 +57,8 @@ for label in list_of_labels:
     model_outputs = model.predict_generator(data_seq, steps = len(data_seq))
     bottleneck_activation = model_outputs[1] if args.mapping_used else model_outputs[0]
     print(len(bottleneck_activation))
-    bottleneck_activation = np.concatenate(bottleneck_activation)
+    if len(bottleneck_activation) == 1:
+        bottleneck_activation = np.concatenate(bottleneck_activation)
     print(bottleneck_activation.shape, len(bottleneck_activation.tolist()))
     result[label] = bottleneck_activation.tolist()
 
