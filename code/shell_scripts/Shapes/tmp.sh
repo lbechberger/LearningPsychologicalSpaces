@@ -11,41 +11,12 @@ regressors="${regressors_ex1:-$default_regressors}"
 lassos="${lassos:-$default_lassos}"
 features="${features:-$default_features}"
 
-# no parameter means local execution
-if [ "$#" -ne 1 ]
-then
-	echo '[local execution]'
-	cmd='python -m'
-	bottleneck_script=code.ml.ann.get_bottleneck_activations
-	regression_script=code.ml.regression.regression
-# parameter 'grid' means execution on grid
-elif [ $1 = grid ]
-then
-	echo '[grid execution]'
-	cmd=qsub
-	bottleneck_script=code/ml/ann/get_bottleneck_activations.sge
-	regression_script=code/ml/regression/regression.sge
-# all other parameters are not supported
-else
-	echo '[ERROR: argument not supported, exiting now!]'
-	exit 1
-fi
-
-# run the regression
+# do a cluster analysis
 for feature in $features
 do
 	for fold in $folds
 	do
-		for regressor in $regressors
-		do
-			$cmd $regression_script data/Shapes/ml/dataset/targets.pickle mean_4 'data/Shapes/ml/experiment_3/features/'"$feature"'_f'"$fold"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_3/'"$feature"'_f'"$fold"'.csv' -s 42 $regressor
-		done
-
-		for lasso in $lassos
-		do
-			$cmd $regression_script data/Shapes/ml/dataset/targets.pickle mean_4 'data/Shapes/ml/experiment_3/features/'"$feature"'_f'"$fold"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_3/'"$feature"'_f'"$fold"'.csv' -s 42 --lasso $lasso
-		done
-
+		python -m code.ml.regression.cluster_analysis 'data/Shapes/ml/experiment_3/features/'"$feature"'_f'"$fold"'.pickle' -n 100 -s 42 > 'data/Shapes/ml/experiment_3/features/'"$feature"'_f'"$fold"'.txt'
 	done
 done
 

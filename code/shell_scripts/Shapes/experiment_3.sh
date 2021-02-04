@@ -92,6 +92,15 @@ do
 	done
 done
 
+# do a cluster analysis
+for feature in $features
+do
+	for fold in $folds
+	do
+		python -m code.ml.regression.cluster_analysis 'data/Shapes/ml/experiment_3/features/'"$feature"'_f'"$fold"'.pickle' -n 100 -s 42 > 'data/Shapes/ml/experiment_3/features/'"$feature"'_f'"$fold"'.txt'
+	done
+done
+
 
 # average the results across all folds for increased convenience
 for feature in $features
