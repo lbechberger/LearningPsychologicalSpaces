@@ -1,0 +1,61 @@
+#!/bin/bash
+
+echo 'experiment 4 - classification and mapping'
+
+# setting up overall variables
+default_folds=("0 1 2 3 4")
+default_mapping_weights=("0.125 0.25 0.5 1 2")
+
+folds="${folds:-$default_folds}"
+mapping_weights="${mapping_weights:-$default_mapping_weights}"
+
+# no parameter means local execution
+if [ "$#" -ne 1 ]
+then
+	echo '[local execution]'
+	cmd='python -m'
+	script=code.ml.ann.run_ann
+	walltime=''
+# parameter 'grid' means execution on grid
+elif [ $1 = grid ]
+then
+	echo '[grid execution]'
+	cmd=qsub
+	script=code/ml/ann/run_ann.sge
+	walltime='--walltime 5400'
+	qsub ../Utilities/watch_jobs.sge $script ann ../sge-logs/
+# all other parameters are not supported
+else
+	echo '[ERROR: argument not supported, exiting now!]'
+	exit 1
+fi
+
+# set up the directory structure
+echo '    setting up directory structure'
+mkdir -p 'data/Shapes/ml/experiment_4/logs/' 'data/Shapes/ml/experiment_4/aggregated'
+
+
+# define ann configurations to run
+echo 'data/Shapes/ml/experiment_4/default.csv -e' > data/Shapes/ml/experiment_4/ann.config
+echo 'data/Shapes/ml/experiment_4/accuracy.csv -e -w 0.001' >> data/Shapes/ml/experiment_4/ann.config
+echo 'data/Shapes/ml/experiment_4/correlation.csv -e -w 0.001 -n 0.25' >> data/Shapes/ml/experiment_4/ann.config
+echo 'data/Shapes/ml/experiment_4/small.csv -e -w 0.001 -b 64' >> data/Shapes/ml/experiment_4/ann.config
+
+# run all the configurations
+while IFS= read -r config
+do
+	for mapping_weight in $mapping_weights
+	do
+		for fold in $folds
+		do
+			$cmd $script data/Shapes/ml/dataset/Shapes.pickle data/Shapes/ml/dataset/Additional.pickle data/Shapes/ml/dataset/Berlin.pickle data/Shapes/ml/dataset/Sketchy.pickle data/Shapes/ml/dataset/targets.pickle mean_4 data/Shapes/images/ data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle $config -c 1.0 -r 0.0 -m $mapping_weight -s 42 -f $fold $walltime
+		done
+	done
+done < 'data/Shapes/ml/experiment_4/ann.config'
+
+# aggregate results for increased convenience
+python -m code.ml.ann.average_folds data/Shapes/ml/experiment_4/default.csv data/Shapes/ml/experiment_4/aggregated/default.csv
+python -m code.ml.ann.average_folds data/Shapes/ml/experiment_4/accuracy.csv data/Shapes/ml/experiment_4/aggregated/accuracy.csv
+python -m code.ml.ann.average_folds data/Shapes/ml/experiment_4/correlation.csv data/Shapes/ml/experiment_4/aggregated/correlation.csv
+python -m code.ml.ann.average_folds data/Shapes/ml/experiment_4/small.csv data/Shapes/ml/experiment_4/aggregated/small.csv
+
