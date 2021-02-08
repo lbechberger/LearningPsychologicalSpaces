@@ -4,7 +4,7 @@ echo 'experiment 4 - classification and mapping'
 
 # setting up overall variables
 default_folds=("0 1 2 3 4")
-default_mapping_weights=("0.125 0.25 0.5 1 2")
+default_mapping_weights=("0.0625 0.125 0.25 0.5 1 2")
 
 folds="${folds:-$default_folds}"
 mapping_weights="${mapping_weights:-$default_mapping_weights}"
