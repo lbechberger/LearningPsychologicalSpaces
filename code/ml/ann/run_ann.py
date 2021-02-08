@@ -385,9 +385,10 @@ callbacks.append(csv_logger)
 model_checkpoint = tf.keras.callbacks.ModelCheckpoint(storage_path + '{epoch}.hdf5', save_weights_only = True)
 callbacks.append(model_checkpoint)
 
+monitor = 'val_mapping_loss' if do_m else 'val_loss'
 early_stopping = EarlyStoppingRestart(logpath = log_path, initial_epoch = initial_epoch,
                                       modelpath = storage_path, verbose = 1,
-                                      patience = 10)
+                                      monitor = monitor, patience = 10)
 callbacks.append(early_stopping)
 if args.walltime is not None:
     auto_restart = AutoRestart(filepath=storage_path, start_time=start_time, verbose = 1, walltime=args.walltime)
