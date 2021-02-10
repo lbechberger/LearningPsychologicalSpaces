@@ -13,8 +13,8 @@ do
 	do
 		for lr in $learning_rates
 		do
-			mkdir -p 'data/Shapes/ml/test/'"$pad"'_'"$opt$"'_'"$lr"'/logs/'
-			qsub code/ml/ann/run_ann.sge data/Shapes/ml/dataset/Shapes.pickle data/Shapes/ml/dataset/Additional.pickle data/Shapes/ml/dataset/Berlin.pickle data/Shapes/ml/dataset/Sketchy.pickle data/Shapes/ml/dataset/targets.pickle mean_4 data/Shapes/images/ data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle 'data/Shapes/ml/test/'"$pad"'_'"$opt$"'_'"$lr"'/result.csv' -c 1.0 -r 0.0 -m 0.0 -e -f 0 -s 42 --walltime 5400 --epochs 200 --patience 200 --optimizer $opt --learning_rate $lr --padding $pad
+			mkdir -p 'data/Shapes/ml/test/'"$pad"'_'"$opt"'_'"$lr"'/logs/'
+			qsub code/ml/ann/run_ann.sge data/Shapes/ml/dataset/Shapes.pickle data/Shapes/ml/dataset/Additional.pickle data/Shapes/ml/dataset/Berlin.pickle data/Shapes/ml/dataset/Sketchy.pickle data/Shapes/ml/dataset/targets.pickle mean_4 data/Shapes/images/ data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle 'data/Shapes/ml/test/'"$pad"'_'"$opt"'_'"$lr"'/result.csv' -c 1.0 -r 0.0 -m 0.0 -e -f 0 -s 42 --walltime 5400 --epochs 200 --patience 200 --optimizer $opt --learning_rate $lr --padding $pad
 		done
 	done
 done
