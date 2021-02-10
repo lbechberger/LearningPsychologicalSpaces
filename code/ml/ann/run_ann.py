@@ -43,6 +43,9 @@ parser.add_argument('--early_stopped', action = 'store_true', help = 'training w
 parser.add_argument('--optimizer', help = 'optimizer to use', default = 'adam')
 parser.add_argument('--learning_rate', type = float, help = 'learning rate for the optimizer', default = 0.0001)
 parser.add_argument('--momentum', type = float, help = 'momentum for the optimizer', default = 0.9)
+parser.add_argument('--epochs', type = int, help = 'maximal number of epochs', default = 100)
+parser.add_argument('--patience', type = int, help = 'patience for early stopping', default = 10)
+parser.add_argument('--padding', help = 'padding for convolutions (valid or same)', default = 'valid')
 args = parser.parse_args()
 
 if args.classification_weight + args.reconstruction_weight + args.mapping_weight == 0:
@@ -52,7 +55,7 @@ start_time = time.time()
     
 IMAGE_SIZE = 128
 NUM_FOLDS = 5
-EPOCHS = 100 if not args.test else 3
+EPOCHS = args.epochs if not args.test else 3
 initial_epoch = 0 if args.stopped_epoch is None else args.stopped_epoch + 1
 
 # apply seed
@@ -188,14 +191,14 @@ def create_model(do_classification, do_mapping, do_reconstruction):
     # encoder
     enc_input = tf.keras.layers.Input(shape=(IMAGE_SIZE, IMAGE_SIZE, 1))
     enc_noise = SaltAndPepper(ratio = args.noise_prob)(enc_input)
-    enc_conv1 = tf.keras.layers.Conv2D(64, 15, strides = 2, activation = 'relu', padding = 'valid',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(enc_noise)
-    enc_mp1 = tf.keras.layers.MaxPool2D(3, 2, padding = 'valid')(enc_conv1)
-    enc_conv2 = tf.keras.layers.Conv2D(128, 5, strides = 1, activation = 'relu', padding = 'valid',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(enc_mp1)
-    enc_mp2 = tf.keras.layers.MaxPool2D(3, 2, padding = 'valid')(enc_conv2)
+    enc_conv1 = tf.keras.layers.Conv2D(64, 15, strides = 2, activation = 'relu', padding = args.padding,  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(enc_noise)
+    enc_mp1 = tf.keras.layers.MaxPool2D(3, 2, padding = args.padding)(enc_conv1)
+    enc_conv2 = tf.keras.layers.Conv2D(128, 5, strides = 1, activation = 'relu', padding = args.padding,  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(enc_mp1)
+    enc_mp2 = tf.keras.layers.MaxPool2D(3, 2, padding = args.padding)(enc_conv2)
     enc_conv3 = tf.keras.layers.Conv2D(256, 3, strides = 1, activation = 'relu', padding = 'same',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(enc_mp2)
     enc_conv4 = tf.keras.layers.Conv2D(256, 3, strides = 1, activation = 'relu', padding = 'same',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(enc_conv3)
     enc_conv5 = tf.keras.layers.Conv2D(256, 3, strides = 1, activation = 'relu', padding = 'same',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(enc_conv4)
-    enc_mp5 = tf.keras.layers.MaxPool2D(3, 2, padding = 'valid')(enc_conv5)
+    enc_mp5 = tf.keras.layers.MaxPool2D(3, 2, padding = args.padding)(enc_conv5)
     enc_flat = tf.keras.layers.Flatten()(enc_mp5)
     enc_fc1 = tf.keras.layers.Dense(512, activation='relu',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(enc_flat)
     enc_d1 = tf.keras.layers.Dropout(0.5)(enc_fc1) if args.encoder_dropout else enc_fc1
@@ -388,15 +391,22 @@ callbacks.append(model_checkpoint)
 monitor = 'val_mapping_loss' if do_m else 'val_loss'
 early_stopping = EarlyStoppingRestart(logpath = log_path, initial_epoch = initial_epoch,
                                       modelpath = storage_path, verbose = 1,
-                                      monitor = monitor, patience = 10)
+                                      monitor = monitor, patience = args.patience)
 callbacks.append(early_stopping)
 if args.walltime is not None:
     auto_restart = AutoRestart(filepath=storage_path, start_time=start_time, verbose = 1, walltime=args.walltime)
     callbacks.append(auto_restart)
 
+if args.optimizer == 'sgd':
+    lr_decreaser = tf.keras.callbacks.ReduceLROnPlateau(monitor = monitor, factor = 0.1, patience = 20)
+    callbacks.append(lr_decreaser)
+
 # set up the model
 model = create_model(do_c, do_m, do_r)
-if args.stopped_epoch is not None:
+if args.stopped_epoch is None:
+    # first run: print model summary
+    model.summary()
+else:
     # later run: load weights from file
     model.load_weights(storage_path + str(args.stopped_epoch) + '.hdf5')
     model._make_train_function()
@@ -427,6 +437,8 @@ if not args.early_stopped:
     recall_list += ['--optimizer', args.optimizer]
     recall_list += ['--learning_rate', str(args.learning_rate)]
     recall_list += ['--momentum', str(args.momentum)]
+    
+    recall_list += ['--epochs', str(args.epochs), '--patience', str(args.patience), '--padding', args.padding]
 
     if (args.walltime is not None and auto_restart.reached_walltime == 1):
         # stopped by walltime:

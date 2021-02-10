@@ -1,23 +1,21 @@
 #!/bin/bash
 
 # setting up overall variables
-default_folds=("0 1 2 3 4")
-default_regressors=("--linear")
-default_lassos=("0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1.0 2.0 5.0 10.0")
-default_features=("default accuracy correlation small")
+optimizers=("adam sgd")
+paddings=("valid same")
+learning_rates=("0.0001 0.001")
 
-folds="${folds:-$default_folds}"
-regressors="${regressors_ex1:-$default_regressors}"
-lassos="${lassos:-$default_lassos}"
-features="${features:-$default_features}"
+qsub ../Utilities/watch_jobs.sge code/ml/ann_run_ann.sge ann ../sge-logs/
 
-# do a cluster analysis
-for feature in $features
+for pad in $paddings
 do
-	for fold in $folds
+	for opt in $optimizers
 	do
-		python -m code.ml.regression.cluster_analysis 'data/Shapes/ml/experiment_3/features/'"$feature"'_f'"$fold"'.pickle' -n 100 -s 42 > 'data/Shapes/ml/experiment_3/features/'"$feature"'_f'"$fold"'.txt'
+		for lr in $learning_rates
+		do
+			mkdir -p 'data/Shapes/ml/test/'"$pad"'_'"$opt$"'_'"$lr"'/logs/'
+			qsub code/ml/ann/run_ann.sge data/Shapes/ml/dataset/Shapes.pickle data/Shapes/ml/dataset/Additional.pickle data/Shapes/ml/dataset/Berlin.pickle data/Shapes/ml/dataset/Sketchy.pickle data/Shapes/ml/dataset/targets.pickle mean_4 data/Shapes/images/ data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle 'data/Shapes/ml/test/'"$pad"'_'"$opt$"'_'"$lr"'/result.csv' -c 1.0 -r 0.0 -m 0.0 -e -f 0 -s 42 --walltime 5400
+		done
 	done
 done
-
 
