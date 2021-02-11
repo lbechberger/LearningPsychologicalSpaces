@@ -32,7 +32,7 @@ fi
 
 # set up the directory structure
 echo '    setting up directory structure'
-mkdir -p 'data/Shapes/ml/experiment_4/logs/' 'data/Shapes/ml/experiment_4/aggregated'
+mkdir -p 'data/Shapes/ml/experiment_4/logs/' 'data/Shapes/ml/experiment_4/snapshots/' 'data/Shapes/ml/experiment_4/aggregated'
 
 
 # define ann configurations to run

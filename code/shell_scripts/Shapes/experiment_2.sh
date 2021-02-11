@@ -36,7 +36,7 @@ fi
 
 # set up the directory structure
 echo '    setting up directory structure'
-mkdir -p 'data/Shapes/ml/experiment_2/logs/' 'data/Shapes/ml/experiment_2/aggregated'
+mkdir -p 'data/Shapes/ml/experiment_2/logs/' 'data/Shapes/ml/experiment_2/snapshots' 'data/Shapes/ml/experiment_2/aggregated'
 
 # vanilla setup
 for fold in $folds

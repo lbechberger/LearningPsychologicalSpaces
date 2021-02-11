@@ -379,8 +379,9 @@ test_steps = len(test_seq) if not args.test else 1
 
 
 # set up the callbacks
-log_path = os.path.join(os.path.split(args.output_file)[0], 'logs', '{0}_f{1}_log.csv'.format(config_name, args.fold))
-storage_path = 'data/Shapes/ml/snapshots/{0}_f{1}_ep'.format(config_name, args.fold)
+path_stub = os.path.join(os.path.split(args.output_file)[0], '{0}', '{0}_f{1}'.format(config_name, args.fold))
+log_path = path_stub.format('logs') + '_log.csv'
+storage_path = path_stub.format('snapshots') + '_ep'
 
 callbacks = []
 csv_logger = tf.keras.callbacks.CSVLogger(log_path, append = True)
