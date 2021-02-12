@@ -228,7 +228,8 @@ def create_model(do_classification, do_mapping, do_reconstruction):
     
     if do_classification or do_reconstruction:
         enc_other = tf.keras.layers.Dense(args.bottleneck_size - space_dim, activation = None,  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(enc_d1)
-        bottleneck = tf.keras.layers.Concatenate(axis = 1, name = 'bottleneck')([enc_mapping, enc_other])
+        enc_d2 = tf.keras.layers.Dropout(0.5)(enc_other) if args.encoder_dropout else enc_other   
+        bottleneck = tf.keras.layers.Concatenate(axis = 1, name = 'bottleneck')([enc_mapping, enc_d2])
         
         model_outputs.append(bottleneck)
     
@@ -483,12 +484,12 @@ else:
     if not os.path.exists(args.output_file):
         with open(args.output_file, 'w') as f_out:
             fcntl.flock(f_out, fcntl.LOCK_EX)
-            f_out.write("configuration,fold,{0}\n".format(','.join(evaluation_metrics)))
+            f_out.write("configuration,fold,epoch,{0}\n".format(','.join(evaluation_metrics)))
             fcntl.flock(f_out, fcntl.LOCK_UN)
     
     with open(args.output_file, 'a') as f_out:
         fcntl.flock(f_out, fcntl.LOCK_EX)
-        f_out.write("{0},{1},{2}\n".format(config_name, args.fold, ','.join(map(lambda x: str(x), evaluation_results))))
+        f_out.write("{0},{1},{2},{3}\n".format(config_name, args.fold, initial_epoch, ','.join(map(lambda x: str(x), evaluation_results))))
         fcntl.flock(f_out, fcntl.LOCK_UN)
 
     # store final model: structure + weights (different extension so we don't delete it by accident)
