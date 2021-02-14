@@ -228,8 +228,7 @@ def create_model(do_classification, do_mapping, do_reconstruction):
     
     if do_classification or do_reconstruction:
         enc_other = tf.keras.layers.Dense(args.bottleneck_size - space_dim, activation = None,  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(enc_d1)
-        enc_d2 = tf.keras.layers.Dropout(0.5)(enc_other) if args.encoder_dropout else enc_other   
-        bottleneck = tf.keras.layers.Concatenate(axis = 1, name = 'bottleneck')([enc_mapping, enc_d2])
+        bottleneck = tf.keras.layers.Concatenate(axis = 1, name = 'bottleneck')([enc_mapping, enc_other])
         
         model_outputs.append(bottleneck)
     
