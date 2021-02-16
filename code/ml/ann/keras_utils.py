@@ -16,20 +16,27 @@ import csv, os
 # based on https://stackoverflow.com/questions/55653940/how-do-i-implement-salt-pepper-layer-in-keras
 class SaltAndPepper(tf.keras.layers.Layer):
     
-    def __init__(self, ratio, **kwargs):
+    def __init__(self, ratio, only_train = False, **kwargs):
         super(SaltAndPepper, self).__init__(**kwargs)
         self.supports_masking = True
         self.ratio = ratio
+        self.only_train = only_train
 
     def call(self, inputs, training=None):
-        shp = tf.keras.backend.shape(inputs)[1:]
-        mask_select = tf.keras.backend.random_binomial(shape=shp, p=self.ratio)
-        mask_noise = tf.keras.backend.random_binomial(shape=shp, p=0.5) # salt and pepper have the same chance
-        out = inputs * (1-mask_select) + mask_noise * mask_select
-        return out
-    
+        def noised():
+            shp = tf.keras.backend.shape(inputs)[1:]
+            mask_select = tf.keras.backend.random_binomial(shape=shp, p=self.ratio)
+            mask_noise = tf.keras.backend.random_binomial(shape=shp, p=0.5) # salt and pepper have the same chance
+            out = inputs * (1-mask_select) + mask_noise * mask_select
+            return out
+        
+        if self.only_train:
+            return tf.keras.backend.in_train_phase(noised(), inputs, training=training)
+        else:
+            return noised()
+        
     def get_config(self):
-        config = {'ratio': self.ratio}
+        config = {'ratio': self.ratio, 'only_train': self.only_train}
         base_config = super(SaltAndPepper, self).get_config()
         return dict(list(base_config.items()) + list(config.items()))        
 
