@@ -45,6 +45,7 @@ python -m code.ml.preprocessing.prepare_targets data/Shapes/ml/regression_target
 # compute features
 echo '    feature extraction'
 echo '        ANN-based features'
+python -m code.ml.regression.ann_features /tmp/inception data/Shapes/ml/dataset/pickle/0.0/ data/Shapes/ml/dataset/pickle/features_0.0.pickle
 python -m code.ml.regression.ann_features /tmp/inception data/Shapes/ml/dataset/pickle/0.1/ data/Shapes/ml/dataset/pickle/features_0.1.pickle
 python -m code.ml.regression.ann_features /tmp/inception data/Shapes/ml/dataset/pickle/0.25/ data/Shapes/ml/dataset/pickle/features_0.25.pickle
 python -m code.ml.regression.ann_features /tmp/inception data/Shapes/ml/dataset/pickle/0.55/ data/Shapes/ml/dataset/pickle/features_0.55.pickle
