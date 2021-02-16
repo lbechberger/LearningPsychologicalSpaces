@@ -18,6 +18,8 @@ import argparse, os, pickle, csv
 import numpy as np
 import cv2
 import tensorflow as tf
+import imgaug as ia
+from imgaug import augmenters as iaa
 
 
 parser = argparse.ArgumentParser(description='Prepare the data set for the Shapes study')
@@ -29,6 +31,9 @@ parser.add_argument('-n', '--noise_prob', nargs = '+', type = float, help = 'noi
 parser.add_argument('-s', '--seed', type = int, help = 'seed for random number generation', default = None)
 parser.add_argument('-o', '--output_size', type = int, help = 'size of output image', default = 128)
 parser.add_argument('-m', '--minimum_size', type = int, help = 'minimal size of output object', default = 96)
+parser.add_argument('-f', '--flip_probability', type = float, help = 'probability of horizontal flips', default = 0.0)
+parser.add_argument('-r', '--rotation_angle', type = int, help = 'maximal rotation angle', default = 0)
+parser.add_argument('-a', '--shear_angle', type = int, help = 'maximal shear angle', default = 0)
 args = parser.parse_args()
 
 pixel_histogram = [0]*256
@@ -39,6 +44,7 @@ pickle_output = {}
 
 if args.seed is not None:
     np.random.seed(args.seed)
+    ia.seed(args.seed)
 
 if args.pickle_output_folder is not None:
     folds_info = []
@@ -61,62 +67,68 @@ with open(args.folds_file, 'r') as f_in:
         # load image
         image = cv2.imread(image_path)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+        # apply augmentation if applicable (flip/rotation/shear)
+        seq = iaa.Sequential([iaa.Fliplr(args.flip_probability),
+                              iaa.Affine(rotate = (-args.rotation_angle, args.rotation_angle),
+                                         mode = "constant", cval = 255),
+                              iaa.Affine(shear = (-args.shear_angle, args.shear_angle),
+                                         mode = "constant", cval = 255)],
+                              random_order = True)
         
-        # find bounding box
-        thresh = cv2.threshold(image, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
-        contours = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-        contours = contours[0] if len(contours) == 2 else contours[1]
-        
-        x_low = args.output_size - 1
-        y_low = args.output_size - 1
-        x_high = 0
-        y_high = 0
-        for c in contours:
-            x,y,w,h = cv2.boundingRect(c)
-            x_low = min(x_low, x)
-            y_low = min(y_low, y)
-            x_high = max(x_high, x + w)
-            y_high = max(y_high, y + h)
+        base_images = []
+        for i in range(args.factor):
+            base_images.append(seq.augment_image(image))
 
-        cropped = image[y_low:y_high, x_low:x_high]
-        w = x_high - x_low
-        h = y_high - y_low
-
-        # compute sizes
-        cropped_size = max(h,w)
-        cropped_aspect_ratio = min(h,w)/max(h,w)
-
-        size_combinations = [(args.output_size - i + 1)*int(args.output_size - i*cropped_aspect_ratio + 1) for i in possible_sizes]
-        size_probabilities = [i/sum(size_combinations) for i in size_combinations]
-        
-        augmented_sizes = np.random.choice(possible_sizes, args.factor, p=size_probabilities)
-
-        augmented_dims = []
-        for size in augmented_sizes:
-            if w > h:
-                dims = (size, int(size*cropped_aspect_ratio))
-            else:
-                dims = (int(size*cropped_aspect_ratio), size)
-            augmented_dims.append(dims)
-
-        # compute translations
-        augmented_translations = []
-        for dim in augmented_dims:
-            x_offset = np.random.randint(args.output_size + 1 - dim[0])
-            y_offset = np.random.randint(args.output_size + 1 - dim[1])
-            augmented_translations.append((x_offset, y_offset))
-
-        # create images
         augmented_images = []
-        
-        for dim, translation in zip(augmented_dims, augmented_translations):
+        for base_image in base_images:
 
-            rescaled = cv2.resize(cropped, dim)
+            # find bounding box
+            thresh = cv2.threshold(base_image, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
+            contours = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+            contours = contours[0] if len(contours) == 2 else contours[1]
+            
+            x_low = args.output_size - 1
+            y_low = args.output_size - 1
+            x_high = 0
+            y_high = 0
+            for c in contours:
+                x,y,w,h = cv2.boundingRect(c)
+                x_low = min(x_low, x)
+                y_low = min(y_low, y)
+                x_high = max(x_high, x + w)
+                y_high = max(y_high, y + h)
+    
+            cropped = base_image[y_low:y_high, x_low:x_high]
+            w = x_high - x_low
+            h = y_high - y_low
 
-            top = translation[1]
-            bottom = (args.output_size - translation[1] - dim[1])
-            left = translation[0]
-            right = (args.output_size - translation[0] - dim[0])
+            # compute size
+            cropped_size = max(h,w)
+            cropped_aspect_ratio = min(h,w)/max(h,w)
+    
+            size_combinations = [(args.output_size - i + 1)*int(args.output_size - i*cropped_aspect_ratio + 1) for i in possible_sizes]
+            size_probabilities = [i/sum(size_combinations) for i in size_combinations]
+            
+            augmented_size = np.random.choice(possible_sizes, p=size_probabilities)
+            size_histogram[augmented_size - args.minimum_size] += 1
+
+            if w > h:
+                dims = (augmented_size, int(augmented_size*cropped_aspect_ratio))
+            else:
+                dims = (int(augmented_size*cropped_aspect_ratio), augmented_size)
+    
+            # compute translation
+            x_offset = np.random.randint(args.output_size + 1 - dims[0])
+            y_offset = np.random.randint(args.output_size + 1 - dims[1])
+            
+            # create image
+            rescaled = cv2.resize(cropped, dims)
+
+            top = y_offset
+            bottom = (args.output_size - y_offset - dims[1])
+            left = x_offset
+            right = (args.output_size - x_offset - dims[0])
             
             padded = cv2.copyMakeBorder(rescaled, top, bottom, left, right, cv2.BORDER_CONSTANT, value=255)
 
@@ -129,10 +141,7 @@ with open(args.folds_file, 'r') as f_in:
             
             pickle_output[fold].append((output_path, additional_info))
 
-        # store histogram and size information
-        for s in augmented_sizes:
-            size_histogram[s - args.minimum_size] += 1
-        
+        # store histogram information        
         for img in augmented_images:
             img_hist, _ = np.histogram(img, bins=256)
             for i in range(256):
