@@ -46,6 +46,7 @@ parser.add_argument('--momentum', type = float, help = 'momentum for the optimiz
 parser.add_argument('--epochs', type = int, help = 'maximal number of epochs', default = 100)
 parser.add_argument('--patience', type = int, help = 'patience for early stopping', default = 10)
 parser.add_argument('--padding', help = 'padding for convolutions (valid or same)', default = 'valid')
+parser.add_argument('--large_batch', action = 'store_true', help = 'use batch size of 256 instead of 128')
 args = parser.parse_args()
 
 if args.classification_weight + args.reconstruction_weight + args.mapping_weight == 0:
@@ -318,6 +319,12 @@ def get_data_sequence(list_of_folds, do_classification, do_mapping, do_reconstru
         berlin_proportion = 63
         sketchy_proportion = 65
 
+    if args.large_batch:
+        shapes_proportion *= 2
+        additional_proportion *= 2
+        berlin_proportion *= 2
+        sketchy_proportion *= 2
+
     seqs = []
     weights = []
     all_classes = 0
@@ -440,6 +447,9 @@ if not args.early_stopped:
     recall_list += ['--momentum', str(args.momentum)]
     
     recall_list += ['--epochs', str(args.epochs), '--patience', str(args.patience), '--padding', args.padding]
+
+    if args.large_batch:
+        recall_list += ['--large_batch']
 
     if (args.walltime is not None and auto_restart.reached_walltime == 1):
         # stopped by walltime:
