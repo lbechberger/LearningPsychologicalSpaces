@@ -49,6 +49,7 @@ parser.add_argument('--padding', help = 'padding for convolutions (valid or same
 parser.add_argument('--large_batch', action = 'store_true', help = 'use batch size of 256 instead of 128')
 parser.add_argument('--noise_only_train', action = 'store_true', help = 'use S&P noise only during training')
 parser.add_argument('--initial_stride', type = int, help = 'stride of initial convolution', default = 2)
+parser.add_argument('--image_size', type = int, help = 'size of input image', default = 128)
 args = parser.parse_args()
 
 if args.classification_weight + args.reconstruction_weight + args.mapping_weight == 0:
@@ -56,7 +57,7 @@ if args.classification_weight + args.reconstruction_weight + args.mapping_weight
 
 start_time = time.time()
     
-IMAGE_SIZE = 128
+IMAGE_SIZE = args.image_size
 NUM_FOLDS = 5
 EPOCHS = args.epochs if not args.test else 3
 initial_epoch = 0 if args.stopped_epoch is None else args.stopped_epoch + 1
