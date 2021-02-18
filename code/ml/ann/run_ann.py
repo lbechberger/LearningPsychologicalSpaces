@@ -48,6 +48,7 @@ parser.add_argument('--patience', type = int, help = 'patience for early stoppin
 parser.add_argument('--padding', help = 'padding for convolutions (valid or same)', default = 'valid')
 parser.add_argument('--large_batch', action = 'store_true', help = 'use batch size of 256 instead of 128')
 parser.add_argument('--noise_only_train', action = 'store_true', help = 'use S&P noise only during training')
+parser.add_argument('--initial_stride', type = int, help = 'stride of initial convolution', default = 2)
 args = parser.parse_args()
 
 if args.classification_weight + args.reconstruction_weight + args.mapping_weight == 0:
@@ -193,7 +194,7 @@ def create_model(do_classification, do_mapping, do_reconstruction):
     # encoder
     enc_input = tf.keras.layers.Input(shape=(IMAGE_SIZE, IMAGE_SIZE, 1))
     enc_noise = SaltAndPepper(ratio = args.noise_prob, only_train = args.noise_only_train)(enc_input)
-    enc_conv1 = tf.keras.layers.Conv2D(64, 15, strides = 2, activation = 'relu', padding = args.padding,  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(enc_noise)
+    enc_conv1 = tf.keras.layers.Conv2D(64, 15, strides = args.initial_stride, activation = 'relu', padding = args.padding,  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(enc_noise)
     enc_mp1 = tf.keras.layers.MaxPool2D(3, 2, padding = args.padding)(enc_conv1)
     enc_conv2 = tf.keras.layers.Conv2D(128, 5, strides = 1, activation = 'relu', padding = args.padding,  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(enc_mp1)
     enc_mp2 = tf.keras.layers.MaxPool2D(3, 2, padding = args.padding)(enc_conv2)
@@ -447,7 +448,8 @@ if not args.early_stopped:
     recall_list += ['--learning_rate', str(args.learning_rate)]
     recall_list += ['--momentum', str(args.momentum)]
     
-    recall_list += ['--epochs', str(args.epochs), '--patience', str(args.patience), '--padding', args.padding]
+    recall_list += ['--epochs', str(args.epochs), '--patience', str(args.patience), 
+                    '--padding', args.padding, '--initial_stride', str(args.initial_stride)]
 
     if args.large_batch:
         recall_list += ['--large_batch']
