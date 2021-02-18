@@ -726,6 +726,7 @@ The script loads the model from `model.h5` (output of `run_ann.py`) and passes a
 The script accepts the following optional parameters:
 - `-m` or `--mapping_used`: This flag must be set if the model was trained with a mapping weight greater than zero (otherwise the bottleneck activation cannot be correctly extracted).
 - `-s` or `--seed`: Seeds the random number generator with the given seed in order to make the results deterministic.
+- `-n` or `--noisy_input`: If this flag is set, the salt and pepper noise of the network is forced to be active. If this flag is not set, the salt and pepper noise of the network is forced to be inactive.
 
 #### 3.3.3 Average Results over Folds
 

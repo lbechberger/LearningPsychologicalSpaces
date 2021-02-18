@@ -19,6 +19,7 @@ parser.add_argument('network_file', help = 'hdf5 file containing the pre-trained
 parser.add_argument('output_file', help = 'pickle file for outputting the results')
 parser.add_argument('-m', '--mapping_used', action = 'store_true', help = 'has the network been trained with the mapping objective?')
 parser.add_argument('-s', '--seed', type = int, help = 'seed for random number generation', default = None)
+parser.add_argument('-n', '--noisy_input', action = 'store_true', help = 'S&P noise activated')
 args = parser.parse_args()
 
 NUM_FOLDS = 5
@@ -37,6 +38,9 @@ with open(args.shapes_file, 'rb') as f_in:
 
 # load the model
 model = tf.keras.models.load_model(args.network_file, custom_objects={'SaltAndPepper': SaltAndPepper}, compile = False)
+for layer in model.layers:
+    if hasattr(layer, 'only_train'):
+        setattr(layer, 'only_train', not args.noisy_input)
 
 # restructure the data
 all_folds = np.concatenate([shapes_data[str(i)] for i in range(NUM_FOLDS)])

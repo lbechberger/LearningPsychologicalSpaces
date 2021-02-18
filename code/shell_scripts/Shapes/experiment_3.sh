@@ -70,7 +70,7 @@ echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b64_w0.001_v0.0_eTrue
 # extract all the features
 while IFS= read -r config
 do
-	$cmd $bottleneck_script data/Shapes/ml/dataset/Shapes.pickle $config
+	$cmd $bottleneck_script data/Shapes/ml/dataset/Shapes.pickle $config -s 42
 done < 'data/Shapes/ml/experiment_3/snapshots.config'
 
 
