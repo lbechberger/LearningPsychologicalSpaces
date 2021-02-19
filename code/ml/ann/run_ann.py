@@ -450,7 +450,8 @@ if not args.early_stopped:
     recall_list += ['--momentum', str(args.momentum)]
     
     recall_list += ['--epochs', str(args.epochs), '--patience', str(args.patience), 
-                    '--padding', args.padding, '--initial_stride', str(args.initial_stride)]
+                    '--padding', args.padding, '--initial_stride', str(args.initial_stride),
+                    '--image_size', str(args.image_size)]
 
     if args.large_batch:
         recall_list += ['--large_batch']
