@@ -20,7 +20,7 @@ parser.add_argument('output_file', help = 'pickle file for outputting the result
 parser.add_argument('-m', '--mapping_used', action = 'store_true', help = 'has the network been trained with the mapping objective?')
 parser.add_argument('-s', '--seed', type = int, help = 'seed for random number generation', default = None)
 parser.add_argument('-n', '--noisy_input', action = 'store_true', help = 'S&P noise activated')
-parser.add_arugment('-i', '--image_size', type = int, help = 'size of the input image', default = 128)
+parser.add_argument('-i', '--image_size', type = int, help = 'size of the input image', default = 128)
 args = parser.parse_args()
 
 NUM_FOLDS = 5
