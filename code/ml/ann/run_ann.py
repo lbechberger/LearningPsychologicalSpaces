@@ -274,14 +274,22 @@ def create_model(do_classification, do_mapping, do_reconstruction):
         # decoder
         dec_fc1 = tf.keras.layers.Dense(512, activation = 'relu',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(bottleneck)
         dec_d1 = tf.keras.layers.Dropout(0.5)(dec_fc1) if args.decoder_dropout else dec_fc1
-        dec_fc2 = tf.keras.layers.Dense(2048,  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_d1)
-        dec_img = tf.keras.layers.Reshape((4,4,128))(dec_fc2)
-        dec_uconv1 = tf.keras.layers.Conv2DTranspose(128, 5, strides = 2, activation = 'relu', padding = 'same',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_img)
+        initial_image_size = 4 if IMAGE_SIZE == 128 else 3
+        dense_size = initial_image_size * initial_image_size * 128
+        reshape_target = (initial_image_size, initial_image_size, 128)
+        dec_fc2 = tf.keras.layers.Dense(dense_size, kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_d1)
+        dec_img = tf.keras.layers.Reshape(reshape_target)(dec_fc2)
+        dec_first_padding = 'same' if IMAGE_SIZE == 128 else 'valid'
+        dec_first_stride = 2 if IMAGE_SIZE == 128 else 1
+        dec_uconv1 = tf.keras.layers.Conv2DTranspose(128, 5, strides = dec_first_stride, activation = 'relu', padding = dec_first_padding,  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_img)
         dec_uconv2 = tf.keras.layers.Conv2DTranspose(64, 5, strides = 2, activation = 'relu', padding = 'same',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_uconv1)
         dec_uconv3 = tf.keras.layers.Conv2DTranspose(32, 5, strides = 2, activation = 'relu', padding = 'same',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_uconv2)
         dec_uconv4 = tf.keras.layers.Conv2DTranspose(16, 5, strides = 2, activation = 'relu', padding = 'same',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_uconv3)
-        dec_output = tf.keras.layers.Conv2DTranspose(1, 5, strides = 2, activation = 'sigmoid', padding = 'same', name = 'reconstruction',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_uconv4)
-        
+        if IMAGE_SIZE == 128:        
+            dec_output = tf.keras.layers.Conv2DTranspose(1, 5, strides = 2, activation = 'sigmoid', padding = 'same', name = 'reconstruction',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_uconv4)
+        else:
+            dec_uconv5 = tf.keras.layers.Conv2DTranspose(8, 5, strides = 2, activation = 'relu', padding = 'same', kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_uconv4)
+            dec_output = tf.keras.layers.Conv2DTranspose(1, 5, strides = 2, activation = 'sigmoid', padding = 'same', name = 'reconstruction',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_decoder))(dec_uconv5)
         model_outputs.append(dec_output)   
         model_loss['reconstruction'] = 'binary_crossentropy'
         model_loss_weights['reconstruction'] = args.reconstruction_weight
