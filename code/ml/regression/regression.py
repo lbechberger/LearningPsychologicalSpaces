@@ -161,7 +161,7 @@ def prepare_fold(fold_images, features, targets):
     fold_features = []
     fold_targets = []
     for img_name in fold_images:
-        img_features = features_dict[img_name]
+        img_features = features[img_name]
         img_target = targets[img_name]
         fold_features += img_features
         fold_targets += [img_target]*len(img_features)
