@@ -50,6 +50,7 @@ parser.add_argument('--large_batch', action = 'store_true', help = 'use batch si
 parser.add_argument('--noise_only_train', action = 'store_true', help = 'use S&P noise only during training')
 parser.add_argument('--initial_stride', type = int, help = 'stride of initial convolution', default = 2)
 parser.add_argument('--image_size', type = int, help = 'size of input image', default = 128)
+parser.add_argument('--bottleneck_dropout', action = 'store_true', help = 'activate dropout in bottleneck layer')
 args = parser.parse_args()
 
 if args.classification_weight + args.reconstruction_weight + args.mapping_weight == 0:
@@ -232,7 +233,9 @@ def create_model(do_classification, do_mapping, do_reconstruction):
     
     if do_classification or do_reconstruction:
         enc_other = tf.keras.layers.Dense(args.bottleneck_size - space_dim, activation = None,  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(enc_d1)
-        bottleneck = tf.keras.layers.Concatenate(axis = 1, name = 'bottleneck')([enc_mapping, enc_other])
+        enc_d2 = tf.keras.layers.Dropout(0.5)(enc_other) if args.bottleneck_dropout else enc_other        
+        
+        bottleneck = tf.keras.layers.Concatenate(axis = 1, name = 'bottleneck')([enc_mapping, enc_d2])
         
         model_outputs.append(bottleneck)
     
@@ -457,6 +460,8 @@ if not args.early_stopped:
         recall_list += ['--large_batch']
     if args.noise_only_train:
         recall_list += ['--noise_only_train']
+    if args.bottleneck_dropout:
+        recall_list += ['--bottleneck_dropout']
 
     if (args.walltime is not None and auto_restart.reached_walltime == 1):
         # stopped by walltime:
