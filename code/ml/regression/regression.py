@@ -30,6 +30,7 @@ parser.add_argument('--lasso', type = float, help = 'compute lasso regression us
 parser.add_argument('--random_forest', action = 'store_true', help = 'compute random forest regression')
 parser.add_argument('--shuffled', action = 'store_true', help = 'also train/test on shuffled targets')
 parser.add_argument('-s', '--seed', type = int, help = 'seed for random number generation', default = None)
+parser.add_argument('-e', '--evaluation_features', help = 'separate pickle file containing features to use for the test set', default = None)
 args = parser.parse_args()
 
 # avoid computing multiple regressiontypes in a single run
@@ -48,9 +49,17 @@ with open(args.targets_file, 'rb') as f:
 with open(args.features_file, 'rb') as f:
     features_dict = pickle.load(f)
 
+if args.evaluation_features is not None:
+    with open(args.evaluation_features, 'rb') as f:
+        eval_features_dict = pickle.load(f)
+else:
+    eval_features_dict = dict(features_dict)
+
 # make sure targets and features match
 if set(targets_dict['correct'].keys()) != set(features_dict.keys()):
     raise Exception('Targets and features do not match!')
+if set(features_dict.keys()) != set(eval_features_dict.keys()):
+    raise Exception('Train and test features do not match!')
 
 # prepare output file if necessary
 if not os.path.exists(args.output_file):
@@ -204,7 +213,7 @@ for target_type in target_types:
         train_images = [img_name for img_name in image_names if img_name not in test_images]
         
         # prepare features and targets for train and test
-        test_features, test_targets = prepare_fold(test_images, features_dict, targets_dict[target_type])        
+        test_features, test_targets = prepare_fold(test_images, eval_features_dict, targets_dict[target_type])        
         train_features, train_targets = prepare_fold(train_images, features_dict, targets_dict[target_type])        
                
         train_predictions, test_predictions = prediction_function(train_features, train_targets, test_features, test_targets)
