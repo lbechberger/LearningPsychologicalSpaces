@@ -203,7 +203,8 @@ def create_model(do_classification, do_mapping, do_reconstruction):
     enc_conv3 = tf.keras.layers.Conv2D(256, 3, strides = 1, activation = 'relu', padding = 'same',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(enc_mp2)
     enc_conv4 = tf.keras.layers.Conv2D(256, 3, strides = 1, activation = 'relu', padding = 'same',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(enc_conv3)
     enc_conv5 = tf.keras.layers.Conv2D(256, 3, strides = 1, activation = 'relu', padding = 'same',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(enc_conv4)
-    enc_mp5 = tf.keras.layers.MaxPool2D(3, 2, padding = args.padding)(enc_conv5)
+    mp5_padding = 'same' if IMAGE_SIZE == 224 else args.padding    
+    enc_mp5 = tf.keras.layers.MaxPool2D(3, 2, padding = mp5_padding)(enc_conv5)
     enc_flat = tf.keras.layers.Flatten()(enc_mp5)
     enc_fc1 = tf.keras.layers.Dense(512, activation='relu',  kernel_regularizer = tf.keras.regularizers.l2(args.weight_decay_encoder))(enc_flat)
     enc_d1 = tf.keras.layers.Dropout(0.5)(enc_fc1) if args.encoder_dropout else enc_fc1
