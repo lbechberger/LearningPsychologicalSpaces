@@ -32,10 +32,10 @@ echo 'preparing data set for machine learning'
 
 # create more artificial images
 echo '    augmentation'
-python -m code.ml.preprocessing.prepare_Shapes_data data/Shapes/ml/folds/Shapes.csv data/Shapes/ml/dataset/ 2000 -s 42 -p data/Shapes/ml/dataset/pickle/ -n 0.0 0.1 0.25 0.55 > data/Shapes/ml/dataset/Shapes_stat.txt
-python -m code.ml.preprocessing.prepare_Shapes_data data/Shapes/ml/folds/Additional.csv data/Shapes/ml/dataset/ 2000 -s 42 -f 0.5 -r 15 -a 15 > data/Shapes/ml/dataset/Additional_stat.txt
-python -m code.ml.preprocessing.prepare_Shapes_data data/Shapes/ml/folds/Berlin.csv data/Shapes/ml/dataset/ 12 -s 42 -f 0.5 -r 15 -a 15 > data/Shapes/ml/dataset/Berlin_stat.txt
-python -m code.ml.preprocessing.prepare_Shapes_data data/Shapes/ml/folds/Sketchy.csv data/Shapes/ml/dataset/ 4 -s 42 -f 0.5 -r 15 -a 15 > data/Shapes/ml/dataset/Sketchy_stat.txt
+python -m code.ml.preprocessing.prepare_Shapes_data data/Shapes/ml/folds/Shapes.csv data/Shapes/ml/dataset/ 2000 -s 42 -o 224 -m 168 -p data/Shapes/ml/dataset/pickle/ -n 0.0 0.1 0.25 0.55 > data/Shapes/ml/dataset/Shapes_stat.txt
+python -m code.ml.preprocessing.prepare_Shapes_data data/Shapes/ml/folds/Additional.csv data/Shapes/ml/dataset/ 2000 -s 42 -o 224 -m 168 -f 0.5 -r 15 -a 15 > data/Shapes/ml/dataset/Additional_stat.txt
+python -m code.ml.preprocessing.prepare_Shapes_data data/Shapes/ml/folds/Berlin.csv data/Shapes/ml/dataset/ 12 -s 42 -o 224 -m 168 -f 0.5 -r 15 -a 15 > data/Shapes/ml/dataset/Berlin_stat.txt
+python -m code.ml.preprocessing.prepare_Shapes_data data/Shapes/ml/folds/Sketchy.csv data/Shapes/ml/dataset/ 4 -s 42 -o 224 -m 168 -f 0.5 -r 15 -a 15 > data/Shapes/ml/dataset/Sketchy_stat.txt
 
 
 # collect regression targets
