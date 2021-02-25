@@ -49,15 +49,15 @@ do
 	for baseline in $baselines
 	do
 		echo "        $baseline"	
-		$cmd $script data/Shapes/ml/dataset/targets.pickle mean_4 'data/Shapes/ml/dataset/pickle/features_'"$noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$noise"'/mean_4.csv' -s 42 $baseline
-		$cmd $script data/Shapes/ml/dataset/targets.pickle median_4 'data/Shapes/ml/dataset/pickle/features_'"$noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$noise"'/median_4.csv' -s 42 $baseline
+		$cmd $script data/Shapes/ml/dataset/targets.pickle mean_4 'data/Shapes/ml/dataset/pickle/features_'"$noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$noise"'/mean_4.csv' -s 42 -e data/Shapes/ml/dataset/pickle/features_0.0.pickle $baseline
+		$cmd $script data/Shapes/ml/dataset/targets.pickle median_4 'data/Shapes/ml/dataset/pickle/features_'"$noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$noise"'/median_4.csv' -s 42 -e data/Shapes/ml/dataset/pickle/features_0.0.pickle $baseline
 	done
 	
 	for regressor in $regressors
 	do
 		echo "        $regressor"
-		$cmd $script data/Shapes/ml/dataset/targets.pickle mean_4 'data/Shapes/ml/dataset/pickle/features_'"$noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$noise"'/mean_4.csv' -s 42 --shuffled $regressor
-		$cmd $script data/Shapes/ml/dataset/targets.pickle median_4 'data/Shapes/ml/dataset/pickle/features_'"$noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$noise"'/median_4.csv' -s 42 --shuffled $regressor
+		$cmd $script data/Shapes/ml/dataset/targets.pickle mean_4 'data/Shapes/ml/dataset/pickle/features_'"$noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$noise"'/mean_4.csv' -s 42 -e data/Shapes/ml/dataset/pickle/features_0.0.pickle --shuffled $regressor
+		$cmd $script data/Shapes/ml/dataset/targets.pickle median_4 'data/Shapes/ml/dataset/pickle/features_'"$noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$noise"'/median_4.csv' -s 42 -e data/Shapes/ml/dataset/pickle/features_0.0.pickle --shuffled $regressor
 	done
 
 done
@@ -68,15 +68,15 @@ do
 	for baseline in $baselines
 	do
 		echo "        $baseline"	
-		$cmd $script data/Shapes/ml/dataset/targets.pickle 'mean_'"$dim" 'data/Shapes/ml/dataset/pickle/features_'"$best_noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$best_noise"'/mean_'"$dim"'.csv' -s 42 $baseline
-		$cmd $script data/Shapes/ml/dataset/targets.pickle 'median_'"$dim" 'data/Shapes/ml/dataset/pickle/features_'"$best_noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$best_noise"'/median_'"$dim"'.csv' -s 42 $baseline
+		$cmd $script data/Shapes/ml/dataset/targets.pickle 'mean_'"$dim" 'data/Shapes/ml/dataset/pickle/features_'"$best_noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$best_noise"'/mean_'"$dim"'.csv' -s 42 -e data/Shapes/ml/dataset/pickle/features_0.0.pickle $baseline
+		$cmd $script data/Shapes/ml/dataset/targets.pickle 'median_'"$dim" 'data/Shapes/ml/dataset/pickle/features_'"$best_noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$best_noise"'/median_'"$dim"'.csv' -s 42 -e data/Shapes/ml/dataset/pickle/features_0.0.pickle $baseline
 	done
 	
 	for regressor in $regressors
 	do
 		echo "        $regressor"
-		$cmd $script data/Shapes/ml/dataset/targets.pickle 'mean_'"$dim" 'data/Shapes/ml/dataset/pickle/features_'"$best_noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$best_noise"'/mean_'"$dim"'.csv' -s 42 $regressor
-		$cmd $script data/Shapes/ml/dataset/targets.pickle 'median_'"$dim" 'data/Shapes/ml/dataset/pickle/features_'"$best_noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$best_noise"'/median_'"$dim"'.csv' -s 42 $regressor
+		$cmd $script data/Shapes/ml/dataset/targets.pickle 'mean_'"$dim" 'data/Shapes/ml/dataset/pickle/features_'"$best_noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$best_noise"'/mean_'"$dim"'.csv' -s 42 -e data/Shapes/ml/dataset/pickle/features_0.0.pickle $regressor
+		$cmd $script data/Shapes/ml/dataset/targets.pickle 'median_'"$dim" 'data/Shapes/ml/dataset/pickle/features_'"$best_noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$best_noise"'/median_'"$dim"'.csv' -s 42 -e data/Shapes/ml/dataset/pickle/features_0.0.pickle $regressor
 	done
 
 done
@@ -87,6 +87,6 @@ echo '    lasso regressor on mean_4 and median_4'
 for lasso in $lassos
 do
 	echo "        lasso $lasso"
-	$cmd $script data/Shapes/ml/dataset/targets.pickle mean_4 'data/Shapes/ml/dataset/pickle/features_'"$best_noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$best_noise"'/mean_4.csv' -s 42 --lasso $lasso
-	$cmd $script data/Shapes/ml/dataset/targets.pickle median_4 'data/Shapes/ml/dataset/pickle/features_'"$best_noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$best_noise"'/median_4.csv' -s 42 --lasso $lasso
+	$cmd $script data/Shapes/ml/dataset/targets.pickle mean_4 'data/Shapes/ml/dataset/pickle/features_'"$best_noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$best_noise"'/mean_4.csv' -s 42 -e data/Shapes/ml/dataset/pickle/features_0.0.pickle --lasso $lasso
+	$cmd $script data/Shapes/ml/dataset/targets.pickle median_4 'data/Shapes/ml/dataset/pickle/features_'"$best_noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$best_noise"'/median_4.csv' -s 42 -e data/Shapes/ml/dataset/pickle/features_0.0.pickle --lasso $lasso
 done

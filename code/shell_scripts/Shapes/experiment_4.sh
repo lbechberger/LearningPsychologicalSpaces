@@ -48,7 +48,7 @@ do
 	do
 		for fold in $folds
 		do
-			$cmd $script data/Shapes/ml/dataset/Shapes.pickle data/Shapes/ml/dataset/Additional.pickle data/Shapes/ml/dataset/Berlin.pickle data/Shapes/ml/dataset/Sketchy.pickle data/Shapes/ml/dataset/targets.pickle mean_4 data/Shapes/images/ data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle $config -c 1.0 -r 0.0 -m $mapping_weight -s 42 -f $fold $walltime
+			$cmd $script data/Shapes/ml/dataset/Shapes.pickle data/Shapes/ml/dataset/Additional.pickle data/Shapes/ml/dataset/Berlin.pickle data/Shapes/ml/dataset/Sketchy.pickle data/Shapes/ml/dataset/targets.pickle mean_4 data/Shapes/images/ data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle $config -c 1.0 -r 0.0 -m $mapping_weight -s 42 -f $fold $walltime --initial_stride 3 --image_size 224 --noise_only_train --patience 200 --epochs 200
 		done
 	done
 done < 'data/Shapes/ml/experiment_4/ann.config'
