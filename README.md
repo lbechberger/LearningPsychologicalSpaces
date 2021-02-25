@@ -663,6 +663,7 @@ In order to select the type of regression to be used, one needs to pass *exactly
 In addition to this, the script accepts the following optional parameters:
 - `-s` or `--seed`: The random seed to use for initializing the random number generator (important for nondeterministic regressors). If none is given, a different initialization is used in every call to the script.
 - `--shuffled`: If this flag is set, the regression is not only performed on the correct targets, but also on the shuffled ones.
+- `-e` or `--evaluation_features`: If this optional argument is given, the specified feature vectors are used for testing. If not, then the `features.pickle` passed to the program will be used for both training and testing.
 
 The script performs a cross-validation based on the fold structure given in `folds.csv`, where all augmented images that are based on the same original image belong into the same fold. The script reports MSE, MED (the mean Euclidean distance between the predicted points and the targets points), and the coefficient of determination R² in the output csv file for both the training and the test phase.
 
@@ -691,6 +692,8 @@ The network can be regularized by using the following optional arguments:
 - `-e` or `--encoder_dropout`: If this flag is set, dropout will be used in the first fully connected layer of the encoder.
 - `-d` or `--decoder_dropout`: If this flag is set, dropout will be used in the first two fully connected layers of the decoder.
 - `-n` or `--noise_prob`: The probability for the salt and pepper noise being applied to the inputs. Defaults to 0.1 (i.e., an expected amount of 10% of the pixels)
+- `--bottleneck_dropout`: If this flag is set, dropout is also used in the bottleneck layer.
+- `--noise_only_train`: If this flag is set, salt and pepper noise is only applied during training, but not during validation or test.
 
 Moreover, one can pass the following optional arguments:
 - `-s` or `--seed`: Seeds the random number generator with the given seed in order to make the results deterministic.
@@ -699,6 +702,16 @@ Moreover, one can pass the following optional arguments:
 - `--walltime`: Specifies the walltime in seconds before the job will be killed (relevant for grid execution). The script will try to stop its training before running over the walltime and store the current network weights in `data/Shapes/ml/snapshots/` as an hdf5 file.
 - `--stopped_epoch`: Gives the epoch in which the last training was stopped. Load the model from `data/Shapes/ml/snapshots` and continue training with the next epoch (instead of starting from zero again).
 - `--early_stopped`: If this flag is set, training was ended with early stopping. Load the model from `data/Shapes/ml/snapshots`, but do not continue training. Rather, switch to evaluation mode instead.
+- `--optimizer`: Define the optimizer to use (`SGD` or `adam`, defaults to `adam`).
+- `--learning_rate`: Initial learning rate for the optimizer, defaults to 0.0001.
+- `--momentum`: Weight of the momentum term for the optimizer, defaults to 0.9.
+- `--epochs`: Maximal number of epochs, defaults to 100.
+- `--patience`: Patience for early stopping (i.e., number of epochs wating for improvement before terminating training), defaults to 10.
+- `--padding`: Padding type for convolutions and max pooling when size reduction takes place. `valid` or `same`, defaults to `valid`.
+- `--large_batch`: If this flag is set, training uses a batch size of 256 instead of 128.
+- `--initial_stride`: Stride of the initial convolution, defaults to 2.
+- `--image_size`: Size of the quadratic input image in pixels per dimension, defaults to 128.
+
 
 Each execution of `run_ann.py` appends one line to the given `output.csv` file, representing the results for the given test fold. The first column of `output.csv` encodes the overall setup used with a single signature string and the second column gives the number of the test fold. The remaining columns contain the following information: 
 - `kendall_DISTANCE_WEIGHTS`: In these columns, the kendall correlation between the bottleneck layer's activations and the dissimilarity ratings are reported. Here, `DISTANCE` gives the distance measure (Euclidean, Manhattan, or InnerProduct) and `WEIGHTS` indicates whether uniform or optimized weights were used.
@@ -727,6 +740,7 @@ The script accepts the following optional parameters:
 - `-m` or `--mapping_used`: This flag must be set if the model was trained with a mapping weight greater than zero (otherwise the bottleneck activation cannot be correctly extracted).
 - `-s` or `--seed`: Seeds the random number generator with the given seed in order to make the results deterministic.
 - `-n` or `--noisy_input`: If this flag is set, the salt and pepper noise of the network is forced to be active. If this flag is not set, the salt and pepper noise of the network is forced to be inactive.
+- `-i` or `--image_size`: Size of the input image in pixels, defaults to 128.
 
 #### 3.3.3 Average Results over Folds
 
