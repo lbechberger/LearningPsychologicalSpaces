@@ -1,34 +1,31 @@
-#!/bin/bash
+echo 'experiment 2 - classification baseline'
 
-echo 'experiment 1 - inception baseline'
+# setting up overall variables
+default_folds=("0 1 2 3 4")
+default_weight_decays=("0.0 0.0002 0.001 0.002")
+default_noises=("0.25 0.55")
+default_bottlenecks=("2048 256 128 64 32 16")
 
-# declare some lists to make code below less repetitive 
-default_baselines=("--zero")
-default_regressors=("--linear")
-default_lassos=("0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1.0 2.0 5.0 10.0")
-default_noises=("0.1 0.25 0.55")
-default_best_noise=0.1
-default_dims=("1 2 3 5 6 7 8 9 10")
-
-baselines="${baselines_ex1:-$default_baselines}"
-regressors="${regressors_ex1:-$default_regressors}"
-lassos="${lassos:-$default_lassos}"
+folds="${folds:-$default_folds}"
+weight_decays="${weight_decays:-$default_weight_decays}"
 noises="${noises:-$default_noises}"
-best_noise="${best_noise:-$default_best_noise}"
-dims="${dims:-$default_dims}"
+bottlenecks="${bottlenecks:-$default_bottlenecks}"
 
 # no parameter means local execution
 if [ "$#" -ne 1 ]
 then
 	echo '[local execution]'
 	cmd='python -m'
-	script=code.ml.regression.regression
+	script=code.ml.ann.run_ann
+	walltime=''
 # parameter 'grid' means execution on grid
 elif [ $1 = grid ]
 then
 	echo '[grid execution]'
 	cmd=qsub
-	script=code/ml/regression/regression.sge
+	script=code/ml/ann/run_ann.sge
+	walltime='--walltime 5400'
+	qsub ../Utilities/watch_jobs.sge $script ann ../sge-logs/
 # all other parameters are not supported
 else
 	echo '[ERROR: argument not supported, exiting now!]'
@@ -37,56 +34,53 @@ fi
 
 # set up the directory structure
 echo '    setting up directory structure'
-for noise in $default_noises
+mkdir -p 'data/Shapes/ml/experiment_2/logs/' 'data/Shapes/ml/experiment_2/snapshots' 'data/Shapes/ml/experiment_2/aggregated'
+
+# vanilla setup
+for fold in $folds
 do
-	mkdir -p 'data/Shapes/ml/experiment_1/noise_'"$noise"'/'
+
+	$cmd $script data/Shapes/ml/dataset/Shapes.pickle data/Shapes/ml/dataset/Additional.pickle data/Shapes/ml/dataset/Berlin.pickle data/Shapes/ml/dataset/Sketchy.pickle data/Shapes/ml/dataset/targets.pickle mean_4 data/Shapes/images/ data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle data/Shapes/ml/experiment_2/default.csv -c 1.0 -r 0.0 -m 0.0 -e -f $fold -s 42 $walltime --initial_stride 3 --image_size 224 --noise_only_train --patience 200 --epochs 200 
 done
 
-# first analyze the mean and median 4d spaces
-echo '    mean_4 and median_4 (noise and regression)'
-for noise in $default_noises
+# weight decay
+for weight_decay in $weight_decays
 do
-	for baseline in $baselines
+	for fold in $folds
 	do
-		echo "        $baseline"	
-		$cmd $script data/Shapes/ml/dataset4/targets.pickle mean_4 'data/Shapes/ml/dataset4/pickle/features_'"$noise"'.pickle' data/Shapes/ml/dataset4/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$noise"'/mean_4.csv' -s 42 -e data/Shapes/ml/dataset4/pickle/features_0.0.pickle $baseline
-		$cmd $script data/Shapes/ml/dataset4/targets.pickle median_4 'data/Shapes/ml/dataset4/pickle/features_'"$noise"'.pickle' data/Shapes/ml/dataset4/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$noise"'/median_4.csv' -s 42 -e data/Shapes/ml/dataset4/pickle/features_0.0.pickle $baseline
+		$cmd $script data/Shapes/ml/dataset/Shapes.pickle data/Shapes/ml/dataset/Additional.pickle data/Shapes/ml/dataset/Berlin.pickle data/Shapes/ml/dataset/Sketchy.pickle data/Shapes/ml/dataset/targets.pickle mean_4 data/Shapes/images/ data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle data/Shapes/ml/experiment_2/decay.csv -c 1.0 -r 0.0 -m 0.0 -e -f $fold -s 42 $walltime --initial_stride 3 --image_size 224 --noise_only_train --patience 200 --epochs 200 -w $weight_decay
 	done
-	
-	for regressor in $regressors
-	do
-		echo "        $regressor"
-		$cmd $script data/Shapes/ml/dataset4/targets.pickle mean_4 'data/Shapes/ml/dataset4/pickle/features_'"$noise"'.pickle' data/Shapes/ml/dataset4/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$noise"'/mean_4.csv' -s 42 -e data/Shapes/ml/dataset4/pickle/features_0.0.pickle --shuffled $regressor
-		$cmd $script data/Shapes/ml/dataset4/targets.pickle median_4 'data/Shapes/ml/dataset4/pickle/features_'"$noise"'.pickle' data/Shapes/ml/dataset4/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$noise"'/median_4.csv' -s 42 -e data/Shapes/ml/dataset4/pickle/features_0.0.pickle --shuffled $regressor
-	done
-
 done
 
-# now run the regression for the other target spaces using the selected noise level (only correct targets)
-for dim in $dims
+# no dropout
+for fold in $folds
 do
-	for baseline in $baselines
-	do
-		echo "        $baseline"	
-		$cmd $script data/Shapes/ml/dataset4/targets.pickle 'mean_'"$dim" 'data/Shapes/ml/dataset4/pickle/features_'"$best_noise"'.pickle' data/Shapes/ml/dataset4/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$best_noise"'/mean_'"$dim"'.csv' -s 42 -e data/Shapes/ml/dataset4/pickle/features_0.0.pickle $baseline
-		$cmd $script data/Shapes/ml/dataset4/targets.pickle 'median_'"$dim" 'data/Shapes/ml/dataset4/pickle/features_'"$best_noise"'.pickle' data/Shapes/ml/dataset4/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$best_noise"'/median_'"$dim"'.csv' -s 42 -e data/Shapes/ml/dataset4/pickle/features_0.0.pickle $baseline
-	done
-	
-	for regressor in $regressors
-	do
-		echo "        $regressor"
-		$cmd $script data/Shapes/ml/dataset4/targets.pickle 'mean_'"$dim" 'data/Shapes/ml/dataset4/pickle/features_'"$best_noise"'.pickle' data/Shapes/ml/dataset4/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$best_noise"'/mean_'"$dim"'.csv' -s 42 -e data/Shapes/ml/dataset4/pickle/features_0.0.pickle $regressor
-		$cmd $script data/Shapes/ml/dataset4/targets.pickle 'median_'"$dim" 'data/Shapes/ml/dataset4/pickle/features_'"$best_noise"'.pickle' data/Shapes/ml/dataset4/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$best_noise"'/median_'"$dim"'.csv' -s 42 -e data/Shapes/ml/dataset4/pickle/features_0.0.pickle $regressor
-	done
+	$cmd $script data/Shapes/ml/dataset/Shapes.pickle data/Shapes/ml/dataset/Additional.pickle data/Shapes/ml/dataset/Berlin.pickle data/Shapes/ml/dataset/Sketchy.pickle data/Shapes/ml/dataset/targets.pickle mean_4 data/Shapes/images/ data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle data/Shapes/ml/experiment_2/dropout.csv -c 1.0 -r 0.0 -m 0.0 -f $fold -s 42 $walltime --initial_stride 3 --image_size 224 --noise_only_train --patience 200 --epochs 200
+done
 
+# noise
+for noise in $noises
+do
+	for fold in $folds
+	do
+		$cmd $script data/Shapes/ml/dataset/Shapes.pickle data/Shapes/ml/dataset/Additional.pickle data/Shapes/ml/dataset/Berlin.pickle data/Shapes/ml/dataset/Sketchy.pickle data/Shapes/ml/dataset/targets.pickle mean_4 data/Shapes/images/ data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle data/Shapes/ml/experiment_2/noise.csv -c 1.0 -r 0.0 -m 0.0 -e -f $fold -s 42 $walltime --initial_stride 3 --image_size 224 --noise_only_train --patience 200 --epochs 200 -n $noise
+	done
 done
 
 
-# finally do a grid search on the lasso regressor for the selected noise level (only correct targets)
-echo '    lasso regressor on mean_4 and median_4'
-for lasso in $lassos
+# bottleneck size
+for bottleneck in $bottlenecks
 do
-	echo "        lasso $lasso"
-	$cmd $script data/Shapes/ml/dataset4/targets.pickle mean_4 'data/Shapes/ml/dataset4/pickle/features_'"$best_noise"'.pickle' data/Shapes/ml/dataset4/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$best_noise"'/mean_4.csv' -s 42 -e data/Shapes/ml/dataset4/pickle/features_0.0.pickle --lasso $lasso
-	$cmd $script data/Shapes/ml/dataset4/targets.pickle median_4 'data/Shapes/ml/dataset4/pickle/features_'"$best_noise"'.pickle' data/Shapes/ml/dataset4/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$best_noise"'/median_4.csv' -s 42 -e data/Shapes/ml/dataset4/pickle/features_0.0.pickle --lasso $lasso
+	for fold in $folds
+	do
+		$cmd $script data/Shapes/ml/dataset/Shapes.pickle data/Shapes/ml/dataset/Additional.pickle data/Shapes/ml/dataset/Berlin.pickle data/Shapes/ml/dataset/Sketchy.pickle data/Shapes/ml/dataset/targets.pickle mean_4 data/Shapes/images/ data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle data/Shapes/ml/experiment_2/bottleneck.csv -c 1.0 -r 0.0 -m 0.0 -e -f $fold -s 42 $walltime --initial_stride 3 --image_size 224 --noise_only_train --patience 200 --epochs 200 -b $bottleneck
+	done
 done
+
+# aggregate results for increased convenience
+python -m code.ml.ann.average_folds data/Shapes/ml/experiment_2/default.csv data/Shapes/ml/experiment_2/aggregated/default.csv
+python -m code.ml.ann.average_folds data/Shapes/ml/experiment_2/decay.csv data/Shapes/ml/experiment_2/aggregated/decay.csv
+python -m code.ml.ann.average_folds data/Shapes/ml/experiment_2/dropout.csv data/Shapes/ml/experiment_2/aggregated/dropout.csv
+python -m code.ml.ann.average_folds data/Shapes/ml/experiment_2/noise.csv data/Shapes/ml/experiment_2/aggregated/noise.csv
+python -m code.ml.ann.average_folds data/Shapes/ml/experiment_2/bottleneck.csv data/Shapes/ml/experiment_2/aggregated/bottleneck.csv
+
