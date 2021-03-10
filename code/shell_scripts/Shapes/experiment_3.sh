@@ -114,8 +114,7 @@ do
 		done
 	done
 done
-python -m code.ml.regression.cluster_analysis 'data/Shapes/ml/dataset/pickle/features_0.1.pickle' -n 100 -s 42 > 'data/Shapes/ml/experiment_3/features/inception_0.1.txt'
-python -m code.ml.regression.cluster_analysis 'data/Shapes/ml/dataset/pickle/features_0.0.pickle' -n 100 -s 42 > 'data/Shapes/ml/experiment_3/features/inception_0.0.txt'
+
 
 
 # average the results across all folds for increased convenience
