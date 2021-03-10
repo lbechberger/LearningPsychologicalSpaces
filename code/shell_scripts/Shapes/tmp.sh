@@ -32,55 +32,24 @@ else
 	exit 1
 fi
 
-# set up the directory structure
-echo '    setting up directory structure'
-mkdir -p 'data/Shapes/ml/experiment_2/logs/' 'data/Shapes/ml/experiment_2/snapshots' 'data/Shapes/ml/experiment_2/aggregated'
+# grid search on most promising candidates
+echo '-b 512 -w 0.0005 -n 0.25' > data/Shapes/ml/experiment_2/grid_search.config
+echo '-b 512 -w 0.0002 -e -n 0.25' > data/Shapes/ml/experiment_2/grid_search.config
+echo '-b 512 -w 0.0002 -n 0.1' > data/Shapes/ml/experiment_2/grid_search.config
+echo '-b 512 -w 0.0002 -n 0.25' > data/Shapes/ml/experiment_2/grid_search.config
+echo '-b 128 -w 0.0005 -e -n 0.25' > data/Shapes/ml/experiment_2/grid_search.config
+echo '-b 128 -w 0.0005 -n 0.1' > data/Shapes/ml/experiment_2/grid_search.config
+echo '-b 128 -w 0.0005 -n 0.25' > data/Shapes/ml/experiment_2/grid_search.config
+echo '-b 128 -w 0.0002 -e -n 0.1' > data/Shapes/ml/experiment_2/grid_search.config
+echo '-b 128 -w 0.0002 -e -n 0.25' > data/Shapes/ml/experiment_2/grid_search.config
+echo '-b 128 -w 0.0002 -n 0.1' > data/Shapes/ml/experiment_2/grid_search.config
+echo '-b 128 -w 0.0002 -n 0.25' > data/Shapes/ml/experiment_2/grid_search.config
 
-# vanilla setup
-for fold in $folds
-do
-
-	$cmd $script data/Shapes/ml/dataset/Shapes.pickle data/Shapes/ml/dataset/Additional.pickle data/Shapes/ml/dataset/Berlin.pickle data/Shapes/ml/dataset/Sketchy.pickle data/Shapes/ml/dataset/targets.pickle mean_4 data/Shapes/images/ data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle data/Shapes/ml/experiment_2/default.csv -c 1.0 -r 0.0 -m 0.0 -e -f $fold -s 42 $walltime --initial_stride 3 --image_size 224 --noise_only_train --patience 200 --epochs 200 
-done
-
-# weight decay
-for weight_decay in $weight_decays
-do
-	for fold in $folds
-	do
-		$cmd $script data/Shapes/ml/dataset/Shapes.pickle data/Shapes/ml/dataset/Additional.pickle data/Shapes/ml/dataset/Berlin.pickle data/Shapes/ml/dataset/Sketchy.pickle data/Shapes/ml/dataset/targets.pickle mean_4 data/Shapes/images/ data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle data/Shapes/ml/experiment_2/decay.csv -c 1.0 -r 0.0 -m 0.0 -e -f $fold -s 42 $walltime --initial_stride 3 --image_size 224 --noise_only_train --patience 200 --epochs 200 -w $weight_decay
-	done
-done
-
-# no dropout
-for fold in $folds
-do
-	$cmd $script data/Shapes/ml/dataset/Shapes.pickle data/Shapes/ml/dataset/Additional.pickle data/Shapes/ml/dataset/Berlin.pickle data/Shapes/ml/dataset/Sketchy.pickle data/Shapes/ml/dataset/targets.pickle mean_4 data/Shapes/images/ data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle data/Shapes/ml/experiment_2/dropout.csv -c 1.0 -r 0.0 -m 0.0 -f $fold -s 42 $walltime --initial_stride 3 --image_size 224 --noise_only_train --patience 200 --epochs 200
-done
-
-# noise
-for noise in $noises
+while IFS= read -r params
 do
 	for fold in $folds
 	do
-		$cmd $script data/Shapes/ml/dataset/Shapes.pickle data/Shapes/ml/dataset/Additional.pickle data/Shapes/ml/dataset/Berlin.pickle data/Shapes/ml/dataset/Sketchy.pickle data/Shapes/ml/dataset/targets.pickle mean_4 data/Shapes/images/ data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle data/Shapes/ml/experiment_2/noise.csv -c 1.0 -r 0.0 -m 0.0 -e -f $fold -s 42 $walltime --initial_stride 3 --image_size 224 --noise_only_train --patience 200 --epochs 200 -n $noise
+		$cmd $script data/Shapes/ml/dataset/Shapes.pickle data/Shapes/ml/dataset/Additional.pickle data/Shapes/ml/dataset/Berlin.pickle data/Shapes/ml/dataset/Sketchy.pickle data/Shapes/ml/dataset/targets.pickle mean_4 data/Shapes/images/ data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle data/Shapes/ml/experiment_2/grid_search.csv -c 1.0 -r 0.0 -m 0.0 -f $fold -s 42 --initial_stride 3 --image_size 224 --noise_only_train --patience 200 --epochs 200 $walltime $params
 	done
-done
-
-
-# bottleneck size
-for bottleneck in $bottlenecks
-do
-	for fold in $folds
-	do
-		$cmd $script data/Shapes/ml/dataset/Shapes.pickle data/Shapes/ml/dataset/Additional.pickle data/Shapes/ml/dataset/Berlin.pickle data/Shapes/ml/dataset/Sketchy.pickle data/Shapes/ml/dataset/targets.pickle mean_4 data/Shapes/images/ data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle data/Shapes/ml/experiment_2/bottleneck.csv -c 1.0 -r 0.0 -m 0.0 -e -f $fold -s 42 $walltime --initial_stride 3 --image_size 224 --noise_only_train --patience 200 --epochs 200 -b $bottleneck
-	done
-done
-
-# aggregate results for increased convenience
-python -m code.ml.ann.average_folds data/Shapes/ml/experiment_2/default.csv data/Shapes/ml/experiment_2/aggregated/default.csv
-python -m code.ml.ann.average_folds data/Shapes/ml/experiment_2/decay.csv data/Shapes/ml/experiment_2/aggregated/decay.csv
-python -m code.ml.ann.average_folds data/Shapes/ml/experiment_2/dropout.csv data/Shapes/ml/experiment_2/aggregated/dropout.csv
-python -m code.ml.ann.average_folds data/Shapes/ml/experiment_2/noise.csv data/Shapes/ml/experiment_2/aggregated/noise.csv
-python -m code.ml.ann.average_folds data/Shapes/ml/experiment_2/bottleneck.csv data/Shapes/ml/experiment_2/aggregated/bottleneck.csv
+done < 'data/Shapes/ml/experiment_2/grid_search.config'
 
