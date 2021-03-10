@@ -77,6 +77,9 @@ do
 		$cmd $script data/Shapes/ml/dataset/targets.pickle mean_4 'data/Shapes/ml/dataset/pickle/features_'"$noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$noise"'/mean_4_same_noise.csv' -s 42 $regressor
 		$cmd $script data/Shapes/ml/dataset/targets.pickle median_4 'data/Shapes/ml/dataset/pickle/features_'"$noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$noise"'/median_4_same_noise.csv' -s 42 $regressor
 	done
+
+	python -m code.ml.regression.cluster_analysis 'data/Shapes/ml/dataset/pickle/features_'$noise'.pickle' -n 100 -s 42 > 'data/Shapes/ml/experiment_1/noise_'"$noise"'/cluster_analysis.txt'
+
 done
 
 
