@@ -74,8 +74,8 @@ do
 	for regressor in $regressors
 	do
 		echo "        $regressor"
-		$cmd $script data/Shapes/ml/dataset/targets.pickle mean_4 'data/Shapes/ml/dataset/pickle/features_'"$noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$noise"'/mean_4_same_noise.csv' -s 42 --shuffled $regressor
-		$cmd $script data/Shapes/ml/dataset/targets.pickle median_4 'data/Shapes/ml/dataset/pickle/features_'"$noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$noise"'/median_4_same_noise.csv' -s 42 --shuffled $regressor
+		$cmd $script data/Shapes/ml/dataset/targets.pickle mean_4 'data/Shapes/ml/dataset/pickle/features_'"$noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$noise"'/mean_4_same_noise.csv' -s 42 $regressor
+		$cmd $script data/Shapes/ml/dataset/targets.pickle median_4 'data/Shapes/ml/dataset/pickle/features_'"$noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$noise"'/median_4_same_noise.csv' -s 42 $regressor
 	done
 done
 
