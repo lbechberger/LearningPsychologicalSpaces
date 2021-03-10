@@ -89,16 +89,16 @@ python -m code.ml.ann.average_folds data/Shapes/ml/experiment_2/bottleneck.csv d
 
 # grid search on most promising candidates
 echo '-b 512 -w 0.0005 -n 0.25' > data/Shapes/ml/experiment_2/grid_search.config
-echo '-b 512 -w 0.0002 -e -n 0.25' > data/Shapes/ml/experiment_2/grid_search.config
-echo '-b 512 -w 0.0002 -n 0.1' > data/Shapes/ml/experiment_2/grid_search.config
-echo '-b 512 -w 0.0002 -n 0.25' > data/Shapes/ml/experiment_2/grid_search.config
-echo '-b 128 -w 0.0005 -e -n 0.25' > data/Shapes/ml/experiment_2/grid_search.config
-echo '-b 128 -w 0.0005 -n 0.1' > data/Shapes/ml/experiment_2/grid_search.config
-echo '-b 128 -w 0.0005 -n 0.25' > data/Shapes/ml/experiment_2/grid_search.config
-echo '-b 128 -w 0.0002 -e -n 0.1' > data/Shapes/ml/experiment_2/grid_search.config
-echo '-b 128 -w 0.0002 -e -n 0.25' > data/Shapes/ml/experiment_2/grid_search.config
-echo '-b 128 -w 0.0002 -n 0.1' > data/Shapes/ml/experiment_2/grid_search.config
-echo '-b 128 -w 0.0002 -n 0.25' > data/Shapes/ml/experiment_2/grid_search.config
+echo '-b 512 -w 0.0002 -e -n 0.25' >> data/Shapes/ml/experiment_2/grid_search.config
+echo '-b 512 -w 0.0002 -n 0.1' >> data/Shapes/ml/experiment_2/grid_search.config
+echo '-b 512 -w 0.0002 -n 0.25' >> data/Shapes/ml/experiment_2/grid_search.config
+echo '-b 128 -w 0.0005 -e -n 0.25' >> data/Shapes/ml/experiment_2/grid_search.config
+echo '-b 128 -w 0.0005 -n 0.1' >> data/Shapes/ml/experiment_2/grid_search.config
+echo '-b 128 -w 0.0005 -n 0.25' >> data/Shapes/ml/experiment_2/grid_search.config
+echo '-b 128 -w 0.0002 -e -n 0.1' >> data/Shapes/ml/experiment_2/grid_search.config
+echo '-b 128 -w 0.0002 -e -n 0.25' >> data/Shapes/ml/experiment_2/grid_search.config
+echo '-b 128 -w 0.0002 -n 0.1' >> data/Shapes/ml/experiment_2/grid_search.config
+echo '-b 128 -w 0.0002 -n 0.25' >> data/Shapes/ml/experiment_2/grid_search.config
 
 while IFS= read -r params
 do
