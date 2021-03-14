@@ -33,10 +33,10 @@ else
 fi
 
 # grid search on most promising candidates
-echo '-b 512 -w 0.0005 -n 0.25' > data/Shapes/ml/experiment_2/grid_search.config
-echo '-b 512 -w 0.001 -e -n 0.25' >> data/Shapes/ml/experiment_2/grid_search.config
-#echo '-b 512 -w 0.001 -n 0.1' >> data/Shapes/ml/experiment_2/grid_search.config
-#echo '-b 512 -w 0.001 -n 0.25' >> data/Shapes/ml/experiment_2/grid_search.config
+#echo '-b 512 -w 0.0005 -n 0.25' > data/Shapes/ml/experiment_2/grid_search.config
+#echo '-b 512 -w 0.001 -e -n 0.25' >> data/Shapes/ml/experiment_2/grid_search.config
+echo '-b 512 -w 0.001 -n 0.1' > data/Shapes/ml/experiment_2/grid_search.config
+echo '-b 512 -w 0.001 -n 0.25' >> data/Shapes/ml/experiment_2/grid_search.config
 #echo '-b 256 -w 0.0005 -e -n 0.25' >> data/Shapes/ml/experiment_2/grid_search.config
 #echo '-b 256 -w 0.0005 -n 0.1' >> data/Shapes/ml/experiment_2/grid_search.config
 #echo '-b 256 -w 0.0005 -n 0.25' >> data/Shapes/ml/experiment_2/grid_search.config
