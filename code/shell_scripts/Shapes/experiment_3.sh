@@ -94,6 +94,23 @@ do
 	done
 done
 
+# compare performance to same train and test noise (either none or best noise setting) for default
+echo '    performance comparison: same train and test noise'
+
+for noise in $noises
+do
+	for fold in $folds
+	do
+		for regressor in $regressors
+		do
+			$cmd $regression_script data/Shapes/ml/dataset/targets.pickle mean_4 'data/Shapes/ml/experiment_3/features/default_f'"$fold"'_'"$noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_3/default_f'"$fold"'_'"$noise"'.csv' -s 42 $regressor
+
+		done
+
+	done
+done
+
+
 # do a cluster analysis
 for feature in $features
 do
@@ -112,4 +129,9 @@ done
 for feature in $features
 do
 	python -m code.ml.regression.average_folds 'data/Shapes/ml/experiment_3/'"$feature"'_f{0}.csv' 5 'data/Shapes/ml/experiment_3/aggregated/'"$feature"'.csv'
+done
+
+for noise in $noises
+do
+	python -m code.ml.regression.average_folds 'data/Shapes/ml/experiment_3/default_f{0}_'"$noise"'.csv' 5 'data/Shapes/ml/experiment_3/aggregated/default_'"$noise"'.csv'
 done
