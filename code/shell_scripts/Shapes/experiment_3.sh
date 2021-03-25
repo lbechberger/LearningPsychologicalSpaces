@@ -6,7 +6,7 @@ echo 'experiment 3 - regression on top of sketch classification'
 default_folds=("0 1 2 3 4")
 default_regressors=("--linear")
 default_lassos=("0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1.0 2.0 5.0 10.0")
-default_features=("default large")
+default_features=("default large small correlation")
 default_noises=("noisy clean")
 
 folds="${folds:-$default_folds}"
@@ -49,7 +49,7 @@ do
 		noise_flag=""
 	fi
 
-	# define snapshots of default classifier
+	# define snapshots of default classifier (has best accuracy)
 	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f0_ep196_FINAL.h5 data/Shapes/ml/experiment_3/features/default_f0_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
 	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f1_ep188_FINAL.h5 data/Shapes/ml/experiment_3/features/default_f1_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
 	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f2_ep179_FINAL.h5 data/Shapes/ml/experiment_3/features/default_f2_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
@@ -65,7 +65,21 @@ do
 	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b2048_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f4_ep183_FINAL.h5 data/Shapes/ml/experiment_3/features/large_f4_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
 
 
-	# TODO other classifiers (accuracy? correlation small? --> also update default_features variable!)
+	# define snapshots of classifier with small bottleneck (256 units)
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b256_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f0_ep166_FINAL.h5 data/Shapes/ml/experiment_3/features/small_f0_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b256_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f1_ep167_FINAL.h5 data/Shapes/ml/experiment_3/features/small_f1_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b256_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f2_ep182_FINAL.h5 data/Shapes/ml/experiment_3/features/small_f2_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b256_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f3_ep192_FINAL.h5 data/Shapes/ml/experiment_3/features/small_f3_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b256_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f4_ep180_FINAL.h5 data/Shapes/ml/experiment_3/features/small_f4_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+
+
+	# define snapshots of classifier with highest correlation
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eFalse_dFalse_n0.1_mean_4_f0_ep4_FINAL.h5 data/Shapes/ml/experiment_3/features/correlation_f0_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eFalse_dFalse_n0.1_mean_4_f1_ep5_FINAL.h5 data/Shapes/ml/experiment_3/features/correlation_f1_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eFalse_dFalse_n0.1_mean_4_f2_ep6_FINAL.h5 data/Shapes/ml/experiment_3/features/correlation_f2_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eFalse_dFalse_n0.1_mean_4_f3_ep4_FINAL.h5 data/Shapes/ml/experiment_3/features/correlation_f3_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eFalse_dFalse_n0.1_mean_4_f4_ep4_FINAL.h5 data/Shapes/ml/experiment_3/features/correlation_f4_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+
 
 done
 

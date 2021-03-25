@@ -1,55 +1,91 @@
-echo 'experiment 2 - classification baseline'
+#!/bin/bash
+
+echo 'experiment 3 - regression on top of sketch classification'
 
 # setting up overall variables
 default_folds=("0 1 2 3 4")
-default_weight_decays=("0.0 0.0002 0.001 0.002")
-default_noises=("0.25 0.55")
-default_bottlenecks=("2048 256 128 64 32 16")
+default_regressors=("--linear")
+default_lassos=("0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1.0 2.0 5.0 10.0")
+default_features=("default large small correlation")
+default_noises=("noisy clean")
 
 folds="${folds:-$default_folds}"
-weight_decays="${weight_decays:-$default_weight_decays}"
+regressors="${regressors_ex1:-$default_regressors}"
+lassos="${lassos:-$default_lassos}"
+features="${features:-$default_features}"
 noises="${noises:-$default_noises}"
-bottlenecks="${bottlenecks:-$default_bottlenecks}"
 
 # no parameter means local execution
 if [ "$#" -ne 1 ]
 then
 	echo '[local execution]'
 	cmd='python -m'
-	script=code.ml.ann.run_ann
-	walltime=''
+	bottleneck_script=code.ml.ann.get_bottleneck_activations
+	regression_script=code.ml.regression.regression
 # parameter 'grid' means execution on grid
 elif [ $1 = grid ]
 then
 	echo '[grid execution]'
 	cmd=qsub
-	script=code/ml/ann/run_ann.sge
-	walltime='--walltime 5400'
-	qsub ../Utilities/watch_jobs.sge $script ann ../sge-logs/
+	bottleneck_script=code/ml/ann/get_bottleneck_activations.sge
+	regression_script=code/ml/regression/regression.sge
 # all other parameters are not supported
 else
 	echo '[ERROR: argument not supported, exiting now!]'
 	exit 1
 fi
 
-# grid search on most promising candidates
-#echo '-b 512 -w 0.0005 -n 0.25' > data/Shapes/ml/experiment_2/grid_search.config
-#echo '-b 512 -w 0.001 -e -n 0.25' >> data/Shapes/ml/experiment_2/grid_search.config
-#echo '-b 512 -w 0.001 -n 0.1' > data/Shapes/ml/experiment_2/grid_search.config
-#echo '-b 512 -w 0.001 -n 0.25' >> data/Shapes/ml/experiment_2/grid_search.config
-#echo '-b 256 -w 0.0005 -e -n 0.25' > data/Shapes/ml/experiment_2/grid_search.config
-#echo '-b 256 -w 0.0005 -n 0.1' >> data/Shapes/ml/experiment_2/grid_search.config
-echo '-b 256 -w 0.0005 -n 0.25' > data/Shapes/ml/experiment_2/grid_search.config
-echo '-b 256 -w 0.001 -e -n 0.1' >> data/Shapes/ml/experiment_2/grid_search.config
-echo '-b 256 -w 0.001 -e -n 0.25' >> data/Shapes/ml/experiment_2/grid_search.config
-echo '-b 256 -w 0.001 -n 0.1' >> data/Shapes/ml/experiment_2/grid_search.config
-echo '-b 256 -w 0.001 -n 0.25' >> data/Shapes/ml/experiment_2/grid_search.config
+# set up the directory structure
+echo '    setting up directory structure'
+mkdir -p 'data/Shapes/ml/experiment_3/features' 'data/Shapes/ml/experiment_3/aggregated'
 
-while IFS= read -r params
+# extract features for both noised and unnoised input
+for noise in $noises
 do
-	for fold in $folds
-	do
-		$cmd $script data/Shapes/ml/dataset/Shapes.pickle data/Shapes/ml/dataset/Additional.pickle data/Shapes/ml/dataset/Berlin.pickle data/Shapes/ml/dataset/Sketchy.pickle data/Shapes/ml/dataset/targets.pickle mean_4 data/Shapes/images/ data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle data/Shapes/ml/experiment_2/grid_search.csv -c 1.0 -r 0.0 -m 0.0 -f $fold -s 42 --initial_stride 3 --image_size 224 --noise_only_train --patience 200 --epochs 200 $walltime $params
-	done
-done < 'data/Shapes/ml/experiment_2/grid_search.config'
+	if [ $noise = noisy ]
+	then
+		noise_flag="-n"
+	else
+		noise_flag=""
+	fi
+
+	# define snapshots of default classifier (has best accuracy)
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f0_ep196_FINAL.h5 data/Shapes/ml/experiment_3/features/default_f0_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f1_ep188_FINAL.h5 data/Shapes/ml/experiment_3/features/default_f1_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f2_ep179_FINAL.h5 data/Shapes/ml/experiment_3/features/default_f2_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f3_ep198_FINAL.h5 data/Shapes/ml/experiment_3/features/default_f3_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f4_ep177_FINAL.h5 data/Shapes/ml/experiment_3/features/default_f4_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+
+
+	# define snapshots of classifier with large bottleneck (2048 units)
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b2048_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f0_ep194_FINAL.h5 data/Shapes/ml/experiment_3/features/large_f0_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b2048_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f1_ep142_FINAL.h5 data/Shapes/ml/experiment_3/features/large_f1_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b2048_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f2_ep182_FINAL.h5 data/Shapes/ml/experiment_3/features/large_f2_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b2048_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f3_ep144_FINAL.h5 data/Shapes/ml/experiment_3/features/large_f3_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b2048_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f4_ep183_FINAL.h5 data/Shapes/ml/experiment_3/features/large_f4_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+
+
+	# define snapshots of classifier with small bottleneck (256 units)
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b256_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f0_ep166_FINAL.h5 data/Shapes/ml/experiment_3/features/small_f0_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b256_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f1_ep167_FINAL.h5 data/Shapes/ml/experiment_3/features/small_f1_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b256_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f2_ep182_FINAL.h5 data/Shapes/ml/experiment_3/features/small_f2_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b256_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f3_ep192_FINAL.h5 data/Shapes/ml/experiment_3/features/small_f3_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b256_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f4_ep180_FINAL.h5 data/Shapes/ml/experiment_3/features/small_f4_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+
+
+	# define snapshots of classifier with highest correlation
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eFalse_dFalse_n0.1_mean_4_f0_ep4_FINAL.h5 data/Shapes/ml/experiment_3/features/correlation_f0_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eFalse_dFalse_n0.1_mean_4_f1_ep5_FINAL.h5 data/Shapes/ml/experiment_3/features/correlation_f1_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eFalse_dFalse_n0.1_mean_4_f2_ep6_FINAL.h5 data/Shapes/ml/experiment_3/features/correlation_f2_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eFalse_dFalse_n0.1_mean_4_f3_ep4_FINAL.h5 data/Shapes/ml/experiment_3/features/correlation_f3_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eFalse_dFalse_n0.1_mean_4_f4_ep4_FINAL.h5 data/Shapes/ml/experiment_3/features/correlation_f4_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+
+
+done
+
+# extract all the features
+while IFS= read -r config
+do
+	$cmd $bottleneck_script data/Shapes/ml/dataset/Shapes.pickle $config -s 42 -i 224
+done < 'data/Shapes/ml/experiment_3/snapshots.config'
 
