@@ -37,9 +37,8 @@ mkdir -p 'data/Shapes/ml/experiment_4/logs/' 'data/Shapes/ml/experiment_4/snapsh
 
 # define ann configurations to run
 echo 'data/Shapes/ml/experiment_4/default.csv -e' > data/Shapes/ml/experiment_4/ann.config
-echo 'data/Shapes/ml/experiment_4/accuracy.csv -e -w 0.001' >> data/Shapes/ml/experiment_4/ann.config
-echo 'data/Shapes/ml/experiment_4/correlation.csv -e -w 0.001 -n 0.25' >> data/Shapes/ml/experiment_4/ann.config
-echo 'data/Shapes/ml/experiment_4/small.csv -e -w 0.001 -b 64' >> data/Shapes/ml/experiment_4/ann.config
+echo 'data/Shapes/ml/experiment_4/correlation.csv -w 0.001' >> data/Shapes/ml/experiment_4/ann.config
+echo 'data/Shapes/ml/experiment_4/small.csv -e -b 256' >> data/Shapes/ml/experiment_4/ann.config
 
 # run all the configurations
 while IFS= read -r config
