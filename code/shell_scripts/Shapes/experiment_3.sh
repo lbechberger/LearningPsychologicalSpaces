@@ -6,7 +6,7 @@ echo 'experiment 3 - regression on top of sketch classification'
 default_folds=("0 1 2 3 4")
 default_regressors=("--linear")
 default_lassos=("0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1.0 2.0 5.0 10.0")
-default_features=("default large small correlation")
+default_features=("default large small correlation no_noise")
 default_noises=("noisy clean")
 
 folds="${folds:-$default_folds}"
@@ -80,6 +80,13 @@ do
 	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eFalse_dFalse_n0.1_mean_4_f3_ep4_FINAL.h5 data/Shapes/ml/experiment_3/features/correlation_f3_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
 	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eFalse_dFalse_n0.1_mean_4_f4_ep4_FINAL.h5 data/Shapes/ml/experiment_3/features/correlation_f4_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
 
+	# define snapshots of classifier trained w/o noise
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.0_mean_4_f0_ep4_FINAL.h5 data/Shapes/ml/experiment_3/features/no_noise_f0_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.0_mean_4_f1_ep5_FINAL.h5 data/Shapes/ml/experiment_3/features/no_noise_f1_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.0_mean_4_f2_ep6_FINAL.h5 data/Shapes/ml/experiment_3/features/no_noise_f2_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.0_mean_4_f3_ep4_FINAL.h5 data/Shapes/ml/experiment_3/features/no_noise_f3_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.0_mean_4_f4_ep4_FINAL.h5 data/Shapes/ml/experiment_3/features/no_noise_f4_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+
 
 done
 
@@ -108,7 +115,7 @@ do
 	done
 done
 
-# compare performance to same train and test noise (either none or best noise setting) for default
+# compare performance to same train and test noise (either none or best noise setting) for default and no_noise
 echo '    performance comparison: same train and test noise'
 
 for noise in $noises
@@ -118,6 +125,8 @@ do
 		for regressor in $regressors
 		do
 			$cmd $regression_script data/Shapes/ml/dataset/targets.pickle mean_4 'data/Shapes/ml/experiment_3/features/default_f'"$fold"'_'"$noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_3/default_f'"$fold"'_'"$noise"'.csv' -s 42 $regressor
+
+			$cmd $regression_script data/Shapes/ml/dataset/targets.pickle mean_4 'data/Shapes/ml/experiment_3/features/no_noise_f'"$fold"'_'"$noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_3/no_noise_f'"$fold"'_'"$noise"'.csv' -s 42 $regressor
 
 		done
 
@@ -148,4 +157,5 @@ done
 for noise in $noises
 do
 	python -m code.ml.regression.average_folds 'data/Shapes/ml/experiment_3/default_f{0}_'"$noise"'.csv' 5 'data/Shapes/ml/experiment_3/aggregated/default_'"$noise"'.csv'
+	python -m code.ml.regression.average_folds 'data/Shapes/ml/experiment_3/no_noise_f{0}_'"$noise"'.csv' 5 'data/Shapes/ml/experiment_3/aggregated/no_noise_'"$noise"'.csv'
 done
