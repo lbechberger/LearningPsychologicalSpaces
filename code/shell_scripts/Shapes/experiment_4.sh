@@ -54,7 +54,6 @@ done < 'data/Shapes/ml/experiment_4/ann.config'
 
 # aggregate results for increased convenience
 python -m code.ml.ann.average_folds data/Shapes/ml/experiment_4/default.csv data/Shapes/ml/experiment_4/aggregated/default.csv
-python -m code.ml.ann.average_folds data/Shapes/ml/experiment_4/accuracy.csv data/Shapes/ml/experiment_4/aggregated/accuracy.csv
 python -m code.ml.ann.average_folds data/Shapes/ml/experiment_4/correlation.csv data/Shapes/ml/experiment_4/aggregated/correlation.csv
 python -m code.ml.ann.average_folds data/Shapes/ml/experiment_4/small.csv data/Shapes/ml/experiment_4/aggregated/small.csv
 

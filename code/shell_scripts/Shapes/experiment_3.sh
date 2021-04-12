@@ -81,11 +81,11 @@ do
 	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eFalse_dFalse_n0.1_mean_4_f4_ep4_FINAL.h5 data/Shapes/ml/experiment_3/features/correlation_f4_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
 
 	# define snapshots of classifier trained w/o noise
-	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.0_mean_4_f0_ep4_FINAL.h5 data/Shapes/ml/experiment_3/features/no_noise_f0_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
-	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.0_mean_4_f1_ep5_FINAL.h5 data/Shapes/ml/experiment_3/features/no_noise_f1_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
-	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.0_mean_4_f2_ep6_FINAL.h5 data/Shapes/ml/experiment_3/features/no_noise_f2_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
-	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.0_mean_4_f3_ep4_FINAL.h5 data/Shapes/ml/experiment_3/features/no_noise_f3_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
-	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.0_mean_4_f4_ep4_FINAL.h5 data/Shapes/ml/experiment_3/features/no_noise_f4_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.0_mean_4_f0_ep165_FINAL.h5 data/Shapes/ml/experiment_3/features/no_noise_f0_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.0_mean_4_f1_ep184_FINAL.h5 data/Shapes/ml/experiment_3/features/no_noise_f1_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.0_mean_4_f2_ep169_FINAL.h5 data/Shapes/ml/experiment_3/features/no_noise_f2_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.0_mean_4_f3_ep165_FINAL.h5 data/Shapes/ml/experiment_3/features/no_noise_f3_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.0_mean_4_f4_ep132_FINAL.h5 data/Shapes/ml/experiment_3/features/no_noise_f4_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
 
 
 done
