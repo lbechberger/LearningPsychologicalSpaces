@@ -42,6 +42,8 @@ model = tf.keras.models.load_model(args.network_file, custom_objects={'SaltAndPe
 for layer in model.layers:
     if hasattr(layer, 'only_train'):
         setattr(layer, 'only_train', not args.noisy_input)
+    if hasattr(layer, 'ratio') and getattr(layer, 'ratio') == 0.0 and args.noisy_input:
+        setattr(layer, 'ratio', 0.1)
 
 # restructure the data
 all_folds = np.concatenate([shapes_data[str(i)] for i in range(NUM_FOLDS)])
