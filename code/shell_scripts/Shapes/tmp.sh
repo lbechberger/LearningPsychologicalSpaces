@@ -73,52 +73,6 @@ done < 'data/Shapes/ml/experiment_3/snapshots.tmp'
 
 rm data/Shapes/ml/experiment_3/snapshots.tmp
 
-# run the regression
-for fold in $folds
-do
-	for regressor in $regressors
-	do
-		$cmd $regression_script data/Shapes/ml/dataset/targets.pickle mean_4 'data/Shapes/ml/experiment_3/features/no_noise_f'"$fold"'_noisy.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_3/no_noise_f'"$fold"'.csv' -s 42 -e 'data/Shapes/ml/experiment_3/features/no_noise_f'"$fold"'_clean.pickle' $regressor
-	done
 
-	for lasso in $lassos
-	do
-		$cmd $regression_script data/Shapes/ml/dataset/targets.pickle mean_4 'data/Shapes/ml/experiment_3/features/no_noise_f'"$fold"'_noisy.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_3/no_noise_f'"$fold"'.csv' -s 42 -e 'data/Shapes/ml/experiment_3/features/no_noise_f'"$fold"'_clean.pickle' --lasso $lasso
-	done
-
-done
-
-# compare performance to same train and test noise (either none or best noise setting) for default and no_noise
-echo '    performance comparison: same train and test noise'
-
-for noise in $noises
-do
-	for fold in $folds
-	do
-		for regressor in $regressors
-		do
-			$cmd $regression_script data/Shapes/ml/dataset/targets.pickle mean_4 'data/Shapes/ml/experiment_3/features/no_noise_f'"$fold"'_'"$noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_3/no_noise_f'"$fold"'_'"$noise"'.csv' -s 42 $regressor
-
-		done
-
-	done
-done
-
-
-# do a cluster analysis
-for fold in $folds
-do
-	for noise in $noises
-	do
-		python -m code.ml.regression.cluster_analysis 'data/Shapes/ml/experiment_3/features/no_noise_f'"$fold"'_'"$noise"'.pickle' -n 100 -s 42 > 'data/Shapes/ml/experiment_3/features/no_noise_f'"$fold"'_'"$noise"'.txt'
-	done
-done
-
-# aggregate the results
-python -m code.ml.regression.average_folds 'data/Shapes/ml/experiment_3/no_noise_f{0}.csv' 5 'data/Shapes/ml/experiment_3/aggregated/no_noise.csv'
-for noise in $noises
-do
-	python -m code.ml.regression.average_folds 'data/Shapes/ml/experiment_3/no_noise_f{0}_'"$noise"'.csv' 5 'data/Shapes/ml/experiment_3/aggregated/no_noise_'"$noise"'.csv'
-done
 
 
