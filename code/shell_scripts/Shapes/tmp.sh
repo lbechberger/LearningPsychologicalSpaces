@@ -72,15 +72,22 @@ do
 	done
 done
 
-
-# do a cluster analysis
-for fold in $folds
+# run lasso regression (inception)
+for dim in $dims
 do
-	for noise in $noises
+	$cmd $regression_script data/Shapes/ml/dataset/targets.pickle 'mean_'"$dim" 'data/Shapes/ml/dataset/pickle/features_0.1.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_5/inception/mean_'"$dim"'.csv' -s 42 -e data/Shapes/ml/dataset/pickle/features_0.0.pickle --lasso 0.005
+done
+
+# run lasso regression (transfer learning)
+for dim in $dims
+do
+	for fold in $folds
 	do
-		python -m code.ml.regression.cluster_analysis 'data/Shapes/ml/experiment_3/features/no_noise_f'"$fold"'_'"$noise"'.pickle' -n 100 -s 42 > 'data/Shapes/ml/experiment_3/features/no_noise_f'"$fold"'_'"$noise"'.txt'
+		$cmd $regression_script data/Shapes/ml/dataset/targets.pickle 'mean_'"$dim" 'data/Shapes/ml/experiment_3/features/small_f'"$fold"'_noisy.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_5/transfer/mean_'"$dim"'_f'"$fold"'.csv' -s 42 -e 'data/Shapes/ml/experiment_3/features/small_f'"$fold"'_clean.pickle' --lasso 0.02
 	done
 done
+
+
 
 # aggregate the results
 python -m code.ml.regression.average_folds 'data/Shapes/ml/experiment_3/no_noise_f{0}.csv' 5 'data/Shapes/ml/experiment_3/aggregated/no_noise.csv'
