@@ -44,7 +44,7 @@ for noise in $noises
 do
 	if [ $noise = noisy ]
 	then
-		noise_flag="-n"
+		noise_flag="-n 0.1"
 	else
 		noise_flag=""
 	fi
