@@ -12,6 +12,7 @@ import argparse, pickle
 import tensorflow as tf
 import numpy as np
 from code.ml.ann.keras_utils import IndividualSequence, SaltAndPepper
+from code.util import salt_and_pepper_noise
 
 parser = argparse.ArgumentParser(description='Extracting bottleneck activations')
 parser.add_argument('shapes_file', help = 'pickle file containing information about the Shapes data')
@@ -19,7 +20,7 @@ parser.add_argument('network_file', help = 'hdf5 file containing the pre-trained
 parser.add_argument('output_file', help = 'pickle file for outputting the results')
 parser.add_argument('-m', '--mapping_used', action = 'store_true', help = 'has the network been trained with the mapping objective?')
 parser.add_argument('-s', '--seed', type = int, help = 'seed for random number generation', default = None)
-parser.add_argument('-n', '--noisy_input', action = 'store_true', help = 'S&P noise activated')
+parser.add_argument('-n', '--noise_level', type = float, help = 'level of S&P noise', default = 0.0)
 parser.add_argument('-i', '--image_size', type = int, help = 'size of the input image', default = 128)
 args = parser.parse_args()
 
@@ -40,10 +41,8 @@ with open(args.shapes_file, 'rb') as f_in:
 # load the model
 model = tf.keras.models.load_model(args.network_file, custom_objects={'SaltAndPepper': SaltAndPepper}, compile = False)
 for layer in model.layers:
-    if hasattr(layer, 'only_train'):
-        setattr(layer, 'only_train', not args.noisy_input)
-    if hasattr(layer, 'ratio') and getattr(layer, 'ratio') == 0.0 and args.noisy_input:
-        setattr(layer, 'ratio', 0.1)
+    if hasattr(layer, 'only_train') and getattr(layer, 'only_train') == False and args.noise_level != getattr(layer, 'ratio'):
+        raise Exception("cannot deactivate noise during testing!")
 
 # restructure the data
 all_folds = np.concatenate([shapes_data[str(i)] for i in range(NUM_FOLDS)])
@@ -55,12 +54,14 @@ for path, label in all_folds:
 
 list_of_labels = sorted(data_by_label.keys())
 
+
 # collect the activations
+noise_function = lambda x: salt_and_pepper_noise(x, args.noise_level, args.image_size, 1.0)
 result = {}
 for label in list_of_labels:
     data = data_by_label[label]
     print(label, len(data))
-    data_seq = IndividualSequence(np.array(data), [{'0': 0}], BATCH_SIZE, IMAGE_SIZE, shuffle = False, truncate = False)
+    data_seq = IndividualSequence(np.array(data), [{'0': 0}], BATCH_SIZE, IMAGE_SIZE, shuffle = False, truncate = False, mapping_function = noise_function)
     model_outputs = model.predict_generator(data_seq, steps = len(data_seq))
     bottleneck_activation = model_outputs[1] if args.mapping_used else model_outputs[0]
     if len(bottleneck_activation) != len(data):

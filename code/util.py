@@ -528,3 +528,17 @@ def write_csv_results_file(file_name, headline, content, first_column):
                 averages.append(str(np.mean(conf_dict[col])))
             f_out.write(','.join(averages))
             f_out.write('\n')
+
+def salt_and_pepper_noise(input_image, noise_prob, img_size, max_value):
+    """
+    Applies salt and pepper noise with the given probability to the input image.
+    'img_size' gives the size of the image and 'max_value' the value to use for salt.
+    
+    Based on https://www.programmersought.com/article/3363136769/
+    """
+    mask = np.random.choice((0,1,2), size = (img_size, img_size), p = (1 - noise_prob, 0.5 * noise_prob, 0.5 * noise_prob))
+    noisy_img = input_image.copy()
+    noisy_img[mask == 1] = max_value
+    noisy_img[mask == 2] = 0
+    noisy_img = noisy_img.reshape((img_size, img_size, 1))
+    return noisy_img

@@ -144,13 +144,14 @@ class AutoRestart(tf.keras.callbacks.Callback):
 
 class IndividualSequence(tf.keras.utils.Sequence):
     
-    def __init__(self, source, info_mappers, batch_size, image_size, shuffle = True, truncate = True):
+    def __init__(self, source, info_mappers, batch_size, image_size, shuffle = True, truncate = True, mapping_function = lambda x: x):
         self._source = source
         self._info_mappers = info_mappers
         self._batch_size = batch_size
         self._image_size = image_size
         self._shuffle = shuffle
         self._truncate = truncate
+        self._mapping_function = mapping_function
         if self._shuffle:
             self.on_epoch_end()
         
@@ -164,7 +165,7 @@ class IndividualSequence(tf.keras.utils.Sequence):
         img = cv2.imread(img_path)
         img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         img = img / 255
-        return img        
+        return self._mapping_function(img)
     
     def __getitem__(self, idx):
         current_selection = self._source[idx * self._batch_size : (idx + 1) * self._batch_size]

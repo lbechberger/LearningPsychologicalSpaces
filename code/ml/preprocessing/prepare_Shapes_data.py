@@ -20,6 +20,7 @@ import cv2
 import tensorflow as tf
 import imgaug as ia
 from imgaug import augmenters as iaa
+from code.util import salt_and_pepper_noise
 
 
 parser = argparse.ArgumentParser(description='Prepare the data set for the Shapes study')
@@ -166,14 +167,9 @@ with open(args.folds_file, 'r') as f_in:
                 for noise_prob in args.noise_prob:
                 
                     # apply salt and pepper noise
-                    # based on https://www.programmersought.com/article/3363136769/
                     corrupted_images = []
                     for img in augmented_images:
-                        mask = np.random.choice((0,1,2), size = (args.output_size, args.output_size), p = (1 - noise_prob, 0.5 * noise_prob, 0.5 * noise_prob))
-                        noisy_img = img.copy()
-                        noisy_img[mask == 1] = 255
-                        noisy_img[mask == 2] = 0
-                        noisy_img = noisy_img.reshape((args.output_size, args.output_size, 1))
+                        noisy_img = salt_and_pepper_noise(img, noise_prob, args.output_size, 255)
                         encoded_image = session.run(encoder, feed_dict = {tf_image : noisy_img})
                         corrupted_images.append(encoded_image)
 
