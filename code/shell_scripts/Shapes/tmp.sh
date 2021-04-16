@@ -15,6 +15,8 @@ lassos="${lassos:-$default_lassos}"
 features="${features:-$default_features}"
 noises="${noises:-$default_noises}"
 
+dims=("1 2 3 5 6 7 8 9 10")
+
 # no parameter means local execution
 if [ "$#" -ne 1 ]
 then
@@ -35,52 +37,21 @@ else
 	exit 1
 fi
 
-# run the regression
+# average the results across all folds for increased convenience
 for feature in $features
 do
-	for fold in $folds
-	do
-		for regressor in $regressors
-		do
-			$cmd $regression_script data/Shapes/ml/dataset/targets.pickle mean_4 'data/Shapes/ml/experiment_3/features/'"$feature"'_f'"$fold"'_noisy.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_3/'"$feature"'_f'"$fold"'.csv' -s 42 -e 'data/Shapes/ml/experiment_3/features/'"$feature"'_f'"$fold"'_clean.pickle' $regressor
-		done
-
-		for lasso in $lassos
-		do
-			$cmd $regression_script data/Shapes/ml/dataset/targets.pickle mean_4 'data/Shapes/ml/experiment_3/features/'"$feature"'_f'"$fold"'_noisy.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_3/'"$feature"'_f'"$fold"'.csv' -s 42 -e 'data/Shapes/ml/experiment_3/features/'"$feature"'_f'"$fold"'_clean.pickle' --lasso $lasso
-		done
-
-	done
+	python -m code.ml.regression.average_folds 'data/Shapes/ml/experiment_3/'"$feature"'_f{0}.csv' 5 'data/Shapes/ml/experiment_3/aggregated/'"$feature"'.csv'
 done
-
-# compare performance to same train and test noise (either none or best noise setting) for default and no_noise
-echo '    performance comparison: same train and test noise'
 
 for noise in $noises
 do
-	for fold in $folds
-	do
-		for regressor in $regressors
-		do
-			$cmd $regression_script data/Shapes/ml/dataset/targets.pickle mean_4 'data/Shapes/ml/experiment_3/features/default_f'"$fold"'_'"$noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_3/default_f'"$fold"'_'"$noise"'.csv' -s 42 $regressor
-
-			$cmd $regression_script data/Shapes/ml/dataset/targets.pickle mean_4 'data/Shapes/ml/experiment_3/features/no_noise_f'"$fold"'_'"$noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_3/no_noise_f'"$fold"'_'"$noise"'.csv' -s 42 $regressor
-
-		done
-
-	done
+	python -m code.ml.regression.average_folds 'data/Shapes/ml/experiment_3/default_f{0}_'"$noise"'.csv' 5 'data/Shapes/ml/experiment_3/aggregated/default_'"$noise"'.csv'
+	python -m code.ml.regression.average_folds 'data/Shapes/ml/experiment_3/no_noise_f{0}_'"$noise"'.csv' 5 'data/Shapes/ml/experiment_3/aggregated/no_noise_'"$noise"'.csv'
 done
 
 
-# do a cluster analysis
-for feature in $features
+# run lasso regression (inception)
+for dim in $dims
 do
-	for fold in $folds
-	do
-		for noise in $noises
-		do
-			python -m code.ml.regression.cluster_analysis 'data/Shapes/ml/experiment_3/features/'"$feature"'_f'"$fold"'_'"$noise"'.pickle' -n 100 -s 42 > 'data/Shapes/ml/experiment_3/features/'"$feature"'_f'"$fold"'_'"$noise"'.txt'
-		done
-	done
+	$cmd $regression_script data/Shapes/ml/dataset/targets.pickle 'mean_'"$dim" 'data/Shapes/ml/dataset/pickle/features_0.1.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_5/inception/mean_'"$dim"'.csv' -s 42 -e data/Shapes/ml/dataset/pickle/features_0.0.pickle --lasso 0.005
 done
-
