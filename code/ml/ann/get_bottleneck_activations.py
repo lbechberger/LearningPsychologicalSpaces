@@ -39,10 +39,13 @@ with open(args.shapes_file, 'rb') as f_in:
     shapes_data = pickle.load(f_in)
 
 # load the model
+only_train = True
 model = tf.keras.models.load_model(args.network_file, custom_objects={'SaltAndPepper': SaltAndPepper}, compile = False)
 for layer in model.layers:
-    if hasattr(layer, 'only_train') and getattr(layer, 'only_train') == False and args.noise_level != getattr(layer, 'ratio'):
-        raise Exception("cannot deactivate noise during testing!")
+    if hasattr(layer, 'only_train') and getattr(layer, 'only_train') == False:
+        only_train = False
+        if args.noise_level != getattr(layer, 'ratio'):
+            raise Exception("cannot deactivate noise during testing!")
 
 # restructure the data
 all_folds = np.concatenate([shapes_data[str(i)] for i in range(NUM_FOLDS)])
@@ -55,8 +58,13 @@ for path, label in all_folds:
 list_of_labels = sorted(data_by_label.keys())
 
 
+# only need to manually insert noise if keras noise layer is only active during training
+if only_train:
+    noise_function = lambda x: salt_and_pepper_noise(x, args.noise_level, args.image_size, 1.0)
+else:
+    noise_function = lambda x: x
+
 # collect the activations
-noise_function = lambda x: salt_and_pepper_noise(x, args.noise_level, args.image_size, 1.0)
 result = {}
 for label in list_of_labels:
     data = data_by_label[label]
