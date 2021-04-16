@@ -35,64 +35,52 @@ else
 	exit 1
 fi
 
-# set up the directory structure
-echo '    setting up directory structure'
-mkdir -p 'data/Shapes/ml/experiment_3/features' 'data/Shapes/ml/experiment_3/aggregated'
-
-# extract features for both noised and unnoised input
-for noise in $noises
+# run the regression
+for feature in $features
 do
-	if [ $noise = noisy ]
-	then
-		noise_flag="-n 0.1"
-	else
-		noise_flag=""
-	fi
+	for fold in $folds
+	do
+		for regressor in $regressors
+		do
+			$cmd $regression_script data/Shapes/ml/dataset/targets.pickle mean_4 'data/Shapes/ml/experiment_3/features/'"$feature"'_f'"$fold"'_noisy.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_3/'"$feature"'_f'"$fold"'.csv' -s 42 -e 'data/Shapes/ml/experiment_3/features/'"$feature"'_f'"$fold"'_clean.pickle' $regressor
+		done
 
-	# define snapshots of default classifier (has best accuracy)
-	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f0_ep196_FINAL.h5 data/Shapes/ml/experiment_3/features/default_f0_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
-	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f1_ep188_FINAL.h5 data/Shapes/ml/experiment_3/features/default_f1_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
-	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f2_ep179_FINAL.h5 data/Shapes/ml/experiment_3/features/default_f2_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
-	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f3_ep198_FINAL.h5 data/Shapes/ml/experiment_3/features/default_f3_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
-	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f4_ep177_FINAL.h5 data/Shapes/ml/experiment_3/features/default_f4_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
+		for lasso in $lassos
+		do
+			$cmd $regression_script data/Shapes/ml/dataset/targets.pickle mean_4 'data/Shapes/ml/experiment_3/features/'"$feature"'_f'"$fold"'_noisy.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_3/'"$feature"'_f'"$fold"'.csv' -s 42 -e 'data/Shapes/ml/experiment_3/features/'"$feature"'_f'"$fold"'_clean.pickle' --lasso $lasso
+		done
 
-
-	# define snapshots of classifier with large bottleneck (2048 units)
-	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b2048_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f0_ep194_FINAL.h5 data/Shapes/ml/experiment_3/features/large_f0_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
-	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b2048_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f1_ep142_FINAL.h5 data/Shapes/ml/experiment_3/features/large_f1_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
-	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b2048_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f2_ep182_FINAL.h5 data/Shapes/ml/experiment_3/features/large_f2_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
-	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b2048_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f3_ep144_FINAL.h5 data/Shapes/ml/experiment_3/features/large_f3_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
-	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b2048_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f4_ep183_FINAL.h5 data/Shapes/ml/experiment_3/features/large_f4_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
-
-
-	# define snapshots of classifier with small bottleneck (256 units)
-	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b256_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f0_ep166_FINAL.h5 data/Shapes/ml/experiment_3/features/small_f0_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
-	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b256_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f1_ep167_FINAL.h5 data/Shapes/ml/experiment_3/features/small_f1_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
-	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b256_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f2_ep182_FINAL.h5 data/Shapes/ml/experiment_3/features/small_f2_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
-	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b256_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f3_ep192_FINAL.h5 data/Shapes/ml/experiment_3/features/small_f3_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
-	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b256_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f4_ep180_FINAL.h5 data/Shapes/ml/experiment_3/features/small_f4_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
-
-
-	# define snapshots of classifier with highest correlation
-	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eFalse_dFalse_n0.1_mean_4_f0_ep4_FINAL.h5 data/Shapes/ml/experiment_3/features/correlation_f0_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
-	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eFalse_dFalse_n0.1_mean_4_f1_ep5_FINAL.h5 data/Shapes/ml/experiment_3/features/correlation_f1_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
-	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eFalse_dFalse_n0.1_mean_4_f2_ep6_FINAL.h5 data/Shapes/ml/experiment_3/features/correlation_f2_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
-	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eFalse_dFalse_n0.1_mean_4_f3_ep4_FINAL.h5 data/Shapes/ml/experiment_3/features/correlation_f3_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
-	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.001_v0.0_eFalse_dFalse_n0.1_mean_4_f4_ep4_FINAL.h5 data/Shapes/ml/experiment_3/features/correlation_f4_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
-
-	# define snapshots of classifier trained w/o noise
-	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.0_mean_4_f0_ep165_FINAL.h5 data/Shapes/ml/experiment_3/features/no_noise_f0_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
-	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.0_mean_4_f1_ep184_FINAL.h5 data/Shapes/ml/experiment_3/features/no_noise_f1_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
-	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.0_mean_4_f2_ep169_FINAL.h5 data/Shapes/ml/experiment_3/features/no_noise_f2_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
-	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.0_mean_4_f3_ep165_FINAL.h5 data/Shapes/ml/experiment_3/features/no_noise_f3_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
-	echo 'data/Shapes/ml/experiment_2/snapshots/c1.0_r0.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.0_mean_4_f4_ep132_FINAL.h5 data/Shapes/ml/experiment_3/features/no_noise_f4_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_3/snapshots.config
-
-
+	done
 done
 
-# extract all the features
-while IFS= read -r config
+# compare performance to same train and test noise (either none or best noise setting) for default and no_noise
+echo '    performance comparison: same train and test noise'
+
+for noise in $noises
 do
-	$cmd $bottleneck_script data/Shapes/ml/dataset/Shapes.pickle $config -s 42 -i 224
-done < 'data/Shapes/ml/experiment_3/snapshots.config'
+	for fold in $folds
+	do
+		for regressor in $regressors
+		do
+			$cmd $regression_script data/Shapes/ml/dataset/targets.pickle mean_4 'data/Shapes/ml/experiment_3/features/default_f'"$fold"'_'"$noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_3/default_f'"$fold"'_'"$noise"'.csv' -s 42 $regressor
+
+			$cmd $regression_script data/Shapes/ml/dataset/targets.pickle mean_4 'data/Shapes/ml/experiment_3/features/no_noise_f'"$fold"'_'"$noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_3/no_noise_f'"$fold"'_'"$noise"'.csv' -s 42 $regressor
+
+		done
+
+	done
+done
+
+
+# do a cluster analysis
+for feature in $features
+do
+	for fold in $folds
+	do
+		for noise in $noises
+		do
+			python -m code.ml.regression.cluster_analysis 'data/Shapes/ml/experiment_3/features/'"$feature"'_f'"$fold"'_'"$noise"'.pickle' -n 100 -s 42 > 'data/Shapes/ml/experiment_3/features/'"$feature"'_f'"$fold"'_'"$noise"'.txt'
+		done
+	done
+done
 
