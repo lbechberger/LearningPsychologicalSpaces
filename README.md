@@ -55,11 +55,17 @@ It has been used as a basis for the following publications:
     - [3.1.1 Data Augmentation](#311-data-augmentation)
     - [3.1.2 Visualizing Augmented Images](#312-visualizing-augmented-images)
     - [3.1.3 Defining Regression Targets](#313-defining-regression-targets)
+    - [3.1.4 Data Set Creation for Shapes study](#314-data-set-creation-for-shapes-study)
   - [3.2 Linear Regression](#32-linear-regression)
     - [3.2.1 ANN-based Feature Extraction](#321-ann-based-feature-extraction)
     - [3.2.2 Pixel-based Feature Extraction](#322-pixel-based-feature-extraction)
     - [3.2.3 Cluster Analysis of Feature Vectors](#323-cluster-analysis-of-feature-vectors)
     - [3.2.4 Regression and Baselines](#324-regression-and-baselines)
+    - [3.2.5 Average Results over Folds](#325-average-results-over-folds)
+  - [3.3 Hybrid ANN](#33-hybrid-ann)
+    - [3.3.1 Training and Evaluating the ANN](#331-training-and-evaluating-the-ann)
+    - [3.3.2 Extracting Bottleneck Layer Activations](#332-extracting-bottleneck-layer-activations)
+    - [3.3.3 Average Results over Folds](#333-average-results-over-folds)
 
 
 ## 1 About
@@ -95,16 +101,25 @@ The only files necessary to run all of these experiments are `data/NOUN/mds/raw_
 
 ### 1.2 The Shapes study
 
-Our second study focuses on a single conceptual domain, namely the domain of shapes. The approach taken in this study is an extension of our work on the NOUN data set. So far, we only consider the extraction and analysis of similarity spaces. The machine learning part is left for future work and will be filled in eventually.
+Our second study focuses on a single conceptual domain, namely the domain of shapes. The approach taken in this study is an extension of our work on the NOUN data set. It contains both the extraction and analysis of similarity spaces as well as learning a mapping from images into these similarity spaces with convolutional neural networks.
 
-The script `code/shell_scripts/pipeline_Shapes.py` automatically executes all scripts necessary to reproduce our results. It requires one argument which can either be `mds` (in order to reproduce the results from our forthcoming paper analyzing the similarity spaces only) or `dissertation` (in order to reproduce a more comprehensive set of results presented in the dissertation). The script then sets up some shell variables accordingly and calls the following shell scripts which make up the processing steps in our setup:
+The script `code/shell_scripts/pipeline_Shapes.py` automatically executes all scripts necessary to reproduce our results. It requires one argument which can either be `mds` (in order to reproduce the results from our forthcoming paper analyzing the similarity spaces only), `ml` (in order to reproduce our machine learning results) or `dissertation` (in order to reproduce a more comprehensive set of results presented in the dissertation). The script then sets up some shell variables accordingly and calls the following shell scripts which make up the processing steps in our setup:
 - `code/shell_scripts/Shapes/data_analysis.sh`: Preprocesses the input data about conceptual and visual similarity and about three psychological features. Also does some simple analyses of the data set and produces some helpful visualizations.
 - `code/shell_scripts/Shapes/space_analysis.sh`: Extracts similarity spaces from the data set and analyzes them with respect to three criteria: Do the distances accurately reflect dissimilarities (compares the MDS spaces to the pixel baseline, the ANN baseline, and a baseline using the psychological features)? Are conceptual regions well-formed (i.e., non-overlapping, small, and convex)? Can the psychological features be identified as directions in the similarity spaces?
+- `code/shell_scripts/Shapes/ml_setup.sh`: Creates a machine learning data set by appyling data augmentation to the line drawings as well as the Sketchy and TU Berlin data sets of sketches, by preparing the target vectors in the similarity space, and by extracting ANN-based features. The resulting data set is stored in multiple files in `data/Shapes/ml/dataset/`.
+- `code/shell_scripts/Shapes/experiment_1.sh`: Investigate mapping performance of a transfer learning task (linear and lasso regression) on top of the pre-trained photo-based inception-v3 network.
+- `code/shell_scripts/Shapes/experiment_2.sh`: Train the modified Sketch-a-Net architecture on the classification task and try to find promising hyperparameter settings through a grid search.
+- `code/shell_scripts/Shapes/experiment_3.sh`: Transfer learning (linear and lasso regression) on top of the network configurations from experiment 2.
+- `code/shell_scripts/Shapes/experiment_4.sh`: Multi-task learning (network optimizes classification and mapping performance at the same time) for the hyperparameter configurations from experiment 2.
+- `code/shell_scripts/Shapes/experiment_5.sh`: Applying the most promising configuration from experiments 1, 3, and 4, respectively, without any further modification to target spaces of different dimensionality.
 
 All files are stored in `data/Shapes` which has the following structure:
 - `raw_data`: Contains the original input csv files with all ratings. Must be present to execute our pipeline.
-- `images`: Contains the images of our stimuli. Unfortunatley, due to copyright restrictions, we are not allowed to publish the original images online. Our scripts can be run without using the original images, though some results (e.g., the pixel baseline) can then not be reproduced. Please contact us if you are interested in using the images for your own studies!
-- `mds`: All the (intermediate) results from our analysis.
+- `images`: Contains the images of our stimuli. Unfortunatley, due to copyright restrictions, we are not allowed to publish the original images online. Our scripts can be run without using the original images, though some results (e.g., the pixel baseline or all ML experiments) can then not be reproduced. Please contact us if you are interested in using the images for your own studies!
+  - `Berlin-svg`: Original svg vector graphics of the [TU Berlin data set](http://cybertron.cg.tu-berlin.de/eitz/projects/classifysketch/).
+  - `Berlin`: Generated png files of the TU Berlin data set.
+  - `Sketchy`: Original png files of the [Sketchy data set](http://sketchy.eye.gatech.edu/).
+- `mds`: All the (intermediate) results from our analysis with respect to the psychological ratings.
   - `similarities`: Contains the pre-processed individual and aggregated similarity ratings as well as the vectors produced by MDS, all as pickle files. Distinguishes between visual and conceptual similarity (aggregated by median, subfolder `rating_type`) and between mean and median aggregation (only visual similarity, subfolder `aggregator`).
   - `features`: Contains the pre-processed individual and aggregated ratings with respect to the psychological features as well as two category-based features.
   - `data_set`: Contains the most important information extracted in our analysis in the form of CSV files for easier reuse by other researchers.
@@ -112,9 +127,12 @@ All files are stored in `data/Shapes` which has the following structure:
     - `aggregated`: Aggregated ratings with respect to both `features` and `similarities`.
     - `spaces`: Information about our similarity spaces, containing the `coordinates` of the individual stimuli as well as the `directions` corresponding to the psychological features. In both cases, we make a further distinction into `mean` and `median` aggregation.
   - `analysis`: Contains our analysis results with respect to the similarity spaces: `correlations` to dissimilarities (including the baselines), well-formedness of conceptual `regions`, and the presence of interpretable `directions`. In each case, we make a further distinction into `mean` and `median` aggregation.
-  - `dvisualizations`: Contains various visualizations created by our scripts (`average_images` of the categories, `correlations` between distances and dissimilarities, psychological `features`, the `similarity_matrices`, and of course the similarity `spaces` themselves).
+  - `visualizations`: Contains various visualizations created by our scripts (`average_images` of the categories, `correlations` between distances and dissimilarities, psychological `features`, the `similarity_matrices`, and of course the similarity `spaces` themselves).
+- `ml`: All results from our machine learning experiments.
+  - `dataset`: The data set used for training the neural network, structured into five folds. Also contains pickle files with the activation vectors of a pre-trained photo-based CNN for different levels of input noise.
+  - `experiment_N`: Results, logs, and network weights for the respective experiment.
 
-As for the NOUN study, the script `code/shell_scripts/clean_Shapes.sh` removes everything but `data/Shapes/raw_data` and `data/Shapes/images`.
+As for the NOUN study, the script `code/shell_scripts/clean_Shapes.sh` removes everything but `data/Shapes/raw_data/`, `data/Shapes/images/`, `data/Shapes/ml/folds`, and `data/Shapes/ml/regression_targets.csv`.
 
 ## 2 Multidimensional Scaling
 
@@ -667,6 +685,14 @@ In addition to this, the script accepts the following optional parameters:
 
 The script performs a cross-validation based on the fold structure given in `folds.csv`, where all augmented images that are based on the same original image belong into the same fold. The script reports MSE, MED (the mean Euclidean distance between the predicted points and the targets points), and the coefficient of determination R² in the output csv file for both the training and the test phase.
 
+#### 3.2.5 Average Results over Folds
+
+The script `regression.py` automatically performs an internal cross-validation and only reports the averaged results. However, if the neural network, on which the feature vectors are based, is also trained in a cross-validation scheme (as it is the case in the Shapes study), `regression.py` will be invoked once for each of the different network versions. In order to aggregate the results over these ``outer folds'', one can use the script `average_folds.py` as follows:
+```
+python -m code.ml.regression.average_folds input_path_template n_folds path/to/output.csv
+```
+The script uses the given `input_path_template` and the given number of folds `n_folds` to generate the paths to all individual csv files (e.g., if `ìnput_path_template` is `path/to/{0}/results.csv` and `n_folds` is `5`, then it will look for the files `path/to/0/results.csv`, `path/to/1/results.csv`, ..., `path/to/4/results.csv`). These individual csv files (which have been produced by `regression.py`) are read and the corresponding evaluation results are averaged across the different files. The aggregated results are then stored in `output.csv`.
+
 ### 3.3 Hybrid ANN
 
 As a more complex approach, we investigated the usage of a hybrid ANN architecture which is trained on the tasks of classification, reconstruction, and/or mapping. All relevant scripts are contained in the `code/ml/ann` folder.
@@ -699,9 +725,9 @@ Moreover, one can pass the following optional arguments:
 - `-s` or `--seed`: Seeds the random number generator with the given seed in order to make the results deterministic.
 - `-t` or `--test`: If this flag is set, the number of iterations is drastically reduced for testing and debugging purposes.
 - `-f` or `--fold`: Determines which fold to use for testing (defaults to 0).
-- `--walltime`: Specifies the walltime in seconds before the job will be killed (relevant for grid execution). The script will try to stop its training before running over the walltime and store the current network weights in `data/Shapes/ml/snapshots/` as an hdf5 file.
-- `--stopped_epoch`: Gives the epoch in which the last training was stopped. Load the model from `data/Shapes/ml/snapshots` and continue training with the next epoch (instead of starting from zero again).
-- `--early_stopped`: If this flag is set, training was ended with early stopping. Load the model from `data/Shapes/ml/snapshots`, but do not continue training. Rather, switch to evaluation mode instead.
+- `--walltime`: Specifies the walltime in seconds before the job will be killed (relevant for grid execution). The script will try to stop its training before running over the walltime and store the current network weights in `data/Shapes/ml/experiment_N/snapshots/` as an hdf5 file.
+- `--stopped_epoch`: Gives the epoch in which the last training was stopped. Load the model from `data/Shapes/ml/experiment_N/snapshots` and continue training with the next epoch (instead of starting from zero again).
+- `--early_stopped`: If this flag is set, training was ended with early stopping. Load the model from `data/Shapes/ml/experiment_N/snapshots`, but do not continue training. Rather, switch to evaluation mode instead.
 - `--optimizer`: Define the optimizer to use (`SGD` or `adam`, defaults to `adam`).
 - `--learning_rate`: Initial learning rate for the optimizer, defaults to 0.0001.
 - `--momentum`: Weight of the momentum term for the optimizer, defaults to 0.9.
@@ -748,4 +774,4 @@ The ANN script outputs one result line for each individual fold. In order to ave
 ```
 python -m code.ml.ann.average_folds path/to/input.csv path/to/output.csv
 ```
-The script goes through the given `input.csv` file (produced by `run_ann.py`) and averages all evaluation columns over the different folds, storing the results in the same manner in `otuput.csv` (only removing the `fold` column).
+The script goes through the given `input.csv` file (produced by `run_ann.py`) and averages all evaluation columns over the different folds, storing the results in the same manner in `output.csv` (only removing the `fold` column).

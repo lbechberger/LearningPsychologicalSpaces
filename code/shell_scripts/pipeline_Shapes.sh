@@ -29,13 +29,47 @@ elif [ $1 = ml ]
 then
 	echo '[configuration of ML paper]'
 
-	baselines_ex1=("--zero")
-	regressors_ex1=("--linear")
-	lassos=("0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1.0 2.0 5.0 10.0")
-	noises=("0.1 0.25 0.55")
-	best_noise=0.1
-	dims=("1 2 3 5 6 7 8 9 10")
+	# data set creation
+	export_size=256
+	image_size=224
+	min_size=168
+	pickle_noises=("0.0 0.1")
+	flip_prob=0.5
+	rotation=15
+	shear=15
 
+	# experiment 1
+	baselines=("--zero")
+	regressors=("--linear")
+	lassos=("0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1.0 2.0 5.0 10.0")
+	targets=("mean")
+	inception_noises=("0.1")
+	best_noise=0.1
+	comparison_noises=("0.0 0.1")
+	shuffled_flag=""
+	dims=("")
+
+	# experiment 2
+	folds=("0 1 2 3 4")
+	weight_decays=("0.0 0.0002 0.001 0.002")
+	noises=("0.0 0.25 0.55")
+	bottlenecks=("2048 256 128 64 32 16")
+	epochs=200
+	patience=200
+
+	# experiment 3
+	features=("default large small correlation no_noise")
+	noises=("noisy clean")
+
+	# experiment 4
+	mapping_weights=("0.0625 0.125 0.25 0.5 1 2")
+	
+	# experiment 5
+	ann_config="-e -c 1.0 -r 0.0 -m 0.0625"
+	inception_lasso=0.005
+	transfer_features="small"
+	transfer_lasso=0.02
+	
 
 # parameter 'dissertation' means execution of full code as used in dissertation
 elif [ $1 = dissertation ]
@@ -50,14 +84,51 @@ then
 
 	# space analysis setup
 	dimension_limit=10
-	visualization_limit=5
+	visualization_limit=2
 	convexity_limit=5
 	criteria=("kappa spearman")
 	directions=("FORM LINES ORIENTATION visSim artificial")
 
-	# machine learning setup
+	# data set creation
+	export_size=256
+	image_size=224
+	min_size=168
+	pickle_noises=("0.0 0.1 0.25 0.55")
+	flip_prob=0.5
+	rotation=15
+	shear=15
+
+	# experiment 1
+	baselines=("--zero")
+	regressors=("--linear")
 	lassos=("0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1.0 2.0 5.0 10.0")
-	noises=("0.1 0.25 0.55")
+	targets=("mean median")
+	inception_noises=("0.1 0.25 0.55")
+	best_noise=0.1
+	comparison_noises=("0.0 0.1")
+	shuffled_flag="--shuffled"
+	dims=("1 2 3 5 6 7 8 9 10")
+
+	# experiment 2
+	folds=("0 1 2 3 4")
+	weight_decays=("0.0 0.0002 0.001 0.002")
+	noises=("0.0 0.25 0.55")
+	bottlenecks=("2048 256 128 64 32 16")
+	epochs=200
+	patience=200
+
+	# experiment 3
+	features=("default large small correlation no_noise")
+	noises=("noisy clean")
+
+	# experiment 4
+	mapping_weights=("0.0625 0.125 0.25 0.5 1 2")
+	
+	# experiment 5
+	ann_config="-e -c 1.0 -r 0.0 -m 0.0625"
+	inception_lasso=0.005
+	transfer_features="small"
+	transfer_lasso=0.02
 
 # all other parameters are not supported
 else
@@ -75,4 +146,8 @@ if [ $1 = ml ] || [ $1 = dissertation ]
 then
 	. code/shell_scripts/Shapes/ml_setup.sh
 	. code/shell_scripts/Shapes/experiment_1.sh
+	. code/shell_scripts/Shapes/experiment_2.sh
+	. code/shell_scripts/Shapes/experiment_3.sh
+	. code/shell_scripts/Shapes/experiment_4.sh
+	. code/shell_scripts/Shapes/experiment_5.sh
 fi

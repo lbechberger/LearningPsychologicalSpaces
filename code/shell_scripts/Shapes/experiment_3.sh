@@ -8,12 +8,14 @@ default_regressors=("--linear")
 default_lassos=("0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1.0 2.0 5.0 10.0")
 default_features=("default large small correlation no_noise")
 default_noises=("noisy clean")
+default_image_size=224
 
 folds="${folds:-$default_folds}"
-regressors="${regressors_ex1:-$default_regressors}"
+regressors="${regressors:-$default_regressors}"
 lassos="${lassos:-$default_lassos}"
 features="${features:-$default_features}"
 noises="${noises:-$default_noises}"
+image_size="${image_size:-$default_image_size}"
 
 # no parameter means local execution
 if [ "$#" -ne 1 ]
@@ -93,7 +95,7 @@ done
 # extract all the features
 while IFS= read -r config
 do
-	$cmd $bottleneck_script data/Shapes/ml/dataset/Shapes.pickle $config -s 42 -i 224
+	$cmd $bottleneck_script data/Shapes/ml/dataset/Shapes.pickle $config -s 42 -i $image_size
 done < 'data/Shapes/ml/experiment_3/snapshots.config'
 
 

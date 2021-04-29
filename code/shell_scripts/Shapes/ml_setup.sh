@@ -2,10 +2,20 @@
 
 # set up global variables
 default_export_size=256
-default_image_size=112
+default_image_size=224
+default_min_size=168
+default_pickle_noises=("0.0 0.1 0.25 0.55")
+default_flip_prob=0.5
+default_rotation=15
+default_shear=15
 
 export_size="${export_size:-$default_export_size}"
 image_size="${image_size:-$default_image_size}"
+min_size="${min_size:-$default_min_size}"
+pickle_noises="${pickle_noises:-$default_pickle_noises}"
+flip_prob="${flip_prob:-$default_flip_prob}"
+rotation="${rotation:-$default_rotation}"
+shear="${shear:-$default_shear}"
 
 
 # set up the directory structure
@@ -32,10 +42,10 @@ echo 'preparing data set for machine learning'
 
 # create more artificial images
 echo '    augmentation'
-python -m code.ml.preprocessing.prepare_Shapes_data data/Shapes/ml/folds/Shapes.csv data/Shapes/ml/dataset/ 2000 -s 42 -o 224 -m 168 -p data/Shapes/ml/dataset/pickle/ -n 0.0 0.1 0.25 0.55 > data/Shapes/ml/dataset/Shapes_stat.txt
-python -m code.ml.preprocessing.prepare_Shapes_data data/Shapes/ml/folds/Additional.csv data/Shapes/ml/dataset/ 2000 -s 42 -o 224 -m 168 -f 0.5 -r 15 -a 15 > data/Shapes/ml/dataset/Additional_stat.txt
-python -m code.ml.preprocessing.prepare_Shapes_data data/Shapes/ml/folds/Berlin.csv data/Shapes/ml/dataset/ 12 -s 42 -o 224 -m 168 -f 0.5 -r 15 -a 15 > data/Shapes/ml/dataset/Berlin_stat.txt
-python -m code.ml.preprocessing.prepare_Shapes_data data/Shapes/ml/folds/Sketchy.csv data/Shapes/ml/dataset/ 4 -s 42 -o 224 -m 168 -f 0.5 -r 15 -a 15 > data/Shapes/ml/dataset/Sketchy_stat.txt
+python -m code.ml.preprocessing.prepare_Shapes_data data/Shapes/ml/folds/Shapes.csv data/Shapes/ml/dataset/ 2000 -s 42 -o $image_size -m $min_size -p data/Shapes/ml/dataset/pickle/ -n $pickle_noises > data/Shapes/ml/dataset/Shapes_stat.txt
+python -m code.ml.preprocessing.prepare_Shapes_data data/Shapes/ml/folds/Additional.csv data/Shapes/ml/dataset/ 2000 -s 42 -o $image_size -m $min_size -f $flip_prob -r $rotation -a $shear > data/Shapes/ml/dataset/Additional_stat.txt
+python -m code.ml.preprocessing.prepare_Shapes_data data/Shapes/ml/folds/Berlin.csv data/Shapes/ml/dataset/ 12 -s 42 -o $image_size -m $min_size -f $flip_prob -r $rotation -a $shear > data/Shapes/ml/dataset/Berlin_stat.txt
+python -m code.ml.preprocessing.prepare_Shapes_data data/Shapes/ml/folds/Sketchy.csv data/Shapes/ml/dataset/ 4 -s 42 -o $image_size -m $min_size -f $flip_prob -r $rotation -a $shear > data/Shapes/ml/dataset/Sketchy_stat.txt
 
 
 # collect regression targets
@@ -45,9 +55,9 @@ python -m code.ml.preprocessing.prepare_targets data/Shapes/ml/regression_target
 # compute features
 echo '    feature extraction'
 echo '        ANN-based features'
-python -m code.ml.regression.ann_features /tmp/inception data/Shapes/ml/dataset/pickle/0.0/ data/Shapes/ml/dataset/pickle/features_0.0.pickle
-python -m code.ml.regression.ann_features /tmp/inception data/Shapes/ml/dataset/pickle/0.1/ data/Shapes/ml/dataset/pickle/features_0.1.pickle
-python -m code.ml.regression.ann_features /tmp/inception data/Shapes/ml/dataset/pickle/0.25/ data/Shapes/ml/dataset/pickle/features_0.25.pickle
-python -m code.ml.regression.ann_features /tmp/inception data/Shapes/ml/dataset/pickle/0.55/ data/Shapes/ml/dataset/pickle/features_0.55.pickle
+for noise in $pickle_noises
+do
+	python -m code.ml.regression.ann_features /tmp/inception 'data/Shapes/ml/dataset/pickle/'"$noise"'/' 'data/Shapes/ml/dataset/pickle/features_'"$noise"'.pickle'
+done
 
 

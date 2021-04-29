@@ -5,9 +5,15 @@ echo 'experiment 4 - classification and mapping'
 # setting up overall variables
 default_folds=("0 1 2 3 4")
 default_mapping_weights=("0.0625 0.125 0.25 0.5 1 2")
+default_image_size=224
+default_epochs=200
+default_patience=200
 
 folds="${folds:-$default_folds}"
 mapping_weights="${mapping_weights:-$default_mapping_weights}"
+image_size="${image_size:-$default_image_size}"
+epochs="${epochs:-$default_epochs}"
+patience="${patience:-$default_patience}"
 
 # no parameter means local execution
 if [ "$#" -ne 1 ]
@@ -47,7 +53,7 @@ do
 	do
 		for fold in $folds
 		do
-			$cmd $script data/Shapes/ml/dataset/Shapes.pickle data/Shapes/ml/dataset/Additional.pickle data/Shapes/ml/dataset/Berlin.pickle data/Shapes/ml/dataset/Sketchy.pickle data/Shapes/ml/dataset/targets.pickle mean_4 data/Shapes/images/ data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle $config -c 1.0 -r 0.0 -m $mapping_weight -s 42 -f $fold $walltime --initial_stride 3 --image_size 224 --noise_only_train --patience 200 --epochs 200
+			$cmd $script data/Shapes/ml/dataset/Shapes.pickle data/Shapes/ml/dataset/Additional.pickle data/Shapes/ml/dataset/Berlin.pickle data/Shapes/ml/dataset/Sketchy.pickle data/Shapes/ml/dataset/targets.pickle mean_4 data/Shapes/images/ data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle $config -c 1.0 -r 0.0 -m $mapping_weight -s 42 -f $fold $walltime --initial_stride 3 --image_size $image_size --noise_only_train --patience $patience --epochs $epochs
 		done
 	done
 done < 'data/Shapes/ml/experiment_4/ann.config'

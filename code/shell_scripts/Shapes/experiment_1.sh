@@ -10,14 +10,18 @@ default_noises=("0.1 0.25 0.55")
 default_best_noise=0.1
 default_comparison_noises=("0.0 0.1")
 default_dims=("1 2 3 5 6 7 8 9 10")
+default_targets=("mean median")
+default_shuffled_flag="--shuffled"
 
-baselines="${baselines_ex1:-$default_baselines}"
-regressors="${regressors_ex1:-$default_regressors}"
+baselines="${baselines:-$default_baselines}"
+regressors="${regressors:-$default_regressors}"
 lassos="${lassos:-$default_lassos}"
-noises="${noises:-$default_noises}"
+noises="${inception_noises:-$default_noises}"
 best_noise="${best_noise:-$default_best_noise}"
 comparison_noises="${comparison_noises:-$default_comparison_noises}"
 dims="${dims:-$default_dims}"
+targets="${targets:-$default_targets}"
+shuffled_flag="${shuffled_flag:-$default_shuffled_flag}"
 
 # no parameter means local execution
 if [ "$#" -ne 1 ]
@@ -45,25 +49,25 @@ do
 done
 mkdir -p 'data/Shapes/ml/experiment_1/noise_0.0/'
 
-# first analyze the mean and median 4d spaces
-echo '    mean_4 and median_4 (noise and regression)'
+# first analyze the 4d space(s)
+echo '    noise types for 4D space'
 for noise in $default_noises
 do
-	for baseline in $baselines
+	for target in $targets
 	do
-		echo "        $baseline"	
-		$cmd $script data/Shapes/ml/dataset/targets.pickle mean_4 'data/Shapes/ml/dataset/pickle/features_'"$noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$noise"'/mean_4.csv' -s 42 -e data/Shapes/ml/dataset/pickle/features_0.0.pickle $baseline
-		$cmd $script data/Shapes/ml/dataset/targets.pickle median_4 'data/Shapes/ml/dataset/pickle/features_'"$noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$noise"'/median_4.csv' -s 42 -e data/Shapes/ml/dataset/pickle/features_0.0.pickle $baseline
-	done
+		for baseline in $baselines
+		do
+			echo "        $baseline"	
+			$cmd $script data/Shapes/ml/dataset/targets.pickle "$target"'_4' 'data/Shapes/ml/dataset/pickle/features_'"$noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$noise"'/'"$target"'_4.csv' -s 42 -e data/Shapes/ml/dataset/pickle/features_0.0.pickle $baseline
+		done
 	
-	for regressor in $regressors
-	do
-		echo "        $regressor"
-		$cmd $script data/Shapes/ml/dataset/targets.pickle mean_4 'data/Shapes/ml/dataset/pickle/features_'"$noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$noise"'/mean_4.csv' -s 42 -e data/Shapes/ml/dataset/pickle/features_0.0.pickle --shuffled $regressor
-		$cmd $script data/Shapes/ml/dataset/targets.pickle median_4 'data/Shapes/ml/dataset/pickle/features_'"$noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$noise"'/median_4.csv' -s 42 -e data/Shapes/ml/dataset/pickle/features_0.0.pickle --shuffled $regressor
+		for regressor in $regressors
+		do
+			echo "        $regressor"
+			$cmd $script data/Shapes/ml/dataset/targets.pickle "$target"'_4' 'data/Shapes/ml/dataset/pickle/features_'"$noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$noise"'/'"$target"'_4.csv' -s 42 -e data/Shapes/ml/dataset/pickle/features_0.0.pickle $shuffled_flag $regressor
 
+		done
 	done
-
 done
 
 # compare performance to same train and test noise (either none or best noise setting)
@@ -71,11 +75,13 @@ echo '    performance comparison: same train and test noise'
 
 for noise in $comparison_noises
 do
-	for regressor in $regressors
+	for target in $targets
 	do
-		echo "        $regressor"
-		$cmd $script data/Shapes/ml/dataset/targets.pickle mean_4 'data/Shapes/ml/dataset/pickle/features_'"$noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$noise"'/mean_4_same_noise.csv' -s 42 $regressor
-		$cmd $script data/Shapes/ml/dataset/targets.pickle median_4 'data/Shapes/ml/dataset/pickle/features_'"$noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$noise"'/median_4_same_noise.csv' -s 42 $regressor
+		for regressor in $regressors
+		do
+			echo "        $regressor"
+			$cmd $script data/Shapes/ml/dataset/targets.pickle "$target"'_4' 'data/Shapes/ml/dataset/pickle/features_'"$noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$noise"'/'"$target"'_4_same_noise.csv' -s 42 $regressor
+		done
 	done
 
 	python -m code.ml.regression.cluster_analysis 'data/Shapes/ml/dataset/pickle/features_'$noise'.pickle' -n 100 -s 42 > 'data/Shapes/ml/experiment_1/noise_'"$noise"'/cluster_analysis.txt'
@@ -85,30 +91,33 @@ done
 
 
 # now run the regression for the other target spaces using the selected noise level (only correct targets)
+echo '    other dimensions'
 for dim in $dims
 do
-	for baseline in $baselines
+	for target in $targets
 	do
-		echo "        $baseline"	
-		$cmd $script data/Shapes/ml/dataset/targets.pickle 'mean_'"$dim" 'data/Shapes/ml/dataset/pickle/features_'"$best_noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$best_noise"'/mean_'"$dim"'.csv' -s 42 -e data/Shapes/ml/dataset/pickle/features_0.0.pickle $baseline
-		$cmd $script data/Shapes/ml/dataset/targets.pickle 'median_'"$dim" 'data/Shapes/ml/dataset/pickle/features_'"$best_noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$best_noise"'/median_'"$dim"'.csv' -s 42 -e data/Shapes/ml/dataset/pickle/features_0.0.pickle $baseline
-	done
+		for baseline in $baselines
+		do
+			echo "        $baseline"	
+			$cmd $script data/Shapes/ml/dataset/targets.pickle "$target"'_'"$dim" 'data/Shapes/ml/dataset/pickle/features_'"$best_noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$best_noise"'/'"$target"'_'"$dim"'.csv' -s 42 -e data/Shapes/ml/dataset/pickle/features_0.0.pickle $baseline
+		done
 	
-	for regressor in $regressors
-	do
-		echo "        $regressor"
-		$cmd $script data/Shapes/ml/dataset/targets.pickle 'mean_'"$dim" 'data/Shapes/ml/dataset/pickle/features_'"$best_noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$best_noise"'/mean_'"$dim"'.csv' -s 42 -e data/Shapes/ml/dataset/pickle/features_0.0.pickle $regressor
-		$cmd $script data/Shapes/ml/dataset/targets.pickle 'median_'"$dim" 'data/Shapes/ml/dataset/pickle/features_'"$best_noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$best_noise"'/median_'"$dim"'.csv' -s 42 -e data/Shapes/ml/dataset/pickle/features_0.0.pickle $regressor
+		for regressor in $regressors
+		do
+			echo "        $regressor"
+			$cmd $script data/Shapes/ml/dataset/targets.pickle "$target"'_'"$dim" 'data/Shapes/ml/dataset/pickle/features_'"$best_noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$best_noise"'/'"$target"'_'"$dim"'.csv' -s 42 -e data/Shapes/ml/dataset/pickle/features_0.0.pickle $regressor
+		done
 	done
-
 done
 
 
 # finally do a grid search on the lasso regressor for the selected noise level (only correct targets)
-echo '    lasso regressor on mean_4 and median_4'
-for lasso in $lassos
+echo '    lasso regressor on 4D space(s)'
+for target in $targets
 do
-	echo "        lasso $lasso"
-	$cmd $script data/Shapes/ml/dataset/targets.pickle mean_4 'data/Shapes/ml/dataset/pickle/features_'"$best_noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$best_noise"'/mean_4.csv' -s 42 -e data/Shapes/ml/dataset/pickle/features_0.0.pickle --lasso $lasso
-	$cmd $script data/Shapes/ml/dataset/targets.pickle median_4 'data/Shapes/ml/dataset/pickle/features_'"$best_noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$best_noise"'/median_4.csv' -s 42 -e data/Shapes/ml/dataset/pickle/features_0.0.pickle --lasso $lasso
+	for lasso in $lassos
+	do
+		echo "        lasso $lasso"
+		$cmd $script data/Shapes/ml/dataset/targets.pickle "$target"'_4' 'data/Shapes/ml/dataset/pickle/features_'"$best_noise"'.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_1/noise_'"$best_noise"'/'"$target"'_4.csv' -s 42 -e data/Shapes/ml/dataset/pickle/features_0.0.pickle --lasso $lasso
+	done
 done
