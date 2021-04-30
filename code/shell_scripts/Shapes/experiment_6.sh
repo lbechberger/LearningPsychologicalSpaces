@@ -109,3 +109,19 @@ python -m code.ml.ann.average_folds data/Shapes/ml/experiment_6/dropout.csv data
 python -m code.ml.ann.average_folds data/Shapes/ml/experiment_6/noise.csv data/Shapes/ml/experiment_6/aggregated/noise.csv
 python -m code.ml.ann.average_folds data/Shapes/ml/experiment_6/bottleneck.csv data/Shapes/ml/experiment_6/aggregated/bottleneck.csv
 
+
+# TODO: grid search on most promising candidates
+echo '-b 512 -w 0.0005 -n 0.25' > data/Shapes/ml/experiment_6/grid_search.config
+echo '-b 512 -w 0.001 -e -n 0.25' >> data/Shapes/ml/experiment_6/grid_search.config
+
+while IFS= read -r params
+do
+	for fold in $folds
+	do
+		$cmd $script data/Shapes/ml/dataset/Shapes.pickle data/Shapes/ml/dataset/Additional.pickle data/Shapes/ml/dataset/Berlin.pickle data/Shapes/ml/dataset/Sketchy.pickle data/Shapes/ml/dataset/targets.pickle mean_4 data/Shapes/images/ data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle data/Shapes/ml/experiment_6/grid_search.csv -c 0.0 -r 1.0 -m 0.0 -f $fold -s 42 --initial_stride 3 --image_size $image_size --noise_only_train --patience $patience --epochs $epochs $walltime $params
+	done
+done < 'data/Shapes/ml/experiment_6/grid_search.config'
+
+# aggregate results for increased convenience
+python -m code.ml.ann.average_folds data/Shapes/ml/experiment_6/grid_search.csv data/Shapes/ml/experiment_6/aggregated/grid_search.csv
+
