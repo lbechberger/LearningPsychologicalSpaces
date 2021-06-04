@@ -1,0 +1,2 @@
+configuration,epoch,kendall_Euclidean_fixed,kendall_Euclidean_optimized,kendall_InnerProduct_fixed,kendall_InnerProduct_optimized,kendall_Manhattan_fixed,kendall_Manhattan_optimized,loss,reconstruction_loss
+c0.0_r1.0_m0.0_b512_w0.0005_v0.0_eTrue_dTrue_n0.1_mean_4,75.6,0.16226541175039572,0.20538198085345502,0.02982776593649694,0.186245445237516,0.15225020945115195,0.21562436429051077,0.13417051022691526,0.13148264691480993

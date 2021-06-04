@@ -104,8 +104,10 @@ done
 
 # aggregate results for increased convenience
 python -m code.ml.ann.average_folds data/Shapes/ml/experiment_6/default.csv data/Shapes/ml/experiment_6/aggregated/default.csv
-python -m code.ml.ann.average_folds data/Shapes/ml/experiment_6/decay.csv data/Shapes/ml/experiment_6/aggregated/decay.csv
-python -m code.ml.ann.average_folds data/Shapes/ml/experiment_6/dropout.csv data/Shapes/ml/experiment_6/aggregated/dropout.csv
+python -m code.ml.ann.average_folds data/Shapes/ml/experiment_6/decay_enc.csv data/Shapes/ml/experiment_6/aggregated/decay_enc.csv
+python -m code.ml.ann.average_folds data/Shapes/ml/experiment_6/dropout_enc.csv data/Shapes/ml/experiment_6/aggregated/dropout_enc.csv
+python -m code.ml.ann.average_folds data/Shapes/ml/experiment_6/decay_dec.csv data/Shapes/ml/experiment_6/aggregated/decay_dec.csv
+python -m code.ml.ann.average_folds data/Shapes/ml/experiment_6/dropout_dec.csv data/Shapes/ml/experiment_6/aggregated/dropout_dec.csv
 python -m code.ml.ann.average_folds data/Shapes/ml/experiment_6/noise.csv data/Shapes/ml/experiment_6/aggregated/noise.csv
 python -m code.ml.ann.average_folds data/Shapes/ml/experiment_6/bottleneck.csv data/Shapes/ml/experiment_6/aggregated/bottleneck.csv
 

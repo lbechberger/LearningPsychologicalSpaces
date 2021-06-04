@@ -525,7 +525,7 @@ def write_csv_results_file(file_name, headline, content, first_column):
             f_out.write('{0},'.format(config))
             averages = []
             for col in headline:
-                averages.append(str(np.mean(conf_dict[col])))
+                averages.append(str(np.nanmean(conf_dict[col])))
             f_out.write(','.join(averages))
             f_out.write('\n')
 
