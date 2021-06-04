@@ -128,3 +128,6 @@ done < 'data/Shapes/ml/experiment_6/grid_search.config'
 # aggregate results for increased convenience
 python -m code.ml.ann.average_folds data/Shapes/ml/experiment_6/grid_search.csv data/Shapes/ml/experiment_6/aggregated/grid_search.csv
 
+# visualize reconstruction of default setting
+python -m data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f0_ep95_FINAL.h5 data/Shapes/ml/dataset/2/C21I07_parrot-0.png -s 42 -n 0.1 
+
