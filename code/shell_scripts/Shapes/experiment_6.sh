@@ -112,9 +112,10 @@ python -m code.ml.ann.average_folds data/Shapes/ml/experiment_6/noise.csv data/S
 python -m code.ml.ann.average_folds data/Shapes/ml/experiment_6/bottleneck.csv data/Shapes/ml/experiment_6/aggregated/bottleneck.csv
 
 
-# TODO: grid search on most promising candidates
-echo '-b 512 -w 0.0005 -n 0.25' > data/Shapes/ml/experiment_6/grid_search.config
-echo '-b 512 -w 0.001 -e -n 0.25' >> data/Shapes/ml/experiment_6/grid_search.config
+# grid search on most promising candidates
+echo '-b 512 -w 0.0 -v 0.0 -n 0.1' > data/Shapes/ml/experiment_6/grid_search.config
+echo '-b 256 -w 0.0 -v 0.0 -n 0.1' >> data/Shapes/ml/experiment_6/grid_search.config
+echo '-b 256 -w 0.0005 -v 0.0 -n 0.1' >> data/Shapes/ml/experiment_6/grid_search.config
 
 while IFS= read -r params
 do
