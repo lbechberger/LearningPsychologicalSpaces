@@ -14,7 +14,7 @@ folds="${folds:-$default_folds}"
 regressors="${regressors:-$default_regressors}"
 lassos="${lassos:-$default_lassos}"
 features="${features:-$default_features}"
-noises="${noises:-$default_noises}"
+noises="${noises_exp3:-$default_noises}"
 image_size="${image_size:-$default_image_size}"
 
 # no parameter means local execution
