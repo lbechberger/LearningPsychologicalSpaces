@@ -44,7 +44,7 @@ fi
 
 # set up the directory structure
 echo '    setting up directory structure'
-mkdir -p 'data/Shapes/ml/experiment_6/logs/' 'data/Shapes/ml/experiment_6/snapshots' 'data/Shapes/ml/experiment_6/aggregated'
+mkdir -p 'data/Shapes/ml/experiment_6/logs/' 'data/Shapes/ml/experiment_6/snapshots' 'data/Shapes/ml/experiment_6/aggregated' 'data/Shapes/ml/experiment_6/images/'
 
 # vanilla setup
 for fold in $folds
@@ -128,6 +128,7 @@ done < 'data/Shapes/ml/experiment_6/grid_search.config'
 # aggregate results for increased convenience
 python -m code.ml.ann.average_folds data/Shapes/ml/experiment_6/grid_search.csv data/Shapes/ml/experiment_6/aggregated/grid_search.csv
 
-# visualize reconstruction of default setting
-python -m data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f0_ep95_FINAL.h5 data/Shapes/ml/dataset/2/C21I07_parrot-0.png -s 42 -n 0.1 
+
+# visualize reconstructions
+python -m code.ml.ann.visualize_reconstruction data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f0_ep95_FINAL.h5 data/Shapes/images/C21I07_parrot.png data/Shapes/ml/experiment_6/images/default-n0.1-s42.png -i 224 -s 42 -n 0.1 
 

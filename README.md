@@ -782,10 +782,10 @@ The script goes through the given `input.csv` file (produced by `run_ann.py`) an
 
 In order to visualize the reconstructions of the autoencoder, you can use the script `visualize_reconstructions.py` as follows:
 ```
-python -m code.ml.ann.visualize_reconstructions path/to/model.hdf5 path/to/image.png
+python -m code.ml.ann.visualize_reconstructions path/to/model.hdf5 path/to/input_image.png path/to/output_image.png
 ```
-The script accepts the following optional parameters:
-- `-s` or `--seed`: Seeds the random number generator with the given seed in order to make the results deterministic.
-- `-n` or `--noise_level`: Specifies the level of salt and pepper noise to apply to the images (defaults to 0.0).
-- `-i` or `--image_size`: Size of the input image in pixels, defaults to 128.
+The script loads the given `ìnput_image`, resizes it, adds some noise (if desired), puts it through the autoencoder model stored in `model.hdf5`, and stores the result as `output_image`. It accepts the following optional parameters:
+- `-s` or `--seed`: Seeds the random number generator with the given seed in order to make the results of the noise generation deterministic.
+- `-n` or `--noise_level`: Specifies the level of salt and pepper noise to apply to the image before autoencoding (defaults to 0.0).
+- `-i` or `--image_size`: Size of the network input image in pixels, defaults to 128.
 

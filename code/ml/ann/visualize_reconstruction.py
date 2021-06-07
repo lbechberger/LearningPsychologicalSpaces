@@ -18,6 +18,7 @@ from code.util import salt_and_pepper_noise
 parser = argparse.ArgumentParser(description='Visualizing reconstructions')
 parser.add_argument('network_file', help = 'hdf5 file containing the pre-trained network')
 parser.add_argument('image_file', help = 'image to reconstruct')
+parser.add_argument('output_file', help = 'output png file to store')
 parser.add_argument('-s', '--seed', type = int, help = 'seed for random number generation', default = None)
 parser.add_argument('-n', '--noise_level', type = float, help = 'level of S&P noise', default = 0.0)
 parser.add_argument('-i', '--image_size', type = int, help = 'size of the input image', default = 128)
@@ -48,24 +49,14 @@ else:
 img = cv2.imread(args.image_file)
 img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 img = img / 255
+img = cv2.resize(img, (args.image_size, args.image_size))
 
-# collect the reconstructions
-images = []
-for i in range(12):
-    images.append(noise_function(img))
+# collect the reconstruction
+images = [noise_function(img)]
 model_outputs = model.predict(np.array(images))
 results = model_outputs[-1]
-   
-# visualize
-fig = plt.figure(figsize=(16,10))
-    
-for i in range(12):
-    ax = fig.add_subplot(3, 4, i+1)
-    
-    display_img = results[i]
 
-    display_img = display_img.reshape((display_img.shape[0], display_img.shape[1]))
-    ax.imshow(display_img, cmap = "gray")
-    
-    
-plt.show()
+# visualize
+display_img = results[0]
+display_img = display_img.reshape((display_img.shape[0], display_img.shape[1]))
+plt.imsave(args.output_file, arr=display_img, cmap="gray")
