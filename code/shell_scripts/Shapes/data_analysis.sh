@@ -111,9 +111,9 @@ echo '    comparing visual and conceptual similarity'
 python -m  code.mds.data_analysis.find_item_pair_differences data/Shapes/mds/similarities/rating_type/visual/aggregated_ratings.pickle data/Shapes/mds/similarities/rating_type/conceptual/aggregated_ratings.pickle  &> data/Shapes/mds/similarities/rating_type/differences.txt
 
 echo '    visualization of visual vs. conceptual similarity'
-python -m code.mds.data_analysis.plot_similarity_matrices data/Shapes/mds/similarities/rating_type/conceptual/aggregated_ratings.pickle data/Shapes/mds/similarities/rating_type/visual/aggregated_ratings.pickle  data/Shapes/mds/visualizations/similarity_matrices/ -f Conceptual -s Visual
+python -m code.mds.data_analysis.plot_similarity_matrices data/Shapes/mds/similarities/rating_type/conceptual/aggregated_ratings.pickle data/Shapes/mds/similarities/rating_type/visual/aggregated_ratings.pickle  data/Shapes/mds/visualizations/similarity_matrices/ -f Conceptual -s Visual > data/Shapes/mds/visualizations/similarity_matrices/corr_Conceptual_Visual.txt
 
 echo '    visualization of mean vs. median similarity'
-python -m code.mds.data_analysis.plot_similarity_matrices data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle data/Shapes/mds/similarities/aggregator/median/aggregated_ratings.pickle  data/Shapes/mds/visualizations/similarity_matrices/ -f Mean -s Median
+python -m code.mds.data_analysis.plot_similarity_matrices data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle data/Shapes/mds/similarities/aggregator/median/aggregated_ratings.pickle  data/Shapes/mds/visualizations/similarity_matrices/ -f Mean -s Median > data/Shapes/mds/visualizations/similarity_matrices/corr_Mean_Median.txt
 
 
