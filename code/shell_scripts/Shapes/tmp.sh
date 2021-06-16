@@ -11,6 +11,9 @@ default_bottlenecks=("2048 256 128 64 32 16")
 default_image_size=224
 default_epochs=200
 default_patience=200
+default_reconstruction_seeds=("0 42 1337 123456")
+default_reconstruction_noises=("0.0 0.1 0.25 0.55")
+
 
 folds="${folds:-$default_folds}"
 weight_decays_enc="${weight_decays:-$default_weight_decays_enc}"
@@ -20,39 +23,32 @@ bottlenecks="${bottlenecks:-$default_bottlenecks}"
 image_size="${image_size:-$default_image_size}"
 epochs="${epochs:-$default_epochs}"
 patience="${patience:-$default_patience}"
+reconstruction_seeds="${reconstruction_seeds:-$default_reconstruction_seeds}"
+reconstruction_noises="${reconstruction_noises:-$default_reconstruction_noises}"
 
-# no parameter means local execution
-if [ "$#" -ne 1 ]
-then
-	echo '[local execution]'
-	cmd='python -m'
-	script=code.ml.ann.run_ann
-	walltime=''
-# parameter 'grid' means execution on grid
-elif [ $1 = grid ]
-then
-	echo '[grid execution]'
-	cmd=qsub
-	script=code/ml/ann/run_ann.sge
-	walltime='--walltime 5400'
-	qsub ../Utilities/watch_jobs.sge $script ann ../sge-logs/
-# all other parameters are not supported
-else
-	echo '[ERROR: argument not supported, exiting now!]'
-	exit 1
-fi
+# visualize reconstructions
 
-# grid search on most promising candidates
-echo '-b 512 -w 0.0 -v 0.0 -n 0.1' > data/Shapes/ml/experiment_6/grid_search.config
-echo '-b 256 -w 0.0 -v 0.0 -n 0.1' >> data/Shapes/ml/experiment_6/grid_search.config
-echo '-b 256 -w 0.0005 -v 0.0 -n 0.1' >> data/Shapes/ml/experiment_6/grid_search.config
+declare -a configs=(
+	"default data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f2_ep48_FINAL.h5"
+	"large data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b2048_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f2_ep69_FINAL.h5"
+	"small data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b256_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f2_ep70_FINAL.h5"
+	"best data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b512_w0.0_v0.0_eFalse_dFalse_n0.1_mean_4_f2_ep175_FINAL.h5"
+)
 
-while IFS= read -r params
+for seed in $reconstruction_seeds
 do
-	for fold in $folds
-	do
-		$cmd $script data/Shapes/ml/dataset/Shapes.pickle data/Shapes/ml/dataset/Additional.pickle data/Shapes/ml/dataset/Berlin.pickle data/Shapes/ml/dataset/Sketchy.pickle data/Shapes/ml/dataset/targets.pickle mean_4 data/Shapes/images/ data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle data/Shapes/ml/experiment_6/grid_search.csv -c 0.0 -r 1.0 -m 0.0 -f $fold -s 42 --initial_stride 3 --image_size $image_size --noise_only_train --patience $patience --epochs $epochs $walltime $params
-	done
-done < 'data/Shapes/ml/experiment_6/grid_search.config'
+	python -m code.ml.ann.visualize_reconstruction data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f2_ep48_FINAL.h5 data/Shapes/images/C21I07_parrot.png 'data/Shapes/ml/experiment_6/images/default-n0.1-s'"$seed"'.png' -i $image_size -s $seed -n 0.1 
+done
+
+for noise in $reconstruction_noises
+do
+	python -m code.ml.ann.visualize_reconstruction data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f2_ep48_FINAL.h5 data/Shapes/images/C21I07_parrot.png 'data/Shapes/ml/experiment_6/images/default-n'"$noise"'-s42.png' -i $image_size -s 42 -n $noise
+done
+
+for config in "${configs[@]}"
+do
+	read -a elements <<< "$config"
+	python -m code.ml.ann.visualize_reconstruction ${elements[1]} data/Shapes/images/C21I07_parrot.png 'data/Shapes/ml/experiment_6/images/'"${elements[0]}"'-n0.1-s42.png' -i $image_size -s 42 -n 0.1
+done
 
 

@@ -139,9 +139,8 @@ python -m code.ml.ann.average_folds data/Shapes/ml/experiment_6/grid_search.csv 
 declare -a configs=(
 	"default data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f2_ep48_FINAL.h5"
 	"large data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b2048_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f2_ep69_FINAL.h5"
-#	"small "
-#	"correlation "
-#	"reconstruction "
+	"small data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b256_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f2_ep70_FINAL.h5"
+	"best data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b512_w0.0_v0.0_eFalse_dFalse_n0.1_mean_4_f2_ep175_FINAL.h5"
 )
 
 for seed in $reconstruction_seeds
