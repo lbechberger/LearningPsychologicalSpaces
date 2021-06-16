@@ -119,7 +119,7 @@ then
 
 	# experiment 3
 	features=("default large small correlation no_noise")
-	noises=("noisy clean")
+	noises_exp3=("noisy clean")
 
 	# experiment 4
 	mapping_weights=("0.0625 0.125 0.25 0.5 1 2")
@@ -129,6 +129,23 @@ then
 	inception_lasso=0.005
 	transfer_features="small"
 	transfer_lasso=0.02
+
+	# experiment 6
+	weight_decays_enc=("0.0 0.0002 0.001 0.002")
+	weight_decays_dec=("0.0002 0.0005 0.001 0.002")
+	reconstruction_seeds=("0 42 1337 123456")
+	reconstruction_noises=("0.0 0.1 0.25 0.55")
+
+	# experiment 7
+	features_exp7=("default reconstruction correlation")
+	noises_exp7=("noisy clean")
+
+	# experiment 9
+	#TODO update
+	ann_config_exp9="-c 0.0 -r 1.0 -m 0.0"
+	transfer_features_exp9="reconstruction"
+	transfer_lasso_exp9=0.02
+	
 
 # all other parameters are not supported
 else
@@ -150,4 +167,11 @@ then
 	. code/shell_scripts/Shapes/experiment_3.sh
 	. code/shell_scripts/Shapes/experiment_4.sh
 	. code/shell_scripts/Shapes/experiment_5.sh
+fi
+if [ $1 = dissertation ]
+then
+	. code/shell_scripts/Shapes/experiment_6.sh
+	. code/shell_scripts/Shapes/experiment_7.sh
+	. code/shell_scripts/Shapes/experiment_8.sh
+	. code/shell_scripts/Shapes/experiment_9.sh
 fi

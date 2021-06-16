@@ -9,6 +9,7 @@ import pickle, argparse, os
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm as cm
+from scipy.stats import kendalltau
 
 parser = argparse.ArgumentParser(description='Plotting similarity tables')
 parser.add_argument('first_similarity_file', help = 'the input file containing the first set of similarity ratings')
@@ -119,3 +120,7 @@ plt.title('Scatter Plot of {0} and {1} Similarity'.format(args.first_name, args.
 # store the overall scatter plot
 output_file_name_scatter = os.path.join(args.output_folder, 'scatter_{0}_{1}.png'.format(args.first_name, args.second_name))        
 fig.savefig(output_file_name_scatter, bbox_inches='tight', dpi=200)
+
+# compute correlation coefficient
+kendall, _ = kendalltau(first_vector, second_vector)
+print("rank correlation (Kendall's tau): ", kendall)

@@ -11,6 +11,9 @@ default_bottlenecks=("2048 256 128 64 32 16")
 default_image_size=224
 default_epochs=200
 default_patience=200
+default_reconstruction_seeds=("0 42 1337 123456")
+default_reconstruction_noises=("0.0 0.1 0.25 0.55")
+
 
 folds="${folds:-$default_folds}"
 weight_decays_enc="${weight_decays:-$default_weight_decays_enc}"
@@ -20,6 +23,8 @@ bottlenecks="${bottlenecks:-$default_bottlenecks}"
 image_size="${image_size:-$default_image_size}"
 epochs="${epochs:-$default_epochs}"
 patience="${patience:-$default_patience}"
+reconstruction_seeds="${reconstruction_seeds:-$default_reconstruction_seeds}"
+reconstruction_noises="${reconstruction_noises:-$default_reconstruction_noises}"
 
 # no parameter means local execution
 if [ "$#" -ne 1 ]
@@ -44,7 +49,7 @@ fi
 
 # set up the directory structure
 echo '    setting up directory structure'
-mkdir -p 'data/Shapes/ml/experiment_6/logs/' 'data/Shapes/ml/experiment_6/snapshots' 'data/Shapes/ml/experiment_6/aggregated'
+mkdir -p 'data/Shapes/ml/experiment_6/logs/' 'data/Shapes/ml/experiment_6/snapshots' 'data/Shapes/ml/experiment_6/aggregated' 'data/Shapes/ml/experiment_6/images/'
 
 # vanilla setup
 for fold in $folds
@@ -127,4 +132,32 @@ done < 'data/Shapes/ml/experiment_6/grid_search.config'
 
 # aggregate results for increased convenience
 python -m code.ml.ann.average_folds data/Shapes/ml/experiment_6/grid_search.csv data/Shapes/ml/experiment_6/aggregated/grid_search.csv
+
+
+# visualize reconstructions
+
+declare -a configs=(
+	"default data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f2_ep48_FINAL.h5"
+	"large data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b2048_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f2_ep69_FINAL.h5"
+#	"small "
+#	"correlation "
+#	"reconstruction "
+)
+
+for seed in $reconstruction_seeds
+do
+	python -m code.ml.ann.visualize_reconstruction data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f2_ep48_FINAL.h5 data/Shapes/images/C21I07_parrot.png 'data/Shapes/ml/experiment_6/images/default-n0.1-s'"$seed"'.png' -i $image_size -s $seed -n 0.1 
+done
+
+for noise in $reconstruction_noises
+do
+	python -m code.ml.ann.visualize_reconstruction data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f2_ep48_FINAL.h5 data/Shapes/images/C21I07_parrot.png 'data/Shapes/ml/experiment_6/images/default-n'"$noise"'-s42.png' -i $image_size -s 42 -n $noise
+done
+
+for config in "${configs[@]}"
+do
+	read -a elements <<< "$config"
+	python -m code.ml.ann.visualize_reconstruction ${elements[1]} data/Shapes/images/C21I07_parrot.png 'data/Shapes/ml/experiment_6/images/'"${elements[0]}"'-n0.1-s42.png' -i $image_size -s 42 -n 0.1
+done
+
 
