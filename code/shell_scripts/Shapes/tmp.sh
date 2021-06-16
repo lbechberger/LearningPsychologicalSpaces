@@ -1,74 +1,52 @@
-echo 'experiment 7 - regression on top of autoencoder'
+#!/bin/bash
+
+echo 'experiment 6 - reconstruction baseline'
 
 # setting up overall variables
 default_folds=("0 1 2 3 4")
-default_regressors=("--linear")
-default_lassos=("0.001 0.002 0.005 0.01 0.02 0.05 0.1 0.2 0.5 1.0 2.0 5.0 10.0")
-default_features=("default best")
-default_noises=("noisy clean")
+default_weight_decays_enc=("0.0 0.0002 0.001 0.002")
+default_weight_decays_dec=("0.0002 0.0005 0.001 0.002")
+default_noises=("0.0 0.25 0.55")
+default_bottlenecks=("2048 256 128 64 32 16")
 default_image_size=224
+default_epochs=200
+default_patience=200
+default_reconstruction_seeds=("0 42 1337 123456")
+default_reconstruction_noises=("0.0 0.1 0.25 0.55")
+
 
 folds="${folds:-$default_folds}"
-regressors="${regressors:-$default_regressors}"
-lassos="${lassos:-$default_lassos}"
-features="${features_exp7:-$default_features}"
-noises="${noises_exp7:-$default_noises}"
+weight_decays_enc="${weight_decays:-$default_weight_decays_enc}"
+weight_decays_dec="${weight_decays_dec:-$default_weight_decays_dec}"
+noises="${noises:-$default_noises}"
+bottlenecks="${bottlenecks:-$default_bottlenecks}"
 image_size="${image_size:-$default_image_size}"
+epochs="${epochs:-$default_epochs}"
+patience="${patience:-$default_patience}"
+reconstruction_seeds="${reconstruction_seeds:-$default_reconstruction_seeds}"
+reconstruction_noises="${reconstruction_noises:-$default_reconstruction_noises}"
 
-# no parameter means local execution
-if [ "$#" -ne 1 ]
-then
-	echo '[local execution]'
-	cmd='python -m'
-	bottleneck_script=code.ml.ann.get_bottleneck_activations
-	regression_script=code.ml.regression.regression
-# parameter 'grid' means execution on grid
-elif [ $1 = grid ]
-then
-	echo '[grid execution]'
-	cmd=qsub
-	bottleneck_script=code/ml/ann/get_bottleneck_activations.sge
-	regression_script=code/ml/regression/regression.sge
-# all other parameters are not supported
-else
-	echo '[ERROR: argument not supported, exiting now!]'
-	exit 1
-fi
+# visualize reconstructions
 
-# set up the directory structure
-echo '    setting up directory structure'
-mkdir -p 'data/Shapes/ml/experiment_7/features' 'data/Shapes/ml/experiment_7/aggregated'
+declare -a configs=(
+	"default data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f2_ep48_FINAL.h5"
+	"best data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b512_w0.0_v0.0_eFalse_dFalse_n0.1_mean_4_f2_ep175_FINAL.h5"
+)
 
-# extract features for both noised and unnoised input
-for noise in $noises
+for seed in $reconstruction_seeds
 do
-	if [ $noise = noisy ]
-	then
-		noise_flag="-n 0.1"
-	else
-		noise_flag=""
-	fi
-
-	# define snapshots of default autoencoder
-	echo 'data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f0_ep95_FINAL.h5 data/Shapes/ml/experiment_7/features/default_f0_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_7/snapshots.config
-	echo 'data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f1_ep25_FINAL.h5 data/Shapes/ml/experiment_7/features/default_f1_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_7/snapshots.config
-	echo 'data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f2_ep48_FINAL.h5 data/Shapes/ml/experiment_7/features/default_f2_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_7/snapshots.config
-	echo 'data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f3_ep56_FINAL.h5 data/Shapes/ml/experiment_7/features/default_f3_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_7/snapshots.config
-	echo 'data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f4_ep52_FINAL.h5 data/Shapes/ml/experiment_7/features/default_f4_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_7/snapshots.config
-
-
-	# define snapshots of best configuration
-	echo 'data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b512_w0.0_v0.0_eFalse_dFalse_n0.1_mean_4_f0_ep195_FINAL.h5 data/Shapes/ml/experiment_7/features/best_f0_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_7/snapshots.config
-	echo 'data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b512_w0.0_v0.0_eFalse_dFalse_n0.1_mean_4_f1_ep192_FINAL.h5 data/Shapes/ml/experiment_7/features/best_f1_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_7/snapshots.config
-	echo 'data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b512_w0.0_v0.0_eFalse_dFalse_n0.1_mean_4_f2_ep175_FINAL.h5 data/Shapes/ml/experiment_7/features/best_f2_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_7/snapshots.config
-	echo 'data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b512_w0.0_v0.0_eFalse_dFalse_n0.1_mean_4_f3_ep196_FINAL.h5 data/Shapes/ml/experiment_7/features/best_f3_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_7/snapshots.config
-	echo 'data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b512_w0.0_v0.0_eFalse_dFalse_n0.1_mean_4_f4_ep199_FINAL.h5 data/Shapes/ml/experiment_7/features/best_f4_'$noise$'.pickle '"$noise_flag" >> data/Shapes/ml/experiment_7/snapshots.config
-
+	python -m code.ml.ann.visualize_reconstruction data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b512_w0.0_v0.0_eFalse_dFalse_n0.1_mean_4_f2_ep175_FINAL.h5 data/Shapes/images/C21I07_parrot.png 'data/Shapes/ml/experiment_6/images/best-n0.1-s'"$seed"'.png' -i $image_size -s $seed -n 0.1 
 done
 
-# extract all the features
-while IFS= read -r config
+for noise in $reconstruction_noises
 do
-	$cmd $bottleneck_script data/Shapes/ml/dataset/Shapes.pickle $config -s 42 -i $image_size
-done < 'data/Shapes/ml/experiment_7/snapshots.config'
+	python -m code.ml.ann.visualize_reconstruction data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b512_w0.0_v0.0_eFalse_dFalse_n0.1_mean_4_f2_ep175_FINAL.h5 data/Shapes/images/C21I07_parrot.png 'data/Shapes/ml/experiment_6/images/best-n'"$noise"'-s42.png' -i $image_size -s 42 -n $noise
+done
+
+for config in "${configs[@]}"
+do
+	read -a elements <<< "$config"
+	python -m code.ml.ann.visualize_reconstruction ${elements[1]} data/Shapes/images/C21I07_parrot.png 'data/Shapes/ml/experiment_6/images/'"${elements[0]}"'-n0.1-s42.png' -i $image_size -s 42 -n 0.1
+done
+
 

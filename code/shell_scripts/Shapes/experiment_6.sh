@@ -138,19 +138,17 @@ python -m code.ml.ann.average_folds data/Shapes/ml/experiment_6/grid_search.csv 
 
 declare -a configs=(
 	"default data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f2_ep48_FINAL.h5"
-	"large data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b2048_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f2_ep69_FINAL.h5"
-	"small data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b256_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f2_ep70_FINAL.h5"
 	"best data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b512_w0.0_v0.0_eFalse_dFalse_n0.1_mean_4_f2_ep175_FINAL.h5"
 )
 
 for seed in $reconstruction_seeds
 do
-	python -m code.ml.ann.visualize_reconstruction data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f2_ep48_FINAL.h5 data/Shapes/images/C21I07_parrot.png 'data/Shapes/ml/experiment_6/images/default-n0.1-s'"$seed"'.png' -i $image_size -s $seed -n 0.1 
+	python -m code.ml.ann.visualize_reconstruction data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b512_w0.0_v0.0_eFalse_dFalse_n0.1_mean_4_f2_ep175_FINAL.h5 data/Shapes/images/C21I07_parrot.png 'data/Shapes/ml/experiment_6/images/best-n0.1-s'"$seed"'.png' -i $image_size -s $seed -n 0.1 
 done
 
 for noise in $reconstruction_noises
 do
-	python -m code.ml.ann.visualize_reconstruction data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b512_w0.0005_v0.0_eTrue_dFalse_n0.1_mean_4_f2_ep48_FINAL.h5 data/Shapes/images/C21I07_parrot.png 'data/Shapes/ml/experiment_6/images/default-n'"$noise"'-s42.png' -i $image_size -s 42 -n $noise
+	python -m code.ml.ann.visualize_reconstruction data/Shapes/ml/experiment_6/snapshots/c0.0_r1.0_m0.0_b512_w0.0_v0.0_eFalse_dFalse_n0.1_mean_4_f2_ep175_FINAL.h5 data/Shapes/images/C21I07_parrot.png 'data/Shapes/ml/experiment_6/images/best-n'"$noise"'-s42.png' -i $image_size -s 42 -n $noise
 done
 
 for config in "${configs[@]}"
