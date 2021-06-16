@@ -41,10 +41,9 @@ echo '    setting up directory structure'
 mkdir -p 'data/Shapes/ml/experiment_8/logs/' 'data/Shapes/ml/experiment_8/snapshots/' 'data/Shapes/ml/experiment_8/aggregated'
 
 
-# TODO: define ann configurations to run
+# define ann configurations to run
 echo 'data/Shapes/ml/experiment_8/default.csv -e' > data/Shapes/ml/experiment_8/ann.config
-echo 'data/Shapes/ml/experiment_8/correlation.csv' >> data/Shapes/ml/experiment_8/ann.config
-echo 'data/Shapes/ml/experiment_8/reconstruction.csv' >> data/Shapes/ml/experiment_8/ann.config
+echo 'data/Shapes/ml/experiment_8/best.csv -w 0.0' >> data/Shapes/ml/experiment_8/ann.config
 
 # run all the configurations
 while IFS= read -r config
