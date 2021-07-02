@@ -277,16 +277,29 @@ def load_image_files_pixel(item_ids, image_folder):
     from PIL import Image
 
     images = []
-    for item_id in item_ids:
-        for file_name in os.listdir(image_folder):
-            if os.path.isfile(os.path.join(image_folder, file_name)) and item_id in file_name:
-                # found the corresponding image: load it
-                img = Image.open(os.path.join(image_folder, file_name), 'r')
-                images.append(img)
-                
-                # don't need to look at other files for this item_id, so can break out of inner loop
-                break
 
+    for item in item_ids:
+        candidates = []
+        for file_name in os.listdir(image_folder):
+            if os.path.isfile(os.path.join(image_folder, file_name)) and item in file_name:
+                candidates.append(file_name)
+        if len(candidates) > 1:
+            # special case handling for 'owl'/'bowl' and similar
+            filtered = [file_name for file_name in candidates if (('_' + item) in file_name and (item + '.') in file_name)]
+            
+            if len(filtered) == 1:
+                file_name = filtered[0]
+            else:
+                file_name = candidates[0]
+        elif len(candidates) == 1:
+            file_name = candidates[0]
+        else:
+            continue
+
+        # found the corresponding image: load it
+        img = Image.open(os.path.join(image_folder, file_name), 'r')
+        images.append(img)
+        
     return images
 
 
@@ -329,23 +342,38 @@ def load_item_images(image_folder, item_ids):
     
     images = []
     for item in item_ids:
+        candidates = []
         for file_name in os.listdir(image_folder):
             if os.path.isfile(os.path.join(image_folder, file_name)) and item in file_name:
-                # found the corresponding image
-                img = Image.open(os.path.join(image_folder, file_name), 'r')
-                img = img.convert("RGBA")
-                
-                # conversion of white to alpha based on https://stackoverflow.com/a/765774
-                img_data = img.getdata()
-                new_data = []
-                for item in img_data:
-                    if item[0] == 255 and item[1] == 255 and item[2] == 255:
-                        new_data.append((255, 255, 255, 0))
-                    else:
-                        new_data.append(item)
-                img.putdata(new_data)
-                images.append(img)
-                break
+                candidates.append(file_name)
+        if len(candidates) > 1:
+            # special case handling for 'owl'/'bowl' and similar
+            filtered = [file_name for file_name in candidates if (('_' + item) in file_name and (item + '.') in file_name)]
+            
+            if len(filtered) == 1:
+                file_name = filtered[0]
+            else:
+                file_name = candidates[0]
+        elif len(candidates) == 1:
+            file_name = candidates[0]
+        else:
+            continue
+        
+        # found the corresponding image
+        img = Image.open(os.path.join(image_folder, file_name), 'r')
+        img = img.convert("RGBA")
+        
+        # conversion of white to alpha based on https://stackoverflow.com/a/765774
+        img_data = img.getdata()
+        new_data = []
+        for item in img_data:
+            if item[0] == 255 and item[1] == 255 and item[2] == 255:
+                new_data.append((255, 255, 255, 0))
+            else:
+                new_data.append(item)
+        img.putdata(new_data)
+        images.append(img)
+
     return images
 
 def create_labeled_scatter_plot(x, y, output_file_name, x_label = "x-axis", y_label = "y-axis", images = None, zoom = 0.15, item_ids = None, directions = None, regions = None):

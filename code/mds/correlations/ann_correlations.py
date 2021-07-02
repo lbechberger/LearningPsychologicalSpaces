@@ -35,15 +35,28 @@ def load_image_files_ann(item_ids, image_folder):
     from tensorflow.python.platform import gfile
 
     images = []
-    for item_id in item_ids:
-        for file_name in os.listdir(image_folder):
-            if os.path.isfile(os.path.join(image_folder, file_name)) and item_id in file_name:
-                # found the corresponding image: load it
-                image_data = gfile.FastGFile(os.path.join(image_folder, file_name), 'rb').read()            
-                images.append(image_data)
 
-                # don't need to look at other files for this item_id, so can break out of inner loop
-                break
+    for item in item_ids:
+        candidates = []
+        for file_name in os.listdir(image_folder):
+            if os.path.isfile(os.path.join(image_folder, file_name)) and item in file_name:
+                candidates.append(file_name)
+        if len(candidates) > 1:
+            # special case handling for 'owl'/'bowl' and similar
+            filtered = [file_name for file_name in candidates if (('_' + item) in file_name and (item + '.') in file_name)]
+            
+            if len(filtered) == 1:
+                file_name = filtered[0]
+            else:
+                file_name = candidates[0]
+        elif len(candidates) == 1:
+            file_name = candidates[0]
+        else:
+            continue
+
+        # found the corresponding image: load it
+        image_data = gfile.FastGFile(os.path.join(image_folder, file_name), 'rb').read()            
+        images.append(image_data)
 
     return images
 
