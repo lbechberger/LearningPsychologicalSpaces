@@ -46,8 +46,8 @@ def make_heatmap(ax, matrix, legend):
 
     ax.set_xticks(np.arange(len(legend)))
     ax.set_yticks(np.arange(len(legend)))
-    ax.set_xticklabels(legend, fontsize = 8)
-    ax.set_yticklabels(legend, fontsize = 8) 
+    ax.set_xticklabels(legend, fontsize = 12)
+    ax.set_yticklabels(legend, fontsize = 12) 
 
     return im
 
@@ -74,29 +74,49 @@ item_matrix = merge_matrices(first_item_matrix, second_item_matrix)
 category_matrix_first = merge_matrices(first_category_matrix, empty_matrix)
 category_matrix_second = merge_matrices(empty_matrix, second_category_matrix, True)
 
-# set up overall plot for heatmap
-fig = plt.figure(figsize = (18,9))
-ax_items = fig.add_subplot(121)
-ax_cats_second = fig.add_subplot(222)
-ax_cats_first = fig.add_subplot(224)
+# set up overall plot for item heatmap
+fig_items = plt.figure(figsize = (12,12))
+ax_items = fig_items.add_subplot(111)
 
 # add heatmap for item matrix
 im = make_heatmap(ax_items, item_matrix, item_names)
 
 # add color bar
-cbar = fig.colorbar(im, ticks=[1.1,4.9], ax=ax_items, orientation='vertical')#, pad = 0.4)
-cbar.ax.set_ylabel("similarity", rotation='vertical')
-cbar.ax.set_yticklabels(['low','high'])
+cbar_items = fig_items.colorbar(im, ticks=[1.1,4.9], ax=ax_items, orientation='vertical')
+cbar_items.ax.set_ylabel("similarity", rotation='vertical', fontsize = 14)
+cbar_items.ax.set_yticklabels(['low','high'], fontsize = 12)
+
+# store item heatmap plot
+fig_items.tight_layout()     
+output_file_name_heatmap_items = os.path.join(args.output_folder, 'heatmap_{0}_{1}_items.png'.format(args.first_name, args.second_name))
+fig_items.savefig(output_file_name_heatmap_items, bbox_inches='tight', dpi=200)
+
+
+
+# set up overall plot for category heatmap
+fig_cats = plt.figure(figsize = (18,9))
+ax_cats_second = fig_cats.add_subplot(121)
+ax_cats_first = fig_cats.add_subplot(122)
 
 # add heatmaps for category matrices
 make_heatmap(ax_cats_first, category_matrix_first, category_names)
 make_heatmap(ax_cats_second, category_matrix_second, category_names)
 
-# store overall heatmap plot
-fig.tight_layout()     
-output_file_name_heatmap = os.path.join(args.output_folder, 'heatmap_{0}_{1}.png'.format(args.first_name, args.second_name))
-fig.savefig(output_file_name_heatmap, bbox_inches='tight', dpi=200)
+ax_cats_second.set_xlabel("(a)", fontsize = 20)
+ax_cats_first.set_xlabel("(b)", fontsize = 20)
 
+# add color bar
+fig_cats.subplots_adjust(right=0.85)
+ax_cats_cbar = fig_cats.add_axes([0.8, 0.15, 0.1, 0.7])
+ax_cats_cbar.axis('off')
+cbar_cats = fig_cats.colorbar(im, ticks=[1.1,4.9], ax=ax_cats_cbar, orientation='vertical')#, pad = 0.4)
+cbar_cats.ax.set_ylabel("similarity", rotation='vertical', fontsize = 14)
+cbar_cats.ax.set_yticklabels(['low','high'], fontsize = 12)
+
+# store category heatmap plot
+#fig_cats.tight_layout()     
+output_file_name_heatmap_cats = os.path.join(args.output_folder, 'heatmap_{0}_{1}_categories.png'.format(args.first_name, args.second_name))
+fig_cats.savefig(output_file_name_heatmap_cats, bbox_inches='tight', dpi=200)
 
 
 # transform item-based similarity matrices into vectors for scatter plot
