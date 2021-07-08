@@ -17,6 +17,7 @@ parser.add_argument('second_similarity_file', help = 'the input file containing 
 parser.add_argument('output_folder', help = 'the folder where the plots will be stored')
 parser.add_argument('-f', '--first_name', help = 'name of the first set of similarity ratings', default = 'first study')
 parser.add_argument('-s', '--second_name', help = 'name of the second set of similarity ratings', default = 'second study')
+parser.add_argument('-d', '--dissimilarities', action = 'store_true', help = 'use dissimilarities instead of similarities for the scatter plot')
 args = parser.parse_args()
 
 # merge the two given matrices
@@ -105,8 +106,8 @@ ax_cats_second = fig_cats.add_subplot(121)
 ax_cats_first = fig_cats.add_subplot(122)
 
 # add heatmaps for category matrices
-make_heatmap(ax_cats_first, category_matrix_first, category_names)
-make_heatmap(ax_cats_second, category_matrix_second, category_names)
+make_heatmap(ax_cats_first, category_matrix_first, category_names, 14)
+make_heatmap(ax_cats_second, category_matrix_second, category_names, 14)
 
 ax_cats_second.set_xlabel("(a)", fontsize = 24)
 ax_cats_first.set_xlabel("(b)", fontsize = 24)
@@ -122,6 +123,11 @@ output_file_name_heatmap_cats = os.path.join(args.output_folder, 'heatmap_{0}_{1
 fig_cats.savefig(output_file_name_heatmap_cats, bbox_inches='tight', dpi=200)
 
 
+# replace item matrix with dissimilarities if necessary!
+if args.dissimilarities:
+    first_item_matrix = first_input_data['dissimilarities']
+    second_item_matrix = second_input_data['dissimilarities']
+
 # transform item-based similarity matrices into vectors for scatter plot
 first_vector = np.reshape(first_item_matrix, (-1,1)) 
 second_vector = np.reshape(second_item_matrix, (-1,1)) 
@@ -136,9 +142,14 @@ ax.tick_params(axis="x", labelsize=16)
 ax.tick_params(axis="y", labelsize=16)
 ax.scatter(u[:,0],u[:,1],s = s(c))
 
-plt.xlabel('{0} Similarity'.format(args.first_name), fontsize = 20)
-plt.ylabel('{0} Similarity'.format(args.second_name), fontsize = 20)
-plt.title('Scatter Plot of {0} and {1} Similarity'.format(args.first_name, args.second_name), fontsize = 20)
+if args.dissimilarities:
+    plt.xlabel('{0} Dissimilarity'.format(args.first_name), fontsize = 20)
+    plt.ylabel('{0} Dissimilarity'.format(args.second_name), fontsize = 20)
+    plt.title('Scatter Plot of {0} and {1} Dissimilarity'.format(args.first_name, args.second_name), fontsize = 20)
+else:
+    plt.xlabel('{0} Similarity'.format(args.first_name), fontsize = 20)
+    plt.ylabel('{0} Similarity'.format(args.second_name), fontsize = 20)
+    plt.title('Scatter Plot of {0} and {1} Similarity'.format(args.first_name, args.second_name), fontsize = 20)
 
 # store the overall scatter plot
 output_file_name_scatter = os.path.join(args.output_folder, 'scatter_{0}_{1}.png'.format(args.first_name, args.second_name))        

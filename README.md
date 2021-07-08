@@ -285,13 +285,14 @@ Here, `conceptual.pickle` and `visual.pickle` are the corresponding output files
 
 #### 2.2.4 Creating Visualizations of the Similarity Matrices
 
-In order to visualize the similarity matrices, one can use the script `plot_similarity_matrices.py`. This script compares two sets of aggregated similarity ratings, given as `first.pickle` and `second.pickle` (output of `aggregate_similarities.py`). It creates one item-based heatmap (below diagonal: first set of similarities, above diagonal: second set of similarities) and two category-based heatmaps (same structure), and stores them as a single image `output_folder/heatmap_First_Second.png`. Moreover, it creates a scatter plot of the values in the two matrices and stores them as `output_folder/scatter_First_Second.png`. The script can be invoked as follows:
+In order to visualize the similarity matrices, one can use the script `plot_similarity_matrices.py`. This script compares two sets of aggregated similarity ratings, given as `first.pickle` and `second.pickle` (output of `aggregate_similarities.py`). It creates one item-based heatmap (below diagonal: first set of similarities, above diagonal: second set of similarities) and two category-based heatmaps (same structure), and stores them as a two separate images `output_folder/heatmap_First_Second_items.png` and `output_folder/heatmap_First_Second_categories.png`. Moreover, it creates a scatter plot of the values in the two matrices and stores them as `output_folder/scatter_First_Second.png`. The script can be invoked as follows:
 ```
 python -m code.mds.preprocessing.plot_similarity_matrices path/to/first.pickle path/to/second.pickle path/to/output_folder/
 ```
 It takes the following optional arguments:
 - `-f` or `--first_name`: Descriptive name for the first set of similarities (defaults to 'First').
 - `-s` or `--second_name`: Descriptive name for the second set of similarities (defaults to 'Second').
+- `-d` or `--dissimilarities`: Use the dissimilarity matrix (instead of the similarity matrix) for making the scatter plot. Does not affect the heatmaps.
 
 
 ### 2.3 Creating Similarity Spaces
