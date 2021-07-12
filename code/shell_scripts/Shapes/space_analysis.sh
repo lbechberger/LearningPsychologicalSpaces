@@ -132,11 +132,11 @@ echo 'data/Shapes/mds/analysis/correlations/ann_distances.pickle data/Shapes/mds
 # best feature (preattentive, fixed)
 echo 'data/Shapes/mds/analysis/correlations/feature_distances.pickle data/Shapes/mds/visualizations/correlations/mean/shepard/best_feature_preattentive_fixed.png -f FORM-LINES-ORIENTATION -t pre-attentive -d InnerProduct' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
 # best feature (preattentive, optimimzed)
-echo 'data/Shapes/mds/analysis/correlations/feature_distances.pickle data/Shapes/mds/visualizations/correlations/mean/shepard/best_feature_preattentive_optimized.png -f FORM-LINES-ORIENTATION-artificial -t pre-attentive -d InnerProduct -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
+echo 'data/Shapes/mds/analysis/correlations/feature_distances.pickle data/Shapes/mds/visualizations/correlations/mean/shepard/best_feature_preattentive_optimized.png -f FORM-LINES-ORIENTATION -t pre-attentive -d InnerProduct -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
 # best feature (attentive, fixed)
 echo 'data/Shapes/mds/analysis/correlations/feature_distances.pickle data/Shapes/mds/visualizations/correlations/mean/shepard/best_feature_attentive_fixed.png -f FORM-LINES-ORIENTATION -t attentive -d Manhattan' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
 # best feature (attentive, optimized)
-echo 'data/Shapes/mds/analysis/correlations/feature_distances.pickle data/Shapes/mds/visualizations/correlations/mean/shepard/best_feature_attentive_optimized.png -f FORM-LINES-ORIENTATION-artificial -t attentive -d Manhattan -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
+echo 'data/Shapes/mds/analysis/correlations/feature_distances.pickle data/Shapes/mds/visualizations/correlations/mean/shepard/best_feature_attentive_optimized.png -f FORM-LINES-ORIENTATION -t attentive -d Manhattan -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
 
 # prepare setup for MEDIAN
 # best pixel (fixed)
@@ -151,11 +151,11 @@ echo 'data/Shapes/mds/analysis/correlations/ann_distances.pickle data/Shapes/mds
 # best feature (preattentive, fixed)
 echo 'data/Shapes/mds/analysis/correlations/feature_distances.pickle data/Shapes/mds/visualizations/correlations/median/shepard/best_feature_preattentive_fixed.png -f FORM-LINES-ORIENTATION -t pre-attentive -d InnerProduct' >> data/Shapes/mds/analysis/correlations/median/shepard.config
 # best feature (preattentive, optimimzed)
-echo 'data/Shapes/mds/analysis/correlations/feature_distances.pickle data/Shapes/mds/visualizations/correlations/median/shepard/best_feature_preattentive_optimized.png -f FORM-LINES-ORIENTATION-artificial -t pre-attentive -d InnerProduct -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/median/shepard.config
+echo 'data/Shapes/mds/analysis/correlations/feature_distances.pickle data/Shapes/mds/visualizations/correlations/median/shepard/best_feature_preattentive_optimized.png -f FORM-LINES-ORIENTATION -t pre-attentive -d InnerProduct -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/median/shepard.config
 # best feature (attentive, fixed)
 echo 'data/Shapes/mds/analysis/correlations/feature_distances.pickle data/Shapes/mds/visualizations/correlations/median/shepard/best_feature_attentive_fixed.png -f FORM-LINES-ORIENTATION -t attentive -d Manhattan' >> data/Shapes/mds/analysis/correlations/median/shepard.config
 # best feature (attentive, optimized)
-echo 'data/Shapes/mds/analysis/correlations/feature_distances.pickle data/Shapes/mds/visualizations/correlations/median/shepard/best_feature_attentive_optimized.png -f FORM-LINES-ORIENTATION-artificial -t attentive -d Manhattan -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/median/shepard.config
+echo 'data/Shapes/mds/analysis/correlations/feature_distances.pickle data/Shapes/mds/visualizations/correlations/median/shepard/best_feature_attentive_optimized.png -f FORM-LINES-ORIENTATION -t attentive -d Manhattan -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/median/shepard.config
 
 # add all MDS spaces
 for aggregator in $aggregators

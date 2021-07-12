@@ -27,6 +27,7 @@ parser.add_argument('--block_size', '-b', type = int, help = 'block size for pix
 parser.add_argument('--random', '-r', type = int, help = 'dimensionality of the random baseline space', default = None)
 parser.add_argument('--distribution', help = 'distribution type to use', default = 'normal')
 parser.add_argument('--optimized', '-o', action = 'store_true', help = 'if this flag is set, weights are optimized in cross-validation')
+parser.add_argument('--similarity_name', help = 'type of similarity matrix being used', default = 'Mean')
 parser.add_argument('-n', '--n_folds', type = int, help = 'number of folds to use for cross-validation when optimizing weights', default = 5)
 parser.add_argument('-s', '--seed', type = int, help = 'fixed seed to use for creating the folds', default = None)
 args = parser.parse_args()
@@ -42,22 +43,22 @@ if args.pixel is not None:
     input_file_name = os.path.join(args.distance_file, '{0}-{1}-{2}.pickle'.format(args.block_size, args.pixel, args.distance))
     with open(input_file_name, 'rb') as f_in:
         precomputed_distances = pickle.load(f_in)
-    x_label = '{0} Distance of Downscaled Images (Block Size {1}, Aggregation with {2})'.format(args.distance, args.block_size, args.pixel)
+    x_label = '{0} Distance of Downscaled Images\n(Block Size {1}, Aggregation with {2})'.format(args.distance, args.block_size, args.pixel)
 else:
     with open(args.distance_file, 'rb') as f_in:
         distances = pickle.load(f_in)
     if args.mds is not None:
         precomputed_distances = distances['MDS'][args.mds][args.distance][0]
-        x_label = '{0} Distance in {1}-dimensional MDS Space'.format(args.distance, args.mds)
+        x_label = '{0} Distance in {1}-Dimensional MDS Space'.format(args.distance, args.mds)
     elif args.ann:
         precomputed_distances = distances[args.distance]
         x_label = '{0} Distance of ANN Activation Vectors'.format(args.distance)
     elif args.features is not None:
         precomputed_distances = distances[args.features][args.type][args.distance]
-        x_label = '{0} Distance based on {1} Shape Features: {2}'.format(args.distance, args.type, args.features)
+        x_label = '{0} Distance Based on {1} Shape Features:\n{2}'.format(args.distance, args.type, args.features)
     elif args.random is not None:
         precomputed_distances = distances[args.distribution][args.random][args.distance][0]
-        x_label = '{0} Distance in a random {1}-dimensional Space with {2} Distribution'.format(args.distance, args.random, args.distribution)
+        x_label = '{0} Distance in a Random {1}-Dimensional Space with {2} Distribution'.format(args.distance, args.random, args.distribution)
     else: # args.pixel is not None:
         raise(Exception('This should not happen!'))
 
@@ -81,7 +82,7 @@ y = corr_dict['targets'].reshape(-1)
 
 ax.scatter(x, y)
 plt.xlabel(x_label, fontsize = 20)
-plt.ylabel('Dissimilarity from Psychological Study', fontsize = 20)
+plt.ylabel('{0} Dissimilarity from Psychological Study'.format(args.similarity_name), fontsize = 20)
 
 ir = IsotonicRegression()
 ir.fit(x, y)

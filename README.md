@@ -498,6 +498,8 @@ In its basic version, the script uses fixed identical dimension weights of one. 
 - `-n` or `--n_folds`: The number of folds to use in the cross-validation process of optimizing dimension weights (defaults to 5).
 - `-s` or `--seed`: Specify a seed for the random number generator in order to make the folds and thus the overall results deterministic. If no seed is given, then the random number generator is not seeded.
 
+Finally, the flag `--similarity_name` can be used to determine the title of the y-axis by specifying which type of similarity file is being used. Its default setting is `'Mean'` (i.e., the y-axis will be labeled as 'Mean Dissimilarity from Psychological Study').
+
 
 ### 2.5 Analyzing Conceptual Regions
 
