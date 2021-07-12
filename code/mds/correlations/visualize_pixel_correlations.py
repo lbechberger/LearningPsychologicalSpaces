@@ -77,7 +77,7 @@ for metric in pixel_data.keys():
                 y_values = list(map(lambda x: x[1], sorted_values))
                 legend = list(map(lambda x: x[0], sorted_values))
                 label_list.append(aggregator)
-                ax.plot(bar_indices, y_values, line_style)
+                ax.plot(bar_indices, y_values, line_style, linewidth=3)
                 
                 # checking whether this result was better
                 max_val = max(map(lambda x: x[1], sorted_values))
