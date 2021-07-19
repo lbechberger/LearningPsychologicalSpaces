@@ -8,9 +8,9 @@ default_dims=("1 2 3 5 6 7 8 9 10")
 default_image_size=224
 default_epochs=200
 default_patience=200
-default_ann_config="-c 0.0 -r 1.0 -m 0.0"		#TODO update
-default_transfer_features="reconstruction"		#TODO update
-default_transfer_lasso=0.02				#TODO update
+default_ann_config="-c 0.0 -r 1.0 -m 0.0625 -w 0.0"
+default_transfer_features="best"
+default_transfer_lasso=0.02
 
 folds="${folds:-$default_folds}"
 dims="${dims:-$default_dims}"
