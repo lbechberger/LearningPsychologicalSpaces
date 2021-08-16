@@ -39,15 +39,6 @@ else
 	exit 1
 fi
 
-# run lasso regression (transfer learning)
-for dim in $dims
-do
-	for fold in $folds
-	do
-		$cmd $regression_script data/Shapes/ml/dataset/targets.pickle 'mean_'"$dim" 'data/Shapes/ml/experiment_7/features/'"$transfer_features"'_f'"$fold"'_noisy.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_9/transfer/mean_'"$dim"'_f'"$fold"'.csv' -s 42 -e 'data/Shapes/ml/experiment_7/features/'"$transfer_features"'_f'"$fold"'_clean.pickle' --lasso $transfer_lasso
-	done
-done
-
 for dim in $dims
 do
 	python -m code.ml.regression.average_folds 'data/Shapes/ml/experiment_9/transfer/mean_'"$dim"'_f{0}.csv' 5 'data/Shapes/ml/experiment_9/aggregated/transfer_mean_'"$dim"'.csv'
