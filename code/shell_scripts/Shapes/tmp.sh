@@ -1,46 +1,39 @@
 #!/bin/bash
 
-echo 'experiment 9 - generalizing autoencoder results to other target spaces'
+# Overall Setup
+# -------------
 
-# setting up overall variables
-default_folds=("0 1 2 3 4")
-default_dims=("1 2 3 5 6 7 8 9 10")
-default_image_size=224
-default_epochs=200
-default_patience=200
-default_ann_config="-c 0.0 -r 1.0 -m 0.0625 -w 0.0"
-default_transfer_features="best"
-default_transfer_lasso=0.02
+# set up global variables
+default_aggregators=("mean median")
+default_dimension_limit=10
+default_visualization_limit=5
+default_convexity_limit=5
+default_directions=("FORM LINES ORIENTATION visSim artificial")
+default_criteria=("kappa spearman")
 
-folds="${folds:-$default_folds}"
-dims="${dims:-$default_dims}"
-image_size="${image_size:-$default_image_size}"
-epochs="${epochs:-$default_epochs}"
-patience="${patience:-$default_patience}"
-ann_config="${ann_config:-$default_ann_config}"
-transfer_features="${transfer_features:-$default_transfer_features}"
-transfer_lasso="${transfer_lasso:-$default_transfer_lasso}"
+aggregators="${aggregators:-$default_aggregators}"
+dimension_limit="${dimension_limit:-$default_dimension_limit}"
+visualization_limit="${visualization_limit:-$default_visualization_limit}"
+convexity_limit="${convexity_limit:-$default_convexity_limit}"
+directions="${directions:-$default_directions}"
+criteria="${criteria:-$default_criteria}"
 
-# no parameter means local execution
-if [ "$#" -ne 1 ]
-then
-	echo '[local execution]'
-	cmd='python -m'
-	regression_script=code.ml.regression.regression
-# parameter 'grid' means execution on grid
-elif [ $1 = grid ]
-then
-	echo '[grid execution]'
-	cmd=qsub
-	regression_script=code/ml/regression/regression.sge
-# all other parameters are not supported
-else
-	echo '[ERROR: argument not supported, exiting now!]'
-	exit 1
-fi
 
-for dim in $dims
+# analyzing correlation between distances and dissimilarities
+# -----------------------------------------------------------
+
+echo 'analyzing correlation between distances and dissimilarities'
+
+echo '    pixel baseline'
+for aggregator in $aggregators
 do
-	python -m code.ml.regression.average_folds 'data/Shapes/ml/experiment_9/transfer/mean_'"$dim"'_f{0}.csv' 5 'data/Shapes/ml/experiment_9/aggregated/transfer_mean_'"$dim"'.csv'
+	echo '        '"$aggregator"
+	# if precomputed distances exist: use them; if not: re-compute them
+	[ -f 'data/Shapes/mds/analysis/correlations/pixel_distances/283-max-Euclidean.pickle' ] && image_flag='' || image_flag='-i data/Shapes/images/'
+	python -u -m code.mds.correlations.pixel_correlations 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/aggregated_ratings.pickle' 'data/Shapes/mds/analysis/correlations/pixel_distances/' 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/pixel.csv' $image_flag -w 283 -g --kendall -s 42 &> 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/pixel_log.txt' 
+
+	python -m code.mds.correlations.visualize_pixel_correlations 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/pixel.csv' 'data/Shapes/mds/visualizations/correlations/'"$aggregator"'/' --kendall &> 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/pixel_best.txt'
+
 done
+
 
