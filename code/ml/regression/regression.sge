@@ -1,8 +1,8 @@
 #!/bin/bash
 #$ -N regression
-#$ -l mem=64G
+#$ -l mem=16G
 #$ -pe default 8
-#$ -l h_rt=72:00:00
+#$ -l h_rt=1:30:00
 #$ -cwd
 #$ -o $HOME/store/sge-logs
 #$ -e $HOME/store/sge-logs

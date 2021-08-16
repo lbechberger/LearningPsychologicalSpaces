@@ -1,58 +1,55 @@
 #!/bin/bash
 
-echo 'experiment 8 - autoencoding and mapping'
+echo 'experiment 9 - generalizing autoencoder results to other target spaces'
 
 # setting up overall variables
 default_folds=("0 1 2 3 4")
-default_mapping_weights=("0.0625 0.125 0.25 0.5 1 2")
+default_dims=("1 2 3 5 6 7 8 9 10")
 default_image_size=224
 default_epochs=200
 default_patience=200
+default_ann_config="-c 0.0 -r 1.0 -m 0.0625 -w 0.0"
+default_transfer_features="best"
+default_transfer_lasso=0.02
 
 folds="${folds:-$default_folds}"
-mapping_weights="${mapping_weights:-$default_mapping_weights}"
+dims="${dims:-$default_dims}"
 image_size="${image_size:-$default_image_size}"
 epochs="${epochs:-$default_epochs}"
 patience="${patience:-$default_patience}"
+ann_config="${ann_config:-$default_ann_config}"
+transfer_features="${transfer_features:-$default_transfer_features}"
+transfer_lasso="${transfer_lasso:-$default_transfer_lasso}"
 
 # no parameter means local execution
 if [ "$#" -ne 1 ]
 then
 	echo '[local execution]'
 	cmd='python -m'
-	script=code.ml.ann.run_ann
-	walltime=''
+	regression_script=code.ml.regression.regression
 # parameter 'grid' means execution on grid
 elif [ $1 = grid ]
 then
 	echo '[grid execution]'
 	cmd=qsub
-	script=code/ml/ann/run_ann.sge
-	walltime='--walltime 5400'
-	qsub ../Utilities/watch_jobs.sge $script ann ../sge-logs/
+	regression_script=code/ml/regression/regression.sge
 # all other parameters are not supported
 else
 	echo '[ERROR: argument not supported, exiting now!]'
 	exit 1
 fi
 
-# set up the directory structure
-echo '    setting up directory structure'
-mkdir -p 'data/Shapes/ml/experiment_8/logs/' 'data/Shapes/ml/experiment_8/snapshots/' 'data/Shapes/ml/experiment_8/aggregated'
-
-
-# define ann configurations to run
-echo 'data/Shapes/ml/experiment_8/default.csv -e' > data/Shapes/ml/experiment_8/ann.config
-echo 'data/Shapes/ml/experiment_8/best.csv -w 0.0' >> data/Shapes/ml/experiment_8/ann.config
-
-# run all the configurations
-while IFS= read -r config
+# run lasso regression (transfer learning)
+for dim in $dims
 do
-	for mapping_weight in $mapping_weights
+	for fold in $folds
 	do
-		for fold in $folds
-		do
-			$cmd $script data/Shapes/ml/dataset/Shapes.pickle data/Shapes/ml/dataset/Additional.pickle data/Shapes/ml/dataset/Berlin.pickle data/Shapes/ml/dataset/Sketchy.pickle data/Shapes/ml/dataset/targets.pickle mean_4 data/Shapes/images/ data/Shapes/mds/similarities/aggregator/mean/aggregated_ratings.pickle $config -c 0.0 -r 1.0 -m $mapping_weight -s 42 -f $fold $walltime --initial_stride 3 --image_size $image_size --noise_only_train --patience $patience --epochs $epochs
-		done
+		$cmd $regression_script data/Shapes/ml/dataset/targets.pickle 'mean_'"$dim" 'data/Shapes/ml/experiment_7/features/'"$transfer_features"'_f'"$fold"'_noisy.pickle' data/Shapes/ml/dataset/pickle/folds.csv 'data/Shapes/ml/experiment_9/transfer/mean_'"$dim"'_f'"$fold"'.csv' -s 42 -e 'data/Shapes/ml/experiment_7/features/'"$transfer_features"'_f'"$fold"'_clean.pickle' --lasso $transfer_lasso
 	done
-done < 'data/Shapes/ml/experiment_8/ann.config'
+done
+
+for dim in $dims
+do
+	python -m code.ml.regression.average_folds 'data/Shapes/ml/experiment_9/transfer/mean_'"$dim"'_f{0}.csv' 5 'data/Shapes/ml/experiment_9/aggregated/transfer_mean_'"$dim"'.csv'
+done
+
