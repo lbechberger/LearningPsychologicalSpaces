@@ -1,0 +1,2 @@
+regressor,targets,train_mse,train_med,train_r2,test_mse,test_med,test_r2
+lasso regression (beta = 0.02),correct,0.445638993482049,0.6437972106989366,0.5408662392818928,0.8020633353501347,0.8756671188594702,0.175816741223212
