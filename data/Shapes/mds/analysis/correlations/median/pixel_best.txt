@@ -1,2 +1,7 @@
-qt.qpa.screen: QXcbConnection: Could not connect to display localhost:10.0
-Could not connect to any X display.
+best pixel result for kendall-InnerProduct-optimized: ['mean-4', 0.2649848613655194]
+best pixel result for kendall-InnerProduct-fixed: ['min-26', 0.18275006653373813]
+best pixel result for kendall-Euclidean-optimized: ['min-24', 0.3491138659254181]
+best pixel result for kendall-Euclidean-fixed: ['min-24', 0.24747141034315898]
+best pixel result for kendall-Manhattan-optimized: ['min-24', 0.327070172999458]
+best pixel result for kendall-Manhattan-fixed: ['min-24', 0.24679888546026962]
+	 best pixel result for kendall: ['Euclidean-optimized-min-24', 0.3491138659254181]
