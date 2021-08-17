@@ -124,7 +124,7 @@ echo '    creating Shepard plots'
 echo 'data/Shapes/mds/analysis/correlations/pixel_distances/ data/Shapes/mds/visualizations/correlations/mean/shepard/best_pixel_fixed.png -p min -b 24 -d Euclidean' > data/Shapes/mds/analysis/correlations/mean/shepard.config
 echo 'data/Shapes/mds/analysis/correlations/pixel_distances/ data/Shapes/mds/visualizations/correlations/mean/shepard/best_pixel_fixed_optimized.png -p min -b 24 -d Euclidean -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
 # best pixel (optimized)
-echo 'data/Shapes/mds/analysis/correlations/pixel_distances/ data/Shapes/mds/visualizations/correlations/mean/shepard/best_pixel_optimized.png -p min -b 2 -d Euclidean -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
+echo 'data/Shapes/mds/analysis/correlations/pixel_distances/ data/Shapes/mds/visualizations/correlations/mean/shepard/best_pixel_optimized.png -p max -b 1 -d Euclidean -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
 # best ANN (fixed)
 echo 'data/Shapes/mds/analysis/correlations/ann_distances.pickle data/Shapes/mds/visualizations/correlations/mean/shepard/best_ann_fixed.png -a -d Manhattan' >> data/Shapes/mds/analysis/correlations/mean/shepard.config
 # best ANN (optimized)
@@ -141,9 +141,10 @@ echo 'data/Shapes/mds/analysis/correlations/feature_distances.pickle data/Shapes
 # prepare setup for MEDIAN
 # best pixel (fixed)
 echo 'data/Shapes/mds/analysis/correlations/pixel_distances/ data/Shapes/mds/visualizations/correlations/median/shepard/best_pixel_fixed.png -p min -b 24 -d Euclidean' > data/Shapes/mds/analysis/correlations/median/shepard.config
-echo 'data/Shapes/mds/analysis/correlations/pixel_distances/ data/Shapes/mds/visualizations/correlations/median/shepard/best_pixel_fixed_optimized.png -p min -b 24 -d Euclidean -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/median/shepard.config
 # best pixel (optimized)
-echo 'data/Shapes/mds/analysis/correlations/pixel_distances/ data/Shapes/mds/visualizations/correlations/median/shepard/best_pixel_optimized.png -p min -b 26 -d Euclidean -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/median/shepard.config
+echo 'data/Shapes/mds/analysis/correlations/pixel_distances/ data/Shapes/mds/visualizations/correlations/median/shepard/best_pixel_optimized.png -p min -b 24 -d Euclidean -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/median/shepard.config
+# best pixel (full resolution)
+echo 'data/Shapes/mds/analysis/correlations/pixel_distances/ data/Shapes/mds/visualizations/correlations/median/shepard/best_pixel_full.png -p max -b 1 -d Euclidean -o -s 42 -n 5' >> data/Shapes/mds/analysis/correlations/median/shepard.config
 # best ANN (fixed)
 echo 'data/Shapes/mds/analysis/correlations/ann_distances.pickle data/Shapes/mds/visualizations/correlations/median/shepard/best_ann_fixed.png -a -d Manhattan' >> data/Shapes/mds/analysis/correlations/median/shepard.config
 # best ANN (optimized)
