@@ -73,7 +73,6 @@ for aggregator in $aggregators
 do
 	while IFS= read -r line
 	do
-		python -m code.mds.correlations.shepard_diagram 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/aggregated_ratings.pickle' $line &
+		python -m code.mds.correlations.shepard_diagram 'data/Shapes/mds/similarities/aggregator/'"$aggregator"'/aggregated_ratings.pickle' $line 
 	done < 'data/Shapes/mds/analysis/correlations/'"$aggregator"'/shepard.config'
 done
-wait

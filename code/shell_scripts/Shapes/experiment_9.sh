@@ -17,9 +17,9 @@ dims="${dims:-$default_dims}"
 image_size="${image_size:-$default_image_size}"
 epochs="${epochs:-$default_epochs}"
 patience="${patience:-$default_patience}"
-ann_config="${ann_config:-$default_ann_config}"
-transfer_features="${transfer_features:-$default_transfer_features}"
-transfer_lasso="${transfer_lasso:-$default_transfer_lasso}"
+ann_config="${ann_config_exp9:-$default_ann_config}"
+transfer_features="${transfer_features_exp9:-$default_transfer_features}"
+transfer_lasso="${transfer_lasso_exp9:-$default_transfer_lasso}"
 
 # no parameter means local execution
 if [ "$#" -ne 1 ]
