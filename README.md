@@ -275,7 +275,15 @@ Here, `input_file.pickle` corresponds to the output file of `preprocess_Shapes.p
 
 #### 2.2.3 Comparing Visual and Conceptual Similarity Ratings
 
-You can use the script `find_item_pair_differences.py` to compare the visual and the conceptual similarity ratings and to find item pairs which have identical or very different ratings:
+The R script `analyze_visual_conceptual.r` can be used to conduct a statistical analysis of visual and conceptual similarity ratings, using CLMMs (cumulative link mixture models). It can be invoked as follows:
+```
+Rscript code/mds/data_analysis/analyze_visual_conceptual.r -c path/to/conceptual.csv -v path/to/visual.csv
+```
+Here, `conceptual.csv` and `visual.csv` are the corresponding output files of `preprocess_Shapes.py`. The script accepts the following optional arguments:
+- `-t` or `--test_assumptions`: If this flag is set, the CLMM model assumptions (proportional odds and absence of scale effects) are explicitly tested using a CLM (cumulative link model). This is computationally very expensive and thus deactivated by default.
+- `--verbose`: If this flag is set, the results of fitting the individual models (including model coefficients and thresholds) are also displayed.
+
+You can furthermore use the script `find_item_pair_differences.py` to compare the visual and the conceptual similarity ratings and to find item pairs which have identical or very different ratings:
 ```
 python -m code.mds.data_analysis.find_item_pair_differences path/to/visual.pickle path/to/conceptual.pickle
 ```
