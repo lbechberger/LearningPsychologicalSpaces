@@ -5,12 +5,6 @@ if(!require(optparse)){
   install.packages("optparse", repos = "http://cran.us.r-project.org")
   library(optparse)
 }
-## for t test
-#if(!require(pastecs)){
-#  install.packages("pastecs", repos = "http://cran.us.r-project.org")
-#  library(pastecs)
-#}
-
 
 # parse the command line arguments
 option_list = list(make_option(c("-f", "--features_file"), type = "character", default = NULL, help = "path to input file with all feature ratings"))
@@ -29,35 +23,51 @@ data.raw$FORM <- as.numeric(data.raw$FORM)
 data.raw$LINES <- as.numeric(data.raw$LINES)
 data.raw$ORIENTATION <- as.numeric(data.raw$ORIENTATION)
 
-
 # split up the data according to ratingType (pre-attentive vs. attentive)
 data.preattentive <- subset(data.raw, ratingType=="pre-attentive")
 data.attentive <- subset(data.raw, ratingType=="attentive")
 
 # correlation between features within one category
 # ------------------------------------------------
+print("Correlation between features of same rating type")
+print("------------------------------------------------")
 
 # preattentive
+print("preattentive")
+print("  FORM")
 cor.test(data.preattentive$FORM, data.preattentive$LINES, method="pearson")
+print("  LINES")
 cor.test(data.preattentive$FORM, data.preattentive$ORIENTATION, method="pearson")
+print("  ORIENTATION")
 cor.test(data.preattentive$LINES, data.preattentive$ORIENTATION, method="pearson")
+print("")
 
 #attentive
+print("attentive")
+print("  FORM")
 cor.test(data.attentive$FORM, data.attentive$LINES, method="pearson")
+print("  LINES")
 cor.test(data.attentive$FORM, data.attentive$ORIENTATION, method="pearson")
+print("  ORIENTATION")
 cor.test(data.attentive$LINES, data.attentive$ORIENTATION, method="pearson")
+print("")
 
 # comparing attentive and pre-attentive ratings
 # ---------------------------------------------
+print("Comparison of attentive and pre-attentive ratings")
+print("-------------------------------------------------")
 
 # FORM
+print("FORM")
 t.test(data.preattentive$FORM, data.attentive$FORM, paired = TRUE)
 cor.test(data.preattentive$FORM, data.attentive$FORM, method="pearson")
 
 # LINES
+print("LINES")
 t.test(data.preattentive$LINES, data.attentive$LINES, paired = TRUE)
 cor.test(data.preattentive$LINES, data.attentive$LINES, method="pearson")
 
 # ORIENTATION
+print("ORIENTATION")
 t.test(data.preattentive$ORIENTATION, data.attentive$ORIENTATION, paired = TRUE)
 cor.test(data.preattentive$ORIENTATION, data.attentive$ORIENTATION, method="pearson")

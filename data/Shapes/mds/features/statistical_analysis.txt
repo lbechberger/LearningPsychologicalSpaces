@@ -1,0 +1,162 @@
+Loading required package: optparse
+[1] "Correlation between features of same rating type"
+[1] "------------------------------------------------"
+[1] "preattentive"
+[1] "  FORM"
+
+	Pearson's product-moment correlation
+
+data:  data.preattentive$FORM and data.preattentive$LINES
+t = 1.7539, df = 58, p-value = 0.08473
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ -0.03128542  0.45255726
+sample estimates:
+      cor 
+0.2244221 
+
+[1] "  LINES"
+
+	Pearson's product-moment correlation
+
+data:  data.preattentive$FORM and data.preattentive$ORIENTATION
+t = 0.45109, df = 58, p-value = 0.6536
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ -0.1977662  0.3084218
+sample estimates:
+       cor 
+0.05912771 
+
+[1] "  ORIENTATION"
+
+	Pearson's product-moment correlation
+
+data:  data.preattentive$LINES and data.preattentive$ORIENTATION
+t = -0.10491, df = 58, p-value = 0.9168
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ -0.2667652  0.2409940
+sample estimates:
+        cor 
+-0.01377352 
+
+[1] ""
+[1] "attentive"
+[1] "  FORM"
+
+	Pearson's product-moment correlation
+
+data:  data.attentive$FORM and data.attentive$LINES
+t = 1.82, df = 58, p-value = 0.07392
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ -0.02284083  0.45925152
+sample estimates:
+      cor 
+0.2324319 
+
+[1] "  LINES"
+
+	Pearson's product-moment correlation
+
+data:  data.attentive$FORM and data.attentive$ORIENTATION
+t = -1.4569, df = 58, p-value = 0.1505
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ -0.42170237  0.06933491
+sample estimates:
+       cor 
+-0.1878979 
+
+[1] "  ORIENTATION"
+
+	Pearson's product-moment correlation
+
+data:  data.attentive$LINES and data.attentive$ORIENTATION
+t = -0.6229, df = 58, p-value = 0.5358
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ -0.3286410  0.1760498
+sample estimates:
+        cor 
+-0.08151905 
+
+[1] ""
+[1] "Comparison of attentive and pre-attentive ratings"
+[1] "-------------------------------------------------"
+[1] "FORM"
+
+	Paired t-test
+
+data:  data.preattentive$FORM and data.attentive$FORM
+t = 0.32492, df = 59, p-value = 0.7464
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -3.868806  5.368806
+sample estimates:
+mean of the differences 
+                   0.75 
+
+
+	Pearson's product-moment correlation
+
+data:  data.preattentive$FORM and data.attentive$FORM
+t = 9.1024, df = 58, p-value = 8.991e-13
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ 0.6371102 0.8544742
+sample estimates:
+     cor 
+0.766958 
+
+[1] "LINES"
+
+	Paired t-test
+
+data:  data.preattentive$LINES and data.attentive$LINES
+t = 1.4262, df = 59, p-value = 0.1591
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -1.229364  7.329364
+sample estimates:
+mean of the differences 
+                   3.05 
+
+
+	Pearson's product-moment correlation
+
+data:  data.preattentive$LINES and data.attentive$LINES
+t = 8.402, df = 58, p-value = 1.303e-11
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ 0.5998555 0.8373168
+sample estimates:
+     cor 
+0.740924 
+
+[1] "ORIENTATION"
+
+	Paired t-test
+
+data:  data.preattentive$ORIENTATION and data.attentive$ORIENTATION
+t = 3.3141, df = 59, p-value = 0.001575
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+  2.661307 10.772027
+sample estimates:
+mean of the differences 
+               6.716667 
+
+
+	Pearson's product-moment correlation
+
+data:  data.preattentive$ORIENTATION and data.attentive$ORIENTATION
+t = 10.414, df = 58, p-value = 6.763e-15
+alternative hypothesis: true correlation is not equal to 0
+95 percent confidence interval:
+ 0.6958834 0.8806107
+sample estimates:
+      cor 
+0.8071781 
+
