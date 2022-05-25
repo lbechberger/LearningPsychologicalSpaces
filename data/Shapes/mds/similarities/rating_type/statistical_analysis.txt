@@ -1,0 +1,96 @@
+Loading required package: optparse
+Loading required package: ordinal
+[1] "CLMM analysis on full data"
+[1] "--------------------------"
+[1] "  Fitting alternative hypothesis (main effect of ratingType)"
+[1] "  Fitting null hypothesis (no effect of ratingType)"
+[1] "  Likelihood ratio test..."
+Likelihood ratio tests of cumulative link models:
+ 
+               formula:                                         link:
+model.all.null ratings ~ 1 + (1 + ratingType | pairID)          logit
+model.all      ratings ~ ratingType + (1 + ratingType | pairID) logit
+               threshold:
+model.all.null flexible  
+model.all      flexible  
+
+               no.par   AIC logLik LR.stat df Pr(>Chisq)    
+model.all.null      7 72215 -36101                          
+model.all           8 72039 -36012  178.33  1  < 2.2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+[1] ""
+[1] "CLMM analysis on between-category data"
+[1] "--------------------------------------"
+[1] "  Fitting alternative hypothesis (main effect of ratingType)"
+[1] "  Fitting null hypothesis (no effect of ratingType)"
+[1] "  Likelihood ratio test..."
+Likelihood ratio tests of cumulative link models:
+ 
+                   formula:                                         link:
+model.between.null ratings ~ 1 + (1 + ratingType | pairID)          logit
+model.between      ratings ~ ratingType + (1 + ratingType | pairID) logit
+                   threshold:
+model.between.null flexible  
+model.between      flexible  
+
+                   no.par   AIC logLik LR.stat df Pr(>Chisq)    
+model.between.null      7 65165 -32575                          
+model.between           8 64885 -32434  281.95  1  < 2.2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+[1] ""
+[1] "CLMM analysis on within-category data"
+[1] "--------------------------------------"
+[1] "  Fitting alternative hypothesis (interaction betwen ratingType and visualType)"
+[1] "  Fitting null hypothesis (no interaction of ratingType and visualType)"
+[1] "  Likelihood ratio test..."
+Likelihood ratio tests of cumulative link models:
+ 
+                                formula:                                                     
+model.within.null.noInteraction ratings ~ ratingType + visualType + (1 + ratingType | pairID)
+model.within                    ratings ~ ratingType * visualType + (1 + ratingType | pairID)
+                                link: threshold:
+model.within.null.noInteraction logit flexible  
+model.within                    logit flexible  
+
+                                no.par    AIC  logLik LR.stat df Pr(>Chisq)    
+model.within.null.noInteraction      9 5500.9 -2741.5                          
+model.within                        10 5470.5 -2725.3  32.357  1  1.283e-08 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+[1] ""
+[1] "  Fitting null hypothesis (no effect of ratingType)"
+[1] "  Likelihood ratio test..."
+Likelihood ratio tests of cumulative link models:
+ 
+                             formula:                                                     
+model.within.null.ratingType ratings ~ visualType + (1 + ratingType | pairID)             
+model.within                 ratings ~ ratingType * visualType + (1 + ratingType | pairID)
+                             link: threshold:
+model.within.null.ratingType logit flexible  
+model.within                 logit flexible  
+
+                             no.par    AIC  logLik LR.stat df Pr(>Chisq)    
+model.within.null.ratingType      8 5618.6 -2801.3                          
+model.within                     10 5470.5 -2725.3  152.09  2  < 2.2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+[1] ""
+[1] "  Fitting null hypothesis (no effect of visualType)"
+[1] "  Likelihood ratio test..."
+Likelihood ratio tests of cumulative link models:
+ 
+                             formula:                                                     
+model.within.null.visualType ratings ~ ratingType + (1 + ratingType | pairID)             
+model.within                 ratings ~ ratingType * visualType + (1 + ratingType | pairID)
+                             link: threshold:
+model.within.null.visualType logit flexible  
+model.within                 logit flexible  
+
+                             no.par    AIC  logLik LR.stat df Pr(>Chisq)    
+model.within.null.visualType      8 5582.7 -2783.4                          
+model.within                     10 5470.5 -2725.3  116.19  2  < 2.2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+

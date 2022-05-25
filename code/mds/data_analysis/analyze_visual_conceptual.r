@@ -195,4 +195,3 @@ if(opt$verbose) {
 # conducting likelihood ratio test
 print("  Likelihood ratio test...")
 print(anova(model.within, model.within.null.visualType))
-print('')
