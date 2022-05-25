@@ -163,7 +163,7 @@ if (opt$test_assumptions) {
 print("  Fitting null hypothesis (no interaction of ratingType and visualType)")
 model.within.null.noInteraction <<- clmm(ratings ~ ratingType + visualType + (1+ratingType|pairID), data = within)
 if(opt$verbose) {
-  print(model.within.null.ratingType)
+  print(model.within.null.noInteraction)
   print('')
 }
 
