@@ -250,6 +250,12 @@ The folder `code/mds/data_analysis` contains some scripts for visualizing and an
 
 #### 2.2.1 Correlations between Psychological Features
 
+The R script `analyze_features.r` conducts a statistical analysis of the raw feature ratings. It can be invoked as follows, where `all_features.csv` is the file produced by `export_feature_ratings.py`.
+```
+Rscript code/mds/data_analysis/analyze_features.r -f path/to/all_features.csv
+```
+
+
 The script `compare_features.py` compares the scales of two different psychological features to each other, based on each of the scale types. It can be invoked as follows:
 ```
 python -m code.mds.data_analysis.compare_features path/to/first.pickle path/to/second.pickle path/to/output_folder

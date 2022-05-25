@@ -88,6 +88,11 @@ echo 'data analysis'
 
 # comparing psychological features to each other
 echo '    comparing psychological features'
+
+# first: statistical analysis
+Rscript code/mds/data_analysis/analyze_features.r -f data/Shapes/mds/data_set/individual/features/all_features.csv &> data/Shapes/mds/features/statistical_analysis.txt
+
+# second: create scatter plots
 for first_feature in $perceptual_features
 do
 	for second_feature in $perceptual_features
