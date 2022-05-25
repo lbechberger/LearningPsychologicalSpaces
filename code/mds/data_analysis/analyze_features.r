@@ -47,3 +47,17 @@ cor.test(data.attentive$FORM, data.attentive$LINES, method="pearson")
 cor.test(data.attentive$FORM, data.attentive$ORIENTATION, method="pearson")
 cor.test(data.attentive$LINES, data.attentive$ORIENTATION, method="pearson")
 
+# comparing attentive and pre-attentive ratings
+# ---------------------------------------------
+
+# FORM
+t.test(data.preattentive$FORM, data.attentive$FORM, paired = TRUE)
+cor.test(data.preattentive$FORM, data.attentive$FORM, method="pearson")
+
+# LINES
+t.test(data.preattentive$LINES, data.attentive$LINES, paired = TRUE)
+cor.test(data.preattentive$LINES, data.attentive$LINES, method="pearson")
+
+# ORIENTATION
+t.test(data.preattentive$ORIENTATION, data.attentive$ORIENTATION, paired = TRUE)
+cor.test(data.preattentive$ORIENTATION, data.attentive$ORIENTATION, method="pearson")
