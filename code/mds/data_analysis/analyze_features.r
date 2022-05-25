@@ -25,6 +25,25 @@ if (is.null(opt$features_file)) {
 
 # read in the data and ensure correct data types
 data.raw <- read.csv2(opt$features_file, header=TRUE, sep = ",")
-data.raw$ratings <- as.numeric(data.raw$ratings)
+data.raw$FORM <- as.numeric(data.raw$FORM)
+data.raw$LINES <- as.numeric(data.raw$LINES)
+data.raw$ORIENTATION <- as.numeric(data.raw$ORIENTATION)
 
-str(data.raw)
+
+# split up the data according to ratingType (pre-attentive vs. attentive)
+data.preattentive <- subset(data.raw, ratingType=="pre-attentive")
+data.attentive <- subset(data.raw, ratingType=="attentive")
+
+# correlation between features within one category
+# ------------------------------------------------
+
+# preattentive
+cor.test(data.preattentive$FORM, data.preattentive$LINES, method="pearson")
+cor.test(data.preattentive$FORM, data.preattentive$ORIENTATION, method="pearson")
+cor.test(data.preattentive$LINES, data.preattentive$ORIENTATION, method="pearson")
+
+#attentive
+cor.test(data.attentive$FORM, data.attentive$LINES, method="pearson")
+cor.test(data.attentive$FORM, data.attentive$ORIENTATION, method="pearson")
+cor.test(data.attentive$LINES, data.attentive$ORIENTATION, method="pearson")
+

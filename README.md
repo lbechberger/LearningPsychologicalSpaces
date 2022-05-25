@@ -250,7 +250,7 @@ The folder `code/mds/data_analysis` contains some scripts for visualizing and an
 
 #### 2.2.1 Correlations between Psychological Features
 
-The R script `analyze_features.r` conducts a statistical analysis of the raw feature ratings. It can be invoked as follows, where `all_features.csv` is the file produced by `export_feature_ratings.py`.
+The R script `analyze_features.r` conducts a statistical analysis of the raw feature ratings. It can be invoked as follows, where `all_features.csv` is the file produced by `export_feature_ratings.py`, which contains the aggregated feature ratings.
 ```
 Rscript code/mds/data_analysis/analyze_features.r -f path/to/all_features.csv
 ```
