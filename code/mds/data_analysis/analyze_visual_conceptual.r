@@ -54,6 +54,8 @@ if(opt$verbose) {
 
 
 # test model assumptions if user wants us to (computationally very expensive!)
+#   use CLM, since nominal_test() and scale_test() don't work for CLMMs
+#   (cf. https://github.com/runehaubo/ordinal/issues/12 and https://rcompanion.org/handbook/G_12.html)
 if (opt$test_assumptions) {
   print("  Testing model assumptions with CLM...")
   
