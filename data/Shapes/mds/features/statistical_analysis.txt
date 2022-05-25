@@ -2,7 +2,7 @@ Loading required package: optparse
 [1] "Correlation between features of same rating type"
 [1] "------------------------------------------------"
 [1] "preattentive"
-[1] "  FORM"
+[1] "  FORM-LINES"
 
 	Pearson's product-moment correlation
 
@@ -15,7 +15,7 @@ sample estimates:
       cor 
 0.2244221 
 
-[1] "  LINES"
+[1] "  FORM-ORIENTATION"
 
 	Pearson's product-moment correlation
 
@@ -28,7 +28,7 @@ sample estimates:
        cor 
 0.05912771 
 
-[1] "  ORIENTATION"
+[1] "  LINES-ORIENTATION"
 
 	Pearson's product-moment correlation
 
@@ -43,7 +43,7 @@ sample estimates:
 
 [1] ""
 [1] "attentive"
-[1] "  FORM"
+[1] "  FORM-LINES"
 
 	Pearson's product-moment correlation
 
@@ -56,7 +56,7 @@ sample estimates:
       cor 
 0.2324319 
 
-[1] "  LINES"
+[1] "  FORM-ORIENTATION"
 
 	Pearson's product-moment correlation
 
@@ -69,7 +69,7 @@ sample estimates:
        cor 
 -0.1878979 
 
-[1] "  ORIENTATION"
+[1] "  LINES-ORIENTATION"
 
 	Pearson's product-moment correlation
 

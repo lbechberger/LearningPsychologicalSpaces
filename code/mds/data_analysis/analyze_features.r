@@ -34,21 +34,21 @@ print("------------------------------------------------")
 
 # preattentive
 print("preattentive")
-print("  FORM")
+print("  FORM-LINES")
 cor.test(data.preattentive$FORM, data.preattentive$LINES, method="pearson")
-print("  LINES")
+print("  FORM-ORIENTATION")
 cor.test(data.preattentive$FORM, data.preattentive$ORIENTATION, method="pearson")
-print("  ORIENTATION")
+print("  LINES-ORIENTATION")
 cor.test(data.preattentive$LINES, data.preattentive$ORIENTATION, method="pearson")
 print("")
 
 #attentive
 print("attentive")
-print("  FORM")
+print("  FORM-LINES")
 cor.test(data.attentive$FORM, data.attentive$LINES, method="pearson")
-print("  LINES")
+print("  FORM-ORIENTATION")
 cor.test(data.attentive$FORM, data.attentive$ORIENTATION, method="pearson")
-print("  ORIENTATION")
+print("  LINES-ORIENTATION")
 cor.test(data.attentive$LINES, data.attentive$ORIENTATION, method="pearson")
 print("")
 
