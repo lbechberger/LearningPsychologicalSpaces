@@ -114,7 +114,7 @@ done
 
 echo '    comparing visual and conceptual similarity'
 # first: statistical analysis
-Rscript code/mds/data_analysis/analyze_visual_conceptual.r -c data/Shapes/mds/data_set/individual/similarities/conceptual_10.csv -v data/Shapes/mds/data_set/individual/similarities/visual_10.csv &> data/Shapes/mds/similarities/rating_type/statistical_analysis.txt
+Rscript code/mds/data_analysis/analyze_visual_conceptual.r -c data/Shapes/mds/data_set/individual/similarities/conceptual_10.csv -v data/Shapes/mds/data_set/individual/similarities/visual_10.csv --verbose &> data/Shapes/mds/similarities/rating_type/statistical_analysis.txt
 # second: finding item pairs with large and small differences
 python -m  code.mds.data_analysis.find_item_pair_differences data/Shapes/mds/similarities/rating_type/visual/aggregated_ratings.pickle data/Shapes/mds/similarities/rating_type/conceptual/aggregated_ratings.pickle  &> data/Shapes/mds/similarities/rating_type/differences.txt
 

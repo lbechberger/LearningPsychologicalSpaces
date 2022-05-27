@@ -3,7 +3,49 @@ Loading required package: ordinal
 [1] "CLMM analysis on full data"
 [1] "--------------------------"
 [1] "  Fitting alternative hypothesis (main effect of ratingType)"
+Cumulative Link Mixed Model fitted with the Laplace approximation
+
+formula: ratings ~ ratingType + (1 + ratingType | pairID)
+data:    data
+
+ link  threshold nobs  logLik    AIC      niter      max.grad
+ logit flexible  35400 -36011.58 72039.16 1045(9379) 4.54e-03
+
+Random effects:
+ Groups Name             Variance Std.Dev. Corr   
+ pairID (Intercept)      4.541    2.131           
+        ratingTypevisual 2.642    1.625    -0.844 
+Number of groups:  pairID 1770 
+
+Coefficients:
+ratingTypevisual 
+          0.6328 
+
+Thresholds:
+   1|2    2|3    3|4    4|5 
+0.9563 1.9028 2.8714 4.3865 
+[1] ""
 [1] "  Fitting null hypothesis (no effect of ratingType)"
+Cumulative Link Mixed Model fitted with the Laplace approximation
+
+formula: ratings ~ 1 + (1 + ratingType | pairID)
+data:    data
+
+ link  threshold nobs  logLik    AIC      niter       max.grad
+ logit flexible  35400 -36100.74 72215.49 1105(10653) 7.32e-02
+
+Random effects:
+ Groups Name             Variance Std.Dev. Corr   
+ pairID (Intercept)      4.573    2.138           
+        ratingTypevisual 2.787    1.669    -0.835 
+Number of groups:  pairID 1770 
+
+No Coefficients
+
+Thresholds:
+   1|2    2|3    3|4    4|5 
+0.3651 1.3126 2.2864 3.8143 
+[1] ""
 [1] "  Likelihood ratio test..."
 Likelihood ratio tests of cumulative link models:
  
@@ -23,7 +65,49 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 [1] "CLMM analysis on between-category data"
 [1] "--------------------------------------"
 [1] "  Fitting alternative hypothesis (main effect of ratingType)"
+Cumulative Link Mixed Model fitted with the Laplace approximation
+
+formula: ratings ~ ratingType + (1 + ratingType | pairID)
+data:    between
+
+ link  threshold nobs  logLik    AIC      niter       max.grad
+ logit flexible  33000 -32434.29 64884.57 1063(10161) 7.63e-02
+
+Random effects:
+ Groups Name             Variance Std.Dev. Corr   
+ pairID (Intercept)      2.399    1.549           
+        ratingTypevisual 2.083    1.443    -0.842 
+Number of groups:  pairID 1650 
+
+Coefficients:
+ratingTypevisual 
+           0.769 
+
+Thresholds:
+  1|2   2|3   3|4   4|5 
+1.244 2.210 3.227 5.047 
+[1] ""
 [1] "  Fitting null hypothesis (no effect of ratingType)"
+Cumulative Link Mixed Model fitted with the Laplace approximation
+
+formula: ratings ~ 1 + (1 + ratingType | pairID)
+data:    between
+
+ link  threshold nobs  logLik    AIC      niter      max.grad
+ logit flexible  33000 -32575.26 65164.52 953(10474) 4.69e-02
+
+Random effects:
+ Groups Name             Variance Std.Dev. Corr   
+ pairID (Intercept)      2.394    1.547           
+        ratingTypevisual 2.404    1.550    -0.829 
+Number of groups:  pairID 1650 
+
+No Coefficients
+
+Thresholds:
+   1|2    2|3    3|4    4|5 
+0.6669 1.6354 2.6589 4.4907 
+[1] ""
 [1] "  Likelihood ratio test..."
 Likelihood ratio tests of cumulative link models:
  
@@ -43,7 +127,53 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 [1] "CLMM analysis on within-category data"
 [1] "--------------------------------------"
 [1] "  Fitting alternative hypothesis (interaction betwen ratingType and visualType)"
+Cumulative Link Mixed Model fitted with the Laplace approximation
+
+formula: ratings ~ ratingType * visualType + (1 + ratingType | pairID)
+data:    within
+
+ link  threshold nobs logLik   AIC     niter      max.grad
+ logit flexible  2400 -2725.27 5470.55 1357(4085) 5.53e-03
+
+Random effects:
+ Groups Name             Variance Std.Dev. Corr   
+ pairID (Intercept)      0.5850   0.7648          
+        ratingTypevisual 0.3418   0.5847   -0.682 
+Number of groups:  pairID 120 
+
+Coefficients:
+             ratingTypevisual                  visualTypeVV 
+                      -0.9774                       -0.7530 
+ratingTypevisual:visualTypeVV 
+                      -1.2880 
+
+Thresholds:
+   1|2    2|3    3|4    4|5 
+-3.467 -2.995 -2.378 -1.403 
+[1] ""
 [1] "  Fitting null hypothesis (no interaction of ratingType and visualType)"
+Cumulative Link Mixed Model fitted with the Laplace approximation
+
+formula: ratings ~ ratingType + visualType + (1 + ratingType | pairID)
+data:    within
+
+ link  threshold nobs logLik   AIC     niter     max.grad
+ logit flexible  2400 -2741.45 5500.90 912(3540) 4.68e-03
+
+Random effects:
+ Groups Name             Variance Std.Dev. Corr   
+ pairID (Intercept)      0.8781   0.9371          
+        ratingTypevisual 0.7742   0.8799   -0.812 
+Number of groups:  pairID 120 
+
+Coefficients:
+ratingTypevisual     visualTypeVV 
+          -1.724           -1.707 
+
+Thresholds:
+   1|2    2|3    3|4    4|5 
+-4.018 -3.551 -2.944 -1.977 
+[1] ""
 [1] "  Likelihood ratio test..."
 Likelihood ratio tests of cumulative link models:
  
@@ -61,6 +191,28 @@ model.within                        10 5470.5 -2725.3  32.357  1  1.283e-08 ***
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 [1] ""
 [1] "  Fitting null hypothesis (no effect of ratingType)"
+Cumulative Link Mixed Model fitted with the Laplace approximation
+
+formula: ratings ~ visualType + (1 + ratingType | pairID)
+data:    within
+
+ link  threshold nobs logLik   AIC     niter     max.grad
+ logit flexible  2400 -2801.32 5618.63 791(3026) 1.34e-02
+
+Random effects:
+ Groups Name             Variance Std.Dev. Corr   
+ pairID (Intercept)      1.952    1.397           
+        ratingTypevisual 3.755    1.938    -0.909 
+Number of groups:  pairID 120 
+
+Coefficients:
+visualTypeVV 
+      -1.642 
+
+Thresholds:
+    1|2     2|3     3|4     4|5 
+-2.8983 -2.4252 -1.8119 -0.8476 
+[1] ""
 [1] "  Likelihood ratio test..."
 Likelihood ratio tests of cumulative link models:
  
@@ -78,6 +230,28 @@ model.within                     10 5470.5 -2725.3  152.09  2  < 2.2e-16 ***
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 [1] ""
 [1] "  Fitting null hypothesis (no effect of visualType)"
+Cumulative Link Mixed Model fitted with the Laplace approximation
+
+formula: ratings ~ ratingType + (1 + ratingType | pairID)
+data:    within
+
+ link  threshold nobs logLik   AIC     niter     max.grad
+ logit flexible  2400 -2783.37 5582.74 878(3516) 1.04e-03
+
+Random effects:
+ Groups Name             Variance Std.Dev. Corr   
+ pairID (Intercept)      0.7262   0.8522          
+        ratingTypevisual 0.8102   0.9001   -0.066 
+Number of groups:  pairID 120 
+
+Coefficients:
+ratingTypevisual 
+           -1.62 
+
+Thresholds:
+   1|2    2|3    3|4    4|5 
+-3.087 -2.612 -1.996 -1.027 
+[1] ""
 [1] "  Likelihood ratio test..."
 Likelihood ratio tests of cumulative link models:
  
@@ -93,4 +267,3 @@ model.within.null.visualType      8 5582.7 -2783.4
 model.within                     10 5470.5 -2725.3  116.19  2  < 2.2e-16 ***
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-
