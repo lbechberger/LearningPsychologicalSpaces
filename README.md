@@ -5,12 +5,14 @@
 - v1.3: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4061287.svg)](https://doi.org/10.5281/zenodo.4061287)
 - v1.4: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4727605.svg)](https://doi.org/10.5281/zenodo.4727605)
 - v1.5: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5524374.svg)](https://doi.org/10.5281/zenodo.5524374)
+- v1.6: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6694195.svg)](https://doi.org/10.5281/zenodo.6694195)
+
 
 The code in this repository explores learning a mapping from images to psychological similarity spaces with neural networks.
 It has been used as a basis for the following publications:
 - Lucas Bechberger and Elektra Kypridemou. "Mapping Images to Psychological Similarity Spaces Using Neural Networks". 6th International Workshop on Artificial Intelligence and Cognition, Palermo/Italy, July 2018. [Paper](http://ceur-ws.org/Vol-2418/) [Preprint](https://arxiv.org/abs/1804.07758) [Release v0.1](https://doi.org/10.5281/zenodo.1220053)
-- Lucas Bechberger and Kai-Uwe Kühnberger. "Generalizing Psychological Similarity Spaces to Unseen Stimuli - Combining Multidimensional Scaling with Artificial Neural Networks". In Lucas Bechberger, Kai-Uwe Kühnberger, and Mingya Liu: "Concepts in Action: Representation, Learning, and Application" Language, Cognition, and Mind. Springer (forthcoming) [Preprint](https://arxiv.org/abs/1908.09260) [Release v1.3](https://doi.org/10.5281/zenodo.4061287)
-- Lucas Bechberger and Kai-Uwe Kühnberger. "Grounding Psychological Shape Space in Convolutional Neural Networks". (in preparation) [Release v1.5](https://doi.org/10.5281/zenodo.5524374)
+- Lucas Bechberger and Kai-Uwe Kühnberger. "Generalizing Psychological Similarity Spaces to Unseen Stimuli - Combining Multidimensional Scaling with Artificial Neural Networks". In Lucas Bechberger, Kai-Uwe Kühnberger, and Mingya Liu: "Concepts in Action: Representation, Learning, and Application" Language, Cognition, and Mind. Springer, 2021. [Book Chapter](https://link.springer.com/chapter/10.1007/978-3-030-69823-2_2) [Preprint](https://arxiv.org/abs/1908.09260) [Release v1.3](https://doi.org/10.5281/zenodo.4061287)
+- Lucas Bechberger and Kai-Uwe Kühnberger. "Grounding Psychological Shape Space in Convolutional Neural Networks". 3rd International Workshop on Cognition: Interdisciplinary Foundations, Models and Applications, virtual, December 2021. [Preprint](https://cifma.github.io/Papers-2021/CIFMA_2021_paper_4.pdf) [Release v1.6](https://doi.org/10.5281/zenodo.6694195)
 
 ## Table of Contents
 
