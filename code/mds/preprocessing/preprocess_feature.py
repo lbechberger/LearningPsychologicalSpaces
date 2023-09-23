@@ -174,4 +174,4 @@ if args.plot_folder is not None:
         
         # create scatter plot
         output_file_name = os.path.join(args.plot_folder, 'scatter-{0}-{1}.png'.format(first_feature_type, second_feature_type))        
-        create_labeled_scatter_plot(first_vector, second_vector, output_file_name, x_label = first_feature_type, y_label = second_feature_type, images = images, zoom = args.zoom)  
+        create_labeled_scatter_plot(first_vector, second_vector, output_file_name, x_label = first_feature_type, y_label = second_feature_type, images = images, zoom = args.zoom, item_ids=item_names)

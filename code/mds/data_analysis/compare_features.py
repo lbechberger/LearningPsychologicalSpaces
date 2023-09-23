@@ -46,7 +46,7 @@ for feature_type in sorted(first_data.keys()):
     
     # create scatter plot
     output_file_name = os.path.join(args.output_folder, 'scatter-{0}-{1}-{2}.png'.format(args.first_name, args.second_name, feature_type))        
-    create_labeled_scatter_plot(first_values, second_values, output_file_name, x_label = args.first_name, y_label = args.second_name, images = images, zoom = args.zoom)  
+    create_labeled_scatter_plot(first_values, second_values, output_file_name, x_label = args.first_name, y_label = args.second_name, images = images, zoom = args.zoom, item_ids = items)
 
     
     
